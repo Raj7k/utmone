@@ -8,8 +8,9 @@ import { FeatureComparison } from "@/components/features/FeatureComparison";
 import { WorkflowStep } from "@/components/landing/WorkflowStep";
 import { preserveAcronyms as p } from "@/utils/textFormatter";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
-import { QrCode, Palette, Repeat, Download, Image, BarChart3, CheckCircle2 } from "lucide-react";
+import { QrCode, Palette, Repeat, Download, Image, BarChart3, CheckCircle2, Sparkles, Upload, RefreshCw } from "lucide-react";
 
 const QRGenerator = () => {
   const capabilities = [
@@ -133,6 +134,106 @@ const QRGenerator = () => {
           <div>
             <ProductMockup type="qr-customizer" delay={0.2} />
           </div>
+        </div>
+      </FeatureSection>
+
+      {/* AI Stamp Studio Section */}
+      <FeatureSection background="muted">
+        <div className="text-center mb-16 space-y-4">
+          <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">
+            <Sparkles className="w-3 h-3 mr-1" />
+            AI Powered
+          </Badge>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label">
+            AI Stamp Studio
+          </h2>
+          <p className="text-xl text-secondary-label max-w-3xl mx-auto">
+            Transform your QR codes into collectible vintage stamp art
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+          {/* Left: Features list */}
+          <div className="space-y-6">
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl shrink-0 bg-primary/10 text-primary">
+                <Upload className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2">brand color extraction</h3>
+                <p className="text-secondary-label">
+                  Upload your logo—AI automatically extracts your brand palette using ColorThief technology
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl shrink-0 bg-primary/10 text-primary">
+                <Sparkles className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2">generative stamp art</h3>
+                <p className="text-secondary-label">
+                  AI creates unique vintage travel stamp designs using only your brand colors—no generic defaults
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl shrink-0 bg-primary/10 text-primary">
+                <QrCode className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2">scannable center zone</h3>
+                <p className="text-secondary-label">
+                  Smart composition reserves 60% of the stamp for your QR code—guaranteed scannability
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl shrink-0 bg-primary/10 text-primary">
+                <RefreshCw className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2">unlimited regeneration</h3>
+                <p className="text-secondary-label">
+                  Not happy with the result? One click generates an entirely new unique design
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Visual mockup showing art styles */}
+          <div className="relative">
+            <div className="absolute inset-0 rounded-2xl blur-3xl bg-gradient-to-br from-primary/20 to-transparent" />
+            <div className="relative bg-card border border-border rounded-xl p-8">
+              <div className="grid grid-cols-2 gap-4">
+                {/* Art style previews */}
+                <div className="aspect-square bg-gradient-to-br from-amber-500/20 to-amber-900/20 rounded-lg flex items-center justify-center border border-border">
+                  <span className="text-xs text-muted-foreground uppercase tracking-wider">mandala</span>
+                </div>
+                <div className="aspect-square bg-gradient-to-br from-amber-700/20 to-stone-900/20 rounded-lg flex items-center justify-center border border-border">
+                  <span className="text-xs text-muted-foreground uppercase tracking-wider">da vinci</span>
+                </div>
+                <div className="aspect-square bg-gradient-to-br from-blue-900/20 to-amber-500/20 rounded-lg flex items-center justify-center border border-border">
+                  <span className="text-xs text-muted-foreground uppercase tracking-wider">paris</span>
+                </div>
+                <div className="aspect-square bg-gradient-to-br from-zinc-900/40 to-amber-400/20 rounded-lg flex items-center justify-center border border-border">
+                  <span className="text-xs text-muted-foreground uppercase tracking-wider">NYC</span>
+                </div>
+              </div>
+              <p className="text-center text-sm text-muted-foreground mt-4">
+                Four distinctive art styles to inspire your brand
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="text-center">
+          <Button variant="marketing" asChild size="lg" className="rounded-full">
+            <Link to="/dashboard/qr-codes">Try AI Stamp Studio</Link>
+          </Button>
         </div>
       </FeatureSection>
 

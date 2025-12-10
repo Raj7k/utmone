@@ -11,6 +11,9 @@ const Changelog = () => {
       highlight: "AI Intelligence & Revenue Attribution",
       items: [
         // AI & Intelligence
+        { type: "feature", text: "AI Stamp Studio transforms QR codes into branded vintage stamp art", category: "AI" },
+        { type: "feature", text: "Brand color extraction from logos using ColorThief technology", category: "AI" },
+        { type: "feature", text: "Strict brand palette enforcement in AI-generated stamp designs", category: "AI" },
         { type: "feature", text: "AI Co-Pilot with semantic URL analysis and auto-fill", category: "AI" },
         { type: "feature", text: "Smart Insights AI Command Center with configurable time periods", category: "AI" },
         { type: "feature", text: "Predictive Quality Score for link performance forecasting", category: "AI" },
@@ -32,6 +35,8 @@ const Changelog = () => {
         { type: "feature", text: "Prospect-specific link tagging and activity feeds", category: "Sales" },
         
         // Platform
+        { type: "feature", text: "Save AI stamps directly to QR gallery with one click", category: "Platform" },
+        { type: "feature", text: "Increased QR code size to 58% for better scannability", category: "Platform" },
         { type: "feature", text: "Chrome Extension for zero-friction link creation (<5 seconds)", category: "Platform" },
         { type: "feature", text: "4-tier pricing system: Free, Starter $29, Growth $49, Business $149", category: "Platform" },
         { type: "feature", text: "Add-ons system for extra links, domains, and team seats", category: "Platform" },
