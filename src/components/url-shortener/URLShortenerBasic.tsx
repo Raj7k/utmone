@@ -3,13 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link2, Copy, Sparkles, CheckCircle2, AlertCircle, ArrowRight, Lock } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { supabase } from "@/integrations/supabase/client";
 import { motion, AnimatePresence } from "framer-motion";
 import { AnimatedCard } from "@/components/ui/AnimatedCard";
 
 export const URLShortenerBasic = () => {
-  const { toast } = useToast();
   const [url, setUrl] = useState("");
   const [customSlug, setCustomSlug] = useState("");
   const [shortURL, setShortURL] = useState("");
@@ -43,21 +42,14 @@ export const URLShortenerBasic = () => {
 
       if (data?.short_url) {
         setShortURL(data.short_url);
-        toast({
-          title: "link created",
-          description: "your short link is ready",
-        });
+        notify.success("your short link is ready");
       } else {
         throw new Error("failed to create link");
       }
     } catch (err: any) {
       console.error('Error creating link:', err);
       setError(err.message || "couldn't create link. try again.");
-      toast({
-        title: "link creation failed",
-        description: err.message || "please try again",
-        variant: "destructive",
-      });
+      notify.error(err.message || "please try again");
     } finally {
       setIsLoading(false);
     }
@@ -67,10 +59,7 @@ export const URLShortenerBasic = () => {
     if (!shortURL) return;
     
     await navigator.clipboard.writeText(shortURL);
-    toast({
-      title: "copied",
-      description: "link copied to clipboard",
-    });
+    notify.success("link copied to clipboard");
   };
 
   const handleReset = () => {

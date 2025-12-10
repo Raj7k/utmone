@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
+import { notify } from '@/lib/notify';
 
 export interface FeatureFlag {
   id: string;
@@ -16,7 +16,6 @@ export interface FeatureFlag {
 
 export const useFeatureFlags = () => {
   const queryClient = useQueryClient();
-  const { toast } = useToast();
 
   const { data: flags, isLoading } = useQuery({
     queryKey: ['feature-flags'],
@@ -80,16 +79,13 @@ export const useFeatureFlags = () => {
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['feature-flags'] });
-      toast({
-        title: variables.enabled ? 'feature enabled' : 'feature disabled',
+      notify.success(variables.enabled ? 'feature enabled' : 'feature disabled', {
         description: `${variables.flagKey} has been ${variables.enabled ? 'enabled' : 'disabled'}`,
       });
     },
     onError: (error) => {
-      toast({
-        title: 'failed to update feature flag',
+      notify.error('failed to update feature flag', {
         description: error.message,
-        variant: 'destructive',
       });
     },
   });
@@ -105,16 +101,13 @@ export const useFeatureFlags = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['feature-flags'] });
-      toast({
-        title: 'metadata updated',
+      notify.success('metadata updated', {
         description: 'feature flag metadata has been updated',
       });
     },
     onError: (error) => {
-      toast({
-        title: 'failed to update metadata',
+      notify.error('failed to update metadata', {
         description: error.message,
-        variant: 'destructive',
       });
     },
   });

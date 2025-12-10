@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { Badge } from "@/components/ui/badge";
 import { FlaskConical, Copy, CheckCircle2, Loader2 } from "lucide-react";
 
@@ -37,7 +37,6 @@ export const QAAccountManager = () => {
   const [createdAccount, setCreatedAccount] = useState<QAAccountResult | null>(null);
   const [copiedField, setCopiedField] = useState<string | null>(null);
   
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const createMutation = useMutation({
@@ -60,36 +59,25 @@ export const QAAccountManager = () => {
     onSuccess: (data) => {
       setCreatedAccount(data);
       queryClient.invalidateQueries({ queryKey: ['admin-users'] });
-      toast({
-        title: "qa account created",
+      notify.success("qa account created", {
         description: `${data.user.email} is ready for testing`,
       });
     },
     onError: (error: Error) => {
-      toast({
-        title: "failed to create account",
+      notify.error("failed to create account", {
         description: error.message,
-        variant: "destructive",
       });
     },
   });
 
   const handleCreate = () => {
     if (!email || !password) {
-      toast({
-        title: "missing fields",
-        description: "email and password are required",
-        variant: "destructive",
-      });
+      notify.error("email and password are required");
       return;
     }
 
     if (password.length < 6) {
-      toast({
-        title: "password too short",
-        description: "password must be at least 6 characters",
-        variant: "destructive",
-      });
+      notify.error("password must be at least 6 characters");
       return;
     }
 

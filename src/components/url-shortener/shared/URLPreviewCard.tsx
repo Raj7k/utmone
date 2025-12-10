@@ -7,7 +7,7 @@ import { Copy, CheckCircle2, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useState } from 'react';
-import { useToast } from '@/hooks/use-toast';
+import { notify } from '@/lib/notify';
 
 interface URLPreviewCardProps {
   shortUrl: string;
@@ -16,25 +16,17 @@ interface URLPreviewCardProps {
 }
 
 export const URLPreviewCard = ({ shortUrl, originalUrl, onCopy }: URLPreviewCardProps) => {
-  const { toast } = useToast();
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(shortUrl);
       setCopied(true);
-      toast({
-        title: 'copied',
-        description: 'link copied to clipboard',
-      });
+      notify.success('link copied to clipboard');
       onCopy?.();
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
-      toast({
-        title: 'error',
-        description: 'failed to copy link',
-        variant: 'destructive',
-      });
+      notify.error('failed to copy link');
     }
   };
 

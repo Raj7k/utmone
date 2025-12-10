@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Copy, Trash2, ExternalLink } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { format } from "date-fns";
 
 interface AnalyticsShareDialogProps {
@@ -27,7 +27,6 @@ export const AnalyticsShareDialog = ({
   onOpenChange,
   workspaceId,
 }: AnalyticsShareDialogProps) => {
-  const { toast } = useToast();
   const { shareLinks, isLoading, createShareLink, deleteShareLink } = useAnalyticsShare(workspaceId);
   
   const [showClicks, setShowClicks] = useState(true);
@@ -56,10 +55,7 @@ export const AnalyticsShareDialog = ({
   const handleCopyLink = (token: string) => {
     const url = `${window.location.origin}/analytics/share/${token}`;
     navigator.clipboard.writeText(url);
-    toast({
-      title: "Link Copied",
-      description: "Share link copied to clipboard",
-    });
+    notify.success("Share link copied to clipboard");
   };
 
   const handleOpenLink = (token: string) => {

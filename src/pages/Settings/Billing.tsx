@@ -32,7 +32,7 @@ import {
 import { getAddonsForTier, formatAddonPrice, Addon } from "@/lib/addonsConfig";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { Crown, Loader2, Check, X, Sparkles, Plus, Tag, Percent } from "lucide-react";
 import confetti from "canvas-confetti";
 import { UsageForecastWidget } from "@/components/workspace/UsageForecastWidget";
@@ -54,7 +54,7 @@ export default function BillingSettings() {
   const { currentWorkspace } = useWorkspace();
   const { id: currentPlanId } = useCurrentPlan();
   const navigate = useNavigate();
-  const { toast } = useToast();
+  
   const queryClient = useQueryClient();
   const [isProcessing, setIsProcessing] = useState(false);
   const [showDowngradeConfirm, setShowDowngradeConfirm] = useState(false);
@@ -141,8 +141,7 @@ export default function BillingSettings() {
       confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
       
       const planName = PLAN_CONFIG[newPlanTier].name;
-      toast({
-        title: `🎉 Welcome to ${planName}!`,
+      notify.success(`🎉 Welcome to ${planName}!`, {
         description: "Your plan has been upgraded successfully.",
       });
       
@@ -151,10 +150,8 @@ export default function BillingSettings() {
       }, 2000);
     },
     onError: (error) => {
-      toast({
-        title: "Upgrade failed",
+      notify.error("Upgrade failed", {
         description: error.message,
-        variant: "destructive",
       });
     },
     onSettled: () => {
@@ -190,8 +187,7 @@ export default function BillingSettings() {
     const promo = validatePromoCode(promoCode, 'growth', billingCycle);
     if (promo) {
       setAppliedPromo(promo);
-      toast({
-        title: "Promo code applied!",
+      notify.success("Promo code applied!", {
         description: promo.description || `${promo.value}% off applied`,
       });
     } else {
