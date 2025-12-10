@@ -1,9 +1,9 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { UseCaseType } from "./SideNavHero";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { preserveAcronyms as p } from "@/utils/textFormatter";
+import { ShimmerButton } from "@/components/ui/shimmer-button";
 
 interface DynamicCTAProps {
   selectedUseCase: UseCaseType;
@@ -83,12 +83,14 @@ export const DynamicCTA = ({ selectedUseCase }: DynamicCTAProps) => {
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link to="/early-access">
-                <Button 
-                  size="lg"
-                  className="rounded-full px-8 font-medium bg-primary text-primary-foreground shadow-[0_0_30px_hsl(0_0%_100%/0.3),0_4px_15px_hsl(0_0%_0%/0.2)]"
+                <ShimmerButton
+                  className="px-8 py-3 text-base font-medium"
+                  shimmerColor="rgba(255, 255, 255, 0.4)"
+                  background="hsl(var(--primary))"
                 >
                   {content.primaryCta}
-                </Button>
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </ShimmerButton>
               </Link>
               <Link
                 to={content.secondaryCta.route}

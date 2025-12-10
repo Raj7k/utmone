@@ -44,10 +44,13 @@ export const HeroInlineCTA = () => {
             type="submit"
             variant="marketing"
             size="lg"
-            className="h-12 px-8 bg-blazeOrange hover:bg-blazeOrange/90 text-white font-medium rounded-full whitespace-nowrap"
+            className="h-12 px-8 bg-blazeOrange hover:bg-blazeOrange/90 text-white font-medium rounded-full whitespace-nowrap relative overflow-hidden group"
           >
-            get early access
-            <ArrowRight className="ml-2 h-4 w-4" />
+            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+            <span className="relative flex items-center">
+              get early access
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </span>
           </Button>
         </div>
         {error && (
