@@ -28,6 +28,7 @@ export default function Intelligence() {
   const { currentWorkspace } = useWorkspace();
   const [period, setPeriod] = useState<PeriodOption>("7d");
   const [customRange, setCustomRange] = useState<{ from: Date; to: Date } | undefined>();
+  const [compareEnabled, setCompareEnabled] = useState(false);
   const [context, setContext] = useState<IntelligenceContext>("all");
   const [attributionSheetOpen, setAttributionSheetOpen] = useState(false);
   const [campaignSheetOpen, setCampaignSheetOpen] = useState(false);
@@ -66,6 +67,8 @@ export default function Intelligence() {
           onChange={setPeriod} 
           customRange={customRange}
           onCustomRangeChange={setCustomRange}
+          compareEnabled={compareEnabled}
+          onCompareChange={setCompareEnabled}
         />
       </div>
 

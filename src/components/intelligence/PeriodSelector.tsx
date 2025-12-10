@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
+import { format, subDays, subWeeks, subMonths, subQuarters, subYears } from "date-fns";
+import { Calendar as CalendarIcon, GitCompare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Toggle } from "@/components/ui/toggle";
 import { cn } from "@/lib/utils";
 
 export type PeriodOption = "today" | "this_week" | "this_month" | "this_quarter" | "7d" | "30d" | "90d" | "365d" | "custom";
@@ -29,6 +30,8 @@ interface PeriodSelectorProps {
   onChange: (period: PeriodOption) => void;
   customRange?: DateRange;
   onCustomRangeChange?: (range: DateRange) => void;
+  compareEnabled?: boolean;
+  onCompareChange?: (enabled: boolean) => void;
 }
 
 export const periodLabels: Record<PeriodOption, string> = {
@@ -55,7 +58,63 @@ export const periodDays: Record<PeriodOption, number> = {
   custom: 0,
 };
 
-export function PeriodSelector({ value, onChange, customRange, onCustomRangeChange }: PeriodSelectorProps) {
+export const getComparisonLabel = (period: PeriodOption): string => {
+  switch (period) {
+    case "today": return "vs yesterday";
+    case "this_week": return "vs last week";
+    case "this_month": return "vs last month";
+    case "this_quarter": return "vs last quarter";
+    case "7d": return "vs prev 7 days";
+    case "30d": return "vs prev 30 days";
+    case "90d": return "vs prev 90 days";
+    case "365d": return "vs prev year";
+    case "custom": return "vs prev period";
+    default: return "vs previous";
+  }
+};
+
+export const getComparisonRange = (period: PeriodOption, customRange?: DateRange): DateRange | null => {
+  const now = new Date();
+  
+  switch (period) {
+    case "today":
+      return { from: subDays(now, 1), to: subDays(now, 1) };
+    case "this_week":
+      return { from: subWeeks(now, 1), to: subDays(now, 7) };
+    case "this_month":
+      return { from: subMonths(now, 1), to: subDays(now, 30) };
+    case "this_quarter":
+      return { from: subQuarters(now, 1), to: subDays(now, 90) };
+    case "7d":
+      return { from: subDays(now, 14), to: subDays(now, 8) };
+    case "30d":
+      return { from: subDays(now, 60), to: subDays(now, 31) };
+    case "90d":
+      return { from: subDays(now, 180), to: subDays(now, 91) };
+    case "365d":
+      return { from: subYears(now, 2), to: subYears(now, 1) };
+    case "custom":
+      if (customRange) {
+        const rangeDays = Math.ceil((customRange.to.getTime() - customRange.from.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+        return {
+          from: subDays(customRange.from, rangeDays),
+          to: subDays(customRange.from, 1)
+        };
+      }
+      return null;
+    default:
+      return null;
+  }
+};
+
+export function PeriodSelector({ 
+  value, 
+  onChange, 
+  customRange, 
+  onCustomRangeChange,
+  compareEnabled = false,
+  onCompareChange 
+}: PeriodSelectorProps) {
   const [isCustomOpen, setIsCustomOpen] = useState(false);
   const [tempRange, setTempRange] = useState<{ from?: Date; to?: Date }>({
     from: customRange?.from,
@@ -109,6 +168,25 @@ export function PeriodSelector({ value, onChange, customRange, onCustomRangeChan
           <SelectItem value="custom">custom range...</SelectItem>
         </SelectContent>
       </Select>
+
+      {/* Compare Toggle */}
+      {onCompareChange && (
+        <Toggle
+          pressed={compareEnabled}
+          onPressedChange={onCompareChange}
+          size="sm"
+          className={cn(
+            "h-10 px-3 rounded-xl border border-border/50 bg-card/50 gap-2",
+            compareEnabled && "bg-primary/10 border-primary/30 text-primary"
+          )}
+          aria-label="Toggle comparison mode"
+        >
+          <GitCompare className="h-4 w-4" />
+          <span className="hidden sm:inline text-sm">
+            {compareEnabled ? getComparisonLabel(value) : "compare"}
+          </span>
+        </Toggle>
+      )}
 
       <Popover open={isCustomOpen} onOpenChange={setIsCustomOpen}>
         <PopoverTrigger asChild>
