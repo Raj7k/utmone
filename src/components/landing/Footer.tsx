@@ -199,9 +199,9 @@ export const Footer = () => {
           </div>
         </div>
 
-        {/* Massive Brand Reveal - Viral Dot Experience */}
-        <div className="-mx-6 md:-mx-8">
-          <FooterRevealText />
+        {/* Massive Brand Reveal */}
+        <div className="mt-16 pt-8">
+          <FooterRevealText text="utm.one" />
         </div>
       </div>
     </footer>
