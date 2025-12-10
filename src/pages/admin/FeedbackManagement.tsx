@@ -104,6 +104,54 @@ const dateRangeOptions = [
   { value: "90", label: "last 90 days" },
 ];
 
+// Screenshot Image Component with loading and error handling
+function ScreenshotImage({ src, alt }: { src: string; alt: string }) {
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+
+  if (hasError) {
+    return (
+      <div className="rounded-lg border border-border bg-muted/50 p-4 flex flex-col items-center justify-center min-h-[150px]">
+        <AlertTriangle className="h-8 w-8 text-muted-foreground mb-2" />
+        <p className="text-sm text-muted-foreground">failed to load screenshot</p>
+        <a
+          href={src}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs text-primary hover:underline mt-1"
+        >
+          try opening directly
+        </a>
+      </div>
+    );
+  }
+
+  return (
+    <a
+      href={src}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="block relative"
+    >
+      {isLoading && (
+        <div className="absolute inset-0 rounded-lg border border-border bg-muted animate-pulse min-h-[150px]" />
+      )}
+      <img
+        src={src}
+        alt={alt}
+        className={`rounded-lg border border-border max-h-[300px] object-contain transition-opacity ${
+          isLoading ? "opacity-0" : "opacity-100"
+        }`}
+        onLoad={() => setIsLoading(false)}
+        onError={() => {
+          setIsLoading(false);
+          setHasError(true);
+        }}
+      />
+    </a>
+  );
+}
+
 export default function FeedbackManagement() {
   const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState("");
@@ -680,18 +728,10 @@ export default function FeedbackManagement() {
               {selectedFeedback.screenshot_url && (
                 <div>
                   <p className="text-xs text-muted-foreground mb-1">screenshot</p>
-                  <a
-                    href={selectedFeedback.screenshot_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block"
-                  >
-                    <img
-                      src={selectedFeedback.screenshot_url}
-                      alt="Feedback screenshot"
-                      className="rounded-lg border border-border max-h-[300px] object-contain"
-                    />
-                  </a>
+                  <ScreenshotImage 
+                    src={selectedFeedback.screenshot_url} 
+                    alt="Feedback screenshot" 
+                  />
                 </div>
               )}
 
