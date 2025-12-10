@@ -72,8 +72,8 @@ interface HeroContentItem {
 
 const HERO_CONTENT: Record<UseCaseType, HeroContentItem> = {
   attribution: {
-    headline: "finally know where revenue comes from",
-    subheadline: "tired of Google taking 100% credit? see which channels actually drive conversions with Clean-Track attribution — built on mathematical models from MIT and Harvard scientists.",
+    headline: "stop the guessing. start the knowing.",
+    subheadline: "see which channels actually drive revenue — not which ones take credit. Clean-Track attribution shows you where every dollar comes from.",
     cta: "get early access",
     stats: [
       { value: "60%", label: "of budget typically misallocated" },
@@ -87,8 +87,8 @@ const HERO_CONTENT: Record<UseCaseType, HeroContentItem> = {
     ]
   },
   journey: {
-    headline: "see every touchpoint, across every device",
-    subheadline: "stop tracking clicks. start engineering journeys. from anonymous visit to enterprise contract — see the complete path with Clean-Track intelligence.",
+    headline: "watch strangers become customers.",
+    subheadline: "from first click to final purchase — see every touchpoint across every device. understand the paths that convert, and replicate them.",
     cta: "get early access",
     stats: [
       { value: "12", label: "avg touchpoints before conversion" },
@@ -102,8 +102,8 @@ const HERO_CONTENT: Record<UseCaseType, HeroContentItem> = {
     ]
   },
   links: {
-    headline: "clean links. clean data. clear decisions.",
-    subheadline: "short links, UTM builder, QR codes, and clean-track governance in one place. every link follows the same rules.",
+    headline: "links that work harder than you do.",
+    subheadline: "short links, UTM builder, QR codes — all enforcing the same rules. your data stays clean without you lifting a finger.",
     cta: "get early access",
     stats: [
       { value: "5", label: "layers of link intelligence" },
@@ -117,8 +117,8 @@ const HERO_CONTENT: Record<UseCaseType, HeroContentItem> = {
     ]
   },
   intelligence: {
-    headline: "four AI layers built into every link",
-    subheadline: "Clean-Track Intelligence — mathematical models from MIT and Harvard scientists, working behind the scenes to make your data smarter.",
+    headline: "smarter decisions. while you sleep.",
+    subheadline: "four AI layers work behind the scenes — predicting winners, fixing broken links, routing traffic, and connecting the dots you'd never see.",
     cta: "get early access",
     stats: [
       { value: "4", label: "intelligence layers" },
@@ -132,8 +132,8 @@ const HERO_CONTENT: Record<UseCaseType, HeroContentItem> = {
     ]
   },
   governance: {
-    headline: "your team's links, under control.",
-    subheadline: "role-based access, approval workflows, naming conventions, and audit trails. scale link management without chaos.",
+    headline: "scale fast. stay in control.",
+    subheadline: "as your team grows, your links stay consistent. roles, rules, approvals, and audit trails — without the bureaucracy.",
     cta: "get early access",
     stats: [
       { value: "100%", label: "links follow your rules" },
