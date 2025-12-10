@@ -64,7 +64,7 @@ const FieldMarketing = () => {
     },
     {
       icon: BarChart3,
-      title: "roi visualization",
+      title: "ROI visualization",
       description: "see direct scans + halo visitors + estimated pipeline. prove your budget is worth it."
     }
   ];
@@ -408,7 +408,7 @@ const FieldMarketing = () => {
                 viewport={{ once: true }}
                 className="text-center mb-12"
               >
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight lowercase obsidian-platinum-text mb-4">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight obsidian-platinum-text mb-4">
                   before vs after
                 </h2>
               </motion.div>
@@ -431,7 +431,7 @@ const FieldMarketing = () => {
                     </li>
                   </ul>
                   <p className="mt-4 pt-4 border-t border-destructive/20 text-sm text-destructive">
-                    cfo response: "we spent $50k for 50 leads? budget denied."
+                    {p("CFO response: \"we spent $50k for 50 leads? budget denied.\"")}
                   </p>
                 </Card>
                 
@@ -452,7 +452,7 @@ const FieldMarketing = () => {
                     </li>
                   </ul>
                   <p className="mt-4 pt-4 border-t border-primary/20 text-sm text-primary">
-                    cfo response: "$50k for $1.2M pipeline? double the booth size."
+                    {p("CFO response: \"$50k for $1.2M pipeline? double the booth size.\"")}
                   </p>
                 </Card>
               </div>
@@ -466,7 +466,7 @@ const FieldMarketing = () => {
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
-                className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight lowercase obsidian-platinum-text text-center mb-12"
+                className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight obsidian-platinum-text text-center mb-12"
               >
                 frequently asked questions
               </motion.h2>
@@ -499,7 +499,7 @@ const FieldMarketing = () => {
                 viewport={{ once: true }}
                 className="space-y-6"
               >
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight lowercase obsidian-platinum-text">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight obsidian-platinum-text">
                   book a demo and see your last event's true impact
                 </h2>
                 <p className="text-obsidian-text-muted">

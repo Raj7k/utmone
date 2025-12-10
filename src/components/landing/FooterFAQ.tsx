@@ -263,7 +263,7 @@ export const FooterFAQ = () => {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase obsidian-platinum-text">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold obsidian-platinum-text">
             {formatText("ok, here's what we do. plain talk.")}
           </h1>
           <p className="text-lg mt-4 max-w-2xl text-white-50">

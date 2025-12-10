@@ -15,6 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { shareOnLinkedIn } from "@/lib/utils/linkedinShare";
 import { FirstPrinciplesWizard } from "./FirstPrinciplesWizard";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 // Decision Matrix Builder
 const DecisionMatrixBuilder = () => {
@@ -161,7 +162,7 @@ const ROIForecaster = () => {
   const roi = investment > 0 ? ((revenue - investment) / investment) * 100 : 0;
 
   const handleShare = () => {
-    const text = `📈 Campaign ROI Forecast from utm.one\n\n💰 Investment: $${investment.toLocaleString()}\n📊 Projected Revenue: $${revenue.toLocaleString()}\n🎯 ROI: ${roi.toFixed(1)}%\n\nForecast your campaign ROI:`;
+    const text = p(`📈 Campaign ROI Forecast from utm.one\n\n💰 Investment: $${investment.toLocaleString()}\n📊 Projected Revenue: $${revenue.toLocaleString()}\n🎯 ROI: ${roi.toFixed(1)}%\n\nForecast your campaign ROI:`);
     shareOnLinkedIn(text, "https://utm.one/tools/decision-frameworks?tab=roi-forecaster");
   };
 
@@ -170,9 +171,7 @@ const ROIForecaster = () => {
       <div className="p-6">
         <div className="flex items-center gap-2 mb-2">
           <TrendingUp className="w-5 h-5 text-green-500" />
-          <h3 className="text-lg font-semibold text-white-90">
-            clean-track ROI forecaster
-          </h3>
+          <h3 className="text-lg font-semibold text-white-90">{p("Clean-Track ROI Forecaster")}</h3>
         </div>
         <p className="text-sm mb-4 text-white-50">
           Project campaign ROI using Clean-Track predictive models
@@ -306,8 +305,7 @@ export const StrategicToolsShowcase = () => {
                 value="roi-forecaster" 
                 className="text-xs sm:text-sm w-full justify-start md:justify-center px-3 py-2.5 md:py-1.5 text-white/60 data-[state=active]:text-white data-[state=active]:bg-white/10"
               >
-                <TrendingUp className="w-4 h-4 mr-2 md:mr-1" />
-                ROI forecaster
+                <TrendingUp className="w-4 h-4 mr-2 md:mr-1" />{p("ROI forecaster")}
               </TabsTrigger>
             </TabsList>
             

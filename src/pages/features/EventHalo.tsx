@@ -32,7 +32,7 @@ const EventHalo = () => {
     },
     {
       icon: BarChart3,
-      title: "roi visualization",
+      title: "ROI visualization",
       description: "see the complete picture: direct scans + halo visitors + estimated pipeline."
     }
   ];
@@ -116,7 +116,7 @@ const EventHalo = () => {
                   field marketing intelligence
                 </div>
                 
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase obsidian-platinum-text leading-tight">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight obsidian-platinum-text leading-tight">
                   the invisible 90% of your event traffic
                 </h1>
                 
@@ -158,7 +158,7 @@ const EventHalo = () => {
               viewport={{ once: true }}
               className="space-y-6"
             >
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight lowercase obsidian-platinum-text">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight obsidian-platinum-text">
                 the field marketing blind spot
               </h2>
               
@@ -183,7 +183,7 @@ const EventHalo = () => {
                       viewport={{ once: true }}
                     >
                       <p className="text-sm text-destructive font-medium">
-                        cfo says: "we spent $50k for 50 leads? that's $1,000/lead. you're fired."
+                        {p("CFO says: \"we spent $50k for 50 leads? that's $1,000/lead. you're fired.\"")}
                       </p>
                     </motion.div>
                   </Card>
@@ -209,7 +209,7 @@ const EventHalo = () => {
                       viewport={{ once: true }}
                     >
                       <p className="text-sm text-white font-medium">
-                        cfo says: "$50k for $400k pipeline? that's 8x roi. double the budget."
+                        {p("CFO says: \"$50k for $400k pipeline? that's 8x ROI. double the budget.\"")}
                       </p>
                     </motion.div>
                   </Card>
@@ -232,8 +232,8 @@ const EventHalo = () => {
                 <Shield className="w-4 h-4" />
                 scientific methodology
               </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight lowercase obsidian-platinum-text mb-4">
-                proof your cfo can trust
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight obsidian-platinum-text mb-4">
+                {p("proof your CFO can trust")}
               </h2>
               <p className="text-obsidian-text-muted max-w-2xl mx-auto">
                 we compare your event city against control cities. when vegas spikes while phoenix stays flat, 
@@ -254,7 +254,7 @@ const EventHalo = () => {
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight lowercase obsidian-platinum-text mb-4">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight obsidian-platinum-text mb-4">
                 the algorithm
               </h2>
               <p className="text-obsidian-text-muted max-w-2xl mx-auto">
@@ -317,8 +317,8 @@ const EventHalo = () => {
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight lowercase obsidian-platinum-text mb-4">
-                calculate your event's true roi
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight obsidian-platinum-text mb-4">
+                {p("calculate your event's true ROI")}
               </h2>
               <p className="text-obsidian-text-muted">
                 plug in your numbers. see the difference halo tracking makes.
@@ -336,7 +336,7 @@ const EventHalo = () => {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight lowercase obsidian-platinum-text text-center mb-12"
+              className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight obsidian-platinum-text text-center mb-12"
             >
               everything you need
             </motion.h2>
@@ -368,7 +368,7 @@ const EventHalo = () => {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight lowercase obsidian-platinum-text text-center mb-12"
+              className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight obsidian-platinum-text text-center mb-12"
             >
               works for every event type
             </motion.h2>
@@ -402,7 +402,7 @@ const EventHalo = () => {
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight lowercase obsidian-platinum-text mb-4">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight obsidian-platinum-text mb-4">
                 frequently asked questions
               </h2>
             </motion.div>
@@ -435,8 +435,8 @@ const EventHalo = () => {
               viewport={{ once: true }}
               className="space-y-6"
             >
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight lowercase obsidian-platinum-text">
-                stop leaving 90% of your event roi on the table
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight obsidian-platinum-text">
+                {p("stop leaving 90% of your event ROI on the table")}
               </h2>
               <p className="text-xl text-obsidian-text-muted max-w-2xl mx-auto">
                 join the field marketing teams who prove their impact with data, not just business cards.

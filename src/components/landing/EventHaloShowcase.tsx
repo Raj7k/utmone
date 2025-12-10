@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Target, Users, TrendingUp } from "lucide-react";
 import { SonarVisualization } from "@/components/events/SonarVisualization";
 import { Badge } from "@/components/ui/badge";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 export const EventHaloShowcase = () => {
   return (
@@ -86,8 +87,7 @@ export const EventHaloShowcase = () => {
             <div className="space-y-4">
               <h3 className="text-xl font-semibold text-white/90">event halo effect</h3>
               <p className="text-white/50 leading-relaxed">
-                Most event ROI is invisible. Event Halo detects the "booth walk-by" effect—people who saw your booth, 
-                picked up collateral, or heard your name, then visited your website days later without scanning a badge.
+                {p("Most event ROI is invisible. Event Halo detects the \"booth walk-by\" effect—people who saw your booth, picked up collateral, or heard your name, then visited your website days later without scanning a badge.")}
               </p>
               <ul className="space-y-2 text-sm text-white/60">
                 <li className="flex items-center gap-2">

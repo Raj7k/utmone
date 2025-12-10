@@ -218,7 +218,7 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                   {/* Content - Apple-style spacious */}
                   <div className="space-y-6">
                     {/* Headline with Brushed Metal Gradient */}
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase obsidian-platinum-text">
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight obsidian-platinum-text">
                       {activeItem.headline}
                     </h1>
 
