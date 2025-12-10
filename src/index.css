@@ -74,8 +74,17 @@ All colors MUST be HSL.
   100% { background-position: 0% 50%; }
 }
 
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
 .animate-gradient {
   animation: gradient 3s ease infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s linear infinite;
 }
 
 /* Brand typography - lowercase system */

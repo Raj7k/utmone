@@ -17,7 +17,7 @@ export interface SmartRotatorResult {
 
 /**
  * Calculate Thompson Sampling weights for multi-destination links
- * Uses existing Bayesian Optimization logic
+ * Uses Clean Track Intelligence™ optimization logic
  */
 export function useSmartRotator(destinations: Destination[]): SmartRotatorResult {
   if (!destinations || destinations.length === 0) {

@@ -27,7 +27,7 @@ const TABS = [
     icon: TrendingUp,
     label: "attribution & revenue",
     headline: "know where money comes from.",
-    subheadline: "don't guess. mathematical proof of which channels drive revenue using bayesian attribution.",
+    subheadline: "don't guess. mathematical proof of which channels drive revenue using Clean Track Intelligence™.",
     route: "/features/attribution-graph",
   },
   {

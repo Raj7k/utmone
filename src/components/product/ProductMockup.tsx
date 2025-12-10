@@ -350,7 +350,7 @@ const IdentityStitchingMockup = ({ size = "default" }: { size?: "default" | "lar
 
 const AttributionGraphMockup = ({ size = "default" }: { size?: "default" | "large" }) => (
   <div className={`bg-card border border-border rounded-xl shadow-lg space-y-4 ${size === "large" ? "p-10 scale-125" : "p-6"}`}>
-    <h4 className={`font-semibold text-label ${size === "large" ? "text-base" : "text-sm"}`}>Bayesian Attribution</h4>
+    <h4 className={`font-semibold text-label ${size === "large" ? "text-base" : "text-sm"}`}>Clean Track Intelligence™</h4>
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <div className={`rounded-lg ${size === "large" ? "p-3" : "p-2"} flex-1 mr-2 bg-primary/10`}>

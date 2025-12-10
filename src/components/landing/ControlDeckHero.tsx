@@ -32,7 +32,7 @@ const CONTROL_ITEMS = [
     label: p("attribution & revenue"),
     sublabel: p("know where money comes from"),
     headline: p("know where money comes from."),
-    subheadline: p("don't guess. mathematical proof of which channels drive revenue using bayesian attribution."),
+    subheadline: p("don't guess. mathematical proof of which channels drive revenue using Clean Track Intelligence™."),
     route: "/features/attribution-graph",
   },
   {

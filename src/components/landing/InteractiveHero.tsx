@@ -52,7 +52,7 @@ const USE_CASE_CONTENT: Record<UseCaseType, HeroContent> = {
   attribution: {
     headline1: "finally know where",
     headline2: "revenue comes from.",
-    subheadline: "tired of Google taking 100% credit? see which channels actually drive conversions with Bayesian attribution — not last-click guessing.",
+    subheadline: "tired of Google taking 100% credit? see which channels actually drive conversions with Clean Track Intelligence™ — not last-click guessing.",
     secondaryCta: "see attribution in action",
     secondaryCtaLink: "/features/attribution-graph"
   },
