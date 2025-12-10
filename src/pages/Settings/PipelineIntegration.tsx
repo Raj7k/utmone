@@ -2,12 +2,11 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Copy, Check, ExternalLink, Webhook } from "lucide-react";
 import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 
 export const PipelineIntegration = () => {
   const [copied, setCopied] = useState(false);
-  const { toast } = useToast();
   const { currentWorkspace } = useWorkspaceContext();
 
   const webhookUrl = `${window.location.origin}/api/track/pipeline`;
@@ -15,10 +14,7 @@ export const PipelineIntegration = () => {
   const copyWebhookUrl = () => {
     navigator.clipboard.writeText(webhookUrl);
     setCopied(true);
-    toast({
-      title: "copied",
-      description: "webhook url copied to clipboard",
-    });
+    notify.success("copied", { description: "webhook url copied to clipboard" });
     setTimeout(() => setCopied(false), 2000);
   };
 

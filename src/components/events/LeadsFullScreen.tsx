@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { cn } from "@/lib/utils";
 
 interface BadgeScan {
@@ -108,18 +108,11 @@ export const LeadsFullScreen = ({
 
       if (error) throw error;
 
-      toast({
-        title: "lead enriched",
-        description: data.enriched ? `found ${data.phone ? 'phone' : ''}${data.phone && data.linkedin ? ' & ' : ''}${data.linkedin ? 'linkedin' : ''}` : "no additional data found",
-      });
+      notify.success("lead enriched", { description: data.enriched ? `found ${data.phone ? 'phone' : ''}${data.phone && data.linkedin ? ' & ' : ''}${data.linkedin ? 'linkedin' : ''}` : "no additional data found" });
 
       onRefresh();
     } catch (error) {
-      toast({
-        title: "enrichment failed",
-        description: "please check your API keys in settings",
-        variant: "destructive",
-      });
+      notify.error("enrichment failed", { description: "please check your API keys in settings" });
     } finally {
       setEnrichingIds(prev => {
         const newSet = new Set(prev);
@@ -134,7 +127,7 @@ export const LeadsFullScreen = ({
     
     const pendingLeads = badgeScans.filter(s => !s.enriched && !s.enrichment_error);
     if (pendingLeads.length === 0) {
-      toast({ title: "no leads to enrich" });
+      notify.info("no leads to enrich");
       return;
     }
 
@@ -162,10 +155,7 @@ export const LeadsFullScreen = ({
       }
     }
 
-    toast({
-      title: "batch enrichment complete",
-      description: `${successCount} enriched, ${failCount} failed`,
-    });
+    notify.success("batch enrichment complete", { description: `${successCount} enriched, ${failCount} failed` });
 
     setIsEnrichingAll(false);
     onRefresh();

@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { supabase } from "@/integrations/supabase/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -20,7 +20,6 @@ interface DomainSettingsProps {
 }
 
 export const DomainSettings = ({ domain }: DomainSettingsProps) => {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [pathPrefix, setPathPrefix] = useState(domain.domain_settings?.path_prefix || "/");
   const [redirectType, setRedirectType] = useState(domain.domain_settings?.redirect_type || "302");
@@ -45,17 +44,10 @@ export const DomainSettings = ({ domain }: DomainSettingsProps) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["workspace-domains"] });
-      toast({
-        title: "Settings updated",
-        description: "Domain settings have been saved successfully.",
-      });
+      notify.success("settings updated", { description: "domain settings have been saved successfully." });
     },
     onError: (error: Error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error("error", { description: error.message });
     },
   });
 

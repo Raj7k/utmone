@@ -7,11 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { Loader2 } from "lucide-react";
 
 const TeamBudgetOptimizer = () => {
-  const { toast } = useToast();
   const [isOptimizing, setIsOptimizing] = useState(false);
   const [budget, setBudget] = useState("");
   const [goals, setGoals] = useState<string[]>([]);
@@ -27,11 +26,7 @@ const TeamBudgetOptimizer = () => {
 
   const handleOptimize = async () => {
     if (!budget || parseInt(budget) < 50000) {
-      toast({
-        title: "invalid budget",
-        description: "please enter a budget of at least $50,000",
-        variant: "destructive"
-      });
+      notify.error("invalid budget", { description: "please enter a budget of at least $50,000" });
       return;
     }
 
@@ -50,10 +45,7 @@ const TeamBudgetOptimizer = () => {
         ]
       });
       setIsOptimizing(false);
-      toast({
-        title: "optimization complete",
-        description: "team recommendations generated"
-      });
+      notify.success("optimization complete", { description: "team recommendations generated" });
     }, 2000);
   };
 

@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useAPIKeys } from '@/hooks/useAPIKeys';
-import { useToast } from '@/hooks/use-toast';
+import { notify } from '@/lib/notify';
 import { maskAPIKey } from '@/lib/apiKeyUtils';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -21,7 +21,6 @@ interface DeveloperSettingsProps {
 
 export default function DeveloperSettings({ workspaceId }: DeveloperSettingsProps) {
   const { apiKeys, isLoading: apiKeysLoading, createAPIKey, revokeAPIKey, deleteAPIKey } = useAPIKeys();
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isAPIKeyDialogOpen, setIsAPIKeyDialogOpen] = useState(false);
   const [newKeyData, setNewKeyData] = useState<string | null>(null);
@@ -71,17 +70,10 @@ export default function DeveloperSettings({ workspaceId }: DeveloperSettingsProp
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['pixel-configs', workspaceId] });
-      toast({
-        title: 'pixel created',
-        description: 'your tracking pixel has been created successfully.',
-      });
+      notify.success('pixel created', { description: 'your tracking pixel has been created successfully.' });
     },
     onError: (error: Error) => {
-      toast({
-        title: 'error',
-        description: error.message,
-        variant: 'destructive',
-      });
+      notify.error('error', { description: error.message });
     },
   });
 
@@ -102,10 +94,7 @@ export default function DeveloperSettings({ workspaceId }: DeveloperSettingsProp
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['pixel-configs', workspaceId] });
       setNewDomain('');
-      toast({
-        title: 'domain added',
-        description: 'domain has been added to whitelist.',
-      });
+      notify.success('domain added', { description: 'domain has been added to whitelist.' });
     },
   });
 
@@ -130,11 +119,7 @@ export default function DeveloperSettings({ workspaceId }: DeveloperSettingsProp
         rate_limit: 600,
       });
     } catch (error) {
-      toast({
-        title: 'failed to create api key',
-        description: error instanceof Error ? error.message : 'unknown error',
-        variant: 'destructive',
-      });
+      notify.error('failed to create api key', { description: error instanceof Error ? error.message : 'unknown error' });
     }
   };
 
@@ -143,7 +128,7 @@ export default function DeveloperSettings({ workspaceId }: DeveloperSettingsProp
       navigator.clipboard.writeText(newKeyData);
       setCopiedKey(true);
       setTimeout(() => setCopiedKey(false), 2000);
-      toast({ title: 'api key copied to clipboard' });
+      notify.success('api key copied to clipboard');
     }
   };
 
@@ -177,10 +162,7 @@ export default function DeveloperSettings({ workspaceId }: DeveloperSettingsProp
     navigator.clipboard.writeText(getPixelSnippet(activePixel.pixel_id));
     setCopiedPixel(true);
     setTimeout(() => setCopiedPixel(false), 2000);
-    toast({
-      title: 'copied!',
-      description: 'tracking code copied to clipboard.',
-    });
+    notify.success('copied!', { description: 'tracking code copied to clipboard.' });
   };
 
   if (apiKeysLoading || pixelLoading) {

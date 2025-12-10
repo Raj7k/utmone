@@ -30,7 +30,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { useAuditLog } from "@/hooks/useAuditLog";
 import { Label } from "@/components/ui/label";
 import { Shield, KeyRound, AlertCircle } from "lucide-react";
@@ -59,7 +59,6 @@ export const UserEditModal = ({ user, open, onOpenChange }: UserEditModalProps) 
   const [pendingAdminAction, setPendingAdminAction] = useState<'grant' | 'revoke' | null>(null);
   const [showMfaResetConfirm, setShowMfaResetConfirm] = useState(false);
   const [pendingMfaResetType, setPendingMfaResetType] = useState<'totp' | 'webauthn' | 'all' | null>(null);
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const { logAction } = useAuditLog();
 
@@ -109,19 +108,12 @@ export const UserEditModal = ({ user, open, onOpenChange }: UserEditModalProps) 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-users"] });
       queryClient.invalidateQueries({ queryKey: ["profile"] });
-      toast({
-        title: "plan updated",
-        description: "user plan changed successfully",
-      });
+      notify.success("plan updated", { description: "user plan changed successfully" });
       onOpenChange(false);
     },
     onError: (error) => {
       console.error("Plan update error:", error);
-      toast({
-        title: "update failed",
-        description: "could not update user plan",
-        variant: "destructive",
-      });
+      notify.error("update failed", { description: "could not update user plan" });
     },
   });
 
@@ -142,20 +134,13 @@ export const UserEditModal = ({ user, open, onOpenChange }: UserEditModalProps) 
       queryClient.invalidateQueries({ queryKey: ['admin-users'] });
       queryClient.invalidateQueries({ queryKey: ['user-admin-status', user.id] });
       setIsAdmin(action === 'grant');
-      toast({
-        title: action === 'grant' ? 'admin role granted' : 'admin role revoked',
-        description: action === 'grant' 
-          ? 'user now has admin privileges' 
-          : 'admin privileges removed',
+      notify.success(action === 'grant' ? 'admin role granted' : 'admin role revoked', {
+        description: action === 'grant' ? 'user now has admin privileges' : 'admin privileges removed',
       });
     },
     onError: (error: any) => {
       console.error('Admin role error:', error);
-      toast({
-        title: 'failed to update admin role',
-        description: error.message || 'could not update admin role',
-        variant: 'destructive',
-      });
+      notify.error('failed to update admin role', { description: error.message || 'could not update admin role' });
     },
   });
 
@@ -174,18 +159,11 @@ export const UserEditModal = ({ user, open, onOpenChange }: UserEditModalProps) 
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['admin-users'] });
-      toast({
-        title: 'mfa reset successful',
-        description: data.message || 'user can now reconfigure their authentication',
-      });
+      notify.success('mfa reset successful', { description: data.message || 'user can now reconfigure their authentication' });
     },
     onError: (error: any) => {
       console.error('MFA reset error:', error);
-      toast({
-        title: 'failed to reset mfa',
-        description: error.message || 'could not reset mfa',
-        variant: 'destructive',
-      });
+      notify.error('failed to reset mfa', { description: error.message || 'could not reset mfa' });
     },
   });
 

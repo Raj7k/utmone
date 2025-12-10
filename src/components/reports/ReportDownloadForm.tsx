@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2 } from "lucide-react";
 
@@ -31,7 +31,6 @@ interface ReportDownloadFormProps {
 
 export const ReportDownloadForm = ({ onSuccess }: ReportDownloadFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
   
   const {
     register,
@@ -72,19 +71,12 @@ export const ReportDownloadForm = ({ onSuccess }: ReportDownloadFormProps) => {
 
       if (emailError) throw emailError;
 
-      toast({
-        title: "Success!",
-        description: "Check your email for the download link.",
-      });
+      notify.success("success!", { description: "check your email for the download link." });
 
       onSuccess();
     } catch (error: any) {
       console.error("Error submitting form:", error);
-      toast({
-        title: "Error",
-        description: "Failed to send report. Please try again.",
-        variant: "destructive",
-      });
+      notify.error("error", { description: "failed to send report. please try again." });
     } finally {
       setIsSubmitting(false);
     }

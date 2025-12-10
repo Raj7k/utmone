@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { LinkForge } from "./link-forge/LinkForge";
 import { Plus, Copy, QrCode, BarChart3, CheckCircle2, ExternalLink } from "lucide-react";
 import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { Card } from "@/components/ui/card";
 import { QRCodeDialog } from "./QRCodeDialog";
 import { useNavigate } from "react-router-dom";
@@ -29,7 +29,6 @@ export const CreateLinkDialog = ({ workspaceId, open: externalOpen, onOpenChange
   const [showSuccess, setShowSuccess] = useState(false);
   const [createdLinkId, setCreatedLinkId] = useState<string | null>(null);
   const [createdShortUrl, setCreatedShortUrl] = useState<string>("");
-  const { toast } = useToast();
   const navigate = useNavigate();
 
   const handleSuccess = (linkId: string, shortUrl: string) => {
@@ -51,10 +50,7 @@ export const CreateLinkDialog = ({ workspaceId, open: externalOpen, onOpenChange
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(createdShortUrl);
-    toast({
-      title: "Copied!",
-      description: "Short URL copied to clipboard",
-    });
+    notify.success("copied!", { description: "short url copied to clipboard" });
   };
 
   const handleViewAnalytics = () => {

@@ -19,7 +19,7 @@ import {
   BarChart3,
   Bell
 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
 import { MarketingLayout } from "@/components/layout/MarketingLayout";
@@ -40,7 +40,6 @@ interface HealthCheckResult {
 }
 
 export default function LinkHealthChecker() {
-  const { toast } = useToast();
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<HealthCheckResult | null>(null);
@@ -101,11 +100,7 @@ export default function LinkHealthChecker() {
 
   const checkHealth = async () => {
     if (!url) {
-      toast({
-        title: "URL Required",
-        description: "Please enter a URL to check",
-        variant: "destructive",
-      });
+      notify.error("url required", { description: "please enter a url to check" });
       return;
     }
 
@@ -121,11 +116,7 @@ export default function LinkHealthChecker() {
 
       setResult(data);
     } catch (error) {
-      toast({
-        title: "Check Failed",
-        description: error instanceof Error ? error.message : "Couldn't check link health",
-        variant: "destructive",
-      });
+      notify.error("check failed", { description: error instanceof Error ? error.message : "couldn't check link health" });
     } finally {
       setLoading(false);
     }

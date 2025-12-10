@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { Loader2, Sparkles, ArrowRight, ArrowLeft } from "lucide-react";
 
@@ -54,7 +54,6 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
   const [step, setStep] = useState(1);
   const [selectedChannels, setSelectedChannels] = useState<string[]>([]);
   const { currentWorkspace } = useWorkspace();
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const form = useForm<CampaignFormData>({
@@ -129,18 +128,11 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["campaigns"] });
       queryClient.invalidateQueries({ queryKey: ["links"] });
-      toast({
-        title: "Campaign created",
-        description: `${selectedChannels.length} links generated successfully`,
-      });
+      notify.success("campaign created", { description: `${selectedChannels.length} links generated successfully` });
       handleClose();
     },
     onError: (error: Error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error("error", { description: error.message });
     },
   });
 
@@ -165,11 +157,7 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
 
   const handleSubmit = form.handleSubmit((data) => {
     if (selectedChannels.length === 0) {
-      toast({
-        title: "No channels selected",
-        description: "Please select at least one channel",
-        variant: "destructive",
-      });
+      notify.error("no channels selected", { description: "please select at least one channel" });
       return;
     }
     createCampaignMutation.mutate(data);
