@@ -145,7 +145,7 @@ export const DynamicFAQ = ({ selectedUseCase }: DynamicFAQProps) => {
                 frequently asked
               </p>
               <h2 
-                className="text-2xl md:text-3xl font-display font-bold lowercase"
+                className="text-2xl md:text-3xl font-display font-bold"
                 style={{
                   background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
                   WebkitBackgroundClip: 'text',
@@ -174,7 +174,7 @@ export const DynamicFAQ = ({ selectedUseCase }: DynamicFAQProps) => {
                     value={`item-${i}`}
                     className="rounded-xl bg-white/[0.02] border border-white/10 px-4 overflow-hidden"
                   >
-                    <AccordionTrigger className="text-left text-sm font-medium text-white/80 lowercase hover:text-white py-4 hover:no-underline">
+                    <AccordionTrigger className="text-left text-sm font-medium text-white/80 hover:text-white py-4 hover:no-underline">
                       {faq.question}
                     </AccordionTrigger>
                     <AccordionContent className="text-sm text-white/50 leading-relaxed pb-4">

@@ -53,7 +53,7 @@ const Agencies = () => {
         
         <div className="relative max-w-[980px] mx-auto px-8 z-10">
           <div className="text-center space-y-8">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter hero-gradient leading-[1.05] lowercase mt-8">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter hero-gradient leading-[1.05] mt-8">
               manage every client from<br />one command center
             </h1>
             <p className="text-lg md:text-xl max-w-[640px] mx-auto font-sans text-muted-foreground">
@@ -140,7 +140,7 @@ const Agencies = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase text-foreground">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground">
               the problem vs the solution
             </h2>
             <p className="text-lg md:text-xl text-muted-foreground mt-4 max-w-[640px] mx-auto font-sans">
@@ -192,7 +192,7 @@ const Agencies = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase text-foreground">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-foreground">
               what you get
             </h2>
             <p className="text-xl text-muted-foreground font-sans">
@@ -239,7 +239,7 @@ const Agencies = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-[1200px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight lowercase text-foreground">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight text-foreground">
               built for agency workflows
             </h2>
           </div>
@@ -295,7 +295,7 @@ const Agencies = () => {
         
         <div className="relative max-w-[1200px] mx-auto px-8 z-10">
           <div className="text-center mb-20">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight text-white mb-6 lowercase">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight text-white mb-6">
               your workflow, simplified
             </h2>
             <p className="text-xl text-white/70 font-sans">
@@ -340,7 +340,7 @@ const Agencies = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl lowercase obsidian-platinum-text mb-6">
+            <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl obsidian-platinum-text mb-6">
               ready to scale your agency?
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12 font-sans">

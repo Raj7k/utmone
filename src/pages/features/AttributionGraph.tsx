@@ -84,7 +84,7 @@ export default function AttributionGraph() {
       <section className="relative py-32 overflow-hidden">
         <RetroGradientMesh />
         <div className="relative max-w-[980px] mx-auto px-8 z-10 text-center">
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold hero-gradient lowercase mb-6">
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold hero-gradient mb-6">
             finally know where revenue comes from.
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
@@ -113,7 +113,7 @@ export default function AttributionGraph() {
       <section className="py-24 bg-muted/20">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4">the truth vs the lie</h2>
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">the truth vs the lie</h2>
             <p className="text-xl text-muted-foreground">see what GA4 hides from you</p>
           </div>
           <AttributionComparisonChart />
@@ -124,7 +124,7 @@ export default function AttributionGraph() {
       <section className="py-24 bg-background">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4">how attribution should work</h2>
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">how attribution should work</h2>
             <p className="text-xl text-muted-foreground">every touchpoint gets credit based on contribution</p>
           </div>
           
@@ -132,7 +132,7 @@ export default function AttributionGraph() {
             <div className="bg-card border border-border rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
                 <Target className="w-8 h-8 text-primary" />
-                <h3 className="text-2xl font-display font-semibold lowercase">journey tracking</h3>
+                <h3 className="text-2xl font-display font-semibold">journey tracking</h3>
               </div>
               <p className="text-muted-foreground mb-4">
                 We track every touchpoint in the customer journey—from first awareness to final conversion.
@@ -145,7 +145,7 @@ export default function AttributionGraph() {
             <div className="bg-card border border-border rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
                 <BarChart3 className="w-8 h-8 text-primary" />
-                <h3 className="text-2xl font-display font-semibold lowercase">bayesian inference</h3>
+                <h3 className="text-2xl font-display font-semibold">bayesian inference</h3>
               </div>
               <p className="text-muted-foreground mb-4">
                 We calculate the incremental lift each touchpoint contributed to conversion probability.
@@ -161,7 +161,7 @@ export default function AttributionGraph() {
             <div className="bg-card border border-border rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
                 <Lightbulb className="w-8 h-8 text-primary" />
-                <h3 className="text-2xl font-display font-semibold lowercase">hidden revenue</h3>
+                <h3 className="text-2xl font-display font-semibold">hidden revenue</h3>
               </div>
               <p className="text-muted-foreground mb-4">
                 Reveal which channels are driving conversions that GA4 attributes to Google.
@@ -174,7 +174,7 @@ export default function AttributionGraph() {
 
           {/* Example Journey Visualization */}
           <div className="bg-card border border-border rounded-xl p-8 mt-12">
-            <h3 className="text-xl font-semibold lowercase mb-6 text-foreground">example journey with credit distribution</h3>
+            <h3 className="text-xl font-semibold mb-6 text-foreground">example journey with credit distribution</h3>
             <div className="flex items-center justify-center gap-4 flex-wrap">
               <div className="text-center">
                 <div className="rounded-xl px-6 py-3 mb-2 font-semibold bg-primary/10 text-primary">Email</div>
@@ -208,7 +208,7 @@ export default function AttributionGraph() {
       <section className="py-24 bg-muted/20">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4">real use cases</h2>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">real use cases</h2>
             <p className="text-xl text-muted-foreground">problems we actually solve</p>
           </div>
           <UseCasesGrid useCases={useCases} />
@@ -219,14 +219,14 @@ export default function AttributionGraph() {
       <section className="py-24 bg-background">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4">works with your existing stack</h2>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">works with your existing stack</h2>
             <p className="text-xl text-muted-foreground">no migration required</p>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-card border-2 border-border rounded-xl p-8">
               <div className="flex items-center gap-2 mb-4">
                 <DollarSign className="w-6 h-6 text-primary" />
-                <h3 className="text-xl font-display font-bold lowercase">push to CRM</h3>
+                <h3 className="text-xl font-display font-bold">push to CRM</h3>
               </div>
               <p className="text-muted-foreground mb-4">Send attribution data to HubSpot, Salesforce, or Pipedrive via webhooks.</p>
               <div className="bg-muted/30 rounded-lg p-4 text-sm">
@@ -242,7 +242,7 @@ export default function AttributionGraph() {
             <div className="bg-card border-2 border-border rounded-xl p-8">
               <div className="flex items-center gap-2 mb-4">
                 <BarChart3 className="w-6 h-6 text-primary" />
-                <h3 className="text-xl font-display font-bold lowercase">use alongside GA4</h3>
+                <h3 className="text-xl font-display font-bold">use alongside GA4</h3>
               </div>
               <p className="text-muted-foreground mb-4">Keep GA4 for site analytics. Use utm.one for campaign attribution.</p>
               <div className="bg-muted/30 rounded-lg p-4 text-sm">
@@ -262,7 +262,7 @@ export default function AttributionGraph() {
       <section className="py-24 bg-muted/20">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4">for your role</h2>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">for your role</h2>
           </div>
           <PersonaCalloutCards callouts={[
             { icon: Users, title: "for marketers", benefit: "Prove your email campaign's contribution—stop fighting for budget with data on your side." },

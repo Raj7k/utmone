@@ -65,7 +65,7 @@ const DecisionMatrixBuilder = () => {
       <div className="p-6">
         <div className="flex items-center gap-2 mb-2">
           <Scale className="w-5 h-5 text-blazeOrange" />
-          <h3 className="text-lg font-semibold lowercase text-white-90">
+          <h3 className="text-lg font-semibold text-white-90">
             weighted decision matrix
           </h3>
         </div>
@@ -135,7 +135,7 @@ const DecisionMatrixBuilder = () => {
               <Button 
                 size="sm" 
                 variant="outline" 
-                className="lowercase text-xs h-7 border-white/10 bg-white/5 hover:bg-white/10 text-white" 
+                className="text-xs h-7 border-white/10 bg-white/5 hover:bg-white/10 text-white" 
                 onClick={handleShare}
               >
                 <Share2 className="w-3 h-3 mr-1" />
@@ -170,7 +170,7 @@ const ROIForecaster = () => {
       <div className="p-6">
         <div className="flex items-center gap-2 mb-2">
           <TrendingUp className="w-5 h-5 text-green-500" />
-          <h3 className="text-lg font-semibold lowercase text-white-90">
+          <h3 className="text-lg font-semibold text-white-90">
             clean-track ROI forecaster
           </h3>
         </div>
@@ -237,7 +237,7 @@ const ROIForecaster = () => {
           </div>
 
           <Button 
-            className="w-full lowercase bg-white/10 hover:bg-white/20 text-white border-0" 
+            className="w-full bg-white/10 hover:bg-white/20 text-white border-0" 
             size="sm" 
             onClick={handleShare}
           >
@@ -266,9 +266,9 @@ export const StrategicToolsShowcase = () => {
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm bg-blazeOrange/10 border border-blazeOrange/20 text-blazeOrange">
             <Sparkles className="w-4 h-4" />
-            <span className="lowercase">free strategic tools</span>
+            <span>free strategic tools</span>
           </div>
-          <h1 className="obsidian-platinum-text text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase">
+          <h1 className="obsidian-platinum-text text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold">
             make better decisions
           </h1>
           <p className="text-base md:text-lg max-w-2xl mx-auto text-white-50">
@@ -290,21 +290,21 @@ export const StrategicToolsShowcase = () => {
             >
               <TabsTrigger 
                 value="first-principles" 
-                className="lowercase text-xs sm:text-sm w-full justify-start md:justify-center px-3 py-2.5 md:py-1.5 text-white/60 data-[state=active]:text-white data-[state=active]:bg-white/10"
+                className="text-xs sm:text-sm w-full justify-start md:justify-center px-3 py-2.5 md:py-1.5 text-white/60 data-[state=active]:text-white data-[state=active]:bg-white/10"
               >
                 <Target className="w-4 h-4 mr-2 md:mr-1" />
                 first principles
               </TabsTrigger>
               <TabsTrigger 
                 value="decision-matrix" 
-                className="lowercase text-xs sm:text-sm w-full justify-start md:justify-center px-3 py-2.5 md:py-1.5 text-white/60 data-[state=active]:text-white data-[state=active]:bg-white/10"
+                className="text-xs sm:text-sm w-full justify-start md:justify-center px-3 py-2.5 md:py-1.5 text-white/60 data-[state=active]:text-white data-[state=active]:bg-white/10"
               >
                 <Scale className="w-4 h-4 mr-2 md:mr-1" />
                 decision matrix
               </TabsTrigger>
               <TabsTrigger 
                 value="roi-forecaster" 
-                className="lowercase text-xs sm:text-sm w-full justify-start md:justify-center px-3 py-2.5 md:py-1.5 text-white/60 data-[state=active]:text-white data-[state=active]:bg-white/10"
+                className="text-xs sm:text-sm w-full justify-start md:justify-center px-3 py-2.5 md:py-1.5 text-white/60 data-[state=active]:text-white data-[state=active]:bg-white/10"
               >
                 <TrendingUp className="w-4 h-4 mr-2 md:mr-1" />
                 ROI forecaster
@@ -337,7 +337,7 @@ export const StrategicToolsShowcase = () => {
             <Button 
               variant="outline" 
               size="lg" 
-              className="lowercase border-white/10 bg-white/5 hover:bg-white/10 text-white"
+              className="border-white/10 bg-white/5 hover:bg-white/10 text-white"
             >
               open full-screen tools
               <ArrowRight className="ml-2 w-4 h-4" />

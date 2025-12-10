@@ -111,7 +111,7 @@ const ReportingTeam = () => {
         
         <div className="relative max-w-[980px] mx-auto px-8 z-10">
           <div className="text-center space-y-8">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter hero-gradient leading-[1.05] lowercase">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter hero-gradient leading-[1.05]">
               stop cleaning data. start trusting it.
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto font-sans">
@@ -168,7 +168,7 @@ const ReportingTeam = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase text-foreground">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground">
               the problem vs the solution
             </h2>
             <p className="text-lg md:text-xl text-muted-foreground mt-4 max-w-[640px] mx-auto font-sans">
@@ -210,7 +210,7 @@ const ReportingTeam = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase text-foreground">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-foreground">
               what you get
             </h2>
             <p className="text-xl text-muted-foreground font-sans">

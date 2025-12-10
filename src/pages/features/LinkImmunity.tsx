@@ -84,7 +84,7 @@ export default function LinkImmunity() {
       <section className="relative py-32 overflow-hidden">
         <RetroGradientMesh />
         <div className="relative max-w-[980px] mx-auto px-8 z-10 text-center">
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold hero-gradient lowercase mb-6">
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold hero-gradient mb-6">
             never show a 404 again.
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
@@ -120,7 +120,7 @@ export default function LinkImmunity() {
       <section className="py-24">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4">how link immunity works</h2>
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">how link immunity works</h2>
             <p className="text-xl text-muted-foreground">automatic failover in under 60 seconds</p>
           </div>
           
@@ -128,7 +128,7 @@ export default function LinkImmunity() {
             <div className="obsidian-glass rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
                 <Activity className="w-8 h-8 text-primary" />
-                <h3 className="text-2xl font-display font-semibold lowercase">health probes</h3>
+                <h3 className="text-2xl font-display font-semibold">health probes</h3>
               </div>
               <p className="text-muted-foreground mb-4">
                 We continuously check your links' destination URLs for availability, response time, and errors.
@@ -141,7 +141,7 @@ export default function LinkImmunity() {
             <div className="obsidian-glass rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
                 <Zap className="w-8 h-8 text-primary" />
-                <h3 className="text-2xl font-display font-semibold lowercase">instant detection</h3>
+                <h3 className="text-2xl font-display font-semibold">instant detection</h3>
               </div>
               <p className="text-muted-foreground mb-4">
                 When a destination fails, the system detects it within 60 seconds and automatically activates fallback routing.
@@ -155,7 +155,7 @@ export default function LinkImmunity() {
             <div className="obsidian-glass rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
                 <Bell className="w-8 h-8 text-primary" />
-                <h3 className="text-2xl font-display font-semibold lowercase">smart alerts</h3>
+                <h3 className="text-2xl font-display font-semibold">smart alerts</h3>
               </div>
               <p className="text-muted-foreground mb-4">
                 Get notified via Slack, email, or SMS when links fail. Choose thresholds: immediate, 3 failures, or sustained outage.
@@ -168,7 +168,7 @@ export default function LinkImmunity() {
 
           {/* Cascade Failover Visual */}
           <div className="obsidian-glass rounded-xl p-8 max-w-3xl mx-auto">
-            <h3 className="text-lg font-semibold lowercase mb-6 text-foreground">cascade failover flow</h3>
+            <h3 className="text-lg font-semibold mb-6 text-foreground">cascade failover flow</h3>
             <div className="space-y-4">
               {[
                 { num: "1", label: "Primary Destination", url: "example.com/campaign", status: "✓ Healthy", statusColor: "text-green-500" },
@@ -198,7 +198,7 @@ export default function LinkImmunity() {
       <section className="py-24 bg-white/[0.02]">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4">real use cases</h2>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">real use cases</h2>
             <p className="text-xl text-muted-foreground">problems we actually solve</p>
           </div>
           <UseCasesGrid useCases={useCases} />
@@ -209,14 +209,14 @@ export default function LinkImmunity() {
       <section className="py-24">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4">enterprise-grade monitoring</h2>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">enterprise-grade monitoring</h2>
             <p className="text-xl text-muted-foreground">99.99% uptime guarantee</p>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="obsidian-glass border-2 border-white/10 rounded-xl p-8">
               <div className="flex items-center gap-2 mb-4">
                 <Clock className="w-6 h-6 text-primary" />
-                <h3 className="text-xl font-display font-bold lowercase">global health checks</h3>
+                <h3 className="text-xl font-display font-bold">global health checks</h3>
               </div>
               <p className="text-muted-foreground mb-4">Health probes run from 15+ global locations to detect regional outages.</p>
               <div className="bg-white/[0.03] rounded-lg p-4 text-sm">
@@ -232,7 +232,7 @@ export default function LinkImmunity() {
             <div className="obsidian-glass border-2 border-white/10 rounded-xl p-8">
               <div className="flex items-center gap-2 mb-4">
                 <ShieldCheck className="w-6 h-6 text-primary" />
-                <h3 className="text-xl font-display font-bold lowercase">SLA monitoring</h3>
+                <h3 className="text-xl font-display font-bold">SLA monitoring</h3>
               </div>
               <p className="text-muted-foreground mb-4">Track uptime SLAs per link with historical reports and incident logs.</p>
               <div className="bg-white/[0.03] rounded-lg p-4 text-sm">
@@ -252,7 +252,7 @@ export default function LinkImmunity() {
       <section className="py-24 bg-white/[0.02]">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4">for your role</h2>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">for your role</h2>
           </div>
           <PersonaCalloutCards callouts={[
             { icon: Users, title: "for marketers", benefit: "Protect your campaign spend—never waste budget sending traffic to 404 errors." },
