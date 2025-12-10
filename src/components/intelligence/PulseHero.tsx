@@ -3,42 +3,26 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Activity, TrendingUp, TrendingDown } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
-
-type PeriodOption = "today" | "this_week" | "this_month" | "this_quarter" | "7d" | "30d" | "90d" | "365d";
+import { PeriodOption, periodLabels as importedPeriodLabels, periodDays } from "./PeriodSelector";
 
 interface PulseHeroProps {
   workspaceId?: string;
   period: PeriodOption;
   onPeriodChange?: (period: PeriodOption) => void;
   hidePeriodSelector?: boolean;
+  customDays?: number;
 }
 
 const periodLabels: Record<PeriodOption, string> = {
-  today: "today",
-  this_week: "this week",
-  this_month: "this month",
-  this_quarter: "this quarter",
-  "7d": "7 days",
-  "30d": "30 days",
-  "90d": "90 days",
-  "365d": "year",
+  ...importedPeriodLabels,
 };
 
-const getPeriodDays = (period: PeriodOption): number => {
-  switch (period) {
-    case "today": return 1;
-    case "this_week": return 7;
-    case "this_month": return 30;
-    case "this_quarter": return 90;
-    case "7d": return 7;
-    case "30d": return 30;
-    case "90d": return 90;
-    case "365d": return 365;
-    default: return 7;
-  }
+const getPeriodDays = (period: PeriodOption, customDays?: number): number => {
+  if (period === "custom" && customDays) return customDays;
+  return periodDays[period] || 7;
 };
 
-export default function PulseHero({ workspaceId, period, onPeriodChange, hidePeriodSelector }: PulseHeroProps) {
+export default function PulseHero({ workspaceId, period, onPeriodChange, hidePeriodSelector, customDays }: PulseHeroProps) {
   const [liveClicks, setLiveClicks] = useState(0);
   const [trend, setTrend] = useState<"up" | "down" | "neutral">("neutral");
   const [trendPercent, setTrendPercent] = useState(0);
@@ -49,9 +33,9 @@ export default function PulseHero({ workspaceId, period, onPeriodChange, hidePer
     if (!workspaceId) return;
 
     const fetchStats = async () => {
-      const periodDays = getPeriodDays(period);
+      const numDays = getPeriodDays(period, customDays);
       const startDate = new Date();
-      startDate.setDate(startDate.getDate() - periodDays);
+      startDate.setDate(startDate.getDate() - numDays);
 
       const { data, error } = await supabase
         .from("link_clicks")
@@ -64,7 +48,7 @@ export default function PulseHero({ workspaceId, period, onPeriodChange, hidePer
         
         // Calculate trend vs previous period
         const prevStart = new Date(startDate);
-        prevStart.setDate(prevStart.getDate() - periodDays);
+        prevStart.setDate(prevStart.getDate() - numDays);
         
         const { data: prevData } = await supabase
           .from("link_clicks")
@@ -85,7 +69,7 @@ export default function PulseHero({ workspaceId, period, onPeriodChange, hidePer
     };
 
     fetchStats();
-  }, [workspaceId, period]);
+  }, [workspaceId, period, customDays]);
 
   // Real-time subscription for live updates
   useEffect(() => {

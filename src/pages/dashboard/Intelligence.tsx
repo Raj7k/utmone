@@ -27,12 +27,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 export default function Intelligence() {
   const { currentWorkspace } = useWorkspace();
   const [period, setPeriod] = useState<PeriodOption>("7d");
+  const [customRange, setCustomRange] = useState<{ from: Date; to: Date } | undefined>();
   const [context, setContext] = useState<IntelligenceContext>("all");
   const [attributionSheetOpen, setAttributionSheetOpen] = useState(false);
   const [campaignSheetOpen, setCampaignSheetOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
 
-  const days = periodDays[period];
+  // Calculate days based on period or custom range
+  const days = period === "custom" && customRange 
+    ? Math.ceil((customRange.to.getTime() - customRange.from.getTime()) / (1000 * 60 * 60 * 24)) + 1
+    : periodDays[period];
 
   return (
     <PageContentWrapper
@@ -57,7 +61,12 @@ export default function Intelligence() {
             </TabsTrigger>
           </TabsList>
         </Tabs>
-        <PeriodSelector value={period} onChange={setPeriod} />
+        <PeriodSelector 
+          value={period} 
+          onChange={setPeriod} 
+          customRange={customRange}
+          onCustomRangeChange={setCustomRange}
+        />
       </div>
 
       {/* Main Content based on Tab */}
@@ -70,6 +79,7 @@ export default function Intelligence() {
               workspaceId={currentWorkspace?.id}
               period={period}
               hidePeriodSelector
+              customDays={days}
             />
 
             {/* Context Switcher */}
