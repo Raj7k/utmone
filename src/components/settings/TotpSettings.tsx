@@ -7,8 +7,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Shield, Smartphone, Key, CheckCircle2, AlertTriangle } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Shield, Smartphone, Key, CheckCircle2, AlertTriangle, RefreshCw, Download } from "lucide-react";
 import { TotpSetupModal } from "@/components/auth/TotpSetupModal";
+import { RecoveryCodesDisplay } from "@/components/auth/RecoveryCodesDisplay";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -23,6 +26,9 @@ import {
 export function TotpSettings() {
   const [setupModalOpen, setSetupModalOpen] = useState(false);
   const [disableDialogOpen, setDisableDialogOpen] = useState(false);
+  const [regenerateDialogOpen, setRegenerateDialogOpen] = useState(false);
+  const [verificationCode, setVerificationCode] = useState("");
+  const [newRecoveryCodes, setNewRecoveryCodes] = useState<string[] | null>(null);
   const { data: mfaStatus, isLoading } = useMfaStatus();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -41,6 +47,7 @@ export function TotpSettings() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['mfa-status'] });
+      queryClient.invalidateQueries({ queryKey: ['mfa-status-secure'] });
       toast({
         title: "2fa disabled",
         description: "two-factor authentication has been turned off",
@@ -50,6 +57,36 @@ export function TotpSettings() {
     onError: (error: any) => {
       toast({
         title: "failed to disable 2fa",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const regenerateCodesMutation = useMutation({
+    mutationFn: async (code: string) => {
+      const { data, error } = await supabase.functions.invoke('regenerate-recovery-codes', {
+        body: { code }
+      });
+
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+
+      return data.recoveryCodes as string[];
+    },
+    onSuccess: (codes) => {
+      setNewRecoveryCodes(codes);
+      setVerificationCode("");
+      queryClient.invalidateQueries({ queryKey: ['mfa-status'] });
+      queryClient.invalidateQueries({ queryKey: ['mfa-status-secure'] });
+      toast({
+        title: "recovery codes regenerated",
+        description: "save these codes in a secure location",
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "failed to regenerate codes",
         description: error.message,
         variant: "destructive",
       });
@@ -174,6 +211,25 @@ export function TotpSettings() {
                 </p>
               </div>
 
+              {/* Regenerate Recovery Codes */}
+              <div className="p-4 border border-border rounded-lg">
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="font-medium">regenerate recovery codes</h4>
+                  <RefreshCw className="h-4 w-4 text-muted-foreground" />
+                </div>
+                <p className="text-sm text-muted-foreground mb-3">
+                  generate new recovery codes if you've used some or want fresh ones
+                </p>
+                <Button
+                  variant="outline"
+                  onClick={() => setRegenerateDialogOpen(true)}
+                  size="sm"
+                >
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  regenerate codes
+                </Button>
+              </div>
+
               <Alert variant="destructive">
                 <AlertDescription>
                   <strong>warning:</strong> disabling 2fa will make your account less secure
@@ -193,6 +249,60 @@ export function TotpSettings() {
       </Card>
 
       <TotpSetupModal open={setupModalOpen} onOpenChange={setSetupModalOpen} />
+
+      {/* Regenerate Recovery Codes Dialog */}
+      <AlertDialog open={regenerateDialogOpen} onOpenChange={(open) => {
+        if (!open) {
+          setRegenerateDialogOpen(false);
+          setVerificationCode("");
+          setNewRecoveryCodes(null);
+        }
+      }}>
+        <AlertDialogContent className="max-w-md">
+          <AlertDialogHeader>
+            <AlertDialogTitle>regenerate recovery codes</AlertDialogTitle>
+            <AlertDialogDescription>
+              {newRecoveryCodes ? (
+                "save these new recovery codes in a secure location. your old codes will no longer work."
+              ) : (
+                "enter your current 2fa code to generate new recovery codes. this will invalidate all existing recovery codes."
+              )}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+
+          {newRecoveryCodes ? (
+            <RecoveryCodesDisplay codes={newRecoveryCodes} />
+          ) : (
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label htmlFor="verification-code">2fa verification code</Label>
+                <Input
+                  id="verification-code"
+                  placeholder="000000"
+                  value={verificationCode}
+                  onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                  maxLength={6}
+                  className="font-mono text-center text-lg tracking-widest"
+                />
+              </div>
+            </div>
+          )}
+
+          <AlertDialogFooter>
+            <AlertDialogCancel>
+              {newRecoveryCodes ? "done" : "cancel"}
+            </AlertDialogCancel>
+            {!newRecoveryCodes && (
+              <AlertDialogAction
+                onClick={() => regenerateCodesMutation.mutate(verificationCode)}
+                disabled={verificationCode.length !== 6 || regenerateCodesMutation.isPending}
+              >
+                {regenerateCodesMutation.isPending ? "verifying..." : "regenerate"}
+              </AlertDialogAction>
+            )}
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <AlertDialog open={disableDialogOpen} onOpenChange={setDisableDialogOpen}>
         <AlertDialogContent>

@@ -1,4 +1,6 @@
 import { SecurityKeyManager } from "@/components/admin/SecurityKeyManager";
+import { TotpSettings } from "@/components/settings/TotpSettings";
+import { MfaAuditLogViewer } from "@/components/security/MfaAuditLogViewer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Shield, Key, CheckCircle2 } from "lucide-react";
@@ -83,8 +85,14 @@ export default function AdminSecurity() {
         </CardContent>
       </Card>
 
+      {/* Authenticator App (TOTP) */}
+      <TotpSettings />
+
       {/* Security Key Manager */}
       <SecurityKeyManager />
+
+      {/* MFA Audit Log */}
+      <MfaAuditLogViewer />
     </div>
   );
 }
