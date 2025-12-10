@@ -347,10 +347,10 @@ export const AnalyticsFeatureCarousel = () => {
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text'
             }}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ amount: 0.5 }}
+            transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
           >
             12 ways to see what's really working
           </motion.h2>
@@ -358,8 +358,8 @@ export const AnalyticsFeatureCarousel = () => {
             className="text-base sm:text-lg max-w-2xl mx-auto text-white/50"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+            viewport={{ amount: 0.5 }}
+            transition={{ duration: 0.5, delay: 0.15 }}
           >
             every insight you need to prove marketing's impact on revenue
           </motion.p>
@@ -400,13 +400,19 @@ export const AnalyticsFeatureCarousel = () => {
                 <motion.div
                   key={index}
                   className="flex-shrink-0 w-[280px] sm:w-[300px] md:w-[320px]"
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
+                  initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ amount: 0.3, margin: "-50px" }}
                   transition={{ 
-                    duration: 0.4, 
-                    delay: Math.min(index * 0.05, 0.3),
-                    ease: [0.25, 0.1, 0.25, 1]
+                    duration: 0.5, 
+                    delay: Math.min(index * 0.08, 0.4),
+                    type: "spring",
+                    stiffness: 100,
+                    damping: 15
+                  }}
+                  whileHover={{ 
+                    scale: 1.02,
+                    transition: { type: "spring", stiffness: 400, damping: 20 }
                   }}
                 >
                   <AnalyticsFeatureCard

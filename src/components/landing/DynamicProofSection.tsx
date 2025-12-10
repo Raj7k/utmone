@@ -136,26 +136,37 @@ export const DynamicProofSection = ({ selectedUseCase }: DynamicProofSectionProp
   const content = PROOF_CONTENT[selectedUseCase];
 
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-16 md:py-24 relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedUseCase}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
+            exit={{ opacity: 0, y: -30 }}
+            transition={{ duration: 0.5, type: "spring", stiffness: 100 }}
             className="space-y-12"
           >
-            {/* Header */}
-            <div className="text-center space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
+            {/* Header with stagger animation */}
+            <motion.div 
+              className="text-center space-y-4"
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ amount: 0.5 }}
+              transition={{ duration: 0.5 }}
+            >
+              <motion.div 
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+              >
                 <span className="text-xs font-medium uppercase tracking-wider text-primary">
                   {content.eyebrow}
                 </span>
-              </div>
+              </motion.div>
 
-              <h2 
+              <motion.h2 
                 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold"
                 style={{
                   background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
@@ -163,18 +174,39 @@ export const DynamicProofSection = ({ selectedUseCase }: DynamicProofSectionProp
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text'
                 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
               >
                 {content.headline}
-              </h2>
-            </div>
+              </motion.h2>
+            </motion.div>
 
-            {/* Animated Demonstration */}
+            {/* Animated Demonstration with entrance effect */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="mb-8 p-6 rounded-2xl bg-white/[0.02] border border-white/10"
+              initial={{ opacity: 0, y: 40, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ delay: 0.15, duration: 0.6, type: "spring" }}
+              className="mb-8 p-6 rounded-2xl bg-white/[0.02] border border-white/10 overflow-hidden relative"
             >
+              {/* Shimmer effect on demo container */}
+              <motion.div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.03) 50%, transparent 100%)',
+                  backgroundSize: '200% 100%',
+                }}
+                animate={{
+                  backgroundPosition: ['200% 0', '-200% 0'],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  repeatDelay: 3,
+                  ease: "linear",
+                }}
+              />
+              
               {selectedUseCase === "attribution" && <AttributionFlowMini />}
               {selectedUseCase === "journey" && <IdentityStitchMini />}
               {selectedUseCase === "links" && <LinkCreateMini />}
@@ -182,28 +214,46 @@ export const DynamicProofSection = ({ selectedUseCase }: DynamicProofSectionProp
               {selectedUseCase === "governance" && <AuditTrailMini />}
             </motion.div>
 
-            {/* Capabilities Grid */}
-            <div className="grid md:grid-cols-3 gap-6">
+            {/* Stacking Capabilities Grid */}
+            <div className="grid md:grid-cols-3 gap-6 perspective-1000">
               {content.capabilities.map((capability, i) => {
                 const Icon = capability.icon;
                 return (
                   <motion.div
                     key={capability.title}
-                    initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    initial={{ opacity: 0, y: 60, rotateX: -15 }}
+                    animate={{ opacity: 1, y: 0, rotateX: 0 }}
                     transition={{ 
-                      delay: 0.3 + i * 0.15,
+                      delay: 0.3 + i * 0.12,
                       type: "spring",
-                      stiffness: 100,
+                      stiffness: 80,
                       damping: 15
                     }}
                     whileHover={{ 
-                      y: -8,
-                      scale: 1.02,
+                      y: -12,
+                      scale: 1.03,
+                      rotateX: 5,
                       transition: { type: "spring", stiffness: 400, damping: 20 }
                     }}
                     className="relative p-6 rounded-2xl bg-white/[0.02] border border-white/10 hover:border-primary/30 transition-colors group cursor-pointer overflow-hidden"
+                    style={{ transformStyle: 'preserve-3d' }}
                   >
+                    {/* Animated border glow */}
+                    <motion.div
+                      className="absolute inset-0 rounded-2xl pointer-events-none"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%, rgba(255,255,255,0.02) 100%)',
+                      }}
+                      animate={{
+                        opacity: [0.5, 1, 0.5],
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        delay: i * 0.5,
+                      }}
+                    />
+                    
                     {/* Hover glow effect */}
                     <motion.div
                       className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -225,7 +275,7 @@ export const DynamicProofSection = ({ selectedUseCase }: DynamicProofSectionProp
                       </p>
                     </div>
                     
-                    {/* Bottom accent line */}
+                    {/* Bottom accent line with animation */}
                     <motion.div
                       className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-primary/50 to-primary/0"
                       initial={{ width: 0 }}
@@ -237,16 +287,26 @@ export const DynamicProofSection = ({ selectedUseCase }: DynamicProofSectionProp
               })}
             </div>
 
-            {/* CTA */}
-            <div className="text-center">
+            {/* CTA with hover animation */}
+            <motion.div 
+              className="text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+            >
               <Link
                 to={content.cta.route}
-                className="inline-flex items-center gap-2 text-primary font-medium hover:opacity-80 transition-opacity"
+                className="inline-flex items-center gap-2 text-primary font-medium hover:opacity-80 transition-opacity group"
               >
                 {content.cta.text}
-                <ArrowRight className="w-4 h-4" />
+                <motion.span
+                  animate={{ x: [0, 4, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 1 }}
+                >
+                  <ArrowRight className="w-4 h-4" />
+                </motion.span>
               </Link>
-            </div>
+            </motion.div>
           </motion.div>
         </AnimatePresence>
       </div>
