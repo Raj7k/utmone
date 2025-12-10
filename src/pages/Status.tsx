@@ -72,7 +72,7 @@ export default function Status() {
           <Badge className="mb-6 bg-green-500/20 text-green-400 border-green-500/30">
             All Systems Operational
           </Badge>
-          <h1 className="text-5xl md:text-6xl font-display font-bold hero-gradient mb-6 brand-lowercase">
+          <h1 className="text-5xl md:text-6xl font-display font-bold hero-gradient mb-6">
             system status
           </h1>
           <p className="text-xl text-white/60 max-w-3xl mx-auto">
@@ -84,7 +84,7 @@ export default function Status() {
       {/* Services Status */}
       <section className="py-24">
         <div className="max-w-5xl mx-auto px-6">
-          <h2 className="text-3xl font-display font-bold text-white mb-8 brand-lowercase">
+          <h2 className="text-3xl font-display font-bold text-white mb-8">
             service health
           </h2>
           <div className="space-y-4">
@@ -125,7 +125,7 @@ export default function Status() {
       {/* Incident History */}
       <section className="py-24 bg-white/[0.02]">
         <div className="max-w-5xl mx-auto px-6">
-          <h2 className="text-3xl font-display font-bold text-white mb-8 brand-lowercase">
+          <h2 className="text-3xl font-display font-bold text-white mb-8">
             incident history
           </h2>
           <div className="space-y-4">
@@ -156,7 +156,7 @@ export default function Status() {
       {/* Subscribe */}
       <section className="py-24">
         <div className="max-w-2xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-display font-bold text-white mb-4 brand-lowercase">
+          <h2 className="text-3xl font-display font-bold text-white mb-4">
             subscribe to updates
           </h2>
           <p className="text-white/60 mb-8">

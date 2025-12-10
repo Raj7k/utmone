@@ -3,6 +3,7 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import { SEO } from "@/components/seo/SEO";
 import { CheckCircle2, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 const Compare = () => {
   const linkTools = [
@@ -75,11 +76,11 @@ const Compare = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold lowercase mb-6 hero-gradient">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold mb-6 hero-gradient">
               compare utm.one
             </h1>
-            <p className="text-xl md:text-2xl text-white/60 lowercase max-w-3xl mx-auto">
-              see how utm.one's clean-track framework and AI intelligence compare to traditional link management and partner tracking tools.
+            <p className="text-xl md:text-2xl text-white/60 max-w-3xl mx-auto">
+              see how utm.one's clean-track framework and {p("AI")} intelligence compare to traditional link management and partner tracking tools.
             </p>
           </motion.div>
         </div>
@@ -95,10 +96,10 @@ const Compare = () => {
             transition={{ duration: 0.6 }}
             className="mb-12"
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4 hero-gradient">
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 hero-gradient">
               vs. link management
             </h2>
-            <p className="text-lg text-white/60 lowercase max-w-2xl">
+            <p className="text-lg text-white/60 max-w-2xl">
               utm.one delivers link shortening plus predictive analytics, link immunity, and clean-track governance that traditional tools don't offer.
             </p>
           </motion.div>
@@ -121,7 +122,7 @@ const Compare = () => {
                       <h3 className="text-2xl font-display font-bold mb-2 text-white group-hover:text-white/80 transition-colors">
                         utm.one vs {tool.name}
                       </h3>
-                      <p className="text-sm text-white/40 lowercase">
+                      <p className="text-sm text-white/40">
                         {tool.category}
                       </p>
                     </div>
@@ -129,7 +130,7 @@ const Compare = () => {
                   </div>
                   <div className="flex items-start gap-3">
                     <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5 text-status-success/80" />
-                    <p className="text-white/60 lowercase">
+                    <p className="text-white/60">
                       <span className="text-white font-medium">utm.one adds:</span> {tool.differentiator}
                     </p>
                   </div>
@@ -150,10 +151,10 @@ const Compare = () => {
             transition={{ duration: 0.6 }}
             className="mb-12"
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4 hero-gradient">
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 hero-gradient">
               vs. partner attribution
             </h2>
-            <p className="text-lg text-white/60 lowercase max-w-2xl">
+            <p className="text-lg text-white/60 max-w-2xl">
               utm.one brings bayesian attribution, identity resolution, and journey valuation to partner tracking—not just click counting.
             </p>
           </motion.div>
@@ -176,7 +177,7 @@ const Compare = () => {
                       <h3 className="text-2xl font-display font-bold mb-2 text-white group-hover:text-white/80 transition-colors">
                         utm.one vs {tool.name}
                       </h3>
-                      <p className="text-sm text-white/40 lowercase">
+                      <p className="text-sm text-white/40">
                         {tool.category}
                       </p>
                     </div>
@@ -184,7 +185,7 @@ const Compare = () => {
                   </div>
                   <div className="flex items-start gap-3">
                     <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5 text-status-success/80" />
-                    <p className="text-white/60 lowercase">
+                    <p className="text-white/60">
                       <span className="text-white font-medium">utm.one adds:</span> {tool.differentiator}
                     </p>
                   </div>
@@ -204,11 +205,11 @@ const Compare = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-6 hero-gradient">
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-6 hero-gradient">
               see the difference yourself
             </h2>
-            <p className="text-lg text-white/60 lowercase mb-8 max-w-2xl mx-auto">
-              start with utm.one's free tier—no credit card required. experience clean-track governance and AI intelligence on your first link.
+            <p className="text-lg text-white/60 mb-8 max-w-2xl mx-auto">
+              start with utm.one's free tier—no credit card required. experience clean-track governance and {p("AI")} intelligence on your first link.
             </p>
             <Link
               to="/pricing"

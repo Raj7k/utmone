@@ -79,7 +79,7 @@ export const BlurRevealFAQ = () => {
     <section className="py-16 md:py-24 bg-transparent">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center mb-10 md:mb-14">
-          <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase">
+          <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold">
             {formatText("ok, here's what we do. plain talk.")}
           </h1>
           <p className="mt-3 text-white/50">Click any card to reveal the answer</p>

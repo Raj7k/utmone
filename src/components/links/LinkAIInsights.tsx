@@ -6,6 +6,7 @@ import { Sparkles, RefreshCw, Brain } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 interface LinkAIInsightsProps {
   linkId: string;
@@ -36,9 +37,9 @@ export const LinkAIInsights = ({ linkId, workspaceId }: LinkAIInsightsProps) => 
     return (
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="flex items-center gap-2 text-base lowercase">
+          <CardTitle className="flex items-center gap-2 text-base">
             <Sparkles className="h-4 w-4 text-primary" />
-            ai insights
+            {p("AI")} insights
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
@@ -53,9 +54,9 @@ export const LinkAIInsights = ({ linkId, workspaceId }: LinkAIInsightsProps) => 
     <Card className="border-primary/20 bg-gradient-to-br from-primary/5 via-transparent to-transparent">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2 text-base lowercase">
+          <CardTitle className="flex items-center gap-2 text-base">
             <Brain className="h-4 w-4 text-primary" />
-            ai insights for this link
+            {p("AI")} insights for this link
           </CardTitle>
           <Button
             variant="ghost"

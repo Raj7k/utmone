@@ -32,12 +32,12 @@ export const PageHeader = ({ title, description, breadcrumbs, action }: PageHead
             {crumb.href ? (
               <Link
                 to={crumb.href}
-                className="text-secondary-label hover:text-label transition-colors lowercase"
+                className="text-secondary-label hover:text-label transition-colors"
               >
                 {crumb.label}
               </Link>
             ) : (
-              <span className="text-label lowercase">{crumb.label}</span>
+              <span className="text-label">{crumb.label}</span>
             )}
           </div>
         ))}
@@ -46,9 +46,9 @@ export const PageHeader = ({ title, description, breadcrumbs, action }: PageHead
       {/* Title and Description */}
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-4xl font-bold text-label mb-2 lowercase heading">{title}</h1>
+          <h1 className="text-4xl font-bold text-label mb-2 heading">{title}</h1>
           {description && (
-            <p className="text-body-apple text-secondary-label lowercase">
+            <p className="text-body-apple text-secondary-label">
               {description}
             </p>
           )}

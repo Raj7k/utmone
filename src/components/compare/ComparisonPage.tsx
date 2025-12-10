@@ -130,10 +130,10 @@ export const ComparisonPage = ({
                   <p className="text-sm font-semibold text-white">capability</p>
                 </div>
                 <div className="p-6 text-center">
-                  <p className="text-sm font-semibold brand-lowercase text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">utm.one</p>
+                  <p className="text-sm font-semibold text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">utm.one</p>
                 </div>
                 <div className="p-6 text-center">
-                  <p className="text-sm font-semibold text-white/60 brand-lowercase">{competitor}</p>
+                  <p className="text-sm font-semibold text-white/60">{competitor}</p>
                 </div>
               </div>
 
@@ -144,7 +144,7 @@ export const ComparisonPage = ({
                   className="grid grid-cols-3 divide-x divide-white/10 border-b border-white/10 last:border-b-0 hover:bg-white/5 transition-colors"
                 >
                   <div className="py-4 px-6">
-                    <span className="text-sm text-white brand-lowercase">{feature.capability}</span>
+                    <span className="text-sm text-white">{feature.capability}</span>
                   </div>
                   <div className="py-4 px-6 flex items-center justify-center">
                     {renderValue(feature.utmOne)}
@@ -163,18 +163,18 @@ export const ComparisonPage = ({
       <section className="py-24 md:py-32 bg-white/[0.02]">
         <div className="max-w-text-content mx-auto px-8">
           <AnimatedSection className="space-y-8">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-center text-white brand-lowercase">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-center text-white">
               {whitespace.headline}
             </h2>
             <div className="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto">
               {whitespace.points.map((point, idx) => (
                 <div key={idx} className="flex items-start gap-3 p-4 bg-white/5 backdrop-blur-xl rounded-xl border border-white/10">
                   <Check className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                  <p className="text-sm text-white brand-lowercase">{point}</p>
+                  <p className="text-sm text-white">{point}</p>
                 </div>
               ))}
             </div>
-            <p className="text-lg text-center text-white/60 max-w-2xl mx-auto brand-lowercase">
+            <p className="text-lg text-center text-white/60 max-w-2xl mx-auto">
               teams switch for clarity. not just shortening.
             </p>
           </AnimatedSection>
@@ -188,12 +188,12 @@ export const ComparisonPage = ({
             <div className="grid md:grid-cols-2 gap-8">
               {/* Competitor */}
               <div className="space-y-6 p-8 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10">
-                <h3 className="text-2xl font-display font-bold text-white brand-lowercase">
+                <h3 className="text-2xl font-display font-bold text-white">
                   {whoCompetitorIsFor.title}
                 </h3>
                 <ul className="space-y-3">
                   {whoCompetitorIsFor.points.map((point, idx) => (
-                    <li key={idx} className="text-sm text-white/60 brand-lowercase">
+                    <li key={idx} className="text-sm text-white/60">
                       • {point}
                     </li>
                   ))}
@@ -202,17 +202,17 @@ export const ComparisonPage = ({
 
               {/* utm.one */}
               <div className="space-y-6 p-8 backdrop-blur-xl rounded-2xl border bg-white/10 border-white/30">
-                <h3 className="text-2xl font-display font-bold brand-lowercase text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
+                <h3 className="text-2xl font-display font-bold text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                   {whoUtmOneIsFor.title}
                 </h3>
                 <ul className="space-y-3">
                   {whoUtmOneIsFor.points.map((point, idx) => (
-                    <li key={idx} className="text-sm text-white brand-lowercase">
+                    <li key={idx} className="text-sm text-white">
                       • {point}
                     </li>
                   ))}
                 </ul>
-                <p className="text-sm font-semibold brand-lowercase pt-4 border-t text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] border-white/30">
+                <p className="text-sm font-semibold pt-4 border-t text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] border-white/30">
                   teams that want clean, trustworthy links.
                 </p>
               </div>
@@ -225,14 +225,14 @@ export const ComparisonPage = ({
       <section className="py-24 md:py-32 bg-white/[0.02]">
         <div className="max-w-text-content mx-auto px-8">
           <AnimatedSection className="text-center space-y-8">
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-white brand-lowercase">
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-white">
               ready to make the switch?
             </h2>
             <Button 
               variant="default"
               size="lg"
               onClick={() => setDialogOpen(true)}
-              className="bg-blazeOrange hover:bg-blazeOrange/90 text-white brand-lowercase"
+              className="bg-blazeOrange hover:bg-blazeOrange/90 text-white"
             >
               {ctaText}
             </Button>

@@ -120,9 +120,9 @@ export const InteractiveHero = ({ onUseCaseChange }: InteractiveHeroProps) => {
                 >
                   <Icon className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform ${isSelected ? "scale-110" : "group-hover:scale-105"}`} />
                   <div className="text-left">
-                    <div className="text-sm sm:text-base font-semibold lowercase leading-tight">{pill.label}</div>
+                    <div className="text-sm sm:text-base font-semibold leading-tight">{pill.label}</div>
                     <div 
-                      className={`text-xs lowercase leading-tight ${isSelected ? 'text-white-80' : 'text-white-50'}`}
+                      className={`text-xs leading-tight ${isSelected ? 'text-white-80' : 'text-white-50'}`}
                     >
                       {pill.sublabel}
                     </div>
@@ -180,7 +180,7 @@ export const InteractiveHero = ({ onUseCaseChange }: InteractiveHeroProps) => {
               >
                 <Link 
                   to={content.secondaryCtaLink}
-                  className="inline-flex items-center gap-2 text-sm transition-colors font-medium lowercase hover:opacity-80 text-white-80"
+                  className="inline-flex items-center gap-2 text-sm transition-colors font-medium hover:opacity-80 text-white-80"
                   onClick={() => trackCTAClick(`hero-secondary-${selectedUseCase}`)}
                 >
                   {content.secondaryCta}

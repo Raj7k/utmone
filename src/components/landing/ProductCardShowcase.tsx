@@ -63,7 +63,7 @@ export const ProductCardShowcase = ({
         </div>
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none bg-gradient-to-t from-obsidian/80 to-transparent" />
       </div>
-      <p className="text-sm text-center lowercase tracking-wide text-white-50">
+      <p className="text-sm text-center tracking-wide text-white-50">
         {caption}
       </p>
     </div>

@@ -140,7 +140,7 @@ export const FirstPrinciplesWizard = () => {
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center mx-auto mb-4">
                   <Target className="w-8 h-8 text-primary-foreground" />
                 </div>
-                <h3 className="text-xl font-display font-semibold lowercase text-foreground">
+                <h3 className="text-xl font-display font-semibold text-foreground">
                   define your problem
                 </h3>
                 <p className="text-sm mt-1 text-muted-foreground">
@@ -155,7 +155,7 @@ export const FirstPrinciplesWizard = () => {
                 className="min-h-[120px] text-sm"
               />
               
-              <Button onClick={nextStep} className="w-full lowercase" size="lg">
+              <Button onClick={nextStep} className="w-full" size="lg">
                 start breakdown
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
@@ -177,7 +177,7 @@ export const FirstPrinciplesWizard = () => {
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-system-orange to-system-orange/60 flex items-center justify-center mx-auto mb-4">
                   <Lightbulb className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-display font-semibold lowercase text-foreground">
+                <h3 className="text-xl font-display font-semibold text-foreground">
                   ask "why" 5 times
                 </h3>
                 <p className="text-sm mt-1 text-muted-foreground">
@@ -186,7 +186,7 @@ export const FirstPrinciplesWizard = () => {
               </div>
               
               <div className="rounded-lg p-3 mb-4 bg-muted">
-                <p className="text-xs text-muted-foreground lowercase">your problem:</p>
+                <p className="text-xs text-muted-foreground">your problem:</p>
                 <p className="text-sm font-medium text-foreground">{problem}</p>
               </div>
               
@@ -220,12 +220,12 @@ export const FirstPrinciplesWizard = () => {
                 <Button 
                   onClick={prevStep} 
                   variant="outline" 
-                  className="lowercase"
+                  className=""
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   back
                 </Button>
-                <Button onClick={nextStep} className="flex-1 lowercase" size="lg">
+                <Button onClick={nextStep} className="flex-1" size="lg">
                   <Sparkles className="w-4 h-4 mr-2" />
                   reveal insights
                 </Button>
@@ -253,7 +253,7 @@ export const FirstPrinciplesWizard = () => {
                 >
                   <PartyPopper className="w-8 h-8 text-white" />
                 </motion.div>
-                <h3 className="text-xl font-display font-semibold lowercase text-foreground">
+                <h3 className="text-xl font-display font-semibold text-foreground">
                   fundamental insights revealed
                 </h3>
                 <p className="text-sm mt-1 text-muted-foreground">
@@ -280,11 +280,11 @@ export const FirstPrinciplesWizard = () => {
                 <Button 
                   onClick={() => setStep(0)} 
                   variant="outline" 
-                  className="lowercase"
+                  className=""
                 >
                   start over
                 </Button>
-                <Button onClick={handleShare} className="flex-1 lowercase" size="lg">
+                <Button onClick={handleShare} className="flex-1" size="lg">
                   <Share2 className="w-4 h-4 mr-2" />
                   share on linkedin
                 </Button>
