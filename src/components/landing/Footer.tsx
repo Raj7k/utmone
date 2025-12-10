@@ -106,7 +106,7 @@ const FooterLinkItem = ({ link }: { link: FooterLink }) => {
         <ArrowRight className="w-3 h-3 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
       )}
       {link.comingSoon && (
-        <span className="ml-1 px-1.5 py-0.5 text-[10px] rounded-full bg-white/10 text-white/50 lowercase">
+        <span className="ml-1 px-1.5 py-0.5 text-[10px] rounded-full bg-white/10 text-white/50">
           soon
         </span>
       )}
@@ -138,13 +138,13 @@ export const Footer = () => {
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
-                <h3 className="text-lg font-semibold text-white/90 lowercase">event halo</h3>
+                <h3 className="text-lg font-semibold text-white/90">event halo</h3>
                 <span className="px-2 py-0.5 text-[10px] font-medium rounded-full bg-white/20 text-white animate-pulse">NEW</span>
               </div>
               <p className="text-sm text-white/50">track the invisible 90% from every offline event — measure booth traffic, calculate halo lift, prove event ROI</p>
             </div>
             <Link to="/features/event-halo" className="shrink-0">
-              <Button variant="ghost" size="sm" className="text-white/70 hover:text-white hover:bg-white/10 lowercase">
+              <Button variant="ghost" size="sm" className="text-white/70 hover:text-white hover:bg-white/10">
                 learn more <ChevronRight className="w-4 h-4 ml-1" />
               </Button>
             </Link>
@@ -165,7 +165,7 @@ export const Footer = () => {
           {/* Link Columns */}
           {footerColumns.map((column) => (
             <div key={column.title} className="space-y-4">
-              <h3 className="text-sm font-semibold lowercase tracking-wide text-white/90">
+              <h3 className="text-sm font-semibold tracking-wide text-white/90">
                 {column.title}
               </h3>
               <div className="space-y-2.5">

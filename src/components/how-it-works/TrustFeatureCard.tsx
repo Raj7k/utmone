@@ -21,7 +21,7 @@ export const TrustFeatureCard = ({ title, icon: Icon, delay = 0 }: TrustFeatureC
           <div className="w-14 h-14 rounded-full flex items-center justify-center bg-white/10">
             <Icon className="w-7 h-7 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" strokeWidth={2} />
           </div>
-          <p className="text-sm font-medium text-white leading-snug lowercase">
+          <p className="text-sm font-medium text-white leading-snug">
             {title}
           </p>
         </div>

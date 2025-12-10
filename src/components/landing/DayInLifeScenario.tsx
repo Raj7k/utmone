@@ -26,7 +26,7 @@ export const DayInLifeScenario = ({ title, description, timeline, visualElement 
         className="space-y-6"
       >
         <div className="space-y-3">
-          <h3 className="text-2xl md:text-3xl font-display font-bold lowercase text-white">
+          <h3 className="text-2xl md:text-3xl font-display font-bold text-white">
             {title}
           </h3>
           <p className="text-lg text-white/60">

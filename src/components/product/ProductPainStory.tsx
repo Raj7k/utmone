@@ -23,7 +23,7 @@ export const ProductPainStory = ({ scenario, story, visual }: ProductPainStoryPr
                 <AlertTriangle className="w-6 h-6 text-destructive" />
               </div>
               <div>
-                <h3 className="text-2xl md:text-3xl font-display font-bold text-white brand-lowercase mb-3">
+                <h3 className="text-2xl md:text-3xl font-display font-bold text-white mb-3">
                   the moment everything broke
                 </h3>
                 <p className="text-sm font-semibold text-destructive uppercase tracking-wide">

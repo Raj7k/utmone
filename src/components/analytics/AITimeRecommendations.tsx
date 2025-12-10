@@ -181,7 +181,7 @@ export const AITimeRecommendations = ({ workspaceId, days = 30 }: AITimeRecommen
                   </div>
                   <Badge 
                     variant="outline" 
-                    className="brand-lowercase text-warning border-warning/50"
+                    className="text-warning border-warning/50"
                   >
                     worth trying
                   </Badge>

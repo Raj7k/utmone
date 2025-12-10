@@ -52,7 +52,7 @@ export const LinkLayersSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label mb-4 md:mb-6 lowercase"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label mb-4 md:mb-6"
           >
             one link. five layers.
           </motion.h2>
@@ -86,7 +86,7 @@ export const LinkLayersSection = () => {
                   </span>
                 </div>
                 
-                <h3 className="text-xl sm:text-2xl font-display font-bold text-label lowercase">
+                <h3 className="text-xl sm:text-2xl font-display font-bold text-label">
                   {layer.headline}
                 </h3>
                 
@@ -153,7 +153,7 @@ export const LinkLayersSection = () => {
                       </span>
                     </div>
                     
-                    <h3 className="text-2xl lg:text-3xl xl:text-5xl font-display font-bold text-label lowercase">
+                    <h3 className="text-2xl lg:text-3xl xl:text-5xl font-display font-bold text-label">
                       {layer.headline}
                     </h3>
                     
@@ -180,7 +180,7 @@ export const LinkLayersSection = () => {
           transition={{ duration: 0.5 }}
           className="text-center mt-12 lg:mt-16"
         >
-          <p className="text-lg sm:text-xl lg:text-2xl text-label font-display font-semibold lowercase">
+          <p className="text-lg sm:text-xl lg:text-2xl text-label font-display font-semibold">
             every link tells the full story.
           </p>
         </motion.div>
