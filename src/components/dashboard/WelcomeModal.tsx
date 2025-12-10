@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Link2, QrCode, BarChart3, Sparkles, ArrowRight } from "lucide-react";
+import { Link2, QrCode, BarChart3, Sparkles, ArrowRight, Navigation } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useWorkspace } from "@/hooks/useWorkspace";
+import { useTour } from "@/components/onboarding";
 
 interface WelcomeModalProps {
   userName?: string;
@@ -31,7 +31,7 @@ const FEATURES = [
 export function WelcomeModal({ userName }: WelcomeModalProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [currentFeature, setCurrentFeature] = useState(0);
-  const { currentWorkspace } = useWorkspace();
+  const { startTour } = useTour();
 
   useEffect(() => {
     const checkFirstVisit = async () => {
@@ -56,7 +56,7 @@ export function WelcomeModal({ userName }: WelcomeModalProps) {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleClose = async () => {
+  const handleClose = async (shouldStartTour = false) => {
     setIsOpen(false);
     
     // Mark as seen
@@ -66,6 +66,11 @@ export function WelcomeModal({ userName }: WelcomeModalProps) {
         .from("profiles")
         .update({ has_seen_welcome_modal: true })
         .eq("id", user.id);
+    }
+
+    // Start tour if requested
+    if (shouldStartTour) {
+      setTimeout(() => startTour(), 300);
     }
   };
 
@@ -81,7 +86,7 @@ export function WelcomeModal({ userName }: WelcomeModalProps) {
   const firstName = userName?.split(" ")[0] || "there";
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose(false)}>
       <DialogContent className="sm:max-w-md p-0 overflow-hidden border-border">
         <div className="p-8 space-y-6">
           {/* Header */}
@@ -148,11 +153,25 @@ export function WelcomeModal({ userName }: WelcomeModalProps) {
             ))}
           </div>
 
-          {/* CTA */}
-          <Button onClick={handleClose} className="w-full h-12" size="lg">
-            let's get started
-            <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
+          {/* CTAs */}
+          <div className="space-y-3">
+            <Button 
+              onClick={() => handleClose(true)} 
+              className="w-full h-12" 
+              size="lg"
+            >
+              <Navigation className="w-4 h-4 mr-2" />
+              take the guided tour
+            </Button>
+            <Button 
+              variant="ghost" 
+              onClick={() => handleClose(false)} 
+              className="w-full"
+            >
+              skip, i'll explore on my own
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

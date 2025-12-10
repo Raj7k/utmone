@@ -195,7 +195,7 @@ export const QuickCreateTile = () => {
 
   return (
     <>
-      <div className="bg-card rounded-2xl border border-border shadow-sm p-4 h-full flex flex-col">
+      <div data-tour="quick-create" className="bg-card rounded-2xl border border-border shadow-sm p-4 h-full flex flex-col">
         <form onSubmit={handleSubmit} className="flex flex-col">
           <div className="flex gap-2">
             <div className="relative flex-1">
