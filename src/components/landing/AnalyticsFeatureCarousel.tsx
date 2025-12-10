@@ -399,7 +399,7 @@ export const AnalyticsFeatureCarousel = () => {
               {ANALYTICS_FEATURES.map((feature, index) => (
                 <motion.div
                   key={index}
-                  className="flex-shrink-0 w-[280px] sm:w-[300px] md:w-[320px]"
+                  className="flex-shrink-0 w-[300px] sm:w-[340px] md:w-[380px]"
                   initial={{ opacity: 0, y: 40, scale: 0.9 }}
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{ amount: 0.3, margin: "-50px" }}

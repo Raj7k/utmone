@@ -88,6 +88,7 @@ const PublicUTMBuilder = lazy(() => import("./pages/tools/UTMBuilder"));
 const PublicLinkHealthChecker = lazy(() => import("./pages/tools/LinkHealthChecker"));
 const TrustPage = lazy(() => import("./pages/Trust"));
 const StatusPage = lazy(() => import("./pages/Status"));
+const PublicRoadmap = lazy(() => import("./pages/PublicRoadmap"));
 const AcceptInvite = lazy(() => import("./pages/AcceptInvite"));
 const OneLinkValidator = lazy(() => import("./pages/dashboard/OneLinkValidator"));
 const URLShortenerPro = lazy(() => import("./pages/dashboard/URLShortenerPro"));
@@ -410,6 +411,7 @@ const App = () => (
                {/* Trust Cluster */}
                <Route path="/trust" element={<Suspense fallback={<DashboardSkeleton />}><TrustPage /></Suspense>} />
                <Route path="/status" element={<Suspense fallback={<DashboardSkeleton />}><StatusPage /></Suspense>} />
+               <Route path="/roadmap" element={<Suspense fallback={<DashboardSkeleton />}><PublicRoadmap /></Suspense>} />
                
                {/* Invitation Acceptance */}
                <Route path="/accept-invite" element={<Suspense fallback={<DashboardSkeleton />}><AcceptInvite /></Suspense>} />

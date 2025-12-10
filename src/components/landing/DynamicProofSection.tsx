@@ -2,13 +2,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { UseCaseType } from "./SideNavHero";
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle2, Zap, Clock, Shield, Brain, Target } from "lucide-react";
-import { 
-  AttributionFlowMini, 
-  IdentityStitchMini, 
-  LinkCreateMini, 
-  AnomalyAlertMini, 
-  AuditTrailMini 
-} from "./visuals";
 
 interface DynamicProofSectionProps {
   selectedUseCase: UseCaseType;
@@ -182,37 +175,6 @@ export const DynamicProofSection = ({ selectedUseCase }: DynamicProofSectionProp
               </motion.h2>
             </motion.div>
 
-            {/* Animated Demonstration with entrance effect */}
-            <motion.div
-              initial={{ opacity: 0, y: 40, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ delay: 0.15, duration: 0.6, type: "spring" }}
-              className="mb-8 p-6 rounded-2xl bg-white/[0.02] border border-white/10 overflow-hidden relative"
-            >
-              {/* Shimmer effect on demo container */}
-              <motion.div
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.03) 50%, transparent 100%)',
-                  backgroundSize: '200% 100%',
-                }}
-                animate={{
-                  backgroundPosition: ['200% 0', '-200% 0'],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  repeatDelay: 3,
-                  ease: "linear",
-                }}
-              />
-              
-              {selectedUseCase === "attribution" && <AttributionFlowMini />}
-              {selectedUseCase === "journey" && <IdentityStitchMini />}
-              {selectedUseCase === "links" && <LinkCreateMini />}
-              {selectedUseCase === "intelligence" && <AnomalyAlertMini />}
-              {selectedUseCase === "governance" && <AuditTrailMini />}
-            </motion.div>
 
             {/* Stacking Capabilities Grid */}
             <div className="grid md:grid-cols-3 gap-6 perspective-1000">
