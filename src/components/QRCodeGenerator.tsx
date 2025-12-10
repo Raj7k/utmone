@@ -12,9 +12,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Download, Loader2, CheckCircle2 } from "lucide-react";
+import { Download, Loader2, CheckCircle2, Sparkles } from "lucide-react";
 import { QRDownloadOptions } from "./qr/QRDownloadOptions";
 import { AIStyleRecommendation } from "./qr/AIStyleRecommendation";
+import { AIStampStudio } from "./qr/AIStampStudio";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useGTMEvents } from "./integrations/GTMProvider";
@@ -353,8 +354,12 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
   return (
     <div className="space-y-6">
       <Tabs defaultValue="customize" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="customize">Customize</TabsTrigger>
+          <TabsTrigger value="ai-studio" className="gap-1.5">
+            <Sparkles className="h-3.5 w-3.5" />
+            AI Studio
+          </TabsTrigger>
           <TabsTrigger value="preview">Preview</TabsTrigger>
         </TabsList>
 
@@ -514,6 +519,10 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
               />
             </div>
           </div>
+        </TabsContent>
+
+        <TabsContent value="ai-studio" className="mt-4">
+          <AIStampStudio shortUrl={shortUrl} linkId={linkId} />
         </TabsContent>
 
         <TabsContent value="preview" className="mt-4">
