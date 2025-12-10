@@ -16,6 +16,7 @@ import { WorkflowBackground } from "@/components/solutions/WorkflowBackground";
 import { AnimatedConnectingLine } from "@/components/solutions/AnimatedConnectingLine";
 import { Link as LinkIcon, QrCode, BarChart3, Shield, CheckCircle2, Layers, Settings, Rocket, Target } from "lucide-react";
 import { CTAButton } from "@/components/ui/CTAButton";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 const Marketers = () => {
   const faqs = [

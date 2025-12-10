@@ -8,7 +8,7 @@ import { WorkflowStep } from "@/components/landing/WorkflowStep";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { CheckSquare, FileText, Lock, GitBranch, Calendar, Type } from "lucide-react";
-
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 const UTMBuilder = () => {
   const capabilities = [
     {

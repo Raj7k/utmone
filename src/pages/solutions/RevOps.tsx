@@ -14,6 +14,7 @@ import { WorkflowBackground } from "@/components/solutions/WorkflowBackground";
 import { AnimatedConnectingLine } from "@/components/solutions/AnimatedConnectingLine";
 import { GitMerge, Users, DollarSign, CheckCircle2, BarChart3, Shield, Settings, FileText } from "lucide-react";
 import { CTAButton } from "@/components/ui/CTAButton";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 const RevOps = () => {
   const faqs = [

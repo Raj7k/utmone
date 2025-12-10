@@ -19,6 +19,7 @@ import { AnimatedConnectingLine } from "@/components/solutions/AnimatedConnectin
 import { WorkflowBackground } from "@/components/solutions/WorkflowBackground";
 import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
 import { StaggerContainer, StaggerItem } from "@/components/landing/StaggerContainer";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 const Agencies = () => {
   return (

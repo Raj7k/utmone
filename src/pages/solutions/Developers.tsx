@@ -15,6 +15,7 @@ import { WorkflowBackground } from "@/components/solutions/WorkflowBackground";
 import { AnimatedConnectingLine } from "@/components/solutions/AnimatedConnectingLine";
 import { Code, Webhook, FileText, CheckCircle2, Layers, Terminal, Zap, Database, Rocket } from "lucide-react";
 import { CTAButton } from "@/components/ui/CTAButton";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 const Developers = () => {
   const faqs = [

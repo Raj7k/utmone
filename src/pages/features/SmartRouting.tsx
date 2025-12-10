@@ -7,6 +7,7 @@ import { RoutingMapPreview } from "@/components/features/RoutingMapPreview";
 import { UseCasesGrid } from "@/components/features/UseCasesGrid";
 import { Zap, Users, Code, Globe, Smartphone, Target, GitBranch, MapPin } from "lucide-react";
 import { CTAButton } from "@/components/ui/CTAButton";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 export default function SmartRouting() {
   const useCases = [

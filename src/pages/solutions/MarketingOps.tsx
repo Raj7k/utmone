@@ -16,6 +16,7 @@ import { WorkflowBackground } from "@/components/solutions/WorkflowBackground";
 import { AnimatedConnectingLine } from "@/components/solutions/AnimatedConnectingLine";
 import { Shield, Settings, FileText, CheckCircle2, Layers, Lock, BarChart3, Users } from "lucide-react";
 import { CTAButton } from "@/components/ui/CTAButton";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 const MarketingOps = () => {
   const faqs = [

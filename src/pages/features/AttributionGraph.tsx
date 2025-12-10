@@ -7,6 +7,7 @@ import { AttributionComparisonChart } from "@/components/features/AttributionCom
 import { UseCasesGrid } from "@/components/features/UseCasesGrid";
 import { GitBranch, Users, Briefcase, TrendingUp, Target, DollarSign, BarChart3, Lightbulb } from "lucide-react";
 import { CTAButton } from "@/components/ui/CTAButton";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 export default function AttributionGraph() {
   const useCases = [

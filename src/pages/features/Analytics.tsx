@@ -8,6 +8,7 @@ import { JourneyFlowPreview } from "@/components/features/JourneyFlowPreview";
 import { WrongAttributionMockup } from "@/components/features/WrongAttributionMockup";
 import { AICommandCenterPreview } from "@/components/features/AICommandCenterPreview";
 import { motion } from "framer-motion";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 import { 
   GitBranch, 
   Smartphone, 

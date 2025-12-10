@@ -11,6 +11,7 @@ import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
 import { FAQSchema } from "@/components/seo/SchemaMarkup";
 import { SoftwareApplicationSchema } from "@/components/seo/SoftwareApplicationSchema";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 const EventHalo = () => {
   const features = [
