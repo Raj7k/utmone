@@ -202,7 +202,7 @@ export const Footer = () => {
       {/* Massive Brand Reveal - Full Bleed */}
       <div className="mt-24 pt-8 -mx-6 md:-mx-8 lg:-mx-[calc((100vw-1400px)/2+2rem)]">
         <div className="w-screen relative left-1/2 -translate-x-1/2">
-          <FooterRevealText text="utm.one" />
+          <FooterRevealText />
         </div>
       </div>
       </div>
