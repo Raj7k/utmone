@@ -20,8 +20,7 @@ import { MainLayout } from "@/components/layout/MainLayout";
 
 // Lazy load heavy landing components
 const ControlDeckHero = lazy(() => import("@/components/landing/ControlDeckHero").then(m => ({ default: m.ControlDeckHero })));
-const DeepAnalyticsDemo = lazy(() => import("@/components/landing/DeepAnalyticsDemo").then(m => ({ default: m.DeepAnalyticsDemo })));
-const LiveDemoWidget = lazy(() => import("@/components/landing/LiveDemoWidget").then(m => ({ default: m.LiveDemoWidget })));
+const OmniDemo = lazy(() => import("@/components/landing/OmniDemo").then(m => ({ default: m.default })));
 const AuthorityToolsStrip = lazy(() => import("@/components/landing/AuthorityToolsStrip").then(m => ({ default: m.AuthorityToolsStrip })));
 const TransparencyStrip = lazy(() => import("@/components/landing/TransparencyStrip").then(m => ({ default: m.TransparencyStrip })));
 const DynamicProblemSection = lazy(() => import("@/components/landing/DynamicProblemSection").then(m => ({ default: m.DynamicProblemSection })));
@@ -134,14 +133,9 @@ const Index = () => {
         </>
       )}
 
-      {/* Deep Analytics Demo - The Hidden Revenue Story */}
+      {/* OmniDemo - The Hidden Revenue Story + Live Demo */}
       <Suspense fallback={<SectionSkeleton />}>
-        <DeepAnalyticsDemo />
-      </Suspense>
-
-      {/* Live Demo Widget - Real working demo */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <LiveDemoWidget />
+        <OmniDemo />
       </Suspense>
 
       {/* NARRATIVE FLOW - All sections change based on Control Deck selection */}
