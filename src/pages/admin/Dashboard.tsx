@@ -1,14 +1,18 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, Link2, QrCode, TrendingUp, AlertTriangle, CheckCircle2, Download } from "lucide-react";
+import { Users, Link2, QrCode, TrendingUp, AlertTriangle, CheckCircle2, Download, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import { AdminHealthHUD } from "@/components/admin/AdminHealthHUD";
 import { AdminCommandPalette } from "@/components/admin/AdminCommandPalette";
+import { RecentSignupsCard } from "@/components/admin/RecentSignupsCard";
+import { PlanTierStats } from "@/components/admin/PlanTierStats";
 
 export default function AdminDashboard() {
+  const navigate = useNavigate();
   const [isImporting, setIsImporting] = useState(false);
 
   // Fetch waitlist stats
@@ -113,19 +117,33 @@ export default function AdminDashboard() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-display font-semibold">waitlist management</h2>
-            <Button
-              onClick={handleImportSeedData}
-              disabled={isImporting}
-              size="sm"
-              variant="outline"
-              className="gap-2"
-            >
-              <Download className="w-4 h-4" />
-              {isImporting ? "importing..." : "import seed data"}
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                onClick={handleImportSeedData}
+                disabled={isImporting}
+                size="sm"
+                variant="outline"
+                className="gap-2"
+              >
+                <Download className="w-4 h-4" />
+                {isImporting ? "importing..." : "import seed data"}
+              </Button>
+              <Button
+                onClick={() => navigate("/admin/waitlist")}
+                size="sm"
+                variant="ghost"
+                className="gap-1"
+              >
+                manage
+                <ArrowRight className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Card>
+            <Card 
+              className="cursor-pointer hover:bg-muted/50 transition-colors"
+              onClick={() => navigate("/admin/waitlist")}
+            >
               <CardHeader className="pb-3">
                 <CardDescription className="flex items-center gap-2">
                   <Users className="w-4 h-4" />
@@ -135,7 +153,10 @@ export default function AdminDashboard() {
               </CardHeader>
             </Card>
 
-            <Card>
+            <Card 
+              className="cursor-pointer hover:bg-muted/50 transition-colors"
+              onClick={() => navigate("/admin/waitlist?status=pending")}
+            >
               <CardHeader className="pb-3">
                 <CardDescription className="flex items-center gap-2">
                   <AlertTriangle className="w-4 h-4 text-yellow-500" />
@@ -145,7 +166,10 @@ export default function AdminDashboard() {
               </CardHeader>
             </Card>
 
-            <Card>
+            <Card 
+              className="cursor-pointer hover:bg-muted/50 transition-colors"
+              onClick={() => navigate("/admin/waitlist?status=approved")}
+            >
               <CardHeader className="pb-3">
                 <CardDescription className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-green-500" />
@@ -159,9 +183,20 @@ export default function AdminDashboard() {
 
         {/* Product Analytics Section */}
         <div className="mb-8">
-          <h2 className="text-xl font-display font-semibold mb-4">product usage</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-display font-semibold">product usage</h2>
+            <Button
+              onClick={() => navigate("/admin/users")}
+              size="sm"
+              variant="ghost"
+              className="gap-1"
+            >
+              view users
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Card>
+            <Card className="cursor-pointer hover:bg-muted/50 transition-colors">
               <CardHeader className="pb-3">
                 <CardDescription className="flex items-center gap-2">
                   <Link2 className="w-4 h-4" />
@@ -171,7 +206,7 @@ export default function AdminDashboard() {
               </CardHeader>
             </Card>
 
-            <Card>
+            <Card className="cursor-pointer hover:bg-muted/50 transition-colors">
               <CardHeader className="pb-3">
                 <CardDescription className="flex items-center gap-2">
                   <QrCode className="w-4 h-4" />
@@ -181,7 +216,10 @@ export default function AdminDashboard() {
               </CardHeader>
             </Card>
 
-            <Card>
+            <Card 
+              className="cursor-pointer hover:bg-muted/50 transition-colors"
+              onClick={() => navigate("/admin/users")}
+            >
               <CardHeader className="pb-3">
                 <CardDescription className="flex items-center gap-2">
                   <Users className="w-4 h-4" />
@@ -191,6 +229,12 @@ export default function AdminDashboard() {
               </CardHeader>
             </Card>
           </div>
+        </div>
+
+        {/* Plan Tier Breakdown & Recent Signups */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <PlanTierStats />
+          <RecentSignupsCard />
         </div>
 
         {/* Landing Page Section */}

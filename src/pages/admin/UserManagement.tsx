@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -14,7 +15,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Search, Edit, Shield, FlaskConical, Users } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Search, Edit, Shield, FlaskConical, Users, RefreshCw, Crown, Gem, Rocket, Sparkles, AlertCircle } from "lucide-react";
 import { UserEditModal } from "@/components/admin/UserEditModal";
 import { ImpersonateButton } from "@/components/admin/ImpersonateButton";
 import { QAAccountManager } from "@/components/admin/QAAccountManager";
@@ -35,10 +43,20 @@ interface UserWithWorkspace {
 }
 
 export default function UserManagement() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "");
+  const [planFilter, setPlanFilter] = useState(searchParams.get("plan") || "all");
   const [selectedUser, setSelectedUser] = useState<UserWithWorkspace | null>(null);
 
-  const { data: users, isLoading } = useQuery({
+  // Sync URL params to state
+  useEffect(() => {
+    const search = searchParams.get("search");
+    const plan = searchParams.get("plan");
+    if (search) setSearchQuery(search);
+    if (plan) setPlanFilter(plan);
+  }, [searchParams]);
+
+  const { data: users, isLoading, refetch } = useQuery({
     queryKey: ["admin-users", searchQuery],
     queryFn: async () => {
       let query = supabase
@@ -74,25 +92,63 @@ export default function UserManagement() {
 
       const adminUserIds = new Set(adminRoles?.map(r => r.user_id) || []);
       
-      return (data as UserWithWorkspace[]).map(user => ({
+      let result = (data as UserWithWorkspace[]).map(user => ({
         ...user,
         isAdmin: adminUserIds.has(user.id),
       }));
+
+      // Filter by plan if selected
+      if (planFilter && planFilter !== "all") {
+        result = result.filter(user => {
+          const workspace = user.workspaces?.[0];
+          if (planFilter === "no-workspace") {
+            return !workspace;
+          }
+          return workspace?.plan_tier === planFilter;
+        });
+      }
+
+      return result;
     },
   });
+
+  // Calculate stats
+  const stats = {
+    total: users?.length || 0,
+    noWorkspace: users?.filter(u => !u.workspaces?.[0])?.length || 0,
+    byPlan: {
+      free: users?.filter(u => u.workspaces?.[0]?.plan_tier === "free")?.length || 0,
+      starter: users?.filter(u => u.workspaces?.[0]?.plan_tier === "starter")?.length || 0,
+      growth: users?.filter(u => u.workspaces?.[0]?.plan_tier === "growth")?.length || 0,
+      business: users?.filter(u => u.workspaces?.[0]?.plan_tier === "business")?.length || 0,
+      enterprise: users?.filter(u => u.workspaces?.[0]?.plan_tier === "enterprise")?.length || 0,
+    }
+  };
 
   const getPlanBadgeColor = (plan: string) => {
     switch (plan) {
       case "free":
-        return "bg-white/10 text-white/70";
-      case "pro":
-        return "bg-primary/20 text-primary/80";
+        return "bg-muted text-muted-foreground";
+      case "starter":
+        return "bg-blue-500/20 text-blue-300 border-blue-500/30";
+      case "growth":
+        return "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
       case "business":
-        return "bg-purple-500/20 text-purple-300";
+        return "bg-purple-500/20 text-purple-300 border-purple-500/30";
       case "enterprise":
-        return "bg-amber-500/20 text-amber-300";
+        return "bg-amber-500/20 text-amber-300 border-amber-500/30";
       default:
-        return "bg-white/10 text-white/70";
+        return "bg-muted text-muted-foreground";
+    }
+  };
+
+  const getPlanIcon = (plan: string) => {
+    switch (plan) {
+      case "starter": return <Sparkles className="h-3 w-3" />;
+      case "growth": return <Rocket className="h-3 w-3" />;
+      case "business": return <Gem className="h-3 w-3" />;
+      case "enterprise": return <Crown className="h-3 w-3" />;
+      default: return null;
     }
   };
 
@@ -128,14 +184,63 @@ export default function UserManagement() {
         </TabsList>
 
         <TabsContent value="users" className="mt-6 space-y-6">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="search users by email..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
-            />
+          {/* Stats Summary Bar */}
+          <div className="flex items-center gap-4 p-3 bg-muted/30 rounded-lg border border-border text-sm">
+            <span className="text-muted-foreground">
+              <strong className="text-foreground">{stats.total}</strong> users
+            </span>
+            <span className="text-muted-foreground">•</span>
+            <div className="flex items-center gap-3">
+              {stats.byPlan.free > 0 && <span className="text-muted-foreground">free: {stats.byPlan.free}</span>}
+              {stats.byPlan.starter > 0 && <span className="text-blue-400">starter: {stats.byPlan.starter}</span>}
+              {stats.byPlan.growth > 0 && <span className="text-emerald-400">growth: {stats.byPlan.growth}</span>}
+              {stats.byPlan.business > 0 && <span className="text-purple-400">business: {stats.byPlan.business}</span>}
+              {stats.byPlan.enterprise > 0 && <span className="text-amber-400">enterprise: {stats.byPlan.enterprise}</span>}
+            </div>
+            {stats.noWorkspace > 0 && (
+              <>
+                <span className="text-muted-foreground">•</span>
+                <span className="text-orange-400 flex items-center gap-1">
+                  <AlertCircle className="h-3 w-3" />
+                  {stats.noWorkspace} without workspace
+                </span>
+              </>
+            )}
+          </div>
+
+          {/* Filters Row */}
+          <div className="flex items-center gap-3">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="search users by email..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+            <Select value={planFilter} onValueChange={setPlanFilter}>
+              <SelectTrigger className="w-[160px]">
+                <SelectValue placeholder="filter by plan" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">all plans</SelectItem>
+                <SelectItem value="free">free</SelectItem>
+                <SelectItem value="starter">starter</SelectItem>
+                <SelectItem value="growth">growth</SelectItem>
+                <SelectItem value="business">business</SelectItem>
+                <SelectItem value="enterprise">enterprise</SelectItem>
+                <SelectItem value="no-workspace">no workspace</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => refetch()}
+              title="refresh data"
+            >
+              <RefreshCw className="h-4 w-4" />
+            </Button>
           </div>
 
           <div className="border rounded-lg">
@@ -201,11 +306,15 @@ export default function UserManagement() {
                         </TableCell>
                         <TableCell>
                           {primaryWorkspace ? (
-                            <Badge className={getPlanBadgeColor(primaryWorkspace.plan_tier)}>
+                            <Badge className={`${getPlanBadgeColor(primaryWorkspace.plan_tier)} flex items-center gap-1 w-fit`}>
+                              {getPlanIcon(primaryWorkspace.plan_tier)}
                               {primaryWorkspace.plan_tier}
                             </Badge>
                           ) : (
-                            <Badge variant="outline">no plan</Badge>
+                            <Badge variant="outline" className="text-orange-400 border-orange-400/30">
+                              <AlertCircle className="h-3 w-3 mr-1" />
+                              no workspace
+                            </Badge>
                           )}
                         </TableCell>
                         <TableCell className="text-right">
