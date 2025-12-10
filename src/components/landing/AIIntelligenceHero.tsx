@@ -90,28 +90,42 @@ export const AIIntelligenceHero = () => {
               >
                 <Link
                   to={feature.href}
-                  className="group block h-full p-4 md:p-6 rounded-xl md:rounded-2xl transition-all duration-300 obsidian-glass-80"
+                  className="group block h-full p-4 md:p-6 rounded-xl md:rounded-2xl transition-all duration-300 obsidian-glass-80 relative overflow-hidden"
                 >
+                  {/* Animated background glow on hover */}
+                  <motion.div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{
+                      background: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 70%)'
+                    }}
+                  />
+                  
                   <div 
-                    className="w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl flex items-center justify-center mb-3 md:mb-4 transition-colors bg-white/10"
+                    className="relative w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl flex items-center justify-center mb-3 md:mb-4 transition-colors bg-white/10"
                   >
                     <Icon className="w-5 h-5 md:w-6 md:h-6 text-white-80" />
+                    {/* Pulsing ring on hover */}
+                    <motion.div
+                      className="absolute inset-0 rounded-lg md:rounded-xl border border-white/30 opacity-0 group-hover:opacity-100"
+                      animate={{ scale: [1, 1.2, 1], opacity: [0, 0.5, 0] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    />
                   </div>
                   
                   <h3 
-                    className="text-sm md:text-lg font-semibold mb-1 md:mb-2 transition-colors text-white-90"
+                    className="relative text-sm md:text-lg font-semibold mb-1 md:mb-2 transition-colors text-white-90"
                   >
                     {feature.title}
                   </h3>
                   
                   <p 
-                    className="text-xs md:text-sm mb-2 md:mb-4 line-clamp-2 md:line-clamp-none text-white-50"
+                    className="relative text-xs md:text-sm mb-2 md:mb-4 line-clamp-2 md:line-clamp-none text-white-50"
                   >
                     {feature.description}
                   </p>
                   
                   <span 
-                    className="hidden md:inline-flex items-center gap-1 text-sm opacity-0 group-hover:opacity-100 transition-opacity text-white-70"
+                    className="relative hidden md:inline-flex items-center gap-1 text-sm opacity-0 group-hover:opacity-100 transition-opacity text-white-70"
                   >
                     learn more
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
