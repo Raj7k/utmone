@@ -10,6 +10,9 @@ import EventImpactRow from "@/components/intelligence/EventImpactRow";
 import ChannelMixDonut from "@/components/intelligence/ChannelMixDonut";
 import GeoHeatTiles from "@/components/intelligence/GeoHeatTiles";
 import LiveActivityRail from "@/components/intelligence/LiveActivityRail";
+import AttributionSheet from "@/components/intelligence/AttributionSheet";
+import CampaignSheet from "@/components/intelligence/CampaignSheet";
+import MobileActivitySheet from "@/components/intelligence/MobileActivitySheet";
 
 type PeriodOption = "today" | "7d" | "30d" | "90d";
 
@@ -17,6 +20,8 @@ export default function Intelligence() {
   const { currentWorkspace } = useWorkspace();
   const [period, setPeriod] = useState<PeriodOption>("7d");
   const [context, setContext] = useState<IntelligenceContext>("all");
+  const [attributionSheetOpen, setAttributionSheetOpen] = useState(false);
+  const [campaignSheetOpen, setCampaignSheetOpen] = useState(false);
 
   const periodDays: Record<PeriodOption, number> = {
     today: 1,
@@ -46,7 +51,10 @@ export default function Intelligence() {
           {/* Primary Bento Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             {/* Revenue Attribution - Large Card (spans 2 columns) */}
-            <div className="lg:col-span-2">
+            <div 
+              className="lg:col-span-2 cursor-pointer"
+              onClick={() => setAttributionSheetOpen(true)}
+            >
               <RevenueBentoCard
                 workspaceId={currentWorkspace?.id}
                 days={periodDays[period]}
@@ -65,11 +73,16 @@ export default function Intelligence() {
 
           {/* Secondary Row - Campaigns & Channel Mix */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <TopCampaignsCard
-              workspaceId={currentWorkspace?.id}
-              days={periodDays[period]}
-              context={context}
-            />
+            <div 
+              className="cursor-pointer"
+              onClick={() => setCampaignSheetOpen(true)}
+            >
+              <TopCampaignsCard
+                workspaceId={currentWorkspace?.id}
+                days={periodDays[period]}
+                context={context}
+              />
+            </div>
             <ChannelMixDonut
               workspaceId={currentWorkspace?.id}
               days={periodDays[period]}
@@ -90,7 +103,7 @@ export default function Intelligence() {
               workspaceId={currentWorkspace?.id}
               days={periodDays[period]}
             />
-            {/* Placeholder for Sales Velocity (Phase 3 continued) */}
+            {/* Placeholder for Sales Velocity */}
             <div className="rounded-2xl border border-border bg-card/50 p-6 flex items-center justify-center min-h-[200px]">
               <p className="text-muted-foreground text-sm">sales velocity coming soon</p>
             </div>
@@ -104,6 +117,23 @@ export default function Intelligence() {
           </div>
         </div>
       </div>
+
+      {/* Mobile Activity FAB */}
+      <MobileActivitySheet workspaceId={currentWorkspace?.id} />
+
+      {/* Detail Sheets */}
+      <AttributionSheet
+        isOpen={attributionSheetOpen}
+        onClose={() => setAttributionSheetOpen(false)}
+        workspaceId={currentWorkspace?.id}
+        days={periodDays[period]}
+      />
+      <CampaignSheet
+        isOpen={campaignSheetOpen}
+        onClose={() => setCampaignSheetOpen(false)}
+        workspaceId={currentWorkspace?.id}
+        days={periodDays[period]}
+      />
     </PageContentWrapper>
   );
 }
