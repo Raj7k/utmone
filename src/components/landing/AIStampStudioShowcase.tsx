@@ -5,31 +5,40 @@ import { Badge } from "@/components/ui/badge";
 import { useRef, useState, useEffect } from "react";
 import QRCode from "react-qr-code";
 
-// Demo stamp backgrounds (simulated AI outputs)
+// Demo stamp backgrounds - Four distinctive art styles
 const demoStamps = [
   {
-    brandColors: ["#FF6B35", "#1A1A2E", "#EAEAEA"],
-    theme: "urban explorer",
-    gradient: "linear-gradient(135deg, #FF6B35 0%, #1A1A2E 50%, #FF6B35 100%)",
+    name: "mandala",
+    brandColors: ["#E8B44D", "#8B4513", "#F5DEB3"],
+    theme: "mandala art",
+    gradient: "linear-gradient(135deg, #E8B44D 0%, #8B4513 40%, #F5DEB3 100%)",
   },
   {
-    brandColors: ["#4ECDC4", "#2C3E50", "#F7F7F7"],
-    theme: "ocean voyage",
-    gradient: "linear-gradient(135deg, #4ECDC4 0%, #2C3E50 50%, #4ECDC4 100%)",
+    name: "davinci",
+    brandColors: ["#C4A35A", "#2C2416", "#E8D5A3"],
+    theme: "da vinci renaissance",
+    gradient: "linear-gradient(135deg, #C4A35A 0%, #2C2416 50%, #E8D5A3 100%)",
   },
   {
-    brandColors: ["#9B59B6", "#2D2D2D", "#F5F5F5"],
-    theme: "cosmic journey",
-    gradient: "linear-gradient(135deg, #9B59B6 0%, #2D2D2D 50%, #9B59B6 100%)",
+    name: "paris",
+    brandColors: ["#1E3A5F", "#C9B037", "#F0EDE5"],
+    theme: "paris elegance",
+    gradient: "linear-gradient(135deg, #1E3A5F 0%, #C9B037 50%, #F0EDE5 100%)",
+  },
+  {
+    name: "nyc",
+    brandColors: ["#1C1C1C", "#FFD700", "#FFFFFF"],
+    theme: "new york city",
+    gradient: "linear-gradient(135deg, #1C1C1C 0%, #FFD700 50%, #FFFFFF 100%)",
   },
 ];
 
 // Workflow steps
 const workflowSteps = [
   { icon: Upload, label: "upload logo", description: "drop your brand image" },
-  { icon: Palette, label: "extract colors", description: "ai detects your palette" },
-  { icon: Sparkles, label: "generate art", description: "ai creates stamp design" },
-  { icon: Download, label: "export qr", description: "download scannable stamp" },
+  { icon: Palette, label: "extract colors", description: "AI detects your palette" },
+  { icon: Sparkles, label: "generate art", description: "AI creates stamp design" },
+  { icon: Download, label: "export QR", description: "download scannable stamp" },
 ];
 
 // Perforated stamp edge SVG path
@@ -333,10 +342,10 @@ export const AIStampStudioShowcase = () => {
               backgroundClip: 'text'
             }}
           >
-            qr codes that look like art
+            QR codes that look like art
           </h2>
           <p className="text-lg md:text-xl max-w-[640px] mx-auto text-white/50">
-            upload your brand. ai generates vintage stamp art. your qr code becomes unforgettable.
+            upload your brand. AI generates vintage stamp art. your QR code becomes unforgettable.
           </p>
         </motion.div>
 
@@ -374,7 +383,7 @@ export const AIStampStudioShowcase = () => {
                 <div>
                   <h4 className="text-sm font-semibold text-white/90 mb-1">brand-matched colors</h4>
                   <p className="text-sm text-white/50">
-                    ai extracts your brand palette and generates art that matches your identity perfectly.
+                    AI extracts your brand palette and generates art that matches your identity perfectly.
                   </p>
                 </div>
               </div>
@@ -385,7 +394,7 @@ export const AIStampStudioShowcase = () => {
                 <div>
                   <h4 className="text-sm font-semibold text-white/90 mb-1">always scannable</h4>
                   <p className="text-sm text-white/50">
-                    smart composition keeps a clear center zone. your qr code scans flawlessly every time.
+                    smart composition keeps a clear center zone. your QR code scans flawlessly every time.
                   </p>
                 </div>
               </div>
@@ -408,7 +417,7 @@ export const AIStampStudioShowcase = () => {
                 to="/dashboard/qr-codes"
                 className="inline-flex items-center justify-center gap-2 bg-white text-black font-medium px-6 py-3 rounded-full hover:bg-white/90 transition-colors"
               >
-                try ai stamp studio
+                try AI Stamp Studio
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link 
