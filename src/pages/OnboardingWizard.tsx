@@ -270,19 +270,19 @@ export default function OnboardingWizard() {
   // Show loading while checking auth
   if (isCheckingAuth) {
     return (
-      <div className="dark min-h-screen flex items-center justify-center p-4" style={{ background: '#050505' }}>
+      <div className="min-h-screen flex items-center justify-center p-4 bg-background">
         <div className="text-center space-y-4">
-          <Loader2 className="w-8 h-8 animate-spin mx-auto text-white/60" />
-          <p className="text-sm text-white/50">loading...</p>
+          <Loader2 className="w-8 h-8 animate-spin mx-auto text-muted-foreground" />
+          <p className="text-sm text-muted-foreground">loading...</p>
         </div>
       </div>
     );
   }
 
-  // Show completion animation
+  // Show completion animation with personalized messages
   if (completionPhase) {
     return (
-      <div className="dark min-h-screen flex items-center justify-center p-4" style={{ background: '#050505' }}>
+      <div className="min-h-screen flex items-center justify-center p-4 bg-background">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -290,14 +290,20 @@ export default function OnboardingWizard() {
         >
           {completionPhase === "creating" && (
             <>
-              <Loader2 className="w-12 h-12 animate-spin mx-auto text-white/80" />
-              <p className="text-lg font-medium">Building your workspace...</p>
+              <Loader2 className="w-12 h-12 animate-spin mx-auto text-foreground/80" />
+              <p className="text-lg font-medium text-foreground">
+                setting up {workspaceName || "your workspace"}...
+              </p>
+              <p className="text-sm text-muted-foreground">this only takes a moment</p>
             </>
           )}
           {completionPhase === "configuring" && (
             <>
-              <Loader2 className="w-12 h-12 animate-spin mx-auto text-white/80" />
-              <p className="text-lg font-medium">Configuring analytics...</p>
+              <Loader2 className="w-12 h-12 animate-spin mx-auto text-foreground/80" />
+              <p className="text-lg font-medium text-foreground">
+                enabling {selectedRole === "marketer" ? "campaign tracking" : selectedRole === "developer" ? "api access" : "analytics"}...
+              </p>
+              <p className="text-sm text-muted-foreground">almost there</p>
             </>
           )}
           {completionPhase === "ready" && (
@@ -307,17 +313,19 @@ export default function OnboardingWizard() {
               transition={{ type: "spring", stiffness: 200, damping: 15 }}
               className="space-y-4"
             >
-              <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle2 className="w-12 h-12 text-green-500" />
+              <div className="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CheckCircle2 className="w-12 h-12 text-emerald-500" />
               </div>
-              <p className="text-lg font-medium">All set!</p>
-              <p className="text-sm text-white/50">Redirecting to dashboard...</p>
+              <p className="text-xl font-semibold text-foreground">
+                welcome to utm.one, {fullName?.split(" ")[0] || "there"}!
+              </p>
+              <p className="text-sm text-muted-foreground">taking you to your dashboard...</p>
               <Button 
                 onClick={() => navigate("/dashboard")} 
                 variant="outline"
                 className="mt-4"
               >
-                Go to Dashboard
+                go to dashboard
               </Button>
             </motion.div>
           )}
@@ -327,7 +335,7 @@ export default function OnboardingWizard() {
   }
 
   return (
-    <div className="dark min-h-screen flex items-center justify-center p-4" style={{ background: '#050505' }}>
+    <div className="min-h-screen flex items-center justify-center p-4 bg-background">
       <div className="w-full max-w-lg">
         {/* Logo */}
         <div className="flex items-center justify-center mb-8">
@@ -336,7 +344,7 @@ export default function OnboardingWizard() {
 
         {/* Progress bar */}
         <div className="mb-8">
-          <div className="h-1 bg-white/10 rounded-full overflow-hidden">
+          <div className="h-1 bg-muted rounded-full overflow-hidden">
             <motion.div
               className="h-full bg-primary"
               initial={{ width: "0%" }}
@@ -344,8 +352,8 @@ export default function OnboardingWizard() {
               transition={{ duration: 0.3 }}
             />
           </div>
-          <p className="text-xs mt-2 text-center text-white/50">
-            Step {step} of 3
+          <p className="text-xs mt-2 text-center text-muted-foreground">
+            step {step} of 3
           </p>
         </div>
 
@@ -361,8 +369,8 @@ export default function OnboardingWizard() {
             >
               <Card className="p-8 space-y-6">
                 <div className="space-y-2 text-center">
-                  <h2 className="text-3xl font-bold">What should we call you?</h2>
-                  <p className="text-white/60">Let's get to know each other</p>
+                  <h2 className="text-3xl font-bold text-foreground">what should we call you?</h2>
+                  <p className="text-muted-foreground">let's get to know each other</p>
                 </div>
 
                 <div className="space-y-2">
@@ -397,8 +405,8 @@ export default function OnboardingWizard() {
               <motion.div layout>
                 <Card className="p-8 space-y-6">
                   <div className="space-y-2 text-center">
-                    <h2 className="text-3xl font-bold">What's your role?</h2>
-                    <p className="text-white/60">Help us personalize your experience</p>
+                    <h2 className="text-3xl font-bold text-foreground">what's your role?</h2>
+                    <p className="text-muted-foreground">help us personalize your experience</p>
                   </div>
 
                   <div className="space-y-2">
@@ -449,8 +457,8 @@ export default function OnboardingWizard() {
               <motion.div layout>
                 <Card className="p-8 space-y-6">
                   <div className="space-y-2 text-center">
-                    <h2 className="text-3xl font-bold">Let's name your space</h2>
-                    <p className="text-white/60">What brings you here?</p>
+                    <h2 className="text-3xl font-bold text-foreground">let's name your space</h2>
+                    <p className="text-muted-foreground">you can change this later</p>
                   </div>
 
                   <div className="space-y-2">

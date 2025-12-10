@@ -4589,6 +4589,8 @@ export type Database = {
           first_link_created_at: string | null
           first_qr_generated_at: string | null
           full_name: string | null
+          has_completed_tour: boolean | null
+          has_seen_welcome_modal: boolean | null
           icp_role: string | null
           id: string
           is_super_admin: boolean | null
@@ -4617,6 +4619,8 @@ export type Database = {
           first_link_created_at?: string | null
           first_qr_generated_at?: string | null
           full_name?: string | null
+          has_completed_tour?: boolean | null
+          has_seen_welcome_modal?: boolean | null
           icp_role?: string | null
           id: string
           is_super_admin?: boolean | null
@@ -4645,6 +4649,8 @@ export type Database = {
           first_link_created_at?: string | null
           first_qr_generated_at?: string | null
           full_name?: string | null
+          has_completed_tour?: boolean | null
+          has_seen_welcome_modal?: boolean | null
           icp_role?: string | null
           id?: string
           is_super_admin?: boolean | null

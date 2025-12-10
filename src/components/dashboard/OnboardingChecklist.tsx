@@ -43,15 +43,15 @@ export const OnboardingChecklist = () => {
       description: 'start shortening and tracking your URLs',
       completed: hasLinks,
       action: () => navigate('/dashboard/links'),
-      buttonLabel: 'Create →',
+      buttonLabel: 'create',
     },
     {
       id: 'qr',
-      label: 'generate a QR Code',
-      description: 'add a branded QR Code to your link',
+      label: 'generate a QR code',
+      description: 'add a branded QR code to your link',
       completed: hasQrCodes,
       action: () => navigate('/dashboard/qr-codes'),
-      buttonLabel: 'Generate →',
+      buttonLabel: 'generate',
     },
     {
       id: 'analytics',
@@ -59,16 +59,7 @@ export const OnboardingChecklist = () => {
       description: 'see how your links are performing',
       completed: hasViewedAnalytics,
       action: () => navigate('/dashboard/analytics'),
-      buttonLabel: 'View →',
-    },
-    {
-      id: 'pixel',
-      label: 'install tracking pixel',
-      description: '⚠️ critical for conversion tracking',
-      completed: hasInstalledPixel,
-      action: () => navigate('/settings?tab=pixel'),
-      buttonLabel: 'Install →',
-      isWarning: true,
+      buttonLabel: 'view',
     },
     {
       id: 'team',
@@ -76,7 +67,7 @@ export const OnboardingChecklist = () => {
       description: 'collaborate with your team',
       completed: hasInvitedTeam,
       action: () => navigate('/settings?tab=team&action=invite'),
-      buttonLabel: 'Invite →',
+      buttonLabel: 'invite',
     },
     {
       id: 'domain',
@@ -84,7 +75,16 @@ export const OnboardingChecklist = () => {
       description: 'use your own branded domain',
       completed: hasCustomDomain,
       action: () => navigate('/settings/domains'),
-      buttonLabel: 'Setup →',
+      buttonLabel: 'setup',
+    },
+    {
+      id: 'pixel',
+      label: 'unlock attribution tracking',
+      description: 'recommended for revenue insights',
+      completed: hasInstalledPixel,
+      action: () => navigate('/settings?tab=pixel'),
+      buttonLabel: 'enable',
+      isWarning: false, // Softened - no longer scary warning
     },
   ];
 

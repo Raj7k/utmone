@@ -501,9 +501,9 @@ const Auth = () => {
                 </Button>
               </form>
 
-              <div className="text-center text-xs text-muted-foreground">
+              <div className="text-center text-sm text-muted-foreground">
                 new user?{" "}
-                <Link to="/signup" className="text-foreground hover:underline font-medium">
+                <Link to="/signup" className="text-primary hover:underline font-medium">
                   sign up
                 </Link>
               </div>

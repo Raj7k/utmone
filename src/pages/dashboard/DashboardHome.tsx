@@ -3,6 +3,7 @@ import { QuickStats } from "@/components/dashboard/QuickStats";
 import { ActivityFeed } from "@/components/dashboard/ActivityFeed";
 import { OnboardingChecklist } from "@/components/dashboard/OnboardingChecklist";
 import { DemoModeBanner } from "@/components/dashboard/DemoModeBanner";
+import { WelcomeModal } from "@/components/dashboard/WelcomeModal";
 import { useDemoMode } from "@/hooks/useDemoMode";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
@@ -11,6 +12,9 @@ const DashboardHome = () => {
 
   return (
     <ErrorBoundary section="dashboard-home">
+      {/* Welcome Modal for first-time users */}
+      <WelcomeModal />
+      
       <div className="p-6 lg:p-8 space-y-8 max-w-5xl mx-auto">
         {/* Demo Mode Banner */}
         {showDemoMode && (
