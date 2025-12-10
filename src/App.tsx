@@ -228,7 +228,7 @@ const LinkedInRealityCheck = lazy(() => import("./pages/resources/tools/LinkedIn
 
 // Reports
 const Reports = lazy(() => import("./pages/resources/Reports"));
-const SalaryBenchmark2026 = lazy(() => import("./pages/resources/reports/SalaryBenchmark2026"));
+const GTMInsights2026 = lazy(() => import("./pages/resources/reports/GTMInsights2026"));
 
 // Frameworks
 const CleanTrackModel = lazy(() => import("./pages/resources/frameworks/CleanTrackModel"));
@@ -608,11 +608,11 @@ const App = () => (
               {/* Reports Routes */}
               <Route path="/resources/reports" element={<Suspense fallback={<DashboardSkeleton />}><Reports /></Suspense>} />
               <Route 
-                path="/resources/reports/salary-benchmark-2026" 
+                path="/resources/reports/gtm-insights-2026" 
                 element={
                   <Suspense fallback={<DashboardSkeleton />}>
                     <ComingSoonPage 
-                      title="2026 Global Salary Benchmark Report"
+                      title="State of GTM Insights 2026"
                       description="We're putting the finishing touches on this comprehensive report covering 15+ countries, 50+ roles, and 10 interactive tools. Join the waitlist to be notified when it launches."
                     />
                   </Suspense>

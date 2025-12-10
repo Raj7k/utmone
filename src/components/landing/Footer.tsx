@@ -53,7 +53,7 @@ const footerColumns: FooterColumn[] = [
       { label: "Templates", href: "/resources/templates" },
       { label: "Frameworks", href: "/resources/frameworks" },
       { label: "Glossary", href: "/resources/glossary" },
-      { label: "2026 Salary Report", href: "/resources/reports/salary-benchmark-2026", comingSoon: true },
+      { label: "State of GTM Insights 2026", href: "/resources/reports/gtm-insights-2026", comingSoon: true },
       { label: "Tools", href: "/tools" },
       { label: "Docs", href: "/docs" },
       { label: "Changelog", href: "/changelog" },
