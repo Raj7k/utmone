@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { DotPhilosophyModal } from "./DotPhilosophyModal";
 
@@ -14,6 +14,123 @@ interface FooterRevealTextProps {
   className?: string;
 }
 
+// Time-based theme hook with moon phase calculation
+const useTimeBasedTheme = () => {
+  const [theme, setTheme] = useState(() => getTimeBasedColors());
+
+  useEffect(() => {
+    // Update every minute
+    const interval = setInterval(() => {
+      setTheme(getTimeBasedColors());
+    }, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return theme;
+};
+
+// Calculate moon phase (0 = new moon, 0.5 = full moon, 1 = new moon again)
+const getMoonPhase = (): number => {
+  const now = new Date();
+  // Known new moon: January 11, 2024
+  const knownNewMoon = new Date(2024, 0, 11);
+  const lunarCycle = 29.53059; // days
+  const daysSinceNewMoon = (now.getTime() - knownNewMoon.getTime()) / (1000 * 60 * 60 * 24);
+  const phase = (daysSinceNewMoon % lunarCycle) / lunarCycle;
+  return phase;
+};
+
+// Get time-based colors for the glass effect
+const getTimeBasedColors = () => {
+  const hour = new Date().getHours();
+  const moonPhase = getMoonPhase();
+  
+  // Calculate moon brightness (0 at new moon, 1 at full moon)
+  const moonBrightness = 1 - Math.abs(moonPhase - 0.5) * 2;
+  
+  // Time periods with distinct color themes
+  if (hour >= 5 && hour < 7) {
+    // Dawn - warm pink/orange sunrise
+    return {
+      primary: "hsl(30, 80%, 85%)",
+      secondary: "hsl(350, 60%, 80%)",
+      highlight: "hsl(45, 90%, 90%)",
+      glowOpacity: 0.6,
+      glowColor: "hsl(30, 80%, 70%)",
+      period: "dawn",
+      moonBrightness: 0,
+    };
+  } else if (hour >= 7 && hour < 10) {
+    // Morning - crisp bright white/light blue
+    return {
+      primary: "hsl(200, 30%, 95%)",
+      secondary: "hsl(210, 40%, 90%)",
+      highlight: "hsl(0, 0%, 100%)",
+      glowOpacity: 0.5,
+      glowColor: "hsl(200, 30%, 85%)",
+      period: "morning",
+      moonBrightness: 0,
+    };
+  } else if (hour >= 10 && hour < 16) {
+    // Midday - pure silver/platinum
+    return {
+      primary: "hsl(0, 0%, 95%)",
+      secondary: "hsl(0, 0%, 90%)",
+      highlight: "hsl(0, 0%, 100%)",
+      glowOpacity: 0.4,
+      glowColor: "hsl(0, 0%, 95%)",
+      period: "midday",
+      moonBrightness: 0,
+    };
+  } else if (hour >= 16 && hour < 19) {
+    // Golden Hour - warm amber/gold
+    return {
+      primary: "hsl(45, 70%, 85%)",
+      secondary: "hsl(35, 80%, 75%)",
+      highlight: "hsl(50, 90%, 90%)",
+      glowOpacity: 0.7,
+      glowColor: "hsl(45, 70%, 60%)",
+      period: "golden",
+      moonBrightness: 0,
+    };
+  } else if (hour >= 19 && hour < 21) {
+    // Dusk - purple/magenta twilight
+    return {
+      primary: "hsl(280, 40%, 75%)",
+      secondary: "hsl(260, 50%, 70%)",
+      highlight: "hsl(300, 30%, 85%)",
+      glowOpacity: 0.5,
+      glowColor: "hsl(280, 40%, 60%)",
+      period: "dusk",
+      moonBrightness: moonBrightness * 0.3,
+    };
+  } else if (hour >= 21 || hour < 1) {
+    // Night - cool blue moonlight
+    const adjustedBrightness = 70 + moonBrightness * 20;
+    return {
+      primary: `hsl(220, 40%, ${adjustedBrightness}%)`,
+      secondary: "hsl(230, 35%, 65%)",
+      highlight: `hsl(0, 0%, ${85 + moonBrightness * 15}%)`,
+      glowOpacity: 0.4 + moonBrightness * 0.3,
+      glowColor: `hsl(220, 40%, ${60 + moonBrightness * 20}%)`,
+      period: "night",
+      moonBrightness,
+    };
+  } else {
+    // Deep Night (1 AM - 5 AM) - deep blue with silver moon
+    const adjustedBrightness = 60 + moonBrightness * 15;
+    return {
+      primary: `hsl(230, 30%, ${adjustedBrightness}%)`,
+      secondary: "hsl(240, 25%, 55%)",
+      highlight: `hsl(0, 0%, ${75 + moonBrightness * 25}%)`,
+      glowOpacity: 0.3 + moonBrightness * 0.4,
+      glowColor: `hsl(230, 30%, ${50 + moonBrightness * 25}%)`,
+      period: "deepnight",
+      moonBrightness,
+    };
+  }
+};
+
 export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<SVGTextElement>(null);
@@ -28,6 +145,13 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
   const dotHoverTimer = useRef<NodeJS.Timeout | null>(null);
   const dotScaleAnimation = useRef<number | null>(null);
   const particleIdRef = useRef(0);
+
+  // Get time-based theme colors
+  const timeTheme = useTimeBasedTheme();
+
+  // The dot is positioned at approximately x=930 in the "utm.one" text
+  const DOT_X = 930;
+  const DOT_Y = 220;
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
@@ -137,6 +261,9 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
     }
   }, [particles]);
 
+  // Show subtle moon indicator during night hours
+  const showMoon = timeTheme.period === "night" || timeTheme.period === "deepnight" || timeTheme.period === "dusk";
+
   return (
     <>
       <div
@@ -157,14 +284,14 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
           transition={{ duration: 0.4, ease: "easeOut" }}
         >
           <defs>
-            {/* Apple Frosted Glass Gradient - 6 stops for depth */}
+            {/* Time-Based Apple Frosted Glass Gradient */}
             <linearGradient id="appleGlass" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="hsl(0, 0%, 100%)" stopOpacity="0.95" />
-              <stop offset="15%" stopColor="hsl(220, 10%, 95%)" stopOpacity="0.7" />
-              <stop offset="40%" stopColor="hsl(220, 5%, 85%)" stopOpacity="0.3" />
-              <stop offset="60%" stopColor="hsl(220, 5%, 80%)" stopOpacity="0.15" />
-              <stop offset="85%" stopColor="hsl(220, 10%, 90%)" stopOpacity="0.4" />
-              <stop offset="100%" stopColor="hsl(0, 0%, 100%)" stopOpacity="0.8" />
+              <stop offset="0%" stopColor={timeTheme.highlight} stopOpacity="0.95" />
+              <stop offset="15%" stopColor={timeTheme.primary} stopOpacity="0.7" />
+              <stop offset="40%" stopColor={timeTheme.secondary} stopOpacity="0.3" />
+              <stop offset="60%" stopColor={timeTheme.secondary} stopOpacity="0.15" />
+              <stop offset="85%" stopColor={timeTheme.primary} stopOpacity="0.4" />
+              <stop offset="100%" stopColor={timeTheme.highlight} stopOpacity="0.8" />
             </linearGradient>
 
             {/* Stroke gradient for outline */}
@@ -173,27 +300,27 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
               <stop offset="100%" stopColor="hsl(0, 0%, 20%)" />
             </linearGradient>
 
-            {/* Corner Glow Gradients */}
+            {/* Time-Based Corner Glow Gradients */}
             <radialGradient id="cornerGlowTL" cx="0%" cy="0%" r="50%">
-              <stop offset="0%" stopColor="hsl(0, 0%, 100%)" stopOpacity="0.6" />
-              <stop offset="100%" stopColor="hsl(0, 0%, 100%)" stopOpacity="0" />
+              <stop offset="0%" stopColor={timeTheme.glowColor} stopOpacity={timeTheme.glowOpacity} />
+              <stop offset="100%" stopColor={timeTheme.glowColor} stopOpacity="0" />
             </radialGradient>
             <radialGradient id="cornerGlowTR" cx="100%" cy="0%" r="50%">
-              <stop offset="0%" stopColor="hsl(0, 0%, 100%)" stopOpacity="0.4" />
-              <stop offset="100%" stopColor="hsl(0, 0%, 100%)" stopOpacity="0" />
+              <stop offset="0%" stopColor={timeTheme.highlight} stopOpacity={timeTheme.glowOpacity * 0.7} />
+              <stop offset="100%" stopColor={timeTheme.highlight} stopOpacity="0" />
             </radialGradient>
             <radialGradient id="cornerGlowBL" cx="0%" cy="100%" r="50%">
-              <stop offset="0%" stopColor="hsl(0, 0%, 100%)" stopOpacity="0.3" />
-              <stop offset="100%" stopColor="hsl(0, 0%, 100%)" stopOpacity="0" />
+              <stop offset="0%" stopColor={timeTheme.secondary} stopOpacity={timeTheme.glowOpacity * 0.5} />
+              <stop offset="100%" stopColor={timeTheme.secondary} stopOpacity="0" />
             </radialGradient>
             <radialGradient id="cornerGlowBR" cx="100%" cy="100%" r="50%">
-              <stop offset="0%" stopColor="hsl(0, 0%, 100%)" stopOpacity="0.5" />
-              <stop offset="100%" stopColor="hsl(0, 0%, 100%)" stopOpacity="0" />
+              <stop offset="0%" stopColor={timeTheme.primary} stopOpacity={timeTheme.glowOpacity * 0.8} />
+              <stop offset="100%" stopColor={timeTheme.primary} stopOpacity="0" />
             </radialGradient>
 
             {/* Diagonal Shimmer Sweep */}
             <linearGradient id="shimmerSweep" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="hsl(0, 0%, 100%)" stopOpacity="0">
+              <stop offset="0%" stopColor={timeTheme.highlight} stopOpacity="0">
                 <animate
                   attributeName="offset"
                   values="-0.5;1.5"
@@ -201,7 +328,7 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
                   repeatCount="indefinite"
                 />
               </stop>
-              <stop offset="15%" stopColor="hsl(0, 0%, 100%)" stopOpacity="0.5">
+              <stop offset="15%" stopColor={timeTheme.highlight} stopOpacity="0.5">
                 <animate
                   attributeName="offset"
                   values="-0.35;1.65"
@@ -209,7 +336,7 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
                   repeatCount="indefinite"
                 />
               </stop>
-              <stop offset="30%" stopColor="hsl(0, 0%, 100%)" stopOpacity="0">
+              <stop offset="30%" stopColor={timeTheme.highlight} stopOpacity="0">
                 <animate
                   attributeName="offset"
                   values="-0.2;1.8"
@@ -227,7 +354,7 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
                 surfaceScale={isHovering ? 5 : 3}
                 specularConstant="1.2" 
                 specularExponent="30" 
-                lightingColor="hsl(0, 0%, 100%)"
+                lightingColor={timeTheme.highlight}
                 result="specular"
               >
                 <fePointLight x={mousePos.x} y={mousePos.y - 200} z="600"/>
@@ -239,7 +366,7 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
             {/* Outer Glow Filter */}
             <filter id="outerGlow" x="-50%" y="-50%" width="200%" height="200%">
               <feGaussianBlur stdDeviation="12" result="coloredBlur"/>
-              <feFlood floodColor="hsl(0, 0%, 100%)" floodOpacity="0.4"/>
+              <feFlood floodColor={timeTheme.glowColor} floodOpacity="0.4"/>
               <feComposite in2="coloredBlur" operator="in" result="glow"/>
               <feMerge>
                 <feMergeNode in="glow"/>
@@ -294,7 +421,34 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
                 utm.one
               </text>
             </clipPath>
+
+            {/* Moon glow for night hours */}
+            <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="hsl(0, 0%, 100%)" stopOpacity={0.9 * timeTheme.moonBrightness} />
+              <stop offset="60%" stopColor="hsl(220, 30%, 90%)" stopOpacity={0.4 * timeTheme.moonBrightness} />
+              <stop offset="100%" stopColor="hsl(220, 30%, 80%)" stopOpacity="0" />
+            </radialGradient>
           </defs>
+
+          {/* Subtle moon indicator during night (top right corner) */}
+          {showMoon && timeTheme.moonBrightness > 0.1 && (
+            <g>
+              <circle
+                cx="1700"
+                cy="50"
+                r={15 + timeTheme.moonBrightness * 5}
+                fill="url(#moonGlow)"
+                style={{ opacity: 0.6 }}
+              />
+              <circle
+                cx="1700"
+                cy="50"
+                r={8 + timeTheme.moonBrightness * 4}
+                fill="hsl(0, 0%, 95%)"
+                style={{ opacity: 0.3 + timeTheme.moonBrightness * 0.5 }}
+              />
+            </g>
+          )}
 
           {/* Particle dust following cursor */}
           <AnimatePresence>
@@ -304,7 +458,7 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
                 cx={particle.x}
                 cy={particle.y}
                 r={particle.size}
-                fill="hsl(0, 0%, 100%)"
+                fill={timeTheme.highlight}
                 initial={{ opacity: particle.opacity, scale: 1 }}
                 animate={{ opacity: 0, scale: 0, cy: particle.y - 40 }}
                 exit={{ opacity: 0 }}
@@ -426,20 +580,20 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
             onMouseLeave={handleDotLeave}
             onClick={handleDotClick}
           >
-            {/* Invisible larger hit area for easier hover */}
+            {/* Invisible larger hit area for easier hover - centered on dot */}
             <rect
-              x="940"
-              y="100"
+              x={DOT_X - 60}
+              y="80"
               width="120"
-              height="250"
+              height="280"
               fill="transparent"
             />
             
             {/* Growing glow circle behind dot */}
             {isDotHovering && (
               <circle
-                cx="1000"
-                cy="220"
+                cx={DOT_X}
+                cy={DOT_Y}
                 r={30 * dotScale}
                 fill="url(#dotZoomGlow)"
                 style={{
@@ -452,7 +606,7 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
             {/* The dot itself with smooth scale */}
             <text
               ref={dotRef}
-              x="1000"
+              x={DOT_X}
               y="290"
               textAnchor="middle"
               className="font-display font-bold"
@@ -461,7 +615,7 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
                 fill: isDotHovering ? "hsl(45, 100%, 97%)" : "transparent",
                 letterSpacing: "-0.05em",
                 transform: isDotHovering ? `scale(${dotScale})` : "scale(1)",
-                transformOrigin: "1000px 220px",
+                transformOrigin: `${DOT_X}px ${DOT_Y}px`,
                 transition: "fill 0.2s ease",
                 filter: isDotHovering ? "url(#dotGlow)" : undefined,
               }}
@@ -473,8 +627,8 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
             {isDotHovering && dotScale > 1.5 && (
               <>
                 <circle
-                  cx="1000"
-                  cy="220"
+                  cx={DOT_X}
+                  cy={DOT_Y}
                   r={50 * (dotScale * 0.5)}
                   fill="none"
                   stroke="hsl(0, 0%, 100%)"
@@ -482,8 +636,8 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
                   style={{ opacity: 0.4 / dotScale }}
                 />
                 <circle
-                  cx="1000"
-                  cy="220"
+                  cx={DOT_X}
+                  cy={DOT_Y}
                   r={80 * (dotScale * 0.4)}
                   fill="none"
                   stroke="hsl(0, 0%, 100%)"
@@ -509,7 +663,7 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
               style={{
                 fontSize: "380px",
                 fill: "transparent",
-                stroke: "hsl(0, 0%, 100%)",
+                stroke: timeTheme.highlight,
                 strokeWidth: "1px",
                 letterSpacing: "-0.05em",
                 pointerEvents: "none",
