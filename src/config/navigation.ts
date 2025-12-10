@@ -50,7 +50,7 @@ export interface NavCategory {
 export const appNavigation: NavItem[] = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutGrid },
   { name: "Links", href: "/dashboard/links", icon: Link2 },
-  { name: "Intelligence", href: "/dashboard/analytics", icon: BarChart3 },
+  { name: "Intelligence", href: "/dashboard/intelligence", icon: BarChart3 },
   { name: "Sales", href: "/dashboard/sales", icon: DollarSign },
   { name: "Events", href: "/dashboard/events", icon: CalendarDays, isNew: true },
   { name: "Approvals", href: "/dashboard/approvals", icon: Clock, badge: true },
@@ -161,5 +161,5 @@ export const navigationCategories: NavCategory[] = [
 export const mobileNavigation: NavItem[] = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutGrid },
   { name: "Links", href: "/dashboard/links", icon: Link2 },
-  { name: "Intelligence", href: "/dashboard/analytics", icon: BarChart3 },
+  { name: "Intelligence", href: "/dashboard/intelligence", icon: BarChart3 },
 ];
