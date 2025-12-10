@@ -426,10 +426,19 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
             onMouseLeave={handleDotLeave}
             onClick={handleDotClick}
           >
+            {/* Invisible larger hit area for easier hover */}
+            <rect
+              x="940"
+              y="100"
+              width="120"
+              height="250"
+              fill="transparent"
+            />
+            
             {/* Growing glow circle behind dot */}
             {isDotHovering && (
               <circle
-                cx="825"
+                cx="1000"
                 cy="220"
                 r={30 * dotScale}
                 fill="url(#dotZoomGlow)"
@@ -443,7 +452,7 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
             {/* The dot itself with smooth scale */}
             <text
               ref={dotRef}
-              x="825"
+              x="1000"
               y="290"
               textAnchor="middle"
               className="font-display font-bold"
@@ -452,7 +461,7 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
                 fill: isDotHovering ? "hsl(45, 100%, 97%)" : "transparent",
                 letterSpacing: "-0.05em",
                 transform: isDotHovering ? `scale(${dotScale})` : "scale(1)",
-                transformOrigin: "825px 220px",
+                transformOrigin: "1000px 220px",
                 transition: "fill 0.2s ease",
                 filter: isDotHovering ? "url(#dotGlow)" : undefined,
               }}
@@ -464,7 +473,7 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
             {isDotHovering && dotScale > 1.5 && (
               <>
                 <circle
-                  cx="825"
+                  cx="1000"
                   cy="220"
                   r={50 * (dotScale * 0.5)}
                   fill="none"
@@ -473,7 +482,7 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
                   style={{ opacity: 0.4 / dotScale }}
                 />
                 <circle
-                  cx="825"
+                  cx="1000"
                   cy="220"
                   r={80 * (dotScale * 0.4)}
                   fill="none"
