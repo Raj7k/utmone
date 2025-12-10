@@ -6,11 +6,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { Mail, CheckCircle2, Clock, XCircle, Send, Copy } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { useState } from "react";
 
 export function InviteTrackingDashboard() {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [copiedToken, setCopiedToken] = useState<string | null>(null);
   
@@ -35,17 +34,10 @@ export function InviteTrackingDashboard() {
       if (error) throw error;
     },
     onSuccess: () => {
-      toast({
-        title: "Invite resent",
-        description: "Invitation email has been resent successfully",
-      });
+      notify.success("Invite resent", { description: "Invitation email has been resent successfully" });
     },
     onError: (error: Error) => {
-      toast({
-        title: "Failed to resend invite",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error("Failed to resend invite", { description: error.message });
     },
   });
 
@@ -53,10 +45,7 @@ export function InviteTrackingDashboard() {
     const inviteUrl = `${window.location.origin}/claim-access?token=${token}`;
     navigator.clipboard.writeText(inviteUrl);
     setCopiedToken(token);
-    toast({
-      title: "Link copied",
-      description: "Invitation link copied to clipboard",
-    });
+    notify.success("Link copied", { description: "Invitation link copied to clipboard" });
     setTimeout(() => setCopiedToken(null), 2000);
   };
 

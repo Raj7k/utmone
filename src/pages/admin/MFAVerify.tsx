@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { Shield, Key, AlertTriangle, RefreshCw } from "lucide-react";
 import { startAuthentication, startRegistration } from '@simplewebauthn/browser';
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -17,7 +17,6 @@ export default function MFAVerify() {
     registeredDomains: string[];
   } | null>(null);
   const navigate = useNavigate();
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const currentDomain = window.location.hostname;
@@ -122,10 +121,7 @@ export default function MFAVerify() {
         sessionStorage.setItem('admin_mfa_user_id', user.id);
       }
 
-      toast({
-        title: "authentication successful",
-        description: "accessing mission control...",
-      });
+      notify.success("authentication successful", { description: "accessing mission control..." });
 
       // Redirect to admin dashboard
       setTimeout(() => {
@@ -149,11 +145,7 @@ export default function MFAVerify() {
         description = "security key was registered on a different domain";
       }
 
-      toast({
-        title: "verification failed",
-        description,
-        variant: "destructive",
-      });
+      notify.error("verification failed", { description });
     } finally {
       setIsVerifying(false);
     }
@@ -197,10 +189,7 @@ export default function MFAVerify() {
       if (verifyError) throw verifyError;
       if (verifyData?.error) throw new Error(verifyData.error);
 
-      toast({
-        title: "key registered",
-        description: `security key registered for ${currentDomain}`,
-      });
+      notify.success("key registered", { description: `security key registered for ${currentDomain}` });
 
       // Clear mismatch state and refresh
       setDomainMismatch(null);
@@ -211,11 +200,7 @@ export default function MFAVerify() {
 
     } catch (error: any) {
       console.error('Re-registration error:', error);
-      toast({
-        title: "re-registration failed",
-        description: error.message || "could not register security key",
-        variant: "destructive",
-      });
+      notify.error("re-registration failed", { description: error.message || "could not register security key" });
     } finally {
       setIsReregistering(false);
     }

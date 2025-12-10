@@ -21,7 +21,7 @@ import {
   Globe
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
@@ -45,7 +45,6 @@ const timezones = [
 ];
 
 export function ProfileSettings() {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [fullName, setFullName] = useState("");
   const [timezone, setTimezone] = useState("UTC");
@@ -97,10 +96,10 @@ export function ProfileSettings() {
       queryClient.invalidateQueries({ queryKey: ['profile'] });
       setIsSaved(true);
       setTimeout(() => setIsSaved(false), 2000);
-      toast({ title: "profile updated", description: "your changes have been saved." });
+      notify.success("profile updated", { description: "your changes have been saved." });
     },
     onError: () => {
-      toast({ title: "error", description: "failed to update profile.", variant: "destructive" });
+      notify.error("error", { description: "failed to update profile." });
     },
   });
 
@@ -113,10 +112,7 @@ export function ProfileSettings() {
     if (!file || !user?.id) return;
 
     // For now, show toast - avatar upload requires storage bucket setup
-    toast({ 
-      title: "coming soon", 
-      description: "avatar upload will be available soon." 
-    });
+    notify.info("coming soon", { description: "avatar upload will be available soon." });
   };
 
   const handleSignOut = async () => {
@@ -125,10 +121,7 @@ export function ProfileSettings() {
   };
 
   const handleExportData = () => {
-    toast({ 
-      title: "data export requested", 
-      description: "you'll receive an email with your data download link." 
-    });
+    notify.info("data export requested", { description: "you'll receive an email with your data download link." });
   };
 
   const getInitials = (name: string | null | undefined, email: string | null | undefined) => {

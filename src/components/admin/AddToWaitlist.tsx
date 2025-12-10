@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,7 +10,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { UserPlus } from "lucide-react";
 
 export function AddToWaitlist() {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [formData, setFormData] = useState({
     name: "",
@@ -40,7 +39,7 @@ export function AddToWaitlist() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["early-access-requests"] });
-      toast({ title: "user added to waitlist", description: "user has been added to the pending queue" });
+      notify.success("user added to waitlist", { description: "user has been added to the pending queue" });
       setFormData({
         name: "",
         email: "",
@@ -50,11 +49,7 @@ export function AddToWaitlist() {
       });
     },
     onError: (error: Error) => {
-      toast({
-        title: "error adding user",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error("error adding user", { description: error.message });
     },
   });
 
