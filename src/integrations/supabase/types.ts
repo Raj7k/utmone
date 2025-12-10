@@ -4984,6 +4984,77 @@ export type Database = {
           },
         ]
       }
+      roadmap_items: {
+        Row: {
+          category: string
+          created_at: string
+          description: string
+          id: string
+          is_user_submitted: boolean
+          planned_month: string
+          status: string
+          submitted_by: string | null
+          title: string
+          updated_at: string
+          vote_count: number
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          description: string
+          id?: string
+          is_user_submitted?: boolean
+          planned_month: string
+          status?: string
+          submitted_by?: string | null
+          title: string
+          updated_at?: string
+          vote_count?: number
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          is_user_submitted?: boolean
+          planned_month?: string
+          status?: string
+          submitted_by?: string | null
+          title?: string
+          updated_at?: string
+          vote_count?: number
+        }
+        Relationships: []
+      }
+      roadmap_votes: {
+        Row: {
+          created_at: string
+          id: string
+          item_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          item_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          item_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "roadmap_votes_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "roadmap_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       role_capabilities: {
         Row: {
           capability: Database["public"]["Enums"]["workspace_capability"]

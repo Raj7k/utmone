@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Shield, BarChart3, Orbit, QrCode, ArrowRight, Sparkles } from "lucide-react";
-import { AppHeader } from "@/components/layout/AppHeader";
+import { MainLayout } from "@/components/layout/MainLayout";
 
 const TOOLS = [
   {
@@ -44,7 +44,7 @@ const TOOLS = [
     description: "Stress-test your QR codes against real-world conditions.",
     icon: QrCode,
     href: "/tools/qr-test",
-    gradient: "from-yellow-500 to-orange-500",
+    gradient: "from-yellow-500/10 to-orange-500/10",
     bgGradient: "from-yellow-500/10 to-orange-500/10",
     borderColor: "border-yellow-500/30 hover:border-yellow-500/60",
   },
@@ -52,8 +52,7 @@ const TOOLS = [
 
 export default function ToolsHub() {
   return (
-    <div className="dark min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#0f0f1a] to-[#0a0a0f]">
-      <AppHeader />
+    <MainLayout showAnnouncement={false}>
       
       {/* Animated grid background */}
       <div className="fixed inset-0 pointer-events-none">
@@ -176,6 +175,6 @@ export default function ToolsHub() {
           </Link>
         </motion.div>
       </div>
-    </div>
+    </MainLayout>
   );
 }
