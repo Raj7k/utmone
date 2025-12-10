@@ -9,7 +9,8 @@ import {
   Activity, 
   Flag,
   Handshake,
-  LogOut 
+  LogOut,
+  Map
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
@@ -113,6 +114,15 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
           >
             <Handshake className="h-4 w-4" />
             <span>Partners</span>
+          </NavLink>
+
+          <NavLink 
+            to="/admin/roadmap"
+            className="flex items-center gap-3 px-3 py-2 rounded-md text-sm hover:bg-accent transition-colors"
+            activeClassName="bg-accent text-foreground font-medium"
+          >
+            <Map className="h-4 w-4" />
+            <span>Roadmap</span>
           </NavLink>
         </nav>
 

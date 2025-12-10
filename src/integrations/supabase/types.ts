@@ -4992,6 +4992,7 @@ export type Database = {
           id: string
           is_user_submitted: boolean
           planned_month: string
+          priority: number | null
           status: string
           submitted_by: string | null
           title: string
@@ -5005,6 +5006,7 @@ export type Database = {
           id?: string
           is_user_submitted?: boolean
           planned_month: string
+          priority?: number | null
           status?: string
           submitted_by?: string | null
           title: string
@@ -5018,6 +5020,7 @@ export type Database = {
           id?: string
           is_user_submitted?: boolean
           planned_month?: string
+          priority?: number | null
           status?: string
           submitted_by?: string | null
           title?: string
