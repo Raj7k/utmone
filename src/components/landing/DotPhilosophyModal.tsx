@@ -189,9 +189,12 @@ export const DotPhilosophyModal = ({
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
         >
-          {/* Bloom circle expanding from dot */}
+          {/* Bloom circle expanding from dot - dream portal effect */}
           <motion.div
-            className="absolute bg-black"
+            className="absolute"
+            style={{
+              background: "radial-gradient(circle, hsl(240, 10%, 8%) 0%, hsl(240, 15%, 4%) 100%)",
+            }}
             initial={{
               left: dotPosition.x,
               top: dotPosition.y,
@@ -212,8 +215,8 @@ export const DotPhilosophyModal = ({
               opacity: 0,
             }}
             transition={{
-              duration: 0.8,
-              ease: [0.4, 0, 0.2, 1],
+              duration: 1,
+              ease: [0.25, 0.1, 0.25, 1],
             }}
           />
 
@@ -222,7 +225,7 @@ export const DotPhilosophyModal = ({
             className="absolute inset-0"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
           >
             <ConstellationCanvas />
           </motion.div>
@@ -230,10 +233,10 @@ export const DotPhilosophyModal = ({
           {/* Close button */}
           <motion.button
             onClick={onClose}
-            className="absolute top-8 right-8 text-white/40 hover:text-white/80 transition-colors z-10"
+            className="absolute top-8 right-8 text-white/30 hover:text-white/60 transition-colors z-10"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: 0.8 }}
             aria-label="Close"
           >
             <svg
@@ -242,52 +245,130 @@ export const DotPhilosophyModal = ({
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1.5"
+              strokeWidth="1"
             >
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </motion.button>
 
-          {/* Content */}
-          <div className="relative z-10 max-w-3xl mx-auto px-8 text-center">
-            {philosophyLines.map((line, index) => (
-              <motion.p
-                key={index}
-                className={`mb-8 ${
-                  index === 0
-                    ? "font-serif text-3xl md:text-5xl text-white"
-                    : index === philosophyLines.length - 1
-                    ? "font-serif text-2xl md:text-4xl text-white mt-12"
-                    : "font-sans text-lg md:text-xl text-white/70 leading-relaxed"
-                }`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={
-                  visibleLines.includes(index)
-                    ? { opacity: 1, y: 0 }
-                    : { opacity: 0, y: 20 }
-                }
-                transition={{ duration: 0.8, ease: "easeOut" }}
-              >
-                {line}
-              </motion.p>
-            ))}
-
-            {/* CTA Button */}
-            <motion.button
-              onClick={handleCTAClick}
-              className="mt-8 px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white font-medium hover:bg-white/20 hover:border-white/30 transition-all group"
-              initial={{ opacity: 0, y: 20 }}
-              animate={showCTA ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
+          {/* Premium Glass Content Container */}
+          <motion.div 
+            className="relative z-10 max-w-4xl mx-auto px-6 md:px-12"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.5, duration: 0.6, ease: "easeOut" }}
+          >
+            {/* Frosted glass card */}
+            <div 
+              className="relative rounded-3xl p-8 md:p-16 text-center overflow-hidden"
+              style={{
+                background: "linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)",
+                backdropFilter: "blur(40px)",
+                WebkitBackdropFilter: "blur(40px)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1)",
+              }}
             >
-              <span className="flex items-center gap-3">
-                start connecting yours
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </motion.button>
-          </div>
+              {/* Top edge light reflection */}
+              <div 
+                className="absolute top-0 left-0 right-0 h-px"
+                style={{
+                  background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%)",
+                }}
+              />
+              
+              {/* Inner glow */}
+              <div 
+                className="absolute inset-0 rounded-3xl pointer-events-none"
+                style={{
+                  background: "radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.05) 0%, transparent 60%)",
+                }}
+              />
+
+              {/* Philosophy text */}
+              <div className="relative space-y-8">
+                {philosophyLines.map((line, index) => (
+                  <motion.p
+                    key={index}
+                    className={`${
+                      index === 0
+                        ? "font-serif text-3xl md:text-5xl lg:text-6xl tracking-tight"
+                        : index === philosophyLines.length - 1
+                        ? "font-serif text-2xl md:text-4xl lg:text-5xl tracking-tight mt-12"
+                        : "font-sans text-base md:text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto"
+                    }`}
+                    style={{
+                      color: index === 0 || index === philosophyLines.length - 1 
+                        ? "transparent" 
+                        : "rgba(255,255,255,0.7)",
+                      backgroundImage: index === 0 || index === philosophyLines.length - 1
+                        ? "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.85) 50%, rgba(255,255,255,0.7) 100%)"
+                        : undefined,
+                      backgroundClip: index === 0 || index === philosophyLines.length - 1 ? "text" : undefined,
+                      WebkitBackgroundClip: index === 0 || index === philosophyLines.length - 1 ? "text" : undefined,
+                      textShadow: index === 0 || index === philosophyLines.length - 1
+                        ? "0 4px 30px rgba(255,255,255,0.2)"
+                        : "0 2px 10px rgba(0,0,0,0.3)",
+                      letterSpacing: index === 0 || index === philosophyLines.length - 1 ? "-0.02em" : "0.01em",
+                    }}
+                    initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
+                    animate={
+                      visibleLines.includes(index)
+                        ? { opacity: 1, y: 0, filter: "blur(0px)" }
+                        : { opacity: 0, y: 30, filter: "blur(10px)" }
+                    }
+                    transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
+                  >
+                    {line}
+                  </motion.p>
+                ))}
+              </div>
+
+              {/* Premium CTA Button */}
+              <motion.button
+                onClick={handleCTAClick}
+                className="mt-12 relative group"
+                initial={{ opacity: 0, y: 20 }}
+                animate={showCTA ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <div 
+                  className="px-10 py-5 rounded-full text-white font-medium text-lg relative overflow-hidden"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%)",
+                    backdropFilter: "blur(20px)",
+                    WebkitBackdropFilter: "blur(20px)",
+                    border: "1px solid rgba(255,255,255,0.2)",
+                    boxShadow: "0 4px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.15)",
+                  }}
+                >
+                  {/* Shimmer effect on hover */}
+                  <div 
+                    className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{
+                      background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%)",
+                      animation: "shimmer 2s infinite",
+                    }}
+                  />
+                  
+                  {/* Glow on hover */}
+                  <div 
+                    className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    style={{
+                      boxShadow: "0 0 40px rgba(255,255,255,0.15)",
+                    }}
+                  />
+                  
+                  <span className="relative flex items-center gap-3">
+                    start connecting yours
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                  </span>
+                </div>
+              </motion.button>
+            </div>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>,
