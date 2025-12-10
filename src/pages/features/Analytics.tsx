@@ -434,8 +434,8 @@ const Analytics = () => {
       {/* FAQ */}
       <FeatureSection background="muted">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase mb-8 text-center">
-            revenue intelligence faq
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-label mb-8 text-center">
+            revenue intelligence FAQ
           </h2>
           <div className="space-y-4">
             {faqs.map((faq, i) => (
@@ -447,7 +447,7 @@ const Analytics = () => {
                 transition={{ delay: i * 0.05 }}
                 className="p-6 rounded-xl bg-card border border-border"
               >
-                <h3 className="font-display font-semibold text-label mb-2 lowercase">{faq.question}</h3>
+                <h3 className="font-display font-semibold text-label mb-2">{faq.question}</h3>
                 <p className="text-secondary-label text-sm leading-relaxed">{faq.answer}</p>
               </motion.div>
             ))}
@@ -458,7 +458,7 @@ const Analytics = () => {
       {/* CTA */}
       <FeatureSection>
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
             start measuring what matters
           </h2>
           <p className="text-lg text-secondary-label mb-8">

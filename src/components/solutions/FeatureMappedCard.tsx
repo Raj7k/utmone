@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { LucideIcon, ArrowRight } from "lucide-react";
-import { formatText } from "@/utils/textFormatter";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 import { Link } from "react-router-dom";
 
 interface FeatureMappedCardProps {
@@ -44,8 +44,8 @@ export const FeatureMappedCard = ({ icon: Icon, title, description, color, delay
       >
         <Icon className="w-6 h-6" style={{ color: styles.text }} strokeWidth={2} />
       </div>
-      <h3 className="text-xl font-display font-semibold text-white mb-2 lowercase flex items-center gap-2">
-        {formatText(title)}
+      <h3 className="text-xl font-display font-semibold text-white mb-2 flex items-center gap-2">
+        {p(title)}
         {href && (
           <ArrowRight 
             className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-1" 

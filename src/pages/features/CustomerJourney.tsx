@@ -116,7 +116,7 @@ const CustomerJourney = () => {
             transition={{ duration: 1, ease: appleEase }}
           >
             <h1 
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-medium brand-lowercase mb-8"
+              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-medium mb-8"
               style={{
                 background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
                 WebkitBackgroundClip: 'text',
@@ -534,7 +534,7 @@ const CustomerJourney = () => {
             />
             
             <h2 
-              className="text-3xl md:text-4xl lg:text-5xl font-display font-medium mb-6 brand-lowercase relative z-10"
+              className="text-3xl md:text-4xl lg:text-5xl font-display font-medium mb-6 relative z-10"
               style={{
                 background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
                 WebkitBackgroundClip: 'text',

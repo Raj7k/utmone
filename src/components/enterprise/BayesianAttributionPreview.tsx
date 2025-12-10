@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { TrendingUp, DollarSign } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 export const BayesianAttributionPreview = () => {
   const channels = [
@@ -19,8 +20,8 @@ export const BayesianAttributionPreview = () => {
             <TrendingUp className="w-8 h-8 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
           </div>
           <div>
-            <h3 className="text-2xl font-display font-bold text-label lowercase">
-              bayesian influence graph
+            <h3 className="text-2xl font-display font-bold text-label">
+              {p("bayesian influence graph")}
             </h3>
             <p className="text-sm text-secondary-label">
               know exactly where revenue comes from
@@ -71,7 +72,7 @@ export const BayesianAttributionPreview = () => {
           <div className="p-6 rounded-xl border bg-gradient-to-br from-blazeOrange/10 to-blazeOrange/5 border-blazeOrange/20">
             <TrendingUp className="w-6 h-6 text-blazeOrange mb-2" />
             <div className="text-3xl font-bold text-label mb-1">5.2x</div>
-            <div className="text-sm text-secondary-label">Average ROI</div>
+            <div className="text-sm text-secondary-label">{p("Average ROI")}</div>
           </div>
         </div>
 

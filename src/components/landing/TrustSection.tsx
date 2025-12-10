@@ -49,7 +49,7 @@ export const TrustSection = () => {
                 <Eye className="w-5 h-5 text-foreground/80" />
               </div>
               <div>
-                <h2 className="text-lg font-display font-semibold lowercase text-foreground/90">
+                <h2 className="text-lg font-display font-semibold text-foreground/90">
                   accessibility first
                 </h2>
                 <p className="text-xs text-muted-foreground font-sans">
@@ -85,7 +85,7 @@ export const TrustSection = () => {
                 return (
                   <div key={feature.label} className="flex items-center gap-2 text-xs text-foreground/70 font-sans">
                     <Icon className="w-3.5 h-3.5 shrink-0 text-muted-foreground" />
-                    <span className="lowercase">{feature.label}</span>
+                    <span>{feature.label}</span>
                   </div>
                 );
               })}
@@ -93,7 +93,7 @@ export const TrustSection = () => {
 
             <Link 
               to="/features/accessibility"
-              className="inline-flex items-center gap-2 text-xs font-medium transition-colors lowercase hover:opacity-80 text-muted-foreground font-sans"
+              className="inline-flex items-center gap-2 text-xs font-medium transition-colors hover:opacity-80 text-muted-foreground font-sans"
             >
               learn more
               <ArrowRight className="h-3 w-3" />
@@ -113,7 +113,7 @@ export const TrustSection = () => {
                 <Shield className="w-5 h-5 text-foreground/80" />
               </div>
               <div>
-                <h2 className="text-lg font-display font-semibold lowercase text-foreground/90">
+                <h2 className="text-lg font-display font-semibold text-foreground/90">
                   link immunity
                 </h2>
                 <p className="text-xs text-muted-foreground font-sans">
@@ -151,7 +151,7 @@ export const TrustSection = () => {
                 return (
                   <div key={feature.label} className="flex items-center gap-2 text-xs text-foreground/70 font-sans">
                     <Icon className="w-3.5 h-3.5 shrink-0 text-muted-foreground" />
-                    <span className="lowercase">{feature.label}</span>
+                    <span>{feature.label}</span>
                   </div>
                 );
               })}
@@ -159,7 +159,7 @@ export const TrustSection = () => {
 
             <Link 
               to="/features/link-immunity"
-              className="inline-flex items-center gap-2 text-xs font-medium transition-colors lowercase hover:opacity-80 text-muted-foreground font-sans"
+              className="inline-flex items-center gap-2 text-xs font-medium transition-colors hover:opacity-80 text-muted-foreground font-sans"
             >
               learn more
               <ArrowRight className="h-3 w-3" />
