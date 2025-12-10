@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthLoadingScreen } from "@/components/loading/AuthLoadingScreen";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 
 const AuthCallback = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
   const [isChecking, setIsChecking] = useState(true);
   const [statusMessage, setStatusMessage] = useState("verifying session...");
 
@@ -67,11 +66,7 @@ const AuthCallback = () => {
         const { data: { session }, error: sessionError } = await supabase.auth.getSession();
         
         if (sessionError || !session) {
-          toast({
-            title: "Authentication failed",
-            description: "Unable to complete sign in. Please try again.",
-            variant: "destructive",
-          });
+          notify.error("unable to complete sign in");
           navigate("/auth");
           return;
         }
@@ -124,10 +119,7 @@ const AuthCallback = () => {
         const hasWorkspaces = (ownedWorkspaces?.length || 0) + (memberWorkspaces?.length || 0) > 0;
         
         if (hasWorkspaces) {
-          toast({
-            title: "Signed in successfully",
-            description: "Taking you to your dashboard...",
-          });
+          notify.success("taking you to your dashboard...");
           navigate("/dashboard");
           return;
         }
@@ -140,28 +132,18 @@ const AuthCallback = () => {
           .maybeSingle();
 
         if (accessRequest?.status === "approved" && (accessRequest.access_level || 0) >= 2) {
-          toast({
-            title: "Welcome to utm.one!",
-            description: "Let's set up your workspace...",
-          });
+          notify.success("let's set up your workspace...");
           navigate("/onboarding");
           return;
         }
 
         // No workspace and no early access - send to onboarding anyway (open signup)
-        toast({
-          title: "Welcome to utm.one!",
-          description: "Let's set up your workspace...",
-        });
+        notify.success("welcome to utm.one!");
         navigate("/onboarding");
 
       } catch (error) {
         console.error("[AuthCallback] Error:", error);
-        toast({
-          title: "Something went wrong",
-          description: "Please try signing in again.",
-          variant: "destructive",
-        });
+        notify.error("please try signing in again");
         navigate("/auth");
       } finally {
         setIsChecking(false);
@@ -171,11 +153,7 @@ const AuthCallback = () => {
     // Add timeout to prevent infinite loading
     const timeout = setTimeout(() => {
       if (isChecking) {
-        toast({
-          title: "Authentication timeout",
-          description: "Please try signing in again.",
-          variant: "destructive",
-        });
+        notify.error("authentication timeout");
         navigate("/auth");
       }
     }, 15000); // Extended timeout for profile creation
@@ -183,7 +161,7 @@ const AuthCallback = () => {
     handleCallback();
 
     return () => clearTimeout(timeout);
-  }, [navigate, toast]);
+  }, [navigate]);
 
   return <AuthLoadingScreen />;
 };

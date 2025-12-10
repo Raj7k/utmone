@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,7 +13,6 @@ type Props = {
 };
 
 export function DirectInviteForm({ onSuccess }: Props) {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [email, setEmail] = useState("");
   const [accessLevel, setAccessLevel] = useState("2");
@@ -48,17 +47,13 @@ export function DirectInviteForm({ onSuccess }: Props) {
       return inviteToken;
     },
     onSuccess: (inviteToken) => {
-      toast({ title: "invite sent", description: `sent to ${email}` });
+      notify.success(`invite sent to ${email}`);
       setLastInviteToken(inviteToken);
       setEmail("");
       queryClient.invalidateQueries({ queryKey: ["early-access-invites"] });
     },
     onError: (error: Error) => {
-      toast({
-        title: "failed to send invite",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error(error.message || "failed to send invite");
     },
   });
 
@@ -74,7 +69,7 @@ export function DirectInviteForm({ onSuccess }: Props) {
     const inviteUrl = `${window.location.origin}/claim-access?token=${lastInviteToken}`;
     navigator.clipboard.writeText(inviteUrl);
     setCopied(true);
-    toast({ title: "link copied" });
+    notify.success("link copied");
     setTimeout(() => setCopied(false), 2000);
   };
 

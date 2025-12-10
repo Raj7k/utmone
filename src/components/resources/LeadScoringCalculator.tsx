@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { motion } from "framer-motion";
 import { Calculator, Save, RotateCcw } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 
 interface ScoreBreakdown {
   fit: number;
@@ -16,7 +16,6 @@ interface ScoreBreakdown {
 }
 
 export const LeadScoringCalculator = () => {
-  const { toast } = useToast();
   const [companySize, setCompanySize] = useState(10);
   const [industry, setIndustry] = useState(10);
   const [jobTitle, setJobTitle] = useState(10);
@@ -44,7 +43,7 @@ export const LeadScoringCalculator = () => {
     localStorage.setItem("leadScoringModel", JSON.stringify({
       companySize, industry, jobTitle, formFills, webinars, emailOpens
     }));
-    toast({ title: "scoring model saved", description: "your scoring settings have been saved locally." });
+    notify.success("scoring model saved");
   };
 
   const handleReset = () => {

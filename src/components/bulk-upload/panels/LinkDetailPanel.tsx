@@ -2,7 +2,7 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Copy } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 
 interface LinkDetailPanelProps {
   isOpen: boolean;
@@ -11,13 +11,11 @@ interface LinkDetailPanelProps {
 }
 
 export const LinkDetailPanel = ({ isOpen, onClose, link }: LinkDetailPanelProps) => {
-  const { toast } = useToast();
-
   if (!link) return null;
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    toast({ title: "copied to clipboard" });
+    notify.success("copied to clipboard");
   };
 
   return (

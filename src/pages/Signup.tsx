@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { ArrowLeft, Info } from "lucide-react";
 import { motion } from "framer-motion";
 import { AuthLoadingScreen } from "@/components/loading/AuthLoadingScreen";
@@ -15,7 +15,6 @@ import { useUIFeatureFlags } from "@/hooks/useUIFeatureFlag";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
   const [searchParams] = useSearchParams();
   const inviteToken = searchParams.get("invite");
   
@@ -86,11 +85,7 @@ const Signup = () => {
       })
       .catch((error) => {
         console.error("Session check failed:", error);
-        toast({
-          title: "Authentication Error",
-          description: "Failed to check authentication status. Please try again.",
-          variant: "destructive",
-        });
+        notify.error("failed to check authentication status");
       })
       .finally(() => {
         clearTimeout(sessionCheckTimeout);
@@ -128,11 +123,7 @@ const Signup = () => {
           
           const hasWorkspaces = (ownedWorkspaces?.length || 0) + (memberWorkspaces?.length || 0) > 0;
           
-          // Show success toast
-          toast({
-            title: "Account created successfully",
-            description: hasWorkspaces ? "Taking you to your dashboard..." : "Setting up your workspace...",
-          });
+          notify.success(hasWorkspaces ? "taking you to your dashboard..." : "setting up your workspace...");
           
           // Navigate based on workspace status
           if (hasWorkspaces) {
@@ -144,11 +135,7 @@ const Signup = () => {
         } catch (err) {
           console.error("Access check error:", err);
           hasNavigated.current = false;
-          toast({
-            title: "Something went wrong",
-            description: "Please try signing in again.",
-            variant: "destructive",
-          });
+          notify.error("please try signing in again");
           setIsAuthenticating(false);
         }
       }
@@ -202,11 +189,7 @@ const Signup = () => {
       });
 
       if (error) {
-        toast({
-          title: "Sign up failed",
-          description: error.message,
-          variant: "destructive",
-        });
+        notify.error(error.message || "sign up failed");
       } else {
         // Check for referral code and create partner_referral record
         const refCode = localStorage.getItem('utm_referral_code');
@@ -237,17 +220,10 @@ const Signup = () => {
           }
         }
 
-        toast({
-          title: "Success!",
-          description: "Account created successfully. Redirecting...",
-        });
+        notify.success("account created successfully");
       }
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "An unexpected error occurred",
-        variant: "destructive",
-      });
+      notify.error("an unexpected error occurred");
     } finally {
       setIsLoading(false);
     }
@@ -274,11 +250,7 @@ const Signup = () => {
     });
     
     if (error) {
-      toast({
-        title: "Sign up failed",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error(error.message || "sign up failed");
       setIsLoading(false);
     }
   };
@@ -301,11 +273,7 @@ const Signup = () => {
     });
     
     if (error) {
-      toast({
-        title: "Sign up failed",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error(error.message || "sign up failed");
       setIsLoading(false);
     }
   };

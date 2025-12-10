@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Copy, Check, ExternalLink } from "lucide-react";
 import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import {
   Dialog,
   DialogContent,
@@ -20,17 +20,13 @@ interface HubSpotCardProps {
 export const HubSpotCard = ({ workspaceId }: HubSpotCardProps) => {
   const [copied, setCopied] = useState(false);
   const [open, setOpen] = useState(false);
-  const { toast } = useToast();
 
   const webhookUrl = `${window.location.origin}/api/webhooks/hubspot/${workspaceId}`;
 
   const copyUrl = () => {
     navigator.clipboard.writeText(webhookUrl);
     setCopied(true);
-    toast({
-      title: "copied",
-      description: "webhook url copied to clipboard",
-    });
+    notify.success("webhook url copied");
     setTimeout(() => setCopied(false), 2000);
   };
 

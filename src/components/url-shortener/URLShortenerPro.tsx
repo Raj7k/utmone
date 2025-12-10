@@ -6,7 +6,7 @@
 import { useState, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
+import { notify } from '@/lib/notify';
 import { useWorkspaceContext } from '@/contexts/WorkspaceContext';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -33,7 +33,6 @@ interface ProcessedURL {
 }
 
 export const URLShortenerPro = () => {
-  const { toast } = useToast();
   const { currentWorkspace } = useWorkspaceContext();
   
   const [urls, setUrls] = useState<ProcessedURL[]>([]);
@@ -174,10 +173,7 @@ export const URLShortenerPro = () => {
   // Copy individual URL
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    toast({
-      title: 'copied',
-      description: 'short url copied to clipboard',
-    });
+    notify.success("copied to clipboard");
   };
 
   // Export all URLs
@@ -204,10 +200,7 @@ export const URLShortenerPro = () => {
     a.download = `bulk-urls-${Date.now()}.${format === 'csv' ? 'csv' : format === 'json' ? 'json' : 'txt'}`;
     a.click();
     
-    toast({
-      title: 'exported',
-      description: `${urls.length} urls exported as ${format.toUpperCase()}`,
-    });
+    notify.success(`${urls.length} urls exported as ${format.toUpperCase()}`);
   };
 
   // Import URLs from file

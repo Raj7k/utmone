@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { MessageSquare, Send, Check } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 
 interface Comment {
   id: string;
@@ -27,7 +27,6 @@ export const LinkComments = ({ linkId }: LinkCommentsProps) => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
 
   useEffect(() => {
     fetchComments();
@@ -92,17 +91,10 @@ export const LinkComments = ({ linkId }: LinkCommentsProps) => {
     });
 
     if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to post comment",
-        variant: "destructive",
-      });
+      notify.error("failed to post comment");
     } else {
       setNewComment("");
-      toast({
-        title: "Comment Posted",
-        description: "Your comment has been added",
-      });
+      notify.success("comment posted");
     }
     setIsSubmitting(false);
   };
@@ -114,11 +106,7 @@ export const LinkComments = ({ linkId }: LinkCommentsProps) => {
       .eq("id", commentId);
 
     if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to update comment",
-        variant: "destructive",
-      });
+      notify.error("failed to update comment");
     }
   };
 

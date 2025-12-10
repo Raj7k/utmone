@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { ArrowLeft, Info } from "lucide-react";
 import { motion } from "framer-motion";
 import { AuthLoadingScreen } from "@/components/loading/AuthLoadingScreen";
@@ -17,7 +17,6 @@ import { ObsidianMarketingLayout } from "@/components/layout/ObsidianMarketingLa
 
 const Auth = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
   const [searchParams] = useSearchParams();
   const inviteToken = searchParams.get("invite");
   
@@ -107,11 +106,7 @@ const Auth = () => {
       } catch (error) {
         console.error('[Auth] Session check failed:', error);
         if (isMounted) {
-          toast({
-            title: "Authentication Error",
-            description: "Failed to check authentication status. Please try again.",
-            variant: "destructive",
-          });
+          notify.error("failed to check authentication status");
         }
       } finally {
         if (isMounted) {
@@ -158,10 +153,7 @@ const Auth = () => {
             
             const hasWorkspaces = (ownedWorkspaces?.length || 0) + (memberWorkspaces?.length || 0) > 0;
             
-            toast({
-              title: "Signed in successfully",
-              description: hasWorkspaces ? "Taking you to your dashboard..." : "Setting up your workspace...",
-            });
+            notify.success(hasWorkspaces ? "taking you to your dashboard..." : "setting up your workspace...");
             
             navigate(hasWorkspaces ? "/dashboard" : "/onboarding");
             
@@ -169,11 +161,7 @@ const Auth = () => {
             console.error('[Auth] Access check error:', err);
             if (isMounted) {
               hasNavigated.current = false;
-              toast({
-                title: "Something went wrong",
-                description: "Please try signing in again.",
-                variant: "destructive",
-              });
+              notify.error("please try signing in again");
               setIsAuthenticating(false);
             }
           }
@@ -187,7 +175,7 @@ const Auth = () => {
       clearTimeout(authTimeout);
       subscription.unsubscribe();
     };
-  }, [navigate, inviteToken, searchParams, toast]);
+  }, [navigate, inviteToken, searchParams]);
 
   const loadInvitationContext = async (token: string) => {
     try {
@@ -226,11 +214,7 @@ const Auth = () => {
       });
 
       if (error) {
-        toast({
-          title: "Sign in failed",
-          description: error.message,
-          variant: "destructive",
-        });
+        notify.error(error.message || "sign in failed");
         setIsLoading(false);
         return;
       }
@@ -274,17 +258,10 @@ const Auth = () => {
       }
 
       // Success without 2FA
-      toast({
-        title: "signed in successfully",
-        description: "taking you to your dashboard...",
-      });
+      notify.success("signed in successfully");
       // onAuthStateChange will handle navigation
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "An unexpected error occurred",
-        variant: "destructive",
-      });
+      notify.error("an unexpected error occurred");
       setIsLoading(false);
     }
   };
@@ -310,11 +287,7 @@ const Auth = () => {
     });
     
     if (error) {
-      toast({
-        title: "Sign in failed",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error(error.message || "sign in failed");
       setIsLoading(false);
     }
   };
@@ -337,11 +310,7 @@ const Auth = () => {
     });
     
     if (error) {
-      toast({
-        title: "Sign in failed",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error(error.message || "sign in failed");
       setIsLoading(false);
     }
   };
@@ -358,11 +327,7 @@ const Auth = () => {
 
   const handleForgotPassword = async () => {
     if (!email) {
-      toast({
-        title: "Email required",
-        description: "Please enter your email address first.",
-        variant: "destructive",
-      });
+      notify.warning("please enter your email address first");
       return;
     }
 
@@ -373,18 +338,11 @@ const Auth = () => {
     setIsLoading(false);
 
     if (error) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error(error.message);
       return;
     }
 
-    toast({
-      title: "Check your email",
-      description: "We've sent you a password reset link.",
-    });
+    notify.success("password reset link sent to your email");
   };
 
   // Show loading screen while checking session
