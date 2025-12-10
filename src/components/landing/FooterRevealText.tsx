@@ -20,11 +20,13 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
   const [fillPercent, setFillPercent] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
   const [isDotHovering, setIsDotHovering] = useState(false);
+  const [dotScale, setDotScale] = useState(1);
   const [particles, setParticles] = useState<Particle[]>([]);
   const [mousePos, setMousePos] = useState({ x: 900, y: 200 });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dotPosition, setDotPosition] = useState({ x: 0, y: 0 });
   const dotHoverTimer = useRef<NodeJS.Timeout | null>(null);
+  const dotScaleAnimation = useRef<number | null>(null);
   const particleIdRef = useRef(0);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -63,17 +65,42 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
 
   const handleDotHover = () => {
     setIsDotHovering(true);
-    // Open modal after 1.5s of hover
-    dotHoverTimer.current = setTimeout(() => {
-      openModal();
-    }, 1500);
+    setDotScale(1);
+    
+    // Smooth continuous scale growth animation
+    const startTime = Date.now();
+    const duration = 1500; // 1.5 seconds
+    const maxScale = 8;
+    
+    const animateScale = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease-in curve for accelerating growth
+      const eased = progress * progress * progress;
+      const newScale = 1 + (maxScale - 1) * eased;
+      setDotScale(newScale);
+      
+      if (progress < 1) {
+        dotScaleAnimation.current = requestAnimationFrame(animateScale);
+      } else {
+        // Animation complete, open modal
+        openModal();
+      }
+    };
+    
+    dotScaleAnimation.current = requestAnimationFrame(animateScale);
   };
 
   const handleDotLeave = () => {
     setIsDotHovering(false);
+    setDotScale(1);
     if (dotHoverTimer.current) {
       clearTimeout(dotHoverTimer.current);
       dotHoverTimer.current = null;
+    }
+    if (dotScaleAnimation.current) {
+      cancelAnimationFrame(dotScaleAnimation.current);
+      dotScaleAnimation.current = null;
     }
   };
 
@@ -92,6 +119,10 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
     if (dotHoverTimer.current) {
       clearTimeout(dotHoverTimer.current);
       dotHoverTimer.current = null;
+    }
+    if (dotScaleAnimation.current) {
+      cancelAnimationFrame(dotScaleAnimation.current);
+      dotScaleAnimation.current = null;
     }
     openModal();
   };
@@ -216,15 +247,24 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
               </feMerge>
             </filter>
 
-            {/* Dot Pulse Glow */}
-            <filter id="dotGlow" x="-100%" y="-100%" width="300%" height="300%">
-              <feGaussianBlur stdDeviation="15" result="blur" />
+            {/* Dot Zoom Glow - dynamic based on scale */}
+            <filter id="dotGlow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur stdDeviation={isDotHovering ? Math.min(dotScale * 8, 60) : 15} result="blur" />
+              <feFlood floodColor="hsl(45, 100%, 95%)" floodOpacity={Math.min(dotScale * 0.15, 0.9)} result="flood" />
+              <feComposite in="flood" in2="blur" operator="in" result="glow" />
               <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="blur" />
+                <feMergeNode in="glow" />
+                <feMergeNode in="glow" />
                 <feMergeNode in="SourceGraphic" />
               </feMerge>
             </filter>
+            
+            {/* Radial glow for zoom effect */}
+            <radialGradient id="dotZoomGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="hsl(45, 100%, 98%)" stopOpacity="1" />
+              <stop offset="40%" stopColor="hsl(45, 80%, 90%)" stopOpacity="0.8" />
+              <stop offset="100%" stopColor="hsl(45, 60%, 80%)" stopOpacity="0" />
+            </radialGradient>
 
             {/* Clip path for reveal animation */}
             <clipPath id="footerRevealClip">
@@ -379,60 +419,71 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
             )}
           </g>
 
-          {/* Interactive dot overlay - for click/hover detection */}
-          <motion.text
-            ref={dotRef}
-            x="825"
-            y="290"
-            textAnchor="middle"
-            className="font-display font-bold"
-            style={{
-              fontSize: "380px",
-              fill: isDotHovering ? "hsl(45, 100%, 95%)" : "transparent",
-              cursor: "pointer",
-              letterSpacing: "-0.05em",
-            }}
-            filter={isDotHovering ? "url(#dotGlow)" : undefined}
+          {/* Interactive dot overlay - for click/hover detection with smooth zoom */}
+          <g
+            style={{ cursor: "pointer" }}
             onMouseEnter={handleDotHover}
             onMouseLeave={handleDotLeave}
             onClick={handleDotClick}
-            animate={
-              isDotHovering
-                ? {
-                    scale: [1, 1.3, 1],
-                  }
-                : {}
-            }
-            transition={{
-              duration: 1,
-              repeat: isDotHovering ? Infinity : 0,
-              ease: "easeInOut",
-            }}
           >
-            .
-          </motion.text>
-
-          {/* Dot hover glow ring */}
-          {isDotHovering && (
-            <motion.circle
-              cx="825"
-              cy="250"
-              r="60"
-              fill="none"
-              stroke="hsl(0, 0%, 100%)"
-              strokeWidth="2"
-              initial={{ scale: 0.5, opacity: 0 }}
-              animate={{
-                scale: [1, 1.8, 1],
-                opacity: [0.6, 0, 0.6],
+            {/* Growing glow circle behind dot */}
+            {isDotHovering && (
+              <circle
+                cx="825"
+                cy="220"
+                r={30 * dotScale}
+                fill="url(#dotZoomGlow)"
+                style={{
+                  opacity: Math.min(dotScale * 0.2, 1),
+                  filter: `blur(${dotScale * 2}px)`,
+                }}
+              />
+            )}
+            
+            {/* The dot itself with smooth scale */}
+            <text
+              ref={dotRef}
+              x="825"
+              y="290"
+              textAnchor="middle"
+              className="font-display font-bold"
+              style={{
+                fontSize: "380px",
+                fill: isDotHovering ? "hsl(45, 100%, 97%)" : "transparent",
+                letterSpacing: "-0.05em",
+                transform: isDotHovering ? `scale(${dotScale})` : "scale(1)",
+                transformOrigin: "825px 220px",
+                transition: "fill 0.2s ease",
+                filter: isDotHovering ? "url(#dotGlow)" : undefined,
               }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: "easeOut",
-              }}
-            />
-          )}
+            >
+              .
+            </text>
+            
+            {/* Expanding ring waves */}
+            {isDotHovering && dotScale > 1.5 && (
+              <>
+                <circle
+                  cx="825"
+                  cy="220"
+                  r={50 * (dotScale * 0.5)}
+                  fill="none"
+                  stroke="hsl(0, 0%, 100%)"
+                  strokeWidth={1 / dotScale}
+                  style={{ opacity: 0.4 / dotScale }}
+                />
+                <circle
+                  cx="825"
+                  cy="220"
+                  r={80 * (dotScale * 0.4)}
+                  fill="none"
+                  stroke="hsl(0, 0%, 100%)"
+                  strokeWidth={0.5 / dotScale}
+                  style={{ opacity: 0.2 / dotScale }}
+                />
+              </>
+            )}
+          </g>
 
           {/* Outer glow on hover */}
           {isHovering && (
