@@ -45,11 +45,11 @@ export function NotificationHUD({ notifications }: NotificationHUDProps) {
             <div className="flex flex-col items-center justify-center gap-3 px-8 py-6 rounded-2xl bg-card/95 backdrop-blur-xl border border-border shadow-2xl min-w-[140px]">
               <HUDIcon type={current.type} />
               <div className="text-center">
-                <p className="text-sm font-medium text-foreground lowercase">
+                <p className="text-sm font-medium text-foreground">
                   {current.title}
                 </p>
                 {current.description && (
-                  <p className="text-xs text-muted-foreground mt-1 lowercase">
+                  <p className="text-xs text-muted-foreground mt-1">
                     {current.description}
                   </p>
                 )}

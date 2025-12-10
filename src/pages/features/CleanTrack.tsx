@@ -86,7 +86,7 @@ const CleanTrack = () => {
 
       <FeatureSection background="default" maxWidth="wide">
         <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label lowercase">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label">
             real-time validation
           </h2>
           <p className="text-xl text-secondary-label max-w-3xl mx-auto">
@@ -101,7 +101,7 @@ const CleanTrack = () => {
                 <Target className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">syntax enforcement</h3>
+                <h3 className="text-xl font-display font-semibold mb-2">syntax enforcement</h3>
                 <p className="text-secondary-label">
                   Invalid characters, spaces, and formatting issues are blocked instantly with clear error messages
                 </p>
@@ -112,7 +112,7 @@ const CleanTrack = () => {
                 <FileText className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">naming rules</h3>
+                <h3 className="text-xl font-display font-semibold mb-2">naming rules</h3>
                 <p className="text-secondary-label">
                   Your workspace's naming conventions are enforced automatically—no manual checking required
                 </p>
@@ -123,7 +123,7 @@ const CleanTrack = () => {
                 <CheckCircle2 className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">required fields</h3>
+                <h3 className="text-xl font-display font-semibold mb-2">required fields</h3>
                 <p className="text-secondary-label">
                   Missing critical parameters? The system prevents submission until all required fields are complete
                 </p>

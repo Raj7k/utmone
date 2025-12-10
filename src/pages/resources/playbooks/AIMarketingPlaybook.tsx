@@ -164,8 +164,8 @@ const AIMarketingPlaybook = () => {
           </div>
 
           {/* Title */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-zinc-900 lowercase mb-6">
-            ai marketing playbook: content creation in the ai era
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-zinc-900 mb-6">
+            AI marketing playbook: content creation in the AI era
           </h1>
           
           {/* Subtitle */}

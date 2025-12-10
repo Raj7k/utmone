@@ -8,7 +8,7 @@ export function ConversionProbability({ linkId }: ConversionProbabilityProps) {
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <h3 className="text-lg font-display font-semibold lowercase">conversion estimate</h3>
+        <h3 className="text-lg font-display font-semibold">conversion estimate</h3>
         <p className="text-sm text-muted-foreground">
           statistical estimate of how many visitors are likely to convert based on your historical data
         </p>

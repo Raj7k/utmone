@@ -176,7 +176,7 @@ const DecisionMatrixBuilder = () => {
   return (
     <Card className="border-2 border-blazeOrange/20">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 lowercase">
+        <CardTitle className="flex items-center gap-2">
           <Calculator className="w-5 h-5 text-blazeOrange" />
           weighted decision matrix
         </CardTitle>
@@ -263,7 +263,7 @@ const ROIForecaster = () => {
   return (
     <Card className="border-2 border-white/20">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 lowercase">
+        <CardTitle className="flex items-center gap-2">
           <Brain className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.9)' }} />
           clean-track ROI forecaster
         </CardTitle>
@@ -328,11 +328,11 @@ const ROIForecaster = () => {
         </div>
 
         <div className="flex gap-2">
-          <Button className="flex-1 lowercase">
+          <Button className="flex-1">
             <Share2 className="w-4 h-4 mr-2" />
             share forecast
           </Button>
-          <Button variant="outline" className="lowercase">
+          <Button variant="outline">
             <Download className="w-4 h-4 mr-2" />
             export
           </Button>
@@ -358,7 +358,7 @@ const DecisionFrameworks = () => {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <h1 className="hero-gradient text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase mb-4">
+            <h1 className="hero-gradient text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4">
               decision frameworks
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -369,9 +369,9 @@ const DecisionFrameworks = () => {
 
           <Tabs defaultValue="first-principles" className="space-y-8">
             <TabsList className="grid w-full grid-cols-3 lg:w-auto lg:inline-grid">
-              <TabsTrigger value="first-principles" className="lowercase">first principles</TabsTrigger>
-              <TabsTrigger value="decision-matrix" className="lowercase">decision matrix</TabsTrigger>
-              <TabsTrigger value="roi-forecaster" className="lowercase">ROI forecaster</TabsTrigger>
+              <TabsTrigger value="first-principles">first principles</TabsTrigger>
+              <TabsTrigger value="decision-matrix">decision matrix</TabsTrigger>
+              <TabsTrigger value="roi-forecaster">ROI forecaster</TabsTrigger>
             </TabsList>
 
             <TabsContent value="first-principles">
@@ -398,7 +398,7 @@ const DecisionFrameworks = () => {
               Want more powerful analytics and decision tools?
             </p>
             <Link to="/early-access">
-              <Button size="lg" className="lowercase">
+              <Button size="lg">
                 get early access to utm.one
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>

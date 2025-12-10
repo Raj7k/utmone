@@ -46,7 +46,7 @@ const CompensationTransparency = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle className="lowercase">generate salary bands</CardTitle>
+          <CardTitle>generate salary bands</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
@@ -69,7 +69,7 @@ const CompensationTransparency = () => {
         <div className="mt-8 space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle className="lowercase">recommended salary bands</CardTitle>
+              <CardTitle>recommended salary bands</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -102,7 +102,7 @@ const CompensationTransparency = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle className="lowercase">job posting salary range</CardTitle>
+              <CardTitle>job posting salary range</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="p-4 rounded-lg bg-muted/50 border font-mono text-sm">
@@ -116,7 +116,7 @@ const CompensationTransparency = () => {
 
           <Card className="border-white/20" style={{ background: 'linear-gradient(to bottom right, rgba(255,255,255,0.05), rgba(255,255,255,0.1))' }}>
             <CardHeader>
-              <CardTitle className="lowercase">"we pay fair" badge</CardTitle>
+              <CardTitle>"we pay fair" badge</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex items-center gap-4 p-6 bg-zinc-900/40 rounded-lg border-2 border-white/30">
