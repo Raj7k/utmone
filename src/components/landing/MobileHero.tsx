@@ -95,7 +95,7 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
             transition={{ duration: 0.2 }}
             className="space-y-4"
           >
-            <h1 className="text-3xl font-display font-bold lowercase leading-tight hero-gradient">
+            <h1 className="text-3xl font-display font-bold leading-tight hero-gradient">
               {content.headline}
             </h1>
             <p className="text-base leading-relaxed text-white-60">
@@ -156,10 +156,10 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
                     <Icon className={`w-5 h-5 ${isActive ? 'text-white-90' : 'text-white-60'}`} />
                   </div>
                   <div>
-                    <span className={`block text-sm font-semibold lowercase ${isActive ? 'text-white-95' : 'text-white-70'}`}>
+                    <span className={`block text-sm font-semibold ${isActive ? 'text-white-95' : 'text-white-70'}`}>
                       {useCase.label}
                     </span>
-                    <span className={`block text-[10px] mt-0.5 lowercase ${isActive ? 'text-white-50' : 'text-white-40'}`}>
+                    <span className={`block text-[10px] mt-0.5 ${isActive ? 'text-white-50' : 'text-white-40'}`}>
                       {useCase.sublabel}
                     </span>
                   </div>
@@ -187,10 +187,10 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
             <Shield className={`w-5 h-5 ${activeUseCase === "governance" ? 'text-white-90' : 'text-white-60'}`} />
           </div>
           <div className="flex-1 text-left">
-            <span className={`text-sm font-semibold lowercase ${activeUseCase === "governance" ? 'text-white-95' : 'text-white-70'}`}>
+            <span className={`text-sm font-semibold ${activeUseCase === "governance" ? 'text-white-95' : 'text-white-70'}`}>
               enterprise control
             </span>
-            <p className={`text-xs lowercase ${activeUseCase === "governance" ? 'text-white-60' : 'text-white-40'}`}>
+            <p className={`text-xs ${activeUseCase === "governance" ? 'text-white-60' : 'text-white-40'}`}>
               roles, rules & approvals
             </p>
           </div>
