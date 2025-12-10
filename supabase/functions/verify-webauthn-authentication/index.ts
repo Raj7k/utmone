@@ -123,7 +123,12 @@ Deno.serve(async (req) => {
       })
       .eq('id', user.id);
 
-    // Log the action
+    // Get client info for audit log
+    const forwardedFor = req.headers.get('x-forwarded-for');
+    const ipAddress = forwardedFor?.split(',')[0]?.trim() || 'unknown';
+    const userAgent = req.headers.get('user-agent') || '';
+
+    // Log to admin_audit_logs (existing)
     await supabase
       .from('admin_audit_logs')
       .insert({
@@ -132,6 +137,21 @@ Deno.serve(async (req) => {
         resource_type: 'user_authenticators',
         resource_id: user.id,
         new_values: { device_name: authenticator.device_name },
+        ip_address: ipAddress,
+        user_agent: userAgent,
+      });
+
+    // Log to mfa_audit_log (new detailed log)
+    await supabase
+      .from('mfa_audit_log')
+      .insert({
+        user_id: user.id,
+        action: 'webauthn_authentication',
+        success: true,
+        ip_address: ipAddress,
+        user_agent: userAgent,
+        domain: rpID,
+        metadata: { device_name: authenticator.device_name }
       });
 
     return new Response(
@@ -145,6 +165,26 @@ Deno.serve(async (req) => {
 
   } catch (error) {
     console.error('Error verifying authentication:', error);
+    
+    // Try to log failure (may fail if we don't have user context)
+    try {
+      const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+      const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+      const supabase = createClient(supabaseUrl, supabaseServiceKey);
+      
+      const forwardedFor = req.headers.get('x-forwarded-for');
+      const ipAddress = forwardedFor?.split(',')[0]?.trim() || 'unknown';
+      
+      await supabase.from('mfa_audit_log').insert({
+        user_id: null,
+        action: 'webauthn_authentication_failed',
+        success: false,
+        ip_address: ipAddress,
+        user_agent: req.headers.get('user-agent') || '',
+        metadata: { error: (error as Error).message }
+      });
+    } catch {}
+
     return new Response(
       JSON.stringify({ error: 'Internal server error' }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }

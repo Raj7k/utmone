@@ -182,12 +182,12 @@ export const SecurityKeyManager = () => {
       <CardContent className="space-y-6">
         {/* Domain Mismatch Warning */}
         {hasMismatchedKeys && (
-          <Alert className="bg-amber-500/10 border-amber-500/30">
-            <AlertTriangle className="h-4 w-4 text-amber-500" />
-            <AlertDescription className="text-amber-200">
+          <Alert variant="destructive" className="bg-destructive/10 border-destructive/30">
+            <AlertTriangle className="h-4 w-4 text-destructive" />
+            <AlertDescription className="text-foreground">
               <strong>Domain mismatch detected.</strong> Some security keys were registered on a different domain 
               and won't work here. Use the "re-register" button to fix them for{" "}
-              <code className="px-1 py-0.5 rounded bg-amber-500/20 text-amber-100 text-xs">{currentDomain}</code>
+              <code className="px-1 py-0.5 rounded bg-destructive/20 text-destructive text-xs">{currentDomain}</code>
             </AlertDescription>
           </Alert>
         )}
@@ -250,7 +250,7 @@ export const SecurityKeyManager = () => {
                     className={`flex items-center justify-between p-3 rounded-lg ${
                       domainMatch 
                         ? "bg-card border border-border" 
-                        : "bg-amber-500/10 border border-amber-500/30"
+                        : "bg-destructive/10 border border-destructive/30"
                     }`}
                   >
                     <div className="flex items-center gap-3">
@@ -267,10 +267,7 @@ export const SecurityKeyManager = () => {
                           {auth.registered_domain && (
                             <Badge 
                               variant={domainMatch ? "outline" : "destructive"}
-                              className={domainMatch 
-                                ? "text-xs" 
-                                : "text-xs bg-amber-500/20 border-amber-500/40 text-amber-200"
-                              }
+                              className="text-xs"
                             >
                               {auth.registered_domain}
                             </Badge>
@@ -288,7 +285,7 @@ export const SecurityKeyManager = () => {
                           )}
                         </div>
                         {!domainMatch && (
-                          <div className="text-xs text-amber-300 mt-1">
+                          <div className="text-xs text-destructive mt-1">
                             won't work on current domain
                           </div>
                         )}
@@ -300,7 +297,7 @@ export const SecurityKeyManager = () => {
                           variant="outline"
                           size="sm"
                           onClick={() => handleReregister(auth.id, auth.device_name)}
-                          className="bg-amber-500/10 border-amber-500/30 text-amber-200 hover:bg-amber-500/20 hover:text-amber-100"
+                          className="border-destructive/50 text-destructive hover:bg-destructive/10"
                         >
                           <RefreshCw className="h-3 w-3 mr-1.5" />
                           re-register
