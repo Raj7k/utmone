@@ -6,7 +6,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useTeamMembers } from "@/hooks/useTeamMembers";
-import { Trash2, Copy, CheckCircle, Send, HelpCircle } from "lucide-react";
+import { Trash2, Copy, CheckCircle, Send, HelpCircle, Clock, Link as LinkIcon } from "lucide-react";
+import { formatDistanceToNow } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -122,10 +123,22 @@ export function TeamMembers({ workspaceId }: TeamMembersProps) {
     navigator.clipboard.writeText(inviteUrl);
     setCopiedToken(token);
     toast({
-      title: "Link copied",
-      description: "Invitation link copied to clipboard",
+      title: "link copied",
+      description: "share this link with your teammate",
     });
     setTimeout(() => setCopiedToken(null), 2000);
+  };
+
+  const getExpiryText = (expiresAt: string) => {
+    const expiry = new Date(expiresAt);
+    const now = new Date();
+    if (expiry < now) return "expired";
+    return `expires ${formatDistanceToNow(expiry, { addSuffix: true })}`;
+  };
+
+  const getShortenedLink = (token: string) => {
+    // Show shortened version for display
+    return `utm.one/invite/${token.slice(0, 8)}...`;
   };
 
   const handleSmartInvite = (contactEmail: string, contactName: string) => {
@@ -192,43 +205,56 @@ export function TeamMembers({ workspaceId }: TeamMembersProps) {
           </form>
 
           {lastInvitation && (
-            <div className="mt-4 p-4 bg-system-green/10 border border-system-green/20 rounded-lg space-y-3">
-              <div className="flex items-start gap-2">
-                <CheckCircle className="h-5 w-5 text-system-green mt-0.5 flex-shrink-0" />
+            <div className="mt-4 p-5 bg-primary/5 border-2 border-primary/20 rounded-xl space-y-4 animate-in fade-in slide-in-from-top-2">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <CheckCircle className="h-5 w-5 text-primary" />
+                </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-callout font-medium text-label">invitation sent!</p>
-                  <p className="text-footnote text-secondary-label mt-0.5">
-                    email sent to {lastInvitation.email}
+                  <p className="text-base font-semibold text-foreground">invitation sent!</p>
+                  <p className="text-sm text-muted-foreground mt-0.5">
+                    we've emailed <span className="font-medium text-foreground">{lastInvitation.email}</span>
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    they'll receive an email shortly with a link to join
                   </p>
                 </div>
               </div>
               
-              <div className="space-y-2">
-                <p className="text-footnote text-secondary-label">or share this link directly:</p>
-                <div className="flex gap-2">
-                  <Input
-                    readOnly
-                    value={`${window.location.origin}/accept-invite?token=${lastInvitation.token}`}
-                    className="text-footnote font-mono"
-                  />
+              <div className="space-y-2 pl-[52px]">
+                <p className="text-xs text-muted-foreground">or share this link directly:</p>
+                <div className="flex gap-2 items-center">
+                  <div className="flex-1 flex items-center gap-2 px-3 py-2 bg-muted/50 rounded-lg border border-border">
+                    <LinkIcon className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
+                    <span className="text-sm font-mono text-foreground truncate">
+                      {getShortenedLink(lastInvitation.token)}
+                    </span>
+                  </div>
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => copyInviteLink(lastInvitation.token)}
+                    className="h-9 px-3"
                   >
-                    <Copy className="h-4 w-4" />
+                    {copiedToken === lastInvitation.token ? (
+                      <CheckCircle className="h-4 w-4 text-primary" />
+                    ) : (
+                      <Copy className="h-4 w-4" />
+                    )}
                   </Button>
                 </div>
               </div>
 
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={clearLastInvitation}
-                className="text-footnote"
-              >
-                dismiss
-              </Button>
+              <div className="pl-[52px]">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={clearLastInvitation}
+                  className="text-xs text-muted-foreground hover:text-foreground -ml-2"
+                >
+                  dismiss
+                </Button>
+              </div>
             </div>
           )}
         </CardContent>
@@ -248,62 +274,95 @@ export function TeamMembers({ workspaceId }: TeamMembersProps) {
                 <TableRow>
                   <TableHead>email</TableHead>
                   <TableHead>role</TableHead>
-                  <TableHead>expires</TableHead>
-                  <TableHead>actions</TableHead>
+                  <TableHead>status</TableHead>
+                  <TableHead className="text-right">actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {invitations.map((invitation) => (
-                  <TableRow key={invitation.id}>
-                    <TableCell>{invitation.email}</TableCell>
-                    <TableCell>{invitation.role}</TableCell>
-                    <TableCell>{new Date(invitation.expires_at).toLocaleDateString()}</TableCell>
-                    <TableCell>
-                      <div className="flex gap-2">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => resendInviteMutation.mutate(invitation.id)}
-                          disabled={resendInviteMutation.isPending}
-                        >
-                          <Send className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => copyInviteLink(invitation.token)}
-                        >
-                          {copiedToken === invitation.token ? (
-                            <CheckCircle className="h-4 w-4 text-system-green" />
-                          ) : (
-                            <Copy className="h-4 w-4" />
-                          )}
-                        </Button>
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <Button variant="ghost" size="sm">
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>cancel invitation</AlertDialogTitle>
-                              <AlertDialogDescription>
-                                are you sure you want to cancel this invitation? the link will no longer work.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel>cancel</AlertDialogCancel>
-                              <AlertDialogAction onClick={() => cancelInvitation(invitation.id)}>
-                                cancel invitation
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {invitations.map((invitation) => {
+                  const isExpired = new Date(invitation.expires_at) < new Date();
+                  return (
+                    <TableRow key={invitation.id} className={isExpired ? "opacity-60" : ""}>
+                      <TableCell>
+                        <div className="font-medium">{invitation.email}</div>
+                      </TableCell>
+                      <TableCell>
+                        <span className="capitalize text-sm">{invitation.role.replace('_', ' ')}</span>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-1.5">
+                          <Clock className={`h-3.5 w-3.5 ${isExpired ? "text-destructive" : "text-muted-foreground"}`} />
+                          <span className={`text-sm ${isExpired ? "text-destructive" : "text-muted-foreground"}`}>
+                            {getExpiryText(invitation.expires_at)}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex gap-1 justify-end">
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                disabled={resendInviteMutation.isPending}
+                                title="resend invitation"
+                              >
+                                <Send className="h-4 w-4" />
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>resend invitation?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  this will send a new email to {invitation.email} with a fresh invitation link.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => resendInviteMutation.mutate(invitation.id)}>
+                                  resend
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => copyInviteLink(invitation.token)}
+                            title="copy invite link"
+                          >
+                            {copiedToken === invitation.token ? (
+                              <CheckCircle className="h-4 w-4 text-primary" />
+                            ) : (
+                              <Copy className="h-4 w-4" />
+                            )}
+                          </Button>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button variant="ghost" size="sm" title="cancel invitation">
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>cancel invitation?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  the invitation link sent to {invitation.email} will no longer work. you can always send a new one.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>keep invitation</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => cancelInvitation(invitation.id)}>
+                                  cancel invitation
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </CardContent>

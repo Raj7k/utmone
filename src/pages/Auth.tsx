@@ -394,16 +394,26 @@ const Auth = () => {
             <motion.div 
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-muted/30 border border-border rounded-2xl p-4 flex items-start gap-3"
+              className="bg-primary/5 border-2 border-primary/20 rounded-2xl p-5 space-y-4"
             >
-              <Info className="h-5 w-5 text-foreground flex-shrink-0 mt-0.5" />
-              <div className="flex-1 space-y-1">
-                <p className="text-sm font-medium text-foreground">
-                  you've been invited to join utm.one
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  {invitationContext.inviterName} has invited you to join their workspace
-                  as a {invitationContext.role}. complete your signup below.
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Info className="h-5 w-5 text-primary" />
+                </div>
+                <div className="flex-1 space-y-1">
+                  <p className="text-base font-semibold text-foreground">
+                    workspace invitation
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    <span className="font-medium text-foreground">{invitationContext.inviterName}</span> invited you to join{" "}
+                    <span className="font-medium text-foreground">{invitationContext.workspaceName}</span> as{" "}
+                    <span className="font-medium text-primary">{invitationContext.role}</span>
+                  </p>
+                </div>
+              </div>
+              <div className="pl-[52px]">
+                <p className="text-xs text-muted-foreground">
+                  sign in or create an account with <span className="font-medium text-foreground">{invitationContext.email}</span> to accept
                 </p>
               </div>
             </motion.div>
@@ -437,15 +447,34 @@ const Auth = () => {
                   <label htmlFor="signin-email" className="text-sm font-medium text-foreground">
                     email
                   </label>
-                  <Input
-                    id="signin-email"
-                    type="email"
-                    placeholder="your@email.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="h-14 rounded-xl border-2 text-base bg-muted/30 border-border text-foreground placeholder:text-muted-foreground"
-                  />
+                  <div className="relative">
+                    <Input
+                      id="signin-email"
+                      type="email"
+                      placeholder="your@email.com"
+                      value={email}
+                      onChange={(e) => !invitationContext && setEmail(e.target.value)}
+                      required
+                      readOnly={!!invitationContext}
+                      className={`h-14 rounded-xl border-2 text-base bg-muted/30 border-border text-foreground placeholder:text-muted-foreground ${
+                        invitationContext ? "pr-12 bg-muted/50" : ""
+                      }`}
+                    />
+                    {invitationContext && (
+                      <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                        <div className="w-6 h-6 bg-primary/10 rounded-md flex items-center justify-center" title="email from invitation">
+                          <svg className="w-3.5 h-3.5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                          </svg>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  {invitationContext && (
+                    <p className="text-xs text-muted-foreground">
+                      this email was specifically invited to join the workspace
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="signin-password" className="text-sm font-medium text-foreground">
