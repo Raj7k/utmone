@@ -20,6 +20,7 @@ import { MainLayout } from "@/components/layout/MainLayout";
 
 // Lazy load heavy landing components
 const ControlDeckHero = lazy(() => import("@/components/landing/ControlDeckHero").then(m => ({ default: m.ControlDeckHero })));
+const AppleSecondFold = lazy(() => import("@/components/landing/AppleSecondFold").then(m => ({ default: m.AppleSecondFold })));
 const TrustBadgeStrip = lazy(() => import("@/components/landing/TrustBadgeStrip").then(m => ({ default: m.TrustBadgeStrip })));
 const InstantDemoWidget = lazy(() => import("@/components/landing/InstantDemoWidget").then(m => ({ default: m.InstantDemoWidget })));
 const AuthorityToolsStrip = lazy(() => import("@/components/landing/AuthorityToolsStrip").then(m => ({ default: m.AuthorityToolsStrip })));
@@ -133,6 +134,11 @@ const Index = () => {
           <LinkLayersSection />
         </>
       )}
+
+      {/* Apple-style Second Fold - The Product Story */}
+      <Suspense fallback={<SectionSkeleton />}>
+        <AppleSecondFold />
+      </Suspense>
 
       {/* Trust Badge Strip - Security badges without customer proof */}
       <Suspense fallback={<SectionSkeleton />}>
