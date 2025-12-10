@@ -3289,11 +3289,13 @@ export type Database = {
           click_hour: number | null
           clicked_at: string | null
           country: string | null
+          created_at: string | null
           device_type: string | null
           id: string
           ip_address: string | null
           is_unique: boolean | null
           link_id: string
+          metadata: Json | null
           og_variant_id: string | null
           os: string | null
           qr_code_id: string | null
@@ -3311,11 +3313,13 @@ export type Database = {
           click_hour?: number | null
           clicked_at?: string | null
           country?: string | null
+          created_at?: string | null
           device_type?: string | null
           id?: string
           ip_address?: string | null
           is_unique?: boolean | null
           link_id: string
+          metadata?: Json | null
           og_variant_id?: string | null
           os?: string | null
           qr_code_id?: string | null
@@ -3333,11 +3337,13 @@ export type Database = {
           click_hour?: number | null
           clicked_at?: string | null
           country?: string | null
+          created_at?: string | null
           device_type?: string | null
           id?: string
           ip_address?: string | null
           is_unique?: boolean | null
           link_id?: string
+          metadata?: Json | null
           og_variant_id?: string | null
           os?: string | null
           qr_code_id?: string | null
@@ -4099,6 +4105,39 @@ export type Database = {
         }
         Relationships: []
       }
+      mfa_audit_log: {
+        Row: {
+          action: string
+          created_at: string | null
+          domain: string | null
+          id: string
+          ip_address: string | null
+          metadata: Json | null
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string | null
+          domain?: string | null
+          id?: string
+          ip_address?: string | null
+          metadata?: Json | null
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string | null
+          domain?: string | null
+          id?: string
+          ip_address?: string | null
+          metadata?: Json | null
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       mfa_settings: {
         Row: {
           admin_recovery_codes_hashed: string[] | null
@@ -4107,8 +4146,9 @@ export type Database = {
           id: string
           is_enabled: boolean | null
           last_verified_at: string | null
+          mfa_enforced: boolean | null
           recovery_codes_hashed: string[] | null
-          secret_encrypted: string
+          secret_encrypted: string | null
           updated_at: string | null
           user_id: string
         }
@@ -4119,8 +4159,9 @@ export type Database = {
           id?: string
           is_enabled?: boolean | null
           last_verified_at?: string | null
+          mfa_enforced?: boolean | null
           recovery_codes_hashed?: string[] | null
-          secret_encrypted: string
+          secret_encrypted?: string | null
           updated_at?: string | null
           user_id: string
         }
@@ -4131,8 +4172,9 @@ export type Database = {
           id?: string
           is_enabled?: boolean | null
           last_verified_at?: string | null
+          mfa_enforced?: boolean | null
           recovery_codes_hashed?: string[] | null
-          secret_encrypted?: string
+          secret_encrypted?: string | null
           updated_at?: string | null
           user_id?: string
         }
@@ -7087,6 +7129,17 @@ export type Database = {
           p_metadata: Json
           p_resource_id: string
           p_workspace_id: string
+        }
+        Returns: string
+      }
+      log_mfa_event: {
+        Args: {
+          p_action: string
+          p_domain?: string
+          p_ip_address?: string
+          p_metadata?: Json
+          p_user_agent?: string
+          p_user_id: string
         }
         Returns: string
       }
