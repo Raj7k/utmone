@@ -49,6 +49,7 @@ const Attribution = lazy(() => import("./pages/dashboard/Attribution"));
 const RobustAttribution = lazy(() => import("./pages/RobustAttribution"));
 const DashboardSales = lazy(() => import("./pages/dashboard/Sales"));
 const DashboardEvents = lazy(() => import("./pages/dashboard/Events"));
+const Intelligence = lazy(() => import("./pages/dashboard/Intelligence"));
 // Critical layouts - static imports to prevent module loading failures
 import { DashboardLayout } from "./components/layout/DashboardLayout";
 const Links = lazy(() => import("./pages/Links"));
@@ -432,6 +433,7 @@ const App = () => (
                <Route path="/dashboard/robust-attribution" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><RobustAttribution /></DashboardLayout></Suspense></ProtectedRoute>} />
                <Route path="/dashboard/sales" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardSales /></DashboardLayout></Suspense></ProtectedRoute>} />
                <Route path="/dashboard/events" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardEvents /></DashboardLayout></Suspense></ProtectedRoute>} />
+               <Route path="/dashboard/intelligence" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Intelligence /></DashboardLayout></Suspense></ProtectedRoute>} />
                
               {/* Onboarding Routes - No ProtectedRoute to prevent redirect loops after signup */}
               <Route path="/onboarding" element={<Suspense fallback={<DashboardSkeleton />}><OnboardingWizard /></Suspense>} />
