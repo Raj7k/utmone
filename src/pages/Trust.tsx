@@ -3,6 +3,7 @@ import { Shield, Lock, Database, Eye, FileCheck, AlertTriangle, Check } from "lu
 import { Badge } from "@/components/ui/badge";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { SEO } from "@/components/seo/SEO";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 export default function Trust() {
   return (
@@ -19,11 +20,11 @@ export default function Trust() {
           <Badge className="mb-6 bg-white/10 text-white border-white/20">
             Security Portal
           </Badge>
-          <h1 className="text-5xl md:text-6xl font-display font-bold mb-6 brand-lowercase hero-gradient">
+          <h1 className="text-5xl md:text-6xl font-display font-bold mb-6 hero-gradient">
             enterprise-grade security, by default.
           </h1>
           <p className="text-xl max-w-3xl mx-auto text-white/50">
-            utm.one is built on zero-trust architecture with field-level encryption, comprehensive audit logs, and GDPR compliance.
+            {p("utm.one is built on zero-trust architecture with field-level encryption, comprehensive audit logs, and GDPR compliance.")}
           </p>
         </div>
       </section>
@@ -35,7 +36,7 @@ export default function Trust() {
             {/* Infrastructure Security */}
             <div className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
               <Shield className="h-12 w-12 mb-4 text-white/80" />
-              <h3 className="text-2xl font-display font-bold text-white mb-4 brand-lowercase">
+              <h3 className="text-2xl font-display font-bold text-white mb-4">
                 infrastructure security
               </h3>
               <div className="space-y-3 text-white/50">
@@ -61,7 +62,7 @@ export default function Trust() {
             {/* Data Encryption */}
             <div className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
               <Lock className="h-12 w-12 mb-4 text-white/80" />
-              <h3 className="text-2xl font-display font-bold text-white mb-4 brand-lowercase">
+              <h3 className="text-2xl font-display font-bold text-white mb-4">
                 data encryption
               </h3>
               <div className="space-y-3 text-white/50">
@@ -87,9 +88,7 @@ export default function Trust() {
             {/* GDPR Compliance */}
             <div className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
               <Database className="h-12 w-12 mb-4 text-white/80" />
-              <h3 className="text-2xl font-display font-bold text-white mb-4 brand-lowercase">
-                gdpr compliance
-              </h3>
+              <h3 className="text-2xl font-display font-bold text-white mb-4">{p("GDPR compliance")}</h3>
               <div className="space-y-3 text-white/50">
                 <div className="flex items-start gap-3">
                   <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
@@ -113,7 +112,7 @@ export default function Trust() {
             {/* Fraud Guard */}
             <div className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
               <Eye className="h-12 w-12 mb-4 text-white/80" />
-              <h3 className="text-2xl font-display font-bold text-white mb-4 brand-lowercase">
+              <h3 className="text-2xl font-display font-bold text-white mb-4">
                 fraud guard
               </h3>
               <div className="space-y-3 text-white/50">
@@ -139,7 +138,7 @@ export default function Trust() {
             {/* Link Security */}
             <div className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
               <FileCheck className="h-12 w-12 mb-4 text-white/80" />
-              <h3 className="text-2xl font-display font-bold text-white mb-4 brand-lowercase">
+              <h3 className="text-2xl font-display font-bold text-white mb-4">
                 link security
               </h3>
               <div className="space-y-3 text-white/50">
@@ -165,7 +164,7 @@ export default function Trust() {
             {/* Audit Logs */}
             <div className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
               <AlertTriangle className="h-12 w-12 mb-4 text-white/80" />
-              <h3 className="text-2xl font-display font-bold text-white mb-4 brand-lowercase">
+              <h3 className="text-2xl font-display font-bold text-white mb-4">
                 audit logs
               </h3>
               <div className="space-y-3 text-white/50">
@@ -194,7 +193,7 @@ export default function Trust() {
       {/* Documentation Links */}
       <section className="py-24">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-display font-bold mb-6 brand-lowercase hero-gradient">
+          <h2 className="text-3xl font-display font-bold mb-6 hero-gradient">
             security documentation
           </h2>
           <p className="text-lg mb-8 text-white/50">

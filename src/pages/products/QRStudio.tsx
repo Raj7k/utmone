@@ -9,6 +9,7 @@ import { Palette, RefreshCw, MapPin, Download, Shield, BarChart3, ArrowRight } f
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 export default function QRStudio() {
   const schema = {
@@ -134,8 +135,8 @@ export default function QRStudio() {
         <section className="py-24 md:py-32 bg-white/5">
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white brand-lowercase mb-4">
-                what you get with qr studio
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-4">
+                {p("what you get with QR studio")}
               </h2>
               <p className="text-lg text-white/60 max-w-2xl mx-auto">
                 powered by clean-track scan reliability engine
@@ -186,7 +187,7 @@ export default function QRStudio() {
                     <div className="w-12 h-12 rounded-xl bg-white/5 text-white flex items-center justify-center mb-4">
                       {benefit.icon}
                     </div>
-                    <h3 className="text-lg font-display font-semibold text-white brand-lowercase mb-2">
+                    <h3 className="text-lg font-display font-semibold text-white mb-2">
                       {benefit.title}
                     </h3>
                     <p className="text-sm text-white/60 leading-relaxed">
@@ -203,8 +204,8 @@ export default function QRStudio() {
         <section className="py-24 md:py-32">
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white brand-lowercase mb-4">
-                from url to print in 60 seconds
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-4">
+                {p("from URL to print in 60 seconds")}
               </h2>
             </div>
 
@@ -219,7 +220,7 @@ export default function QRStudio() {
                   <div className="w-16 h-16 rounded-full bg-white/5 text-white flex items-center justify-center text-2xl font-bold mx-auto mb-4">
                     {item.step}
                   </div>
-                  <h4 className="text-lg font-display font-semibold text-white brand-lowercase mb-1">
+                  <h4 className="text-lg font-display font-semibold text-white mb-1">
                     {item.label}
                   </h4>
                   <p className="text-sm text-white/60">{item.desc}</p>
@@ -255,8 +256,8 @@ export default function QRStudio() {
               ].map((feature, index) => (
                 <Card key={index} className="p-6 transition-colors group cursor-pointer hover:border-white/20">
                   <Link to={feature.link}>
-                    <h3 className="text-xl font-display font-semibold text-white brand-lowercase mb-2 group-hover:text-white/80 transition-colors">
-                      {feature.title}
+                    <h3 className="text-xl font-display font-semibold text-white mb-2 group-hover:text-white/80 transition-colors">
+                      {p(feature.title)}
                     </h3>
                     <p className="text-sm text-white/60 mb-4">{feature.description}</p>
                     <div className="flex items-center gap-2 text-sm font-semibold text-white">
@@ -273,7 +274,7 @@ export default function QRStudio() {
         {/* FAQ */}
         <section className="py-24 md:py-32">
           <div className="max-w-4xl mx-auto px-6">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-center mb-16 brand-lowercase">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-center mb-16">
               frequently asked questions
             </h2>
             
@@ -313,8 +314,8 @@ export default function QRStudio() {
                 }
               ].map((faq, index) => (
                 <div key={index} className="space-y-3">
-                  <h3 className="text-xl font-display font-semibold text-white brand-lowercase">
-                    {faq.q}
+                  <h3 className="text-xl font-display font-semibold text-white">
+                    {p(faq.q)}
                   </h3>
                   <p className="text-white/60 leading-relaxed">
                     {faq.a}
@@ -328,8 +329,8 @@ export default function QRStudio() {
         {/* Final CTA */}
         <section className="py-24 md:py-32 bg-white/5 border-t border-white/10">
           <div className="max-w-4xl mx-auto px-6 text-center space-y-8">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white brand-lowercase">
-              ready to stop guessing if your codes work?
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white">
+              {p("ready to stop guessing if your QR codes work?")}
             </h2>
             <p className="text-xl text-white/60 max-w-2xl mx-auto">
               join marketers using clean-track qr codes
