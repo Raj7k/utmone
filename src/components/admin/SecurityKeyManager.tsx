@@ -18,7 +18,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Shield, Key, Trash2, Plus, AlertTriangle, CheckCircle, RefreshCw } from "lucide-react";
+import { Shield, Key, Trash2, Plus, AlertTriangle, CheckCircle, RefreshCw, ExternalLink } from "lucide-react";
 import { format } from "date-fns";
 import { startRegistration } from '@simplewebauthn/browser';
 
@@ -30,6 +30,13 @@ export const SecurityKeyManager = () => {
   const queryClient = useQueryClient();
   
   const currentDomain = window.location.hostname;
+  
+  // Detect if running in iframe (WebAuthn blocked in iframes by default)
+  const isInIframe = window.self !== window.top;
+  
+  const handleOpenInNewTab = () => {
+    window.open(window.location.href, '_blank');
+  };
 
   const { data: authenticators, isLoading } = useQuery({
     queryKey: ['user-authenticators'],
@@ -90,6 +97,10 @@ export const SecurityKeyManager = () => {
           const errorMsg = error.message?.toLowerCase() || '';
           if (errorMsg.includes('excluded') || errorMsg.includes('already')) {
             throw new Error('This security key is already registered on this account. Check your existing keys below.');
+          }
+          // Check if likely iframe issue
+          if (window.self !== window.top) {
+            throw new Error('WebAuthn is blocked in iframes. Click "Open in new tab" above to register your key.');
           }
           // Otherwise it's likely user cancellation or timeout
           throw new Error('Registration cancelled or timed out. Tap your security key when prompted and try again.');
@@ -192,6 +203,24 @@ export const SecurityKeyManager = () => {
           </Alert>
         )}
 
+        {/* Iframe Warning */}
+        {isInIframe && (
+          <Alert className="bg-amber-500/10 border-amber-500/30">
+            <AlertTriangle className="h-4 w-4 text-amber-500" />
+            <AlertDescription className="text-foreground">
+              <strong>Preview mode detected.</strong> WebAuthn security keys cannot be registered in iframes.
+              <Button
+                variant="link"
+                size="sm"
+                onClick={handleOpenInNewTab}
+                className="ml-2 h-auto p-0 text-amber-500 hover:text-amber-400"
+              >
+                Open in new tab <ExternalLink className="h-3 w-3 ml-1" />
+              </Button>
+            </AlertDescription>
+          </Alert>
+        )}
+
         {/* Registration Form */}
         <div className="space-y-4 p-4 rounded-lg bg-muted/10 border border-border">
           <div className="flex items-center justify-between">
@@ -205,6 +234,8 @@ export const SecurityKeyManager = () => {
               variant="outline"
               size="sm"
               onClick={() => setIsRegistering(!isRegistering)}
+              disabled={isInIframe}
+              title={isInIframe ? "Open in new tab to register keys" : undefined}
             >
               <Plus className="h-4 w-4 mr-2" />
               {isRegistering ? "cancel" : "add key"}
