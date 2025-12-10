@@ -20,9 +20,8 @@ import { MainLayout } from "@/components/layout/MainLayout";
 
 // Lazy load heavy landing components
 const ControlDeckHero = lazy(() => import("@/components/landing/ControlDeckHero").then(m => ({ default: m.ControlDeckHero })));
-const AppleSecondFold = lazy(() => import("@/components/landing/AppleSecondFold").then(m => ({ default: m.AppleSecondFold })));
-const TrustBadgeStrip = lazy(() => import("@/components/landing/TrustBadgeStrip").then(m => ({ default: m.TrustBadgeStrip })));
-const InstantDemoWidget = lazy(() => import("@/components/landing/InstantDemoWidget").then(m => ({ default: m.InstantDemoWidget })));
+const DeepAnalyticsDemo = lazy(() => import("@/components/landing/DeepAnalyticsDemo").then(m => ({ default: m.DeepAnalyticsDemo })));
+const LiveDemoWidget = lazy(() => import("@/components/landing/LiveDemoWidget").then(m => ({ default: m.LiveDemoWidget })));
 const AuthorityToolsStrip = lazy(() => import("@/components/landing/AuthorityToolsStrip").then(m => ({ default: m.AuthorityToolsStrip })));
 const TransparencyStrip = lazy(() => import("@/components/landing/TransparencyStrip").then(m => ({ default: m.TransparencyStrip })));
 const DynamicProblemSection = lazy(() => import("@/components/landing/DynamicProblemSection").then(m => ({ default: m.DynamicProblemSection })));
@@ -135,19 +134,14 @@ const Index = () => {
         </>
       )}
 
-      {/* Apple-style Second Fold - The Product Story */}
+      {/* Deep Analytics Demo - The Hidden Revenue Story */}
       <Suspense fallback={<SectionSkeleton />}>
-        <AppleSecondFold />
+        <DeepAnalyticsDemo />
       </Suspense>
 
-      {/* Trust Badge Strip - Security badges without customer proof */}
+      {/* Live Demo Widget - Real working demo */}
       <Suspense fallback={<SectionSkeleton />}>
-        <TrustBadgeStrip />
-      </Suspense>
-
-      {/* Instant Demo Widget - Try before signup */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <InstantDemoWidget />
+        <LiveDemoWidget />
       </Suspense>
 
       {/* NARRATIVE FLOW - All sections change based on Control Deck selection */}
