@@ -14,7 +14,7 @@ export default function AttributionGraph() {
     {
       title: "Upper-funnel channels getting zero credit",
       scenario: "Your LinkedIn campaign drives awareness. Your email nurtures leads. Google Search closes deals. GA4 gives Google 100% credit. You cut LinkedIn budget. Sales tanks.",
-      solution: "Bayesian attribution shows LinkedIn deserves 40% credit, Email 30%, Google 30%. You triple LinkedIn budget. Pipeline grows 60%."
+      solution: "Clean Track Intelligence™ shows LinkedIn deserves 40% credit, Email 30%, Google 30%. You triple LinkedIn budget. Pipeline grows 60%."
     },
     {
       title: "Budget allocation wars between teams",
@@ -36,7 +36,7 @@ export default function AttributionGraph() {
   const faqs = [
     {
       question: "How is this different from Google Analytics attribution?",
-      answer: "GA4 uses rule-based attribution (last-click, first-click, linear). utm.one uses Bayesian inference to calculate probabilistic contribution—which touchpoints actually caused the conversion, not just arbitrary credit distribution. It's the difference between 'this touchpoint was present' vs 'this touchpoint made it happen'."
+      answer: "GA4 uses rule-based attribution (last-click, first-click, linear). utm.one uses Clean Track Intelligence™ to calculate probabilistic contribution—which touchpoints actually caused the conversion, not just arbitrary credit distribution. It's the difference between 'this touchpoint was present' vs 'this touchpoint made it happen'."
     },
     {
       question: "Do I need to change my tracking setup?",
@@ -44,7 +44,7 @@ export default function AttributionGraph() {
     },
     {
       question: "Can I compare this to my current GA4 attribution?",
-      answer: "Yes. utm.one shows side-by-side comparison of 'Last-Click GA4' vs 'utm.one Bayesian Attribution' so you can see exactly how much credit your upper-funnel channels deserve. You'll often find 30-50% revenue attribution was hidden."
+      answer: "Yes. utm.one shows side-by-side comparison of 'Last-Click GA4' vs 'utm.one Clean Track Intelligence™' so you can see exactly how much credit your upper-funnel channels deserve. You'll often find 30-50% revenue attribution was hidden."
     },
     {
       question: "What if a customer's journey spans multiple devices?",
