@@ -5,7 +5,7 @@ import {
   Eye, 
   Globe, 
   ArrowRight,
-  Infinity,
+  Infinity as InfinityIcon,
   Database,
   GitBranch,
   Shield,
@@ -42,11 +42,32 @@ export const TrustSection = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="obsidian-glass rounded-2xl p-6 space-y-4"
+            className="obsidian-glass rounded-2xl p-6 space-y-4 relative overflow-hidden group"
           >
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-foreground/10">
+            {/* Animated background on hover */}
+            <motion.div
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+              style={{
+                background: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.03) 0%, transparent 60%)'
+              }}
+            />
+
+            <div className="relative flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-foreground/10 relative">
                 <Eye className="w-5 h-5 text-foreground/80" />
+                {/* Animated scan line */}
+                <motion.div
+                  className="absolute inset-0 rounded-lg overflow-hidden"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                >
+                  <motion.div
+                    className="absolute w-full h-0.5 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                    animate={{ top: ['0%', '100%', '0%'] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                  />
+                </motion.div>
               </div>
               <div>
                 <h2 className="text-lg font-display font-semibold text-foreground/90">
@@ -58,42 +79,55 @@ export const TrustSection = () => {
               </div>
             </div>
 
-            {/* Semantic URL Example */}
-            <div className="rounded-xl p-4 space-y-2 bg-foreground/[0.03]">
+            {/* Semantic URL Example with typing animation */}
+            <div className="relative rounded-xl p-4 space-y-2 bg-foreground/[0.03]">
               <div className="flex items-center gap-2 text-xs">
                 <span className="text-destructive">✗</span>
                 <span className="font-mono text-muted-foreground">bit.ly/3xK9mzQ</span>
               </div>
-              <div className="flex items-center gap-2 text-xs">
+              <motion.div 
+                className="flex items-center gap-2 text-xs"
+                initial={{ opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+              >
                 <CheckCircle2 className="w-3 h-3 text-foreground/80" />
                 <span className="font-mono text-foreground/90">utm.one/nike-product-demo</span>
-              </div>
+              </motion.div>
               <p className="text-[10px] text-muted-foreground/60 font-sans">
                 Screen readers speak meaningful URLs
               </p>
             </div>
 
-            {/* Features */}
-            <div className="grid grid-cols-2 gap-3">
+            {/* Features with staggered animation */}
+            <div className="relative grid grid-cols-2 gap-3">
               {[
                 { icon: Eye, label: "Screen reader ready" },
                 { icon: Keyboard, label: "Keyboard navigation" },
                 { icon: Globe, label: "Semantic slugs" },
                 { icon: CheckCircle2, label: "High contrast" },
-              ].map((feature) => {
-                const Icon = feature.icon;
+              ].map((feature, index) => {
+                const FeatureIcon = feature.icon;
                 return (
-                  <div key={feature.label} className="flex items-center gap-2 text-xs text-foreground/70 font-sans">
-                    <Icon className="w-3.5 h-3.5 shrink-0 text-muted-foreground" />
+                  <motion.div 
+                    key={feature.label} 
+                    className="flex items-center gap-2 text-xs text-foreground/70 font-sans"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.1 * index }}
+                  >
+                    <FeatureIcon className="w-3.5 h-3.5 shrink-0 text-muted-foreground" />
                     <span>{feature.label}</span>
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>
 
             <Link 
               to="/features/accessibility"
-              className="inline-flex items-center gap-2 text-xs font-medium transition-colors hover:opacity-80 text-muted-foreground font-sans"
+              className="relative inline-flex items-center gap-2 text-xs font-medium transition-colors hover:opacity-80 text-muted-foreground font-sans"
             >
               learn more
               <ArrowRight className="h-3 w-3" />
@@ -106,11 +140,25 @@ export const TrustSection = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="obsidian-glass rounded-2xl p-6 space-y-4"
+            className="obsidian-glass rounded-2xl p-6 space-y-4 relative overflow-hidden group"
           >
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-foreground/10">
+            {/* Animated background on hover */}
+            <motion.div
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+              style={{
+                background: 'radial-gradient(circle at 70% 30%, rgba(255,255,255,0.03) 0%, transparent 60%)'
+              }}
+            />
+
+            <div className="relative flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-foreground/10 relative">
                 <Shield className="w-5 h-5 text-foreground/80" />
+                {/* Pulsing protection ring */}
+                <motion.div
+                  className="absolute inset-0 rounded-lg border border-foreground/20"
+                  animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0, 0.5] }}
+                  transition={{ duration: 2.5, repeat: Infinity }}
+                />
               </div>
               <div>
                 <h2 className="text-lg font-display font-semibold text-foreground/90">
@@ -122,44 +170,67 @@ export const TrustSection = () => {
               </div>
             </div>
 
-            {/* Mini Timeline */}
-            <div className="rounded-xl p-4 space-y-2 bg-foreground/[0.03]">
+            {/* Mini Timeline with animated indicators */}
+            <div className="relative rounded-xl p-4 space-y-2 bg-foreground/[0.03]">
               {[
                 { year: "2025", event: "Tool A shuts down", status: "broken" },
                 { year: "2027", event: "Your utm.one link", status: "active" },
                 { year: "2030", event: "Still working", status: "active" },
-              ].map((item) => (
-                <div key={item.year} className="flex items-center gap-2 text-xs font-sans">
-                  <Clock className={`w-3 h-3 ${item.status === "active" ? 'text-foreground/80' : 'text-destructive/60'}`} />
+              ].map((item, idx) => (
+                <motion.div 
+                  key={item.year} 
+                  className="flex items-center gap-2 text-xs font-sans"
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.15 * idx }}
+                >
+                  <div className="relative">
+                    <Clock className={`w-3 h-3 ${item.status === "active" ? 'text-foreground/80' : 'text-destructive/60'}`} />
+                    {item.status === "active" && (
+                      <motion.div
+                        className="absolute -inset-1 rounded-full bg-foreground/20"
+                        animate={{ scale: [1, 1.5, 1], opacity: [0.3, 0, 0.3] }}
+                        transition={{ duration: 2, repeat: Infinity, delay: idx * 0.3 }}
+                      />
+                    )}
+                  </div>
                   <span className="font-mono text-muted-foreground">{item.year}</span>
                   <span className={item.status === "active" ? 'text-foreground/90' : 'text-destructive/80'}>
                     {item.event}
                   </span>
-                </div>
+                </motion.div>
               ))}
             </div>
 
-            {/* Features */}
-            <div className="grid grid-cols-2 gap-3">
+            {/* Features with staggered animation */}
+            <div className="relative grid grid-cols-2 gap-3">
               {[
-                { icon: Infinity, label: "Permanent redirects" },
+                { icon: InfinityIcon, label: "Permanent redirects" },
                 { icon: Database, label: "Self-hosted option" },
                 { icon: GitBranch, label: "Auto backups" },
                 { icon: Shield, label: "Always working" },
-              ].map((feature) => {
+              ].map((feature, idx) => {
                 const Icon = feature.icon;
                 return (
-                  <div key={feature.label} className="flex items-center gap-2 text-xs text-foreground/70 font-sans">
+                  <motion.div 
+                    key={feature.label} 
+                    className="flex items-center gap-2 text-xs text-foreground/70 font-sans"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.1 * idx }}
+                  >
                     <Icon className="w-3.5 h-3.5 shrink-0 text-muted-foreground" />
                     <span>{feature.label}</span>
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>
 
             <Link 
               to="/features/link-immunity"
-              className="inline-flex items-center gap-2 text-xs font-medium transition-colors hover:opacity-80 text-muted-foreground font-sans"
+              className="relative inline-flex items-center gap-2 text-xs font-medium transition-colors hover:opacity-80 text-muted-foreground font-sans"
             >
               learn more
               <ArrowRight className="h-3 w-3" />

@@ -14,7 +14,7 @@ const INSIGHT_CONTENT: Record<UseCaseType, {
   attribution: {
     insight: "attribution isn't about the last touch. it's about measuring influence.",
     explanation: "every touchpoint that contributed to a sale deserves credit proportional to its influence. not just the last one that happened to be there when the customer clicked 'buy'.",
-    principles: ["Bayesian probability", "30-day windows", "Lift analysis"],
+    principles: ["Clean Track Intelligence™", "30-day windows", "Lift analysis"],
     caption: "influence flows to revenue",
   },
   journey: {

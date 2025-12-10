@@ -27,7 +27,7 @@ const CustomerJourney = () => {
     },
     {
       question: "What attribution models do you support?",
-      answer: "We support standard models (Linear, First-Touch, Last-Touch) and advanced Algorithmic Models (Bayesian Lift and Markov Chains) that assign credit based on removal effects and conversion probability."
+      answer: "We support standard models (Linear, First-Touch, Last-Touch) and advanced Algorithmic Models (Clean Track Intelligence™ Lift and Markov Chains) that assign credit based on removal effects and conversion probability."
     },
     {
       question: "Is this GDPR/CCPA compliant?",
@@ -39,7 +39,7 @@ const CustomerJourney = () => {
     },
     {
       question: "How accurate is the attribution?",
-      answer: "Our Bayesian Attribution models calculate probabilistic lift based on causal inference. Rather than arbitrary rules like 'last click gets 100%', we measure the actual increase in conversion probability each touchpoint provides."
+      answer: "Our Clean Track Intelligence™ Attribution models calculate probabilistic lift based on causal inference. Rather than arbitrary rules like 'last click gets 100%', we measure the actual increase in conversion probability each touchpoint provides."
     },
     {
       question: "What is 'State Valuation'?",
@@ -59,9 +59,9 @@ const CustomerJourney = () => {
     <div className="min-h-screen flex flex-col relative overflow-hidden" style={{ background: '#050505' }}>
       <SEO 
         title="Customer Journey Analytics & Multi-Touch Attribution - utm.one"
-        description="Stop tracking clicks. Start engineering journeys with Bayesian Attribution, Identity Resolution, and Markov State Valuation."
+        description="Stop tracking clicks. Start engineering journeys with Clean Track Intelligence™ Attribution, Identity Resolution, and State Valuation."
         canonical="https://utm.one/features/customer-journey"
-        keywords={['customer journey analytics', 'multi-touch attribution', 'identity resolution', 'bayesian attribution', 'journey mapping', 'conversion tracking']}
+        keywords={['customer journey analytics', 'multi-touch attribution', 'identity resolution', 'clean track intelligence', 'journey mapping', 'conversion tracking']}
       />
       <WebPageSchema 
         name="Customer Journey Analytics - utm.one"
@@ -139,7 +139,7 @@ const CustomerJourney = () => {
               letterSpacing: '-0.02em'
             }}
           >
-            Most attribution tools tell you what happened <span className="italic">last</span>. utm.one uses Bayesian Inference and Identity Stitching to reveal the entire causal chain—from the first anonymous visit to the final enterprise contract.
+            Most attribution tools tell you what happened <span className="italic">last</span>. utm.one uses Clean Track Intelligence™ and Identity Stitching to reveal the entire causal chain—from the first anonymous visit to the final enterprise contract.
           </motion.p>
 
           <motion.div
@@ -347,7 +347,7 @@ const CustomerJourney = () => {
                 className="rounded-lg p-4 font-mono text-xs"
                 style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.15)' }}
               >
-                <div className="font-semibold mb-3" style={{ color: 'rgba(34,197,94,0.9)' }}>Bayesian Attribution:</div>
+                <div className="font-semibold mb-3" style={{ color: 'rgba(34,197,94,0.9)' }}>Clean Track Intelligence™:</div>
                 <div className="space-y-2" style={{ color: 'rgba(255,255,255,0.8)' }}>
                   <div className="flex justify-between">
                     <span>LinkedIn Ad</span>

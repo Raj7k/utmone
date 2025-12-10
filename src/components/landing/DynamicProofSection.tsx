@@ -24,7 +24,7 @@ const PROOF_CONTENT: Record<UseCaseType, {
       },
       {
         icon: Brain,
-        title: "bayesian probability models",
+        title: "clean track intelligence™ models",
         description: "calculate true channel contribution using statistical analysis, not arbitrary rules.",
       },
       {
@@ -91,7 +91,7 @@ const PROOF_CONTENT: Record<UseCaseType, {
       {
         icon: Brain,
         title: "probabilistic forecasting",
-        description: "predict future performance using Bayesian time-series models.",
+        description: "predict future performance using clean track intelligence™ models.",
       },
       {
         icon: Target,
