@@ -412,68 +412,115 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeUseCase}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
                 className="space-y-6"
               >
                 {/* Two-column layout for attribution */}
                 <div className={`grid gap-8 ${activeUseCase === 'attribution' ? 'lg:grid-cols-2 items-center' : ''}`}>
                   {/* Left: Text Content */}
                   <div className="space-y-6">
-                    {/* Headline */}
+                    {/* Headline with text reveal */}
                     <div className="space-y-4">
-                      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-display font-bold leading-[1.1] obsidian-platinum-text">
+                      <motion.h1 
+                        className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-display font-bold leading-[1.1] obsidian-platinum-text"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                      >
                         {content.headline}
-                      </h1>
-                      <p className="text-base md:text-lg max-w-xl leading-relaxed text-muted-foreground">
+                      </motion.h1>
+                      <motion.p 
+                        className="text-base md:text-lg max-w-xl leading-relaxed text-muted-foreground"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+                      >
                         {content.subheadline}
-                      </p>
+                      </motion.p>
                     </div>
 
-                    {/* Features Chips */}
+                    {/* Features Chips with staggered animation */}
                     {content.features && (
-                      <div className="flex flex-wrap gap-2">
-                        {content.features.map((feature) => (
-                          <span
+                      <motion.div 
+                        className="flex flex-wrap gap-2"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.2 }}
+                      >
+                        {content.features.map((feature, index) => (
+                          <motion.span
                             key={feature.name}
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm bg-white/[0.06] border border-white/10 text-white-70"
+                            initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            transition={{ 
+                              delay: 0.25 + index * 0.08,
+                              type: "spring",
+                              stiffness: 200,
+                              damping: 20
+                            }}
+                            whileHover={{ 
+                              scale: 1.05, 
+                              backgroundColor: "rgba(255,255,255,0.1)",
+                              transition: { duration: 0.2 }
+                            }}
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm bg-white/[0.06] border border-white/10 text-white-70 cursor-default"
                           >
                             <ChevronRight className="w-3 h-3 text-white-50" />
                             {feature.name}
-                          </span>
+                          </motion.span>
                         ))}
-                      </div>
+                      </motion.div>
                     )}
 
-                    {/* CTA */}
-                    <div className="flex flex-col sm:flex-row items-start gap-4">
+                    {/* CTA with enhanced animation */}
+                    <motion.div 
+                      className="flex flex-col sm:flex-row items-start gap-4"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4, duration: 0.5 }}
+                    >
                       <Link to="/early-access">
-                        <Button 
-                          size="lg" 
-                          className="h-12 px-6 text-sm rounded-full font-semibold transition-all duration-300 bg-gradient-to-br from-white to-zinc-200 text-obsidian-bg shadow-glow-sm"
+                        <motion.div
+                          whileHover={{ scale: 1.03 }}
+                          whileTap={{ scale: 0.98 }}
                         >
-                          {content.cta}
-                          <ArrowRight className="ml-2 h-4 w-4" />
-                        </Button>
+                          <Button 
+                            size="lg" 
+                            className="h-12 px-6 text-sm rounded-full font-semibold transition-all duration-300 bg-gradient-to-br from-white to-zinc-200 text-obsidian-bg shadow-glow-sm"
+                          >
+                            {content.cta}
+                            <motion.span
+                              className="ml-2"
+                              animate={{ x: [0, 4, 0] }}
+                              transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 2 }}
+                            >
+                              <ArrowRight className="h-4 w-4" />
+                            </motion.span>
+                          </Button>
+                        </motion.div>
                       </Link>
-                      <Link 
-                        to="/how-it-works" 
-                        className="flex items-center gap-2 px-4 py-3 rounded-full text-sm font-medium transition-all bg-white/5 border border-white/10 text-white-80"
-                      >
-                        learn more
-                        <ArrowRight className="h-4 w-4" />
+                      <Link to="/how-it-works">
+                        <motion.div
+                          whileHover={{ scale: 1.03, backgroundColor: "rgba(255,255,255,0.08)" }}
+                          whileTap={{ scale: 0.98 }}
+                          className="flex items-center gap-2 px-4 py-3 rounded-full text-sm font-medium transition-colors bg-white/5 border border-white/10 text-white-80"
+                        >
+                          learn more
+                          <ArrowRight className="h-4 w-4" />
+                        </motion.div>
                       </Link>
-                    </div>
+                    </motion.div>
                   </div>
 
                   {/* Right: Fiber Optic Graph (only for attribution) */}
                   {activeUseCase === 'attribution' && (
                     <motion.div
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.5, delay: 0.2 }}
+                      initial={{ opacity: 0, scale: 0.9, x: 30 }}
+                      animate={{ opacity: 1, scale: 1, x: 0 }}
+                      transition={{ duration: 0.6, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
                       className="hidden lg:block"
                     >
                       <FiberOpticGraph />
