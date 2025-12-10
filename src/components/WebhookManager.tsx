@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -28,7 +28,6 @@ interface WebhookManagerProps {
 }
 
 export const WebhookManager = ({ workspaceId }: WebhookManagerProps) => {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [webhookUrl, setWebhookUrl] = useState("");
@@ -82,13 +81,13 @@ export const WebhookManager = ({ workspaceId }: WebhookManagerProps) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["webhooks", workspaceId] });
-      toast({ title: "webhook created", description: "your webhook has been configured" });
+      notify.success("webhook created", { description: "your webhook has been configured" });
       setIsCreateOpen(false);
       setWebhookUrl("");
       setSecretKey("");
     },
     onError: (error) => {
-      toast({ title: "failed to create webhook", description: error.message, variant: "destructive" });
+      notify.error("failed to create webhook", { description: error.message });
     },
   });
 
@@ -103,7 +102,7 @@ export const WebhookManager = ({ workspaceId }: WebhookManagerProps) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["webhooks", workspaceId] });
-      toast({ title: "webhook deleted" });
+      notify.success("webhook deleted");
     },
   });
 
@@ -122,10 +121,10 @@ export const WebhookManager = ({ workspaceId }: WebhookManagerProps) => {
       return data;
     },
     onSuccess: () => {
-      toast({ title: "test sent", description: "check your webhook endpoint for the test payload" });
+      notify.success("test sent", { description: "check your webhook endpoint for the test payload" });
     },
     onError: (error) => {
-      toast({ title: "test failed", description: error.message, variant: "destructive" });
+      notify.error("test failed", { description: error.message });
     },
   });
 

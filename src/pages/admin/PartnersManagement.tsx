@@ -6,12 +6,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { CheckCircle, XCircle, DollarSign, Users, TrendingUp } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 
 export default function PartnersManagement() {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState("pending");
 
@@ -70,7 +69,7 @@ export default function PartnersManagement() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['partners'] });
-      toast({ title: "Partner approved successfully" });
+      notify.success("Partner approved successfully");
     }
   });
 
@@ -85,7 +84,7 @@ export default function PartnersManagement() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['partners'] });
-      toast({ title: "Partner application rejected" });
+      notify.success("Partner application rejected");
     }
   });
 
@@ -103,7 +102,7 @@ export default function PartnersManagement() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['partner-payouts'] });
-      toast({ title: "Payout processed successfully" });
+      notify.success("Payout processed successfully");
     }
   });
 

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Copy, Check, ExternalLink, Zap } from "lucide-react";
 import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -23,7 +23,6 @@ export const ZapierCard = ({ workspaceId }: ZapierCardProps) => {
   const [copiedUrl, setCopiedUrl] = useState(false);
   const [copiedKey, setCopiedKey] = useState(false);
   const [open, setOpen] = useState(false);
-  const { toast } = useToast();
 
   const webhookUrl = `${window.location.origin}/api/track/pipeline`;
 
@@ -48,8 +47,7 @@ export const ZapierCard = ({ workspaceId }: ZapierCardProps) => {
   const copyUrl = () => {
     navigator.clipboard.writeText(webhookUrl);
     setCopiedUrl(true);
-    toast({
-      title: "copied",
+    notify.success("copied", {
       description: "api endpoint copied to clipboard",
     });
     setTimeout(() => setCopiedUrl(false), 2000);
@@ -58,8 +56,7 @@ export const ZapierCard = ({ workspaceId }: ZapierCardProps) => {
   const copyKey = () => {
     navigator.clipboard.writeText(apiKey);
     setCopiedKey(true);
-    toast({
-      title: "copied",
+    notify.success("copied", {
       description: "api key copied to clipboard",
     });
     setTimeout(() => setCopiedKey(false), 2000);

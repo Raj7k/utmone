@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
+import { notify } from '@/lib/notify';
 
 export interface Partner {
   id: string;
@@ -42,7 +42,6 @@ export interface PartnerReferral {
 
 export const usePartner = () => {
   const queryClient = useQueryClient();
-  const { toast } = useToast();
 
   const { data: partner, isLoading } = useQuery({
     queryKey: ['partner'],
@@ -107,16 +106,13 @@ export const usePartner = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['partner'] });
-      toast({
-        title: 'application submitted',
+      notify.success('application submitted', {
         description: 'your partner application has been submitted for review',
       });
     },
     onError: (error) => {
-      toast({
-        title: 'failed to submit application',
+      notify.error('failed to submit application', {
         description: error.message,
-        variant: 'destructive',
       });
     },
   });
@@ -143,16 +139,13 @@ export const usePartner = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['partner'] });
-      toast({
-        title: 'payout requested',
+      notify.success('payout requested', {
         description: 'your payout request will be processed within 3-5 business days',
       });
     },
     onError: (error) => {
-      toast({
-        title: 'failed to request payout',
+      notify.error('failed to request payout', {
         description: error.message,
-        variant: 'destructive',
       });
     },
   });

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Sparkles, Loader2, Check, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { cn } from "@/lib/utils";
 
 interface EnrichmentButtonProps {
@@ -29,10 +29,8 @@ export const EnrichmentButton = ({
 
   const handleEnrich = async () => {
     if (!firstName || !company) {
-      toast({
-        title: 'need more info',
+      notify.error('need more info', {
         description: 'first name and company required for enrichment',
-        variant: 'destructive'
       });
       return;
     }
@@ -62,10 +60,8 @@ export const EnrichmentButton = ({
     } catch (error) {
       console.error('Enrichment error:', error);
       setState('error');
-      toast({
-        title: 'enrichment failed',
+      notify.error('enrichment failed', {
         description: 'could not find contact info',
-        variant: 'destructive'
       });
       
       // Reset after animation

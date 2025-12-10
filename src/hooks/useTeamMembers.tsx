@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 
 export const useTeamMembers = (workspaceId: string | undefined) => {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [lastInvitation, setLastInvitation] = useState<any>(null);
 
@@ -72,10 +71,8 @@ export const useTeamMembers = (workspaceId: string | undefined) => {
 
       // Show warning for medium risk but allow
       if (fraudCheck.riskLevel === 'medium') {
-        toast({
-          title: "Unusual activity detected",
+        notify.warning("Unusual activity detected", {
           description: "This invitation looks suspicious but will be sent. Please verify the email address.",
-          variant: "destructive",
         });
       }
 
@@ -91,16 +88,13 @@ export const useTeamMembers = (workspaceId: string | undefined) => {
       queryClient.invalidateQueries({ queryKey: ["workspace-invitations", workspaceId] });
       queryClient.invalidateQueries({ queryKey: ["onboarding-progress"] }); // Update onboarding checklist
       setLastInvitation(data.invitation); // Store for copy link feature
-      toast({
-        title: "Invitation sent",
+      notify.success("Invitation sent", {
         description: "Team member invitation has been sent successfully.",
       });
     },
     onError: (error: Error) => {
-      toast({
-        title: "Error",
+      notify.error("Error", {
         description: error.message,
-        variant: "destructive",
       });
     },
   });
@@ -116,16 +110,13 @@ export const useTeamMembers = (workspaceId: string | undefined) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["team-members", workspaceId] });
-      toast({
-        title: "Role updated",
+      notify.success("Role updated", {
         description: "Team member role has been updated successfully.",
       });
     },
     onError: (error: Error) => {
-      toast({
-        title: "Error",
+      notify.error("Error", {
         description: error.message,
-        variant: "destructive",
       });
     },
   });
@@ -141,16 +132,13 @@ export const useTeamMembers = (workspaceId: string | undefined) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["team-members", workspaceId] });
-      toast({
-        title: "Member removed",
+      notify.success("Member removed", {
         description: "Team member has been removed successfully.",
       });
     },
     onError: (error: Error) => {
-      toast({
-        title: "Error",
+      notify.error("Error", {
         description: error.message,
-        variant: "destructive",
       });
     },
   });
@@ -166,16 +154,13 @@ export const useTeamMembers = (workspaceId: string | undefined) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["workspace-invitations", workspaceId] });
-      toast({
-        title: "Invitation cancelled",
+      notify.success("Invitation cancelled", {
         description: "Invitation has been cancelled successfully.",
       });
     },
     onError: (error: Error) => {
-      toast({
-        title: "Error",
+      notify.error("Error", {
         description: error.message,
-        variant: "destructive",
       });
     },
   });

@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { Webhook, Plus, Trash2, Activity, AlertCircle } from "lucide-react";
 import {
   Select,
@@ -57,7 +57,6 @@ export const WebhookManager = ({ workspaceId }: WebhookManagerProps) => {
   const [endpointUrl, setEndpointUrl] = useState("");
   const [selectedEvent, setSelectedEvent] = useState("link.created");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
 
   useEffect(() => {
     fetchWebhooks();
@@ -77,10 +76,8 @@ export const WebhookManager = ({ workspaceId }: WebhookManagerProps) => {
 
   const handleCreate = async () => {
     if (!endpointUrl.trim()) {
-      toast({
-        title: "Validation Error",
+      notify.error("Validation Error", {
         description: "Please provide endpoint URL",
-        variant: "destructive",
       });
       return;
     }
@@ -97,14 +94,11 @@ export const WebhookManager = ({ workspaceId }: WebhookManagerProps) => {
     });
 
     if (error) {
-      toast({
-        title: "Error",
+      notify.error("Error", {
         description: "Failed to create webhook",
-        variant: "destructive",
       });
     } else {
-      toast({
-        title: "Webhook Created",
+      notify.success("Webhook Created", {
         description: "Your webhook endpoint has been configured",
       });
       setShowCreateDialog(false);
@@ -119,14 +113,11 @@ export const WebhookManager = ({ workspaceId }: WebhookManagerProps) => {
     const { error } = await supabase.from("webhook_subscriptions").delete().eq("id", id);
 
     if (error) {
-      toast({
-        title: "Error",
+      notify.error("Error", {
         description: "Failed to delete webhook",
-        variant: "destructive",
       });
     } else {
-      toast({
-        title: "Webhook Deleted",
+      notify.success("Webhook Deleted", {
         description: "Webhook endpoint has been removed",
       });
       fetchWebhooks();
@@ -140,10 +131,8 @@ export const WebhookManager = ({ workspaceId }: WebhookManagerProps) => {
       .eq("id", id);
 
     if (error) {
-      toast({
-        title: "Error",
+      notify.error("Error", {
         description: "Failed to update webhook",
-        variant: "destructive",
       });
     } else {
       fetchWebhooks();

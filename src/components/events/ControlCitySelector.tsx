@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useUpdateEventControlCity } from "@/hooks/useFieldEvents";
-import { toast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { FlaskConical, Check } from "lucide-react";
 
 interface ControlCitySelectorProps {
@@ -46,16 +46,12 @@ export const ControlCitySelector = ({
     try {
       await updateControlCity.mutateAsync({ eventId, controlCity: controlCity.trim() });
       setIsEditing(false);
-      toast({
-        title: "control city set",
+      notify.success("control city set", {
         description: `${controlCity} will be used as the comparison baseline`,
       });
       onUpdate?.();
     } catch (error) {
-      toast({
-        title: "failed to update",
-        variant: "destructive",
-      });
+      notify.error("failed to update");
     }
   };
 

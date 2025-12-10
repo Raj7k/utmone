@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 
 export interface Domain {
   id: string;
@@ -60,7 +60,6 @@ export const usePrimaryDomain = (workspaceId: string | undefined) => {
 };
 
 export const useAddDomain = () => {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -89,23 +88,19 @@ export const useAddDomain = () => {
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["domains"] });
-      toast({
-        title: "Domain added",
+      notify.success("Domain added", {
         description: `${data.domain} has been added. Please verify DNS settings.`,
       });
     },
     onError: (error: Error) => {
-      toast({
-        title: "Error adding domain",
+      notify.error("Error adding domain", {
         description: error.message,
-        variant: "destructive",
       });
     },
   });
 };
 
 export const useVerifyDomain = () => {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -125,23 +120,19 @@ export const useVerifyDomain = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["domains"] });
-      toast({
-        title: "Domain verified",
+      notify.success("Domain verified", {
         description: "Your domain has been verified successfully.",
       });
     },
     onError: (error: Error) => {
-      toast({
-        title: "Verification failed",
+      notify.error("Verification failed", {
         description: error.message,
-        variant: "destructive",
       });
     },
   });
 };
 
 export const useSetPrimaryDomain = () => {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -181,23 +172,19 @@ export const useSetPrimaryDomain = () => {
       queryClient.invalidateQueries({ queryKey: ["domains"] });
       queryClient.invalidateQueries({ queryKey: ["primaryDomain"] });
       queryClient.invalidateQueries({ queryKey: ["workspaces"] });
-      toast({
-        title: "Primary domain updated",
+      notify.success("Primary domain updated", {
         description: "Your primary domain has been set successfully.",
       });
     },
     onError: (error: Error) => {
-      toast({
-        title: "Error updating primary domain",
+      notify.error("Error updating primary domain", {
         description: error.message,
-        variant: "destructive",
       });
     },
   });
 };
 
 export const useDeleteDomain = () => {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -211,16 +198,13 @@ export const useDeleteDomain = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["domains"] });
-      toast({
-        title: "Domain removed",
+      notify.success("Domain removed", {
         description: "The domain has been removed successfully.",
       });
     },
     onError: (error: Error) => {
-      toast({
-        title: "Error removing domain",
+      notify.error("Error removing domain", {
         description: error.message,
-        variant: "destructive",
       });
     },
   });

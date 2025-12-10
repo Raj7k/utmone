@@ -1,11 +1,10 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { AnnouncementConfig } from "@/lib/announcementConfig";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { useAuditLog } from "@/hooks/useAuditLog";
 
 export const useAnnouncementAdmin = () => {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const { logAction } = useAuditLog();
 
@@ -90,13 +89,11 @@ export const useAnnouncementAdmin = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["announcement-configs"] });
-      toast({ title: "Announcement created successfully" });
+      notify.success("Announcement created successfully");
     },
     onError: (error: Error) => {
-      toast({ 
-        title: "Failed to create announcement", 
+      notify.error("Failed to create announcement", { 
         description: error.message,
-        variant: "destructive" 
       });
     },
   });
@@ -130,13 +127,11 @@ export const useAnnouncementAdmin = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["announcement-configs"] });
-      toast({ title: "Announcement updated successfully" });
+      notify.success("Announcement updated successfully");
     },
     onError: (error: Error) => {
-      toast({ 
-        title: "Failed to update announcement", 
+      notify.error("Failed to update announcement", { 
         description: error.message,
-        variant: "destructive" 
       });
     },
   });
@@ -170,13 +165,11 @@ export const useAnnouncementAdmin = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["announcement-configs"] });
-      toast({ title: "Announcement deleted successfully" });
+      notify.success("Announcement deleted successfully");
     },
     onError: (error: Error) => {
-      toast({ 
-        title: "Failed to delete announcement", 
+      notify.error("Failed to delete announcement", { 
         description: error.message,
-        variant: "destructive" 
       });
     },
   });

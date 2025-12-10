@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Flame, AlertTriangle, Lightbulb, TrendingUp, X } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { useNavigate } from "react-router-dom";
 
 interface AIRecommendationsWidgetProps {
@@ -31,7 +31,6 @@ const getTypeLabel = (type: string) => {
 };
 
 export const AIRecommendationsWidget = ({ workspaceId }: AIRecommendationsWidgetProps) => {
-  const { toast } = useToast();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -67,16 +66,13 @@ export const AIRecommendationsWidget = ({ workspaceId }: AIRecommendationsWidget
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['ai-recommendations', workspaceId] });
-      toast({
-        title: "recommendation dismissed",
+      notify.success("recommendation dismissed", {
         description: "we'll remember your feedback",
       });
     },
     onError: () => {
-      toast({
-        title: "failed to dismiss",
+      notify.error("failed to dismiss", {
         description: "please try again",
-        variant: "destructive",
       });
     },
   });

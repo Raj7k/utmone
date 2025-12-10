@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Shield, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { MFAEnrollment } from "@/components/auth/MFAEnrollment";
 import type { Factor } from "@supabase/supabase-js";
 
@@ -14,7 +14,6 @@ export function SecuritySettings() {
   const [isLoading, setIsLoading] = useState(true);
   const [showEnrollment, setShowEnrollment] = useState(false);
   const [isDisabling, setIsDisabling] = useState(false);
-  const { toast } = useToast();
 
   const loadMFAFactors = async () => {
     setIsLoading(true);
@@ -25,10 +24,8 @@ export function SecuritySettings() {
       
       setFactors(data?.totp || []);
     } catch (error: any) {
-      toast({
-        title: "Error loading 2FA status",
+      notify.error("Error loading 2FA status", {
         description: error.message,
-        variant: "destructive",
       });
     } finally {
       setIsLoading(false);
@@ -46,17 +43,14 @@ export function SecuritySettings() {
       
       if (error) throw error;
 
-      toast({
-        title: "2FA disabled",
+      notify.success("2FA disabled", {
         description: "Two-factor authentication has been removed from your account.",
       });
       
       await loadMFAFactors();
     } catch (error: any) {
-      toast({
-        title: "Failed to disable 2FA",
+      notify.error("Failed to disable 2FA", {
         description: error.message,
-        variant: "destructive",
       });
     } finally {
       setIsDisabling(false);

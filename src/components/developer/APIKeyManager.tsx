@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { Key, Plus, Copy, Trash2, Eye, EyeOff } from "lucide-react";
 import {
   Dialog,
@@ -46,7 +46,6 @@ export const APIKeyManager = ({ workspaceId }: APIKeyManagerProps) => {
   const [rateLimit, setRateLimit] = useState("600");
   const [rateLimitWindow, setRateLimitWindow] = useState("1 minute");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
 
   useEffect(() => {
     fetchAPIKeys();
@@ -81,10 +80,8 @@ export const APIKeyManager = ({ workspaceId }: APIKeyManagerProps) => {
 
   const handleCreate = async () => {
     if (!keyName.trim()) {
-      toast({
-        title: "Validation Error",
+      notify.error("Validation Error", {
         description: "Please provide a name for the API key",
-        variant: "destructive",
       });
       return;
     }
@@ -105,16 +102,13 @@ export const APIKeyManager = ({ workspaceId }: APIKeyManagerProps) => {
     });
 
     if (error) {
-      toast({
-        title: "Error",
+      notify.error("Error", {
         description: "Failed to create API key",
-        variant: "destructive",
       });
     } else {
       setNewKeyValue(fullKey);
       setShowNewKey(true);
-      toast({
-        title: "API Key Created",
+      notify.success("API Key Created", {
         description: "Copy your key now - you won't see it again",
       });
       setKeyName("");
@@ -125,8 +119,7 @@ export const APIKeyManager = ({ workspaceId }: APIKeyManagerProps) => {
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    toast({
-      title: "Copied",
+    notify.success("Copied", {
       description: "API key copied to clipboard",
     });
   };
@@ -135,14 +128,11 @@ export const APIKeyManager = ({ workspaceId }: APIKeyManagerProps) => {
     const { error } = await supabase.from("api_keys").delete().eq("id", id);
 
     if (error) {
-      toast({
-        title: "Error",
+      notify.error("Error", {
         description: "Failed to delete API key",
-        variant: "destructive",
       });
     } else {
-      toast({
-        title: "API Key Deleted",
+      notify.success("API Key Deleted", {
         description: "API key has been removed",
       });
       fetchAPIKeys();
