@@ -1353,3 +1353,48 @@ All colors MUST be HSL.
     background: hsl(var(--primary) / 0.5);
   }
 }
+
+/* Safe area insets for iPhone notch/home indicator */
+.safe-area-inset-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-area-inset-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-area-inset-left {
+  padding-left: env(safe-area-inset-left);
+}
+
+.safe-area-inset-right {
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Full-screen scanner styles */
+#onetap-scanner-v2 {
+  width: 100%;
+  height: 100%;
+}
+
+#onetap-scanner-v2 video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Hide html5-qrcode UI elements for cleaner look */
+#onetap-scanner-v2 #html5-qrcode-anchor-scan-type-change,
+#onetap-scanner-v2 #html5-qrcode-select-camera,
+#onetap-scanner-v2 img[alt="Info icon"],
+#onetap-scanner-v2 #html5-qrcode-button-camera-stop,
+#onetap-scanner-v2 #html5-qrcode-button-camera-start,
+#onetap-scanner-v2 #html5-qrcode-button-file-selection,
+#onetap-scanner-v2 #html5-qrcode-button-camera-permission,
+#onetap-scanner-v2 > div > div:first-child {
+  display: none !important;
+}
+
+#onetap-scanner-v2 #qr-shaded-region {
+  border: none !important;
+}

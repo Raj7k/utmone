@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 
+export type LeadTemperature = 'hot' | 'warm' | 'cold';
+
 export interface OfflineScan {
   id: string;
   eventId: string;
@@ -21,6 +23,11 @@ export interface OfflineScan {
   rawData?: string;
   photoBlob?: string;
   dedupeHash?: string;
+  // One-Tap 2.0 fields
+  leadTemperature?: LeadTemperature;
+  quickNotes?: string;
+  voiceNoteUrl?: string;
+  voiceNoteTranscript?: string;
 }
 
 const STORAGE_KEY = 'utm_one_offline_scans';
@@ -143,7 +150,11 @@ export function useOfflineScans(eventId: string) {
         last_name: scan.lastName,
         company: scan.company,
         title: scan.title,
-        scanned_at: scan.scannedAt
+        scanned_at: scan.scannedAt,
+        lead_temperature: scan.leadTemperature,
+        quick_notes: scan.quickNotes,
+        voice_note_url: scan.voiceNoteUrl,
+        voice_note_transcript: scan.voiceNoteTranscript
       }));
 
       const { error } = await supabase
@@ -282,7 +293,11 @@ export function useOfflineScans(eventId: string) {
           last_name: scan.lastName,
           company: scan.company,
           title: scan.title,
-          scanned_at: scan.scannedAt
+          scanned_at: scan.scannedAt,
+          lead_temperature: scan.leadTemperature,
+          quick_notes: scan.quickNotes,
+          voice_note_url: scan.voiceNoteUrl,
+          voice_note_transcript: scan.voiceNoteTranscript
         });
 
       if (!error) {
