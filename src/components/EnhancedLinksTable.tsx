@@ -40,7 +40,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { formatDistanceToNow } from "date-fns";
 import { QRCodeDialog } from "./QRCodeDialog";
 import { useEnhancedLinks } from "@/hooks/useEnhancedLinks";
@@ -64,7 +64,6 @@ export const EnhancedLinksTable = ({
   searchQuery,
   statusFilter,
 }: EnhancedLinksTableProps) => {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [sortBy, setSortBy] = useState("created_at");
@@ -93,27 +92,17 @@ export const EnhancedLinksTable = ({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["enhanced-links"] });
-      toast({
-        title: "Link updated",
-        description: "Link status has been updated successfully.",
-      });
+      notify.success("link updated");
     },
     onError: (error: Error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error(error.message);
     },
   });
 
   const copyToClipboard = useCallback((text: string) => {
     navigator.clipboard.writeText(text);
-    toast({
-      title: "Copied",
-      description: "URL copied to clipboard",
-    });
-  }, [toast]);
+    notify.success("copied to clipboard");
+  }, []);
 
   const getStatusBadge = (status: string) => {
     switch (status) {

@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { useSearchParams } from "react-router-dom";
 import { ArrowRight, ArrowLeft, Sparkles } from "lucide-react";
 
@@ -52,7 +52,6 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loadingStepIndex, setLoadingStepIndex] = useState(0);
   const [searchParams] = useSearchParams();
-  const { toast } = useToast();
 
   // Cycle through loading steps while submitting
   useEffect(() => {
@@ -131,11 +130,7 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
 
     } catch (error: any) {
       console.error("Error submitting early access:", error);
-      toast({
-        title: "something went wrong",
-        description: error.message || "please try again",
-        variant: "destructive",
-      });
+      notify.error(error.message || "please try again");
     } finally {
       setIsSubmitting(false);
     }

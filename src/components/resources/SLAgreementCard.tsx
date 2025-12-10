@@ -3,10 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Handshake, Printer, Mail } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 
 export const SLAgreementCard = () => {
-  const { toast } = useToast();
 
   const marketingPromises = [
     { id: "m1", text: "Deliver 100+ leads per month (MQL threshold: 30+ points)" },
@@ -27,7 +26,7 @@ export const SLAgreementCard = () => {
 
   const handlePrint = () => {
     window.print();
-    toast({ title: "opening print dialog", description: "prepare your SLA for signatures" });
+    notify.success("opening print dialog");
   };
 
   const handleEmail = () => {

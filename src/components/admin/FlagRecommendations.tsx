@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { Lightbulb, CheckCircle2, XCircle, TrendingDown, TrendingUp } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 
@@ -26,7 +26,6 @@ interface Recommendation {
 }
 
 export function FlagRecommendations() {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const { data: recommendations, isLoading } = useQuery({
@@ -52,10 +51,10 @@ export function FlagRecommendations() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['flag-recommendations'] });
-      toast({ title: 'recommendations generated', description: 'checking for new optimization opportunities' });
+      notify.success("recommendations generated");
     },
     onError: (error: Error) => {
-      toast({ title: 'failed to generate recommendations', description: error.message, variant: 'destructive' });
+      notify.error(error.message || "failed to generate recommendations");
     },
   });
 
@@ -93,10 +92,10 @@ export function FlagRecommendations() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['flag-recommendations'] });
       queryClient.invalidateQueries({ queryKey: ['feature-flags'] });
-      toast({ title: 'recommendation applied', description: 'flag has been updated' });
+      notify.success("recommendation applied");
     },
     onError: (error: Error) => {
-      toast({ title: 'failed to apply recommendation', description: error.message, variant: 'destructive' });
+      notify.error(error.message || "failed to apply recommendation");
     },
   });
 
@@ -111,7 +110,7 @@ export function FlagRecommendations() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['flag-recommendations'] });
-      toast({ title: 'recommendation dismissed' });
+      notify.success("recommendation dismissed");
     },
   });
 

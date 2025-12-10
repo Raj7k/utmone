@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Download, FileSpreadsheet, FileText } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { exportLinksToXLSX } from "@/lib/excelExport";
 
 interface ExportButtonProps {
@@ -17,7 +17,6 @@ interface ExportButtonProps {
 
 export const ExportButton = ({ workspaceId }: ExportButtonProps) => {
   const [isExporting, setIsExporting] = useState(false);
-  const { toast } = useToast();
 
   const fetchLinksData = async () => {
     const { data: links } = await supabase
@@ -26,11 +25,7 @@ export const ExportButton = ({ workspaceId }: ExportButtonProps) => {
       .eq("workspace_id", workspaceId);
 
     if (!links || links.length === 0) {
-      toast({
-        title: "No data to export",
-        description: "There are no links to export.",
-        variant: "destructive",
-      });
+      notify.warning("no data to export");
       return null;
     }
 
@@ -103,17 +98,10 @@ export const ExportButton = ({ workspaceId }: ExportButtonProps) => {
       link.click();
       document.body.removeChild(link);
 
-      toast({
-        title: "Export Successful",
-        description: "Your analytics data has been exported to CSV.",
-      });
+      notify.success("exported to CSV");
     } catch (error) {
       console.error("Export error:", error);
-      toast({
-        title: "Export Failed",
-        description: "There was an error exporting your data.",
-        variant: "destructive",
-      });
+      notify.error("export failed");
     } finally {
       setIsExporting(false);
     }
@@ -127,17 +115,10 @@ export const ExportButton = ({ workspaceId }: ExportButtonProps) => {
 
       exportLinksToXLSX(linksData);
 
-      toast({
-        title: "Export Successful",
-        description: "Your analytics data has been exported to Excel.",
-      });
+      notify.success("exported to Excel");
     } catch (error) {
       console.error("Export error:", error);
-      toast({
-        title: "Export Failed",
-        description: "There was an error exporting your data.",
-        variant: "destructive",
-      });
+      notify.error("export failed");
     } finally {
       setIsExporting(false);
     }

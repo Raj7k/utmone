@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { Copy, ExternalLink, Check, Calendar, Settings, FolderTree, Tag, RefreshCw, Shield } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { useState as useReactState } from "react";
 import { LinkDetail } from "@/hooks/useLinkDetail";
 import { useUpdateLink } from "@/hooks/useUpdateLink";
@@ -55,7 +55,6 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
   const [copiedUrl, setCopiedUrl] = useState<string | null>(null);
   const [isRescanning, setIsRescanning] = useReactState(false);
   const updateLink = useUpdateLink();
-  const { toast } = useToast();
 
   // Parse UTMs from destination URL as fallback when columns are empty
   const parsedUtms = parseUtmFromUrl(link.destination_url);
@@ -107,20 +106,12 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
         headers: { 'x-link-id': link.id }
       });
 
-      toast({
-        title: "re-scan complete",
-        description: scanResult?.safe ? "destination is safe ✓" : "potential threats detected",
-        variant: scanResult?.safe ? "default" : "destructive",
-      });
+      notify.success(scanResult?.safe ? "destination is safe ✓" : "potential threats detected");
 
       // Refresh the page data
       window.location.reload();
     } catch (error) {
-      toast({
-        title: "re-scan failed",
-        description: "please try again later",
-        variant: "destructive",
-      });
+      notify.error("re-scan failed");
     } finally {
       setIsRescanning(false);
     }

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Download, MoreVertical, Archive, Trash2 } from "lucide-react";
 import { LazyPieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip, LazyChartContainer } from "@/components/charts/LazyCharts";
 
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,7 +30,6 @@ const CHART_COLORS = ["#3B82F6", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6", "#E
 export default function CampaignDetails() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
@@ -116,18 +115,11 @@ export default function CampaignDetails() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["campaigns"] });
-      toast({
-        title: "Campaign deleted",
-        description: "The campaign and its links have been removed",
-      });
+      notify.success("campaign deleted");
       navigate("/dashboard/campaigns");
     },
     onError: (error: Error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error(error.message);
     },
   });
 
@@ -143,17 +135,10 @@ export default function CampaignDetails() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["campaign", id] });
       queryClient.invalidateQueries({ queryKey: ["campaigns"] });
-      toast({
-        title: "Campaign archived",
-        description: "The campaign has been archived",
-      });
+      notify.success("campaign archived");
     },
     onError: (error: Error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error(error.message);
     },
   });
 

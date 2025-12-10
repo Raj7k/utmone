@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -42,7 +42,6 @@ type EarlyAccessRequest = {
 
 export default function EarlyAccessAdmin() {
   const navigate = useNavigate();
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -76,18 +75,11 @@ export default function EarlyAccessAdmin() {
       if (error) throw error;
     },
     onSuccess: () => {
-      toast({
-        title: "scores updated",
-        description: "all scores have been recalculated successfully",
-      });
+      notify.success("all scores recalculated");
       queryClient.invalidateQueries({ queryKey: ["early-access-requests"] });
     },
     onError: (error: Error) => {
-      toast({
-        title: "error",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error(error.message);
     },
   });
 
@@ -159,17 +151,10 @@ export default function EarlyAccessAdmin() {
       queryClient.invalidateQueries({ queryKey: ["early-access-requests"] });
       setApproveDialogOpen(false);
       setDetailDialogOpen(false);
-      toast({
-        title: "user approved",
-        description: "invite email has been sent successfully",
-      });
+      notify.success("invite email sent");
     },
     onError: (error: Error) => {
-      toast({
-        title: "error",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error(error.message);
     },
   });
 
@@ -185,17 +170,10 @@ export default function EarlyAccessAdmin() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["early-access-requests"] });
       setDetailDialogOpen(false);
-      toast({
-        title: "status updated",
-        description: "request status has been updated successfully",
-      });
+      notify.success("status updated");
     },
     onError: (error: Error) => {
-      toast({
-        title: "error",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error(error.message);
     },
   });
 

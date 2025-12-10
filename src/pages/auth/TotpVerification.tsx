@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,7 +15,6 @@ export default function TotpVerification() {
   const [isVerifying, setIsVerifying] = useState(false);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { toast } = useToast();
 
   useEffect(() => {
     // Auto-submit when 6 digits (TOTP) or 8 chars (recovery) entered
@@ -41,17 +40,10 @@ export default function TotpVerification() {
       if (error) throw error;
 
       if (data.usedRecoveryCode) {
-        toast({
-          title: "recovery code used",
-          description: "you have " + (9 - (data.codesRemaining || 0)) + " codes remaining",
-          variant: "default",
-        });
+        notify.warning(`recovery code used - ${9 - (data.codesRemaining || 0)} codes remaining`);
       }
 
-      toast({
-        title: "verification successful",
-        description: "you're now logged in",
-      });
+      notify.success("verification successful");
       
       // Check if user has workspaces before redirecting
       const { data: { user: currentUser } } = await supabase.auth.getUser();
@@ -81,11 +73,7 @@ export default function TotpVerification() {
         navigate('/dashboard');
       }
     } catch (error: any) {
-      toast({
-        title: "verification failed",
-        description: error.message || "invalid code",
-        variant: "destructive",
-      });
+      notify.error(error.message || "verification failed");
     } finally {
       setIsVerifying(false);
     }

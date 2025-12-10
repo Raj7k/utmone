@@ -8,13 +8,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2 } from "lucide-react";
 import { salaryBenchmarks, getSalaryForRole, getPercentile, formatCurrency } from "@/lib/salaryData";
 
 const SalaryNegotiationCoach = () => {
-  const { toast } = useToast();
   const [isGenerating, setIsGenerating] = useState(false);
   const [formData, setFormData] = useState({
     role: "",
@@ -28,11 +27,7 @@ const SalaryNegotiationCoach = () => {
 
   const handleGenerate = async () => {
     if (!formData.role || !formData.currentSalary) {
-      toast({
-        title: "missing information",
-        description: "please fill in role and current salary",
-        variant: "destructive"
-      });
+      notify.warning("please fill in role and current salary");
       return;
     }
 
@@ -55,17 +50,9 @@ const SalaryNegotiationCoach = () => {
 
       if (error) throw error;
       setScripts(data);
-      
-      toast({
-        title: "scripts generated",
-        description: "your personalized negotiation scripts are ready"
-      });
+      notify.success("scripts generated");
     } catch (error: any) {
-      toast({
-        title: "generation failed",
-        description: error.message,
-        variant: "destructive"
-      });
+      notify.error(error.message || "generation failed");
     } finally {
       setIsGenerating(false);
     }

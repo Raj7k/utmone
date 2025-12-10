@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link2, ArrowLeft, Shuffle, CheckCircle2, AlertCircle, Globe, AlertTriangle, Route, Briefcase, Bell } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { generateSlugFromTitle } from "@/lib/slugify";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -44,7 +44,6 @@ export const Step2Shortener = ({
   onComplete,
   onBack,
 }: Step2ShortenerProps) => {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const { triggerWebhook } = useLinkWebhooks(workspaceId);
   const { trackFirstLink } = useActivationTracking();
@@ -200,12 +199,7 @@ export const Step2Shortener = ({
       // Invalidate links-count to disable demo mode
       queryClient.invalidateQueries({ queryKey: ["links-count"] });
       
-      toast({
-        title: needsApproval ? "approval requested" : "link created",
-        description: needsApproval 
-          ? "an admin will review your link shortly" 
-          : "your short link is ready",
-      });
+      notify.success(needsApproval ? "approval requested" : "link created");
       
       // Auto-scroll to recent links section
       setTimeout(() => {
@@ -218,21 +212,13 @@ export const Step2Shortener = ({
       onComplete(link.id, shortUrl);
     },
     onError: (error: Error) => {
-      toast({
-        title: "error",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error(error.message);
     },
   });
 
   const onSubmit = (data: ShortenerFormData) => {
     if (!slugAvailable) {
-      toast({
-        title: "slug unavailable",
-        description: "this slug is already in use",
-        variant: "destructive",
-      });
+      notify.error("this slug is already in use");
       return;
     }
     createLinkMutation.mutate(data);
