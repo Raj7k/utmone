@@ -127,7 +127,7 @@ const Resources = () => {
             <div className="group block p-8 rounded-2xl border border-zinc-200 bg-white opacity-60 pointer-events-none relative shadow-sm">
               <Badge className="mb-4 bg-zinc-100 text-zinc-500 border border-zinc-200">Coming Soon</Badge>
               <h2 className="text-2xl font-display font-bold text-zinc-900 mb-3">
-                2026 Global Salary Benchmark Report
+                State of GTM Insights 2026
               </h2>
               <p className="text-base text-zinc-600 mb-4 leading-relaxed">
                 Complete salary data across 15+ countries, 50+ roles, with 10 interactive tools and regional deep dives.
