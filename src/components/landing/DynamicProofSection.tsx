@@ -2,6 +2,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { UseCaseType } from "./SideNavHero";
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle2, Zap, Clock, Shield, Brain, Target } from "lucide-react";
+import { 
+  AttributionFlowMini, 
+  IdentityStitchMini, 
+  LinkCreateMini, 
+  AnomalyAlertMini, 
+  AuditTrailMini 
+} from "./visuals";
 
 interface DynamicProofSectionProps {
   selectedUseCase: UseCaseType;
@@ -161,6 +168,20 @@ export const DynamicProofSection = ({ selectedUseCase }: DynamicProofSectionProp
               </h2>
             </div>
 
+            {/* Animated Demonstration */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="mb-8 p-6 rounded-2xl bg-white/[0.02] border border-white/10"
+            >
+              {selectedUseCase === "attribution" && <AttributionFlowMini />}
+              {selectedUseCase === "journey" && <IdentityStitchMini />}
+              {selectedUseCase === "links" && <LinkCreateMini />}
+              {selectedUseCase === "intelligence" && <AnomalyAlertMini />}
+              {selectedUseCase === "governance" && <AuditTrailMini />}
+            </motion.div>
+
             {/* Capabilities Grid */}
             <div className="grid md:grid-cols-3 gap-6">
               {content.capabilities.map((capability, i) => {
@@ -171,9 +192,9 @@ export const DynamicProofSection = ({ selectedUseCase }: DynamicProofSectionProp
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 + i * 0.1 }}
-                    className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 hover:border-white/20 transition-colors"
+                    className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 hover:border-white/20 transition-colors group"
                   >
-                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                       <Icon className="w-6 h-6 text-primary" />
                     </div>
                     <h3 className="text-lg font-semibold text-white/90 mb-2">
