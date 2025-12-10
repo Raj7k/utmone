@@ -64,17 +64,40 @@ serve(async (req) => {
 
     if (encryptError) throw encryptError;
 
-    // Store encrypted secret temporarily (not enabled yet)
-    const { error: insertError } = await supabaseClient
+    // Check if MFA settings already exist for this user
+    const { data: existingSettings } = await supabaseClient
       .from('mfa_settings')
-      .upsert({
-        user_id: user.id,
-        secret_encrypted: encryptedData,
-        is_enabled: false,
-        backup_codes_downloaded: false
-      });
+      .select('id')
+      .eq('user_id', user.id)
+      .maybeSingle();
 
-    if (insertError) throw insertError;
+    let saveError;
+    if (existingSettings) {
+      // Update existing row
+      const { error } = await supabaseClient
+        .from('mfa_settings')
+        .update({
+          secret_encrypted: encryptedData,
+          is_enabled: false,
+          backup_codes_downloaded: false,
+          updated_at: new Date().toISOString()
+        })
+        .eq('user_id', user.id);
+      saveError = error;
+    } else {
+      // Insert new row
+      const { error } = await supabaseClient
+        .from('mfa_settings')
+        .insert({
+          user_id: user.id,
+          secret_encrypted: encryptedData,
+          is_enabled: false,
+          backup_codes_downloaded: false
+        });
+      saveError = error;
+    }
+
+    if (saveError) throw saveError;
 
     return new Response(
       JSON.stringify({
