@@ -1,7 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { authenticator } from "npm:otplib@12.0.1";
-import { hash } from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -17,6 +16,15 @@ function generateRecoveryCodes(count = 10): string[] {
     codes.push(code);
   }
   return codes;
+}
+
+// Use Web Crypto API for hashing (compatible with Edge Functions)
+async function hashCode(code: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(code);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
 serve(async (req) => {
@@ -89,7 +97,7 @@ serve(async (req) => {
     // Generate recovery codes
     const recoveryCodes = generateRecoveryCodes(10);
     const hashedCodes = await Promise.all(
-      recoveryCodes.map(code => hash(code))
+      recoveryCodes.map(code => hashCode(code))
     );
 
     // Enable 2FA and store hashed recovery codes
