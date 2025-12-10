@@ -88,10 +88,10 @@ const Solutions = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold lowercase mb-6 hero-gradient">
+              <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold mb-6 hero-gradient">
                 find your solution
               </h1>
-              <p className="text-xl md:text-2xl lowercase max-w-3xl mx-auto text-white/60">
+              <p className="text-xl md:text-2xl max-w-3xl mx-auto text-white/60">
                 utm.one adapts to your company size, team structure, and role—governance that scales, analytics that don't lie.
               </p>
             </motion.div>
@@ -108,10 +108,10 @@ const Solutions = () => {
               transition={{ duration: 0.6 }}
               className="mb-12"
             >
-              <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4 text-white/90">
+              <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 text-white/90">
                 by segment
               </h2>
-              <p className="text-lg lowercase max-w-2xl text-white/60">
+              <p className="text-lg max-w-2xl text-white/60">
                 choose the solution built for your company type
               </p>
             </motion.div>
@@ -132,10 +132,10 @@ const Solutions = () => {
                     <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 bg-white/10">
                       <solution.icon className="w-8 h-8 text-white/80" />
                     </div>
-                    <h3 className="text-2xl font-display font-bold lowercase mb-3 transition-colors text-white/90">
+                    <h3 className="text-2xl font-display font-bold mb-3 transition-colors text-white/90">
                       {solution.title}
                     </h3>
-                    <p className="lowercase text-white/60">
+                    <p className="text-white/60">
                       {solution.description}
                     </p>
                   </Link>
@@ -155,10 +155,10 @@ const Solutions = () => {
               transition={{ duration: 0.6 }}
               className="mb-12"
             >
-              <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4 text-white/90">
+              <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 text-white/90">
                 by role
               </h2>
-              <p className="text-lg lowercase max-w-2xl text-white/60">
+              <p className="text-lg max-w-2xl text-white/60">
                 see how utm.one solves your specific challenges
               </p>
             </motion.div>
@@ -181,10 +181,10 @@ const Solutions = () => {
                         <solution.icon className="w-6 h-6 text-white/80" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-lg font-display font-bold lowercase mb-2 transition-colors text-white/90">
+                        <h3 className="text-lg font-display font-bold mb-2 transition-colors text-white/90">
                           {solution.title}
                         </h3>
-                        <p className="text-sm lowercase text-white/60">
+                        <p className="text-sm text-white/60">
                           {solution.description}
                         </p>
                       </div>

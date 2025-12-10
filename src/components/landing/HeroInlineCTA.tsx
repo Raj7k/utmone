@@ -44,7 +44,7 @@ export const HeroInlineCTA = () => {
             type="submit"
             variant="marketing"
             size="lg"
-            className="h-12 px-8 bg-blazeOrange hover:bg-blazeOrange/90 text-white font-medium rounded-full lowercase whitespace-nowrap"
+            className="h-12 px-8 bg-blazeOrange hover:bg-blazeOrange/90 text-white font-medium rounded-full whitespace-nowrap"
           >
             get early access
             <ArrowRight className="ml-2 h-4 w-4" />

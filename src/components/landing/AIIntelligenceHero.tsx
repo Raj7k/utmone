@@ -62,11 +62,11 @@ export const AIIntelligenceHero = () => {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 bg-white/5 border border-white/10 backdrop-blur-xl"
           >
             <Sparkles className="w-4 h-4 text-white-80" />
-            <span className="text-sm font-medium lowercase text-white-80">{p("clean-track intelligence")}</span>
+            <span className="text-sm font-medium text-white-80">{p("clean-track intelligence")}</span>
           </div>
           
           <h1 
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase mb-6 hero-gradient"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 hero-gradient"
           >
             {p("four AI layers built into every link")}
           </h1>
@@ -99,7 +99,7 @@ export const AIIntelligenceHero = () => {
                   </div>
                   
                   <h3 
-                    className="text-sm md:text-lg font-semibold mb-1 md:mb-2 lowercase transition-colors text-white-90"
+                    className="text-sm md:text-lg font-semibold mb-1 md:mb-2 transition-colors text-white-90"
                   >
                     {feature.title}
                   </h3>
