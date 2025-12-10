@@ -49,31 +49,35 @@ serve(async (req) => {
       return getLuminance(color) > getLuminance(lightest) ? color : lightest;
     }, brandColors[0]);
 
-    // Build the AI prompt
+    // Build the AI prompt with aggressive brand color enforcement
     const userPrompt = `Create a square postage stamp illustration.
 
-STRICT COLOR RULES:
-- Use ONLY these exact colors: ${colorList}
-- No other colors allowed
-- The lightest color should be ${lightestColor}
+⚠️ CRITICAL COLOR ENFORCEMENT - THIS IS MANDATORY ⚠️
+You MUST use ONLY these exact brand colors for EVERYTHING: ${colorList}
+- Every single icon, shape, pattern, border, and decorative element MUST be one of these colors: ${colorList}
+- If the brand colors are orange/amber/warm tones, then planes, compasses, globes, and ALL icons must be orange/amber
+- If the brand colors are blue, then ALL elements must be blue
+- DO NOT use any default colors like navy blue, teal, or generic blue
+- DO NOT introduce ANY color not in this list: ${colorList}
+- USING ANY COLOR OUTSIDE THE BRAND PALETTE IS A CRITICAL FAILURE
 
-COMPOSITION RULES:
-- Outer border: Classic postage stamp perforated edge pattern
-- Outer 30%: Detailed geometric patterns, travel motifs, vintage stamp decorations
-- Center 50%: Must be SOLID and CLEAN using the lightest color (${lightestColor}) - this area will have a QR code overlaid
-- The center must be a simple, solid rectangular or rounded area with minimal detail
+COMPOSITION:
+- Outer border: Classic perforated stamp edge using DARKEST brand color
+- Outer 25%: Travel motifs (planes, compasses, hot air balloons, globes) - ALL rendered in brand colors ${colorList}
+- Center 60%: Solid clean rectangular area using ONLY ${lightestColor} - this is where QR code will be placed
 
 STYLE:
-- Flat geometric vector art
-- Vintage travel stamp aesthetic
-- Bold outlines and clean shapes
-- ${concept ? `Theme: ${concept}` : 'Professional business aesthetic with subtle geometric patterns'}
+- Flat geometric vector art, vintage travel stamp aesthetic
+- Bold outlines and clean shapes using brand colors only
+- ${concept ? `Theme: ${concept}` : 'Professional geometric travel patterns'}
 
-FORBIDDEN:
-- Do NOT include any text or letters
-- Do NOT generate a QR code
-- Do NOT use colors outside the brand palette
-- Do NOT add complex patterns in the center area`;
+ABSOLUTELY FORBIDDEN:
+- ❌ NO text, letters, or words
+- ❌ NO QR codes in the image
+- ❌ NO colors outside: ${colorList}
+- ❌ NO blue, navy, teal, or default AI colors (unless brand colors ARE blue)
+- ❌ NO complex patterns in the center area
+- ❌ NO generic stock colors - ONLY the provided brand palette`;
 
     console.log('Generating stamp art with Lovable AI...');
     console.log('Brand colors:', colorList);

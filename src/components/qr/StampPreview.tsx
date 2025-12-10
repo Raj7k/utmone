@@ -34,9 +34,9 @@ export const StampPreview = forwardRef<StampPreviewRef, StampPreviewProps>(
       },
     }));
 
-    // Calculate QR code size (50% of stamp size)
-    const qrSize = Math.floor(size * 0.45);
-    const qrContainerSize = Math.floor(size * 0.55);
+    // Calculate QR code size (58% of stamp size for better scannability)
+    const qrSize = Math.floor(size * 0.58);
+    const qrContainerSize = Math.floor(size * 0.65);
 
     return (
       <div className={cn("relative inline-block", className)}>
