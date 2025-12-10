@@ -5,3 +5,7 @@ export { default as RevenueBentoCard } from "./RevenueBentoCard";
 export { default as PerformanceSnapshot } from "./PerformanceSnapshot";
 export { default as TopCampaignsCard } from "./TopCampaignsCard";
 export { default as MiniSparkline } from "./MiniSparkline";
+export { default as EventImpactRow } from "./EventImpactRow";
+export { default as ChannelMixDonut } from "./ChannelMixDonut";
+export { default as GeoHeatTiles } from "./GeoHeatTiles";
+export { default as LiveActivityRail } from "./LiveActivityRail";
