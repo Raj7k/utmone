@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
+import { notify } from '@/lib/notify';
 import { useWorkspace } from './useWorkspace';
 
 export interface APIKey {
@@ -20,7 +20,6 @@ export interface APIKey {
 
 export const useAPIKeys = () => {
   const queryClient = useQueryClient();
-  const { toast } = useToast();
   const { currentWorkspace } = useWorkspace();
 
   const { data: apiKeys, isLoading } = useQuery({
@@ -62,14 +61,10 @@ export const useAPIKeys = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['api-keys', currentWorkspace?.id] });
-      toast({ title: 'api key created' });
+      notify.success('api key created');
     },
     onError: (error) => {
-      toast({
-        title: 'failed to create api key',
-        description: error.message,
-        variant: 'destructive',
-      });
+      notify.error(error.message || 'failed to create api key');
     },
   });
 
@@ -87,14 +82,10 @@ export const useAPIKeys = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['api-keys', currentWorkspace?.id] });
-      toast({ title: 'api key updated' });
+      notify.success('api key updated');
     },
     onError: (error) => {
-      toast({
-        title: 'failed to update api key',
-        description: error.message,
-        variant: 'destructive',
-      });
+      notify.error(error.message || 'failed to update api key');
     },
   });
 
@@ -109,14 +100,10 @@ export const useAPIKeys = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['api-keys', currentWorkspace?.id] });
-      toast({ title: 'api key revoked' });
+      notify.success('api key revoked');
     },
     onError: (error) => {
-      toast({
-        title: 'failed to revoke api key',
-        description: error.message,
-        variant: 'destructive',
-      });
+      notify.error(error.message || 'failed to revoke api key');
     },
   });
 
@@ -131,14 +118,10 @@ export const useAPIKeys = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['api-keys', currentWorkspace?.id] });
-      toast({ title: 'api key deleted' });
+      notify.success('api key deleted');
     },
     onError: (error) => {
-      toast({
-        title: 'failed to delete api key',
-        description: error.message,
-        variant: 'destructive',
-      });
+      notify.error(error.message || 'failed to delete api key');
     },
   });
 

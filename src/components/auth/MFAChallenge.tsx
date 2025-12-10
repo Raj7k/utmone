@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { Shield, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 
 interface MFAChallengeProps {
   factorId: string;
@@ -15,7 +15,6 @@ interface MFAChallengeProps {
 export function MFAChallenge({ factorId, onSuccess, onCancel }: MFAChallengeProps) {
   const [code, setCode] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
-  const { toast } = useToast();
 
   const handleVerify = async () => {
     if (code.length !== 6) return;
@@ -35,25 +34,14 @@ export function MFAChallenge({ factorId, onSuccess, onCancel }: MFAChallengeProp
       });
 
       if (verifyError) {
-        toast({
-          title: "Invalid code",
-          description: "The code you entered is incorrect. Please try again.",
-          variant: "destructive",
-        });
+        notify.error("invalid code, please try again");
         setCode("");
       } else {
-        toast({
-          title: "Authenticated",
-          description: "Two-factor authentication successful.",
-        });
+        notify.success("authenticated");
         onSuccess();
       }
     } catch (error: any) {
-      toast({
-        title: "Verification failed",
-        description: error.message || "An unexpected error occurred.",
-        variant: "destructive",
-      });
+      notify.error(error.message || "verification failed");
     } finally {
       setIsVerifying(false);
     }

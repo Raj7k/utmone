@@ -13,7 +13,7 @@ import {
   AlertCircle
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 
 interface EnrichmentCardProps {
   workspaceId: string;
@@ -45,8 +45,6 @@ export const EnrichmentCard = ({ workspaceId }: EnrichmentCardProps) => {
         settings.enrichment_provider = "zoominfo";
       }
 
-      // Store in workspace metadata using raw SQL update via RPC or direct update
-      // For now, we'll use the existing settings pattern with type assertion
       const { data: currentWorkspace } = await supabase
         .from('workspaces')
         .select('*')
@@ -63,17 +61,10 @@ export const EnrichmentCard = ({ workspaceId }: EnrichmentCardProps) => {
 
       if (error) throw error;
 
-      toast({
-        title: "settings saved",
-        description: `${provider} enrichment configured successfully`,
-      });
+      notify.success(`${provider} enrichment configured`);
     } catch (error) {
       console.error('Error saving settings:', error);
-      toast({
-        title: "failed to save",
-        description: "please try again",
-        variant: "destructive",
-      });
+      notify.error("failed to save settings");
     } finally {
       setIsSaving(false);
     }
@@ -94,24 +85,13 @@ export const EnrichmentCard = ({ workspaceId }: EnrichmentCardProps) => {
       if (error) throw error;
 
       if (data?.error) {
-        toast({
-          title: "connection issue",
-          description: data.message || data.error,
-          variant: "destructive",
-        });
+        notify.error(data.message || data.error);
       } else {
-        toast({
-          title: "connection successful",
-          description: `${provider} API is working correctly`,
-        });
+        notify.success(`${provider} API is working`);
       }
     } catch (error) {
       console.error('Test failed:', error);
-      toast({
-        title: "test failed",
-        description: "could not connect to enrichment service",
-        variant: "destructive",
-      });
+      notify.error("could not connect to enrichment service");
     } finally {
       setIsTesting(false);
     }

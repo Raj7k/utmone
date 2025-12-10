@@ -1,10 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 
 export const useWorkspace = () => {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const { currentWorkspace, workspaces, isLoading, switchWorkspace } = useWorkspaceContext();
 
@@ -30,25 +29,14 @@ export const useWorkspace = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["client-workspaces"] });
-      toast({
-        title: "Workspace created",
-        description: "Your workspace has been created successfully.",
-      });
+      notify.success("workspace created");
     },
     onError: (error: any) => {
       if (error.code === "23505") {
-        toast({
-          title: "Workspace name unavailable",
-          description: "A workspace with this name already exists. Please try a different name.",
-          variant: "destructive",
-        });
+        notify.error("workspace name unavailable");
         return;
       }
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error(error.message);
     },
   });
 
@@ -67,11 +55,7 @@ export const useWorkspace = () => {
       queryClient.invalidateQueries({ queryKey: ["client-workspaces"] });
     },
     onError: (error: Error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error(error.message);
     },
   });
 
