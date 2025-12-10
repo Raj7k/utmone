@@ -107,7 +107,7 @@ const PartnersManagement = lazyWithRetry(() => import("./pages/admin/PartnersMan
 const SystemTests = lazyWithRetry(() => import("./pages/admin/SystemTests"));
 const MFAVerify = lazyWithRetry(() => import("./pages/admin/MFAVerify"));
 const AdminSecurity = lazyWithRetry(() => import("./pages/admin/AdminSecurity"));
-const ExpiredSubscriptions = lazyWithRetry(() => import("./pages/admin/ExpiredSubscriptions"));
+const SubscriptionManagement = lazyWithRetry(() => import("./pages/admin/SubscriptionManagement"));
 const FeedbackManagement = lazyWithRetry(() => import("./pages/admin/FeedbackManagement"));
 const TotpVerification = lazy(() => import("./pages/auth/TotpVerification"));
 
@@ -457,7 +457,7 @@ const App = () => (
               <Route path="/admin/security" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><AdminSecurity /></AdminLayout></Suspense></ProtectedRoute>} />
               <Route path="/admin/partners" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><PartnersManagement /></AdminLayout></Suspense></ProtectedRoute>} />
               <Route path="/admin/tests" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><SystemTests /></AdminLayout></Suspense></ProtectedRoute>} />
-              <Route path="/admin/subscriptions" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><ExpiredSubscriptions /></AdminLayout></Suspense></ProtectedRoute>} />
+              <Route path="/admin/subscriptions" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><SubscriptionManagement /></AdminLayout></Suspense></ProtectedRoute>} />
               <Route path="/admin/feedback" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><FeedbackManagement /></AdminLayout></Suspense></ProtectedRoute>} />
               
               {/* Settings Routes - Protected */}
