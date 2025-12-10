@@ -286,10 +286,6 @@ export const FiberOpticGraph = () => {
         })}
       </svg>
 
-      {/* Bottom label */}
-      <div className="text-center mt-3 font-mono text-[9px] uppercase tracking-widest text-white-25">
-        clean-track attribution • live
-      </div>
     </div>
   );
 };
