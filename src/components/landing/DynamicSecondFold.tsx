@@ -164,7 +164,7 @@ const AttributionContent = () => (
       
         <Link 
           to="/features/attribution-graph"
-          className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80 text-primary"
+          className="inline-flex items-center gap-2 font-medium transition-colors hover:opacity-80 text-primary"
         >
           see how clean-track attribution works
           <ArrowRight className="h-4 w-4" />
@@ -426,7 +426,7 @@ const LinksContent = () => (
       
         <Link 
           to="/features/short-links"
-          className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80 text-primary"
+          className="inline-flex items-center gap-2 font-medium transition-colors hover:opacity-80 text-primary"
         >
           see the link builder
           <ArrowRight className="h-4 w-4" />
@@ -442,7 +442,7 @@ const IntelligenceContent = () => (
     <div className="space-y-6 lg:order-2">
       <div className="space-y-3">
         <p className="text-sm font-medium uppercase tracking-wider text-primary">clean-track intelligence</p>
-        <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold lowercase">
+        <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold">
           AI that actually understands marketing
         </h2>
         <p className="text-lg leading-relaxed text-muted-foreground">
@@ -471,7 +471,7 @@ const IntelligenceContent = () => (
                 <Icon className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <h4 className="font-semibold lowercase text-sm text-foreground">{feature.title}</h4>
+                <h4 className="font-semibold text-sm text-foreground">{feature.title}</h4>
                 <p className="text-xs text-muted-foreground">{feature.desc}</p>
               </div>
             </motion.div>
@@ -481,7 +481,7 @@ const IntelligenceContent = () => (
       
         <Link 
           to="/features/predictive-analytics"
-          className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80 text-primary"
+          className="inline-flex items-center gap-2 font-medium transition-colors hover:opacity-80 text-primary"
         >
           explore clean-track intelligence
           <ArrowRight className="h-4 w-4" />
@@ -500,7 +500,7 @@ const IntelligenceContent = () => (
         
         <div className="p-6 space-y-4">
           <div className="flex items-center justify-between">
-            <h4 className="font-semibold lowercase text-foreground">clean-track insights</h4>
+            <h4 className="font-semibold text-foreground">clean-track insights</h4>
             <span className="text-xs px-2 py-1 rounded-full bg-success/10 text-success">live</span>
           </div>
           
@@ -565,7 +565,7 @@ const GovernanceContent = () => (
         
         <div className="p-6 space-y-4">
           <div className="flex items-center justify-between">
-            <h4 className="font-semibold lowercase text-foreground">workspace governance</h4>
+            <h4 className="font-semibold text-foreground">workspace governance</h4>
             <span className="text-xs px-2 py-1 rounded-full bg-success/10 text-success">compliant</span>
           </div>
           
@@ -635,7 +635,7 @@ const GovernanceContent = () => (
     <div className="space-y-6">
       <div className="space-y-3">
         <p className="text-sm font-medium uppercase tracking-wider text-primary">enterprise control</p>
-        <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold lowercase">
+        <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold">
           governance that doesn't slow you down
         </h2>
         <p className="text-lg leading-relaxed text-muted-foreground">
@@ -670,7 +670,7 @@ const GovernanceContent = () => (
       
         <Link 
           to="/enterprise"
-          className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80 text-primary"
+          className="inline-flex items-center gap-2 font-medium transition-colors hover:opacity-80 text-primary"
         >
           explore enterprise features
           <ArrowRight className="h-4 w-4" />

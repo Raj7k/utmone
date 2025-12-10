@@ -92,7 +92,7 @@ const LinkedInRealityCheck = () => {
 
       <Card className="mt-6">
         <CardHeader>
-          <CardTitle className="lowercase">paste job description</CardTitle>
+          <CardTitle>paste job description</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
@@ -117,7 +117,7 @@ const LinkedInRealityCheck = () => {
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle className="lowercase">reality check score</CardTitle>
+                <CardTitle>reality check score</CardTitle>
                 <div className="text-right">
                   <div className="text-4xl font-display font-bold text-destructive">
                     {analysis.realityScore}/100
@@ -150,7 +150,7 @@ const LinkedInRealityCheck = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle className="lowercase">🚩 red flags detected</CardTitle>
+              <CardTitle>🚩 red flags detected</CardTitle>
             </CardHeader>
             <CardContent>
               <ul className="space-y-3">
@@ -166,7 +166,7 @@ const LinkedInRealityCheck = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle className="lowercase">recommendation</CardTitle>
+              <CardTitle>recommendation</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">{analysis.recommendation}</p>

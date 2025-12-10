@@ -106,7 +106,7 @@ export default function Product() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold hero-gradient mb-6 lowercase"
+              className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold hero-gradient mb-6"
             >
               the intelligence layer<br />for every link.
             </motion.h1>
@@ -131,7 +131,7 @@ export default function Product() {
               viewport={{ once: true }}
               className="text-center mb-16"
             >
-              <h2 className="text-3xl md:text-4xl font-sans font-bold hero-gradient mb-4 lowercase">
+              <h2 className="text-3xl md:text-4xl font-sans font-bold hero-gradient mb-4">
                 five pillars of intelligence
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -156,7 +156,7 @@ export default function Product() {
                         <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-6 bg-muted">
                           <Icon className="w-6 h-6 text-foreground" />
                         </div>
-                        <h3 className="text-xl font-sans font-semibold text-foreground mb-4 lowercase">
+                        <h3 className="text-xl font-sans font-semibold text-foreground mb-4">
                           {cap.title}
                         </h3>
                         <ul className="space-y-2">
@@ -188,7 +188,7 @@ export default function Product() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl md:text-4xl font-sans font-bold hero-gradient mb-4 lowercase">
+              <h2 className="text-3xl md:text-4xl font-sans font-bold hero-gradient mb-4">
                 see it in action
               </h2>
               <p className="text-lg text-muted-foreground mb-12">
@@ -280,7 +280,7 @@ export default function Product() {
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <h2 className="text-3xl md:text-4xl font-sans font-bold hero-gradient mb-4 lowercase">
+              <h2 className="text-3xl md:text-4xl font-sans font-bold hero-gradient mb-4">
                 before vs. after utm.one
               </h2>
               <p className="text-lg text-muted-foreground">
@@ -327,7 +327,7 @@ export default function Product() {
             >
               <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_center,_hsl(var(--primary)_/_0.05)_0%,_transparent_60%)]" />
               
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-sans font-bold mb-6 relative z-10 hero-gradient lowercase">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-sans font-bold mb-6 relative z-10 hero-gradient">
                 ready to take control?
               </h2>
               <p className="text-xl text-muted-foreground mb-10 relative z-10">

@@ -176,7 +176,7 @@ export const GTMToolsShowcase = () => {
         {/* Header */}
         <div className="text-center mb-10 md:mb-14 space-y-3">
           <h2 
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase px-2 hero-gradient"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold px-2 hero-gradient"
           >
             everything your gtm team needs, in one place
           </h2>
@@ -208,7 +208,7 @@ export const GTMToolsShowcase = () => {
                     <LinkIcon className="w-5 h-5 text-white-90" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold lowercase text-white-95">
+                    <h3 className="text-lg font-semibold text-white-95">
                       {featured.label}
                     </h3>
                     <p className="text-sm text-white-50">
@@ -260,7 +260,7 @@ export const GTMToolsShowcase = () => {
                       <Icon className="w-4 h-4 text-white-70" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-sm font-semibold lowercase truncate text-white-90">
+                      <h3 className="text-sm font-semibold truncate text-white-90">
                         {tool.label}
                       </h3>
                     </div>

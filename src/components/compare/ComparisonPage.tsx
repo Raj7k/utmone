@@ -73,11 +73,11 @@ export const ComparisonPage = ({
               {category}
             </div>
             <div className="hero-glow">
-              <h1 className="hero-gradient text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter text-balance brand-lowercase">
+              <h1 className="hero-gradient text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter text-balance">
                 {headline}
               </h1>
             </div>
-            <p className="text-xl text-white/60 max-w-[640px] mx-auto brand-lowercase">
+            <p className="text-xl text-white/60 max-w-[640px] mx-auto">
               {subheadline}
             </p>
             
@@ -88,12 +88,12 @@ export const ComparisonPage = ({
                 placeholder="your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 h-12 text-base brand-lowercase bg-white/5 border-white/10 text-white placeholder:text-white/40"
+                className="flex-1 h-12 text-base bg-white/5 border-white/10 text-white placeholder:text-white/40"
               />
               <Button
                 size="lg"
                 onClick={() => setDialogOpen(true)}
-                className="bg-blazeOrange hover:bg-blazeOrange/90 text-white px-8 h-12 brand-lowercase whitespace-nowrap"
+                className="bg-blazeOrange hover:bg-blazeOrange/90 text-white px-8 h-12 whitespace-nowrap"
               >
                 get early access
               </Button>
@@ -113,8 +113,8 @@ export const ComparisonPage = ({
       <section className="py-16 bg-white/[0.02]">
         <div className="max-w-text-content mx-auto px-8">
           <AnimatedSection className="text-center space-y-3">
-            <p className="text-lg text-white brand-lowercase">{summary.line1}</p>
-            <p className="text-lg font-semibold brand-lowercase text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">{summary.line2}</p>
+            <p className="text-lg text-white">{summary.line1}</p>
+            <p className="text-lg font-semibold text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">{summary.line2}</p>
           </AnimatedSection>
         </div>
       </section>
@@ -127,7 +127,7 @@ export const ComparisonPage = ({
               {/* Table Header */}
               <div className="grid grid-cols-3 divide-x divide-white/10 border-b border-white/10 bg-white/5">
                 <div className="p-6">
-                  <p className="text-sm font-semibold text-white brand-lowercase">capability</p>
+                  <p className="text-sm font-semibold text-white">capability</p>
                 </div>
                 <div className="p-6 text-center">
                   <p className="text-sm font-semibold brand-lowercase text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">utm.one</p>

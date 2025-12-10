@@ -125,7 +125,7 @@ export const ProductControlDeck = () => {
                         </div>
 
                         <span
-                          className={`block font-medium text-sm tracking-wide transition-colors duration-300 lowercase ${
+                          className={`block font-medium text-sm tracking-wide transition-colors duration-300 ${
                             isActive ? 'text-foreground' : 'text-muted-foreground'
                           }`}
                         >
@@ -190,7 +190,7 @@ export const ProductControlDeck = () => {
                   {/* Content */}
                   <div className="space-y-4">
                     {/* Headline - Brushed Metal Gradient */}
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase hero-gradient">
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight hero-gradient">
                       {activeTab.headline}
                     </h1>
 
@@ -205,14 +205,14 @@ export const ProductControlDeck = () => {
                         <Button 
                           size="lg"
                           variant="marketing"
-                          className="rounded-full px-8 lowercase font-medium"
+                          className="rounded-full px-8 font-medium"
                         >
                           get early access
                         </Button>
                       </Link>
                       <Link 
                         to={activeTab.route}
-                        className="inline-flex items-center gap-2 text-sm font-medium transition-colors lowercase text-muted-foreground hover:text-foreground"
+                        className="inline-flex items-center gap-2 text-sm font-medium transition-colors text-muted-foreground hover:text-foreground"
                       >
                         learn more
                         <ArrowRight className="w-4 h-4" />

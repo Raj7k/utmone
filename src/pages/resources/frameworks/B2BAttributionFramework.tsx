@@ -120,7 +120,7 @@ const B2BAttributionFramework = () => {
             </div>
 
             {/* Title */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-zinc-900 lowercase mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-zinc-900 mb-6">
               b2b attribution framework: from $0 to $100m+
             </h1>
             

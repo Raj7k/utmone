@@ -17,7 +17,7 @@ export const PermanenceShowcase = () => {
     <AnimatedSection className="py-16 md:py-24 bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center mb-8 md:mb-12 space-y-3">
-          <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase">
+          <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold">
             your links outlive your tools
           </h1>
           <p className="text-base sm:text-lg px-2 text-white-50">
@@ -34,7 +34,7 @@ export const PermanenceShowcase = () => {
             transition={{ duration: 0.5 }}
             className="rounded-xl p-5 bg-zinc-900/40 backdrop-blur-xl border border-white-08"
           >
-            <h4 className="font-semibold lowercase mb-4 flex items-center gap-2 text-sm text-white-90">
+            <h4 className="font-semibold mb-4 flex items-center gap-2 text-sm text-white-90">
               <Clock className="w-4 h-4 text-white-70" />
               link survival timeline
             </h4>
@@ -136,19 +136,19 @@ export const PermanenceShowcase = () => {
                   >
                     <Icon className="w-5 h-5 text-white-80" />
                   </div>
-                  <h3 className="text-sm font-semibold mb-2 lowercase text-white-90">{feature.title}</h3>
+                  <h3 className="text-sm font-semibold mb-2 text-white-90">{feature.title}</h3>
                   <p className="text-xs text-white-50">{feature.description}</p>
                 </motion.div>
               );
             })}
             
-            <p className="text-lg font-semibold lowercase text-center lg:text-left pt-2 text-white-80">
+            <p className="text-lg font-semibold text-center lg:text-left pt-2 text-white-80">
               Reliability is a feature, not a nice-to-have.
             </p>
             
             <Link 
               to="/features/link-immunity"
-              className="inline-flex items-center gap-2 font-medium transition-colors lowercase text-sm hover:opacity-80 text-white-70"
+              className="inline-flex items-center gap-2 font-medium transition-colors text-sm hover:opacity-80 text-white-70"
             >
               learn about link immunity
               <ArrowRight className="h-4 w-4" />

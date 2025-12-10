@@ -35,11 +35,11 @@ export const FlipRevealFAQ = ({ question, answer, visualExample, index }: FlipRe
         }}>
           {/* Front: Question + Answer */}
           <div className="backface-hidden" style={{ backfaceVisibility: "hidden" }}>
-            <h3 className="text-xl font-display font-semibold mb-3 lowercase text-foreground">
+            <h3 className="text-xl font-display font-semibold mb-3 text-foreground">
               {formatText(question)}
             </h3>
             <p className="text-white-50">{answer}</p>
-            <p className="text-sm mt-3 lowercase text-foreground">tap to see example →</p>
+            <p className="text-sm mt-3 text-foreground">tap to see example →</p>
           </div>
 
           {/* Back: Visual Example */}
@@ -51,7 +51,7 @@ export const FlipRevealFAQ = ({ question, answer, visualExample, index }: FlipRe
             }}
           >
             {visualExample}
-            <p className="text-sm mt-4 lowercase text-foreground">tap to go back ←</p>
+            <p className="text-sm mt-4 text-foreground">tap to go back ←</p>
           </div>
         </div>
       </motion.div>
