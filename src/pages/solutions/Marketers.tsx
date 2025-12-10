@@ -80,7 +80,7 @@ const Marketers = () => {
         
         <div className="relative max-w-[980px] mx-auto px-8 z-10">
           <div className="text-center space-y-8">
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tight lowercase obsidian-platinum-text leading-[1.05]">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tight obsidian-platinum-text leading-[1.05]">
               stop cleaning UTMs. start running campaigns.
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground font-sans max-w-[640px] mx-auto">
@@ -140,7 +140,7 @@ const Marketers = () => {
       <section className="py-24 md:py-32 bg-white/[0.02]">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase obsidian-platinum-text">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight obsidian-platinum-text">
               the problem vs the solution
             </h2>
             <p className="text-lg md:text-xl text-muted-foreground font-sans mt-4 max-w-[640px] mx-auto">
@@ -187,7 +187,7 @@ const Marketers = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase obsidian-platinum-text">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 obsidian-platinum-text">
               what you get
             </h2>
             <p className="text-xl text-muted-foreground font-sans">
@@ -236,7 +236,7 @@ const Marketers = () => {
         
         <div className="relative max-w-6xl mx-auto px-8 z-10">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4 obsidian-platinum-text">
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 obsidian-platinum-text">
               your workflow, transformed
             </h2>
             <p className="text-lg text-muted-foreground font-sans">
@@ -291,7 +291,7 @@ const Marketers = () => {
       <section className="py-24 md:py-32 bg-white/[0.02]">
         <div className="max-w-4xl mx-auto px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4 obsidian-platinum-text">
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 obsidian-platinum-text">
               how clean is your tracking?
             </h2>
             <p className="text-lg text-muted-foreground font-sans">
@@ -307,7 +307,7 @@ const Marketers = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-[1200px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight lowercase obsidian-platinum-text">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight obsidian-platinum-text">
               built for marketing teams
             </h2>
           </div>

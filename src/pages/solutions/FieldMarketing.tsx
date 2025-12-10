@@ -157,7 +157,7 @@ const FieldMarketing = () => {
                     for field marketing teams
                   </div>
                   
-                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase obsidian-platinum-text leading-tight">
+                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight obsidian-platinum-text leading-tight">
                     stop counting business cards. start measuring real impact.
                   </h1>
                   
@@ -223,7 +223,7 @@ const FieldMarketing = () => {
                 viewport={{ once: true }}
                 className="text-center mb-12"
               >
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight lowercase obsidian-platinum-text mb-4">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight obsidian-platinum-text mb-4">
                   the field marketing struggle
                 </h2>
                 <p className="text-obsidian-text-muted max-w-2xl mx-auto">
@@ -260,7 +260,7 @@ const FieldMarketing = () => {
                 viewport={{ once: true }}
                 className="text-center mb-12"
               >
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight lowercase obsidian-platinum-text mb-4">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight obsidian-platinum-text mb-4">
                   what you get with event halo
                 </h2>
               </motion.div>
@@ -297,7 +297,7 @@ const FieldMarketing = () => {
                 viewport={{ once: true }}
                 className="text-center mb-12"
               >
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight lowercase obsidian-platinum-text mb-4">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight obsidian-platinum-text mb-4">
                   replace $5,000 hardware scanners
                 </h2>
                 <p className="text-obsidian-text-muted max-w-2xl mx-auto">
@@ -371,7 +371,7 @@ const FieldMarketing = () => {
                 viewport={{ once: true }}
                 className="text-center mb-12"
               >
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight lowercase obsidian-platinum-text mb-4">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight obsidian-platinum-text mb-4">
                   the event workflow
                 </h2>
               </motion.div>

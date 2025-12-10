@@ -82,7 +82,7 @@ const Enterprise = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="font-display font-bold text-5xl md:text-6xl lg:text-7xl lowercase obsidian-platinum-text mb-6">
+            <h1 className="font-display font-bold text-5xl md:text-6xl lg:text-7xl obsidian-platinum-text mb-6">
               enterprise-grade governance<br />for every click
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-12 font-sans">
@@ -105,7 +105,7 @@ const Enterprise = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-foreground mb-6">
+            <h2 className="font-display font-bold text-4xl md:text-5xl text-foreground mb-6">
               the three pillars
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-sans">
@@ -130,7 +130,7 @@ const Enterprise = () => {
                   <div className="text-sm font-semibold uppercase tracking-wide mb-2 text-primary font-sans">
                     {pillar.subtitle}
                   </div>
-                  <h3 className="text-2xl font-display font-bold text-foreground lowercase mb-3">
+                  <h3 className="text-2xl font-display font-bold text-foreground mb-3">
                     {pillar.title}
                   </h3>
                   <p className="text-lg text-foreground font-medium mb-3 font-sans">
@@ -153,7 +153,7 @@ const Enterprise = () => {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto mb-12 text-center"
           >
-            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-foreground mb-6">
+            <h2 className="font-display font-bold text-4xl md:text-5xl text-foreground mb-6">
               adaptive governance shield
             </h2>
             <p className="text-xl text-muted-foreground font-sans">
@@ -172,14 +172,14 @@ const Enterprise = () => {
             viewport={{ once: true }}
             className="max-w-3xl mx-auto mt-12 p-8 rounded-2xl obsidian-glass"
           >
-            <h3 className="font-display font-bold text-2xl text-foreground lowercase mb-4">
+            <h3 className="font-display font-bold text-2xl text-foreground mb-4">
               the problem
             </h3>
             <p className="text-muted-foreground mb-6 font-sans">
               In big teams, users get "Admin" access because they need to do one specific thing 
               (e.g., view billing), but this exposes the company to risk (e.g., they can also delete links).
             </p>
-            <h3 className="font-display font-bold text-2xl text-foreground lowercase mb-4">
+            <h3 className="font-display font-bold text-2xl text-foreground mb-4">
               the solution
             </h3>
             <p className="text-muted-foreground font-sans">
@@ -206,7 +206,7 @@ const Enterprise = () => {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto mb-12 text-center"
           >
-            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-foreground mb-6">
+            <h2 className="font-display font-bold text-4xl md:text-5xl text-foreground mb-6">
               time-travel audit trail
             </h2>
             <p className="text-xl text-muted-foreground font-sans">
@@ -242,7 +242,7 @@ const Enterprise = () => {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto mb-12 text-center"
           >
-            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-foreground mb-6">
+            <h2 className="font-display font-bold text-4xl md:text-5xl text-foreground mb-6">
               just-in-time provisioning
             </h2>
             <p className="text-xl text-muted-foreground font-sans">
@@ -266,7 +266,7 @@ const Enterprise = () => {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto mb-12 text-center"
           >
-            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-foreground mb-6">
+            <h2 className="font-display font-bold text-4xl md:text-5xl text-foreground mb-6">
               bayesian influence graph
             </h2>
             <p className="text-xl text-muted-foreground font-sans">
@@ -297,7 +297,7 @@ const Enterprise = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-foreground mb-6">
+            <h2 className="font-display font-bold text-4xl md:text-5xl text-foreground mb-6">
               enterprise trust
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-sans">
@@ -318,7 +318,7 @@ const Enterprise = () => {
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-full mb-4 bg-primary/10">
                   <Lock className="w-6 h-6 text-primary" />
                 </div>
-                <h3 className="font-display font-bold text-lg text-foreground lowercase mb-2">
+                <h3 className="font-display font-bold text-lg text-foreground mb-2">
                   {badge.title}
                 </h3>
                 <p className="text-sm text-muted-foreground font-sans">{badge.description}</p>
@@ -337,7 +337,7 @@ const Enterprise = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl lowercase obsidian-platinum-text mb-6">
+            <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl obsidian-platinum-text mb-6">
               talk to our enterprise team
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12 font-sans">
