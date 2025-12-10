@@ -32,14 +32,13 @@ const OneTap = () => {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <Badge className="mb-6 bg-emerald-500/20 text-emerald-400 border-emerald-500/30">
-                <Sparkles className="w-3 h-3 mr-1" />new: ai-powered
+                <Sparkles className="w-3 h-3 mr-1" />{p("new: AI-powered")}
               </Badge>
               <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight mb-6 obsidian-platinum-text">
                 one app.<br />all badges.<br />zero lost leads.
               </h1>
               <p className="text-xl text-white/60 mb-8 max-w-lg">
-                the universal badge scanner that reads any format—qr, barcode, nfc, or printed text. 
-                works offline. enriches with ai. replaces $5,000 hardware scanners.
+                {p("the universal badge scanner that reads any format—QR, barcode, NFC, or printed text. works offline. enriches with AI. replaces $5,000 hardware scanners.")}
               </p>
               <div className="flex flex-wrap gap-4">
                 <Button asChild size="lg" className="bg-white text-black hover:bg-white/90">
@@ -95,8 +94,8 @@ const OneTap = () => {
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             {[
-              { num: "1", name: "native decode", desc: "instant qr/barcode reading. 0.1s decode.", color: "emerald", badges: ["qr code", "code128"] },
-              { num: "2", name: "ai vision ocr", desc: "reads encrypted badges and printed text.", color: "amber", badges: ["encrypted qr", "printed text"] },
+              { num: "1", name: "native decode", desc: "instant QR/barcode reading. 0.1s decode.", color: "emerald", badges: ["QR code", "code128"] },
+              { num: "2", name: "AI vision OCR", desc: "reads encrypted badges and printed text.", color: "amber", badges: ["encrypted QR", "printed text"] },
               { num: "3", name: "manual entry", desc: "autocomplete from attendee list. never lose a lead.", color: "blue", badges: ["autocomplete"] }
             ].map((layer) => (
               <div key={layer.num} className={`p-8 rounded-2xl bg-${layer.color}-500/10 border border-${layer.color}-500/20`}>
@@ -120,14 +119,14 @@ const OneTap = () => {
       <section className="py-24 relative bg-white/[0.02]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <Badge className="mb-4 bg-amber-500/20 text-amber-400 border-amber-500/30"><Sparkles className="w-3 h-3 mr-1" />powered by gemini vision</Badge>
-            <h2 className="font-display text-4xl md:text-5xl font-medium mb-4 obsidian-platinum-text">ai ocr that reads anything</h2>
+            <Badge className="mb-4 bg-amber-500/20 text-amber-400 border-amber-500/30"><Sparkles className="w-3 h-3 mr-1" />powered by Gemini Vision</Badge>
+            <h2 className="font-display text-4xl md:text-5xl font-medium mb-4 obsidian-platinum-text">{p("AI OCR that reads anything")}</h2>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { icon: QrCode, title: "qr codes", speed: "0.1s", accuracy: "99.9%" },
+              { icon: QrCode, title: "QR codes", speed: "0.1s", accuracy: "99.9%" },
               { icon: Barcode, title: "barcodes", speed: "0.2s", accuracy: "99.5%" },
-              { icon: Nfc, title: "nfc chips", speed: "0.3s", accuracy: "99.8%" },
+              { icon: Nfc, title: "NFC chips", speed: "0.3s", accuracy: "99.8%" },
               { icon: FileText, title: "printed text", speed: "0.8s", accuracy: "97.2%" }
             ].map((f, i) => (
               <motion.div key={f.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="p-6 rounded-2xl bg-card border border-border">
@@ -154,7 +153,7 @@ const OneTap = () => {
             </div>
             <div className="p-8 rounded-2xl bg-card border border-border">
               <Sparkles className="w-10 h-10 text-purple-400 mb-4" />
-              <h3 className="font-display text-xl font-medium text-white mb-2">ai enrichment</h3>
+              <h3 className="font-display text-xl font-medium text-white mb-2">{p("AI enrichment")}</h3>
               <p className="text-white/60 text-sm">badge says "sarah, acme"? we find email, phone, linkedin via clay/apollo.</p>
             </div>
             <div className="p-8 rounded-2xl bg-card border border-border">
@@ -174,12 +173,12 @@ const OneTap = () => {
           </div>
           <div className="overflow-hidden rounded-2xl border border-border">
             <table className="w-full">
-              <thead><tr className="bg-white/5"><th className="px-6 py-4 text-left text-sm font-medium text-white/60">feature</th><th className="px-6 py-4 text-center text-sm text-white/60">hardware</th><th className="px-6 py-4 text-center text-sm text-emerald-400">one-tap</th></tr></thead>
+              <thead><tr className="bg-white/5"><th className="px-6 py-4 text-left text-sm font-medium text-white/60">feature</th><th className="px-6 py-4 text-center text-sm text-white/60">hardware</th><th className="px-6 py-4 text-center text-sm text-emerald-400">One-Tap</th></tr></thead>
               <tbody className="divide-y divide-border">
                 {[
                   { f: "cost per event", h: "$500-1k rental", o: "$79/mo unlimited" },
                   { f: "works offline", h: "sometimes", o: "always" },
-                  { f: "ai enrichment", h: "extra cost", o: "included" },
+                  { f: p("AI enrichment"), h: "extra cost", o: "included" },
                   { f: "identity dedup", h: "manual", o: "automatic" },
                   { f: "annual (10 events)", h: "$5,000-10,000", o: "$948" }
                 ].map((r, i) => (

@@ -4,6 +4,7 @@ import { Sparkles, Calculator, Users } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 const AIvsHumanROI = () => {
   const roleRisks = [
@@ -56,7 +57,7 @@ const AIvsHumanROI = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle className="lowercase">role automation risk scores</CardTitle>
+          <CardTitle>{p("role automation risk scores")}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           {roleRisks.map((item, index) => (
@@ -80,7 +81,7 @@ const AIvsHumanROI = () => {
 
       <Card className="mt-8">
         <CardHeader>
-          <CardTitle className="lowercase">AI skills salary premiums</CardTitle>
+          <CardTitle>{p("AI skills salary premiums")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -98,7 +99,7 @@ const AIvsHumanROI = () => {
 
       <Card className="mt-8 border-white/20" style={{ background: 'linear-gradient(to bottom right, rgba(255,255,255,0.05), rgba(255,255,255,0.1))' }}>
         <CardHeader>
-          <CardTitle className="lowercase">future-proofing recommendations</CardTitle>
+          <CardTitle>{p("future-proofing recommendations")}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="space-y-2">

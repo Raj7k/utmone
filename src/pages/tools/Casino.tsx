@@ -8,6 +8,7 @@ import { TrendingUp, Zap, Share2, ArrowRight, DollarSign, BarChart3 } from "luci
 import { Link } from "react-router-dom";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { GlassCard } from "@/components/ui/glass-card";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 const CHANNELS = [
   { id: "google", name: "Google Ads", volatility: 0.25, avgROI: 2.1 },
@@ -110,11 +111,11 @@ export default function Casino() {
             <span className="text-sm font-display font-medium uppercase tracking-wider text-muted-foreground">monte carlo simulator</span>
           </div>
           
-          <h1 className="text-5xl md:text-6xl font-display font-bold mb-4 hero-gradient brand-lowercase">
-            gtm casino
+          <h1 className="text-5xl md:text-6xl font-display font-bold mb-4 hero-gradient">
+            {p("GTM Casino")}
           </h1>
           <p className="text-muted-foreground max-w-xl mx-auto text-lg">
-            run 1,000 simulations to see your odds of hitting 2x ROI
+            {p("run 1,000 simulations to see your odds of hitting 2x ROI")}
           </p>
         </motion.div>
 
@@ -235,7 +236,7 @@ export default function Casino() {
                   {/* Win Probability */}
                   <GlassCard variant="elevated" className="p-8 text-center">
                     <p className="text-muted-foreground text-sm uppercase tracking-wider mb-2 font-display">
-                      chance of 2x+ ROI
+                      {p("chance of 2x+ ROI")}
                     </p>
                     <div className="text-7xl font-display font-bold hero-gradient mb-2">
                       {result.winProbability.toFixed(1)}%
@@ -263,7 +264,7 @@ export default function Casino() {
 
                   {/* Distribution Chart */}
                   <GlassCard className="p-6">
-                    <p className="text-muted-foreground text-sm mb-4 font-display">ROI Distribution (1,000 simulations)</p>
+                    <p className="text-muted-foreground text-sm mb-4 font-display">{p("ROI Distribution (1,000 simulations)")}</p>
                     <div className="flex items-end gap-1 h-32">
                       {result.distribution.map((count, i) => (
                         <motion.div
@@ -294,7 +295,7 @@ export default function Casino() {
                     </Button>
                     <Link to="/early-access" className="flex-1">
                       <Button className="w-full bg-primary hover:bg-primary-hover text-primary-foreground">
-                        Don't Gamble. Track ROI.
+                        {p("Don't Gamble. Track ROI.")}
                         <ArrowRight className="w-4 h-4 ml-2" />
                       </Button>
                     </Link>

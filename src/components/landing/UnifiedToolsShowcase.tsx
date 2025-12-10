@@ -900,7 +900,7 @@ export const UnifiedToolsShowcase = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-10 space-y-3"
         >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase obsidian-platinum-text">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold obsidian-platinum-text">
             your complete marketing toolbox
           </h1>
           <p className="text-base md:text-lg max-w-2xl mx-auto text-muted-foreground font-sans">

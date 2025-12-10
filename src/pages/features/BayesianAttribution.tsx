@@ -70,7 +70,7 @@ const BayesianAttribution = () => {
         
         <div className="relative max-w-[980px] mx-auto px-8 z-10">
           <div className="text-center space-y-8">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter hero-gradient leading-[1.05] lowercase">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter hero-gradient leading-[1.05]">
               see the invisible influence.
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto">
@@ -103,7 +103,7 @@ const BayesianAttribution = () => {
       <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-7xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground mb-6 lowercase">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground mb-6">
               bayesian networks in action
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-sans">
