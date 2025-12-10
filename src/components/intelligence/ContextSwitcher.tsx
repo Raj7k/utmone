@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import { BarChart3, Megaphone, Calendar, DollarSign } from "lucide-react";
+import { BarChart3, Megaphone, Calendar, DollarSign, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export type IntelligenceContext = "all" | "campaigns" | "events" | "sales";
+export type IntelligenceContext = "all" | "campaigns" | "events" | "sales" | "customers";
 
 interface ContextSwitcherProps {
   value: IntelligenceContext;
@@ -14,6 +14,7 @@ const contexts: { id: IntelligenceContext; label: string; icon: typeof BarChart3
   { id: "campaigns", label: "campaigns", icon: Megaphone },
   { id: "events", label: "events", icon: Calendar },
   { id: "sales", label: "sales", icon: DollarSign },
+  { id: "customers", label: "customers", icon: Users },
 ];
 
 export default function ContextSwitcher({ value, onChange }: ContextSwitcherProps) {

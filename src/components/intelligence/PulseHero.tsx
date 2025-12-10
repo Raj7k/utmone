@@ -4,22 +4,41 @@ import { Activity, TrendingUp, TrendingDown } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 
-type PeriodOption = "today" | "7d" | "30d" | "90d";
+type PeriodOption = "today" | "this_week" | "this_month" | "this_quarter" | "7d" | "30d" | "90d" | "365d";
 
 interface PulseHeroProps {
   workspaceId?: string;
   period: PeriodOption;
-  onPeriodChange: (period: PeriodOption) => void;
+  onPeriodChange?: (period: PeriodOption) => void;
+  hidePeriodSelector?: boolean;
 }
 
 const periodLabels: Record<PeriodOption, string> = {
   today: "today",
+  this_week: "this week",
+  this_month: "this month",
+  this_quarter: "this quarter",
   "7d": "7 days",
   "30d": "30 days",
   "90d": "90 days",
+  "365d": "year",
 };
 
-export default function PulseHero({ workspaceId, period, onPeriodChange }: PulseHeroProps) {
+const getPeriodDays = (period: PeriodOption): number => {
+  switch (period) {
+    case "today": return 1;
+    case "this_week": return 7;
+    case "this_month": return 30;
+    case "this_quarter": return 90;
+    case "7d": return 7;
+    case "30d": return 30;
+    case "90d": return 90;
+    case "365d": return 365;
+    default: return 7;
+  }
+};
+
+export default function PulseHero({ workspaceId, period, onPeriodChange, hidePeriodSelector }: PulseHeroProps) {
   const [liveClicks, setLiveClicks] = useState(0);
   const [trend, setTrend] = useState<"up" | "down" | "neutral">("neutral");
   const [trendPercent, setTrendPercent] = useState(0);
@@ -30,7 +49,7 @@ export default function PulseHero({ workspaceId, period, onPeriodChange }: Pulse
     if (!workspaceId) return;
 
     const fetchStats = async () => {
-      const periodDays = period === "today" ? 1 : parseInt(period);
+      const periodDays = getPeriodDays(period);
       const startDate = new Date();
       startDate.setDate(startDate.getDate() - periodDays);
 
@@ -152,23 +171,25 @@ export default function PulseHero({ workspaceId, period, onPeriodChange }: Pulse
           </div>
         </div>
 
-        {/* Period Selector */}
-        <div className="flex items-center gap-1 p-1 rounded-full bg-muted/50">
-          {(Object.keys(periodLabels) as PeriodOption[]).map((p) => (
-            <button
-              key={p}
-              onClick={() => onPeriodChange(p)}
-              className={cn(
-                "px-4 py-2 rounded-full text-sm font-medium transition-all duration-200",
-                period === p
-                  ? "bg-card text-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              {periodLabels[p]}
-            </button>
-          ))}
-        </div>
+        {/* Period Selector - only show if not hidden */}
+        {!hidePeriodSelector && onPeriodChange && (
+          <div className="flex items-center gap-1 p-1 rounded-full bg-muted/50">
+            {(["today", "7d", "30d", "90d"] as PeriodOption[]).map((p) => (
+              <button
+                key={p}
+                onClick={() => onPeriodChange(p)}
+                className={cn(
+                  "px-4 py-2 rounded-full text-sm font-medium transition-all duration-200",
+                  period === p
+                    ? "bg-card text-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                {periodLabels[p]}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
