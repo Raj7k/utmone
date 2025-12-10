@@ -37,7 +37,7 @@ export function RareEventEstimator({ linkId, workspaceId, title = "conversion pr
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Activity className="h-5 w-5 text-foreground" />
-            <h3 className="font-semibold text-sm lowercase">{title}</h3>
+            <h3 className="font-semibold text-sm">{title}</h3>
           </div>
           {probEstimate.reliable ? (
             <CheckCircle className="h-4 w-4 text-green-600" />

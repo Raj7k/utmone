@@ -323,7 +323,7 @@ export const AnalyticsFeatureCarousel = () => {
         {/* Section Header */}
         <div className="text-center mb-10 md:mb-14 space-y-3">
           <motion.h2 
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold"
             style={{
               background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
               WebkitBackgroundClip: 'text',

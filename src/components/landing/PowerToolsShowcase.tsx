@@ -166,7 +166,7 @@ export const PowerToolsShowcase = () => {
     <AnimatedSection className="py-16 md:py-24 bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center mb-8 md:mb-12 space-y-3">
-          <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-bold lowercase px-2">
+          <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-bold px-2">
             power tools for scale
           </h1>
           <p className="text-base sm:text-lg text-white-50">
@@ -218,7 +218,7 @@ export const PowerToolsShowcase = () => {
                       <Icon className={`w-5 h-5 ${isActive ? 'text-obsidian' : 'text-white-80'}`} />
                     </div>
                     <div className="flex-1 text-left">
-                      <span className={`text-sm font-semibold lowercase ${isActive ? 'text-obsidian' : 'text-white-90'}`}>
+                      <span className={`text-sm font-semibold ${isActive ? 'text-obsidian' : 'text-white-90'}`}>
                         {tool.label}
                       </span>
                       <p className={`text-xs ${isActive ? 'text-black/60' : 'text-white-50'}`}>
@@ -252,7 +252,7 @@ export const PowerToolsShowcase = () => {
                     }`}
                   >
                     <Icon className={`w-4 h-4 ${isActive ? 'text-obsidian' : 'text-white-80'}`} />
-                    <span className={`text-sm font-medium lowercase ${isActive ? 'text-obsidian' : 'text-white-90'}`}>{tool.label}</span>
+                    <span className={`text-sm font-medium ${isActive ? 'text-obsidian' : 'text-white-90'}`}>{tool.label}</span>
                   </motion.button>
                 );
               })}
@@ -277,7 +277,7 @@ export const PowerToolsShowcase = () => {
                       })()}
                     </div>
                     <div>
-                      <h3 className="font-semibold lowercase text-white-90">{active.label}</h3>
+                      <h3 className="font-semibold text-white-90">{active.label}</h3>
                       <p className="text-sm text-white-50">{active.description}</p>
                     </div>
                   </div>
@@ -293,7 +293,7 @@ export const PowerToolsShowcase = () => {
         <div className="text-center mt-8">
           <Link 
             to="/features/analytics"
-            className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80 text-white-80"
+            className="inline-flex items-center gap-2 font-medium transition-colors hover:opacity-80 text-white-80"
           >
             explore all features
             <ArrowRight className="h-4 w-4" />

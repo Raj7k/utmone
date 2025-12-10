@@ -40,7 +40,7 @@ export const CTAButton = ({
         <Button
           variant={variant === "primary" ? "halo" : "outline"}
           size="lg"
-          className={`relative text-base px-8 py-6 rounded-full font-medium lowercase ${className}`}
+          className={`relative text-base px-8 py-6 rounded-full font-medium ${className}`}
         >
           {typeof children === 'string' ? formatText(children) : children}
           {showArrow && (

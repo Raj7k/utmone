@@ -87,7 +87,7 @@ const Reporting = () => {
             transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto text-center text-white"
           >
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight mb-6 lowercase">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight mb-6">
               {formatText("reporting without")}
               <br />
               {formatText("spreadsheet hell.")}
@@ -95,7 +95,7 @@ const Reporting = () => {
             <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto">
               One-click PDF exports, white-label client reports, and scheduled email delivery.
             </p>
-            <Button size="lg" className="bg-white hover:bg-white/90 lowercase text-primary">
+            <Button size="lg" className="bg-white hover:bg-white/90 text-primary">
               get started
             </Button>
           </motion.div>
@@ -105,7 +105,7 @@ const Reporting = () => {
       {/* Problem Section */}
       <FeatureSection background="default">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
             {formatText("The Client Reporting Problem")}
           </h2>
           <div className="max-w-4xl mx-auto space-y-8 text-left">
@@ -138,7 +138,7 @@ const Reporting = () => {
       {/* Capabilities Grid */}
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
             {formatText("What You Get")}
           </h2>
         </div>
@@ -152,7 +152,7 @@ const Reporting = () => {
       {/* Workflow Timeline */}
       <section className="py-24 md:py-32 bg-mirage relative overflow-hidden">
         <div className="container px-6 mx-auto relative z-10">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-center mb-16 text-white lowercase">
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-center mb-16 text-white">
             {formatText("How It Works")}
           </h2>
           <div className="max-w-4xl mx-auto space-y-8">
@@ -174,13 +174,13 @@ const Reporting = () => {
             transition={{ duration: 0.6 }}
             className="max-w-3xl mx-auto text-white"
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-6 lowercase">
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">
               {formatText("reporting that actually scales.")}
             </h2>
             <p className="text-xl text-white/90 mb-8">
               Start exporting white-label reports in seconds, not hours.
             </p>
-            <Button size="lg" className="bg-white hover:bg-white/90 lowercase text-primary">
+            <Button size="lg" className="bg-white hover:bg-white/90 text-primary">
               get started
             </Button>
           </motion.div>

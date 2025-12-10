@@ -9,7 +9,7 @@ export const HowToUse = ({ steps }: HowToUseProps) => {
   return (
     <Card className="mb-8 bg-muted/20 border-dashed">
       <CardHeader>
-        <CardTitle className="text-lg lowercase flex items-center gap-2">
+        <CardTitle className="text-lg flex items-center gap-2">
           <HelpCircle className="h-5 w-5 text-primary" />
           how to use this tool
         </CardTitle>

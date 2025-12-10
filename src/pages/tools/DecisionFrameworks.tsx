@@ -47,7 +47,7 @@ const FirstPrinciplesCalculator = () => {
   return (
     <Card className="border-2 border-white/20">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 lowercase">
+        <CardTitle className="flex items-center gap-2">
           <Target className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.9)' }} />
           first principles breakdown
         </CardTitle>
@@ -93,7 +93,7 @@ const FirstPrinciplesCalculator = () => {
           ))}
         </div>
 
-        <Button onClick={generateFundamentals} className="w-full lowercase">
+        <Button onClick={generateFundamentals} className="w-full">
           <Lightbulb className="w-4 h-4 mr-2" />
           reveal fundamental truth
         </Button>
@@ -116,11 +116,11 @@ const FirstPrinciplesCalculator = () => {
               </div>
             ))}
             <div className="flex gap-2 pt-2">
-              <Button size="sm" variant="outline" className="lowercase">
+              <Button size="sm" variant="outline">
                 <Download className="w-3 h-3 mr-1" />
                 export
               </Button>
-              <Button size="sm" variant="outline" className="lowercase">
+              <Button size="sm" variant="outline">
                 <Share2 className="w-3 h-3 mr-1" />
                 share on linkedin
               </Button>

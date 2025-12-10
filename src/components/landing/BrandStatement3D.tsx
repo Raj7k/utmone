@@ -15,7 +15,7 @@ export const BrandStatement3D = () => {
           className="text-center"
         >
           <h2 
-            className="font-display font-bold text-7xl md:text-8xl lg:text-[10rem] lowercase hero-gradient"
+            className="font-display font-bold text-7xl md:text-8xl lg:text-[10rem] hero-gradient"
           >
             utm.one
           </h2>

@@ -26,7 +26,7 @@ export const CapabilityCard = ({
       <div className="mb-4 inline-flex p-3 rounded-xl bg-white/10 text-white group-hover:bg-white/20 transition-colors">
         <Icon className="w-6 h-6" />
       </div>
-      <h3 className="font-display text-xl font-semibold mb-3 text-white lowercase">
+      <h3 className="font-display text-xl font-semibold mb-3 text-white">
         {formatText(title)}
       </h3>
       <p className="text-sm text-white/60 leading-relaxed">

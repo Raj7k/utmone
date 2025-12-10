@@ -490,7 +490,7 @@ const FirstPrinciplesContent = () => {
               <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 bg-white/10">
                 <Target className="w-7 h-7 text-white-90" />
               </div>
-              <h3 className="text-lg font-semibold lowercase text-white-90">define your problem</h3>
+              <h3 className="text-lg font-semibold text-white-90">define your problem</h3>
               <p className="text-sm mt-1 text-white-50">What decision are you trying to make?</p>
             </div>
             <Textarea 

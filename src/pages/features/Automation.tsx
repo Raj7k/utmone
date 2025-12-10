@@ -87,7 +87,7 @@ const Automation = () => {
             transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto text-center text-white"
           >
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight mb-6 lowercase">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight mb-6">
               {formatText("automation that")}
               <br />
               {formatText("just works.")}
@@ -95,7 +95,7 @@ const Automation = () => {
             <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto">
               Zapier, webhooks, bulk operations, and scheduled workflows. Stop repeating yourself.
             </p>
-            <Button size="lg" className="bg-white hover:bg-white/90 lowercase text-primary">
+            <Button size="lg" className="bg-white hover:bg-white/90 text-primary">
               get started
             </Button>
           </motion.div>
@@ -105,7 +105,7 @@ const Automation = () => {
       {/* Problem Section */}
       <FeatureSection background="default">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
             {formatText("The Manual Work Problem")}
           </h2>
           <div className="max-w-4xl mx-auto space-y-8 text-left">
@@ -138,7 +138,7 @@ const Automation = () => {
       {/* Capabilities Grid */}
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
             {formatText("What You Get")}
           </h2>
         </div>
@@ -152,7 +152,7 @@ const Automation = () => {
       {/* Workflow Timeline */}
       <section className="py-24 md:py-32 bg-mirage relative overflow-hidden">
         <div className="container px-6 mx-auto relative z-10">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-center mb-16 text-white lowercase">
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-center mb-16 text-white">
             {formatText("How It Works")}
           </h2>
           <div className="max-w-4xl mx-auto space-y-8">
@@ -166,7 +166,7 @@ const Automation = () => {
       {/* Use Case Examples */}
       <FeatureSection background="default">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
             {formatText("Popular Automation Workflows")}
           </h2>
         </div>
@@ -212,13 +212,13 @@ const Automation = () => {
             transition={{ duration: 0.6 }}
             className="max-w-3xl mx-auto text-white"
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-6 lowercase">
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">
               {formatText("stop repeating yourself.")}
             </h2>
             <p className="text-xl text-white/90 mb-8">
               Connect utm.one to Zapier, webhooks, and 5,000+ apps to automate everything.
             </p>
-            <Button size="lg" className="bg-white hover:bg-white/90 lowercase text-primary">
+            <Button size="lg" className="bg-white hover:bg-white/90 text-primary">
               get started
             </Button>
           </motion.div>

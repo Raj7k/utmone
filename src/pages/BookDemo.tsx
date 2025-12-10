@@ -187,7 +187,7 @@ export default function BookDemo() {
       <div className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 text-foreground hover:text-foreground/80 transition-colors">
-            <span className="text-xl font-display font-bold lowercase">utm.one</span>
+            <span className="text-xl font-display font-bold">utm.one</span>
           </Link>
           <Button
             variant="ghost"
