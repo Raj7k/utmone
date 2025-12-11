@@ -1,9 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
+import { getFriendlyErrorMessage } from "@/lib/errorMessages";
 
 export const useClientWorkspaces = () => {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const { data: workspaces, isLoading } = useQuery({
@@ -78,17 +78,10 @@ export const useClientWorkspaces = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["client-workspaces"] });
-      toast({
-        title: "Workspace created",
-        description: "Your workspace has been created successfully.",
-      });
+      notify.success("workspace created");
     },
-    onError: (error: Error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+    onError: (error: any) => {
+      notify.error(getFriendlyErrorMessage(error));
     },
   });
 
@@ -103,17 +96,10 @@ export const useClientWorkspaces = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["client-workspaces"] });
-      toast({
-        title: "Workspace deleted",
-        description: "Workspace has been deleted successfully.",
-      });
+      notify.success("workspace deleted");
     },
-    onError: (error: Error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+    onError: (error: any) => {
+      notify.error(getFriendlyErrorMessage(error));
     },
   });
 

@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
+import { getFriendlyErrorMessage } from "@/lib/errorMessages";
 
 export const useWorkspace = () => {
   const queryClient = useQueryClient();
@@ -32,11 +33,7 @@ export const useWorkspace = () => {
       notify.success("workspace created");
     },
     onError: (error: any) => {
-      if (error.code === "23505") {
-        notify.error("workspace name unavailable");
-        return;
-      }
-      notify.error(error.message);
+      notify.error(getFriendlyErrorMessage(error));
     },
   });
 
