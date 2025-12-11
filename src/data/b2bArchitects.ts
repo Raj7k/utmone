@@ -56,7 +56,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/timsoulo/',
     originalPhoto: '/architects/original/tim-soulo.jpeg',
     description: 'The master of "don\'t listen to marketing advice" marketing.',
-    nugget: 'The master of "don\'t listen to marketing advice" marketing',
+    nugget: 'Built a $100M ARR business by telling marketers NOT to buy marketing advice. Peak irony. Peak genius.',
   },
   {
     id: 'elena-verna',
@@ -68,7 +68,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/elenaverna/',
     originalPhoto: '/architects/original/elena-verna.jpeg',
     description: 'The queen of Product-Led Growth loops.',
-    nugget: 'The queen of PLG—watch how she structures viral loops',
+    nugget: 'She doesn\'t just advise on PLG. She wrote the playbook Dropbox, Miro, and MongoDB all follow.',
   },
   {
     id: 'emir-atli',
@@ -80,7 +80,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/emir-atli/',
     originalPhoto: '/architects/original/emir-atli.jpeg',
     description: 'Proving attribution isn\'t dead, it\'s just hard.',
-    nugget: 'Proving attribution isn\'t dead, it\'s just hard',
+    nugget: 'Building the tool that makes "I can\'t track that" sound like a 2019 excuse.',
   },
   {
     id: 'steffen-hedebrandt',
@@ -92,7 +92,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/steffenhedebrandt/',
     originalPhoto: '/architects/original/steffen-hedebrandt.jpeg',
     description: 'Bridging the gap between marketing spend and revenue.',
-    nugget: 'Bridging the gap between marketing spend and revenue',
+    nugget: 'While others debate MQL vs SQL, he\'s busy proving which LinkedIn post actually made the sale.',
   },
   {
     id: 'josh-grant',
@@ -104,7 +104,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/joshbgrant/',
     originalPhoto: '/architects/original/josh-grant.jpeg',
     description: 'Democratizing web creation for growth teams.',
-    nugget: 'Democratizing web creation for growth teams',
+    nugget: 'Proving that the best marketing teams don\'t wait for dev cycles. They ship.',
   },
 
   // 🤖 THE FUTURISTS (5)
@@ -118,7 +118,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/ashleykramer/',
     originalPhoto: '/architects/original/ashley-kramer.jpeg',
     description: 'Literally sitting at the source of the revolution.',
-    nugget: 'Literally sitting at the source of the AI revolution',
+    nugget: 'When the CMO of OpenAI posts, the entire marketing world takes notes. For good reason.',
   },
   {
     id: 'kieran-flanagan',
@@ -130,7 +130,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/kieranflanagan/',
     originalPhoto: '/architects/original/kieran-flanagan.jpeg',
     description: 'Bridging the gap between human creativity and AI scale.',
-    nugget: 'Bridging the gap between human creativity and AI scale',
+    nugget: 'The architect behind HubSpot\'s AI pivot. If you\'re not following his takes, you\'re 6 months behind.',
   },
   {
     id: 'philip-lakin',
@@ -142,7 +142,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/philipwlakin/',
     originalPhoto: '/architects/original/philip-lakin.jpeg',
     description: 'Making automation accessible to every marketer.',
-    nugget: 'Making automation accessible to every marketer',
+    nugget: 'Runs marketing for a company that literally automates marketing. The recursion is beautiful.',
   },
   {
     id: 'trinity-nguyen',
@@ -154,7 +154,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/trinitynguyen/',
     originalPhoto: '/architects/original/trinity-nguyen.jpeg',
     description: 'Pioneering the future of intent-driven outreach.',
-    nugget: 'Pioneering the future of intent-driven outreach',
+    nugget: 'Turning job changes into pipeline. Your champions just switched companies? She knows before you do.',
   },
   {
     id: 'kevin-white',
@@ -166,7 +166,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/kevinwhitesays/',
     originalPhoto: '/architects/original/kevin-white.jpeg',
     description: 'Turning AI signals into growth opportunities.',
-    nugget: 'Turning AI signals into growth opportunities',
+    nugget: 'The guy who figured out how to make AI actually useful for pipeline, not just content.',
   },
 
   // 🎨 BRAND STORYTELLERS (5)
@@ -180,7 +180,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/udiledergor/',
     originalPhoto: '/architects/original/udi-ledergor.jpeg',
     description: 'The pioneer who proved B2B doesn\'t have to be boring.',
-    nugget: 'The pioneer who proved B2B doesn\'t have to be boring',
+    nugget: 'Made Gong famous by making B2B marketing fun. Your CFO doesn\'t get it. Your pipeline does.',
   },
   {
     id: 'kyle-lacy',
@@ -192,7 +192,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/kylelacy/',
     originalPhoto: '/architects/original/kyle-lacy.jpeg',
     description: 'High-production value meets hard ROI.',
-    nugget: 'High-production value meets hard ROI',
+    nugget: 'Proves you can have Super Bowl-level creative AND prove ROI. Your boss needs to see this.',
   },
   {
     id: 'lara-hood-balazs',
@@ -204,7 +204,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/larahoodbalazs/',
     originalPhoto: '/architects/original/lara-hood-balazs.jpeg',
     description: 'Crafting narratives that move enterprise buyers.',
-    nugget: 'Crafting narratives that move enterprise buyers',
+    nugget: 'When you sell to Fortune 500s, the story IS the strategy. She wrote the book on it.',
   },
   {
     id: 'julien-sauvage',
@@ -216,7 +216,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/juliensauvage/',
     originalPhoto: '/architects/original/julien-sauvage.jpeg',
     description: 'Building brands that customers actually remember.',
-    nugget: 'Building brands that customers actually remember',
+    nugget: 'In a sea of "AI-powered solutions," he builds brands people actually remember. Novel concept.',
   },
   {
     id: 'laura-jones',
@@ -228,7 +228,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/laura-jones-54a7792/',
     originalPhoto: '/architects/original/laura-jones.jpeg',
     description: 'Taking consumer marketing lessons to B2B scale.',
-    nugget: 'Taking consumer marketing lessons to B2B scale',
+    nugget: 'Brings consumer marketing magic to B2B. When she speaks about brand, even the growth team listens.',
   },
 
   // ♟️ STRATEGIC VISIONARIES (5)
@@ -242,7 +242,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/scottdholden/',
     originalPhoto: '/architects/original/scott-holden.png',
     description: 'Turning security compliance into a growth lever.',
-    nugget: 'Turning security compliance into a growth lever',
+    nugget: 'Turned "compliance" from a cost center into a growth lever. Every CISO is now a buyer.',
   },
   {
     id: 'bryan-law',
@@ -254,7 +254,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/blaw/',
     originalPhoto: '/architects/original/bryan-law.png',
     description: 'Leading GTM in the most competitive security market.',
-    nugget: 'Leading GTM in the most competitive security market',
+    nugget: 'Competing against CrowdStrike and winning deals. In cybersecurity. That\'s not luck.',
   },
   {
     id: 'chris-cunningham',
@@ -266,7 +266,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/chriscunninghamsf/',
     originalPhoto: '/architects/original/chris-cunningham.jpeg',
     description: 'Building a productivity empire through bold moves.',
-    nugget: 'Building a productivity empire through bold moves',
+    nugget: 'Taking on Asana, Monday, and Notion. Simultaneously. With swagger.',
   },
   {
     id: 'kacie-jenkins',
@@ -278,7 +278,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/kaciejenkins/',
     originalPhoto: '/architects/original/kacie-jenkins.jpeg',
     description: 'Making ABM actually work at scale.',
-    nugget: 'Making ABM actually work at scale',
+    nugget: 'Proved that "personalization at scale" isn\'t an oxymoron. Your SDRs should be taking notes.',
   },
   {
     id: 'jordan-crawford',
@@ -290,7 +290,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/jordancrawford/',
     originalPhoto: '/architects/original/jordan-crawford.jpeg',
     description: 'Engineering precision into go-to-market motions.',
-    nugget: 'Engineering precision into go-to-market motions',
+    nugget: 'Treats GTM like a codebase. If your funnel has bugs, he\'ll find them. And fix them.',
   },
 
   // ⭐ RISING STARS (5)
@@ -304,7 +304,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/laurennemeth/',
     originalPhoto: '/architects/original/lauren-nemeth.jpeg',
     description: 'Transforming revenue operations at scale.',
-    nugget: 'Transforming revenue operations at scale',
+    nugget: 'CRO at a company that monitors performance. Her own performance? Flawless.',
   },
   {
     id: 'madhav-bhandari',
@@ -316,7 +316,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/madhavbhandari/',
     originalPhoto: '/architects/original/madhav-bhandari.jpeg',
     description: 'Pioneering the interactive product demo revolution.',
-    nugget: 'Pioneering the interactive product demo revolution',
+    nugget: 'Making "request a demo" feel like 2019. Interactive product tours are the new landing page.',
   },
   {
     id: 'nicole-baer',
@@ -328,7 +328,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/nicolembaer/',
     originalPhoto: '/architects/original/nicole-baer.jpeg',
     description: 'Scaling marketing for hypergrowth fintech.',
-    nugget: 'Scaling marketing for hypergrowth fintech',
+    nugget: 'Scaling Carta\'s marketing while fintech implodes around her. That\'s not marketing. That\'s survival.',
   },
   {
     id: 'roxana-irimia',
@@ -340,7 +340,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/roxanairimia/',
     originalPhoto: '/architects/original/roxana-irimia.jpeg',
     description: 'Mastering the art of demand generation.',
-    nugget: 'Mastering the art of demand generation',
+    nugget: 'Runs demand gen at a company that makes demand gen faster. She drinks her own champagne.',
   },
   {
     id: 'angela-ferrante',
@@ -352,7 +352,7 @@ export const architects: Architect[] = [
     linkedIn: 'https://www.linkedin.com/in/angelaferrante/',
     originalPhoto: '/architects/original/angela-ferrante.png',
     description: 'Bridging the gap to enterprise customers.',
-    nugget: 'Bridging the gap to enterprise customers',
+    nugget: 'Turning a PLG darling into an enterprise powerhouse. The upmarket motion, mastered.',
   },
 ];
 

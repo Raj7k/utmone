@@ -261,6 +261,9 @@ verify_jwt = true
 [functions.generate-stamp-art]
 verify_jwt = true
 
+[functions.generate-architect-stamp]
+verify_jwt = false
+
 # Cron schedules for automated tasks
 # Generate recommendations every 6 hours
 [[edge_runtime.scheduler]]
