@@ -1,9 +1,9 @@
 import { Helmet } from "react-helmet";
 import { Calendar, MapPin, Users, Wifi, QrCode, BarChart3, Globe, Zap } from "lucide-react";
+import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
 import {
   UseCaseHero,
   BeforeAfterSection,
-  JourneyFlowVisualizer,
   AnimatedStatCard,
   IndustryROICalculator,
   PlatformIntegrationsGrid,
@@ -11,14 +11,14 @@ import {
   FeatureGrid,
   FAQSection,
 } from "@/components/use-cases";
+import { SankeyJourneyFlow } from "@/components/use-cases/SankeyJourneyFlow";
 
 const EventMarketing = () => {
   const journeySteps = [
-    { id: "booth", label: "Booth Visit", description: "Badge scanned" },
-    { id: "qr", label: "QR Scan", description: "Collateral downloaded" },
-    { id: "halo", label: "Halo Traffic", description: "+1,200 site visitors" },
-    { id: "followup", label: "Email Followup", description: "7 days post-event" },
-    { id: "deal", label: "Deal Closed", description: "$85,000 attributed" },
+    { id: "booth", label: "Booth Visit", description: "Badge scanned", weight: 20 },
+    { id: "qr", label: "QR Scan", description: "Collateral downloaded", weight: 15 },
+    { id: "halo", label: "Halo Traffic", description: "+1,200 site visitors", weight: 40 },
+    { id: "followup", label: "Email Followup", description: "7 days post-event", weight: 25 },
   ];
 
   const beforeItems = [
@@ -38,12 +38,12 @@ const EventMarketing = () => {
   ];
 
   const platforms = [
-    { name: "Salesforce", logo: "https://cdn.simpleicons.org/salesforce" },
-    { name: "HubSpot", logo: "https://cdn.simpleicons.org/hubspot" },
-    { name: "Marketo", logo: "https://cdn.simpleicons.org/marketo" },
-    { name: "Eventbrite", logo: "https://cdn.simpleicons.org/eventbrite" },
-    { name: "Zoom", logo: "https://cdn.simpleicons.org/zoom" },
-    { name: "Slack", logo: "https://cdn.simpleicons.org/slack" },
+    { name: "Salesforce" },
+    { name: "HubSpot" },
+    { name: "Slack" },
+    { name: "Google Analytics" },
+    { name: "Zapier" },
+    { name: "Segment" },
   ];
 
   const features = [
@@ -86,7 +86,7 @@ const EventMarketing = () => {
   };
 
   return (
-    <>
+    <ResourcesLayout>
       <Helmet>
         <title>Event Marketing Attribution | utm.one</title>
         <meta name="description" content="Track the invisible 90% from every event. Badge scanning, halo detection, and revenue attribution." />
@@ -110,18 +110,19 @@ const EventMarketing = () => {
           </div>
         </section>
         <BeforeAfterSection title="the event attribution problem" subtitle="You spent $75k on a booth. The CEO wants ROI. Badge scans alone won't justify the budget." beforeTitle="what you report" afterTitle="what actually happened" beforeItems={beforeItems} afterItems={afterItems} />
-        <section className="py-20 bg-muted/30">
-          <div className="max-w-[980px] mx-auto px-6 md:px-8">
-            <JourneyFlowVisualizer title="from booth to closed deal" subtitle="Every touchpoint tracked—from the first badge scan to the signed contract." steps={journeySteps} />
-          </div>
-        </section>
+        <SankeyJourneyFlow 
+          title="from booth to closed deal" 
+          subtitle="Every touchpoint tracked—from the first badge scan to the signed contract." 
+          steps={journeySteps}
+          destination={{ label: "Deal Closed", value: "$85,000" }}
+        />
         <PlatformIntegrationsGrid title="syncs with your event stack" subtitle="Badge data flows directly to your CRM. No spreadsheet imports required." platforms={platforms} />
         <FeatureGrid title="built for field marketing" subtitle="Every feature designed to answer: what's the ROI of this event?" features={features} />
         <IndustryROICalculator title="calculate your event ROI" subtitle="See the full impact of your events—including the invisible halo visitors." inputs={calculatorInputs} calculateROI={calculateROI} />
         <FAQSection title="questions from event marketers" faqs={faqs} />
         <UseCaseCTA headline="prove your events drive revenue" subheadline="Stop counting business cards. Start measuring impact." />
       </div>
-    </>
+    </ResourcesLayout>
   );
 };
 

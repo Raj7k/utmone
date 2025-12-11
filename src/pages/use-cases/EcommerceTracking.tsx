@@ -1,9 +1,9 @@
 import { Helmet } from "react-helmet";
 import { ShoppingCart, TrendingUp, BarChart3, Zap, Shield, Globe, Target, DollarSign } from "lucide-react";
+import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
 import {
   UseCaseHero,
   BeforeAfterSection,
-  JourneyFlowVisualizer,
   AnimatedStatCard,
   IndustryROICalculator,
   PlatformIntegrationsGrid,
@@ -12,14 +12,15 @@ import {
   FAQSection,
   InteractiveDemo,
 } from "@/components/use-cases";
+import { SankeyJourneyFlow } from "@/components/use-cases/SankeyJourneyFlow";
 
 const EcommerceTracking = () => {
   const journeySteps = [
-    { id: "ad", label: "Facebook Ad", description: "utm_source=facebook" },
-    { id: "pdp", label: "Product Page", description: "Session started" },
-    { id: "cart", label: "Add to Cart", description: "Intent captured" },
-    { id: "checkout", label: "Checkout", description: "Conversion tracked" },
-    { id: "purchase", label: "Purchase", description: "$127.00 attributed" },
+    { id: "ad", label: "Facebook Ad", description: "utm_source=facebook", weight: 30 },
+    { id: "pdp", label: "Product Page", description: "Session started", weight: 25 },
+    { id: "cart", label: "Add to Cart", description: "Intent captured", weight: 20 },
+    { id: "checkout", label: "Checkout", description: "Conversion tracked", weight: 15 },
+    { id: "purchase", label: "Purchase", description: "$127.00 attributed", weight: 10 },
   ];
 
   const beforeItems = [
@@ -39,12 +40,12 @@ const EcommerceTracking = () => {
   ];
 
   const platforms = [
-    { name: "Shopify", logo: "https://cdn.simpleicons.org/shopify" },
-    { name: "WooCommerce", logo: "https://cdn.simpleicons.org/woocommerce" },
-    { name: "BigCommerce", logo: "https://cdn.simpleicons.org/bigcommerce" },
-    { name: "Stripe", logo: "https://cdn.simpleicons.org/stripe" },
-    { name: "Klaviyo", logo: "https://cdn.simpleicons.org/klaviyo" },
-    { name: "Mailchimp", logo: "https://cdn.simpleicons.org/mailchimp" },
+    { name: "Shopify" },
+    { name: "WooCommerce" },
+    { name: "BigCommerce" },
+    { name: "Stripe" },
+    { name: "Klaviyo" },
+    { name: "Mailchimp" },
   ];
 
   const features = [
@@ -86,7 +87,7 @@ const EcommerceTracking = () => {
   };
 
   return (
-    <>
+    <ResourcesLayout>
       <Helmet>
         <title>Ecommerce Attribution | utm.one</title>
         <meta name="description" content="See where every dollar actually comes from. Unify Facebook, Google, and email attribution." />
@@ -110,11 +111,12 @@ const EcommerceTracking = () => {
           </div>
         </section>
         <BeforeAfterSection title="the attribution black box" subtitle="Every platform inflates their numbers. Every dashboard tells a different story." beforeTitle="the chaos" afterTitle="the clarity" beforeItems={beforeItems} afterItems={afterItems} />
-        <section className="py-20 bg-muted/30">
-          <div className="max-w-[980px] mx-auto px-6 md:px-8">
-            <JourneyFlowVisualizer title="watch a purchase happen" subtitle="Every touchpoint captured. Every dollar attributed." steps={journeySteps} />
-          </div>
-        </section>
+        <SankeyJourneyFlow 
+          title="watch a purchase happen" 
+          subtitle="Every touchpoint captured. Every dollar attributed." 
+          steps={journeySteps}
+          destination={{ label: "Revenue", value: "$127.00" }}
+        />
         <InteractiveDemo title="see your store's tracking" subtitle="Paste any product URL and watch utm.one generate perfect UTM structure." placeholder="https://your-store.com/products/best-seller" exampleUrl="https://store.example.com/products/wireless-headphones" />
         <PlatformIntegrationsGrid title="works with your stack" subtitle="One-click integrations with every major ecommerce platform." platforms={platforms} />
         <FeatureGrid title="built for ecommerce" subtitle="Every feature designed to answer: where do my sales actually come from?" features={features} />
@@ -122,7 +124,7 @@ const EcommerceTracking = () => {
         <FAQSection title="questions from ecommerce teams" faqs={faqs} />
         <UseCaseCTA headline="see where your revenue actually comes from" subheadline="Stop making budget decisions based on conflicting platform data." />
       </div>
-    </>
+    </ResourcesLayout>
   );
 };
 

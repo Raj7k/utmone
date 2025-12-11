@@ -1,9 +1,9 @@
 import { Helmet } from "react-helmet";
 import { Building2, Users, TrendingUp, Clock, Layers, GitBranch, Target, BarChart3 } from "lucide-react";
+import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
 import {
   UseCaseHero,
   BeforeAfterSection,
-  JourneyFlowVisualizer,
   AnimatedStatCard,
   IndustryROICalculator,
   PlatformIntegrationsGrid,
@@ -12,14 +12,14 @@ import {
   FAQSection,
   InteractiveDemo,
 } from "@/components/use-cases";
+import { SankeyJourneyFlow } from "@/components/use-cases/SankeyJourneyFlow";
 
 const SaasAttribution = () => {
   const journeySteps = [
-    { id: "blog", label: "Blog Post", description: "Day 1: Organic search" },
-    { id: "webinar", label: "Webinar", description: "Day 14: Email invite" },
-    { id: "pricing", label: "Pricing Page", description: "Day 45: Direct visit" },
-    { id: "demo", label: "Demo Request", description: "Day 62: LinkedIn ad" },
-    { id: "closed", label: "Closed Won", description: "Day 94: $48,000 ACV" },
+    { id: "blog", label: "Blog Post", description: "Day 1: Organic search", weight: 25 },
+    { id: "webinar", label: "Webinar", description: "Day 14: Email invite", weight: 35 },
+    { id: "pricing", label: "Pricing Page", description: "Day 45: Direct visit", weight: 15 },
+    { id: "demo", label: "Demo Request", description: "Day 62: LinkedIn ad", weight: 25 },
   ];
 
   const beforeItems = [
@@ -39,12 +39,12 @@ const SaasAttribution = () => {
   ];
 
   const platforms = [
-    { name: "Salesforce", logo: "https://cdn.simpleicons.org/salesforce" },
-    { name: "HubSpot", logo: "https://cdn.simpleicons.org/hubspot" },
-    { name: "Pipedrive", logo: "https://cdn.simpleicons.org/pipedrive" },
-    { name: "Marketo", logo: "https://cdn.simpleicons.org/marketo" },
-    { name: "Segment", logo: "https://cdn.simpleicons.org/segment" },
-    { name: "Intercom", logo: "https://cdn.simpleicons.org/intercom" },
+    { name: "Salesforce" },
+    { name: "HubSpot" },
+    { name: "Pipedrive" },
+    { name: "Segment" },
+    { name: "Slack" },
+    { name: "Google Analytics" },
   ];
 
   const features = [
@@ -85,7 +85,7 @@ const SaasAttribution = () => {
   };
 
   return (
-    <>
+    <ResourcesLayout>
       <Helmet>
         <title>SaaS Attribution | utm.one</title>
         <meta name="description" content="B2B journeys take 6 months. Track every touchpoint from first visit to closed-won." />
@@ -109,11 +109,12 @@ const SaasAttribution = () => {
           </div>
         </section>
         <BeforeAfterSection title="the 6-month black box" subtitle="B2B deals don't happen in one click. But most attribution tools only see the last one." beforeTitle="partial visibility" afterTitle="full journey" beforeItems={beforeItems} afterItems={afterItems} />
-        <section className="py-20 bg-muted/30">
-          <div className="max-w-[980px] mx-auto px-6 md:px-8">
-            <JourneyFlowVisualizer title="a real b2b journey" subtitle="94 days, 47 touchpoints, one $48k deal." steps={journeySteps} />
-          </div>
-        </section>
+        <SankeyJourneyFlow 
+          title="a real b2b journey" 
+          subtitle="94 days, 47 touchpoints, one $48k deal." 
+          steps={journeySteps}
+          destination={{ label: "Closed Won", value: "$48,000" }}
+        />
         <InteractiveDemo title="see your tracking in action" subtitle="Paste any landing page URL and watch utm.one generate perfect UTM structure." placeholder="https://your-saas.com/demo" exampleUrl="https://saas.example.com/request-demo" />
         <PlatformIntegrationsGrid title="connects to your CRM" subtitle="Bi-directional sync with your existing sales and marketing stack." platforms={platforms} />
         <FeatureGrid title="built for b2b complexity" subtitle="Features designed for long sales cycles and complex buying journeys." features={features} />
@@ -121,7 +122,7 @@ const SaasAttribution = () => {
         <FAQSection title="questions from b2b teams" faqs={faqs} />
         <UseCaseCTA headline="stop losing credit for the hard work" subheadline="Your marketing influences more deals than you know. Start proving it." />
       </div>
-    </>
+    </ResourcesLayout>
   );
 };
 

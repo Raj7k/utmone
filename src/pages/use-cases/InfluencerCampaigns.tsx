@@ -1,9 +1,9 @@
 import { Helmet } from "react-helmet";
-import { Star, DollarSign, Link2, QrCode, TrendingUp, Users, Instagram, Youtube, Radio, Share2, BarChart3, Zap } from "lucide-react";
+import { Star, DollarSign, Link2, QrCode, TrendingUp, Users } from "lucide-react";
+import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
 import {
   UseCaseHero,
   BeforeAfterSection,
-  JourneyFlowVisualizer,
   AnimatedStatCard,
   IndustryROICalculator,
   PlatformIntegrationsGrid,
@@ -12,14 +12,14 @@ import {
   FAQSection,
   InteractiveDemo,
 } from "@/components/use-cases";
+import { SankeyJourneyFlow } from "@/components/use-cases/SankeyJourneyFlow";
 
 const InfluencerCampaigns = () => {
   const journeySteps = [
-    { id: "post", label: "Instagram Post", description: "Creator shares link", icon: <Instagram className="w-5 h-5" /> },
-    { id: "click", label: "Link Click", description: "Follower taps link", icon: <Share2 className="w-5 h-5" /> },
-    { id: "browse", label: "Site Visit", description: "Browsing products", icon: <BarChart3 className="w-5 h-5" /> },
-    { id: "return", label: "Return Visit", description: "2 weeks later", icon: <Zap className="w-5 h-5" /> },
-    { id: "purchase", label: "Purchase", description: "$127 attributed", icon: <DollarSign className="w-5 h-5" /> },
+    { id: "post", label: "Instagram Post", description: "Creator shares link", weight: 30 },
+    { id: "click", label: "Link Click", description: "Follower taps link", weight: 25 },
+    { id: "browse", label: "Site Visit", description: "Browsing products", weight: 20 },
+    { id: "return", label: "Return Visit", description: "2 weeks later", weight: 25 },
   ];
 
   const beforeItems = [
@@ -39,12 +39,12 @@ const InfluencerCampaigns = () => {
   ];
 
   const platforms = [
-    { name: "Instagram", logo: "https://cdn.simpleicons.org/instagram" },
-    { name: "TikTok", logo: "https://cdn.simpleicons.org/tiktok" },
-    { name: "YouTube", logo: "https://cdn.simpleicons.org/youtube" },
-    { name: "Spotify", logo: "https://cdn.simpleicons.org/spotify" },
-    { name: "Twitch", logo: "https://cdn.simpleicons.org/twitch" },
-    { name: "Twitter", logo: "https://cdn.simpleicons.org/x" },
+    { name: "Instagram" },
+    { name: "TikTok" },
+    { name: "YouTube" },
+    { name: "Facebook" },
+    { name: "LinkedIn" },
+    { name: "Shopify" },
   ];
 
   const features = [
@@ -73,7 +73,7 @@ const InfluencerCampaigns = () => {
     const { creators, avgPayment, avgClicks } = inputs;
     const totalSpend = creators * avgPayment;
     const totalClicks = creators * avgClicks;
-    const estimatedRevenue = totalClicks * 0.025 * 85; // 2.5% CVR, $85 AOV
+    const estimatedRevenue = totalClicks * 0.025 * 85;
     const roas = estimatedRevenue / totalSpend;
     return {
       results: [
@@ -86,7 +86,7 @@ const InfluencerCampaigns = () => {
   };
 
   return (
-    <>
+    <ResourcesLayout>
       <Helmet>
         <title>Influencer Marketing Attribution | utm.one</title>
         <meta name="description" content="Track influencer campaigns without coupon codes. Unique creator links, revenue attribution, and performance comparison." />
@@ -110,19 +110,20 @@ const InfluencerCampaigns = () => {
           </div>
         </section>
         <BeforeAfterSection title="the influencer attribution problem" subtitle="You're paying for creators but can't prove they work. Here's what changes." beforeTitle="the chaos" afterTitle="the clarity" beforeItems={beforeItems} afterItems={afterItems} />
-        <section className="py-20 bg-muted/30">
-          <div className="max-w-[980px] mx-auto px-6 md:px-8">
-            <JourneyFlowVisualizer title="watch followers become customers" subtitle="See exactly how creator content drives revenue—even when conversions happen weeks later." steps={journeySteps} />
-          </div>
-        </section>
+        <SankeyJourneyFlow 
+          title="watch followers become customers" 
+          subtitle="See exactly how creator content drives revenue—even when conversions happen weeks later." 
+          steps={journeySteps}
+          destination={{ label: "Purchase", value: "$127.00" }}
+        />
         <InteractiveDemo title="see your creator links in action" subtitle="Paste any product URL to see how utm.one generates unique tracked links." placeholder="https://your-store.com/products/best-seller" exampleUrl="https://store.example.com/products/summer-collection" />
         <PlatformIntegrationsGrid title="works across all creator platforms" subtitle="Track performance consistently across Instagram, TikTok, YouTube, and podcasts." platforms={platforms} />
         <FeatureGrid title="built for creator campaigns" subtitle="Everything you need to measure true influencer ROI." features={features} />
-        <IndustryROICalculator title="calculate your influencer ROI" subtitle="See how much hidden revenue you're missing from creator campaigns." inputs={calculatorInputs} calculateROI={calculateROI} industry="influencer" />
+        <IndustryROICalculator title="calculate your influencer ROI" subtitle="See how much hidden revenue you're missing from creator campaigns." inputs={calculatorInputs} calculateROI={calculateROI} />
         <FAQSection title="questions from influencer marketers" faqs={faqs} />
         <UseCaseCTA headline="prove your creators drive revenue" subheadline="Join brands who use utm.one to measure true influencer ROI and optimize creator partnerships." />
       </div>
-    </>
+    </ResourcesLayout>
   );
 };
 

@@ -1,9 +1,9 @@
 import { Helmet } from "react-helmet";
 import { Briefcase, FileText, Users, Lock, Palette, Clock, BarChart3, Send } from "lucide-react";
+import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
 import {
   UseCaseHero,
   BeforeAfterSection,
-  JourneyFlowVisualizer,
   AnimatedStatCard,
   IndustryROICalculator,
   PlatformIntegrationsGrid,
@@ -11,14 +11,14 @@ import {
   FeatureGrid,
   FAQSection,
 } from "@/components/use-cases";
+import { SankeyJourneyFlow } from "@/components/use-cases/SankeyJourneyFlow";
 
 const AgencyClientReporting = () => {
   const journeySteps = [
-    { id: "campaign", label: "Campaign Launch", description: "Links deployed" },
-    { id: "tracking", label: "Auto-Tracking", description: "UTMs enforced" },
-    { id: "data", label: "Data Collection", description: "Clicks, conversions" },
-    { id: "report", label: "Report Generated", description: "White-labeled" },
-    { id: "client", label: "Client Receives", description: "Scheduled delivery" },
+    { id: "campaign", label: "Campaign Launch", description: "Links deployed", weight: 20 },
+    { id: "tracking", label: "Auto-Tracking", description: "UTMs enforced", weight: 25 },
+    { id: "data", label: "Data Collection", description: "Clicks, conversions", weight: 30 },
+    { id: "report", label: "Report Generated", description: "White-labeled", weight: 25 },
   ];
 
   const beforeItems = [
@@ -38,12 +38,12 @@ const AgencyClientReporting = () => {
   ];
 
   const platforms = [
-    { name: "Salesforce", logo: "https://cdn.simpleicons.org/salesforce" },
-    { name: "HubSpot", logo: "https://cdn.simpleicons.org/hubspot" },
-    { name: "Google Analytics", logo: "https://cdn.simpleicons.org/googleanalytics" },
-    { name: "Meta", logo: "https://cdn.simpleicons.org/meta" },
-    { name: "Google Ads", logo: "https://cdn.simpleicons.org/googleads" },
-    { name: "Slack", logo: "https://cdn.simpleicons.org/slack" },
+    { name: "Salesforce" },
+    { name: "HubSpot" },
+    { name: "Google Analytics" },
+    { name: "Facebook" },
+    { name: "Google Ads" },
+    { name: "Slack" },
   ];
 
   const features = [
@@ -85,7 +85,7 @@ const AgencyClientReporting = () => {
   };
 
   return (
-    <>
+    <ResourcesLayout>
       <Helmet>
         <title>Agency Client Reporting | utm.one</title>
         <meta name="description" content="White-labeled dashboards, automated reports, and multi-client management for agencies." />
@@ -109,18 +109,19 @@ const AgencyClientReporting = () => {
           </div>
         </section>
         <BeforeAfterSection title="the reporting treadmill" subtitle="Every month, your team spends days building reports instead of strategy." beforeTitle="the old way" afterTitle="the utm.one way" beforeItems={beforeItems} afterItems={afterItems} />
-        <section className="py-20 bg-muted/30">
-          <div className="max-w-[980px] mx-auto px-6 md:px-8">
-            <JourneyFlowVisualizer title="from campaign to client inbox" subtitle="Set it once. Reports flow automatically. Your team focuses on what matters." steps={journeySteps} />
-          </div>
-        </section>
+        <SankeyJourneyFlow 
+          title="from campaign to client inbox" 
+          subtitle="Set it once. Reports flow automatically. Your team focuses on what matters." 
+          steps={journeySteps}
+          destination={{ label: "Client Receives", value: "Auto-Sent" }}
+        />
         <PlatformIntegrationsGrid title="pulls data from everywhere" subtitle="Connect all your client's platforms. One dashboard, all the data." platforms={platforms} />
         <FeatureGrid title="built for agency scale" subtitle="Every feature designed to help you manage more clients without more headcount." features={features} />
         <IndustryROICalculator title="calculate your time savings" subtitle="See how many hours you'll get back each month by automating reporting." inputs={calculatorInputs} calculateROI={calculateROI} />
         <FAQSection title="questions from agency teams" faqs={faqs} />
         <UseCaseCTA headline="scale your agency without scaling your team" subheadline="Stop drowning in reports. Start delighting clients with automated insights." />
       </div>
-    </>
+    </ResourcesLayout>
   );
 };
 
