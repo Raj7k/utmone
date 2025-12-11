@@ -387,17 +387,122 @@ const HelpDomains = lazy(() => import("./pages/Help/Domains"));
 const HelpBilling = lazy(() => import("./pages/Help/Billing"));
 const HelpSecurity = lazy(() => import("./pages/Help/Security"));
 
-// Help Article Pages
+// Help Article Pages - Getting Started
 const WhatIsUtmOne = lazy(() => import("./pages/Help/articles/WhatIsUtmOne"));
 const CreateAccount = lazy(() => import("./pages/Help/articles/CreateAccount"));
 const TrackingPixel = lazy(() => import("./pages/Help/articles/TrackingPixel"));
+const CreatingAccount = lazy(() => import("./pages/Help/articles/CreatingAccount"));
+const FirstLink = lazy(() => import("./pages/Help/articles/FirstLink"));
+const DashboardOverview = lazy(() => import("./pages/Help/articles/DashboardOverview"));
+const OnboardingChecklist = lazy(() => import("./pages/Help/articles/OnboardingChecklist"));
+const AccountSettings = lazy(() => import("./pages/Help/articles/AccountSettings"));
+const QuickWins = lazy(() => import("./pages/Help/articles/QuickWins"));
+
+// Help Article Pages - Links
 const CreateLink = lazy(() => import("./pages/Help/articles/CreateLink"));
+const CreatingLinks = lazy(() => import("./pages/Help/articles/CreatingLinks"));
+const CustomSlugs = lazy(() => import("./pages/Help/articles/CustomSlugs"));
+const EditingLinks = lazy(() => import("./pages/Help/articles/EditingLinks"));
+const LinkStatus = lazy(() => import("./pages/Help/articles/LinkStatus"));
+const LinkExpiration = lazy(() => import("./pages/Help/articles/LinkExpiration"));
+const ClickLimits = lazy(() => import("./pages/Help/articles/ClickLimits"));
+const PasswordProtection = lazy(() => import("./pages/Help/articles/PasswordProtection"));
+const BulkCreation = lazy(() => import("./pages/Help/articles/BulkCreation"));
+const LinkHealthArticle = lazy(() => import("./pages/Help/articles/LinkHealth"));
+const LinkImmunityArticle = lazy(() => import("./pages/Help/articles/LinkImmunity"));
+const DuplicatingLinks = lazy(() => import("./pages/Help/articles/DuplicatingLinks"));
+const LinkPreview = lazy(() => import("./pages/Help/articles/LinkPreview"));
+
+// Help Article Pages - UTM
 const WhatAreUTMs = lazy(() => import("./pages/Help/articles/WhatAreUTMs"));
+const FiveFields = lazy(() => import("./pages/Help/articles/FiveFields"));
+const NamingConventions = lazy(() => import("./pages/Help/articles/NamingConventions"));
+const CommonMistakes = lazy(() => import("./pages/Help/articles/CommonMistakes"));
+const UTMTemplates = lazy(() => import("./pages/Help/articles/UTMTemplates"));
+const CleanTrackFrameworkArticle = lazy(() => import("./pages/Help/articles/CleanTrackFramework"));
+const UTMValidation = lazy(() => import("./pages/Help/articles/UTMValidation"));
+const UTMGovernance = lazy(() => import("./pages/Help/articles/UTMGovernance"));
+const UTMAuditTools = lazy(() => import("./pages/Help/articles/UTMAuditTools"));
+const AIUTMSuggestions = lazy(() => import("./pages/Help/articles/AIUTMSuggestions"));
+
+// Help Article Pages - QR
 const QRCodeBasics = lazy(() => import("./pages/Help/articles/QRCodeBasics"));
+const QRCustomization = lazy(() => import("./pages/Help/articles/QRCustomization"));
+const QRLogos = lazy(() => import("./pages/Help/articles/QRLogos"));
+const QRExport = lazy(() => import("./pages/Help/articles/QRExport"));
+const QRReliability = lazy(() => import("./pages/Help/articles/QRReliability"));
+const AIStampStudio = lazy(() => import("./pages/Help/articles/AIStampStudio"));
+const BulkQR = lazy(() => import("./pages/Help/articles/BulkQR"));
+const QRPrintSpecs = lazy(() => import("./pages/Help/articles/QRPrintSpecs"));
+
+// Help Article Pages - Analytics
+const AnalyticsOverview = lazy(() => import("./pages/Help/articles/AnalyticsOverview"));
+const ClickTracking = lazy(() => import("./pages/Help/articles/ClickTracking"));
+const DeviceAnalytics = lazy(() => import("./pages/Help/articles/DeviceAnalytics"));
+const GeographicData = lazy(() => import("./pages/Help/articles/GeographicData"));
+const ReferrerTracking = lazy(() => import("./pages/Help/articles/ReferrerTracking"));
+const RealTimeAnalytics = lazy(() => import("./pages/Help/articles/RealTimeAnalytics"));
+const ExportingData = lazy(() => import("./pages/Help/articles/ExportingData"));
+const AIInsights = lazy(() => import("./pages/Help/articles/AIInsights"));
+const AnomalyDetection = lazy(() => import("./pages/Help/articles/AnomalyDetection"));
+
+// Help Article Pages - Attribution
 const AttributionModels = lazy(() => import("./pages/Help/articles/AttributionModels"));
+const AttributionOverview = lazy(() => import("./pages/Help/articles/AttributionOverview"));
+const TrackingPixelArticle = lazy(() => import("./pages/Help/articles/TrackingPixel"));
+const ConversionTracking = lazy(() => import("./pages/Help/articles/ConversionTracking"));
+const CustomerJourneys = lazy(() => import("./pages/Help/articles/CustomerJourneys"));
+const IdentityGraph = lazy(() => import("./pages/Help/articles/IdentityGraph"));
+const RevenueAttributionArticle = lazy(() => import("./pages/Help/articles/RevenueAttribution"));
+const LiftAnalysis = lazy(() => import("./pages/Help/articles/LiftAnalysis"));
+
+// Help Article Pages - Events
 const EventHaloArticle = lazy(() => import("./pages/Help/articles/EventHalo"));
+const EventHaloOverview = lazy(() => import("./pages/Help/articles/EventHaloOverview"));
+const CreatingEvents = lazy(() => import("./pages/Help/articles/CreatingEvents"));
+const OneTapScanner = lazy(() => import("./pages/Help/articles/OneTapScanner"));
+const BadgeImport = lazy(() => import("./pages/Help/articles/BadgeImport"));
+const EventROI = lazy(() => import("./pages/Help/articles/EventROI"));
+
+// Help Article Pages - Advanced
+const GeoTargetingArticle = lazy(() => import("./pages/Help/articles/GeoTargeting"));
+const DeviceTargeting = lazy(() => import("./pages/Help/articles/DeviceTargeting"));
+const LinkRotation = lazy(() => import("./pages/Help/articles/LinkRotation"));
+const SmartRoutingArticle = lazy(() => import("./pages/Help/articles/SmartRouting"));
+
+// Help Article Pages - Team
 const TeamRoles = lazy(() => import("./pages/Help/articles/TeamRoles"));
+const InvitingMembers = lazy(() => import("./pages/Help/articles/InvitingMembers"));
+const RolesPermissions = lazy(() => import("./pages/Help/articles/RolesPermissions"));
+const WorkspaceSettings = lazy(() => import("./pages/Help/articles/WorkspaceSettings"));
+
+// Help Article Pages - Integrations
+const ChromeExtension = lazy(() => import("./pages/Help/articles/ChromeExtension"));
+const ApiAuthentication = lazy(() => import("./pages/Help/articles/ApiAuthentication"));
+const ApiEndpoints = lazy(() => import("./pages/Help/articles/ApiEndpoints"));
+const Webhooks = lazy(() => import("./pages/Help/articles/Webhooks"));
+const GA4Integration = lazy(() => import("./pages/Help/articles/GA4Integration"));
+const HubSpotIntegration = lazy(() => import("./pages/Help/articles/HubSpotIntegration"));
+const SalesforceIntegration = lazy(() => import("./pages/Help/articles/SalesforceIntegration"));
+const ZapierIntegrationArticle = lazy(() => import("./pages/Help/articles/ZapierIntegration"));
+const SlackIntegrationArticle = lazy(() => import("./pages/Help/articles/SlackIntegration"));
+
+// Help Article Pages - Domains
 const CustomDomainSetup = lazy(() => import("./pages/Help/articles/CustomDomainSetup"));
+const AddingDomains = lazy(() => import("./pages/Help/articles/AddingDomains"));
+const DNSSetup = lazy(() => import("./pages/Help/articles/DNSSetup"));
+
+// Help Article Pages - Billing
+const ManagingSubscription = lazy(() => import("./pages/Help/articles/ManagingSubscription"));
+const UsageLimits = lazy(() => import("./pages/Help/articles/UsageLimits"));
+
+// Help Article Pages - Security
+const TwoFactorAuth = lazy(() => import("./pages/Help/articles/TwoFactorAuth"));
+const SecurityKeys = lazy(() => import("./pages/Help/articles/SecurityKeys"));
+const AuditLogs = lazy(() => import("./pages/Help/articles/AuditLogs"));
+const DataPrivacy = lazy(() => import("./pages/Help/articles/DataPrivacy"));
+
+// Help Article Pages - Other
 const LeadEnrichment = lazy(() => import("./pages/Help/articles/LeadEnrichment"));
 
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -644,18 +749,134 @@ const App = () => (
               <Route path="/help/billing" element={<Suspense fallback={<DashboardSkeleton />}><HelpBilling /></Suspense>} />
               <Route path="/help/security" element={<Suspense fallback={<DashboardSkeleton />}><HelpSecurity /></Suspense>} />
               
-              {/* Help Article Pages */}
-              <Route path="/help/getting-started/what-is-utm-one" element={<Suspense fallback={<DashboardSkeleton />}><WhatIsUtmOne /></Suspense>} />
-              <Route path="/help/getting-started/create-account" element={<Suspense fallback={<DashboardSkeleton />}><CreateAccount /></Suspense>} />
-              <Route path="/help/getting-started/tracking-pixel" element={<Suspense fallback={<DashboardSkeleton />}><TrackingPixel /></Suspense>} />
-              <Route path="/help/links/create-link" element={<Suspense fallback={<DashboardSkeleton />}><CreateLink /></Suspense>} />
-              <Route path="/help/utm/what-are-utms" element={<Suspense fallback={<DashboardSkeleton />}><WhatAreUTMs /></Suspense>} />
-              <Route path="/help/qr/basics" element={<Suspense fallback={<DashboardSkeleton />}><QRCodeBasics /></Suspense>} />
-              <Route path="/help/attribution/models" element={<Suspense fallback={<DashboardSkeleton />}><AttributionModels /></Suspense>} />
-              <Route path="/help/events/event-halo" element={<Suspense fallback={<DashboardSkeleton />}><EventHaloArticle /></Suspense>} />
-              <Route path="/help/team/roles" element={<Suspense fallback={<DashboardSkeleton />}><TeamRoles /></Suspense>} />
-              <Route path="/help/domains/dns-setup" element={<Suspense fallback={<DashboardSkeleton />}><CustomDomainSetup /></Suspense>} />
+              {/* Help Article Pages - Getting Started */}
+              <Route path="/help/articles/what-is-utm-one" element={<Suspense fallback={<DashboardSkeleton />}><WhatIsUtmOne /></Suspense>} />
+              <Route path="/help/articles/create-account" element={<Suspense fallback={<DashboardSkeleton />}><CreateAccount /></Suspense>} />
+              <Route path="/help/articles/creating-account" element={<Suspense fallback={<DashboardSkeleton />}><CreatingAccount /></Suspense>} />
+              <Route path="/help/articles/first-link" element={<Suspense fallback={<DashboardSkeleton />}><FirstLink /></Suspense>} />
+              <Route path="/help/articles/dashboard-overview" element={<Suspense fallback={<DashboardSkeleton />}><DashboardOverview /></Suspense>} />
+              <Route path="/help/articles/onboarding-checklist" element={<Suspense fallback={<DashboardSkeleton />}><OnboardingChecklist /></Suspense>} />
+              <Route path="/help/articles/account-settings" element={<Suspense fallback={<DashboardSkeleton />}><AccountSettings /></Suspense>} />
+              <Route path="/help/articles/quick-wins" element={<Suspense fallback={<DashboardSkeleton />}><QuickWins /></Suspense>} />
+              
+              {/* Help Article Pages - Links */}
+              <Route path="/help/articles/create-link" element={<Suspense fallback={<DashboardSkeleton />}><CreateLink /></Suspense>} />
+              <Route path="/help/articles/creating-links" element={<Suspense fallback={<DashboardSkeleton />}><CreatingLinks /></Suspense>} />
+              <Route path="/help/articles/custom-slugs" element={<Suspense fallback={<DashboardSkeleton />}><CustomSlugs /></Suspense>} />
+              <Route path="/help/articles/editing-links" element={<Suspense fallback={<DashboardSkeleton />}><EditingLinks /></Suspense>} />
+              <Route path="/help/articles/link-status" element={<Suspense fallback={<DashboardSkeleton />}><LinkStatus /></Suspense>} />
+              <Route path="/help/articles/link-expiration" element={<Suspense fallback={<DashboardSkeleton />}><LinkExpiration /></Suspense>} />
+              <Route path="/help/articles/click-limits" element={<Suspense fallback={<DashboardSkeleton />}><ClickLimits /></Suspense>} />
+              <Route path="/help/articles/password-protection" element={<Suspense fallback={<DashboardSkeleton />}><PasswordProtection /></Suspense>} />
+              <Route path="/help/articles/bulk-creation" element={<Suspense fallback={<DashboardSkeleton />}><BulkCreation /></Suspense>} />
+              <Route path="/help/articles/link-health" element={<Suspense fallback={<DashboardSkeleton />}><LinkHealthArticle /></Suspense>} />
+              <Route path="/help/articles/link-immunity" element={<Suspense fallback={<DashboardSkeleton />}><LinkImmunityArticle /></Suspense>} />
+              <Route path="/help/articles/duplicating-links" element={<Suspense fallback={<DashboardSkeleton />}><DuplicatingLinks /></Suspense>} />
+              <Route path="/help/articles/link-preview" element={<Suspense fallback={<DashboardSkeleton />}><LinkPreview /></Suspense>} />
+              
+              {/* Help Article Pages - UTM */}
+              <Route path="/help/articles/what-are-utms" element={<Suspense fallback={<DashboardSkeleton />}><WhatAreUTMs /></Suspense>} />
+              <Route path="/help/articles/five-fields" element={<Suspense fallback={<DashboardSkeleton />}><FiveFields /></Suspense>} />
+              <Route path="/help/articles/naming-conventions" element={<Suspense fallback={<DashboardSkeleton />}><NamingConventions /></Suspense>} />
+              <Route path="/help/articles/common-mistakes" element={<Suspense fallback={<DashboardSkeleton />}><CommonMistakes /></Suspense>} />
+              <Route path="/help/articles/utm-templates" element={<Suspense fallback={<DashboardSkeleton />}><UTMTemplates /></Suspense>} />
+              <Route path="/help/articles/clean-track-framework" element={<Suspense fallback={<DashboardSkeleton />}><CleanTrackFrameworkArticle /></Suspense>} />
+              <Route path="/help/articles/utm-validation" element={<Suspense fallback={<DashboardSkeleton />}><UTMValidation /></Suspense>} />
+              <Route path="/help/articles/utm-governance" element={<Suspense fallback={<DashboardSkeleton />}><UTMGovernance /></Suspense>} />
+              <Route path="/help/articles/utm-audit-tools" element={<Suspense fallback={<DashboardSkeleton />}><UTMAuditTools /></Suspense>} />
+              <Route path="/help/articles/ai-utm-suggestions" element={<Suspense fallback={<DashboardSkeleton />}><AIUTMSuggestions /></Suspense>} />
+              
+              {/* Help Article Pages - QR */}
+              <Route path="/help/articles/qr-basics" element={<Suspense fallback={<DashboardSkeleton />}><QRCodeBasics /></Suspense>} />
+              <Route path="/help/articles/qr-customization" element={<Suspense fallback={<DashboardSkeleton />}><QRCustomization /></Suspense>} />
+              <Route path="/help/articles/qr-logos" element={<Suspense fallback={<DashboardSkeleton />}><QRLogos /></Suspense>} />
+              <Route path="/help/articles/qr-export" element={<Suspense fallback={<DashboardSkeleton />}><QRExport /></Suspense>} />
+              <Route path="/help/articles/qr-reliability" element={<Suspense fallback={<DashboardSkeleton />}><QRReliability /></Suspense>} />
+              <Route path="/help/articles/ai-stamp-studio" element={<Suspense fallback={<DashboardSkeleton />}><AIStampStudio /></Suspense>} />
+              <Route path="/help/articles/bulk-qr" element={<Suspense fallback={<DashboardSkeleton />}><BulkQR /></Suspense>} />
+              <Route path="/help/articles/qr-print-specs" element={<Suspense fallback={<DashboardSkeleton />}><QRPrintSpecs /></Suspense>} />
+              
+              {/* Help Article Pages - Analytics */}
+              <Route path="/help/articles/analytics-overview" element={<Suspense fallback={<DashboardSkeleton />}><AnalyticsOverview /></Suspense>} />
+              <Route path="/help/articles/click-tracking" element={<Suspense fallback={<DashboardSkeleton />}><ClickTracking /></Suspense>} />
+              <Route path="/help/articles/device-analytics" element={<Suspense fallback={<DashboardSkeleton />}><DeviceAnalytics /></Suspense>} />
+              <Route path="/help/articles/geographic-data" element={<Suspense fallback={<DashboardSkeleton />}><GeographicData /></Suspense>} />
+              <Route path="/help/articles/referrer-tracking" element={<Suspense fallback={<DashboardSkeleton />}><ReferrerTracking /></Suspense>} />
+              <Route path="/help/articles/real-time-analytics" element={<Suspense fallback={<DashboardSkeleton />}><RealTimeAnalytics /></Suspense>} />
+              <Route path="/help/articles/exporting-data" element={<Suspense fallback={<DashboardSkeleton />}><ExportingData /></Suspense>} />
+              <Route path="/help/articles/ai-insights" element={<Suspense fallback={<DashboardSkeleton />}><AIInsights /></Suspense>} />
+              <Route path="/help/articles/anomaly-detection" element={<Suspense fallback={<DashboardSkeleton />}><AnomalyDetection /></Suspense>} />
+              
+              {/* Help Article Pages - Attribution */}
+              <Route path="/help/articles/attribution-overview" element={<Suspense fallback={<DashboardSkeleton />}><AttributionOverview /></Suspense>} />
+              <Route path="/help/articles/attribution-models" element={<Suspense fallback={<DashboardSkeleton />}><AttributionModels /></Suspense>} />
+              <Route path="/help/articles/tracking-pixel" element={<Suspense fallback={<DashboardSkeleton />}><TrackingPixelArticle /></Suspense>} />
+              <Route path="/help/articles/conversion-tracking" element={<Suspense fallback={<DashboardSkeleton />}><ConversionTracking /></Suspense>} />
+              <Route path="/help/articles/customer-journeys" element={<Suspense fallback={<DashboardSkeleton />}><CustomerJourneys /></Suspense>} />
+              <Route path="/help/articles/identity-graph" element={<Suspense fallback={<DashboardSkeleton />}><IdentityGraph /></Suspense>} />
+              <Route path="/help/articles/revenue-attribution" element={<Suspense fallback={<DashboardSkeleton />}><RevenueAttributionArticle /></Suspense>} />
+              <Route path="/help/articles/lift-analysis" element={<Suspense fallback={<DashboardSkeleton />}><LiftAnalysis /></Suspense>} />
+              
+              {/* Help Article Pages - Events */}
+              <Route path="/help/articles/event-halo" element={<Suspense fallback={<DashboardSkeleton />}><EventHaloArticle /></Suspense>} />
+              <Route path="/help/articles/event-halo-overview" element={<Suspense fallback={<DashboardSkeleton />}><EventHaloOverview /></Suspense>} />
+              <Route path="/help/articles/creating-events" element={<Suspense fallback={<DashboardSkeleton />}><CreatingEvents /></Suspense>} />
+              <Route path="/help/articles/one-tap-scanner" element={<Suspense fallback={<DashboardSkeleton />}><OneTapScanner /></Suspense>} />
+              <Route path="/help/articles/badge-import" element={<Suspense fallback={<DashboardSkeleton />}><BadgeImport /></Suspense>} />
+              <Route path="/help/articles/event-roi" element={<Suspense fallback={<DashboardSkeleton />}><EventROI /></Suspense>} />
+              
+              {/* Help Article Pages - Advanced */}
+              <Route path="/help/articles/geo-targeting" element={<Suspense fallback={<DashboardSkeleton />}><GeoTargetingArticle /></Suspense>} />
+              <Route path="/help/articles/device-targeting" element={<Suspense fallback={<DashboardSkeleton />}><DeviceTargeting /></Suspense>} />
+              <Route path="/help/articles/link-rotation" element={<Suspense fallback={<DashboardSkeleton />}><LinkRotation /></Suspense>} />
+              <Route path="/help/articles/smart-routing" element={<Suspense fallback={<DashboardSkeleton />}><SmartRoutingArticle /></Suspense>} />
+              
+              {/* Help Article Pages - Team */}
+              <Route path="/help/articles/team-roles" element={<Suspense fallback={<DashboardSkeleton />}><TeamRoles /></Suspense>} />
+              <Route path="/help/articles/inviting-members" element={<Suspense fallback={<DashboardSkeleton />}><InvitingMembers /></Suspense>} />
+              <Route path="/help/articles/roles-permissions" element={<Suspense fallback={<DashboardSkeleton />}><RolesPermissions /></Suspense>} />
+              <Route path="/help/articles/workspace-settings" element={<Suspense fallback={<DashboardSkeleton />}><WorkspaceSettings /></Suspense>} />
+              
+              {/* Help Article Pages - Integrations */}
+              <Route path="/help/articles/chrome-extension" element={<Suspense fallback={<DashboardSkeleton />}><ChromeExtension /></Suspense>} />
+              <Route path="/help/articles/api-authentication" element={<Suspense fallback={<DashboardSkeleton />}><ApiAuthentication /></Suspense>} />
+              <Route path="/help/articles/api-endpoints" element={<Suspense fallback={<DashboardSkeleton />}><ApiEndpoints /></Suspense>} />
+              <Route path="/help/articles/webhooks" element={<Suspense fallback={<DashboardSkeleton />}><Webhooks /></Suspense>} />
+              <Route path="/help/articles/ga4-integration" element={<Suspense fallback={<DashboardSkeleton />}><GA4Integration /></Suspense>} />
+              <Route path="/help/articles/hubspot-integration" element={<Suspense fallback={<DashboardSkeleton />}><HubSpotIntegration /></Suspense>} />
+              <Route path="/help/articles/salesforce-integration" element={<Suspense fallback={<DashboardSkeleton />}><SalesforceIntegration /></Suspense>} />
+              <Route path="/help/articles/zapier-integration" element={<Suspense fallback={<DashboardSkeleton />}><ZapierIntegrationArticle /></Suspense>} />
+              <Route path="/help/articles/slack-integration" element={<Suspense fallback={<DashboardSkeleton />}><SlackIntegrationArticle /></Suspense>} />
+              
+              {/* Help Article Pages - Domains */}
+              <Route path="/help/articles/custom-domain-setup" element={<Suspense fallback={<DashboardSkeleton />}><CustomDomainSetup /></Suspense>} />
+              <Route path="/help/articles/adding-domains" element={<Suspense fallback={<DashboardSkeleton />}><AddingDomains /></Suspense>} />
+              <Route path="/help/articles/dns-setup" element={<Suspense fallback={<DashboardSkeleton />}><DNSSetup /></Suspense>} />
+              
+              {/* Help Article Pages - Billing */}
+              <Route path="/help/articles/managing-subscription" element={<Suspense fallback={<DashboardSkeleton />}><ManagingSubscription /></Suspense>} />
+              <Route path="/help/articles/usage-limits" element={<Suspense fallback={<DashboardSkeleton />}><UsageLimits /></Suspense>} />
+              
+              {/* Help Article Pages - Security */}
+              <Route path="/help/articles/two-factor-auth" element={<Suspense fallback={<DashboardSkeleton />}><TwoFactorAuth /></Suspense>} />
+              <Route path="/help/articles/security-keys" element={<Suspense fallback={<DashboardSkeleton />}><SecurityKeys /></Suspense>} />
+              <Route path="/help/articles/audit-logs" element={<Suspense fallback={<DashboardSkeleton />}><AuditLogs /></Suspense>} />
+              <Route path="/help/articles/data-privacy" element={<Suspense fallback={<DashboardSkeleton />}><DataPrivacy /></Suspense>} />
+              
+              {/* Help Article Pages - Other */}
               <Route path="/help/articles/lead-enrichment" element={<Suspense fallback={<DashboardSkeleton />}><LeadEnrichment /></Suspense>} />
+              
+              {/* Legacy help routes - redirects for backward compatibility */}
+              <Route path="/help/getting-started/what-is-utm-one" element={<Navigate to="/help/articles/what-is-utm-one" replace />} />
+              <Route path="/help/getting-started/create-account" element={<Navigate to="/help/articles/create-account" replace />} />
+              <Route path="/help/getting-started/tracking-pixel" element={<Navigate to="/help/articles/tracking-pixel" replace />} />
+              <Route path="/help/links/create-link" element={<Navigate to="/help/articles/create-link" replace />} />
+              <Route path="/help/utm/what-are-utms" element={<Navigate to="/help/articles/what-are-utms" replace />} />
+              <Route path="/help/qr/basics" element={<Navigate to="/help/articles/qr-basics" replace />} />
+              <Route path="/help/attribution/models" element={<Navigate to="/help/articles/attribution-models" replace />} />
+              <Route path="/help/events/event-halo" element={<Navigate to="/help/articles/event-halo" replace />} />
+              <Route path="/help/team/roles" element={<Navigate to="/help/articles/team-roles" replace />} />
+              <Route path="/help/domains/dns-setup" element={<Navigate to="/help/articles/dns-setup" replace />} />
 
               <Route path="/resources" element={<Suspense fallback={<DashboardSkeleton />}><Resources /></Suspense>} />
               <Route path="/resources/guides" element={<Suspense fallback={<DashboardSkeleton />}><Guides /></Suspense>} />
