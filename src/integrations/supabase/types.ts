@@ -2143,6 +2143,187 @@ export type Database = {
           },
         ]
       }
+      event_bridge_flows: {
+        Row: {
+          created_at: string
+          enrichment_enabled: boolean | null
+          enrichment_provider: string | null
+          id: string
+          is_active: boolean | null
+          magic_link_enabled: boolean | null
+          name: string
+          routing_rules: Json | null
+          source_config: Json | null
+          source_type: string
+          updated_at: string
+          webhook_secret: string | null
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          enrichment_enabled?: boolean | null
+          enrichment_provider?: string | null
+          id?: string
+          is_active?: boolean | null
+          magic_link_enabled?: boolean | null
+          name: string
+          routing_rules?: Json | null
+          source_config?: Json | null
+          source_type?: string
+          updated_at?: string
+          webhook_secret?: string | null
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          enrichment_enabled?: boolean | null
+          enrichment_provider?: string | null
+          id?: string
+          is_active?: boolean | null
+          magic_link_enabled?: boolean | null
+          name?: string
+          routing_rules?: Json | null
+          source_config?: Json | null
+          source_type?: string
+          updated_at?: string
+          webhook_secret?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_bridge_flows_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      event_bridge_registrations: {
+        Row: {
+          company: string | null
+          created_at: string
+          email: string
+          enriched_linkedin: string | null
+          enriched_phone: string | null
+          enriched_title: string | null
+          enrichment_status: string | null
+          external_id: string | null
+          first_name: string | null
+          flow_id: string
+          id: string
+          last_name: string | null
+          magic_link_clicked_at: string | null
+          magic_link_token: string | null
+          raw_payload: Json | null
+          routing_status: Json | null
+          updated_at: string
+          visitor_id: string | null
+          workspace_id: string
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          email: string
+          enriched_linkedin?: string | null
+          enriched_phone?: string | null
+          enriched_title?: string | null
+          enrichment_status?: string | null
+          external_id?: string | null
+          first_name?: string | null
+          flow_id: string
+          id?: string
+          last_name?: string | null
+          magic_link_clicked_at?: string | null
+          magic_link_token?: string | null
+          raw_payload?: Json | null
+          routing_status?: Json | null
+          updated_at?: string
+          visitor_id?: string | null
+          workspace_id: string
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          email?: string
+          enriched_linkedin?: string | null
+          enriched_phone?: string | null
+          enriched_title?: string | null
+          enrichment_status?: string | null
+          external_id?: string | null
+          first_name?: string | null
+          flow_id?: string
+          id?: string
+          last_name?: string | null
+          magic_link_clicked_at?: string | null
+          magic_link_token?: string | null
+          raw_payload?: Json | null
+          routing_status?: Json | null
+          updated_at?: string
+          visitor_id?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_bridge_registrations_flow_id_fkey"
+            columns: ["flow_id"]
+            isOneToOne: false
+            referencedRelation: "event_bridge_flows"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "event_bridge_registrations_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      event_bridge_routing_logs: {
+        Row: {
+          created_at: string
+          destination: string
+          error_message: string | null
+          external_id: string | null
+          id: string
+          registration_id: string
+          request_payload: Json | null
+          response_payload: Json | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          destination: string
+          error_message?: string | null
+          external_id?: string | null
+          id?: string
+          registration_id: string
+          request_payload?: Json | null
+          response_payload?: Json | null
+          status: string
+        }
+        Update: {
+          created_at?: string
+          destination?: string
+          error_message?: string | null
+          external_id?: string | null
+          id?: string
+          registration_id?: string
+          request_payload?: Json | null
+          response_payload?: Json | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_bridge_routing_logs_registration_id_fkey"
+            columns: ["registration_id"]
+            isOneToOne: false
+            referencedRelation: "event_bridge_registrations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       experiments: {
         Row: {
           created_at: string | null
@@ -6993,6 +7174,7 @@ export type Database = {
         }[]
       }
       generate_invite_token: { Args: never; Returns: string }
+      generate_magic_link_token: { Args: never; Returns: string }
       generate_referral_code: { Args: never; Returns: string }
       generate_verification_code: { Args: never; Returns: string }
       get_channel_lift: {
