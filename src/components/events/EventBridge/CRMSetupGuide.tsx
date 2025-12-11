@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { useWorkspace } from '@/contexts/WorkspaceContext';
+import { useWorkspaceContext } from '@/contexts/WorkspaceContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -86,7 +86,7 @@ interface CRMConnectionStatus {
 }
 
 export function CRMSetupGuide() {
-  const { currentWorkspace } = useWorkspace();
+  const { currentWorkspace } = useWorkspaceContext();
   const queryClient = useQueryClient();
   const [selectedCRM, setSelectedCRM] = useState<string>('hubspot');
   const [apiKey, setApiKey] = useState('');
