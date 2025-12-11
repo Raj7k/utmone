@@ -1,273 +1,126 @@
-import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
-import { Link } from "react-router-dom";
-import { ArrowLeft, Calendar, MapPin, Users, Scan, Radio, BarChart3 } from "lucide-react";
-import { SEO } from "@/components/seo/SEO";
-import { ArticleSchema, FAQSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
-import { RelatedResources, PeopleAlsoRead } from "@/components/seo/RelatedResources";
-import { Button } from "@/components/ui/button";
+import { Helmet } from "react-helmet";
+import { Calendar, MapPin, Users, Wifi, QrCode, BarChart3, Globe, Zap } from "lucide-react";
+import {
+  UseCaseHero,
+  BeforeAfterSection,
+  JourneyFlowVisualizer,
+  AnimatedStatCard,
+  IndustryROICalculator,
+  PlatformIntegrationsGrid,
+  UseCaseCTA,
+  FeatureGrid,
+  FAQSection,
+} from "@/components/use-cases";
 
 const EventMarketing = () => {
-  const features = [
-    {
-      icon: MapPin,
-      title: "Event Halo Detection",
-      description: "Track the 'invisible 90%'—visitors who saw your booth but didn't scan a QR code—using geo-temporal analysis."
-    },
-    {
-      icon: Scan,
-      title: "One-Tap Badge Scanning",
-      description: "Capture leads instantly with our mobile scanner. AI-powered OCR extracts contact info in under a second."
-    },
-    {
-      icon: Radio,
-      title: "Real-Time Event Dashboard",
-      description: "Monitor live traffic during events with minute-by-minute analytics and anomaly alerts."
-    },
-    {
-      icon: Users,
-      title: "Lead Temperature Tagging",
-      description: "Tag leads as Hot, Warm, or Cold immediately after scanning for faster sales follow-up."
-    },
-    {
-      icon: Calendar,
-      title: "Pre/Post Event Tracking",
-      description: "Track promotional links before the event and follow-up campaigns after with unified attribution."
-    },
-    {
-      icon: BarChart3,
-      title: "Event ROI Calculator",
-      description: "Measure true event ROI by connecting booth visits to pipeline and closed revenue."
-    }
+  const journeySteps = [
+    { id: "booth", label: "Booth Visit", description: "Badge scanned" },
+    { id: "qr", label: "QR Scan", description: "Collateral downloaded" },
+    { id: "halo", label: "Halo Traffic", description: "+1,200 site visitors" },
+    { id: "followup", label: "Email Followup", description: "7 days post-event" },
+    { id: "deal", label: "Deal Closed", description: "$85,000 attributed" },
   ];
 
-  const useCases = [
-    {
-      title: "Trade Shows & Conferences",
-      description: "Track booth visitors, speaking session attendees, and sponsored event impact with unique tracked links and QR codes."
-    },
-    {
-      title: "Field Marketing Events",
-      description: "Measure the halo effect of local events—see how many website visitors came from the event city during and after."
-    },
-    {
-      title: "Webinars & Virtual Events",
-      description: "Track registration sources, attendance, and post-webinar engagement with consistent UTM parameters."
-    },
-    {
-      title: "Roadshows & Multi-City Tours",
-      description: "Compare performance across cities with standardized tracking and control group analysis."
-    }
+  const beforeItems = [
+    "Scanned 127 badges at Dreamforce",
+    "CEO asks: 'What's the ROI?'",
+    "You have spreadsheets, not answers",
+    "Miss the 1,000+ halo visitors",
+    "Can't justify next year's budget",
+  ];
+
+  const afterItems = [
+    "127 direct leads captured",
+    "1,247 halo visitors detected",
+    "$2.4M pipeline attributed",
+    "ROI calculated automatically",
+    "Budget approved for next year",
+  ];
+
+  const platforms = [
+    { name: "Salesforce", logo: "https://cdn.simpleicons.org/salesforce" },
+    { name: "HubSpot", logo: "https://cdn.simpleicons.org/hubspot" },
+    { name: "Marketo", logo: "https://cdn.simpleicons.org/marketo" },
+    { name: "Eventbrite", logo: "https://cdn.simpleicons.org/eventbrite" },
+    { name: "Zoom", logo: "https://cdn.simpleicons.org/zoom" },
+    { name: "Slack", logo: "https://cdn.simpleicons.org/slack" },
+  ];
+
+  const features = [
+    { icon: MapPin, title: "event halo detection", description: "Track the invisible 90%—visitors who saw your booth but didn't scan." },
+    { icon: QrCode, title: "one-tap badge scanning", description: "Scan badges in under 2 seconds. Auto-enrich with LinkedIn data." },
+    { icon: Globe, title: "control group comparison", description: "Las Vegas event vs Phoenix control. Statistical proof your event worked." },
+    { icon: Wifi, title: "offline-first capture", description: "No wifi? No problem. Scan offline, sync when connected." },
+    { icon: BarChart3, title: "live event dashboard", description: "Real-time traffic pulse during the event. See halo visitors arrive." },
+    { icon: Zap, title: "instant CRM sync", description: "Leads appear in Salesforce before you leave the booth." },
   ];
 
   const faqs = [
-    {
-      question: "What is Event Halo detection?",
-      answer: "Event Halo uses geo-temporal analysis to detect traffic spikes from your event city during the event dates. It compares this to a control city to prove the traffic increase was caused by your event, not general market trends."
-    },
-    {
-      question: "How does One-Tap Badge Scanning work?",
-      answer: "Point your phone camera at a badge, and our AI-powered OCR extracts name, email, company, and title in under a second. Tag lead temperature immediately and sync to your CRM."
-    },
-    {
-      question: "Can I track virtual events and webinars?",
-      answer: "Yes! Use tracked registration links, embed UTMs in email reminders, and measure post-webinar engagement—all with the same attribution system used for in-person events."
-    },
-    {
-      question: "How do I prove event ROI to executives?",
-      answer: "utm.one connects event touches to pipeline and revenue. Show the CFO that a $50,000 trade show generated $500,000 in pipeline, not just '200 badge scans.'"
-    },
-    {
-      question: "What if attendees don't scan our QR codes?",
-      answer: "Event Halo tracks the 'invisible 90%' who visited your booth but didn't scan. It detects traffic from the event city and attributes it to your event presence."
-    },
-    {
-      question: "Can I compare performance across multiple events?",
-      answer: "Yes. Standardized UTM conventions let you compare trade shows, webinars, and field events side-by-side with consistent metrics."
-    },
-    {
-      question: "How do I track pre-event and post-event campaigns?",
-      answer: "Use consistent UTM parameters across all event touchpoints—pre-event promotions, day-of QR codes, and follow-up emails—for complete attribution."
-    },
-    {
-      question: "Does utm.one integrate with event platforms?",
-      answer: "utm.one works with any event platform. Generate tracked registration links for Eventbrite, Splash, or your custom registration system."
-    }
+    { question: "What is 'Event Halo' and how does it work?", answer: "Event Halo detects website traffic spikes from the event city during and after your event. We compare against a control city to isolate the event's impact." },
+    { question: "How accurate is geo-temporal attribution?", answer: "We provide confidence intervals, not false precision. A typical result might be '1,247 halo visitors (95% CI: 1,100-1,400)'." },
+    { question: "Does badge scanning work without internet?", answer: "Yes. Our scanner works completely offline. Scans sync automatically when you reconnect." },
+    { question: "Can I attribute revenue to specific events?", answer: "Every lead from an event gets tagged. When they close months later, revenue is attributed back automatically." },
   ];
+
+  const calculatorInputs = [
+    { id: "eventCost", label: "Event Cost (booth + travel)", defaultValue: 75000, prefix: "$" },
+    { id: "badgeScans", label: "Expected Badge Scans", defaultValue: 150 },
+    { id: "avgDealValue", label: "Average Deal Value", defaultValue: 50000, prefix: "$" },
+    { id: "conversionRate", label: "Lead to Deal Rate", defaultValue: 8, suffix: "%" },
+  ];
+
+  const calculateROI = (inputs: Record<string, number>) => {
+    const { eventCost, badgeScans, avgDealValue, conversionRate } = inputs;
+    const totalLeads = badgeScans + (badgeScans * 10);
+    const expectedDeals = totalLeads * (conversionRate / 100);
+    const expectedRevenue = expectedDeals * avgDealValue;
+    const roi = ((expectedRevenue - eventCost) / eventCost) * 100;
+    return {
+      results: [
+        { label: "Total Leads (Direct + Halo)", value: totalLeads.toLocaleString() },
+        { label: "Expected Deals", value: Math.round(expectedDeals).toString() },
+        { label: "Event ROI", value: `${Math.round(roi)}%` },
+      ],
+      highlight: { label: "Attributed Pipeline", value: `$${expectedRevenue.toLocaleString()}` },
+    };
+  };
 
   return (
     <>
-      <SEO 
-        title="Event Marketing Tracking & Attribution | utm.one"
-        description="Track trade shows, conferences, and field events from booth visit to closed deal. utm.one provides event marketers with halo detection, badge scanning, and event ROI measurement."
-        canonical="https://utm.one/use-cases/event-marketing"
-        keywords={["event marketing tracking", "trade show ROI", "conference attribution", "badge scanning", "event analytics"]}
-      />
-      <ArticleSchema
-        headline="Event Marketing Tracking & Attribution"
-        description="Complete guide to tracking event marketing ROI with utm.one."
-        author="utm.one"
-        datePublished="2025-01-15"
-        dateModified="2025-01-15"
-        url="https://utm.one/use-cases/event-marketing"
-      />
-      <FAQSchema questions={faqs} />
-      <BreadcrumbSchema 
-        items={[
-          { name: 'Home', url: 'https://utm.one/' },
-          { name: 'Use Cases', url: 'https://utm.one/use-cases' },
-          { name: 'Event Marketing', url: 'https://utm.one/use-cases/event-marketing' }
-        ]}
-      />
-      <ResourcesLayout>
-        {/* Hero */}
-        <section className="py-20 border-b border-zinc-200">
-          <div className="max-w-[980px] mx-auto px-8">
-            <Link
-              to="/use-cases"
-              className="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-900 transition-colors mb-8"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Back to Use Cases
-            </Link>
-            <div className="space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-sm font-medium">
-                <Calendar className="w-4 h-4" />
-                Events
-              </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-zinc-900">
-                Track the Invisible 90% from Every Event
-              </h1>
-              <p className="text-lg md:text-xl text-zinc-600 max-w-[720px]">
-                Stop counting badge scans. Start measuring actual event impact with 
-                geo-temporal attribution and real-time analytics.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Button asChild size="lg">
-                  <Link to="/early-access">Start Free Trial</Link>
-                </Button>
-                <Button asChild variant="outline" size="lg">
-                  <Link to="/features/event-halo">See Event Halo Demo</Link>
-                </Button>
-              </div>
+      <Helmet>
+        <title>Event Marketing Attribution | utm.one</title>
+        <meta name="description" content="Track the invisible 90% from every event. Badge scanning, halo detection, and revenue attribution." />
+      </Helmet>
+      <div className="min-h-screen bg-background">
+        <UseCaseHero
+          category="Event Marketing"
+          categoryIcon={Calendar}
+          categoryColor="bg-purple-100 text-purple-700"
+          headline="you scanned 100 badges. 1,000 more people saw your booth."
+          subheadline="event halo captures the invisible 90%. prove your events drive revenue, not just business cards."
+          stats={[{ value: "10x", label: "more leads detected" }, { value: "< 2s", label: "to scan a badge" }, { value: "$2.4M", label: "avg pipeline attributed" }]}
+        />
+        <section className="py-16 border-b border-border/50">
+          <div className="max-w-[980px] mx-auto px-6 md:px-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <AnimatedStatCard value="1,247" label="halo visitors detected" description="From a single trade show booth" />
+              <AnimatedStatCard value="127" label="badges scanned" description="The visible 10% of your impact" />
+              <AnimatedStatCard value="$2.4M" label="pipeline attributed" description="Across direct + halo leads" />
             </div>
           </div>
         </section>
-
-        {/* Pain Points */}
-        <section className="py-16 bg-zinc-50">
-          <div className="max-w-[980px] mx-auto px-8">
-            <h2 className="text-3xl font-display font-bold text-zinc-900 mb-8">
-              The Event Attribution Gap
-            </h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="bg-white p-6 rounded-xl border border-zinc-200">
-                <h3 className="font-semibold text-zinc-900 mb-2">❌ Without utm.one</h3>
-                <ul className="space-y-2 text-zinc-600 text-sm">
-                  <li>• "We scanned 200 badges but only 10 became leads"</li>
-                  <li>• Can't prove trade show ROI to executives</li>
-                  <li>• Missing the visitors who didn't scan QR codes</li>
-                  <li>• No way to compare event performance</li>
-                  <li>• Manual badge data entry after events</li>
-                </ul>
-              </div>
-              <div className="bg-white p-6 rounded-xl border border-purple-200 border-2">
-                <h3 className="font-semibold text-purple-700 mb-2">✓ With utm.one</h3>
-                <ul className="space-y-2 text-zinc-600 text-sm">
-                  <li>• "Trade show drove 1,400 website visits + 200 scans"</li>
-                  <li>• Connect event spend to pipeline and revenue</li>
-                  <li>• Track halo effect with geo-temporal analysis</li>
-                  <li>• Compare events with consistent metrics</li>
-                  <li>• One-tap scanning with instant CRM sync</li>
-                </ul>
-              </div>
-            </div>
+        <BeforeAfterSection title="the event attribution problem" subtitle="You spent $75k on a booth. The CEO wants ROI. Badge scans alone won't justify the budget." beforeTitle="what you report" afterTitle="what actually happened" beforeItems={beforeItems} afterItems={afterItems} />
+        <section className="py-20 bg-muted/30">
+          <div className="max-w-[980px] mx-auto px-6 md:px-8">
+            <JourneyFlowVisualizer title="from booth to closed deal" subtitle="Every touchpoint tracked—from the first badge scan to the signed contract." steps={journeySteps} />
           </div>
         </section>
-
-        {/* Features */}
-        <section className="py-16">
-          <div className="max-w-[980px] mx-auto px-8">
-            <h2 className="text-3xl font-display font-bold text-zinc-900 mb-8">
-              Event-Specific Features
-            </h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {features.map((feature, index) => (
-                <div key={index} className="p-6 bg-white rounded-xl border border-zinc-200 hover:border-zinc-300 transition-colors">
-                  <feature.icon className="w-8 h-8 text-zinc-900 mb-4" />
-                  <h3 className="font-semibold text-zinc-900 mb-2">{feature.title}</h3>
-                  <p className="text-sm text-zinc-600">{feature.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Use Cases */}
-        <section className="py-16 bg-zinc-50">
-          <div className="max-w-[980px] mx-auto px-8">
-            <h2 className="text-3xl font-display font-bold text-zinc-900 mb-8">
-              How Event Teams Use utm.one
-            </h2>
-            <div className="space-y-6">
-              {useCases.map((useCase, index) => (
-                <div key={index} className="bg-white p-6 rounded-xl border border-zinc-200">
-                  <h3 className="font-semibold text-zinc-900 mb-2">{useCase.title}</h3>
-                  <p className="text-zinc-600">{useCase.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* FAQs */}
-        <section className="py-16">
-          <div className="max-w-[980px] mx-auto px-8">
-            <h2 className="text-3xl font-display font-bold text-zinc-900 mb-8">
-              Frequently Asked Questions
-            </h2>
-            <div className="space-y-6">
-              {faqs.map((faq, index) => (
-                <div key={index} className="bg-white p-6 rounded-xl border border-zinc-200">
-                  <h3 className="font-semibold text-zinc-900 mb-2">{faq.question}</h3>
-                  <p className="text-zinc-600">{faq.answer}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* CTA */}
-        <section className="py-16 bg-zinc-900 text-white">
-          <div className="max-w-[980px] mx-auto px-8 text-center">
-            <h2 className="text-3xl font-display font-bold mb-4">
-              Ready to Prove Event ROI?
-            </h2>
-            <p className="text-zinc-400 mb-8 max-w-xl mx-auto">
-              Join event marketers who use utm.one to track every touchpoint 
-              from booth visit to closed deal.
-            </p>
-            <Button asChild size="lg" variant="secondary">
-              <Link to="/early-access">Start Free Trial</Link>
-            </Button>
-          </div>
-        </section>
-
-        {/* Related Resources */}
-        <section className="py-16">
-          <div className="max-w-[980px] mx-auto px-8">
-            <RelatedResources 
-              resources={[
-                { title: "Agency Client Reporting", path: "/use-cases/agency-client-reporting", type: "guide" as const },
-                { title: "Event Halo Feature", path: "/features/event-halo", type: "tool" as const },
-                { title: "Field Marketing Solution", path: "/solutions/field-marketing", type: "guide" as const }
-              ]}
-            />
-            <div className="mt-12">
-              <PeopleAlsoRead currentPath="/use-cases/event-marketing" />
-            </div>
-          </div>
-        </section>
-      </ResourcesLayout>
+        <PlatformIntegrationsGrid title="syncs with your event stack" subtitle="Badge data flows directly to your CRM. No spreadsheet imports required." platforms={platforms} />
+        <FeatureGrid title="built for field marketing" subtitle="Every feature designed to answer: what's the ROI of this event?" features={features} />
+        <IndustryROICalculator title="calculate your event ROI" subtitle="See the full impact of your events—including the invisible halo visitors." inputs={calculatorInputs} calculateROI={calculateROI} />
+        <FAQSection title="questions from event marketers" faqs={faqs} />
+        <UseCaseCTA headline="prove your events drive revenue" subheadline="Stop counting business cards. Start measuring impact." />
+      </div>
     </>
   );
 };
