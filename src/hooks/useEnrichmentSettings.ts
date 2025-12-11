@@ -7,6 +7,8 @@ interface EnrichmentSettings {
   clay_webhook_url?: string;
   zoominfo_client_id?: string;
   auto_enrich_enabled?: boolean;
+  crm_push_enabled?: boolean;
+  crm_push_target?: 'hubspot' | 'salesforce' | null;
 }
 
 export const useEnrichmentSettings = (workspaceId: string | undefined) => {
@@ -63,6 +65,8 @@ export const useEnrichmentSettings = (workspaceId: string | undefined) => {
 
   const provider = settings?.enrichment_provider || null;
   const autoEnrichEnabled = settings?.auto_enrich_enabled ?? false;
+  const crmPushEnabled = settings?.crm_push_enabled ?? false;
+  const crmPushTarget = settings?.crm_push_target || null;
 
   return {
     settings,
@@ -70,6 +74,8 @@ export const useEnrichmentSettings = (workspaceId: string | undefined) => {
     isConfigured,
     provider,
     autoEnrichEnabled,
+    crmPushEnabled,
+    crmPushTarget,
     updateSettings,
   };
 };

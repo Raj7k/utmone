@@ -27,6 +27,77 @@ interface EnrichmentResponse {
   enriched: boolean;
 }
 
+interface ContactData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  company: string;
+  title: string;
+  linkedIn: string;
+  source: string;
+  enrichmentSource: string;
+}
+
+// Push contact to HubSpot
+async function pushToHubSpot(accessToken: string, contact: ContactData): Promise<void> {
+  const response = await fetch('https://api.hubapi.com/crm/v3/objects/contacts', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      properties: {
+        firstname: contact.firstName,
+        lastname: contact.lastName,
+        email: contact.email,
+        phone: contact.phone,
+        company: contact.company,
+        jobtitle: contact.title,
+        hs_lead_status: 'NEW',
+        utm_one_source: contact.source,
+        linkedin_url: contact.linkedIn,
+      },
+    }),
+  });
+
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`HubSpot API error: ${response.status} - ${error}`);
+  }
+}
+
+// Push contact to Salesforce
+async function pushToSalesforce(accessToken: string, instanceUrl: string | null, contact: ContactData): Promise<void> {
+  if (!instanceUrl) {
+    throw new Error('Salesforce instance URL not configured');
+  }
+
+  const response = await fetch(`${instanceUrl}/services/data/v58.0/sobjects/Lead`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      FirstName: contact.firstName,
+      LastName: contact.lastName || 'Unknown',
+      Email: contact.email,
+      Phone: contact.phone,
+      Company: contact.company || 'Unknown',
+      Title: contact.title,
+      LeadSource: contact.source,
+      Description: `Enriched via ${contact.enrichmentSource}. LinkedIn: ${contact.linkedIn}`,
+    }),
+  });
+
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Salesforce API error: ${response.status} - ${error}`);
+  }
+}
+
 serve(async (req) => {
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
@@ -67,6 +138,9 @@ serve(async (req) => {
     clayWebhookUrl = Deno.env.get('CLAY_WEBHOOK_URL') || null;
 
     // If workspace provided, check workspace-specific settings
+    let crmPushEnabled = false;
+    let crmPushTarget: string | null = null;
+    
     if (workspaceId) {
       const { data: workspace } = await supabase
         .from('workspaces')
@@ -78,6 +152,8 @@ serve(async (req) => {
         const settings = workspace.settings as Record<string, unknown>;
         apolloApiKey = (settings.apollo_api_key as string) || apolloApiKey;
         clayWebhookUrl = (settings.clay_webhook_url as string) || clayWebhookUrl;
+        crmPushEnabled = (settings.crm_push_enabled as boolean) || false;
+        crmPushTarget = (settings.crm_push_target as string) || null;
       }
     }
 
@@ -280,6 +356,49 @@ serve(async (req) => {
           })
           .eq('id', scanId);
         console.log(`Marked badge scan ${scanId} as failed enrichment`);
+      }
+    }
+
+    // Push to CRM if enabled and enrichment was successful
+    if (enrichmentResult && crmPushEnabled && crmPushTarget && workspaceId) {
+      console.log(`Pushing enriched lead to ${crmPushTarget}...`);
+      
+      try {
+        // Get CRM integration credentials from integrations table
+        const { data: integration } = await supabase
+          .from('integrations')
+          .select('*')
+          .eq('workspace_id', workspaceId)
+          .eq('provider', crmPushTarget)
+          .eq('is_active', true)
+          .single();
+
+        if (integration) {
+          const contactData = {
+            firstName: firstName || '',
+            lastName: lastName || '',
+            email: enrichmentResult.email || email || '',
+            phone: enrichmentResult.phone || '',
+            company: company || '',
+            title: enrichmentResult.title || '',
+            linkedIn: enrichmentResult.linkedin || '',
+            source: 'utm.one Event Scanner',
+            enrichmentSource: enrichmentResult.source,
+          };
+
+          if (crmPushTarget === 'hubspot') {
+            await pushToHubSpot(integration.access_token_encrypted, contactData);
+          } else if (crmPushTarget === 'salesforce') {
+            await pushToSalesforce(integration.access_token_encrypted, integration.instance_url, contactData);
+          }
+          
+          console.log(`Successfully pushed lead to ${crmPushTarget}`);
+        } else {
+          console.log(`No active ${crmPushTarget} integration found for workspace`);
+        }
+      } catch (crmError) {
+        console.error(`CRM push to ${crmPushTarget} failed:`, crmError);
+        // Don't fail the whole request if CRM push fails
       }
     }
 

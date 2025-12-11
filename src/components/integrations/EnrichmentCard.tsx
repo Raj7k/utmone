@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Sparkles, 
@@ -12,7 +13,8 @@ import {
   ExternalLink, 
   Loader2,
   AlertCircle,
-  Zap
+  Zap,
+  Send
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
@@ -31,7 +33,7 @@ export const EnrichmentCard = ({ workspaceId }: EnrichmentCardProps) => {
   const [isTesting, setIsTesting] = useState(false);
   const [activeTab, setActiveTab] = useState("apollo");
   
-  const { isConfigured, autoEnrichEnabled, updateSettings } = useEnrichmentSettings(workspaceId);
+  const { isConfigured, autoEnrichEnabled, crmPushEnabled, crmPushTarget, updateSettings } = useEnrichmentSettings(workspaceId);
 
   const handleAutoEnrichToggle = async (enabled: boolean) => {
     try {
@@ -39,6 +41,26 @@ export const EnrichmentCard = ({ workspaceId }: EnrichmentCardProps) => {
       notify.success(enabled ? "auto-enrich enabled" : "auto-enrich disabled");
     } catch (error) {
       console.error('Failed to toggle auto-enrich:', error);
+      notify.error("failed to update setting");
+    }
+  };
+
+  const handleCrmPushToggle = async (enabled: boolean) => {
+    try {
+      await updateSettings.mutateAsync({ crm_push_enabled: enabled });
+      notify.success(enabled ? "CRM push enabled" : "CRM push disabled");
+    } catch (error) {
+      console.error('Failed to toggle CRM push:', error);
+      notify.error("failed to update setting");
+    }
+  };
+
+  const handleCrmTargetChange = async (target: string) => {
+    try {
+      await updateSettings.mutateAsync({ crm_push_target: target as 'hubspot' | 'salesforce' });
+      notify.success(`CRM set to ${target}`);
+    } catch (error) {
+      console.error('Failed to set CRM target:', error);
       notify.error("failed to update setting");
     }
   };
@@ -132,7 +154,57 @@ export const EnrichmentCard = ({ workspaceId }: EnrichmentCardProps) => {
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center">
               <Zap className="h-4 w-4 text-green-600" />
+      </div>
+
+      {/* CRM Push Toggle */}
+      <div className="mb-4 p-4 rounded-lg bg-muted/50 border border-border">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
+              <Send className="h-4 w-4 text-blue-600" />
             </div>
+            <div>
+              <p className="text-sm font-medium text-foreground">auto-push to CRM</p>
+              <p className="text-xs text-muted-foreground">
+                send enriched leads to your connected CRM
+              </p>
+            </div>
+          </div>
+          <Switch 
+            checked={crmPushEnabled}
+            onCheckedChange={handleCrmPushToggle}
+            disabled={!isConfigured || updateSettings.isPending}
+          />
+        </div>
+        
+        {crmPushEnabled && (
+          <div className="mt-3 pt-3 border-t border-border">
+            <Label className="text-xs text-muted-foreground mb-2 block">push to</Label>
+            <Select value={crmPushTarget || ''} onValueChange={handleCrmTargetChange}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="select CRM" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="hubspot">HubSpot</SelectItem>
+                <SelectItem value="salesforce">Salesforce</SelectItem>
+              </SelectContent>
+            </Select>
+            <p className="text-xs text-muted-foreground mt-2">
+              ensure your CRM is connected in{" "}
+              <a href="/dashboard/settings/integrations" className="text-primary hover:underline">
+                integrations settings
+              </a>
+            </p>
+          </div>
+        )}
+        
+        {!isConfigured && (
+          <p className="text-xs text-amber-600 mt-2 flex items-center gap-1">
+            <AlertCircle className="h-3 w-3" />
+            configure enrichment first to enable CRM push
+          </p>
+        )}
+      </div>
             <div>
               <p className="text-sm font-medium text-foreground">auto-enrich new scans</p>
               <p className="text-xs text-muted-foreground">
