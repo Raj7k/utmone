@@ -32,8 +32,8 @@ const handler = async (req: Request): Promise<Response> => {
 
       try {
         const emailResponse = await resend.emails.send({
-          from: "utm.one <updates@utm.one>",
-          replyTo: "hello@utm.one",
+          from: "utm.one <updates@send.utm.one>",
+          replyTo: "hello@send.utm.one",
           to: [user.email],
           subject: "Your weekly utm.one waitlist update",
           html: `

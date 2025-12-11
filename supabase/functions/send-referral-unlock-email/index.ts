@@ -145,7 +145,7 @@ Deno.serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'utm.one <hello@utm.one>',
+        from: 'utm.one <hello@send.utm.one>',
         to: [email],
         subject: "🎉 You're In! Access Unlocked via Referrals",
         html: htmlContent,

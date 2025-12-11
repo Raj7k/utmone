@@ -132,7 +132,7 @@ Deno.serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'utm.one Security <security@utm.one>',
+        from: 'utm.one Security <security@send.utm.one>',
         to: [ownerEmail],
         subject: emailSubject,
         html: emailBody,

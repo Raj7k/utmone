@@ -201,7 +201,7 @@ serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "utm.one <alerts@utm.one>",
+        from: "utm.one <alerts@send.utm.one>",
         to: [profile.email],
         subject: `🔥 Hot Lead: ${prospectName} just opened your link`,
         html: emailHtml,

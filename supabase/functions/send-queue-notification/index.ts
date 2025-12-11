@@ -55,8 +55,8 @@ serve(async (req) => {
     const resend = new Resend(Deno.env.get('RESEND_API_KEY'));
     
     const { error: emailError } = await resend.emails.send({
-      from: 'utm.one <updates@utm.one>',
-      replyTo: 'hello@utm.one',
+      from: 'utm.one <updates@send.utm.one>',
+      replyTo: 'hello@send.utm.one',
       to: [user.email],
       subject: `you moved up ${positionChange} spots in the queue`,
       html: `
