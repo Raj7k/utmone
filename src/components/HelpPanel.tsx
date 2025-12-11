@@ -78,7 +78,7 @@ export const HelpPanel = () => {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "fixed bottom-6 right-6 z-50",
+          "fixed bottom-20 md:bottom-6 right-6 z-50",
           "w-14 h-14 rounded-full",
           "shadow-lg hover:shadow-xl",
           "flex items-center justify-center",

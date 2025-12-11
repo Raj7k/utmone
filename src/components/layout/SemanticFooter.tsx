@@ -116,7 +116,7 @@ export const SemanticFooter = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-6 md:pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="pt-6 md:pt-8 pb-20 md:pb-0 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
             <UtmOneLogo size="sm" />
             <p className="text-xs sm:text-sm text-muted-foreground text-center sm:text-left">
@@ -127,6 +127,15 @@ export const SemanticFooter = () => {
             Last Updated: {lastUpdated}
           </p>
         </div>
+        
+        {/* Mobile fade gradient indicating floating nav overlay */}
+        <div 
+          className="fixed bottom-0 left-0 right-0 h-20 pointer-events-none z-40 md:hidden"
+          style={{
+            background: 'linear-gradient(to top, hsl(var(--background)) 0%, hsl(var(--background)) 30%, transparent 100%)'
+          }}
+          aria-hidden="true"
+        />
       </div>
     </footer>
   );

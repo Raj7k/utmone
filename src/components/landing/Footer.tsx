@@ -205,6 +205,15 @@ export const Footer = () => {
           <FooterRevealText />
         </div>
       </div>
+      
+      {/* Mobile fade gradient indicating floating nav overlay */}
+      <div 
+        className="fixed bottom-0 left-0 right-0 h-20 pointer-events-none z-40 md:hidden"
+        style={{
+          background: 'linear-gradient(to top, hsl(var(--background)) 0%, hsl(var(--background)) 30%, transparent 100%)'
+        }}
+        aria-hidden="true"
+      />
       </div>
     </footer>
   );

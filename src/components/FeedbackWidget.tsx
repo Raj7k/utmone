@@ -221,7 +221,7 @@ export const FeedbackWidget = () => {
       <PopoverTrigger asChild>
         <Button
           size="icon"
-          className="feedback-widget-trigger fixed bottom-6 right-6 h-12 w-12 rounded-full shadow-lg z-50 bg-card hover:bg-muted border border-border"
+          className="feedback-widget-trigger fixed bottom-20 md:bottom-6 right-6 h-12 w-12 rounded-full shadow-lg z-50 bg-card hover:bg-muted border border-border"
           aria-label="Send feedback or report a bug"
         >
           <MessageCircle className="h-5 w-5 text-foreground" />
