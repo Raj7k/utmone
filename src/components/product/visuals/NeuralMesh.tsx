@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 
 interface Node {
   x: number;
@@ -12,12 +12,12 @@ interface Node {
 
 export const NeuralMesh = () => {
   const [nodes, setNodes] = useState<Node[]>([]);
-  const [time, setTime] = useState(0);
+  const timeRef = useRef(0);
 
-  // Initialize nodes
+  // Initialize nodes - reduced from 40 to 20
   useEffect(() => {
     const initialNodes: Node[] = [];
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 20; i++) {
       initialNodes.push({
         x: (Math.random() - 0.5) * 200,
         y: (Math.random() - 0.5) * 150,
@@ -30,10 +30,12 @@ export const NeuralMesh = () => {
     setNodes(initialNodes);
   }, []);
 
-  // Animate - breathing effect
+  // Animate - breathing effect with slower interval
   useEffect(() => {
     const interval = setInterval(() => {
-      setTime(t => t + 0.02);
+      timeRef.current += 0.02;
+      const time = timeRef.current;
+      
       setNodes(prev => prev.map(node => {
         let { x, y, z, vx, vy, vz } = node;
         
@@ -49,9 +51,10 @@ export const NeuralMesh = () => {
 
         return { x, y, z, vx, vy, vz };
       }));
-    }, 50);
+    }, 80); // Slower: 80ms instead of 50ms
+    
     return () => clearInterval(interval);
-  }, [time]);
+  }, []);
 
   // Calculate connections
   const connections = useMemo(() => {
@@ -84,7 +87,7 @@ export const NeuralMesh = () => {
   }, [nodes]);
 
   return (
-    <div className="relative w-[300px] h-[200px]">
+    <div className="relative w-[300px] h-[200px] will-change-transform">
       <svg className="w-full h-full" viewBox="0 0 300 200">
         {/* Connections */}
         {connections.map((line, i) => (
@@ -109,7 +112,7 @@ export const NeuralMesh = () => {
           const opacity = 0.3 + (node.z + 50) / 200;
 
           return (
-            <motion.circle
+            <circle
               key={i}
               cx={x}
               cy={y}
