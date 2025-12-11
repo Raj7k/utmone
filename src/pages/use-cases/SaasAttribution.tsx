@@ -110,7 +110,7 @@ const SaasAttribution = () => {
         dateModified="2025-01-15"
         url="https://utm.one/use-cases/saas-attribution"
       />
-      <FAQSchema faqs={faqs} />
+      <FAQSchema questions={faqs} />
       <BreadcrumbSchema 
         items={[
           { name: 'Home', url: 'https://utm.one/' },
@@ -256,17 +256,14 @@ const SaasAttribution = () => {
         <section className="py-16">
           <div className="max-w-[980px] mx-auto px-8">
             <RelatedResources 
-              currentPath="/use-cases/saas-attribution"
-              category="use-case"
+              resources={[
+                { title: "Ecommerce Tracking", path: "/use-cases/ecommerce-tracking", type: "guide" as const },
+                { title: "Agency Client Reporting", path: "/use-cases/agency-client-reporting", type: "guide" as const },
+                { title: "Growth Analytics Guide", path: "/resources/guides/growth-analytics", type: "guide" as const }
+              ]}
             />
             <div className="mt-12">
-              <PeopleAlsoRead 
-                items={[
-                  { title: "Ecommerce Tracking", url: "/use-cases/ecommerce-tracking" },
-                  { title: "Agency Client Reporting", url: "/use-cases/agency-client-reporting" },
-                  { title: "Growth Analytics Guide", url: "/resources/guides/growth-analytics" }
-                ]}
-              />
+              <PeopleAlsoRead currentPath="/use-cases/saas-attribution" />
             </div>
           </div>
         </section>

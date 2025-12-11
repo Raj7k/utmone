@@ -110,7 +110,7 @@ const EcommerceTracking = () => {
         dateModified="2025-01-15"
         url="https://utm.one/use-cases/ecommerce-tracking"
       />
-      <FAQSchema faqs={faqs} />
+      <FAQSchema questions={faqs} />
       <BreadcrumbSchema 
         items={[
           { name: 'Home', url: 'https://utm.one/' },
@@ -256,17 +256,14 @@ const EcommerceTracking = () => {
         <section className="py-16">
           <div className="max-w-[980px] mx-auto px-8">
             <RelatedResources 
-              currentPath="/use-cases/ecommerce-tracking"
-              category="use-case"
+              resources={[
+                { title: "SaaS Attribution", path: "/use-cases/saas-attribution", type: "guide" as const },
+                { title: "utm.one vs Bitly", path: "/compare/utm-one-vs-bitly", type: "comparison" as const },
+                { title: "UTM Guide", path: "/resources/guides/utm-guide", type: "guide" as const }
+              ]}
             />
             <div className="mt-12">
-              <PeopleAlsoRead 
-                items={[
-                  { title: "SaaS Attribution", url: "/use-cases/saas-attribution" },
-                  { title: "utm.one vs Bitly", url: "/compare/utm-one-vs-bitly" },
-                  { title: "UTM Guide", url: "/resources/guides/utm-guide" }
-                ]}
-              />
+              <PeopleAlsoRead currentPath="/use-cases/ecommerce-tracking" />
             </div>
           </div>
         </section>

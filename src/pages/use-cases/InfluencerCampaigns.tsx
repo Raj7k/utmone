@@ -110,7 +110,7 @@ const InfluencerCampaigns = () => {
         dateModified="2025-01-15"
         url="https://utm.one/use-cases/influencer-campaigns"
       />
-      <FAQSchema faqs={faqs} />
+      <FAQSchema questions={faqs} />
       <BreadcrumbSchema 
         items={[
           { name: 'Home', url: 'https://utm.one/' },
@@ -256,17 +256,14 @@ const InfluencerCampaigns = () => {
         <section className="py-16">
           <div className="max-w-[980px] mx-auto px-8">
             <RelatedResources 
-              currentPath="/use-cases/influencer-campaigns"
-              category="use-case"
+              resources={[
+                { title: "Ecommerce Tracking", path: "/use-cases/ecommerce-tracking", type: "guide" as const },
+                { title: "utm.one vs Firstpromoter", path: "/compare/utm-one-vs-firstpromoter", type: "comparison" as const },
+                { title: "Partner Programs Guide", path: "/resources/playbooks/partner-programs", type: "playbook" as const }
+              ]}
             />
             <div className="mt-12">
-              <PeopleAlsoRead 
-                items={[
-                  { title: "Ecommerce Tracking", url: "/use-cases/ecommerce-tracking" },
-                  { title: "utm.one vs Firstpromoter", url: "/compare/utm-one-vs-firstpromoter" },
-                  { title: "Partner Programs Guide", url: "/resources/playbooks/partner-programs" }
-                ]}
-              />
+              <PeopleAlsoRead currentPath="/use-cases/influencer-campaigns" />
             </div>
           </div>
         </section>
