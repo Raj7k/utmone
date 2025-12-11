@@ -8,7 +8,6 @@ import { Switch } from '@/components/ui/switch';
 import { 
   Copy, 
   Zap, 
-  Database, 
   ArrowRight,
   ChevronDown,
   ChevronUp,
@@ -18,12 +17,15 @@ import {
   Link2,
   Key,
   FileSpreadsheet,
-  RefreshCw
 } from 'lucide-react';
 import { notify } from '@/lib/notify';
 import { RoutingRulesEditor } from './RoutingRulesEditor';
 import { ZapierSetupGuide } from './ZapierSetupGuide';
+import { AirmeetSetupGuide } from './AirmeetSetupGuide';
+import { GoldcastSetupGuide } from './GoldcastSetupGuide';
 import { LumaPollingSetup } from './LumaPollingSetup';
+import { getPlatformIcon } from '@/components/icons/EventPlatformIcons';
+import { getEventPlatform } from '@/config/eventPlatforms';
 import {
   Collapsible,
   CollapsibleContent,
@@ -57,6 +59,8 @@ export function EventBridgeFlowCard({ flow }: EventBridgeFlowCardProps) {
   const [showSetupGuide, setShowSetupGuide] = useState(false);
 
   const webhookUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/webhook-luma/${flow.id}`;
+  const platform = getEventPlatform(flow.source_type);
+  const PlatformIcon = getPlatformIcon(flow.source_type);
 
   // Check if flow has received any registrations
   const { data: registrationCount } = useQuery({
@@ -97,16 +101,50 @@ export function EventBridgeFlowCard({ flow }: EventBridgeFlowCardProps) {
     notify.success('webhook URL copied');
   };
 
-  const sourceLabels: Record<string, string> = {
-    luma: 'Luma',
-    eventbrite: 'Eventbrite',
-    generic: 'Generic Webhook',
-  };
-
   const enrichmentLabels: Record<string, string> = {
     apollo: 'Apollo.io',
     clay: 'Clay',
     zoominfo: 'ZoomInfo',
+  };
+
+  const connectionMethod = flow.source_config?.connection_method || 'zapier';
+
+  // Render platform-specific setup guide
+  const renderSetupGuide = () => {
+    switch (flow.source_type) {
+      case 'luma':
+        return (
+          <ZapierSetupGuide 
+            webhookUrl={webhookUrl} 
+            flowName={flow.name}
+            onComplete={() => setShowSetupGuide(false)}
+          />
+        );
+      case 'airmeet':
+        return (
+          <AirmeetSetupGuide 
+            webhookUrl={webhookUrl} 
+            flowName={flow.name}
+            onComplete={() => setShowSetupGuide(false)}
+          />
+        );
+      case 'goldcast':
+        return (
+          <GoldcastSetupGuide 
+            webhookUrl={webhookUrl} 
+            flowName={flow.name}
+            onComplete={() => setShowSetupGuide(false)}
+          />
+        );
+      default:
+        return (
+          <ZapierSetupGuide 
+            webhookUrl={webhookUrl} 
+            flowName={flow.name}
+            onComplete={() => setShowSetupGuide(false)}
+          />
+        );
+    }
   };
 
   return (
@@ -116,25 +154,26 @@ export function EventBridgeFlowCard({ flow }: EventBridgeFlowCardProps) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-lg bg-primary/10">
-              <Zap className="h-5 w-5 text-primary" />
+              <PlatformIcon className="h-5 w-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="font-medium">{flow.name}</h3>
-                {/* Connection Status Badge */}
+                {/* Connection Status Badge - Fixed readability */}
                 {hasRegistrations ? (
-                  <Badge variant="default" className="text-[10px] bg-green-500/20 text-green-400 border-green-500/30">
+                  <Badge variant="default" className="text-[10px] bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-500/30">
                     connected
                   </Badge>
                 ) : (
-                  <Badge variant="secondary" className="text-[10px] bg-yellow-500/20 text-yellow-400 border-yellow-500/30">
+                  <Badge variant="secondary" className="text-[10px] bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200 border-amber-300 dark:border-amber-700">
                     awaiting setup
                   </Badge>
                 )}
               </div>
               <div className="flex items-center gap-2 mt-1">
-                <Badge variant="outline" className="text-xs">
-                  {sourceLabels[flow.source_type] || flow.source_type}
+                <Badge variant="outline" className="text-xs flex items-center gap-1">
+                  <PlatformIcon className="h-3 w-3" />
+                  {platform.name}
                 </Badge>
                 {flow.enrichment_enabled && flow.enrichment_provider && (
                   <>
@@ -180,36 +219,38 @@ export function EventBridgeFlowCard({ flow }: EventBridgeFlowCardProps) {
         {expanded && (
           <div className="mt-4 pt-4 border-t border-border space-y-4">
             {/* Connection Method Badge */}
-            {flow.source_type === 'luma' && flow.source_config?.connection_method && (
+            {flow.source_config?.connection_method && (
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                {flow.source_config.connection_method === 'zapier' && (
+                {connectionMethod === 'zapier' && (
                   <><Link2 className="h-3 w-3" /> Zapier Bridge</>
                 )}
-                {flow.source_config.connection_method === 'api' && (
-                  <><Key className="h-3 w-3" /> Luma API Polling</>
+                {connectionMethod === 'api' && (
+                  <><Key className="h-3 w-3" /> {platform.name} API {platform.supportsWebhook ? '+ Webhook' : 'Polling'}</>
                 )}
-                {flow.source_config.connection_method === 'manual' && (
+                {connectionMethod === 'manual' && (
                   <><FileSpreadsheet className="h-3 w-3" /> Manual Import</>
                 )}
               </div>
             )}
 
-            {/* Setup Guide Alert for Luma - Zapier method */}
-            {flow.source_type === 'luma' && 
-             (!flow.source_config?.connection_method || flow.source_config.connection_method === 'zapier') && 
-             !hasRegistrations && (
-              <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3">
+            {/* Setup Guide Alert - Fixed readability (no yellow on white) */}
+            {!hasRegistrations && connectionMethod === 'zapier' && (
+              <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-3">
                 <div className="flex items-start gap-3">
-                  <AlertCircle className="h-5 w-5 text-yellow-500 mt-0.5 shrink-0" />
+                  <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 mt-0.5 shrink-0" />
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-yellow-200">Zapier setup required</p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      Luma doesn't support native webhooks. use Zapier to bridge your event registrations.
+                    <p className="text-sm font-medium text-amber-900 dark:text-amber-100">
+                      {flow.source_type === 'luma' ? 'Zapier setup required' : `${platform.name} webhook setup required`}
+                    </p>
+                    <p className="text-xs text-amber-700 dark:text-amber-300 mt-1">
+                      {flow.source_type === 'luma' 
+                        ? "Luma doesn't support native webhooks. use Zapier to bridge your event registrations."
+                        : `configure the webhook in your ${platform.name} dashboard to start receiving registrations.`}
                     </p>
                     <Button 
                       variant="outline" 
                       size="sm" 
-                      className="mt-2 gap-2"
+                      className="mt-2 gap-2 border-amber-300 dark:border-amber-700 text-amber-800 dark:text-amber-200 hover:bg-amber-100 dark:hover:bg-amber-900/40"
                       onClick={() => setShowSetupGuide(true)}
                     >
                       <HelpCircle className="h-4 w-4" />
@@ -220,8 +261,8 @@ export function EventBridgeFlowCard({ flow }: EventBridgeFlowCardProps) {
               </div>
             )}
 
-            {/* Luma API Polling Setup */}
-            {flow.source_type === 'luma' && flow.source_config?.connection_method === 'api' && (
+            {/* API Polling Setup for platforms that support it */}
+            {connectionMethod === 'api' && (
               <LumaPollingSetup
                 flowId={flow.id}
                 eventUrl={flow.source_config?.event_url}
@@ -231,11 +272,11 @@ export function EventBridgeFlowCard({ flow }: EventBridgeFlowCardProps) {
             )}
 
             {/* Manual Import Instructions */}
-            {flow.source_type === 'luma' && flow.source_config?.connection_method === 'manual' && (
+            {connectionMethod === 'manual' && (
               <div className="bg-muted/30 border border-border rounded-lg p-4 space-y-3">
                 <h4 className="text-sm font-medium">manual CSV import</h4>
                 <ol className="text-xs text-muted-foreground space-y-2 list-decimal list-inside">
-                  <li>export attendees from your Luma event dashboard</li>
+                  <li>export attendees from your {platform.name} event dashboard</li>
                   <li>save as CSV with columns: email, first_name, last_name, company</li>
                   <li>upload the CSV below to import registrations</li>
                 </ol>
@@ -246,17 +287,12 @@ export function EventBridgeFlowCard({ flow }: EventBridgeFlowCardProps) {
               </div>
             )}
 
-            {/* Zapier Setup Guide (Collapsible) - only for zapier method */}
-            {showSetupGuide && flow.source_type === 'luma' && 
-             (!flow.source_config?.connection_method || flow.source_config.connection_method === 'zapier') && (
+            {/* Setup Guide (Collapsible) */}
+            {showSetupGuide && (
               <Collapsible open={showSetupGuide} onOpenChange={setShowSetupGuide}>
                 <CollapsibleContent>
                   <div className="bg-muted/30 rounded-lg p-4 border border-border">
-                    <ZapierSetupGuide 
-                      webhookUrl={webhookUrl} 
-                      flowName={flow.name}
-                      onComplete={() => setShowSetupGuide(false)}
-                    />
+                    {renderSetupGuide()}
                   </div>
                 </CollapsibleContent>
               </Collapsible>
@@ -265,7 +301,7 @@ export function EventBridgeFlowCard({ flow }: EventBridgeFlowCardProps) {
             {/* Webhook URL */}
             <div>
               <label className="text-sm text-muted-foreground mb-1 block">
-                webhook URL {flow.source_type === 'luma' ? '(paste in Zapier)' : '(paste in ' + sourceLabels[flow.source_type] + ')'}
+                webhook URL {connectionMethod === 'zapier' ? '(paste in Zapier)' : `(paste in ${platform.name})`}
               </label>
               <div className="flex items-center gap-2">
                 <code className="flex-1 bg-muted/50 px-3 py-2 rounded text-xs font-mono truncate">
@@ -285,13 +321,13 @@ export function EventBridgeFlowCard({ flow }: EventBridgeFlowCardProps) {
               </div>
             )}
 
-            {/* Flow Visualization */}
+            {/* Flow Visualization with branded icons */}
             <div className="flex items-center justify-between bg-muted/30 rounded-lg p-4">
               <div className="flex items-center gap-2">
                 <div className="p-2 rounded bg-background">
-                  <Database className="h-4 w-4" />
+                  <PlatformIcon className="h-4 w-4" />
                 </div>
-                <span className="text-sm">{sourceLabels[flow.source_type]}</span>
+                <span className="text-sm">{platform.name}</span>
               </div>
 
               <ArrowRight className="h-4 w-4 text-muted-foreground" />
