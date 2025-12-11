@@ -236,8 +236,8 @@ export const Navigation = () => {
                         <Link to="/features/event-halo" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 text-sm text-white-60 hover:text-white-80 py-1">
                           Event Halo <span className="px-1.5 py-0.5 text-[10px] rounded-full bg-white/20 text-white/80">NEW</span>
                         </Link>
-                        <Link to="/features/one-tap-scanner" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 text-sm text-white-60 hover:text-white-80 py-1">
-                          One-Tap Scanner <span className="px-1.5 py-0.5 text-[10px] rounded-full bg-white/20 text-white/80">NEW</span>
+                        <Link to="/intelligence" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 text-sm text-white-60 hover:text-white-80 py-1">
+                          AI Intelligence <span className="px-1.5 py-0.5 text-[10px] rounded-full bg-white/20 text-white/80">NEW</span>
                         </Link>
                       </div>
                     </div>
@@ -260,14 +260,39 @@ export const Navigation = () => {
                   </CollapsibleContent>
                 </Collapsible>
 
-                {/* Direct Links */}
-                <Link 
-                  to="/resources" 
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="py-2 text-lg font-medium text-white-80 hover:text-white-90 transition-colors"
-                >
-                  Resources
-                </Link>
+                {/* Resources Section */}
+                <Collapsible>
+                  <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-lg font-medium text-white-80 hover:text-white-90 transition-colors">
+                    Resources
+                    <ChevronDown className="h-4 w-4 transition-transform duration-200" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="pl-4 space-y-3 pb-2">
+                    <div>
+                      <p className="text-xs uppercase tracking-wider text-white-40 mb-2">Featured</p>
+                      <div className="space-y-1">
+                        <Link to="/resources/playbooks/llm-ranking" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 text-sm text-white-60 hover:text-white-80 py-1">
+                          LLM Ranking Playbook <span className="px-1.5 py-0.5 text-[10px] rounded-full bg-white/20 text-white/80">NEW</span>
+                        </Link>
+                        <Link to="/resources/reports/gtm-insights-2026" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 text-sm text-white-60 hover:text-white-80 py-1">
+                          GTM Insights 2026 <span className="px-1.5 py-0.5 text-[10px] rounded-full bg-white/20 text-white/80">FEATURED</span>
+                        </Link>
+                        <Link to="/resources/playbooks/b2b-architects-2026" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 text-sm text-white-60 hover:text-white-80 py-1">
+                          B2B Architects 2026 <span className="px-1.5 py-0.5 text-[10px] rounded-full bg-white/20 text-white/80">NEW</span>
+                        </Link>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-xs uppercase tracking-wider text-white-40 mb-2">By Type</p>
+                      <div className="space-y-1">
+                        <Link to="/resources/playbooks" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">Playbooks</Link>
+                        <Link to="/resources/guides" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">Guides</Link>
+                        <Link to="/resources/reports" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">Reports</Link>
+                        <Link to="/tools" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">Tools</Link>
+                        <Link to="/resources/academy" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">Academy</Link>
+                      </div>
+                    </div>
+                  </CollapsibleContent>
+                </Collapsible>
                 <Link 
                   to="/pricing" 
                   onClick={() => setMobileMenuOpen(false)}

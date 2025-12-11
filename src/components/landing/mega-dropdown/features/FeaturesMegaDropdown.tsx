@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { CleanTrackShowcaseCard } from "./CleanTrackShowcaseCard";
 import { EventHaloShowcaseCard } from "./EventHaloShowcaseCard";
-import { OneTapShowcaseCard } from "./OneTapShowcaseCard";
+import { AIIntelligenceShowcaseCard } from "./AIIntelligenceShowcaseCard";
 import { FeatureGridCard } from "./FeatureGridCard";
 import { ComparePlansCard } from "./ComparePlansCard";
 
@@ -19,7 +19,7 @@ export function FeaturesMegaDropdown() {
         <div className="w-[200px] flex flex-col gap-3">
           <CleanTrackShowcaseCard />
           <EventHaloShowcaseCard />
-          <OneTapShowcaseCard />
+          <AIIntelligenceShowcaseCard />
         </div>
 
         {/* Right Column - Feature Grid */}
