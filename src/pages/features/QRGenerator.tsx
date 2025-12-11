@@ -12,17 +12,11 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { QrCode, Palette, Repeat, Download, Image, BarChart3, CheckCircle2, Sparkles, Upload, RefreshCw, ScanLine } from "lucide-react";
 
-// Import real stamp images
+// Import real stamp image
 import stampMandala from "@/assets/stamps/stamp-mandala.png";
-import stampDavinci from "@/assets/stamps/stamp-davinci.png";
-import stampParis from "@/assets/stamps/stamp-paris.png";
-import stampNyc from "@/assets/stamps/stamp-nyc.png";
 
 const stampImages = [
-  { src: stampMandala, name: "mandala" },
-  { src: stampDavinci, name: "da vinci" },
-  { src: stampParis, name: "paris" },
-  { src: stampNyc, name: "NYC" },
+  { src: stampMandala, name: "madhubani" },
 ];
 
 const QRGenerator = () => {
