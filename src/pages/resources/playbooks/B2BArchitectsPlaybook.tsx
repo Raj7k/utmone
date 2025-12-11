@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Users, Layers, Link2, Quote, Sparkles, Linkedin } from 'lucide-react';
+import { ArrowLeft, Users, Layers, Link2, Quote, Sparkles, Linkedin, Copy, Check } from 'lucide-react';
 import { ResourcesLayout } from '@/components/layout/ResourcesLayout';
 import { CategoryFilter } from '@/components/playbooks/architects/CategoryFilter';
 import { ArchitectsGrid } from '@/components/playbooks/architects/ArchitectsGrid';
@@ -15,6 +15,138 @@ import { architects, ArchitectCategory, categories } from '@/data/b2bArchitects'
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { shareToLinkedIn } from '@/utils/linkedinShare';
+import { useToast } from '@/hooks/use-toast';
+
+const CONTENT_STRATEGY_TEMPLATE = `# 30-DAY EGC CONTENT STRATEGY TEMPLATE
+
+## WEEK 1: FOUNDATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📌 Day 1-2: Choose Your 5 Architects
+   - [ ] Architect 1: _________________ (Category: _________)
+   - [ ] Architect 2: _________________ (Category: _________)
+   - [ ] Architect 3: _________________ (Category: _________)
+   - [ ] Architect 4: _________________ (Category: _________)
+   - [ ] Architect 5: _________________ (Category: _________)
+
+📌 Day 3-5: Content Audit
+   - Analyze their last 10 posts
+   - Note: Hook style, post length, media usage, posting time
+   
+📌 Day 6-7: Define Your Voice
+   - Topics I'll cover: _________________
+   - My unique angle: _________________
+   - Posting frequency: _________________
+
+
+## WEEK 2: FIRST POSTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📝 Post 1: Personal Story + Lesson
+📝 Post 2: Industry Hot Take
+📝 Post 3: How-To / Framework
+
+
+## WEEK 3: ENGAGEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💬 Comment on 5 architect posts daily
+💬 Reply to every comment on your posts within 2 hours
+💬 Share 1 curated piece with your take
+
+
+## WEEK 4: ITERATE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 Review analytics: Best performing post type?
+📊 Double down on what works
+📊 Test one new format
+
+
+## CONTENT CALENDAR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+| Day       | Content Type          | Topic                |
+|-----------|----------------------|----------------------|
+| Monday    | Personal insight     | ___________________  |
+| Wednesday | Framework/How-to     | ___________________  |
+| Friday    | Industry observation | ___________________  |
+`;
+
+function EGCSection() {
+  const [copied, setCopied] = useState(false);
+  const { toast } = useToast();
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(CONTENT_STRATEGY_TEMPLATE);
+      setCopied(true);
+      toast({
+        title: "Template copied",
+        description: "Paste it into your notes app and start planning.",
+      });
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      toast({
+        title: "Failed to copy",
+        description: "Please try selecting and copying manually.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  return (
+    <section className="py-16 md:py-24 px-4">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-10">
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            The Era of Employee Generated Content (EGC)
+          </h2>
+          <p className="font-sans text-lg text-gray-600 leading-relaxed mb-6 max-w-2xl mx-auto">
+            The playbook is right in front of you. Pick 5 leaders from this list who align with your style. 
+            Study their cadence, their hooks, and their engagement. Then, start writing.
+          </p>
+          <p className="font-sans text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
+            Every post you make is practice. Every comment is connection. Every share is distribution.
+            The compound effect of consistent, quality content is the only marketing moat left in 2026.
+          </p>
+        </div>
+
+        {/* Inline Template */}
+        <div className="bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden">
+          <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200">
+            <h3 className="font-sans font-semibold text-gray-900">
+              30-Day EGC Content Strategy Template
+            </h3>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleCopy}
+              className="gap-2"
+            >
+              {copied ? (
+                <>
+                  <Check className="w-4 h-4 text-green-600" />
+                  Copied
+                </>
+              ) : (
+                <>
+                  <Copy className="w-4 h-4" />
+                  Copy Template
+                </>
+              )}
+            </Button>
+          </div>
+          <div className="p-6 overflow-x-auto">
+            <pre className="font-mono text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">
+              {CONTENT_STRATEGY_TEMPLATE}
+            </pre>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export default function B2BArchitectsPlaybook() {
   const [selectedCategory, setSelectedCategory] = useState<ArchitectCategory | 'all'>('all');
@@ -190,37 +322,8 @@ utm.one/resources/playbooks/b2b-architects-2026
           </div>
         </section>
 
-        {/* EGC Section */}
-        <section className="py-16 md:py-24 px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              The Era of Employee Generated Content (EGC)
-            </h2>
-            <p className="font-sans text-lg text-gray-600 leading-relaxed mb-6 max-w-2xl mx-auto">
-              The playbook is right in front of you. Pick 5 leaders from this list who align with your style. 
-              Study their cadence, their hooks, and their engagement. Then, start writing.
-            </p>
-            <p className="font-sans text-lg text-gray-600 leading-relaxed mb-10 max-w-2xl mx-auto">
-              Every post you make is practice. Every comment is connection. Every share is distribution.
-              The compound effect of consistent, quality content is the only marketing moat left in 2026.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/resources/templates"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-900 text-white rounded-lg font-sans font-medium hover:bg-gray-800 transition-colors"
-              >
-                Download Content Strategy Template
-              </Link>
-              <Link
-                to="/early-access"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-gray-900 rounded-lg font-sans font-medium border border-gray-200 hover:bg-gray-50 transition-colors"
-              >
-                Join Our Newsletter
-              </Link>
-            </div>
-          </div>
-        </section>
+        {/* EGC Section with Content Strategy Template */}
+        <EGCSection />
 
         {/* Category Breakdown */}
         <section className="py-16 md:py-24 px-4 bg-gray-50">
