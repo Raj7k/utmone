@@ -43,7 +43,7 @@ const ObsidianHeadline = React.forwardRef<HTMLHeadingElement, ObsidianHeadlinePr
       <Component
         ref={ref}
         className={cn(
-          "font-serif tracking-tight font-medium",
+          "font-display tracking-tight font-medium",
           sizeStyles[size],
           variantStyles[variant],
           className

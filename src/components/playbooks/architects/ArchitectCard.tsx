@@ -209,7 +209,7 @@ export function ArchitectCard({ architect, index }: ArchitectCardProps) {
             {/* Info Section */}
             <div className="p-4 h-[45%] flex flex-col justify-between bg-card">
               <div>
-                <h3 className="font-serif font-semibold text-foreground text-sm leading-tight">
+                <h3 className="font-display font-semibold text-foreground text-sm leading-tight">
                   {architect.name}
                 </h3>
                 <p className="font-sans text-xs text-muted-foreground mt-0.5">
@@ -243,7 +243,7 @@ export function ArchitectCard({ architect, index }: ArchitectCardProps) {
             {/* Description & Quote */}
             <div className="p-4 h-[60%] flex flex-col justify-between bg-gradient-to-b from-card to-muted/30">
               <div className="flex-1 overflow-y-auto">
-                <p className="font-serif text-sm text-foreground italic leading-relaxed">
+                <p className="font-display text-sm text-foreground italic leading-relaxed">
                   "{architect.nugget}"
                 </p>
               </div>

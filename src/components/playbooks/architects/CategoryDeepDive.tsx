@@ -46,7 +46,7 @@ export function CategoryDeepDive({ category }: CategoryDeepDiveProps) {
       <div className="flex items-center gap-3 mb-6">
         <span className="text-4xl">{categoryInfo.icon}</span>
         <div>
-          <h3 className="font-serif text-xl font-bold text-gray-900">{categoryInfo.label}</h3>
+          <h3 className="font-display text-xl font-bold text-gray-900">{categoryInfo.label}</h3>
           <p className="font-sans text-sm text-gray-500">{categoryInfo.description}</p>
         </div>
       </div>

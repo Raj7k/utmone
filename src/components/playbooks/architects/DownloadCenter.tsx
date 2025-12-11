@@ -112,7 +112,7 @@ export function DownloadCenter() {
           <Download className="w-7 h-7" />
         </div>
         
-        <h2 className="font-serif text-2xl md:text-3xl font-bold mb-4">
+        <h2 className="font-display text-2xl md:text-3xl font-bold mb-4">
           Download Center
         </h2>
         <p className="font-sans text-gray-400 max-w-xl mx-auto mb-10">

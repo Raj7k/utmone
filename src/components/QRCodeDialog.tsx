@@ -25,7 +25,7 @@ export const QRCodeDialog = ({ linkId, shortUrl, trigger }: QRCodeDialogProps) =
       </DialogTrigger>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="font-serif text-2xl">Generate Branded QR Code</DialogTitle>
+          <DialogTitle className="font-display text-2xl">Generate Branded QR Code</DialogTitle>
           <DialogDescription>
             Create a branded QR Code for your link
           </DialogDescription>

@@ -20,7 +20,7 @@ const LoaderDemo = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-8 p-8">
       <div className="text-center space-y-4">
-        <h1 className="font-serif text-4xl text-foreground">Revenue Stream Loader Demo</h1>
+        <h1 className="font-display text-4xl text-foreground">Revenue Stream Loader Demo</h1>
         <p className="text-muted-foreground max-w-md">
           Test the cinematic loading screen. Click any button to trigger the loader with different durations.
         </p>

@@ -166,7 +166,7 @@ export const PowerToolsShowcase = () => {
     <AnimatedSection className="py-16 md:py-24 bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center mb-8 md:mb-12 space-y-3">
-          <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-bold px-2">
+          <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold px-2">
             power tools for scale
           </h1>
           <p className="text-base sm:text-lg text-white-50">
