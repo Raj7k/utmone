@@ -64,7 +64,7 @@ export const OmniDemo = () => {
       setShowLift(false);
       setShowUtmOne(false);
 
-      // Phase 1: Problem (0-8s) - Type URL slower
+      // Phase 1: Problem (0-4s) - Fast typing
       let charIndex = 0;
       const typeInterval = setInterval(() => {
         if (charIndex <= fullUrl.length) {
@@ -73,62 +73,62 @@ export const OmniDemo = () => {
         } else {
           clearInterval(typeInterval);
         }
-      }, 120); // Slower typing
+      }, 60); // Fast typing
       timeouts.push(typeInterval as unknown as NodeJS.Timeout);
 
-      // Show utm.one branding at 6s
-      timeouts.push(setTimeout(() => setShowUtmOne(true), 6000));
+      // Show utm.one branding at 3s
+      timeouts.push(setTimeout(() => setShowUtmOne(true), 3000));
 
-      // Phase 2: AI Intelligence (8-12s)
+      // Phase 2: AI Intelligence (4-6s)
       timeouts.push(setTimeout(() => {
         setPhase('ai');
         setShowScanner(true);
-      }, 8000));
+      }, 4000));
 
       timeouts.push(setTimeout(() => {
         setShowScanner(false);
         setShowTags(true);
-      }, 10000));
+      }, 5500));
 
-      // Phase 3: Journey (12-18s)
+      // Phase 3: Journey (6-9s)
       timeouts.push(setTimeout(() => {
         setPhase('journey');
         setShowJourney(true);
-        // Animate path drawing
+        // Animate path drawing faster
         let progress = 0;
         const pathInterval = setInterval(() => {
-          progress += 0.02;
+          progress += 0.04;
           setPathProgress(Math.min(progress, 1));
           if (progress >= 1) clearInterval(pathInterval);
-        }, 50);
+        }, 30);
         timeouts.push(pathInterval as unknown as NodeJS.Timeout);
-      }, 12000));
+      }, 6000));
 
-      // Phase 4: Event Halo (18-22s)
+      // Phase 4: Event Halo (9-11s)
       timeouts.push(setTimeout(() => {
         setPhase('halo');
         setShowHalo(true);
-      }, 18000));
+      }, 9000));
 
-      // Phase 5: Revenue (22-28s)
+      // Phase 5: Revenue (11-14s)
       timeouts.push(setTimeout(() => {
         setPhase('revenue');
         setShowRevenue(true);
-        // Animate counter
+        // Animate counter faster
         let count = 0;
         const countInterval = setInterval(() => {
-          count += 1200;
+          count += 2400;
           setRevenueCounter(Math.min(count, 54200));
           if (count >= 54200) {
             clearInterval(countInterval);
             setShowLift(true);
           }
-        }, 50);
+        }, 40);
         timeouts.push(countInterval as unknown as NodeJS.Timeout);
-      }, 22000));
+      }, 11000));
 
-      // Loop after 30s
-      timeouts.push(setTimeout(runSequence, 30000));
+      // Loop after 16s
+      timeouts.push(setTimeout(runSequence, 16000));
     };
 
     runSequence();

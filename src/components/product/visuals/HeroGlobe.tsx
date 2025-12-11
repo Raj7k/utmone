@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 interface Arc {
   id: number;
@@ -12,13 +12,27 @@ interface Arc {
 export const HeroGlobe = () => {
   const [rotation, setRotation] = useState(0);
   const [arcs, setArcs] = useState<Arc[]>([]);
+  const animationRef = useRef<number>();
 
-  // Slow globe rotation
+  // Smooth globe rotation using RAF
   useEffect(() => {
-    const interval = setInterval(() => {
-      setRotation(prev => (prev + 0.2) % 360);
-    }, 50);
-    return () => clearInterval(interval);
+    let lastTime = 0;
+    
+    const animate = (timestamp: number) => {
+      if (lastTime) {
+        const delta = timestamp - lastTime;
+        setRotation(prev => (prev + delta * 0.004) % 360); // ~0.2deg per 50ms equivalent
+      }
+      lastTime = timestamp;
+      animationRef.current = requestAnimationFrame(animate);
+    };
+    
+    animationRef.current = requestAnimationFrame(animate);
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
   }, []);
 
   // Generate random arcs
@@ -67,7 +81,7 @@ export const HeroGlobe = () => {
   };
 
   return (
-    <div className="relative w-[200px] h-[200px]">
+    <div className="relative w-[200px] h-[200px] will-change-transform">
       <svg className="w-full h-full" viewBox="0 0 200 200">
         {/* Globe outline */}
         <circle
@@ -132,7 +146,7 @@ export const HeroGlobe = () => {
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={{ pathLength: 1, opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 1.5 }}
+                transition={{ duration: 1.2 }}
               />
               {start.visible && (
                 <motion.circle
@@ -153,7 +167,7 @@ export const HeroGlobe = () => {
                   className="fill-white"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  transition={{ delay: 1.5 }}
+                  transition={{ delay: 1.2 }}
                   style={{ filter: 'drop-shadow(0 0 4px white)' }}
                 />
               )}

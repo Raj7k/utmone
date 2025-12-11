@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 
 interface Photon {
   id: number;
@@ -10,6 +10,9 @@ interface Photon {
 export const RevenueFlow = () => {
   const [photons, setPhotons] = useState<Photon[]>([]);
   const [pulseRevenue, setPulseRevenue] = useState(false);
+  const photonIdRef = useRef(0);
+  const lastSpawnRef = useRef(0);
+  const animationRef = useRef<number>();
 
   // Source labels
   const sources = [
@@ -27,36 +30,8 @@ export const RevenueFlow = () => {
     "M 80 190 C 160 190, 200 110, 320 110",
   ];
 
-  // Spawn photons at random intervals
-  useEffect(() => {
-    let id = 0;
-    const interval = setInterval(() => {
-      const pathIndex = Math.floor(Math.random() * 4);
-      setPhotons(prev => [...prev, { id: id++, pathIndex, progress: 0 }]);
-    }, 400);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Animate photons
-  useEffect(() => {
-    const animation = setInterval(() => {
-      setPhotons(prev => {
-        const updated = prev.map(p => ({ ...p, progress: p.progress + 0.02 }));
-        const arrived = updated.filter(p => p.progress >= 1);
-        if (arrived.length > 0) {
-          setPulseRevenue(true);
-          setTimeout(() => setPulseRevenue(false), 200);
-        }
-        return updated.filter(p => p.progress < 1);
-      });
-    }, 16);
-
-    return () => clearInterval(animation);
-  }, []);
-
   // Get point on bezier path
-  const getPointOnPath = (pathIndex: number, t: number) => {
+  const getPointOnPath = useCallback((pathIndex: number, t: number) => {
     const sourceY = sources[pathIndex].y;
     const targetY = 110;
     
@@ -64,10 +39,42 @@ export const RevenueFlow = () => {
     const y = sourceY + (targetY - sourceY) * Math.sin(t * Math.PI / 2);
     
     return { x, y };
-  };
+  }, []);
+
+  // Combined animation loop using requestAnimationFrame
+  useEffect(() => {
+    const animate = (timestamp: number) => {
+      // Spawn new photons every ~400ms
+      if (timestamp - lastSpawnRef.current > 400) {
+        const pathIndex = Math.floor(Math.random() * 4);
+        setPhotons(prev => [...prev, { id: photonIdRef.current++, pathIndex, progress: 0 }]);
+        lastSpawnRef.current = timestamp;
+      }
+
+      // Update photon positions
+      setPhotons(prev => {
+        const updated = prev.map(p => ({ ...p, progress: p.progress + 0.025 }));
+        const arrived = updated.filter(p => p.progress >= 1);
+        if (arrived.length > 0) {
+          setPulseRevenue(true);
+          setTimeout(() => setPulseRevenue(false), 200);
+        }
+        return updated.filter(p => p.progress < 1);
+      });
+
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    animationRef.current = requestAnimationFrame(animate);
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, []);
 
   return (
-    <div className="relative w-[400px] h-[220px]">
+    <div className="relative w-[400px] h-[220px] will-change-transform">
       <svg className="w-full h-full" viewBox="0 0 400 220">
         {/* Thin wire paths */}
         {paths.map((d, i) => (
@@ -79,7 +86,7 @@ export const RevenueFlow = () => {
             strokeWidth="1"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
-            transition={{ duration: 1, delay: i * 0.1 }}
+            transition={{ duration: 0.8, delay: i * 0.08 }}
           />
         ))}
 
@@ -93,7 +100,7 @@ export const RevenueFlow = () => {
             className="fill-white"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            transition={{ delay: i * 0.1, type: "spring" }}
+            transition={{ delay: i * 0.08, type: "spring" }}
           />
         ))}
 
@@ -110,7 +117,7 @@ export const RevenueFlow = () => {
             scale: 1,
             filter: pulseRevenue ? 'drop-shadow(0 0 12px white)' : 'drop-shadow(0 0 4px hsl(0 0% 100% / 0.3))'
           }}
-          transition={{ delay: 0.5, type: "spring" }}
+          transition={{ delay: 0.4, type: "spring" }}
         />
 
         {/* Photon particles */}
@@ -121,7 +128,7 @@ export const RevenueFlow = () => {
           return (
             <g key={photon.id}>
               {/* Tail gradient */}
-              <motion.line
+              <line
                 x1={tailPos.x}
                 y1={tailPos.y}
                 x2={pos.x}
@@ -131,7 +138,7 @@ export const RevenueFlow = () => {
                 strokeLinecap="round"
               />
               {/* Head */}
-              <motion.circle
+              <circle
                 cx={pos.x}
                 cy={pos.y}
                 r="2"
@@ -159,7 +166,7 @@ export const RevenueFlow = () => {
           style={{ top: source.y - 6 }}
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: i * 0.1 + 0.3 }}
+          transition={{ delay: i * 0.08 + 0.2 }}
         >
           {source.label}
         </motion.div>
@@ -170,7 +177,7 @@ export const RevenueFlow = () => {
         className="absolute right-0 top-1/2 -translate-y-1/2 text-center"
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.8 }}
+        transition={{ delay: 0.6 }}
       >
         <div className="text-2xl font-bold font-mono hero-gradient">
           $1.2M

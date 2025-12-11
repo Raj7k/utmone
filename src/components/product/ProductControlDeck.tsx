@@ -1,8 +1,7 @@
-import { useState, lazy, Suspense } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { GlassSkeleton } from "@/components/ui/glass-skeleton";
 import { 
   TrendingUp, 
   Route, 
@@ -12,12 +11,12 @@ import {
   ArrowRight
 } from "lucide-react";
 
-// Lazy load heavy visual components for better LCP
-const RevenueFlow = lazy(() => import("./visuals/RevenueFlow").then(m => ({ default: m.RevenueFlow })));
-const HeroGlobe = lazy(() => import("./visuals/HeroGlobe").then(m => ({ default: m.HeroGlobe })));
-const LinkConstructor = lazy(() => import("./visuals/LinkConstructor").then(m => ({ default: m.LinkConstructor })));
-const NeuralMesh = lazy(() => import("./visuals/NeuralMesh").then(m => ({ default: m.NeuralMesh })));
-const SecurityTerminal = lazy(() => import("./visuals/SecurityTerminal").then(m => ({ default: m.SecurityTerminal })));
+// Direct imports for immediate display (no lazy loading)
+import { RevenueFlow } from "./visuals/RevenueFlow";
+import { HeroGlobe } from "./visuals/HeroGlobe";
+import { LinkConstructor } from "./visuals/LinkConstructor";
+import { NeuralMesh } from "./visuals/NeuralMesh";
+import { SecurityTerminal } from "./visuals/SecurityTerminal";
 
 type TabType = "attribution" | "journey" | "links" | "intelligence" | "governance";
 
@@ -229,28 +228,20 @@ export const ProductControlDeck = () => {
   );
 };
 
-// Visual Switcher with Suspense for lazy-loaded components
+// Visual Switcher - Direct rendering (no Suspense needed)
 const DeckVisual = ({ type }: { type: TabType }) => {
-  const renderVisual = () => {
-    switch (type) {
-      case "attribution":
-        return <RevenueFlow />;
-      case "journey":
-        return <HeroGlobe />;
-      case "links":
-        return <LinkConstructor />;
-      case "intelligence":
-        return <NeuralMesh />;
-      case "governance":
-        return <SecurityTerminal />;
-      default:
-        return null;
-    }
-  };
-
-  return (
-    <Suspense fallback={<GlassSkeleton height="200px" className="w-full max-w-md" />}>
-      {renderVisual()}
-    </Suspense>
-  );
+  switch (type) {
+    case "attribution":
+      return <RevenueFlow />;
+    case "journey":
+      return <HeroGlobe />;
+    case "links":
+      return <LinkConstructor />;
+    case "intelligence":
+      return <NeuralMesh />;
+    case "governance":
+      return <SecurityTerminal />;
+    default:
+      return null;
+  }
 };
