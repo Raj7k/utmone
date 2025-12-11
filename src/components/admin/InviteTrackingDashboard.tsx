@@ -36,6 +36,7 @@ export function InviteTrackingDashboard() {
   const [copiedToken, setCopiedToken] = useState<string | null>(null);
   const [editingInvite, setEditingInvite] = useState<Invite | null>(null);
   const [deletingInvite, setDeletingInvite] = useState<Invite | null>(null);
+  const [resendingInviteId, setResendingInviteId] = useState<string | null>(null);
   
   const { data: invites, isLoading } = useQuery({
     queryKey: ['early-access-invites'],
@@ -52,12 +53,14 @@ export function InviteTrackingDashboard() {
 
   const resendInviteMutation = useMutation({
     mutationFn: async (invite: Invite) => {
+      setResendingInviteId(invite.id);
       const { error } = await supabase.functions.invoke("send-approval-email", {
         body: { 
           email: invite.email, 
           accessLevel: invite.access_level,
           planTier: invite.plan_tier || 'growth',
           inviteToken: invite.invite_token,
+          planExpiresAt: invite.expires_at,
           origin: window.location.origin,
         },
       });
@@ -68,6 +71,9 @@ export function InviteTrackingDashboard() {
     },
     onError: (error: Error) => {
       notify.error("Failed to resend invite", { description: error.message });
+    },
+    onSettled: () => {
+      setResendingInviteId(null);
     },
   });
 
@@ -240,9 +246,9 @@ export function InviteTrackingDashboard() {
                                 size="icon"
                                 title="Resend invite"
                                 onClick={() => resendInviteMutation.mutate(invite)}
-                                disabled={resendInviteMutation.isPending}
+                                disabled={resendingInviteId === invite.id}
                               >
-                                <Send className="h-4 w-4" />
+                                <Send className={`h-4 w-4 ${resendingInviteId === invite.id ? 'animate-pulse' : ''}`} />
                               </Button>
                               <Button
                                 variant="ghost"

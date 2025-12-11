@@ -25,6 +25,39 @@ interface ApprovalRequest {
   origin?: string; // Frontend origin URL
 }
 
+// Sanitize and validate origin to prevent Supabase URLs from being used
+const sanitizeOrigin = (origin?: string): string => {
+  const PRODUCTION_ORIGIN = 'https://utm.one';
+  
+  // If no origin provided, use production
+  if (!origin) {
+    console.log('[sanitizeOrigin] No origin provided, using production');
+    return PRODUCTION_ORIGIN;
+  }
+  
+  // CRITICAL: Reject any Supabase URLs
+  if (origin.includes('supabase.co') || origin.includes('supabase.in')) {
+    console.warn('[sanitizeOrigin] REJECTED Supabase URL:', origin);
+    return PRODUCTION_ORIGIN;
+  }
+  
+  // Allow preview/dev environments
+  if (origin.includes('lovable.app') || origin.includes('lovableproject.com') || origin.includes('localhost')) {
+    console.log('[sanitizeOrigin] Using preview/dev origin:', origin);
+    return origin;
+  }
+  
+  // Allow production
+  if (origin.includes('utm.one')) {
+    console.log('[sanitizeOrigin] Using production origin:', origin);
+    return origin;
+  }
+  
+  // Unknown origin - use production for safety
+  console.warn('[sanitizeOrigin] Unknown origin, using production:', origin);
+  return PRODUCTION_ORIGIN;
+}
+
 const getPlanLabel = (tier: string): string => {
   const labels: Record<string, string> = {
     'free': 'Free',
@@ -242,6 +275,18 @@ const createPremiumApprovalEmail = (
               </td>
             </tr>
 
+            <!-- Plain Text URL for Copy/Paste -->
+            <tr>
+              <td align="center" style="padding: 0 32px 16px;">
+                <p style="color: rgba(255,255,255,0.4); font-size: 11px; margin: 0;">
+                  or copy this link:
+                </p>
+                <p style="color: rgba(255,255,255,0.6); font-size: 11px; margin: 8px 0 0; word-break: break-all; line-height: 1.5;">
+                  ${claimUrl}
+                </p>
+              </td>
+            </tr>
+
             <!-- Urgency -->
             <tr>
               <td align="center" style="padding: 0 32px 40px;">
@@ -309,10 +354,17 @@ const handler = async (req: Request): Promise<Response> => {
       plan_duration_days = Math.ceil((expiryDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
     }
     
-    // Use origin from frontend, fallback to utm.one
-    const origin = body.origin || 'https://utm.one';
+    // Use sanitized origin - NEVER allow Supabase URLs
+    const rawOrigin = body.origin;
+    const origin = sanitizeOrigin(rawOrigin);
 
-    console.log('[send-approval-email] Processing:', { email, plan_tier, origin, invite_token: invite_token?.slice(0, 20) + '...' });
+    console.log('[send-approval-email] Processing:', { 
+      email, 
+      plan_tier, 
+      rawOrigin,
+      sanitizedOrigin: origin,
+      invite_token: invite_token?.slice(0, 20) + '...' 
+    });
 
     const foundingNumber = await getFoundingNumber();
     const displayName = name || email.split('@')[0];
