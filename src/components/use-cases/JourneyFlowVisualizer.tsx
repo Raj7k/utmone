@@ -4,8 +4,9 @@ import { ArrowRight, MousePointer, Eye, ShoppingCart, CreditCard, CheckCircle } 
 
 interface JourneyStep {
   id: string;
-  icon: React.ReactNode;
   label: string;
+  description?: string;
+  icon?: React.ReactNode;
   sublabel?: string;
   utmCapture?: string;
 }
@@ -17,18 +18,18 @@ interface JourneyFlowVisualizerProps {
   showUTMCapture?: boolean;
 }
 
-const defaultSteps: JourneyStep[] = [
-  { id: "click", icon: <MousePointer className="w-5 h-5" />, label: "ad click", sublabel: "utm captured", utmCapture: "utm_source=instagram" },
-  { id: "visit", icon: <Eye className="w-5 h-5" />, label: "page view", sublabel: "visitor tracked", utmCapture: "utm_medium=paid_social" },
-  { id: "cart", icon: <ShoppingCart className="w-5 h-5" />, label: "add to cart", sublabel: "intent recorded", utmCapture: "utm_campaign=summer_sale" },
-  { id: "checkout", icon: <CreditCard className="w-5 h-5" />, label: "checkout", sublabel: "conversion started", utmCapture: "utm_content=carousel_ad" },
-  { id: "purchase", icon: <CheckCircle className="w-5 h-5" />, label: "purchase", sublabel: "revenue attributed", utmCapture: "$127.00 attributed" },
+const defaultIcons = [
+  <MousePointer className="w-5 h-5" />,
+  <Eye className="w-5 h-5" />,
+  <ShoppingCart className="w-5 h-5" />,
+  <CreditCard className="w-5 h-5" />,
+  <CheckCircle className="w-5 h-5" />,
 ];
 
 export const JourneyFlowVisualizer = ({
   title,
   subtitle,
-  steps = defaultSteps,
+  steps = [],
   showUTMCapture = true,
 }: JourneyFlowVisualizerProps) => {
   const ref = useRef(null);
@@ -66,7 +67,7 @@ export const JourneyFlowVisualizer = ({
           />
 
           {/* Steps */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-4">
+          <div className={`grid grid-cols-2 gap-6 md:gap-4 ${steps.length <= 4 ? 'md:grid-cols-4' : 'md:grid-cols-5'}`}>
             {steps.map((step, index) => (
               <motion.div
                 key={step.id}
@@ -88,7 +89,7 @@ export const JourneyFlowVisualizer = ({
                   whileTap={{ scale: 0.95 }}
                 >
                   <div className={`transition-colors duration-300 ${activeStep === step.id ? 'text-primary' : 'text-muted-foreground'}`}>
-                    {step.icon}
+                    {step.icon || defaultIcons[index % defaultIcons.length]}
                   </div>
                 </motion.div>
 
@@ -108,8 +109,8 @@ export const JourneyFlowVisualizer = ({
                 {/* Labels */}
                 <div className="mt-4 text-center">
                   <p className="text-sm font-medium text-foreground lowercase">{step.label}</p>
-                  {step.sublabel && (
-                    <p className="text-xs text-muted-foreground mt-1">{step.sublabel}</p>
+                  {(step.sublabel || step.description) && (
+                    <p className="text-xs text-muted-foreground mt-1">{step.sublabel || step.description}</p>
                   )}
                 </div>
 
@@ -145,7 +146,7 @@ export const JourneyFlowVisualizer = ({
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 1.2 }}
         >
-          hover over each step to see UTM parameters being captured
+          hover over each step to see details
         </motion.p>
       </div>
     </section>

@@ -4,6 +4,7 @@ import { Check, X } from "lucide-react";
 
 interface BeforeAfterSectionProps {
   title: string;
+  subtitle?: string;
   beforeTitle?: string;
   afterTitle?: string;
   beforeItems: string[];
@@ -14,6 +15,7 @@ interface BeforeAfterSectionProps {
 
 export const BeforeAfterSection = ({
   title,
+  subtitle,
   beforeTitle = "without utm.one",
   afterTitle = "with utm.one",
   beforeItems,
@@ -27,14 +29,21 @@ export const BeforeAfterSection = ({
   return (
     <section ref={ref} className="py-20 bg-muted/30">
       <div className="max-w-[980px] mx-auto px-6 md:px-8">
-        <motion.h2 
-          className="text-3xl md:text-4xl font-display font-bold text-foreground mb-12 text-center"
+        <motion.div
+          className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          {title}
-        </motion.h2>
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-4">
+            {title}
+          </h2>
+          {subtitle && (
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              {subtitle}
+            </p>
+          )}
+        </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8">
           {/* Before Card */}

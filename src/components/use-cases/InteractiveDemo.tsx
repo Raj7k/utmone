@@ -8,6 +8,7 @@ interface InteractiveDemoProps {
   title: string;
   subtitle?: string;
   placeholder?: string;
+  exampleUrl?: string;
   demoType?: "link" | "utm" | "qr";
 }
 
@@ -15,6 +16,7 @@ export const InteractiveDemo = ({
   title,
   subtitle,
   placeholder = "paste any URL to see utm.one in action",
+  exampleUrl,
   demoType = "link",
 }: InteractiveDemoProps) => {
   const ref = useRef(null);
@@ -31,7 +33,8 @@ export const InteractiveDemo = ({
   const [copied, setCopied] = useState(false);
 
   const handleDemo = async () => {
-    if (!url) return;
+    const urlToProcess = url || exampleUrl || "https://example.com";
+    if (!urlToProcess) return;
     
     setIsProcessing(true);
     
@@ -39,16 +42,26 @@ export const InteractiveDemo = ({
     await new Promise(resolve => setTimeout(resolve, 1500));
     
     // Generate demo result
-    const domain = new URL(url.startsWith("http") ? url : `https://${url}`).hostname.replace("www.", "");
-    const source = domain.split(".")[0];
-    
-    setResult({
-      shortUrl: `utm.one/${source.slice(0, 3)}${Math.random().toString(36).slice(2, 5)}`,
-      utm: `?utm_source=${source}&utm_medium=referral&utm_campaign=demo`,
-      source: source,
-      medium: "referral",
-      campaign: "demo_campaign",
-    });
+    try {
+      const domain = new URL(urlToProcess.startsWith("http") ? urlToProcess : `https://${urlToProcess}`).hostname.replace("www.", "");
+      const source = domain.split(".")[0];
+      
+      setResult({
+        shortUrl: `utm.one/${source.slice(0, 3)}${Math.random().toString(36).slice(2, 5)}`,
+        utm: `?utm_source=${source}&utm_medium=referral&utm_campaign=demo`,
+        source: source,
+        medium: "referral",
+        campaign: "demo_campaign",
+      });
+    } catch {
+      setResult({
+        shortUrl: `utm.one/demo${Math.random().toString(36).slice(2, 5)}`,
+        utm: `?utm_source=demo&utm_medium=referral&utm_campaign=demo`,
+        source: "demo",
+        medium: "referral",
+        campaign: "demo_campaign",
+      });
+    }
     
     setIsProcessing(false);
   };
@@ -110,7 +123,7 @@ export const InteractiveDemo = ({
                 </div>
                 <Button 
                   onClick={handleDemo}
-                  disabled={!url || isProcessing}
+                  disabled={isProcessing}
                   className="h-14 px-8"
                 >
                   {isProcessing ? (
