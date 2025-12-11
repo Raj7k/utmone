@@ -1,104 +1,113 @@
 import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
-import { Link } from "react-router-dom";
-import { ArrowLeft, Star, DollarSign, Link2, QrCode, TrendingUp, Users } from "lucide-react";
+import { Star, DollarSign, Link2, QrCode, TrendingUp, Users, Instagram, Youtube, Radio, Share2, BarChart3, Zap } from "lucide-react";
 import { SEO } from "@/components/seo/SEO";
 import { ArticleSchema, FAQSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { RelatedResources, PeopleAlsoRead } from "@/components/seo/RelatedResources";
-import { Button } from "@/components/ui/button";
+import {
+  UseCaseHero,
+  BeforeAfterSection,
+  JourneyFlowVisualizer,
+  AnimatedStatsGrid,
+  InfluencerROICalculator,
+  InfluencerPlatforms,
+  UseCaseCTA,
+  FeatureGrid,
+  FAQSection,
+  InteractiveDemo,
+} from "@/components/use-cases";
+import { motion, useInView } from "framer-motion";
+import { useRef, useState } from "react";
 
 const InfluencerCampaigns = () => {
   const features = [
     {
       icon: Link2,
-      title: "Unique Creator Links",
-      description: "Generate unique tracked links for each influencer to measure their true impact on traffic and conversions."
+      title: "unique creator links",
+      description: "every influencer gets their own tracked link. see exactly who drives traffic and sales—no more guessing games."
     },
     {
       icon: DollarSign,
-      title: "Revenue Attribution",
-      description: "Track actual sales driven by each influencer—not just clicks—to calculate true ROI."
+      title: "revenue attribution",
+      description: "track actual revenue, not just clicks. know which creators generate real business impact."
     },
     {
       icon: QrCode,
-      title: "Branded QR Codes",
-      description: "Give influencers custom QR codes for stories, posts, and video content with your brand colors."
+      title: "branded QR codes",
+      description: "give creators custom QR codes for stories, reels, and video content—all matching your brand."
     },
     {
       icon: TrendingUp,
-      title: "Performance Comparison",
-      description: "Compare influencer performance side-by-side to identify top performers and optimize spend."
+      title: "performance comparison",
+      description: "side-by-side creator comparison. identify your top performers and optimize spend accordingly."
     },
     {
       icon: Users,
-      title: "Creator Dashboard",
-      description: "Give influencers access to see their own performance stats without exposing campaign-wide data."
+      title: "creator portal",
+      description: "give influencers access to their own stats without exposing campaign-wide data."
     },
     {
       icon: Star,
-      title: "No Coupon Code Required",
-      description: "Track influencer-driven sales without discount codes that cannibalize margin."
-    }
-  ];
-
-  const useCases = [
-    {
-      title: "Instagram & TikTok Campaigns",
-      description: "Track link-in-bio clicks, story swipe-ups, and video description links with unique UTM parameters per creator."
-    },
-    {
-      title: "YouTube Sponsorships",
-      description: "Give each YouTuber a unique link to measure video-driven traffic and conversions over time."
-    },
-    {
-      title: "Podcast Sponsorships",
-      description: "Create memorable vanity URLs (yourbrand.com/podcastname) that are easy to say and track."
-    },
-    {
-      title: "Affiliate Programs",
-      description: "Scale influencer partnerships with automated link generation and commission-ready reporting."
+      title: "no coupon codes needed",
+      description: "track creator-driven sales without discount codes that eat into your margins."
     }
   ];
 
   const faqs = [
     {
-      question: "How do I track influencer sales without coupon codes?",
-      answer: "Each influencer gets a unique tracked link. When their followers click and purchase, utm.one attributes the sale to that influencer automatically—no discount code needed."
+      question: "how do I track influencer sales without coupon codes?",
+      answer: "each influencer gets a unique tracked link. when their followers click and purchase, utm.one attributes the sale automatically—no discount code required. this means you keep your full margin while getting complete attribution data."
     },
     {
-      question: "Can influencers see their own performance?",
-      answer: "Yes! Invite influencers as 'Creator' role to see their personal dashboard showing clicks, conversions, and revenue they've driven."
+      question: "can influencers see their own performance?",
+      answer: "yes! invite creators with 'Creator' role access to view their personal dashboard. they'll see their clicks, conversions, and revenue driven—but won't have access to campaign-wide data or other creator performance."
     },
     {
-      question: "How does this compare to affiliate platforms?",
-      answer: "utm.one focuses on attribution and analytics. You get the tracking data to make informed partnership decisions, then use your existing payment system for payouts."
+      question: "how does this compare to affiliate platforms?",
+      answer: "utm.one focuses purely on attribution and analytics. you get the tracking data to make informed partnership decisions, then use your existing payment system for payouts. no commission fees, no platform lock-in."
     },
     {
-      question: "Can I create vanity URLs for podcasts?",
-      answer: "Yes! Create memorable short URLs like go.yourbrand.com/thepodcast that are easy to say in audio content."
+      question: "can I create vanity URLs for podcasts?",
+      answer: "absolutely. create memorable short URLs like go.yourbrand.com/podcast that are easy to say in audio content. the link is unique to that podcast, so you'll know exactly how many listeners converted."
     },
     {
-      question: "How do I track Instagram Stories?",
-      answer: "Generate unique links for each influencer's Story content. Our link preview optimization ensures your content looks great when shared."
+      question: "how do I track Instagram Stories?",
+      answer: "generate unique links for each influencer's Story content. our link preview optimization ensures your content looks great when shared, and every swipe-up is tracked to the specific creator."
     },
     {
-      question: "Can I compare performance across platforms?",
-      answer: "Absolutely. Use consistent UTM structure across Instagram, TikTok, YouTube, and podcasts to compare creator performance by platform."
+      question: "what about tracking across multiple platforms?",
+      answer: "use consistent UTM structure across Instagram, TikTok, YouTube, and podcasts. utm.one lets you compare creator performance by platform, so you know where to invest your budget."
     },
     {
-      question: "How do I scale to hundreds of influencers?",
-      answer: "Bulk link generation and API access let you create and manage links for large influencer programs efficiently."
+      question: "how do I scale to hundreds of influencers?",
+      answer: "bulk link generation and API access let you create and manage links for large programs efficiently. import a spreadsheet of creators and generate unique links for everyone in seconds."
     },
     {
-      question: "What metrics can I track for influencers?",
-      answer: "Track clicks, unique visitors, conversion rate, revenue, average order value, and customer lifetime value attributed to each influencer."
+      question: "what metrics can I track for influencers?",
+      answer: "track clicks, unique visitors, conversion rate, revenue, average order value, and customer lifetime value. all attributed to individual creators so you can calculate true ROI per partnership."
+    },
+    {
+      question: "how long does attribution tracking last?",
+      answer: "utm.one tracks the full customer journey, including delayed conversions. if someone clicks a creator's link today and purchases next month, you'll still see the attribution."
+    },
+    {
+      question: "can I track affiliate links from multiple brands?",
+      answer: "yes. each workspace can track multiple brands or campaigns. if you're an agency managing influencer programs for multiple clients, you can keep everything organized in separate workspaces."
     }
+  ];
+
+  const journeySteps = [
+    { id: "post", icon: <Instagram className="w-5 h-5" />, label: "instagram post", sublabel: "creator shares link", utmCapture: "utm_source=instagram" },
+    { id: "click", icon: <Share2 className="w-5 h-5" />, label: "link click", sublabel: "follower taps link", utmCapture: "utm_medium=influencer" },
+    { id: "browse", icon: <BarChart3 className="w-5 h-5" />, label: "site visit", sublabel: "browsing products", utmCapture: "utm_campaign=summer_drop" },
+    { id: "return", icon: <Zap className="w-5 h-5" />, label: "return visit", sublabel: "2 weeks later", utmCapture: "cross-device tracked" },
+    { id: "purchase", icon: <DollarSign className="w-5 h-5" />, label: "purchase", sublabel: "revenue attributed", utmCapture: "$127 → @creator_name" },
   ];
 
   return (
     <>
       <SEO 
         title="Influencer Marketing Tracking & Attribution | utm.one"
-        description="Track influencer campaigns without coupon codes. utm.one provides unique creator links, revenue attribution, and performance comparison for Instagram, TikTok, YouTube, and podcasts."
+        description="Track influencer campaigns without coupon codes. Unique creator links, revenue attribution, and performance comparison for Instagram, TikTok, YouTube, and podcasts."
         canonical="https://utm.one/use-cases/influencer-campaigns"
         keywords={["influencer tracking", "creator marketing", "influencer attribution", "Instagram tracking", "TikTok analytics"]}
       />
@@ -119,142 +128,88 @@ const InfluencerCampaigns = () => {
         ]}
       />
       <ResourcesLayout>
-        {/* Hero */}
-        <section className="py-20 border-b border-zinc-200">
-          <div className="max-w-[980px] mx-auto px-8">
-            <Link
-              to="/use-cases"
-              className="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-900 transition-colors mb-8"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Back to Use Cases
-            </Link>
-            <div className="space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-pink-50 text-pink-700 rounded-full text-sm font-medium">
-                <Star className="w-4 h-4" />
-                Influencer Marketing
-              </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-zinc-900">
-                Know Which Creators Actually Drive Sales
-              </h1>
-              <p className="text-lg md:text-xl text-zinc-600 max-w-[720px]">
-                Stop relying on coupon codes. Track influencer-driven revenue with unique 
-                creator links and real-time attribution.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Button asChild size="lg">
-                  <Link to="/early-access">Start Free Trial</Link>
-                </Button>
-                <Button asChild variant="outline" size="lg">
-                  <Link to="/features/attribution">See Attribution Demo</Link>
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
+        <UseCaseHero
+          category="influencer marketing"
+          categoryIcon={Star}
+          categoryColor="bg-pink-50 text-pink-700"
+          headline="every follower leaves a trail. we track it."
+          subheadline="you spent $50k on influencers. google says $0 in revenue. we'll show you the $480k they actually drove."
+          stats={[
+            { value: "3.2x", label: "avg ROAS improvement" },
+            { value: "$480k", label: "hidden revenue uncovered" },
+            { value: "42%", label: "lower CPA" },
+          ]}
+          primaryCTA={{ label: "get early access", href: "/early-access" }}
+          secondaryCTA={{ label: "see attribution demo", href: "/features/attribution" }}
+        />
 
-        {/* Pain Points */}
-        <section className="py-16 bg-zinc-50">
-          <div className="max-w-[980px] mx-auto px-8">
-            <h2 className="text-3xl font-display font-bold text-zinc-900 mb-8">
-              The Influencer Attribution Problem
-            </h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="bg-white p-6 rounded-xl border border-zinc-200">
-                <h3 className="font-semibold text-zinc-900 mb-2">❌ Without utm.one</h3>
-                <ul className="space-y-2 text-zinc-600 text-sm">
-                  <li>• "This influencer got 50K views but did they sell anything?"</li>
-                  <li>• Relying on discount codes that hurt margins</li>
-                  <li>• Can't compare creator performance fairly</li>
-                  <li>• No visibility into post-click behavior</li>
-                  <li>• Paying for vanity metrics, not results</li>
-                </ul>
-              </div>
-              <div className="bg-white p-6 rounded-xl border border-pink-200 border-2">
-                <h3 className="font-semibold text-pink-700 mb-2">✓ With utm.one</h3>
-                <ul className="space-y-2 text-zinc-600 text-sm">
-                  <li>• "Creator X drove $12,000 in sales last month"</li>
-                  <li>• Track sales without discount codes</li>
-                  <li>• Side-by-side creator comparison</li>
-                  <li>• Full conversion funnel visibility</li>
-                  <li>• Pay for actual business impact</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
+        <BeforeAfterSection
+          title="the influencer attribution problem"
+          beforeItems={[
+            '"this influencer got 50K views but did they sell anything?"',
+            "relying on discount codes that hurt your margins",
+            "can't compare creator performance fairly",
+            "no visibility into what happens after the click",
+            "paying for vanity metrics instead of results",
+            "attribution disappears when followers switch devices",
+          ]}
+          afterItems={[
+            '"creator X drove $12,000 in sales last month"',
+            "track sales without discount codes",
+            "side-by-side creator comparison",
+            "full funnel visibility from click to purchase",
+            "pay creators based on actual business impact",
+            "cross-device journey tracking captures delayed conversions",
+          ]}
+        />
 
-        {/* Features */}
-        <section className="py-16">
-          <div className="max-w-[980px] mx-auto px-8">
-            <h2 className="text-3xl font-display font-bold text-zinc-900 mb-8">
-              Influencer-Specific Features
-            </h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {features.map((feature, index) => (
-                <div key={index} className="p-6 bg-white rounded-xl border border-zinc-200 hover:border-zinc-300 transition-colors">
-                  <feature.icon className="w-8 h-8 text-zinc-900 mb-4" />
-                  <h3 className="font-semibold text-zinc-900 mb-2">{feature.title}</h3>
-                  <p className="text-sm text-zinc-600">{feature.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <JourneyFlowVisualizer
+          title="watch followers become customers"
+          subtitle="see exactly how creator content drives revenue—even when conversions happen weeks later"
+          steps={journeySteps}
+        />
 
-        {/* Use Cases */}
-        <section className="py-16 bg-zinc-50">
-          <div className="max-w-[980px] mx-auto px-8">
-            <h2 className="text-3xl font-display font-bold text-zinc-900 mb-8">
-              How Brands Use utm.one for Influencer Marketing
-            </h2>
-            <div className="space-y-6">
-              {useCases.map((useCase, index) => (
-                <div key={index} className="bg-white p-6 rounded-xl border border-zinc-200">
-                  <h3 className="font-semibold text-zinc-900 mb-2">{useCase.title}</h3>
-                  <p className="text-zinc-600">{useCase.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <PlatformTabsSection />
 
-        {/* FAQs */}
-        <section className="py-16">
-          <div className="max-w-[980px] mx-auto px-8">
-            <h2 className="text-3xl font-display font-bold text-zinc-900 mb-8">
-              Frequently Asked Questions
-            </h2>
-            <div className="space-y-6">
-              {faqs.map((faq, index) => (
-                <div key={index} className="bg-white p-6 rounded-xl border border-zinc-200">
-                  <h3 className="font-semibold text-zinc-900 mb-2">{faq.question}</h3>
-                  <p className="text-zinc-600">{faq.answer}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <InteractiveDemo
+          title="see your creator links in action"
+          subtitle="paste any product URL to see how utm.one generates unique tracked links"
+          placeholder="paste your product URL (e.g., shopify.com/products/...)"
+        />
 
-        {/* CTA */}
-        <section className="py-16 bg-zinc-900 text-white">
-          <div className="max-w-[980px] mx-auto px-8 text-center">
-            <h2 className="text-3xl font-display font-bold mb-4">
-              Ready to Track Creator Performance?
-            </h2>
-            <p className="text-zinc-400 mb-8 max-w-xl mx-auto">
-              Join brands who use utm.one to measure true influencer ROI 
-              and optimize creator partnerships.
-            </p>
-            <Button asChild size="lg" variant="secondary">
-              <Link to="/early-access">Start Free Trial</Link>
-            </Button>
-          </div>
-        </section>
+        <InfluencerROICalculator />
+
+        <AnimatedStatsGrid
+          title="real results from real brands"
+          subtitle="brands using utm.one for influencer attribution"
+          stats={[
+            { value: 3.2, suffix: "x", label: "average ROAS improvement", description: "compared to pre-utm.one campaigns" },
+            { value: 480, prefix: "$", suffix: "k", label: "hidden revenue uncovered", description: "per brand, on average" },
+            { value: 42, suffix: "%", label: "reduction in CPA", description: "by cutting underperformers" },
+            { value: 89, suffix: "%", label: "faster reporting", description: "vs manual spreadsheet tracking" },
+          ]}
+        />
+
+        <FeatureGrid
+          title="built for creator campaigns"
+          subtitle="everything you need to measure true influencer ROI"
+          features={features}
+        />
+
+        <InfluencerPlatforms />
+
+        <FAQSection faqs={faqs} />
+
+        <UseCaseCTA
+          headline="prove your creators drive revenue"
+          subheadline="join brands who use utm.one to measure true influencer ROI and optimize creator partnerships."
+          primaryCTA={{ label: "get early access", href: "/early-access" }}
+          secondaryCTA={{ label: "talk to sales", href: "/contact" }}
+        />
 
         {/* Related Resources */}
-        <section className="py-16">
-          <div className="max-w-[980px] mx-auto px-8">
+        <section className="py-16 bg-muted/30">
+          <div className="max-w-[980px] mx-auto px-6 md:px-8">
             <RelatedResources 
               resources={[
                 { title: "Ecommerce Tracking", path: "/use-cases/ecommerce-tracking", type: "guide" as const },
@@ -269,6 +224,141 @@ const InfluencerCampaigns = () => {
         </section>
       </ResourcesLayout>
     </>
+  );
+};
+
+// Platform-specific tabs section
+const PlatformTabsSection = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [activeTab, setActiveTab] = useState("instagram");
+
+  const platforms = [
+    { 
+      id: "instagram", 
+      label: "Instagram", 
+      icon: Instagram,
+      features: [
+        "story swipe-up tracking with unique links per creator",
+        "link-in-bio optimization with automatic UTM tagging",
+        "reels and post caption link tracking",
+        "cross-device attribution for mobile-first audiences",
+      ]
+    },
+    { 
+      id: "tiktok", 
+      label: "TikTok", 
+      icon: Share2,
+      features: [
+        "bio link tracking with creator-specific UTMs",
+        "video description link performance",
+        "short-form video attribution modeling",
+        "hashtag challenge campaign measurement",
+      ]
+    },
+    { 
+      id: "youtube", 
+      label: "YouTube", 
+      icon: Youtube,
+      features: [
+        "video description link tracking",
+        "pinned comment link attribution",
+        "long-form content conversion windows",
+        "subscriber vs. non-subscriber performance",
+      ]
+    },
+    { 
+      id: "podcasts", 
+      label: "Podcasts", 
+      icon: Radio,
+      features: [
+        "vanity URLs easy to say on air",
+        "episode-specific attribution",
+        "delayed conversion tracking (listeners buy later)",
+        "host-read vs. programmatic ad comparison",
+      ]
+    },
+  ];
+
+  const activePlatform = platforms.find(p => p.id === activeTab) || platforms[0];
+
+  return (
+    <section ref={ref} className="py-20 bg-muted/30">
+      <div className="max-w-[980px] mx-auto px-6 md:px-8">
+        <motion.div 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-4">
+            platform-specific tracking
+          </h2>
+          <p className="text-lg text-muted-foreground">
+            optimized for every creator platform
+          </p>
+        </motion.div>
+
+        {/* Tab Navigation */}
+        <motion.div 
+          className="flex flex-wrap justify-center gap-2 mb-10"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          {platforms.map((platform) => (
+            <button
+              key={platform.id}
+              onClick={() => setActiveTab(platform.id)}
+              className={`
+                flex items-center gap-2 px-5 py-3 rounded-full text-sm font-medium transition-all duration-300
+                ${activeTab === platform.id 
+                  ? 'bg-foreground text-background shadow-lg' 
+                  : 'bg-card border border-border text-muted-foreground hover:text-foreground hover:border-primary/30'
+                }
+              `}
+            >
+              <platform.icon className="w-4 h-4" />
+              {platform.label}
+            </button>
+          ))}
+        </motion.div>
+
+        {/* Tab Content */}
+        <motion.div 
+          key={activeTab}
+          className="bg-card p-8 rounded-2xl border border-border"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+              <activePlatform.icon className="w-6 h-6 text-primary" />
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold text-foreground">{activePlatform.label} tracking</h3>
+              <p className="text-sm text-muted-foreground">optimized for {activePlatform.label.toLowerCase()} creators</p>
+            </div>
+          </div>
+
+          <ul className="grid md:grid-cols-2 gap-4">
+            {activePlatform.features.map((feature, index) => (
+              <motion.li
+                key={index}
+                className="flex items-start gap-3 p-4 bg-muted/50 rounded-xl"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+              >
+                <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
+                <span className="text-sm text-foreground">{feature}</span>
+              </motion.li>
+            ))}
+          </ul>
+        </motion.div>
+      </div>
+    </section>
   );
 };
 
