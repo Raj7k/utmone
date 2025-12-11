@@ -371,6 +371,22 @@ const Subprocessors = lazy(() => import("./pages/legal/Subprocessors"));
 const DPA = lazy(() => import("./pages/legal/DPA"));
 const SupportPolicy = lazy(() => import("./pages/legal/SupportPolicy"));
 
+// Help Documentation Pages
+const HelpIndex = lazy(() => import("./pages/Help/index"));
+const HelpGettingStarted = lazy(() => import("./pages/Help/GettingStarted"));
+const HelpLinks = lazy(() => import("./pages/Help/Links"));
+const HelpUTM = lazy(() => import("./pages/Help/UTM"));
+const HelpQRCodes = lazy(() => import("./pages/Help/QRCodes"));
+const HelpAnalytics = lazy(() => import("./pages/Help/Analytics"));
+const HelpAttribution = lazy(() => import("./pages/Help/Attribution"));
+const HelpEvents = lazy(() => import("./pages/Help/Events"));
+const HelpAdvanced = lazy(() => import("./pages/Help/Advanced"));
+const HelpTeam = lazy(() => import("./pages/Help/Team"));
+const HelpIntegrations = lazy(() => import("./pages/Help/Integrations"));
+const HelpDomains = lazy(() => import("./pages/Help/Domains"));
+const HelpBilling = lazy(() => import("./pages/Help/Billing"));
+const HelpSecurity = lazy(() => import("./pages/Help/Security"));
+
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient({
@@ -599,6 +615,22 @@ const App = () => (
               <Route path="/use-cases/agency-client-reporting" element={<Suspense fallback={<DashboardSkeleton />}><AgencyClientReporting /></Suspense>} />
               <Route path="/use-cases/influencer-campaigns" element={<Suspense fallback={<DashboardSkeleton />}><InfluencerCampaigns /></Suspense>} />
               
+              {/* Help Documentation Pages */}
+              <Route path="/help" element={<Suspense fallback={<DashboardSkeleton />}><HelpIndex /></Suspense>} />
+              <Route path="/help/getting-started" element={<Suspense fallback={<DashboardSkeleton />}><HelpGettingStarted /></Suspense>} />
+              <Route path="/help/links" element={<Suspense fallback={<DashboardSkeleton />}><HelpLinks /></Suspense>} />
+              <Route path="/help/utm" element={<Suspense fallback={<DashboardSkeleton />}><HelpUTM /></Suspense>} />
+              <Route path="/help/qr" element={<Suspense fallback={<DashboardSkeleton />}><HelpQRCodes /></Suspense>} />
+              <Route path="/help/analytics" element={<Suspense fallback={<DashboardSkeleton />}><HelpAnalytics /></Suspense>} />
+              <Route path="/help/attribution" element={<Suspense fallback={<DashboardSkeleton />}><HelpAttribution /></Suspense>} />
+              <Route path="/help/events" element={<Suspense fallback={<DashboardSkeleton />}><HelpEvents /></Suspense>} />
+              <Route path="/help/advanced" element={<Suspense fallback={<DashboardSkeleton />}><HelpAdvanced /></Suspense>} />
+              <Route path="/help/team" element={<Suspense fallback={<DashboardSkeleton />}><HelpTeam /></Suspense>} />
+              <Route path="/help/integrations" element={<Suspense fallback={<DashboardSkeleton />}><HelpIntegrations /></Suspense>} />
+              <Route path="/help/domains" element={<Suspense fallback={<DashboardSkeleton />}><HelpDomains /></Suspense>} />
+              <Route path="/help/billing" element={<Suspense fallback={<DashboardSkeleton />}><HelpBilling /></Suspense>} />
+              <Route path="/help/security" element={<Suspense fallback={<DashboardSkeleton />}><HelpSecurity /></Suspense>} />
+
               <Route path="/resources" element={<Suspense fallback={<DashboardSkeleton />}><Resources /></Suspense>} />
               <Route path="/resources/guides" element={<Suspense fallback={<DashboardSkeleton />}><Guides /></Suspense>} />
               <Route path="/resources/guides/utm-guide" element={<Suspense fallback={<DashboardSkeleton />}><UTMGuide /></Suspense>} />
