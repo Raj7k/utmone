@@ -270,6 +270,22 @@ verify_jwt = false
 [functions.claim-invite]
 verify_jwt = false
 
+[functions.geocode-city]
+verify_jwt = false
+
+# Event Bridge Functions
+[functions.webhook-luma]
+verify_jwt = false
+
+[functions.enrich-registration]
+verify_jwt = false
+
+[functions.route-registration]
+verify_jwt = false
+
+[functions.magic-link-redirect]
+verify_jwt = false
+
 # Cron schedules for automated tasks
 # Generate recommendations every 6 hours
 [[edge_runtime.scheduler]]

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Plus, Waves } from "lucide-react";
+import { Plus, Waves, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { 
   useFieldEvents, 
@@ -19,6 +20,7 @@ import { LeadsFullScreen } from "@/components/events/LeadsFullScreen";
 import { CreateEventDialog } from "@/components/events/CreateEventDialog";
 import { ScannerModal } from "@/components/events/ScannerModal";
 import { BoothQRDialog } from "@/components/events/BoothQRDialog";
+import { EventBridgeTab } from "@/components/events/EventBridge/EventBridgeTab";
 import { toast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -42,6 +44,7 @@ type ViewState = "overview" | "dashboard" | "leads";
 
 const Events = () => {
   const { currentWorkspace } = useWorkspaceContext();
+  const [activeTab, setActiveTab] = useState("halo");
   const [viewState, setViewState] = useState<ViewState>("overview");
   const [selectedEvent, setSelectedEvent] = useState<FieldEvent | null>(null);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
@@ -100,45 +103,62 @@ const Events = () => {
 
   return (
     <div className="space-y-6">
-      <AnimatePresence mode="wait">
-        {viewState === "overview" && (
-          <motion.div
-            key="overview"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0, x: -20 }}
-          >
-            {/* Header */}
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h1 className="font-display text-2xl font-semibold text-foreground">field events</h1>
-                <p className="text-muted-foreground">
-                  track the invisible lift from conferences, trade shows, and meetups
-                </p>
-              </div>
-              <Button onClick={() => setCreateDialogOpen(true)}>
-                <Plus className="w-4 h-4 mr-2" />
-                create event
-              </Button>
-            </div>
+      {/* Tab Navigation */}
+      <Tabs value={activeTab} onValueChange={setActiveTab}>
+        <div className="flex items-center justify-between mb-6">
+          <TabsList>
+            <TabsTrigger value="halo" className="flex items-center gap-2">
+              <Waves className="h-4 w-4" />
+              event halo
+            </TabsTrigger>
+            <TabsTrigger value="bridge" className="flex items-center gap-2">
+              <Zap className="h-4 w-4" />
+              event bridge
+            </TabsTrigger>
+          </TabsList>
+          
+          {activeTab === "halo" && viewState === "overview" && (
+            <Button onClick={() => setCreateDialogOpen(true)}>
+              <Plus className="w-4 h-4 mr-2" />
+              create event
+            </Button>
+          )}
+        </div>
 
-            {isLoading ? (
-              <div className="flex items-center justify-center py-24">
-                <div className="text-center">
-                  <Waves className="w-12 h-12 text-muted-foreground mb-4 mx-auto animate-pulse" />
-                  <p className="text-muted-foreground">loading events...</p>
+        <TabsContent value="halo" className="mt-0">
+          <AnimatePresence mode="wait">
+            {viewState === "overview" && (
+              <motion.div
+                key="overview"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0, x: -20 }}
+              >
+                {/* Header */}
+                <div className="mb-6">
+                  <h2 className="font-display text-xl font-semibold text-foreground">field events</h2>
+                  <p className="text-muted-foreground text-sm">
+                    track the invisible lift from conferences, trade shows, and meetups
+                  </p>
                 </div>
-              </div>
-            ) : (
-              <EventsOverviewGrid
-                events={events || []}
-                onEventSelect={handleEventSelect}
-                onQRClick={handleQRClick}
-                onScanClick={handleScanClick}
-              />
+
+                {isLoading ? (
+                  <div className="flex items-center justify-center py-24">
+                    <div className="text-center">
+                      <Waves className="w-12 h-12 text-muted-foreground mb-4 mx-auto animate-pulse" />
+                      <p className="text-muted-foreground">loading events...</p>
+                    </div>
+                  </div>
+                ) : (
+                  <EventsOverviewGrid
+                    events={events || []}
+                    onEventSelect={handleEventSelect}
+                    onQRClick={handleQRClick}
+                    onScanClick={handleScanClick}
+                  />
+                )}
+              </motion.div>
             )}
-          </motion.div>
-        )}
 
         {viewState === "dashboard" && currentEvent && (
           <EventDashboardView
@@ -174,8 +194,14 @@ const Events = () => {
             onBack={handleBackToDashboard}
             onRefresh={refetch}
           />
-        )}
-      </AnimatePresence>
+          )}
+          </AnimatePresence>
+        </TabsContent>
+
+        <TabsContent value="bridge" className="mt-0">
+          <EventBridgeTab />
+        </TabsContent>
+      </Tabs>
 
       {/* Dialogs */}
       <CreateEventDialog
