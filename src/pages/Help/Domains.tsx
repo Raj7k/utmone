@@ -4,14 +4,8 @@ import { ArticleCard } from "@/components/help/ArticleCard";
 import { Globe, FileText, CheckCircle, AlertTriangle, Settings, Server, Cloud, Shield } from "lucide-react";
 
 const articles = [
-  { title: "Why use custom domains?", description: "Branded domains (go.yourcompany.com) build trust, increase click-through rates, and reinforce your brand with every share.", href: "/help/domains#why", icon: Globe },
-  { title: "DNS setup guide", description: "Step-by-step instructions for TXT verification and CNAME routing. Works with any domain registrar.", href: "/help/domains#setup", icon: Settings },
-  { title: "TXT record verification", description: "Prove domain ownership by adding a TXT record. We provide the exact value to add.", href: "/help/domains#txt", icon: CheckCircle },
-  { title: "CNAME/A record routing", description: "Point your domain to utm.one's redirect servers. Subdomains use CNAME, root domains need ALIAS/ANAME.", href: "/help/domains#routing", icon: Server },
-  { title: "GoDaddy setup", description: "Step-by-step DNS configuration for GoDaddy domains with screenshots.", href: "/help/domains#godaddy", icon: FileText },
-  { title: "Cloudflare setup", description: "Configure Cloudflare DNS for utm.one including proxy settings and SSL mode.", href: "/help/domains#cloudflare", icon: Cloud },
-  { title: "Namecheap setup", description: "DNS configuration guide specifically for Namecheap-registered domains.", href: "/help/domains#namecheap", icon: FileText },
-  { title: "Troubleshooting domains", description: "Common issues: NXDOMAIN errors, propagation delays, SSL certificate problems, and how to fix each.", href: "/help/domains#troubleshooting", icon: AlertTriangle },
+  { title: "Adding custom domains", description: "Branded domains (go.yourcompany.com) build trust, increase click-through rates, and reinforce your brand with every share.", href: "/help/articles/adding-domains", icon: Globe },
+  { title: "DNS setup guide", description: "Step-by-step instructions for TXT verification and CNAME routing. Works with any domain registrar.", href: "/help/articles/dns-setup", icon: Settings },
 ];
 
 const Domains = () => (
