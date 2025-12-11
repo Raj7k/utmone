@@ -6,24 +6,51 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-const STAMP_PROMPT = `Transform this portrait photo into a geometric flat-style travel stamp illustration.
+// Location to landmark mapping for background elements
+const locationLandmarks: Record<string, string> = {
+  "San Francisco": "Golden Gate Bridge, Transamerica Pyramid, cable car silhouette, rolling hills",
+  "Singapore": "Marina Bay Sands hotel with three towers and rooftop boat, Merlion statue, modern skyline",
+  "Boston": "Faneuil Hall, Charles River bridge, historic red brick buildings, sailboats",
+  "Copenhagen": "Colorful Nyhavn harbor houses, Round Tower spire, windmills",
+  "Toronto": "CN Tower, Toronto skyline, waterfront",
+  "Mountain View": "Tech campus buildings, rolling green hills, palm trees",
+  "San Diego": "Coronado Bridge, palm trees, beach waves, Spanish architecture",
+  "Portland": "Mt. Hood snow-capped peak, pine trees, Hawthorne Bridge",
+  "Bangalore": "Vidhana Soudha building dome, tech patterns, temple gopuram silhouette",
+};
 
-STYLE REFERENCE: Bold, geometric travel stamps like vintage postage — clean lines, balanced detail, and flat vector color design.
+function buildStampPrompt(location: string, name: string): string {
+  const landmarks = locationLandmarks[location] || "iconic city landmarks and skyline";
+  
+  return `Transform this portrait photo into a geometric flat-style travel stamp illustration.
 
-ILLUSTRATION STYLE:
-- Shape language: Geometric and stylized — simplify the person into clear shapes with character
-- Color palette: Flat, vivid colors — use a unique 3-5 color set derived from the photo
-- Linework: Clean edges, no strokes unless decorative
-- Texture: Flat fills only — no gradients, shadows, or lighting effects
-- Detail level: Include 2-3 recognizable visual elements from the person (hair style, glasses, facial features)
+STYLE REQUIREMENTS:
+- Bold geometric shapes - simplify the person's face and features into clean, stylized shapes with character
+- Flat vivid colors - use a harmonious 3-5 color palette (no gradients, no shadows, no lighting effects)
+- Clean edges with no strokes unless decorative
+- The person should be recognizable but beautifully stylized as a geometric portrait
+
+BACKGROUND ELEMENTS for ${location}:
+Include 2-3 iconic landmarks behind/around the geometric portrait: ${landmarks}
+These landmarks should be simplified into the same geometric flat style as the portrait.
 
 STAMP FRAME:
-- Type: Perforated postage stamp edge (dotted/perforated border around edges)
-- Scale: Artwork should occupy 60-70% of canvas — centered
-- Background: Solid muted background color distinct from stamp interior
-- Label: No text — illustration only
+- Perforated postage stamp edge (scalloped/dotted border around all edges)
+- Stamp artwork occupies 60-70% of the canvas, centered with consistent margins
+- Solid background color distinct from stamp interior
+- NO text or typography inside the stamp - rely on illustration only
 
-OUTPUT: Square aspect ratio with solid background, vintage stamp aesthetic`;
+COMPOSITION:
+- Portrait centered in the stamp
+- Landmarks arranged artfully in background
+- Balanced and iconic layout
+- Avoid empty or overly abstract results
+
+OUTPUT:
+- Square 1:1 aspect ratio
+- PNG format
+- Solid color behind the stamp frame`;
+}
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -31,11 +58,11 @@ serve(async (req) => {
   }
 
   try {
-    const { architectId, photoUrl } = await req.json();
+    const { architectId, photoUrl, location, name } = await req.json();
 
-    if (!architectId || !photoUrl) {
+    if (!photoUrl) {
       return new Response(
-        JSON.stringify({ error: 'Missing architectId or photoUrl' }),
+        JSON.stringify({ error: 'Missing photoUrl' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -46,26 +73,27 @@ serve(async (req) => {
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // Check if stamp already exists in storage
-    const stampPath = `stamps/${architectId}.png`;
-    const { data: existingFile } = await supabase.storage
-      .from('architect-stamps')
-      .getPublicUrl(stampPath);
+    // Check if stamp already exists in storage (only if architectId provided)
+    if (architectId) {
+      const stampPath = `stamps/${architectId}.png`;
+      const { data: fileData, error: fileError } = await supabase.storage
+        .from('architect-stamps')
+        .download(stampPath);
 
-    // Check if file actually exists by trying to download it
-    const { data: fileData, error: fileError } = await supabase.storage
-      .from('architect-stamps')
-      .download(stampPath);
-
-    if (fileData && !fileError) {
-      console.log(`Stamp already exists for ${architectId}, returning cached version`);
-      return new Response(
-        JSON.stringify({ 
-          stampUrl: existingFile.publicUrl,
-          cached: true 
-        }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      if (fileData && !fileError) {
+        const { data: publicUrlData } = await supabase.storage
+          .from('architect-stamps')
+          .getPublicUrl(stampPath);
+        
+        console.log(`Stamp already exists for ${architectId}, returning cached version`);
+        return new Response(
+          JSON.stringify({ 
+            stampUrl: publicUrlData.publicUrl,
+            cached: true 
+          }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
     }
 
     if (!lovableApiKey) {
@@ -75,14 +103,13 @@ serve(async (req) => {
       );
     }
 
-    // Build the full photo URL if it's a relative path
-    const fullPhotoUrl = photoUrl.startsWith('http') 
-      ? photoUrl 
-      : `${supabaseUrl.replace('/rest/v1', '')}/storage/v1/object/public/architect-stamps/originals/${architectId}.jpeg`;
+    // Build location-aware prompt
+    const promptText = buildStampPrompt(location || 'San Francisco', name || 'Professional');
+    
+    console.log(`Generating stamp for ${name || architectId} in ${location || 'unknown location'}`);
+    console.log(`Photo URL: ${photoUrl}`);
 
-    console.log(`Generating stamp for ${architectId} from ${fullPhotoUrl}`);
-
-    // Call Lovable AI to generate the stamp
+    // Call Lovable AI to generate the stamp with image editing
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -90,13 +117,13 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'google/gemini-3-pro-image-preview',
+        model: 'google/gemini-2.5-flash-image-preview',
         messages: [
           {
             role: 'user',
             content: [
-              { type: 'text', text: STAMP_PROMPT },
-              { type: 'image_url', image_url: { url: fullPhotoUrl } }
+              { type: 'text', text: promptText },
+              { type: 'image_url', image_url: { url: photoUrl } }
             ]
           }
         ],
@@ -107,6 +134,20 @@ serve(async (req) => {
     if (!response.ok) {
       const errorText = await response.text();
       console.error('AI gateway error:', response.status, errorText);
+      
+      if (response.status === 429) {
+        return new Response(
+          JSON.stringify({ error: 'Rate limit exceeded. Please try again later.' }),
+          { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+      if (response.status === 402) {
+        return new Response(
+          JSON.stringify({ error: 'AI credits exhausted. Please add funds.' }),
+          { status: 402, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+      
       return new Response(
         JSON.stringify({ error: 'Failed to generate stamp', details: errorText }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -124,38 +165,45 @@ serve(async (req) => {
       );
     }
 
-    // Extract base64 data and upload to storage
-    const base64Data = generatedImageUrl.replace(/^data:image\/\w+;base64,/, '');
-    const imageBuffer = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+    // If architectId provided, cache the stamp in storage
+    if (architectId) {
+      try {
+        const base64Data = generatedImageUrl.replace(/^data:image\/\w+;base64,/, '');
+        const imageBuffer = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+        const stampPath = `stamps/${architectId}.png`;
 
-    const { error: uploadError } = await supabase.storage
-      .from('architect-stamps')
-      .upload(stampPath, imageBuffer, {
-        contentType: 'image/png',
-        upsert: true
-      });
+        const { error: uploadError } = await supabase.storage
+          .from('architect-stamps')
+          .upload(stampPath, imageBuffer, {
+            contentType: 'image/png',
+            upsert: true
+          });
 
-    if (uploadError) {
-      console.error('Upload error:', uploadError);
-      // Return the base64 directly if upload fails
-      return new Response(
-        JSON.stringify({ 
-          stampUrl: generatedImageUrl,
-          cached: false 
-        }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+        if (!uploadError) {
+          const { data: publicUrlData } = await supabase.storage
+            .from('architect-stamps')
+            .getPublicUrl(stampPath);
+
+          console.log(`Successfully generated and cached stamp for ${architectId}`);
+          
+          return new Response(
+            JSON.stringify({ 
+              stampUrl: publicUrlData.publicUrl,
+              cached: false 
+            }),
+            { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          );
+        }
+      } catch (uploadErr) {
+        console.error('Upload error:', uploadErr);
+      }
     }
 
-    const { data: publicUrlData } = await supabase.storage
-      .from('architect-stamps')
-      .getPublicUrl(stampPath);
-
-    console.log(`Successfully generated and cached stamp for ${architectId}`);
-
+    // Return base64 directly if no caching or cache failed
+    console.log(`Stamp generated for ${name || architectId}`);
     return new Response(
       JSON.stringify({ 
-        stampUrl: publicUrlData.publicUrl,
+        stampUrl: generatedImageUrl,
         cached: false 
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
