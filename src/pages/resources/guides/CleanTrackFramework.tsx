@@ -71,6 +71,8 @@ const CleanTrackFramework = () => {
         lastUpdated="2025-01-23"
         breadcrumbs={breadcrumbs}
         relatedResources={relatedResources}
+        backLink="/resources/guides"
+        backLabel="Back to Guides"
       >
       <QuickAnswer>
         The Clean-Track Framework is the foundation of reliable, scalable campaign tracking across UTMs, naming conventions, attribution, and analytics systems. It's a 4-layer architecture: Campaign Taxonomy (naming structure), UTM Governance (parameter rules), Attribution Logic (credit assignment), and Reporting Standards (dashboard consistency).

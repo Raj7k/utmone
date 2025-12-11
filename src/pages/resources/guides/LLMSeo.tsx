@@ -160,6 +160,8 @@ const LLMSeo = () => {
         lastUpdated="January 2025"
         breadcrumbs={breadcrumbs}
         relatedResources={relatedResources}
+        backLink="/resources/guides"
+        backLabel="Back to Guides"
       >
       <QuickAnswer>
         LLM-SEO (Answer Engine Optimization) is the discipline of making your content discoverable, extractable, and citable by AI systems like ChatGPT, Gemini, Claude, and Perplexity. It uses 7 principles: semantic naming, dense definitions, schema markup, internal cross-linking, FAQ sections, clear hierarchies, and citation-worthy sources. This guide includes 9 interactive tools to optimize your content for AI citation.

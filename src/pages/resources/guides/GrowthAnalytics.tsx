@@ -70,6 +70,8 @@ const GrowthAnalytics = () => {
         lastUpdated="2025-01-23"
         breadcrumbs={breadcrumbs}
         relatedResources={relatedResources}
+        backLink="/resources/guides"
+        backLabel="Back to Guides"
       >
       <QuickAnswer>
         Growth Analytics is the discipline of measuring acquisition, activation, retention, and revenue across the entire customer lifecycle using clean, structured tracking. It uses the AARRR framework (Pirate Metrics) to track users through every lifecycle stage, showing where growth happens and where it breaks.

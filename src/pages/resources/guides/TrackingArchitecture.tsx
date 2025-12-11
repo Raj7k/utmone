@@ -71,6 +71,8 @@ const TrackingArchitecture = () => {
         lastUpdated="2025-01-23"
         breadcrumbs={breadcrumbs}
         relatedResources={relatedResources}
+        backLink="/resources/guides"
+        backLabel="Back to Guides"
       >
       <QuickAnswer>
         Tracking architecture defines how campaigns, UTMs, channels, events, and reporting systems connect into a single, unified data flow. It's the blueprint behind clean attribution, reliable dashboards, and scalable analytics—ensuring data flows cleanly from campaign creation to final report without breaking under complexity.
