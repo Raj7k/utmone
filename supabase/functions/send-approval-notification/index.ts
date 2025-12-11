@@ -104,6 +104,7 @@ serve(async (req: Request) => {
       // Send approval email to creator
       const emailResponse = await resend.emails.send({
         from: "utm.one <notifications@utm.one>",
+        replyTo: "hello@utm.one",
         to: [creatorEmail],
         subject: `✅ Your link "${link.title}" is now live`,
         html: `
@@ -155,6 +156,7 @@ serve(async (req: Request) => {
       // Send rejection email to creator
       const emailResponse = await resend.emails.send({
         from: "utm.one <notifications@utm.one>",
+        replyTo: "hello@utm.one",
         to: [creatorEmail],
         subject: `❌ Link "${link.title}" needs revision`,
         html: `
@@ -207,6 +209,7 @@ serve(async (req: Request) => {
       // Send notification to admins about new approval request
       const emailResponse = await resend.emails.send({
         from: "utm.one <notifications@utm.one>",
+        replyTo: "hello@utm.one",
         to: adminEmails,
         subject: `🔔 New approval request: "${link.title}"`,
         html: `

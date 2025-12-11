@@ -208,6 +208,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     const emailResponse = await resend.emails.send({
       from: "utm.one <updates@utm.one>",
+      replyTo: "hello@utm.one",
       to: [request.email],
       subject: template.subject,
       html: template.html,

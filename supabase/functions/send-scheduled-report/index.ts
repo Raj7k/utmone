@@ -75,6 +75,7 @@ serve(async (req) => {
         // Send email with attachment
         const emailResult = await resend.emails.send({
           from: 'utm.one Reports <reports@utm.one>',
+          reply_to: 'hello@utm.one',
           to: report.recipients,
           subject: getEmailSubject(report.template_name, workspace?.name),
           html: htmlContent,

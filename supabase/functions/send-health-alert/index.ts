@@ -82,6 +82,7 @@ Deno.serve(async (req) => {
 
     const { error: emailError } = await resend.emails.send({
       from: 'utm.one Health Monitor <alerts@utm.one>',
+      replyTo: 'hello@utm.one',
       to: owner.email,
       subject: `🚨 ${unhealthyLinks.length} Link${unhealthyLinks.length > 1 ? 's' : ''} Unhealthy - ${workspace.name}`,
       text: `Hi ${owner.full_name || 'there'},
