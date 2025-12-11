@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
-import { ArrowLeft, Info, Check, Shield, Zap, Clock } from "lucide-react";
+import { ArrowLeft, Info, Check, Shield, Clock } from "lucide-react";
 import { motion } from "framer-motion";
 import { AuthLoadingScreen } from "@/components/loading/AuthLoadingScreen";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
@@ -13,6 +13,7 @@ import { SocialLoginButtons } from "@/components/auth/SocialLoginButtons";
 import { PasswordInput } from "@/components/auth/PasswordInput";
 import { useUIFeatureFlags } from "@/hooks/useUIFeatureFlag";
 import { ObsidianMarketingLayout } from "@/components/layout/ObsidianMarketingLayout";
+import { EmailConfirmationScreen } from "@/components/auth/EmailConfirmationScreen";
 
 // Value proposition badges
 const VALUE_PROPS = [
@@ -32,6 +33,8 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
+  const [confirmationPending, setConfirmationPending] = useState(false);
+  const [pendingEmail, setPendingEmail] = useState("");
   const [invitationContext, setInvitationContext] = useState<{
     email: string;
     workspaceName: string;
@@ -199,36 +202,18 @@ const Signup = () => {
       if (error) {
         notify.error(error.message || "sign up failed");
       } else {
-        // Check for referral code and create partner_referral record
+        // Check for referral code and store for later (after email confirmation)
         const refCode = localStorage.getItem('utm_referral_code');
         if (refCode) {
-          try {
-            const { data: { user } } = await supabase.auth.getUser();
-            if (user) {
-              const { data: partner } = await supabase
-                .from('partners')
-                .select('id')
-                .eq('partner_code', refCode)
-                .eq('status', 'approved')
-                .single();
-
-              if (partner) {
-                await supabase.from('partner_referrals').insert({
-                  partner_id: partner.id,
-                  referred_user_id: user.id,
-                  referral_code: refCode,
-                  signup_date: new Date().toISOString(),
-                  status: 'pending'
-                });
-              }
-            }
-            localStorage.removeItem('utm_referral_code');
-          } catch (err) {
-            console.error('Error tracking referral:', err);
-          }
+          // Store referral info to process after email confirmation
+          localStorage.setItem('pending_referral_code', refCode);
+          localStorage.setItem('pending_referral_email', email);
         }
 
-        notify.success("account created successfully");
+        // Show email confirmation screen
+        setPendingEmail(email);
+        setConfirmationPending(true);
+        notify.success("confirmation email sent");
       }
     } catch (error) {
       notify.error("an unexpected error occurred");
@@ -288,6 +273,21 @@ const Signup = () => {
 
   if (isCheckingSession || isAuthenticating) {
     return <AuthLoadingScreen />;
+  }
+
+  // Show email confirmation screen when signup is pending
+  if (confirmationPending) {
+    return (
+      <EmailConfirmationScreen
+        email={pendingEmail}
+        onBack={() => {
+          setConfirmationPending(false);
+          setPendingEmail("");
+          setEmail("");
+          setPassword("");
+        }}
+      />
+    );
   }
 
   return (
