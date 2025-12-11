@@ -14,10 +14,15 @@ interface ApprovalRequest {
   name?: string;
   access_level?: number;
   invite_token: string;
+  inviteToken?: string; // Alias for invite_token
   role?: string;
   score?: number;
   plan_tier?: string;
+  planTier?: string; // Alias for plan_tier
   plan_duration_days?: number;
+  planDurationDays?: number; // Alias for plan_duration_days
+  planExpiresAt?: string; // Alternative to plan_duration_days
+  origin?: string; // Frontend origin URL
 }
 
 const getPlanLabel = (tier: string): string => {
@@ -289,18 +294,33 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { 
-      email, 
-      name, 
-      invite_token, 
-      plan_tier = 'growth',
-      plan_duration_days = 30
-    }: ApprovalRequest = await req.json();
+    const body: ApprovalRequest = await req.json();
+    
+    // Support both snake_case and camelCase field names
+    const email = body.email;
+    const name = body.name;
+    const invite_token = body.invite_token || body.inviteToken;
+    const plan_tier = body.plan_tier || body.planTier || 'growth';
+    
+    // Calculate duration from planExpiresAt if provided, otherwise use plan_duration_days
+    let plan_duration_days = body.plan_duration_days || body.planDurationDays || 30;
+    if (body.planExpiresAt) {
+      const expiryDate = new Date(body.planExpiresAt);
+      plan_duration_days = Math.ceil((expiryDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+    }
+    
+    // Use origin from frontend, fallback to utm.one
+    const origin = body.origin || 'https://utm.one';
+
+    console.log('[send-approval-email] Processing:', { email, plan_tier, origin, invite_token: invite_token?.slice(0, 20) + '...' });
 
     const foundingNumber = await getFoundingNumber();
     const displayName = name || email.split('@')[0];
     
-    const claimUrl = `${Deno.env.get("SUPABASE_URL")?.replace("https://", "https://")}/claim-access?token=${invite_token}`;
+    // Use the correct frontend origin URL
+    const claimUrl = `${origin}/claim-access?token=${invite_token}`;
+    
+    console.log('[send-approval-email] Claim URL:', claimUrl);
     
     const emailHtml = createPremiumApprovalEmail(
       displayName,

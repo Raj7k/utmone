@@ -5,13 +5,37 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
-import { Mail, CheckCircle2, Clock, XCircle, Send, Copy } from "lucide-react";
+import { Mail, CheckCircle2, Clock, XCircle, Send, Copy, Pencil, Trash2 } from "lucide-react";
 import { notify } from "@/lib/notify";
 import { useState } from "react";
+import { EditInviteDialog } from "./EditInviteDialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+
+interface Invite {
+  id: string;
+  email: string;
+  access_level: number;
+  plan_tier: string | null;
+  invite_token: string;
+  claimed_at: string | null;
+  expires_at: string;
+  created_at: string;
+}
 
 export function InviteTrackingDashboard() {
   const queryClient = useQueryClient();
   const [copiedToken, setCopiedToken] = useState<string | null>(null);
+  const [editingInvite, setEditingInvite] = useState<Invite | null>(null);
+  const [deletingInvite, setDeletingInvite] = useState<Invite | null>(null);
   
   const { data: invites, isLoading } = useQuery({
     queryKey: ['early-access-invites'],
@@ -22,14 +46,20 @@ export function InviteTrackingDashboard() {
         .order('created_at', { ascending: false });
       
       if (error) throw error;
-      return data;
+      return data as Invite[];
     },
   });
 
   const resendInviteMutation = useMutation({
-    mutationFn: async ({ email, accessLevel, inviteToken }: { email: string; accessLevel: number; inviteToken: string }) => {
+    mutationFn: async (invite: Invite) => {
       const { error } = await supabase.functions.invoke("send-approval-email", {
-        body: { email, accessLevel, inviteToken },
+        body: { 
+          email: invite.email, 
+          accessLevel: invite.access_level,
+          planTier: invite.plan_tier || 'growth',
+          inviteToken: invite.invite_token,
+          origin: window.location.origin,
+        },
       });
       if (error) throw error;
     },
@@ -38,6 +68,38 @@ export function InviteTrackingDashboard() {
     },
     onError: (error: Error) => {
       notify.error("Failed to resend invite", { description: error.message });
+    },
+  });
+
+  const deleteInviteMutation = useMutation({
+    mutationFn: async (invite: Invite) => {
+      // Delete from early_access_invites
+      const { error: inviteError } = await supabase
+        .from("early_access_invites")
+        .delete()
+        .eq("id", invite.id);
+
+      if (inviteError) throw inviteError;
+
+      // Update early_access_requests status back to pending if not claimed
+      if (!invite.claimed_at) {
+        const { error: requestError } = await supabase
+          .from("early_access_requests")
+          .update({ status: "pending", access_level: 0 })
+          .eq("email", invite.email.toLowerCase());
+
+        if (requestError) {
+          console.error("Failed to update early_access_requests:", requestError);
+        }
+      }
+    },
+    onSuccess: () => {
+      notify.success("Invite revoked", { description: "Invitation has been revoked" });
+      queryClient.invalidateQueries({ queryKey: ["early-access-invites"] });
+      setDeletingInvite(null);
+    },
+    onError: (error: Error) => {
+      notify.error("Failed to revoke invite", { description: error.message });
     },
   });
 
@@ -56,7 +118,7 @@ export function InviteTrackingDashboard() {
     expired: invites?.filter(i => !i.claimed_at && new Date(i.expires_at) <= new Date()).length || 0,
   };
 
-  const getStatusBadge = (invite: any) => {
+  const getStatusBadge = (invite: Invite) => {
     if (invite.claimed_at) {
       return <Badge className="gap-1"><CheckCircle2 className="h-3 w-3" /> Claimed</Badge>;
     }
@@ -66,15 +128,18 @@ export function InviteTrackingDashboard() {
     return <Badge variant="outline" className="gap-1"><Clock className="h-3 w-3" /> Pending</Badge>;
   };
 
-  const getAccessLevelLabel = (level: number): string => {
+  const getPlanLabel = (invite: Invite): string => {
+    if (invite.plan_tier) {
+      return invite.plan_tier.charAt(0).toUpperCase() + invite.plan_tier.slice(1);
+    }
     const labels: Record<number, string> = {
       0: "Waitlist",
-      1: "Read-Only Preview",
-      2: "Limited Beta",
-      3: "Full Access",
-      4: "Power User",
+      1: "Free",
+      2: "Starter",
+      3: "Growth",
+      4: "Business",
     };
-    return labels[level] || "Unknown";
+    return labels[invite.access_level] || "Unknown";
   };
 
   if (isLoading) {
@@ -138,7 +203,7 @@ export function InviteTrackingDashboard() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Email</TableHead>
-                  <TableHead>Access Level</TableHead>
+                  <TableHead>Plan</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Sent</TableHead>
                   <TableHead>Claimed</TableHead>
@@ -147,55 +212,73 @@ export function InviteTrackingDashboard() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {invites.map((invite) => (
-                  <TableRow key={invite.id}>
-                    <TableCell className="font-medium">{invite.email}</TableCell>
-                    <TableCell>
-                      <Badge variant="outline">{getAccessLevelLabel(invite.access_level)}</Badge>
-                    </TableCell>
-                    <TableCell>{getStatusBadge(invite)}</TableCell>
-                    <TableCell className="text-sm text-muted-foreground">
-                      {format(new Date(invite.created_at), "MMM d, yyyy")}
-                    </TableCell>
-                    <TableCell className="text-sm text-muted-foreground">
-                      {invite.claimed_at ? format(new Date(invite.claimed_at), "MMM d, yyyy") : "—"}
-                    </TableCell>
-                    <TableCell className="text-sm text-muted-foreground">
-                      {format(new Date(invite.expires_at), "MMM d, yyyy")}
-                    </TableCell>
-                    <TableCell>
-                      {!invite.claimed_at && new Date(invite.expires_at) > new Date() && (
-                        <div className="flex gap-2">
-                          <Button 
-                            variant="ghost" 
-                            size="sm" 
-                            className="gap-2"
-                            onClick={() => resendInviteMutation.mutate({
-                              email: invite.email,
-                              accessLevel: invite.access_level,
-                              inviteToken: invite.invite_token,
-                            })}
-                            disabled={resendInviteMutation.isPending}
-                          >
-                            <Send className="h-3 w-3" />
-                            Resend
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => copyInviteLink(invite.invite_token)}
-                          >
-                            {copiedToken === invite.invite_token ? (
-                              <CheckCircle2 className="h-3 w-3 text-green-500" />
-                            ) : (
-                              <Copy className="h-3 w-3" />
-                            )}
-                          </Button>
+                {invites.map((invite) => {
+                  const isPending = !invite.claimed_at && new Date(invite.expires_at) > new Date();
+                  
+                  return (
+                    <TableRow key={invite.id}>
+                      <TableCell className="font-medium">{invite.email}</TableCell>
+                      <TableCell>
+                        <Badge variant="outline">{getPlanLabel(invite)}</Badge>
+                      </TableCell>
+                      <TableCell>{getStatusBadge(invite)}</TableCell>
+                      <TableCell className="text-sm text-muted-foreground">
+                        {format(new Date(invite.created_at), "MMM d, yyyy")}
+                      </TableCell>
+                      <TableCell className="text-sm text-muted-foreground">
+                        {invite.claimed_at ? format(new Date(invite.claimed_at), "MMM d, yyyy") : "—"}
+                      </TableCell>
+                      <TableCell className="text-sm text-muted-foreground">
+                        {format(new Date(invite.expires_at), "MMM d, yyyy")}
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex gap-1">
+                          {isPending && (
+                            <>
+                              <Button 
+                                variant="ghost" 
+                                size="icon"
+                                title="Resend invite"
+                                onClick={() => resendInviteMutation.mutate(invite)}
+                                disabled={resendInviteMutation.isPending}
+                              >
+                                <Send className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                title="Copy link"
+                                onClick={() => copyInviteLink(invite.invite_token)}
+                              >
+                                {copiedToken === invite.invite_token ? (
+                                  <CheckCircle2 className="h-4 w-4 text-green-500" />
+                                ) : (
+                                  <Copy className="h-4 w-4" />
+                                )}
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                title="Edit invite"
+                                onClick={() => setEditingInvite(invite)}
+                              >
+                                <Pencil className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                title="Revoke invite"
+                                onClick={() => setDeletingInvite(invite)}
+                              >
+                                <Trash2 className="h-4 w-4 text-destructive" />
+                              </Button>
+                            </>
+                          )}
                         </div>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           ) : (
@@ -207,6 +290,35 @@ export function InviteTrackingDashboard() {
           )}
         </CardContent>
       </Card>
+
+      {/* Edit Dialog */}
+      <EditInviteDialog
+        invite={editingInvite}
+        open={!!editingInvite}
+        onOpenChange={(open) => !open && setEditingInvite(null)}
+      />
+
+      {/* Delete Confirmation */}
+      <AlertDialog open={!!deletingInvite} onOpenChange={(open) => !open && setDeletingInvite(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Revoke Invitation</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to revoke the invitation for {deletingInvite?.email}? 
+              This will invalidate their invite link and they will need a new invitation to access the platform.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => deletingInvite && deleteInviteMutation.mutate(deletingInvite)}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Revoke Invite
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

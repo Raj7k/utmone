@@ -78,7 +78,7 @@ export const AdminDirectInvite = () => {
         // Don't throw - invite was created, this is just a sync
       }
 
-      // Send approval email with plan info
+      // Send approval email with plan info - pass origin for correct claim URL
       const { error: emailError } = await supabase.functions.invoke("send-approval-email", {
         body: {
           email: email.toLowerCase(),
@@ -86,6 +86,7 @@ export const AdminDirectInvite = () => {
           planTier,
           planExpiresAt: expiryDate.toISOString(),
           inviteToken,
+          origin: window.location.origin,
         },
       });
 
