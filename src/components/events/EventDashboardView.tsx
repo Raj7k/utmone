@@ -11,6 +11,7 @@ import { EventValueSettings } from "./EventValueSettings";
 import { BadgeScanUploader } from "./BadgeScanUploader";
 import { ControlCitySelector } from "./ControlCitySelector";
 import { EnrichmentStatusBadge } from "./EnrichmentStatusBadge";
+import { EnrichmentSetupCard } from "./EnrichmentSetupCard";
 import { EventHaloResult } from "@/hooks/useFieldEvents";
 
 interface FieldEvent {
@@ -122,6 +123,9 @@ export const EventDashboardView = ({
         eventCity={event.location_city}
         onUpdate={onRecalculate}
       />
+
+      {/* Enrichment Setup Card (shows only when not configured) */}
+      <EnrichmentSetupCard />
 
       {/* Data Warning */}
       {haloResult && !haloResult.has_sufficient_data && (
