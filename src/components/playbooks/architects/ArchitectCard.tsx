@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Linkedin, ArrowUpRight, Share2, Download, MapPin } from 'lucide-react';
+import { Linkedin, ArrowUpRight, Share2, Download, MapPin, Wand2, Loader2 } from 'lucide-react';
 import { Architect, categories } from '@/data/b2bArchitects';
 import { Button } from '@/components/ui/button';
 import { shareToLinkedIn } from '@/utils/linkedinShare';
 import { getLocationTheme } from './locationBackgrounds';
+import { useArchitectStamp } from '@/hooks/useArchitectStamp';
 
 interface ArchitectCardProps {
   architect: Architect;
@@ -15,6 +16,13 @@ export function ArchitectCard({ architect, index }: ArchitectCardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
   const category = categories[architect.category];
   const locationTheme = getLocationTheme(architect.location);
+  
+  const { stampUrl, isGenerating, error, generateStamp } = useArchitectStamp({
+    architectId: architect.id,
+    photoUrl: architect.originalPhoto,
+    location: architect.location,
+    name: architect.name
+  });
 
   const handleShare = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -24,16 +32,22 @@ export function ArchitectCard({ architect, index }: ArchitectCardProps) {
 
   const handleDownload = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    const response = await fetch(architect.originalPhoto);
+    const imageUrl = stampUrl || architect.originalPhoto;
+    const response = await fetch(imageUrl);
     const blob = await response.blob();
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${architect.id}-card.png`;
+    a.download = `${architect.id}-${stampUrl ? 'stamp' : 'card'}.png`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+  };
+
+  const handleGenerateStamp = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    generateStamp();
   };
 
   return (
@@ -55,6 +69,17 @@ export function ArchitectCard({ architect, index }: ArchitectCardProps) {
           <div className="h-full bg-card rounded-xl border border-border shadow-sm overflow-hidden group hover:shadow-lg transition-shadow">
             {/* Action Buttons */}
             <div className="absolute top-2 right-2 z-10 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+              {!stampUrl && !isGenerating && (
+                <Button
+                  size="icon"
+                  variant="secondary"
+                  className="h-7 w-7 bg-card/80 backdrop-blur-sm"
+                  onClick={handleGenerateStamp}
+                  title="Generate AI Stamp"
+                >
+                  <Wand2 className="h-3 w-3" />
+                </Button>
+              )}
               <Button
                 size="icon"
                 variant="secondary"
@@ -89,6 +114,14 @@ export function ArchitectCard({ architect, index }: ArchitectCardProps) {
                   fill={locationTheme.accentColor}
                 />
               </svg>
+              
+              {/* Loading overlay during generation */}
+              {isGenerating && (
+                <div className="absolute inset-0 bg-black/50 backdrop-blur-sm z-20 flex flex-col items-center justify-center rounded-lg">
+                  <Loader2 className="h-8 w-8 animate-spin text-white mb-2" />
+                  <span className="text-xs text-white/80">Generating stamp...</span>
+                </div>
+              )}
               
               {/* Vintage stamp frame */}
               <div className="relative w-full h-full">
@@ -133,29 +166,42 @@ export function ArchitectCard({ architect, index }: ArchitectCardProps) {
                   ))}
                 </div>
 
-                {/* Photo with retro filter */}
+                {/* Photo or Generated Stamp */}
                 <div 
                   className="absolute inset-3 rounded overflow-hidden"
                   style={{
-                    backgroundImage: `url(${architect.originalPhoto})`,
+                    backgroundImage: `url(${stampUrl || architect.originalPhoto})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
-                    filter: 'sepia(20%) saturate(1.3) contrast(1.1)',
+                    filter: stampUrl ? 'none' : 'sepia(20%) saturate(1.3) contrast(1.1)',
                   }}
                 >
-                  {/* Vintage overlay matching location theme */}
-                  <div 
-                    className="absolute inset-0" 
-                    style={{ 
-                      background: `linear-gradient(135deg, ${locationTheme.accentColor}15 0%, transparent 50%, ${locationTheme.accentColor}20 100%)` 
-                    }}
-                  />
-                  {/* Noise texture */}
-                  <div className="absolute inset-0 opacity-30 mix-blend-overlay" 
-                    style={{ 
-                      backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 400 400\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")',
-                    }} 
-                  />
+                  {/* Only show vintage overlay if not using AI stamp */}
+                  {!stampUrl && (
+                    <>
+                      {/* Vintage overlay matching location theme */}
+                      <div 
+                        className="absolute inset-0" 
+                        style={{ 
+                          background: `linear-gradient(135deg, ${locationTheme.accentColor}15 0%, transparent 50%, ${locationTheme.accentColor}20 100%)` 
+                        }}
+                      />
+                      {/* Noise texture */}
+                      <div className="absolute inset-0 opacity-30 mix-blend-overlay" 
+                        style={{ 
+                          backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 400 400\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")',
+                        }} 
+                      />
+                    </>
+                  )}
+                  
+                  {/* Stamp badge indicator */}
+                  {stampUrl && (
+                    <div className="absolute bottom-1 right-1 bg-black/60 text-white text-[8px] px-1.5 py-0.5 rounded-full flex items-center gap-0.5">
+                      <Wand2 className="h-2 w-2" />
+                      AI
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

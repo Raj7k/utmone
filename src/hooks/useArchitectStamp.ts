@@ -8,42 +8,42 @@ interface UseArchitectStampResult {
   generateStamp: () => Promise<void>;
 }
 
-export function useArchitectStamp(architectId: string, originalPhoto: string): UseArchitectStampResult {
+interface UseArchitectStampParams {
+  architectId: string;
+  photoUrl: string;
+  location: string;
+  name: string;
+}
+
+export function useArchitectStamp({ architectId, photoUrl, location, name }: UseArchitectStampParams): UseArchitectStampResult {
   const [stampUrl, setStampUrl] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Check for cached stamp on mount
+  // Check localStorage for cached stamp on mount
   useEffect(() => {
-    const checkCachedStamp = async () => {
-      try {
-        const { data } = supabase.storage
-          .from('architect-stamps')
-          .getPublicUrl(`stamps/${architectId}.png`);
-
-        // Try to fetch the image to verify it exists
-        const response = await fetch(data.publicUrl, { method: 'HEAD' });
-        if (response.ok) {
-          setStampUrl(data.publicUrl);
-        }
-      } catch (err) {
-        // Stamp doesn't exist yet, that's fine
-        console.log(`No cached stamp for ${architectId}`);
-      }
-    };
-
-    checkCachedStamp();
+    const cachedStamp = localStorage.getItem(`architect-stamp-${architectId}`);
+    if (cachedStamp) {
+      setStampUrl(cachedStamp);
+    }
   }, [architectId]);
 
   const generateStamp = async () => {
-    if (isGenerating || stampUrl) return;
-
+    if (isGenerating) return;
+    
+    // Allow regeneration even if stamp exists
     setIsGenerating(true);
     setError(null);
 
     try {
+      console.log(`Generating stamp for ${name} in ${location}`);
+      
       const { data, error: fnError } = await supabase.functions.invoke('generate-architect-stamp', {
-        body: { architectId, photoUrl: originalPhoto }
+        body: { 
+          photoUrl, 
+          location,
+          name
+        }
       });
 
       if (fnError) {
@@ -52,6 +52,8 @@ export function useArchitectStamp(architectId: string, originalPhoto: string): U
 
       if (data?.stampUrl) {
         setStampUrl(data.stampUrl);
+        // Cache in localStorage
+        localStorage.setItem(`architect-stamp-${architectId}`, data.stampUrl);
       } else if (data?.error) {
         throw new Error(data.error);
       }
