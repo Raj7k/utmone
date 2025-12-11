@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatText } from "@/utils/textFormatter";
+import { ProductMegaDropdown } from "./mega-dropdown/ProductMegaDropdown";
 
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -110,86 +111,7 @@ export const Navigation = () => {
                   {formatText("product")}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <div className="w-[650px] p-4 flex gap-4 obsidian-glass-80 backdrop-blur-xl border border-white-10">
-                    {/* Featured Card - Left */}
-                    <div className="w-[220px] rounded-lg p-4 flex flex-col justify-between bg-white-05 border border-white-10">
-                      <div>
-                        <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3 bg-white-10">
-                          <Layers className="w-5 h-5 text-white-80" />
-                        </div>
-                        <h3 className="text-sm font-semibold mb-2 text-white-90">customer-journey</h3>
-                        <p className="text-xs leading-relaxed text-white-50">
-                          from shortening to attribution, manage every link touchpoint in one place
-                        </p>
-                      </div>
-                      <Link 
-                        to="/product" 
-                        className="text-xs font-medium hover:underline mt-4 inline-flex items-center gap-1 text-white-80 hover:text-white-90"
-                      >
-                        explore platform <ChevronRight className="w-3 h-3" />
-                      </Link>
-                    </div>
-
-                    {/* Products Grid - Right */}
-                    <div className="flex-1">
-                      <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wider mb-2 text-white-50">
-                        Products
-                      </div>
-                      <div className="grid grid-cols-2 gap-2">
-                        <Link
-                          to="/products/link-orchestration"
-                          className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
-                        >
-                          <div className="flex items-center gap-2 mb-1">
-                            <div className="w-8 h-8 rounded-md flex items-center justify-center transition-colors bg-white-10">
-                              <Link2 className="w-4 h-4 text-white-80" />
-                            </div>
-                            <div className="text-sm font-medium leading-none text-white-90">Link Orchestration</div>
-                          </div>
-                          <p className="text-xs leading-snug text-white-50">control & reliability</p>
-                        </Link>
-
-                        <Link
-                          to="/products/journey-intelligence"
-                          className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
-                        >
-                          <div className="flex items-center gap-2 mb-1">
-                            <div className="w-8 h-8 rounded-md flex items-center justify-center transition-colors bg-white-10">
-                              <Network className="w-4 h-4 text-white-80" />
-                            </div>
-                            <div className="text-sm font-medium leading-none text-white-90">Journey Intelligence</div>
-                          </div>
-                          <p className="text-xs leading-snug text-white-50">truth & revenue</p>
-                        </Link>
-
-                        <Link
-                          to="/products/qr-studio"
-                          className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
-                        >
-                          <div className="flex items-center gap-2 mb-1">
-                            <div className="w-8 h-8 rounded-md flex items-center justify-center transition-colors bg-white-10">
-                              <QrCode className="w-4 h-4 text-white-80" />
-                            </div>
-                            <div className="text-sm font-medium leading-none text-white-90">QR Studio</div>
-                          </div>
-                          <p className="text-xs leading-snug text-white-50">physical reliability</p>
-                        </Link>
-
-                        <Link
-                          to="/products/data-pipeline"
-                          className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
-                        >
-                          <div className="flex items-center gap-2 mb-1">
-                            <div className="w-8 h-8 rounded-md flex items-center justify-center transition-colors bg-white-10">
-                              <Database className="w-4 h-4 text-white-80" />
-                            </div>
-                            <div className="text-sm font-medium leading-none text-white-90">Data Pipeline</div>
-                          </div>
-                          <p className="text-xs leading-snug text-white-50">freedom & scale</p>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
+                  <ProductMegaDropdown />
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
