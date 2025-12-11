@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { BookOpen, ClipboardList, FileText, Puzzle, FolderOpen, BookMarked, SearchCheck, Wrench, GraduationCap, FileBarChart } from "lucide-react";
+import { BookOpen, ClipboardList, FileText, Puzzle, FolderOpen, BookMarked, SearchCheck, Wrench, GraduationCap, FileBarChart, HelpCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const categories = [
+  { icon: HelpCircle, label: "Help Center", path: "/help", desc: "documentation & guides", isNew: true },
   { icon: BookOpen, label: "Guides", path: "/resources/guides", desc: "step-by-step learning" },
   { icon: ClipboardList, label: "Playbooks", path: "/resources/playbooks", desc: "ready-to-use strategies" },
   { icon: FileText, label: "Templates", path: "/resources/templates", desc: "plug & play documents" },
@@ -62,18 +63,21 @@ export function ResourceCategoryGrid({ variant = "dark" }: ResourceCategoryGridP
                   : "text-white/60 group-hover:text-white/80"
               )} />
             </div>
-            <div>
+            <div className="flex items-center gap-1">
               <span className={cn(
                 "text-[11px] font-medium transition-colors",
                 isLight 
                   ? "text-zinc-700 group-hover:text-zinc-900" 
                   : "text-white/80 group-hover:text-white"
               )}>{cat.label}</span>
-              <p className={cn(
-                "text-[9px]",
-                isLight ? "text-zinc-400" : "text-white/40"
-              )}>{cat.desc}</p>
+              {cat.isNew && (
+                <span className="px-1 py-0.5 text-[8px] font-medium bg-emerald-500/20 text-emerald-400 rounded">new</span>
+              )}
             </div>
+            <p className={cn(
+              "text-[9px]",
+              isLight ? "text-zinc-400" : "text-white/40"
+            )}>{cat.desc}</p>
           </Link>
         ))}
       </div>
