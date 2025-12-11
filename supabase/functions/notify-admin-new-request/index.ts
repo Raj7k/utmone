@@ -75,8 +75,8 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send email to all admins
     const emailResponse = await resend.emails.send({
-      from: "utm.one <onboarding@utm.one>",
-      replyTo: "hello@utm.one",
+      from: "utm.one <onboarding@send.utm.one>",
+      replyTo: "hello@send.utm.one",
       to: adminEmails,
       subject: "🎯 New Early Access Request",
       html: `

@@ -263,7 +263,7 @@ serve(async (req) => {
               "Authorization": `Bearer ${resendApiKey}`,
             },
             body: JSON.stringify({
-              from: "Raj from utm.one <invites@utm.one>",
+              from: "Raj from utm.one <invites@send.utm.one>",
               to: [normalizedEmail],
               subject: `✨ your spot is still waiting — ${existingInvite.workspace_name || "utm.one"}`,
               html: createReminderEmail({
@@ -375,7 +375,7 @@ serve(async (req) => {
             "Authorization": `Bearer ${resendApiKey}`,
           },
           body: JSON.stringify({
-            from: "Raj from utm.one <invites@utm.one>",
+            from: "Raj from utm.one <invites@send.utm.one>",
             to: [normalizedEmail],
             subject: `✨ you're one of the first 100 — welcome to utm.one`,
             html: createPremiumInviteEmail({

@@ -4,10 +4,11 @@
  */
 
 export const EMAIL_CONFIG = {
-  PRIMARY_DOMAIN: 'utm.one',
-  SENDER_EMAIL: 'onboarding@utm.one',
+  PRIMARY_DOMAIN: 'send.utm.one',
+  SENDER_EMAIL: 'onboarding@send.utm.one',
   SENDER_NAME: 'utm.one',
-  NO_REPLY: 'noreply@utm.one',
+  NO_REPLY: 'noreply@send.utm.one',
+  REPLY_TO: 'hello@send.utm.one',
 } as const;
 
 export const getEmailSender = (type: 'onboarding' | 'noreply' = 'onboarding') => {

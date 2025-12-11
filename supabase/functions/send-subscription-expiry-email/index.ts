@@ -6,7 +6,7 @@ const corsHeaders = {
 };
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
-const SENDER_EMAIL = "onboarding@utm.one";
+const SENDER_EMAIL = "onboarding@send.utm.one";
 const SENDER_NAME = "utm.one";
 
 serve(async (req) => {

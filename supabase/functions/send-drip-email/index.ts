@@ -162,8 +162,8 @@ serve(async (req) => {
     }
 
     const { error: sendError } = await resend.emails.send({
-      from: 'utm.one <onboarding@utm.one>',
-      replyTo: 'hello@utm.one',
+      from: 'utm.one <onboarding@send.utm.one>',
+      replyTo: 'hello@send.utm.one',
       to: [user.email],
       subject: template.subject,
       html: template.html,

@@ -286,7 +286,7 @@ serve(async (req) => {
             'Authorization': `Bearer ${RESEND_API_KEY}`,
           },
           body: JSON.stringify({
-            from: 'utm.one Pulse Watchdog <alerts@utm.one>',
+            from: 'utm.one Pulse Watchdog <alerts@send.utm.one>',
             to: settings.email_recipients,
             subject: subject,
             html: emailHtml,

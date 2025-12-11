@@ -91,7 +91,7 @@ serve(async (req) => {
             "Authorization": `Bearer ${resendApiKey}`,
           },
           body: JSON.stringify({
-            from: "utm.one <invites@utm.one>",
+            from: "utm.one <invites@send.utm.one>",
             to: [invitation.email],
             subject: `Reminder: You're invited to join ${invitation.workspaces?.name || "a workspace"} on utm.one`,
             html: `

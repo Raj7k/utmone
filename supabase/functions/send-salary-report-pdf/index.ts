@@ -27,8 +27,8 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Sending salary report to:", email);
 
     const emailResponse = await resend.emails.send({
-      from: "utm.one <reports@utm.one>",
-      replyTo: "hello@utm.one",
+      from: "utm.one <reports@send.utm.one>",
+      replyTo: "hello@send.utm.one",
       to: [email],
       subject: "Your 2026 Global Salary Benchmark Report",
       html: `

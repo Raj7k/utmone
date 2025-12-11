@@ -103,8 +103,8 @@ serve(async (req: Request) => {
     if (action === "approved" && creatorEmail) {
       // Send approval email to creator
       const emailResponse = await resend.emails.send({
-        from: "utm.one <notifications@utm.one>",
-        replyTo: "hello@utm.one",
+        from: "utm.one <notifications@send.utm.one>",
+        replyTo: "hello@send.utm.one",
         to: [creatorEmail],
         subject: `✅ Your link "${link.title}" is now live`,
         html: `
@@ -155,8 +155,8 @@ serve(async (req: Request) => {
     } else if (action === "rejected" && creatorEmail && reason) {
       // Send rejection email to creator
       const emailResponse = await resend.emails.send({
-        from: "utm.one <notifications@utm.one>",
-        replyTo: "hello@utm.one",
+        from: "utm.one <notifications@send.utm.one>",
+        replyTo: "hello@send.utm.one",
         to: [creatorEmail],
         subject: `❌ Link "${link.title}" needs revision`,
         html: `
@@ -208,8 +208,8 @@ serve(async (req: Request) => {
     } else if (action === "pending" && adminEmails.length > 0) {
       // Send notification to admins about new approval request
       const emailResponse = await resend.emails.send({
-        from: "utm.one <notifications@utm.one>",
-        replyTo: "hello@utm.one",
+        from: "utm.one <notifications@send.utm.one>",
+        replyTo: "hello@send.utm.one",
         to: adminEmails,
         subject: `🔔 New approval request: "${link.title}"`,
         html: `
