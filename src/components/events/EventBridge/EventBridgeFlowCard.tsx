@@ -7,7 +7,6 @@ import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { 
   Copy, 
-  Settings, 
   Zap, 
   Database, 
   ArrowRight,
@@ -15,21 +14,31 @@ import {
   ChevronUp,
   ExternalLink,
   HelpCircle,
-  AlertCircle
+  AlertCircle,
+  Link2,
+  Key,
+  FileSpreadsheet,
+  RefreshCw
 } from 'lucide-react';
 import { notify } from '@/lib/notify';
 import { RoutingRulesEditor } from './RoutingRulesEditor';
 import { ZapierSetupGuide } from './ZapierSetupGuide';
+import { LumaPollingSetup } from './LumaPollingSetup';
 import {
   Collapsible,
   CollapsibleContent,
-  CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 
 interface EventBridgeFlow {
   id: string;
   name: string;
   source_type: string;
+  source_config?: {
+    event_url?: string;
+    connection_method?: 'zapier' | 'api' | 'manual';
+    last_sync_at?: string;
+    luma_api_key_configured?: boolean;
+  };
   enrichment_enabled: boolean;
   enrichment_provider: string | null;
   routing_rules: any[];
@@ -170,8 +179,25 @@ export function EventBridgeFlowCard({ flow }: EventBridgeFlowCardProps) {
         {/* Expanded Content */}
         {expanded && (
           <div className="mt-4 pt-4 border-t border-border space-y-4">
-            {/* Setup Guide Alert for Luma */}
-            {flow.source_type === 'luma' && !hasRegistrations && (
+            {/* Connection Method Badge */}
+            {flow.source_type === 'luma' && flow.source_config?.connection_method && (
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                {flow.source_config.connection_method === 'zapier' && (
+                  <><Link2 className="h-3 w-3" /> Zapier Bridge</>
+                )}
+                {flow.source_config.connection_method === 'api' && (
+                  <><Key className="h-3 w-3" /> Luma API Polling</>
+                )}
+                {flow.source_config.connection_method === 'manual' && (
+                  <><FileSpreadsheet className="h-3 w-3" /> Manual Import</>
+                )}
+              </div>
+            )}
+
+            {/* Setup Guide Alert for Luma - Zapier method */}
+            {flow.source_type === 'luma' && 
+             (!flow.source_config?.connection_method || flow.source_config.connection_method === 'zapier') && 
+             !hasRegistrations && (
               <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3">
                 <div className="flex items-start gap-3">
                   <AlertCircle className="h-5 w-5 text-yellow-500 mt-0.5 shrink-0" />
@@ -194,8 +220,35 @@ export function EventBridgeFlowCard({ flow }: EventBridgeFlowCardProps) {
               </div>
             )}
 
-            {/* Zapier Setup Guide (Collapsible) */}
-            {showSetupGuide && flow.source_type === 'luma' && (
+            {/* Luma API Polling Setup */}
+            {flow.source_type === 'luma' && flow.source_config?.connection_method === 'api' && (
+              <LumaPollingSetup
+                flowId={flow.id}
+                eventUrl={flow.source_config?.event_url}
+                lastSyncAt={flow.source_config?.last_sync_at}
+                onSyncComplete={() => queryClient.invalidateQueries({ queryKey: ['flow-registrations', flow.id] })}
+              />
+            )}
+
+            {/* Manual Import Instructions */}
+            {flow.source_type === 'luma' && flow.source_config?.connection_method === 'manual' && (
+              <div className="bg-muted/30 border border-border rounded-lg p-4 space-y-3">
+                <h4 className="text-sm font-medium">manual CSV import</h4>
+                <ol className="text-xs text-muted-foreground space-y-2 list-decimal list-inside">
+                  <li>export attendees from your Luma event dashboard</li>
+                  <li>save as CSV with columns: email, first_name, last_name, company</li>
+                  <li>upload the CSV below to import registrations</li>
+                </ol>
+                <Button variant="outline" size="sm" disabled>
+                  <FileSpreadsheet className="h-4 w-4 mr-2" />
+                  import CSV (coming soon)
+                </Button>
+              </div>
+            )}
+
+            {/* Zapier Setup Guide (Collapsible) - only for zapier method */}
+            {showSetupGuide && flow.source_type === 'luma' && 
+             (!flow.source_config?.connection_method || flow.source_config.connection_method === 'zapier') && (
               <Collapsible open={showSetupGuide} onOpenChange={setShowSetupGuide}>
                 <CollapsibleContent>
                   <div className="bg-muted/30 rounded-lg p-4 border border-border">
