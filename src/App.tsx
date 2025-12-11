@@ -146,7 +146,7 @@ const CustomDomains = lazy(() => import("./pages/features/CustomDomains"));
 const Automation = lazy(() => import("./pages/features/Automation"));
 const AccessibilityFeature = lazy(() => import("./pages/features/Accessibility"));
 const EventHalo = lazy(() => import("./pages/features/EventHalo"));
-const OneTap = lazy(() => import("./pages/features/OneTap"));
+
 
 // PWA Standalone Pages
 const ScanPage = lazy(() => import("./pages/Scan"));
@@ -690,7 +690,7 @@ const App = () => (
               <Route path="/features/custom-domains" element={<Suspense fallback={<DashboardSkeleton />}><CustomDomains /></Suspense>} />
               <Route path="/features/automation" element={<Suspense fallback={<DashboardSkeleton />}><Automation /></Suspense>} />
               <Route path="/features/event-halo" element={<Suspense fallback={<DashboardSkeleton />}><EventHalo /></Suspense>} />
-              <Route path="/features/one-tap" element={<Suspense fallback={<DashboardSkeleton />}><OneTap /></Suspense>} />
+              <Route path="/features/one-tap" element={<Navigate to="/features/event-halo?tab=scanner" replace />} />
               
 {/* PWA Standalone Scanner */}
               <Route path="/scan" element={<Suspense fallback={<DashboardSkeleton />}><ScanPage /></Suspense>} />
