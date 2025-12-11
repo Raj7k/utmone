@@ -4,11 +4,14 @@ import { ActivityFeed } from "@/components/dashboard/ActivityFeed";
 import { OnboardingChecklist } from "@/components/dashboard/OnboardingChecklist";
 import { DemoModeBanner } from "@/components/dashboard/DemoModeBanner";
 import { WelcomeModal } from "@/components/dashboard/WelcomeModal";
+import { PixelSetupCTA } from "@/components/dashboard/PixelSetupCTA";
 import { useDemoMode } from "@/hooks/useDemoMode";
+import { useOnboardingProgress } from "@/hooks/useOnboardingProgress";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 const DashboardHome = () => {
   const { showDemoMode } = useDemoMode();
+  const { hasInstalledPixel, isLoading: isLoadingProgress } = useOnboardingProgress();
 
   return (
     <ErrorBoundary section="dashboard-home">
@@ -27,6 +30,13 @@ const DashboardHome = () => {
         <ErrorBoundary section="onboarding-checklist">
           <OnboardingChecklist />
         </ErrorBoundary>
+
+        {/* Pixel Setup CTA - Shows if pixel not installed */}
+        {!isLoadingProgress && !hasInstalledPixel && (
+          <ErrorBoundary section="pixel-setup-cta">
+            <PixelSetupCTA />
+          </ErrorBoundary>
+        )}
 
         {/* Hero: Quick Create */}
         <ErrorBoundary section="quick-create">
