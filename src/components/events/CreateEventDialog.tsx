@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { CalendarIcon, MapPin, Sparkles, DollarSign } from "lucide-react";
+import { CalendarIcon, Sparkles, DollarSign } from "lucide-react";
 import { format } from "date-fns";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,6 +23,7 @@ import { Card } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
 import { EnrichmentSetupDialog } from "./EnrichmentSetupDialog";
+import { CityCombobox, CityResult } from "@/components/geo/CityCombobox";
 
 const eventSchema = z.object({
   name: z.string().min(1, "event name is required"),
@@ -57,9 +57,16 @@ export const CreateEventDialog = ({
     defaultValues: {
       name: "",
       location_city: "",
-      location_country: "US",
+      location_country: "",
     },
   });
+
+  const handleCitySelect = (city: CityResult | null) => {
+    if (city) {
+      form.setValue("location_city", city.name);
+      form.setValue("location_country", city.countryCode || city.country);
+    }
+  };
 
   const handleCreate = async (data: EventFormData) => {
     if (!startDate || !endDate) {
@@ -129,19 +136,18 @@ export const CreateEventDialog = ({
             )}
           </div>
 
-          {/* Location */}
+          {/* Location with City Autocomplete */}
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label htmlFor="city">city</Label>
-              <div className="relative">
-                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input
-                  id="city"
-                  placeholder="San Francisco"
-                  className="pl-9"
-                  {...form.register("location_city")}
-                />
-              </div>
+              <Label>city</Label>
+              <CityCombobox
+                value={form.watch("location_city")}
+                onChange={handleCitySelect}
+                placeholder="search city..."
+              />
+              {form.formState.errors.location_city && (
+                <p className="text-sm text-destructive">{form.formState.errors.location_city.message}</p>
+              )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="country">country</Label>
@@ -149,6 +155,7 @@ export const CreateEventDialog = ({
                 id="country"
                 placeholder="US"
                 {...form.register("location_country")}
+                className="bg-muted/50"
               />
             </div>
           </div>

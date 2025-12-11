@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useUpdateEventControlCity } from "@/hooks/useFieldEvents";
 import { notify } from "@/lib/notify";
 import { FlaskConical, Check } from "lucide-react";
+import { CityCombobox, CityResult } from "@/components/geo/CityCombobox";
 
 interface ControlCitySelectorProps {
   eventId: string;
@@ -39,6 +39,12 @@ export const ControlCitySelector = ({
 
   const suggestions = SUGGESTED_CONTROL_CITIES[eventCity] || 
     ['Phoenix', 'Denver', 'Atlanta']; // Default suggestions
+
+  const handleCitySelect = (city: CityResult | null) => {
+    if (city) {
+      setControlCity(city.name);
+    }
+  };
 
   const handleSave = async () => {
     if (!controlCity.trim()) return;
@@ -85,12 +91,13 @@ export const ControlCitySelector = ({
       </p>
 
       <div className="flex gap-2">
-        <Input
-          value={controlCity}
-          onChange={(e) => setControlCity(e.target.value)}
-          placeholder="e.g., Phoenix"
-          className="flex-1"
-        />
+        <div className="flex-1">
+          <CityCombobox
+            value={controlCity}
+            onChange={handleCitySelect}
+            placeholder="search control city..."
+          />
+        </div>
         <Button 
           onClick={handleSave} 
           disabled={!controlCity.trim() || updateControlCity.isPending}
