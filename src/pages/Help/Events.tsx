@@ -15,6 +15,7 @@ import {
   MapPin,
   Target,
   Users,
+  Sparkles,
 } from "lucide-react";
 
 const articles = [
@@ -55,6 +56,13 @@ const articles = [
     description: "Instantly tag scanned leads as Hot, Warm, or Cold. Prioritize follow-ups without waiting for CRM sync.",
     href: "/help/events#temperature",
     icon: Thermometer,
+  },
+  {
+    title: "Lead enrichment setup",
+    description: "Connect Clay, Apollo, or ZoomInfo to auto-find missing emails, phone numbers, and LinkedIn profiles from badge scans.",
+    href: "/help/articles/lead-enrichment",
+    icon: Sparkles,
+    isNew: true,
   },
   {
     title: "Badge scan import",
