@@ -124,7 +124,26 @@ const AuthCallback = () => {
           return;
         }
 
-        // Priority 4: Check early_access_requests table
+        // Priority 4: Check early_access_invites for valid unclaimed invite
+        const { data: validInvite } = await supabase
+          .from("early_access_invites")
+          .select("invite_token, claimed_at, access_level")
+          .eq("email", userEmail)
+          .gt("expires_at", new Date().toISOString())
+          .maybeSingle();
+
+        if (validInvite && !validInvite.claimed_at) {
+          // User has unclaimed invite - redirect to claim
+          navigate(`/claim-access?token=${validInvite.invite_token}`);
+          return;
+        } else if (validInvite && validInvite.claimed_at) {
+          // Invite was claimed - user should have access, go to onboarding
+          notify.success("let's set up your workspace...");
+          navigate("/onboarding");
+          return;
+        }
+
+        // Priority 5: Check early_access_requests table
         const { data: accessRequest } = await supabase
           .from("early_access_requests")
           .select("status, access_level")
