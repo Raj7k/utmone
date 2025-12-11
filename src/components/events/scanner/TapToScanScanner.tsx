@@ -26,6 +26,8 @@ import { SyncStatusBar } from "./SyncStatusBar";
 import { TorchToggle } from "./TorchToggle";
 import { LowConfidenceField } from "./LowConfidenceField";
 import { EnrichmentButton } from "./EnrichmentButton";
+import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
+import { useEnrichmentSettings } from "@/hooks/useEnrichmentSettings";
 import { cn } from "@/lib/utils";
 
 interface TapToScanScannerProps {
@@ -49,7 +51,10 @@ interface FieldConfidence {
  * Camera only opens when user taps, auto-closes after scan
  */
 export const TapToScanScanner = ({ eventId, eventName, onScanComplete }: TapToScanScannerProps) => {
+  const { currentWorkspace } = useWorkspaceContext();
+  const { autoEnrichEnabled, isConfigured } = useEnrichmentSettings(currentWorkspace?.id);
   const [state, setState] = useState<ScannerState>('idle');
+  const [isAutoEnriching, setIsAutoEnriching] = useState(false);
   const [editedData, setEditedData] = useState({
     firstName: '',
     lastName: '',
@@ -151,7 +156,7 @@ export const TapToScanScanner = ({ eventId, eventName, onScanComplete }: TapToSc
   }, [stopCamera]);
 
   // Handle successful QR scan
-  const handleQRSuccess = useCallback((decodedText: string) => {
+  const handleQRSuccess = useCallback(async (decodedText: string) => {
     // Vibrate on success
     if ('vibrate' in navigator) {
       navigator.vibrate(200);
@@ -164,10 +169,11 @@ export const TapToScanScanner = ({ eventId, eventName, onScanComplete }: TapToSc
       captureAndOCR();
     } else {
       stopCamera();
-      populateEditedData(parsed);
+      setState('processing'); // Show processing while auto-enriching
+      await populateEditedData(parsed);
       setState('captured');
     }
-  }, [stopCamera]);
+  }, [stopCamera, autoEnrichEnabled, isConfigured]);
 
   // Capture image and run OCR
   const captureAndOCR = async () => {
@@ -241,8 +247,32 @@ export const TapToScanScanner = ({ eventId, eventName, onScanComplete }: TapToSc
     }
   };
 
+  // Auto-enrich lead if enabled
+  const autoEnrichLead = useCallback(async (firstName: string, lastName: string, company: string) => {
+    if (!autoEnrichEnabled || !isConfigured || !firstName || !company) return null;
+    
+    setIsAutoEnriching(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('enrich-lead', {
+        body: { firstName, lastName, company }
+      });
+
+      if (error) throw error;
+      
+      if (data?.email || data?.phone || data?.linkedin) {
+        return data;
+      }
+      return null;
+    } catch (error) {
+      console.error('Auto-enrichment error:', error);
+      return null;
+    } finally {
+      setIsAutoEnriching(false);
+    }
+  }, [autoEnrichEnabled, isConfigured]);
+
   // Populate form with parsed data
-  const populateEditedData = (data: ParsedBadgeData) => {
+  const populateEditedData = async (data: ParsedBadgeData) => {
     let firstName = data.firstName || '';
     let lastName = data.lastName || '';
     
@@ -252,17 +282,31 @@ export const TapToScanScanner = ({ eventId, eventName, onScanComplete }: TapToSc
       lastName = split.lastName;
     }
 
+    let email = data.email || '';
+    
+    // Auto-enrich if enabled and email is missing
+    if (!email && autoEnrichEnabled && isConfigured && firstName && data.company) {
+      const enrichedData = await autoEnrichLead(firstName, lastName, data.company);
+      if (enrichedData?.email) {
+        email = enrichedData.email;
+        toast({
+          title: 'auto-enriched',
+          description: 'contact info found automatically'
+        });
+      }
+    }
+
     setEditedData({
       firstName,
       lastName,
-      email: data.email || '',
+      email,
       company: data.company || '',
       title: data.title || '',
       notes: ''
     });
     
     setOverallConfidence(data.confidence || 80);
-    setEnrichmentNeeded(!data.email);
+    setEnrichmentNeeded(!email);
   };
 
   // Save lead
@@ -363,14 +407,25 @@ export const TapToScanScanner = ({ eventId, eventName, onScanComplete }: TapToSc
                   camera opens only when needed
                 </p>
                 
-                {/* Battery saver indicator */}
-                <Badge 
-                  variant="outline" 
-                  className="mt-4 border-green-500/50 text-green-400 gap-1"
-                >
-                  <Zap className="h-3 w-3" />
-                  battery saver mode
-                </Badge>
+                {/* Status indicators */}
+                <div className="mt-4 flex flex-col gap-2 items-center">
+                  <Badge 
+                    variant="outline" 
+                    className="border-green-500/50 text-green-400 gap-1"
+                  >
+                    <Zap className="h-3 w-3" />
+                    battery saver mode
+                  </Badge>
+                  {autoEnrichEnabled && isConfigured && (
+                    <Badge 
+                      variant="outline" 
+                      className="border-primary/50 text-primary gap-1"
+                    >
+                      <Sparkles className="h-3 w-3" />
+                      auto-enrich on
+                    </Badge>
+                  )}
+                </div>
               </div>
             </Card>
           </motion.div>

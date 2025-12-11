@@ -10,6 +10,7 @@ import { EventHaloSpikeChart } from "./EventHaloSpikeChart";
 import { EventValueSettings } from "./EventValueSettings";
 import { BadgeScanUploader } from "./BadgeScanUploader";
 import { ControlCitySelector } from "./ControlCitySelector";
+import { EnrichmentStatusBadge } from "./EnrichmentStatusBadge";
 import { EventHaloResult } from "@/hooks/useFieldEvents";
 
 interface FieldEvent {
@@ -89,6 +90,8 @@ export const EventDashboardView = ({
             <span>
               {format(new Date(event.start_date), "MMM d")} - {format(new Date(event.end_date), "MMM d, yyyy")}
             </span>
+            <span className="text-muted-foreground/50">•</span>
+            <EnrichmentStatusBadge showSetupLink={false} />
           </div>
         </div>
         <div className="flex items-center gap-2">
