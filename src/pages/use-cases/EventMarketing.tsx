@@ -110,7 +110,7 @@ const EventMarketing = () => {
         dateModified="2025-01-15"
         url="https://utm.one/use-cases/event-marketing"
       />
-      <FAQSchema faqs={faqs} />
+      <FAQSchema questions={faqs} />
       <BreadcrumbSchema 
         items={[
           { name: 'Home', url: 'https://utm.one/' },
@@ -256,17 +256,14 @@ const EventMarketing = () => {
         <section className="py-16">
           <div className="max-w-[980px] mx-auto px-8">
             <RelatedResources 
-              currentPath="/use-cases/event-marketing"
-              category="use-case"
+              resources={[
+                { title: "Agency Client Reporting", path: "/use-cases/agency-client-reporting", type: "guide" as const },
+                { title: "Event Halo Feature", path: "/features/event-halo", type: "tool" as const },
+                { title: "Field Marketing Solution", path: "/solutions/field-marketing", type: "guide" as const }
+              ]}
             />
             <div className="mt-12">
-              <PeopleAlsoRead 
-                items={[
-                  { title: "Agency Client Reporting", url: "/use-cases/agency-client-reporting" },
-                  { title: "Event Halo Feature", url: "/features/event-halo" },
-                  { title: "Field Marketing Solution", url: "/solutions/field-marketing" }
-                ]}
-              />
+              <PeopleAlsoRead currentPath="/use-cases/event-marketing" />
             </div>
           </div>
         </section>

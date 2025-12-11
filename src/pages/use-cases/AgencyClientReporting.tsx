@@ -110,7 +110,7 @@ const AgencyClientReporting = () => {
         dateModified="2025-01-15"
         url="https://utm.one/use-cases/agency-client-reporting"
       />
-      <FAQSchema faqs={faqs} />
+      <FAQSchema questions={faqs} />
       <BreadcrumbSchema 
         items={[
           { name: 'Home', url: 'https://utm.one/' },
@@ -256,17 +256,14 @@ const AgencyClientReporting = () => {
         <section className="py-16">
           <div className="max-w-[980px] mx-auto px-8">
             <RelatedResources 
-              currentPath="/use-cases/agency-client-reporting"
-              category="use-case"
+              resources={[
+                { title: "Influencer Campaigns", path: "/use-cases/influencer-campaigns", type: "guide" as const },
+                { title: "Agency Solution Page", path: "/solutions/agencies", type: "guide" as const },
+                { title: "utm.one vs Rebrandly", path: "/compare/utm-one-vs-rebrandly", type: "comparison" as const }
+              ]}
             />
             <div className="mt-12">
-              <PeopleAlsoRead 
-                items={[
-                  { title: "Influencer Campaigns", url: "/use-cases/influencer-campaigns" },
-                  { title: "Agency Solution Page", url: "/solutions/agencies" },
-                  { title: "utm.one vs Rebrandly", url: "/compare/utm-one-vs-rebrandly" }
-                ]}
-              />
+              <PeopleAlsoRead currentPath="/use-cases/agency-client-reporting" />
             </div>
           </div>
         </section>

@@ -187,6 +187,14 @@ const UtmOneVsPartnerstack = lazy(() => import("./pages/compare/UtmOneVsPartners
 const UtmOneVsFirstpromoter = lazy(() => import("./pages/compare/UtmOneVsFirstpromoter"));
 const UtmOneVsTolt = lazy(() => import("./pages/compare/UtmOneVsTolt"));
 
+// Use Case Pages
+const UseCasesIndex = lazy(() => import("./pages/use-cases/UseCasesIndex"));
+const EcommerceTracking = lazy(() => import("./pages/use-cases/EcommerceTracking"));
+const SaasAttribution = lazy(() => import("./pages/use-cases/SaasAttribution"));
+const EventMarketing = lazy(() => import("./pages/use-cases/EventMarketing"));
+const AgencyClientReporting = lazy(() => import("./pages/use-cases/AgencyClientReporting"));
+const InfluencerCampaigns = lazy(() => import("./pages/use-cases/InfluencerCampaigns"));
+
 // Resource Pages
 const Resources = lazy(() => import("./pages/Resources"));
 const Guides = lazy(() => import("./pages/resources/Guides"));
@@ -582,6 +590,14 @@ const App = () => (
               <Route path="/compare/partnerstack" element={<Suspense fallback={<DashboardSkeleton />}><UtmOneVsPartnerstack /></Suspense>} />
               <Route path="/compare/firstpromoter" element={<Suspense fallback={<DashboardSkeleton />}><UtmOneVsFirstpromoter /></Suspense>} />
               <Route path="/compare/tolt" element={<Suspense fallback={<DashboardSkeleton />}><UtmOneVsTolt /></Suspense>} />
+              
+              {/* Use Case Pages */}
+              <Route path="/use-cases" element={<Suspense fallback={<DashboardSkeleton />}><UseCasesIndex /></Suspense>} />
+              <Route path="/use-cases/ecommerce-tracking" element={<Suspense fallback={<DashboardSkeleton />}><EcommerceTracking /></Suspense>} />
+              <Route path="/use-cases/saas-attribution" element={<Suspense fallback={<DashboardSkeleton />}><SaasAttribution /></Suspense>} />
+              <Route path="/use-cases/event-marketing" element={<Suspense fallback={<DashboardSkeleton />}><EventMarketing /></Suspense>} />
+              <Route path="/use-cases/agency-client-reporting" element={<Suspense fallback={<DashboardSkeleton />}><AgencyClientReporting /></Suspense>} />
+              <Route path="/use-cases/influencer-campaigns" element={<Suspense fallback={<DashboardSkeleton />}><InfluencerCampaigns /></Suspense>} />
               
               <Route path="/resources" element={<Suspense fallback={<DashboardSkeleton />}><Resources /></Suspense>} />
               <Route path="/resources/guides" element={<Suspense fallback={<DashboardSkeleton />}><Guides /></Suspense>} />
