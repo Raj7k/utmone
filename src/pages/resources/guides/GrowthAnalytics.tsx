@@ -5,6 +5,7 @@ import { CTABanner } from "@/components/resources/CTABanner";
 import { QuickAnswer } from "@/components/resources/QuickAnswer";
 import { SEO } from "@/components/seo/SEO";
 import { ArticleSchema, FAQSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
+import { SpeakableSchema } from "@/components/seo/SpeakableSchema";
 import { Link } from "react-router-dom";
 
 const GrowthAnalytics = () => {
@@ -62,6 +63,7 @@ const GrowthAnalytics = () => {
       />
       <FAQSchema questions={faqs} />
       <BreadcrumbSchema items={breadcrumbs.map(b => ({ name: b.label, url: b.href }))} />
+      <SpeakableSchema headline="Growth Analytics" summary="Measuring acquisition, activation, retention, and revenue across the entire customer lifecycle using the AARRR framework" cssSelectors={['.speakable-content', 'article', 'h1', 'h2']} />
       
       <GuideLayout
         title="Growth Analytics — Measuring What Matters"

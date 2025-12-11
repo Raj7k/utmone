@@ -6,6 +6,7 @@ import { CTABanner } from "@/components/resources/CTABanner";
 import { QuickAnswer } from "@/components/resources/QuickAnswer";
 import { SEO } from "@/components/seo/SEO";
 import { ArticleSchema, FAQSchema, BreadcrumbSchema, HowToSchema, DefinedTermSchema } from "@/components/seo/SchemaMarkup";
+import { SpeakableSchema } from "@/components/seo/SpeakableSchema";
 import { LLMReadinessScorer } from "@/components/resources/utm/LLMReadinessScorer";
 import { SchemaGenerator } from "@/components/resources/utm/SchemaGenerator";
 import { ContentStructureAnalyzer } from "@/components/resources/llm/ContentStructureAnalyzer";
@@ -152,6 +153,7 @@ const LLMSeo = () => {
       />
       <FAQSchema questions={faqs} />
       <BreadcrumbSchema items={breadcrumbs.map(b => ({ name: b.label, url: b.href }))} />
+      <SpeakableSchema headline="LLM-First SEO Guide" summary="Making content discoverable, extractable, and citable by AI systems like ChatGPT, Perplexity, and Claude" cssSelectors={['.speakable-content', 'article', 'h1', 'h2']} />
       
       <GuideLayout
         title="LLM-First SEO — Writing for AI Retrieval"
