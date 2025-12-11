@@ -398,6 +398,7 @@ const AttributionModels = lazy(() => import("./pages/Help/articles/AttributionMo
 const EventHaloArticle = lazy(() => import("./pages/Help/articles/EventHalo"));
 const TeamRoles = lazy(() => import("./pages/Help/articles/TeamRoles"));
 const CustomDomainSetup = lazy(() => import("./pages/Help/articles/CustomDomainSetup"));
+const LeadEnrichment = lazy(() => import("./pages/Help/articles/LeadEnrichment"));
 
 const NotFound = lazy(() => import("./pages/NotFound"));
 
@@ -654,6 +655,7 @@ const App = () => (
               <Route path="/help/events/event-halo" element={<Suspense fallback={<DashboardSkeleton />}><EventHaloArticle /></Suspense>} />
               <Route path="/help/team/roles" element={<Suspense fallback={<DashboardSkeleton />}><TeamRoles /></Suspense>} />
               <Route path="/help/domains/dns-setup" element={<Suspense fallback={<DashboardSkeleton />}><CustomDomainSetup /></Suspense>} />
+              <Route path="/help/articles/lead-enrichment" element={<Suspense fallback={<DashboardSkeleton />}><LeadEnrichment /></Suspense>} />
 
               <Route path="/resources" element={<Suspense fallback={<DashboardSkeleton />}><Resources /></Suspense>} />
               <Route path="/resources/guides" element={<Suspense fallback={<DashboardSkeleton />}><Guides /></Suspense>} />

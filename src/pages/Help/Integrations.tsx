@@ -1,11 +1,12 @@
 import { HelpLayout } from "@/components/help/HelpLayout";
 import { HelpBreadcrumbs } from "@/components/help/HelpBreadcrumbs";
 import { ArticleCard } from "@/components/help/ArticleCard";
-import { Plug, Activity, Code2, Webhook, Chrome, BarChart3, Users, MessageSquare, Zap, FileCode } from "lucide-react";
+import { Plug, Activity, Code2, Webhook, Chrome, BarChart3, Users, MessageSquare, Zap, FileCode, Sparkles } from "lucide-react";
 
 const articles = [
   { title: "Tracking pixel installation", description: "Add our lightweight JavaScript snippet to unlock conversion tracking, journey analytics, and revenue attribution.", href: "/help/articles/tracking-pixel", icon: Activity },
   { title: "Chrome extension setup", description: "Create short links without leaving your browser. Right-click any page to shorten instantly.", href: "/help/articles/chrome-extension", icon: Chrome },
+  { title: "Lead enrichment setup", description: "Connect Clay, Apollo, or ZoomInfo to auto-find missing emails and phone numbers from badge scans.", href: "/help/articles/lead-enrichment", icon: Sparkles, tier: "growth", isNew: true },
   { title: "API authentication", description: "Generate API keys, understand rate limits, and authenticate requests. Full REST API documentation.", href: "/help/articles/api-authentication", icon: Code2 },
   { title: "API endpoints", description: "Create links, retrieve analytics, manage campaigns, and more programmatically. All endpoints documented.", href: "/help/articles/api-endpoints", icon: FileCode },
   { title: "Webhooks configuration", description: "Receive real-time notifications when links are clicked, created, or reach milestones.", href: "/help/articles/webhooks", icon: Webhook },
