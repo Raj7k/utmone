@@ -2,10 +2,15 @@ import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Users, Layers, Link2, Quote, Sparkles, Share2, Download, Linkedin } from 'lucide-react';
+import { ArrowLeft, Users, Layers, Link2, Quote, Sparkles, Linkedin } from 'lucide-react';
 import { ResourcesLayout } from '@/components/layout/ResourcesLayout';
 import { CategoryFilter } from '@/components/playbooks/architects/CategoryFilter';
 import { ArchitectsGrid } from '@/components/playbooks/architects/ArchitectsGrid';
+import { SelectionCriteria } from '@/components/playbooks/architects/SelectionCriteria';
+import { FeaturedSpotlight } from '@/components/playbooks/architects/FeaturedSpotlight';
+import { PlaybookGuide } from '@/components/playbooks/architects/PlaybookGuide';
+import { DownloadCenter } from '@/components/playbooks/architects/DownloadCenter';
+import { CategoryDeepDive } from '@/components/playbooks/architects/CategoryDeepDive';
 import { architects, ArchitectCategory, categories } from '@/data/b2bArchitects';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -19,7 +24,10 @@ export default function B2BArchitectsPlaybook() {
 
 These aren't just "influencers"—they're the operators rewriting the rules of B2B engagement.
 
+Featuring Elena Verna, Tim Soulo, Kieran Flanagan, and 22 more...
+
 Your 2026 curriculum starts here 👇
+utm.one/resources/playbooks/b2b-architects-2026
 
 #B2BMarketing #MarketingLeaders #GTM`;
     shareToLinkedIn(shareText);
@@ -53,7 +61,7 @@ Your 2026 curriculum starts here 👇
                 <Sparkles className="w-3 h-3 mr-1" />
                 FEATURED
               </Badge>
-              <span className="text-sm text-gray-500">8 min read</span>
+              <span className="text-sm text-gray-500">12 min read</span>
             </div>
 
             <motion.h1 
@@ -73,6 +81,7 @@ Your 2026 curriculum starts here 👇
             >
               If you're waiting for the 2026 marketing playbook to be published, you're already behind. 
               The smartest CMOs aren't just consuming content—they're building media companies inside their brands.
+              This is your curriculum for mastering the future.
             </motion.p>
 
             {/* Share Buttons */}
@@ -120,8 +129,14 @@ Your 2026 curriculum starts here 👇
           </div>
         </section>
 
+        {/* Selection Criteria */}
+        <SelectionCriteria />
+
+        {/* Featured Spotlight */}
+        <FeaturedSpotlight />
+
         {/* Category Filter + Grid */}
-        <section className="py-12 md:py-16 px-4">
+        <section className="py-12 md:py-16 px-4 bg-gray-50">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-10">
               <h2 className="font-serif text-2xl md:text-3xl font-bold text-gray-900 mb-4">
@@ -134,11 +149,19 @@ Your 2026 curriculum starts here 👇
               <CategoryFilter selected={selectedCategory} onSelect={setSelectedCategory} />
             </div>
 
+            {/* Category Deep Dive - shows when category is selected */}
+            {selectedCategory !== 'all' && (
+              <CategoryDeepDive category={selectedCategory} />
+            )}
+
             <div className="mt-10">
               <ArchitectsGrid filter={selectedCategory} />
             </div>
           </div>
         </section>
+
+        {/* How to Use This Playbook */}
+        <PlaybookGuide />
 
         {/* The Common Thread Section */}
         <section className="py-16 md:py-24 px-4 bg-gray-50">
@@ -150,11 +173,18 @@ Your 2026 curriculum starts here 👇
               </h2>
               <p className="font-sans text-lg text-gray-700 leading-relaxed mb-6">
                 Notice something? <strong>None of these leaders hide behind a corporate logo.</strong> 
-                They <em>are</em> the channel.
+                They <em>are</em> the channel. Their personal brands have become more valuable than 
+                company marketing budgets.
+              </p>
+              <p className="font-sans text-lg text-gray-700 leading-relaxed mb-6">
+                In 2026, the companies winning aren't those with the biggest ad spend. They're the ones 
+                who've empowered their people to become the voices that matter. The era of faceless 
+                corporate marketing is over.
               </p>
               <p className="font-sans text-lg text-gray-700 leading-relaxed">
-                If you're a Head of Marketing, your 2026 goal isn't just to post more—it's to empower your 
-                internal experts to become the voices listed above. The era of the faceless corporation is over.
+                If you're a Head of Marketing, your 2026 goal isn't just to post more—it's to build 
+                an army of internal experts who can authentically connect with your audience. 
+                These 25 architects show you exactly how it's done.
               </p>
             </div>
           </div>
@@ -166,9 +196,13 @@ Your 2026 curriculum starts here 👇
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-gray-900 mb-6">
               The Era of Employee Generated Content (EGC)
             </h2>
-            <p className="font-sans text-lg text-gray-600 leading-relaxed mb-10 max-w-2xl mx-auto">
+            <p className="font-sans text-lg text-gray-600 leading-relaxed mb-6 max-w-2xl mx-auto">
               The playbook is right in front of you. Pick 5 leaders from this list who align with your style. 
               Study their cadence, their hooks, and their engagement. Then, start writing.
+            </p>
+            <p className="font-sans text-lg text-gray-600 leading-relaxed mb-10 max-w-2xl mx-auto">
+              Every post you make is practice. Every comment is connection. Every share is distribution.
+              The compound effect of consistent, quality content is the only marketing moat left in 2026.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -191,9 +225,13 @@ Your 2026 curriculum starts here 👇
         {/* Category Breakdown */}
         <section className="py-16 md:py-24 px-4 bg-gray-50">
           <div className="max-w-6xl mx-auto">
-            <h2 className="font-serif text-2xl md:text-3xl font-bold text-gray-900 text-center mb-12">
+            <h2 className="font-serif text-2xl md:text-3xl font-bold text-gray-900 text-center mb-4">
               The Five Pillars of B2B Influence
             </h2>
+            <p className="font-sans text-gray-600 text-center max-w-2xl mx-auto mb-12">
+              Each category represents a distinct approach to B2B marketing mastery. 
+              Click any pillar to filter the list above and dive deeper.
+            </p>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {Object.entries(categories).map(([key, category], index) => (
                 <motion.button
@@ -203,7 +241,7 @@ Your 2026 curriculum starts here 👇
                   transition={{ delay: index * 0.1 }}
                   onClick={() => {
                     setSelectedCategory(key as ArchitectCategory);
-                    window.scrollTo({ top: 400, behavior: 'smooth' });
+                    window.scrollTo({ top: 800, behavior: 'smooth' });
                   }}
                   className="bg-white rounded-xl p-6 text-left shadow-sm border border-gray-100 hover:shadow-md hover:border-gray-200 transition-all group"
                 >
@@ -220,6 +258,9 @@ Your 2026 curriculum starts here 👇
             </div>
           </div>
         </section>
+
+        {/* Download Center */}
+        <DownloadCenter />
       </div>
     </ResourcesLayout>
   );

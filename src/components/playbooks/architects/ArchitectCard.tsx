@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Linkedin, ArrowUpRight, Share2, Download, Loader2, Sparkles } from 'lucide-react';
+import { Linkedin, ArrowUpRight, Share2, Download } from 'lucide-react';
 import { Architect, categories } from '@/data/b2bArchitects';
-import { useArchitectStamp } from '@/hooks/useArchitectStamp';
 import { Button } from '@/components/ui/button';
 import { shareToLinkedIn } from '@/utils/linkedinShare';
 
@@ -14,23 +13,21 @@ interface ArchitectCardProps {
 export function ArchitectCard({ architect, index }: ArchitectCardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
   const category = categories[architect.category];
-  const { stampUrl, isGenerating, generateStamp } = useArchitectStamp(architect.id, architect.originalPhoto);
 
   const handleShare = (e: React.MouseEvent) => {
     e.stopPropagation();
-    const shareText = `🎯 ${architect.name} (${architect.role} @ ${architect.company})\n\n"${architect.nugget}"\n\nFrom the 25 B2B Marketing Architects of 2026 👇`;
+    const shareText = `🎯 ${architect.name} (${architect.role} @ ${architect.company})\n\n"${architect.nugget}"\n\nFrom the 25 B2B Marketing Architects of 2026 👇\nutm.one/resources/playbooks/b2b-architects-2026`;
     shareToLinkedIn(shareText);
   };
 
   const handleDownload = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    const imageUrl = stampUrl || architect.originalPhoto;
-    const response = await fetch(imageUrl);
+    const response = await fetch(architect.originalPhoto);
     const blob = await response.blob();
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${architect.id}-stamp.png`;
+    a.download = `${architect.id}-card.png`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -51,7 +48,7 @@ export function ArchitectCard({ architect, index }: ArchitectCardProps) {
           isFlipped ? 'rotate-y-180' : ''
         }`}
       >
-        {/* Front - Stamp Art or Photo */}
+        {/* Front - Retro Styled Photo */}
         <div className="absolute inset-0 backface-hidden">
           <div className="h-full bg-card rounded-xl border border-border shadow-sm overflow-hidden group hover:shadow-lg transition-shadow">
             {/* Action Buttons */}
@@ -74,55 +71,59 @@ export function ArchitectCard({ architect, index }: ArchitectCardProps) {
               </Button>
             </div>
 
-            {/* Stamp Container with perforated edge effect */}
-            <div className="relative h-[60%] bg-muted p-3">
-              {stampUrl ? (
-                <div 
-                  className="w-full h-full rounded-lg overflow-hidden bg-cover bg-center"
-                  style={{ backgroundImage: `url(${stampUrl})` }}
-                />
-              ) : (
-                <div className="relative w-full h-full rounded-lg overflow-hidden">
-                  <div 
-                    className="w-full h-full bg-cover bg-center"
-                    style={{
-                      backgroundImage: `url(${architect.originalPhoto})`,
-                      filter: 'saturate(1.2) contrast(1.1)',
-                    }}
-                  />
-                  {/* Generate Stamp Overlay */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      generateStamp();
-                    }}
-                    disabled={isGenerating}
-                    className="absolute inset-0 bg-background/60 backdrop-blur-sm flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    {isGenerating ? (
-                      <>
-                        <Loader2 className="h-6 w-6 animate-spin text-foreground mb-2" />
-                        <span className="text-xs text-muted-foreground">generating stamp...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Sparkles className="h-6 w-6 text-foreground mb-2" />
-                        <span className="text-xs text-muted-foreground">generate AI stamp</span>
-                      </>
-                    )}
-                  </button>
+            {/* Retro Stamp Container with perforated edge effect */}
+            <div className="relative h-[60%] bg-amber-50 p-3">
+              {/* Vintage stamp frame */}
+              <div className="relative w-full h-full">
+                {/* Perforated border - top */}
+                <div className="absolute inset-x-0 top-0 h-3 flex justify-around items-center">
+                  {Array.from({ length: 10 }).map((_, i) => (
+                    <div key={`top-${i}`} className="w-2 h-2 rounded-full bg-amber-50" />
+                  ))}
                 </div>
-              )}
-              {/* Perforated edge */}
-              <div className="absolute inset-x-0 bottom-0 h-4 flex justify-around items-center">
-                {Array.from({ length: 12 }).map((_, i) => (
-                  <div key={i} className="w-2 h-2 rounded-full bg-card shadow-inner" />
-                ))}
+                {/* Perforated border - bottom */}
+                <div className="absolute inset-x-0 bottom-0 h-3 flex justify-around items-center">
+                  {Array.from({ length: 10 }).map((_, i) => (
+                    <div key={`bottom-${i}`} className="w-2 h-2 rounded-full bg-amber-50" />
+                  ))}
+                </div>
+                {/* Perforated border - left */}
+                <div className="absolute inset-y-0 left-0 w-3 flex flex-col justify-around items-center">
+                  {Array.from({ length: 8 }).map((_, i) => (
+                    <div key={`left-${i}`} className="w-2 h-2 rounded-full bg-amber-50" />
+                  ))}
+                </div>
+                {/* Perforated border - right */}
+                <div className="absolute inset-y-0 right-0 w-3 flex flex-col justify-around items-center">
+                  {Array.from({ length: 8 }).map((_, i) => (
+                    <div key={`right-${i}`} className="w-2 h-2 rounded-full bg-amber-50" />
+                  ))}
+                </div>
+
+                {/* Photo with retro filter */}
+                <div 
+                  className="absolute inset-3 rounded overflow-hidden"
+                  style={{
+                    backgroundImage: `url(${architect.originalPhoto})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    filter: 'sepia(20%) saturate(1.3) contrast(1.1)',
+                  }}
+                >
+                  {/* Vintage overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-amber-900/10 via-transparent to-amber-800/20" />
+                  {/* Noise texture */}
+                  <div className="absolute inset-0 opacity-30 mix-blend-overlay" 
+                    style={{ 
+                      backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 400 400\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")',
+                    }} 
+                  />
+                </div>
               </div>
             </div>
 
             {/* Info Section */}
-            <div className="p-4 h-[40%] flex flex-col justify-between">
+            <div className="p-4 h-[40%] flex flex-col justify-between bg-card">
               <div>
                 <h3 className="font-serif font-semibold text-foreground text-sm leading-tight">
                   {architect.name}
@@ -153,7 +154,7 @@ export function ArchitectCard({ architect, index }: ArchitectCardProps) {
 
             {/* Description & Quote */}
             <div className="p-4 h-[50%] flex flex-col justify-between bg-gradient-to-b from-card to-muted/30">
-              <p className="font-serif text-sm text-foreground italic leading-relaxed line-clamp-3">
+              <p className="font-serif text-sm text-foreground italic leading-relaxed line-clamp-4">
                 "{architect.nugget}"
               </p>
               
