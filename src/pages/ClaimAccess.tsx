@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Lock, CheckCircle2 } from "lucide-react";
+import { Lock, CheckCircle2, LogIn } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ObsidianMarketingLayout } from "@/components/layout/ObsidianMarketingLayout";
+import { MinimalAuthLayout } from "@/components/layout/MinimalAuthLayout";
+import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 
 const claimAccessSchema = z.object({
   email: z.string().email("please enter a valid email"),
@@ -29,10 +30,11 @@ const ClaimAccess = () => {
   const [isValidating, setIsValidating] = useState(true);
   const [inviteData, setInviteData] = useState<any>(null);
   const [claimed, setClaimed] = useState(false);
+  const [userExists, setUserExists] = useState(false);
 
   const token = searchParams.get("token");
 
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm<ClaimAccessForm>({
+  const { register, handleSubmit, formState: { errors }, setValue, getValues } = useForm<ClaimAccessForm>({
     resolver: zodResolver(claimAccessSchema),
   });
 
@@ -79,6 +81,7 @@ const ClaimAccess = () => {
 
   const onSubmit = async (formData: ClaimAccessForm) => {
     setIsLoading(true);
+    setUserExists(false);
 
     try {
       // Create user account
@@ -90,7 +93,18 @@ const ClaimAccess = () => {
         },
       });
 
-      if (signUpError) throw signUpError;
+      // Check for "user already registered" error
+      if (signUpError) {
+        if (signUpError.message?.toLowerCase().includes('already registered') ||
+            signUpError.message?.toLowerCase().includes('already exists') ||
+            signUpError.message?.toLowerCase().includes('user already')) {
+          setUserExists(true);
+          setIsLoading(false);
+          return;
+        }
+        throw signUpError;
+      }
+      
       if (!authData.user) throw new Error("Failed to create account");
 
       // Update invite as claimed
@@ -101,11 +115,12 @@ const ClaimAccess = () => {
 
       if (claimError) throw claimError;
 
-      // Update user profile with access level
+      // Update user profile with access level and plan tier
       const { error: profileError } = await supabase
         .from("profiles")
         .update({ 
           access_level: inviteData.access_level,
+          plan_tier: inviteData.plan_tier || 'growth',
           onboarding_completed: false,
         })
         .eq("id", authData.user.id);
@@ -144,21 +159,26 @@ const ClaimAccess = () => {
     }
   };
 
+  const handleSignInRedirect = () => {
+    // Redirect to auth page with the claim token preserved
+    navigate(`/auth?redirect_to=${encodeURIComponent(`/claim-access?token=${token}`)}`);
+  };
+
   if (isValidating) {
     return (
-      <ObsidianMarketingLayout showFloatingNav={false}>
+      <MinimalAuthLayout>
         <div className="min-h-[80vh] flex items-center justify-center">
           <div className="animate-pulse text-muted-foreground">validating invite...</div>
         </div>
-      </ObsidianMarketingLayout>
+      </MinimalAuthLayout>
     );
   }
 
   if (claimed) {
     return (
-      <ObsidianMarketingLayout showFloatingNav={false}>
+      <MinimalAuthLayout>
         <div className="min-h-[80vh] flex items-center justify-center">
-          <div className="w-full max-w-md rounded-2xl p-8 bg-card border border-border">
+          <div className="w-full max-w-md mx-auto rounded-2xl p-8 bg-card border border-border">
             <div className="text-center">
               <div className="mx-auto mb-4 h-12 w-12 rounded-full flex items-center justify-center bg-green-500/10">
                 <CheckCircle2 className="h-6 w-6 text-green-500" />
@@ -168,22 +188,55 @@ const ClaimAccess = () => {
             </div>
           </div>
         </div>
-      </ObsidianMarketingLayout>
+      </MinimalAuthLayout>
+    );
+  }
+
+  // Show sign-in option for existing users
+  if (userExists) {
+    return (
+      <MinimalAuthLayout>
+        <div className="min-h-[80vh] flex items-center justify-center p-4">
+          <div className="w-full max-w-md mx-auto rounded-2xl bg-card border border-border">
+            <div className="text-center p-6 pb-4">
+              <UtmOneLogo size="lg" className="justify-center mb-4" />
+              <h2 className="text-xl font-display font-bold text-foreground">you already have an account</h2>
+              <p className="text-muted-foreground mt-2">
+                sign in with your existing account to claim your access
+              </p>
+            </div>
+            <div className="p-6 pt-0 space-y-4">
+              <div className="bg-muted/30 rounded-lg p-4 border border-border">
+                <p className="text-sm text-muted-foreground">
+                  an account with <span className="font-medium text-foreground">{getValues("email")}</span> already exists. 
+                  sign in to link this invite to your account.
+                </p>
+              </div>
+              
+              <Button
+                onClick={handleSignInRedirect}
+                className="w-full"
+              >
+                <LogIn className="h-4 w-4 mr-2" />
+                sign in to claim access
+              </Button>
+              
+              <p className="text-xs text-center text-muted-foreground">
+                your invite will be applied after sign in
+              </p>
+            </div>
+          </div>
+        </div>
+      </MinimalAuthLayout>
     );
   }
 
   return (
-    <ObsidianMarketingLayout showFloatingNav={false}>
+    <MinimalAuthLayout>
       <div className="min-h-[80vh] flex items-center justify-center p-4">
-        <div className="w-full max-w-md rounded-2xl bg-card border border-border">
+        <div className="w-full max-w-md mx-auto rounded-2xl bg-card border border-border">
           <div className="text-center p-6 pb-4">
-            <div className="mx-auto mb-4 flex items-center gap-2 justify-center">
-              <img 
-                src="/src/assets/utm-one-logo.svg" 
-                alt="utm.one" 
-                className="h-8 w-auto"
-              />
-            </div>
+            <UtmOneLogo size="lg" className="justify-center mb-4" />
             <h2 className="text-xl font-display font-bold text-foreground">claim your early access</h2>
             <p className="text-muted-foreground mt-2">create your password to get started</p>
           </div>
@@ -243,7 +296,7 @@ const ClaimAccess = () => {
           </div>
         </div>
       </div>
-    </ObsidianMarketingLayout>
+    </MinimalAuthLayout>
   );
 };
 
