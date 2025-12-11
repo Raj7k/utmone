@@ -107,13 +107,19 @@ const ClaimAccess = () => {
       
       if (!authData.user) throw new Error("Failed to create account");
 
-      // Update invite as claimed
-      const { error: claimError } = await supabase
-        .from("early_access_invites")
-        .update({ claimed_at: new Date().toISOString() })
-        .eq("invite_token", token);
+      // Use edge function to claim invite (bypasses RLS)
+      const { error: claimError } = await supabase.functions.invoke('claim-invite', {
+        body: {
+          token,
+          user_id: authData.user.id,
+          user_email: formData.email,
+        },
+      });
 
-      if (claimError) throw claimError;
+      if (claimError) {
+        console.error("Error claiming invite via edge function:", claimError);
+        // Don't throw - account was created, just log the error
+      }
 
       // Update user profile with access level and plan tier
       const { error: profileError } = await supabase
@@ -125,22 +131,8 @@ const ClaimAccess = () => {
         })
         .eq("id", authData.user.id);
 
-      if (profileError) throw profileError;
-
-      // Sync early_access_requests to approved status
-      const { error: syncError } = await supabase
-        .from("early_access_requests")
-        .upsert({
-          email: formData.email.toLowerCase(),
-          name: "Claimed via invite",
-          team_size: "unknown",
-          status: "approved",
-          access_level: inviteData.access_level,
-          approval_timestamp: new Date().toISOString(),
-        }, { onConflict: "email" });
-
-      if (syncError) {
-        console.error("Failed to sync early_access_requests:", syncError);
+      if (profileError) {
+        console.error("Profile update error:", profileError);
         // Don't throw - account was created successfully
       }
 

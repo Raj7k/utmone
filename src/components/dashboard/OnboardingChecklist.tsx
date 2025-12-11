@@ -79,12 +79,12 @@ export const OnboardingChecklist = () => {
     },
     {
       id: 'pixel',
-      label: 'unlock attribution tracking',
-      description: 'recommended for revenue insights',
+      label: 'install tracking pixel',
+      description: 'required for click attribution and revenue insights',
       completed: hasInstalledPixel,
       action: () => navigate('/settings?tab=pixel'),
-      buttonLabel: 'enable',
-      isWarning: false, // Softened - no longer scary warning
+      buttonLabel: 'install now',
+      isWarning: true, // P0 priority - make it stand out
     },
   ];
 
