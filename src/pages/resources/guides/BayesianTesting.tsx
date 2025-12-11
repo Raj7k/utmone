@@ -2,19 +2,67 @@ import { ArrowLeft, Beaker, TrendingUp, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Helmet } from "react-helmet";
 import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
+import { SEO } from "@/components/seo/SEO";
+import { ArticleSchema, FAQSchema, BreadcrumbSchema, HowToSchema } from "@/components/seo/SchemaMarkup";
 
 export default function BayesianTesting() {
+  const faqs = [
+    {
+      question: "What is Clean Track Testing™?",
+      answer: "Clean Track Testing™ is a probabilistic approach to A/B testing that calculates the probability that one variant is truly better than another, rather than just counting conversions. It tells you 'Variant B has a 98.7% chance of beating Variant A' instead of just 'Variant B won.'"
+    },
+    {
+      question: "How is Clean Track Testing™ different from traditional A/B testing?",
+      answer: "Traditional A/B testing requires fixed sample sizes and can't be peeked at early. Clean Track Testing™ allows continuous monitoring with real-time probability updates, quantified confidence levels, and actionable insights throughout the test."
+    },
+    {
+      question: "When should I use Clean Track Testing™?",
+      answer: "Use it for landing page tests (headline variations, CTAs, images) and campaign optimization (ad creatives, audiences, offers) when you want statistical confidence in your decisions."
+    },
+    {
+      question: "What is the 95% threshold?",
+      answer: "When the probability that one variant beats another exceeds 95%, we declare a winner. This provides statistical rigor and confidence that the winning variant is truly better, not just randomly performing well."
+    }
+  ];
+
+  const breadcrumbs = [
+    { name: "Resources", url: "https://utm.one/resources" },
+    { name: "Guides", url: "https://utm.one/resources/guides" },
+    { name: "Clean Track Testing", url: "https://utm.one/resources/guides/bayesian-testing" }
+  ];
+
+  const howToSteps = [
+    { name: "Model Distributions", text: "Each variant's conversion rate is modeled as a probability distribution that narrows as data comes in" },
+    { name: "Run Simulations", text: "Run 10,000 Monte Carlo simulations sampling from both distributions" },
+    { name: "Calculate Probability", text: "Count how many times B beats A to determine the win probability" },
+    { name: "Declare Winner", text: "When probability exceeds 95%, declare a winner with statistical confidence" }
+  ];
+
   return (
     <>
-      <Helmet>
-        <title>clean track testing™ | utm.one</title>
-        <meta
-          name="description"
-          content="Learn how utm.one uses Clean Track Intelligence™ and probabilistic methods to determine winning variants with statistical confidence."
-        />
-      </Helmet>
+      <SEO
+        title="Clean Track Testing™ - Statistical A/B Testing Guide | utm.one"
+        description="Learn how utm.one uses Clean Track Intelligence™ and probabilistic methods to determine winning variants with statistical confidence."
+        canonical="https://utm.one/resources/guides/bayesian-testing"
+        ogType="article"
+        publishedTime="2025-01-01"
+        keywords={["a/b testing", "statistical testing", "conversion optimization", "clean track testing"]}
+      />
+      <ArticleSchema
+        headline="Clean Track Testing™ - Scientific A/B Testing with Statistical Confidence"
+        description="Learn how utm.one uses Clean Track Intelligence™ and probabilistic methods to determine winning variants with statistical confidence"
+        author="utm.one"
+        datePublished="2025-01-01"
+        dateModified="2025-01-23"
+      />
+      <FAQSchema questions={faqs} />
+      <BreadcrumbSchema items={breadcrumbs} />
+      <HowToSchema
+        name="How to Use Clean Track Testing™"
+        description="4-step process for running statistically rigorous A/B tests"
+        steps={howToSteps}
+      />
 
       <ResourcesLayout>
         {/* Hero */}
@@ -161,6 +209,21 @@ export default function BayesianTesting() {
                     Test ad creatives, audiences, offers. Allocate budget to proven winners.
                   </p>
                 </Card>
+              </div>
+            </div>
+
+            {/* FAQ Section */}
+            <div className="prose prose-slate dark:prose-invert max-w-none">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground">
+                frequently asked questions
+              </h2>
+              <div className="not-prose space-y-4 mt-6">
+                {faqs.map((faq, idx) => (
+                  <Card key={idx} className="p-6 border-border/50">
+                    <h3 className="text-lg font-semibold text-foreground mb-2">{faq.question}</h3>
+                    <p className="text-muted-foreground">{faq.answer}</p>
+                  </Card>
+                ))}
               </div>
             </div>
 

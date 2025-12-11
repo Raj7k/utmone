@@ -1,13 +1,42 @@
 import { ComparisonPage } from "@/components/compare/ComparisonPage";
 import { SEO } from "@/components/seo/SEO";
+import { ArticleSchema, FAQSchema, BreadcrumbSchema, ProductSchema } from "@/components/seo/SchemaMarkup";
 
 const UtmOneVsShortIo = () => {
+  const faqs = [
+    { question: "What's the main difference between utm.one and Short.io?", answer: "Short.io handles basic link shortening. utm.one handles trust, clarity, metadata, accessibility, and governance for enterprise teams." },
+    { question: "Does utm.one offer semantic slugs?", answer: "Yes, utm.one provides semantic slugs for meaningful, readable links. Short.io offers only partial semantic slug support." },
+    { question: "Is utm.one accessible?", answer: "Yes, utm.one is built with AAA accessibility compliance. Short.io does not prioritize accessibility standards." },
+    { question: "Can I use utm.one for UTM governance?", answer: "Yes, utm.one auto-rules UTM parameters ensuring consistency. Short.io has no UTM governance features." },
+    { question: "How does utm.one handle QR attribution?", answer: "utm.one provides full QR code attribution. Short.io does not offer QR attribution features." }
+  ];
+
+  const breadcrumbs = [
+    { name: "Home", url: "https://utm.one" },
+    { name: "Compare", url: "https://utm.one/compare" },
+    { name: "utm.one vs Short.io", url: "https://utm.one/compare/short-io" }
+  ];
+
   return (
     <>
       <SEO 
         title="utm.one vs Short.io - Comparison"
         description="Short.io handles short links. utm.one handles trust, clarity, metadata, accessibility, and governance."
         canonical="https://utm.one/compare/short-io"
+      />
+      <ArticleSchema
+        headline="utm.one vs Short.io - Link Management Comparison"
+        description="Short.io handles short links. utm.one handles trust, clarity, metadata, accessibility, and governance."
+        author="utm.one"
+        datePublished="2025-01-01"
+        dateModified="2025-01-23"
+      />
+      <FAQSchema questions={faqs} />
+      <BreadcrumbSchema items={breadcrumbs} />
+      <ProductSchema
+        name="utm.one"
+        description="Enterprise link management platform with trust, clarity, metadata, accessibility, and governance"
+        brand="utm.one"
       />
       <ComparisonPage
         competitor="short.io"
