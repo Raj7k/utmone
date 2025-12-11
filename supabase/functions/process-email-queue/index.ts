@@ -48,6 +48,7 @@ serve(async (req) => {
       try {
         const { error: sendError } = await resend.emails.send({
           from: 'utm.one <onboarding@utm.one>',
+          replyTo: 'hello@utm.one',
           to: [email.user_id.email],
           subject: email.campaign_id.subject,
           html: email.campaign_id.html_content

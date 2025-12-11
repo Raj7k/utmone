@@ -396,6 +396,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     const emailResponse = await resend.emails.send({
       from: "raj from utm.one <raj@utm.one>",
+      replyTo: "raj@utm.one",
       to: [email],
       subject: `✨ you're #${foundingNumber} of 100 — welcome to utm.one`,
       html: emailHtml,

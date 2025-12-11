@@ -28,6 +28,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     const emailResponse = await resend.emails.send({
       from: "utm.one <reports@utm.one>",
+      replyTo: "hello@utm.one",
       to: [email],
       subject: "Your 2026 Global Salary Benchmark Report",
       html: `

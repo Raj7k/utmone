@@ -44,6 +44,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     const emailResponse = await resend.emails.send({
       from: "utm.one <onboarding@utm.one>",
+      replyTo: "hello@utm.one",
       to: [email],
       subject: "you're in the queue — utm.one early access",
       html: `

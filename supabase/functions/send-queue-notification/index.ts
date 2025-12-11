@@ -56,6 +56,7 @@ serve(async (req) => {
     
     const { error: emailError } = await resend.emails.send({
       from: 'utm.one <updates@utm.one>',
+      replyTo: 'hello@utm.one',
       to: [user.email],
       subject: `you moved up ${positionChange} spots in the queue`,
       html: `
