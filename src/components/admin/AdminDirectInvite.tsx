@@ -61,6 +61,23 @@ export const AdminDirectInvite = () => {
 
       if (inviteError) throw inviteError;
 
+      // Sync early_access_requests - upsert to ensure user is approved
+      const { error: upsertError } = await supabase
+        .from("early_access_requests")
+        .upsert({
+          email: email.toLowerCase(),
+          name: "Direct Invite",
+          team_size: "unknown",
+          status: "approved",
+          access_level: getPlanAccessLevel(planTier),
+          approval_timestamp: new Date().toISOString(),
+        }, { onConflict: "email" });
+
+      if (upsertError) {
+        console.error("Failed to sync early_access_requests:", upsertError);
+        // Don't throw - invite was created, this is just a sync
+      }
+
       // Send approval email with plan info
       const { error: emailError } = await supabase.functions.invoke("send-approval-email", {
         body: {

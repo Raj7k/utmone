@@ -112,6 +112,23 @@ const ClaimAccess = () => {
 
       if (profileError) throw profileError;
 
+      // Sync early_access_requests to approved status
+      const { error: syncError } = await supabase
+        .from("early_access_requests")
+        .upsert({
+          email: formData.email.toLowerCase(),
+          name: "Claimed via invite",
+          team_size: "unknown",
+          status: "approved",
+          access_level: inviteData.access_level,
+          approval_timestamp: new Date().toISOString(),
+        }, { onConflict: "email" });
+
+      if (syncError) {
+        console.error("Failed to sync early_access_requests:", syncError);
+        // Don't throw - account was created successfully
+      }
+
       setClaimed(true);
       notify.success("your account has been created successfully");
 

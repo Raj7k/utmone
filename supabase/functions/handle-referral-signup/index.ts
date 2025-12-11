@@ -28,7 +28,50 @@ Deno.serve(async (req) => {
 
     console.log('[Referral Signup] Processing signup:', { email, referral_code });
 
-    // Check if email already exists
+    // Check if user has a valid direct invite - if so, auto-approve
+    const { data: validInvite } = await supabase
+      .from('early_access_invites')
+      .select('access_level, plan_tier')
+      .eq('email', email.toLowerCase())
+      .is('claimed_at', null)
+      .gt('expires_at', new Date().toISOString())
+      .maybeSingle();
+
+    if (validInvite) {
+      console.log('[Referral Signup] User has valid invite, auto-approving:', email);
+      
+      // Create approved entry directly
+      const { data: approvedRequest, error: approveError } = await supabase
+        .from('early_access_requests')
+        .upsert({
+          email: email.toLowerCase(),
+          name,
+          team_size,
+          reason_for_joining,
+          status: 'approved',
+          access_level: validInvite.access_level,
+          approval_timestamp: new Date().toISOString(),
+        }, { onConflict: 'email' })
+        .select('position, referral_code')
+        .single();
+
+      if (approveError) {
+        console.error('[Referral Signup] Auto-approve error:', approveError);
+        throw approveError;
+      }
+
+      return new Response(
+        JSON.stringify({
+          success: true,
+          position: 1, // Top of list since approved
+          referral_code: approvedRequest?.referral_code,
+          auto_approved: true,
+        }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Check if email already exists in waitlist
     const { data: existing } = await supabase
       .from('early_access_requests')
       .select('id')
