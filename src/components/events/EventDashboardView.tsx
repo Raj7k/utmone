@@ -9,6 +9,7 @@ import { EventImpactFunnel } from "./EventImpactFunnel";
 import { EventHaloSpikeChart } from "./EventHaloSpikeChart";
 import { EventValueSettings } from "./EventValueSettings";
 import { BadgeScanUploader } from "./BadgeScanUploader";
+import { ControlCitySelector } from "./ControlCitySelector";
 import { EventHaloResult } from "@/hooks/useFieldEvents";
 
 interface FieldEvent {
@@ -25,6 +26,7 @@ interface FieldEvent {
   avg_deal_value?: number;
   conversion_rate?: number;
   use_inferred_values?: boolean;
+  control_city?: string | null;
 }
 
 interface EventDashboardViewProps {
@@ -109,6 +111,14 @@ export const EventDashboardView = ({
           </Button>
         </div>
       </div>
+
+      {/* Control City Selector */}
+      <ControlCitySelector
+        eventId={event.id}
+        currentControlCity={event.control_city || null}
+        eventCity={event.location_city}
+        onUpdate={onRecalculate}
+      />
 
       {/* Data Warning */}
       {haloResult && !haloResult.has_sufficient_data && (
