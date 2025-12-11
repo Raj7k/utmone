@@ -158,26 +158,30 @@ export function ArchitectCard({ architect, index }: ArchitectCardProps) {
                 "{architect.nugget}"
               </p>
               
-              <div className="flex items-center justify-between gap-2">
-                <a
-                  href={architect.linkedIn}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 font-sans text-sm font-medium text-primary hover:text-primary/80 transition-colors group/link"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <Linkedin className="w-4 h-4" />
-                  Follow
-                  <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all" />
-                </a>
+              <div className="flex items-center gap-2">
                 <Button
+                  asChild
                   size="sm"
+                  className="h-8 text-xs bg-[#0A66C2] hover:bg-[#004182] text-white flex-1"
+                >
+                  <a
+                    href={architect.linkedIn}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <Linkedin className="w-3.5 h-3.5 mr-1.5" />
+                    Connect
+                    <ArrowUpRight className="w-3 h-3 ml-1" />
+                  </a>
+                </Button>
+                <Button
+                  size="icon"
                   variant="outline"
-                  className="h-7 text-xs"
+                  className="h-8 w-8"
                   onClick={handleShare}
                 >
-                  <Share2 className="h-3 w-3 mr-1" />
-                  Share
+                  <Share2 className="h-3.5 w-3.5" />
                 </Button>
               </div>
             </div>
