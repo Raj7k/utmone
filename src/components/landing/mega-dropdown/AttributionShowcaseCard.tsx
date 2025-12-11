@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { DollarSign, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 const channels = [
   { name: "LinkedIn", amount: "$450K", percent: 37 },
@@ -8,28 +9,42 @@ const channels = [
   { name: "Email", amount: "$280K", percent: 23 },
 ];
 
-export function AttributionShowcaseCard() {
+interface AttributionShowcaseCardProps {
+  variant?: "light" | "dark";
+}
+
+export function AttributionShowcaseCard({ variant = "dark" }: AttributionShowcaseCardProps) {
+  const isLight = variant === "light";
+  
   return (
     <Link to="/features/attribution-graph" className="block">
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.15 }}
-        className="group p-5 rounded-2xl bg-white/[0.03] border border-white/[0.12] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] ring-1 ring-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.2] hover:ring-white/[0.1] hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15),0_0_20px_-5px_rgba(255,255,255,0.1)] transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
+        className={cn(
+          "group p-5 rounded-2xl transition-all duration-300 hover:-translate-y-0.5 cursor-pointer",
+          isLight
+            ? "bg-zinc-50 border border-zinc-200 hover:bg-zinc-100 hover:border-zinc-300"
+            : "bg-white/[0.03] border border-white/[0.12] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] ring-1 ring-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.2] hover:ring-white/[0.1] hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15),0_0_20px_-5px_rgba(255,255,255,0.1)]"
+        )}
       >
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h3 className="text-sm font-medium text-white/90 mb-1">utm.one Attribution</h3>
-            <p className="text-xs text-white/50">See where your revenue comes from</p>
+            <h3 className={cn("text-sm font-medium mb-1", isLight ? "text-zinc-800" : "text-white/90")}>utm.one Attribution</h3>
+            <p className={cn("text-xs", isLight ? "text-zinc-500" : "text-white/50")}>See where your revenue comes from</p>
           </div>
-          <ArrowUpRight className="w-3.5 h-3.5 text-white/0 group-hover:text-white/40 transition-all duration-200" />
+          <ArrowUpRight className={cn(
+            "w-3.5 h-3.5 transition-all duration-200",
+            isLight ? "text-transparent group-hover:text-zinc-400" : "text-white/0 group-hover:text-white/40"
+          )} />
         </div>
 
         {/* Mini Fiber Optic Visualization */}
         <div className="relative h-32 mb-4">
           <svg viewBox="0 0 200 100" className="w-full h-full">
             <defs>
-              <filter id="glow">
+              <filter id={`glow-${variant}`}>
                 <feGaussianBlur stdDeviation="2" result="coloredBlur" />
                 <feMerge>
                   <feMergeNode in="coloredBlur" />
@@ -47,7 +62,7 @@ export function AttributionShowcaseCard() {
                   <motion.path
                     d={`M 20 ${startY} Q 100 ${startY} 160 50`}
                     fill="none"
-                    stroke="rgba(255,255,255,0.1)"
+                    stroke={isLight ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)"}
                     strokeWidth="1"
                     initial={{ pathLength: 0 }}
                     animate={{ pathLength: 1 }}
@@ -57,8 +72,8 @@ export function AttributionShowcaseCard() {
                   {/* Animated particle */}
                   <motion.circle
                     r="2"
-                    fill="white"
-                    filter="url(#glow)"
+                    fill={isLight ? "black" : "white"}
+                    filter={`url(#glow-${variant})`}
                     initial={{ opacity: 0 }}
                     animate={{
                       opacity: [0, 1, 1, 0],
@@ -79,7 +94,7 @@ export function AttributionShowcaseCard() {
                   <motion.text
                     x="5"
                     y={startY + 4}
-                    fill="rgba(255,255,255,0.5)"
+                    fill={isLight ? "rgba(0,0,0,0.5)" : "rgba(255,255,255,0.5)"}
                     fontSize="8"
                     fontFamily="monospace"
                     initial={{ opacity: 0 }}
@@ -98,7 +113,7 @@ export function AttributionShowcaseCard() {
               cy="50"
               r="15"
               fill="none"
-              stroke="rgba(255,255,255,0.3)"
+              stroke={isLight ? "rgba(0,0,0,0.3)" : "rgba(255,255,255,0.3)"}
               strokeWidth="1"
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
@@ -110,7 +125,7 @@ export function AttributionShowcaseCard() {
               cx="170"
               cy="50"
               r="8"
-              fill="rgba(255,255,255,0.1)"
+              fill={isLight ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)"}
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.3, delay: 0.6 }}
@@ -125,8 +140,8 @@ export function AttributionShowcaseCard() {
             transition={{ duration: 0.3, delay: 0.7 }}
           >
             <div className="flex items-center gap-1">
-              <DollarSign className="w-4 h-4 text-white/60" />
-              <span className="text-lg font-mono font-medium text-white/90 tabular-nums">1.2M</span>
+              <DollarSign className={cn("w-4 h-4", isLight ? "text-zinc-500" : "text-white/60")} />
+              <span className={cn("text-lg font-mono font-medium tabular-nums", isLight ? "text-zinc-800" : "text-white/90")}>1.2M</span>
             </div>
           </motion.div>
         </div>
@@ -142,12 +157,12 @@ export function AttributionShowcaseCard() {
               className="flex items-center justify-between"
             >
               <div className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-white/40" />
-                <span className="text-[10px] text-white/50">{channel.name}</span>
+                <div className={cn("w-1.5 h-1.5 rounded-full", isLight ? "bg-zinc-400" : "bg-white/40")} />
+                <span className={cn("text-[10px]", isLight ? "text-zinc-500" : "text-white/50")}>{channel.name}</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono text-white/70">{channel.amount}</span>
-                <span className="text-[10px] font-mono text-white/40">{channel.percent}%</span>
+                <span className={cn("text-[10px] font-mono", isLight ? "text-zinc-600" : "text-white/70")}>{channel.amount}</span>
+                <span className={cn("text-[10px] font-mono", isLight ? "text-zinc-400" : "text-white/40")}>{channel.percent}%</span>
               </div>
             </motion.div>
           ))}
