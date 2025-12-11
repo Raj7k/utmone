@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useWorkspace } from "@/hooks/useWorkspace";
-import { Download, ExternalLink, QrCode, Plus } from "lucide-react";
+import { Download, ExternalLink, QrCode, Plus, Boxes } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatDistance } from "date-fns";
@@ -12,19 +13,25 @@ import { Input } from "@/components/ui/input";
 import { QRCodeGenerator } from "@/components/QRCodeGenerator";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
+import { BrickBuilderContent } from "@/components/brickmatrix/BrickBuilderContent";
 
 export default function QRCodes() {
   const { currentWorkspace } = useWorkspace();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab = searchParams.get("tab") || "all";
   const [searchQuery, setSearchQuery] = useState("");
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [selectedLink, setSelectedLink] = useState<{ id: string; shortUrl: string } | null>(null);
+
+  const handleTabChange = (value: string) => {
+    setSearchParams({ tab: value });
+  };
 
   const { data: qrCodes, isLoading } = useQuery({
     queryKey: ["qr-codes", currentWorkspace?.id],
     queryFn: async () => {
       if (!currentWorkspace) return [];
 
-      // Get all links for this workspace first
       const { data: workspaceLinks } = await supabase
         .from("links")
         .select("id")
@@ -54,7 +61,6 @@ export default function QRCodes() {
     enabled: !!currentWorkspace,
   });
 
-  // Get all workspace links for QR generation
   const { data: workspaceLinks } = useQuery({
     queryKey: ["workspace-links", currentWorkspace?.id],
     queryFn: async () => {
@@ -98,18 +104,25 @@ export default function QRCodes() {
         </Button>
       }
     >
-      <Tabs defaultValue="all" className="w-full">
-        <div className="flex items-center justify-between mb-6">
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
+        <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
           <TabsList>
             <TabsTrigger value="all">All QR Codes</TabsTrigger>
             <TabsTrigger value="create">Create New</TabsTrigger>
+            <TabsTrigger value="brick-builder" className="gap-2">
+              <Boxes className="h-4 w-4" />
+              Brick Builder
+              <Badge variant="secondary" className="ml-1 text-[10px] px-1.5 py-0">NEW</Badge>
+            </TabsTrigger>
           </TabsList>
-          <Input
-            placeholder="Search QR Codes..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="max-w-xs"
-          />
+          {activeTab !== "brick-builder" && (
+            <Input
+              placeholder="Search QR Codes..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="max-w-xs"
+            />
+          )}
         </div>
 
         <TabsContent value="all" className="space-y-6">
@@ -148,23 +161,13 @@ export default function QRCodes() {
                       </div>
 
                       <div className="flex gap-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="flex-1"
-                          asChild
-                        >
+                        <Button variant="outline" size="sm" className="flex-1" asChild>
                           <a href={qr.png_url || qr.svg_url || ""} download={`qr-${qr.links?.slug}.png`}>
                             <Download className="h-4 w-4 mr-2" />
                             Download
                           </a>
                         </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="flex-1"
-                          asChild
-                        >
+                        <Button variant="outline" size="sm" className="flex-1" asChild>
                           <a
                             href={`https://${qr.links?.domain}/${qr.links?.path ? `${qr.links.path}/` : ""}${qr.links?.slug}`}
                             target="_blank"
@@ -219,9 +222,7 @@ export default function QRCodes() {
                           <p className="font-medium text-foreground">{link.title}</p>
                           <p className="text-sm text-muted-foreground">{link.short_url}</p>
                         </div>
-                        <Button size="sm">
-                          Select
-                        </Button>
+                        <Button size="sm">Select</Button>
                       </div>
                     </Card>
                   ))}
@@ -239,9 +240,12 @@ export default function QRCodes() {
             </div>
           </Card>
         </TabsContent>
+
+        <TabsContent value="brick-builder" className="space-y-6">
+          <BrickBuilderContent />
+        </TabsContent>
       </Tabs>
 
-      {/* Create QR Dialog */}
       <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
@@ -279,7 +283,6 @@ export default function QRCodes() {
         </DialogContent>
       </Dialog>
 
-      {/* QR Generator Dialog */}
       {selectedLink && (
         <Dialog open={!!selectedLink} onOpenChange={() => setSelectedLink(null)}>
           <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
