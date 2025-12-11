@@ -81,6 +81,12 @@ const Auth = () => {
       }
     }
 
+    // Check if this is a claim-access redirect (existing user claiming invite)
+    const isClaimRedirect = redirectTo?.includes('/claim-access');
+    if (isClaimRedirect) {
+      console.log('[Auth] Claim access redirect detected, user needs to sign in');
+    }
+
     // Shorter timeout (3s) to prevent infinite loading
     const sessionCheckTimeout = setTimeout(() => {
       if (isMounted) {

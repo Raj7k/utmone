@@ -261,28 +261,40 @@ const createPremiumApprovalEmail = (
             <!-- CTA Button -->
             <tr>
               <td align="center" style="padding: 0 32px 24px;">
-                <a href="${claimUrl}" style="
+                <!--[if mso]>
+                <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${claimUrl}" style="height:52px;v-text-anchor:middle;width:240px;" arcsize="23%" stroke="f" fillcolor="#ffffff">
+                  <w:anchorlock/>
+                  <center style="color:#0a0a0a;font-family:sans-serif;font-size:15px;font-weight:600;">claim your access →</center>
+                </v:roundrect>
+                <![endif]-->
+                <!--[if !mso]><!-->
+                <a href="${claimUrl}" target="_blank" style="
                   display: inline-block;
                   background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
-                  color: #0a0a0a;
+                  background-color: #ffffff;
+                  color: #0a0a0a !important;
                   text-decoration: none;
                   padding: 16px 48px;
                   border-radius: 12px;
                   font-size: 15px;
                   font-weight: 600;
                   letter-spacing: -0.2px;
+                  mso-padding-alt: 0;
                 ">claim your access →</a>
+                <!--<![endif]-->
               </td>
             </tr>
 
-            <!-- Plain Text URL for Copy/Paste -->
+            <!-- Plain Text URL for Copy/Paste (fallback for email clients that strip links) -->
             <tr>
               <td align="center" style="padding: 0 32px 16px;">
                 <p style="color: rgba(255,255,255,0.4); font-size: 11px; margin: 0;">
-                  or copy this link:
+                  button not working? copy this link:
                 </p>
-                <p style="color: rgba(255,255,255,0.6); font-size: 11px; margin: 8px 0 0; word-break: break-all; line-height: 1.5;">
-                  ${claimUrl}
+                <p style="margin: 8px 0 0;">
+                  <a href="${claimUrl}" target="_blank" style="color: rgba(255,255,255,0.7); font-size: 11px; word-break: break-all; line-height: 1.5; text-decoration: underline;">
+                    ${claimUrl}
+                  </a>
                 </p>
               </td>
             </tr>
