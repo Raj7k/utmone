@@ -14,7 +14,8 @@ export type Feature =
   | 'qr_advanced'
   | 'csv_export'
   | 'remove_branding'
-  | 'sso';
+  | 'sso'
+  | 'event_bridge';
 
 export interface FeatureCheckResult {
   allowed: boolean;

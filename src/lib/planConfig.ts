@@ -62,6 +62,10 @@ export interface PlanFeatures {
   dedicatedCsm: boolean;
   customSla: boolean;
   
+  // Event Bridge (Business & Enterprise only)
+  eventBridge: boolean;
+  eventBridgeFlows: number | 'unlimited';
+  
   // QR Features
   canRemoveQRWatermark: boolean;
   canExportSVG: boolean;
@@ -141,6 +145,10 @@ export const PLAN_CONFIG: Record<PlanTier, PlanDetails> = {
       dedicatedCsm: false,
       customSla: false,
       
+      // Event Bridge
+      eventBridge: false,
+      eventBridgeFlows: 0,
+      
       // QR Features
       canRemoveQRWatermark: false,
       canExportSVG: false,
@@ -208,6 +216,10 @@ export const PLAN_CONFIG: Record<PlanTier, PlanDetails> = {
       dedicatedCsm: false,
       customSla: false,
       
+      // Event Bridge
+      eventBridge: false,
+      eventBridgeFlows: 0,
+      
       // QR Features
       canRemoveQRWatermark: true,
       canExportSVG: true,
@@ -274,6 +286,10 @@ export const PLAN_CONFIG: Record<PlanTier, PlanDetails> = {
       customIntegrations: false,
       dedicatedCsm: false,
       customSla: false,
+      
+      // Event Bridge
+      eventBridge: false,
+      eventBridgeFlows: 0,
       
       // QR Features
       canRemoveQRWatermark: true,
@@ -344,6 +360,10 @@ export const PLAN_CONFIG: Record<PlanTier, PlanDetails> = {
       dedicatedCsm: false,
       customSla: false,
       
+      // Event Bridge
+      eventBridge: true,
+      eventBridgeFlows: 5,
+      
       // QR Features
       canRemoveQRWatermark: true,
       canExportSVG: true,
@@ -410,6 +430,10 @@ export const PLAN_CONFIG: Record<PlanTier, PlanDetails> = {
       customIntegrations: true,
       dedicatedCsm: true,
       customSla: true,
+      
+      // Event Bridge
+      eventBridge: true,
+      eventBridgeFlows: 'unlimited',
       
       // QR Features
       canRemoveQRWatermark: true,
@@ -500,6 +524,7 @@ export const FEATURE_CATEGORIES: FeatureCategory[] = [
       { key: 'scannerOfflineSync', label: 'offline sync', free: false, starter: false, growth: true, business: true, enterprise: true },
       { key: 'badgeScans', label: 'monthly badge scans', free: 0, starter: 50, growth: 500, business: 'unlimited', enterprise: 'unlimited' },
       { key: 'eventHalo', label: 'event halo attribution', free: false, starter: false, growth: false, business: true, enterprise: true },
+      { key: 'eventBridge', label: 'event bridge automation', free: false, starter: false, growth: false, business: '5 flows', enterprise: 'unlimited' },
     ],
   },
 ];

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { 
   Waves, QrCode, Upload, BarChart3, 
   ArrowRight, DollarSign, CheckCircle,
-  Building, Users, Target, Scan, Sparkles
+  Building, Users, Target, Scan, Sparkles, Zap
 } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
 import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
@@ -66,6 +66,12 @@ const FieldMarketing = () => {
       icon: BarChart3,
       title: "ROI visualization",
       description: "see direct scans + halo visitors + estimated pipeline. prove your budget is worth it."
+    },
+    {
+      icon: Zap,
+      title: "event bridge automation",
+      description: "connect Luma, Airmeet, or Goldcast to your CRM. leads auto-enrich and sync in real-time.",
+      isNew: true
     }
   ];
 

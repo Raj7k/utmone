@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { CleanTrackShowcaseCard } from "./CleanTrackShowcaseCard";
 import { EventHaloShowcaseCard } from "./EventHaloShowcaseCard";
 import { AIIntelligenceShowcaseCard } from "./AIIntelligenceShowcaseCard";
+import { EventBridgeShowcaseCard } from "./EventBridgeShowcaseCard";
 import { FeatureGridCard } from "./FeatureGridCard";
 import { ComparePlansCard } from "./ComparePlansCard";
 import { cn } from "@/lib/utils";
@@ -31,6 +32,7 @@ export function FeaturesMegaDropdown({ variant = "dark" }: FeaturesMegaDropdownP
           <CleanTrackShowcaseCard variant={variant} />
           <EventHaloShowcaseCard variant={variant} />
           <AIIntelligenceShowcaseCard variant={variant} />
+          <EventBridgeShowcaseCard variant={variant} />
         </div>
         <div className="flex-1">
           <FeatureGridCard variant={variant} />
