@@ -20,42 +20,36 @@ import {
 
 const articles = [
   {
-    title: "Event Halo explained",
+    title: "Event Halo overview",
     description: "Track the invisible 90% of trade show impact. We measure traffic lifts in your event city vs baseline, proving offline ROI.",
-    href: "/help/events#event-halo",
+    href: "/help/articles/event-halo-overview",
     icon: Waves,
     isNew: true,
   },
   {
-    title: "Geo-temporal lift analysis",
-    description: "Compare traffic from event city during event dates against historical baselines. See the true halo effect of your presence.",
-    href: "/help/events#lift-analysis",
-    icon: MapPin,
-  },
-  {
-    title: "Control group methodology",
-    description: "We compare your event city against similar non-event cities. This proves the spike was caused by the event, not coincidence.",
-    href: "/help/events#control-group",
-    icon: Target,
+    title: "Creating events",
+    description: "Set up event tracking with name, location, dates, and booth link. We start monitoring geo-traffic automatically.",
+    href: "/help/articles/creating-events",
+    icon: CalendarDays,
   },
   {
     title: "One-Tap Universal Scanner",
     description: "Scan badges, QR codes, barcodes, and business cards with one app. Works offline. Syncs when connected.",
-    href: "/help/events#one-tap",
+    href: "/help/articles/one-tap-scanner",
     icon: Scan,
     isNew: true,
   },
   {
-    title: "Supported scan formats",
-    description: "QR codes, barcodes (1D/2D), NFC tags, and AI-powered OCR for business cards. One scanner for everything.",
-    href: "/help/events#formats",
-    icon: QrCode,
+    title: "Badge scan import",
+    description: "Import badge scan CSVs from event organizers. We deduplicate, enrich, and attribute them to your event.",
+    href: "/help/articles/badge-import",
+    icon: Upload,
   },
   {
-    title: "Lead temperature tagging",
-    description: "Instantly tag scanned leads as Hot, Warm, or Cold. Prioritize follow-ups without waiting for CRM sync.",
-    href: "/help/events#temperature",
-    icon: Thermometer,
+    title: "Event ROI calculator",
+    description: "Input your event costs, scanned leads, and halo visitors. Get attributed pipeline value and ROI projection.",
+    href: "/help/articles/event-roi",
+    icon: Calculator,
   },
   {
     title: "Lead enrichment setup",
@@ -63,30 +57,6 @@ const articles = [
     href: "/help/articles/lead-enrichment",
     icon: Sparkles,
     isNew: true,
-  },
-  {
-    title: "Badge scan import",
-    description: "Import badge scan CSVs from event organizers. We deduplicate, enrich, and attribute them to your event.",
-    href: "/help/events#import",
-    icon: Upload,
-  },
-  {
-    title: "Event ROI calculator",
-    description: "Input your event costs, scanned leads, and halo visitors. Get attributed pipeline value and ROI projection.",
-    href: "/help/events#roi",
-    icon: Calculator,
-  },
-  {
-    title: "Creating events",
-    description: "Set up event tracking with name, location, dates, and booth link. We start monitoring geo-traffic automatically.",
-    href: "/help/events#create",
-    icon: CalendarDays,
-  },
-  {
-    title: "Team event collaboration",
-    description: "Multiple team members can scan simultaneously at different booth stations. All data syncs to one event dashboard.",
-    href: "/help/events#team",
-    icon: Users,
   },
 ];
 
