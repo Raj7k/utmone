@@ -1,86 +1,96 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Link2, QrCode, BarChart3, Waves, DollarSign } from "lucide-react";
+import { Link2, QrCode, BarChart3, Calendar, DollarSign, LucideIcon } from "lucide-react";
 
 interface QuickAction {
   id: string;
-  icon: React.ElementType;
+  icon: LucideIcon;
   label: string;
   description: string;
   href: string;
   tourId?: string;
+  shortcut?: string;
 }
+
+const getModKey = () => {
+  const isMac = typeof window !== 'undefined' && navigator.platform.includes('Mac');
+  return isMac ? '⌘' : 'Ctrl';
+};
 
 const quickActions: QuickAction[] = [
   {
-    id: "create-link",
+    id: 'create-link',
     icon: Link2,
-    label: "create link",
-    description: "shorten any URL",
-    href: "/dashboard/links",
+    label: 'create link',
+    description: 'shorten any URL',
+    href: '/dashboard/links',
+    tourId: 'quick-actions',
+    shortcut: '1',
   },
   {
-    id: "qr-code",
+    id: 'qr-code',
     icon: QrCode,
-    label: "QR code",
-    description: "generate codes",
-    href: "/dashboard/qr-codes",
+    label: 'QR code',
+    description: 'generate QR codes',
+    href: '/dashboard/qr-codes',
+    shortcut: '2',
   },
   {
-    id: "analytics",
+    id: 'analytics',
     icon: BarChart3,
-    label: "analytics",
-    description: "view insights",
-    href: "/dashboard/intelligence",
+    label: 'analytics',
+    description: 'view performance',
+    href: '/dashboard/intelligence',
+    shortcut: '3',
   },
   {
-    id: "events",
-    icon: Waves,
-    label: "event halo",
-    description: "track events",
-    href: "/dashboard/events",
+    id: 'events',
+    icon: Calendar,
+    label: 'event halo',
+    description: 'track field events',
+    href: '/dashboard/events',
+    shortcut: '4',
   },
   {
-    id: "sales",
+    id: 'sales',
     icon: DollarSign,
-    label: "sales",
-    description: "revenue tracking",
-    href: "/dashboard/sales",
+    label: 'sales',
+    description: 'revenue tracking',
+    href: '/dashboard/sales',
+    shortcut: '5',
   },
 ];
 
 export const DashboardQuickActions = () => {
+  const mod = getModKey();
+
   return (
-    <div data-tour="quick-actions" className="space-y-3">
-      <h2 className="text-sm font-medium text-muted-foreground px-1">quick actions</h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-        {quickActions.map((action, index) => {
-          const Icon = action.icon;
-          return (
-            <motion.div
-              key={action.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05, duration: 0.2 }}
-            >
-              <Link
-                to={action.href}
-                className="group flex flex-col items-center justify-center p-4 rounded-2xl bg-card border border-border/50 hover:border-border hover:shadow-lg hover:shadow-primary/5 transition-all duration-200 hover:-translate-y-0.5"
-              >
-                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-3 group-hover:bg-primary/15 transition-colors">
-                  <Icon className="h-5 w-5 text-primary" />
-                </div>
-                <span className="text-sm font-medium text-foreground text-center">
-                  {action.label}
-                </span>
-                <span className="text-[11px] text-muted-foreground text-center mt-0.5">
-                  {action.description}
-                </span>
-              </Link>
-            </motion.div>
-          );
-        })}
-      </div>
+    <div 
+      data-tour="quick-actions"
+      className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3"
+    >
+      {quickActions.map((action, index) => (
+        <motion.div
+          key={action.id}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: index * 0.05 }}
+        >
+          <Link
+            to={action.href}
+            className="group flex flex-col items-center justify-center p-4 rounded-xl bg-card border border-border hover:border-primary/30 hover:bg-muted/50 transition-all duration-200 text-center h-full min-h-[120px]"
+          >
+            <action.icon className="h-6 w-6 text-muted-foreground group-hover:text-primary transition-colors mb-2" />
+            <span className="text-sm font-medium text-foreground">{action.label}</span>
+            <span className="text-xs text-muted-foreground mt-0.5">{action.description}</span>
+            {action.shortcut && (
+              <kbd className="mt-2 inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground/70 bg-muted/50 border border-border/50 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                {mod}+{action.shortcut}
+              </kbd>
+            )}
+          </Link>
+        </motion.div>
+      ))}
     </div>
   );
 };

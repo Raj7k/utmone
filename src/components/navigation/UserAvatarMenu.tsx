@@ -11,18 +11,26 @@ import {
   DropdownMenuSubContent,
   DropdownMenuPortal,
 } from "@/components/ui/dropdown-menu";
-import { User, LogOut, Settings, Sun, Moon, Monitor, Palette, HelpCircle, Sparkles } from "lucide-react";
+import { User, LogOut, Settings, Sun, Moon, Monitor, Palette, HelpCircle, Sparkles, Keyboard } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useTheme } from "next-themes";
 import { useTour } from "@/components/onboarding/TourContext";
+import { useKeyboardShortcuts } from "@/components/keyboard/KeyboardShortcutsProvider";
+
+const getModKey = () => {
+  const isMac = typeof window !== 'undefined' && navigator.platform.includes('Mac');
+  return isMac ? '⌘' : 'Ctrl';
+};
 
 export const UserAvatarMenu = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { setTheme } = useTheme();
   const { startTour } = useTour();
+  const { openShortcutsModal } = useKeyboardShortcuts();
+  const mod = getModKey();
 
   const { data: profile } = useQuery({
     queryKey: ["user-profile-header"],
@@ -106,6 +114,12 @@ export const UserAvatarMenu = () => {
         </DropdownMenuSub>
 
         <DropdownMenuSeparator />
+
+        <DropdownMenuItem onClick={openShortcutsModal}>
+          <Keyboard className="mr-2 h-4 w-4" />
+          keyboard shortcuts
+          <kbd className="ml-auto text-[10px] font-mono text-muted-foreground">{mod}+?</kbd>
+        </DropdownMenuItem>
 
         <DropdownMenuItem onClick={startTour}>
           <Sparkles className="mr-2 h-4 w-4" />
