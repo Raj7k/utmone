@@ -15,11 +15,11 @@ import {
 import { SankeyJourneyFlow } from "@/components/use-cases/SankeyJourneyFlow";
 
 const InfluencerCampaigns = () => {
-  const journeySteps = [
-    { id: "post", label: "Instagram Post", description: "Creator shares link", weight: 30 },
-    { id: "click", label: "Link Click", description: "Follower taps link", weight: 25 },
-    { id: "browse", label: "Site Visit", description: "Browsing products", weight: 20 },
-    { id: "return", label: "Return Visit", description: "2 weeks later", weight: 25 },
+const journeySteps = [
+    { id: "post", label: "Instagram Post", description: "Creator shares tracked link", time: "Day 0", weight: 30 },
+    { id: "click", label: "Link Click", description: "Follower taps bio link", time: "Day 0-1", weight: 25 },
+    { id: "browse", label: "Site Visit", description: "Browsing products", time: "Day 1-3", weight: 20 },
+    { id: "return", label: "Return & Purchase", description: "Comes back to buy", time: "Day 7-14", weight: 25 },
   ];
 
   const beforeItems = [

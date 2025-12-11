@@ -15,12 +15,12 @@ import {
 import { SankeyJourneyFlow } from "@/components/use-cases/SankeyJourneyFlow";
 
 const EcommerceTracking = () => {
-  const journeySteps = [
-    { id: "ad", label: "Facebook Ad", description: "utm_source=facebook", weight: 30 },
-    { id: "pdp", label: "Product Page", description: "Session started", weight: 25 },
-    { id: "cart", label: "Add to Cart", description: "Intent captured", weight: 20 },
-    { id: "checkout", label: "Checkout", description: "Conversion tracked", weight: 15 },
-    { id: "purchase", label: "Purchase", description: "$127.00 attributed", weight: 10 },
+const journeySteps = [
+    { id: "ad", label: "Facebook Ad", description: "First touch through paid social", time: "Day 0", weight: 30 },
+    { id: "pdp", label: "Product Page", description: "Browsed product details", time: "Day 0", weight: 25 },
+    { id: "cart", label: "Cart Abandonment", description: "Left without purchasing", time: "Day 2", weight: 20 },
+    { id: "email", label: "Email Retarget", description: "Abandoned cart reminder", time: "Day 3", weight: 15 },
+    { id: "purchase", label: "Purchase", description: "Completed checkout", time: "Day 4", weight: 10 },
   ];
 
   const beforeItems = [
