@@ -1,13 +1,42 @@
 import { ComparisonPage } from "@/components/compare/ComparisonPage";
 import { SEO } from "@/components/seo/SEO";
+import { ArticleSchema, FAQSchema, BreadcrumbSchema, ProductSchema } from "@/components/seo/SchemaMarkup";
 
 const UtmOneVsRewardful = () => {
+  const faqs = [
+    { question: "What's the main difference between utm.one and Rewardful?", answer: "Rewardful manages referral payouts. utm.one manages clean partner attribution with trust, QR codes, and governance." },
+    { question: "Does utm.one support partner links?", answer: "Yes, utm.one provides full partner link management with clean tracking, trust previews, and QR attribution." },
+    { question: "Is utm.one accessible?", answer: "Yes, utm.one is built with AAA accessibility compliance. Rewardful does not prioritize accessibility standards." },
+    { question: "Can I use utm.one for UTM enforcement?", answer: "Yes, utm.one enforces UTM parameters ensuring consistent partner attribution. Rewardful has no UTM enforcement features." },
+    { question: "How does utm.one handle QR codes?", answer: "utm.one provides branded QR codes with full attribution. Rewardful does not offer QR code features." }
+  ];
+
+  const breadcrumbs = [
+    { name: "Home", url: "https://utm.one" },
+    { name: "Compare", url: "https://utm.one/compare" },
+    { name: "utm.one vs Rewardful", url: "https://utm.one/compare/rewardful" }
+  ];
+
   return (
     <>
       <SEO 
         title="utm.one vs Rewardful - Comparison"
         description="Rewardful manages referrals. utm.one manages clean partner attribution."
         canonical="https://utm.one/compare/rewardful"
+      />
+      <ArticleSchema
+        headline="utm.one vs Rewardful - Partner Attribution Comparison"
+        description="Rewardful manages referrals. utm.one manages clean partner attribution."
+        author="utm.one"
+        datePublished="2025-01-01"
+        dateModified="2025-01-23"
+      />
+      <FAQSchema questions={faqs} />
+      <BreadcrumbSchema items={breadcrumbs} />
+      <ProductSchema
+        name="utm.one"
+        description="Enterprise partner attribution platform with clean tracking, QR codes, and governance"
+        brand="utm.one"
       />
       <ComparisonPage
         competitor="rewardful"

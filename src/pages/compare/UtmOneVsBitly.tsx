@@ -1,13 +1,42 @@
 import { ComparisonPage } from "@/components/compare/ComparisonPage";
 import { SEO } from "@/components/seo/SEO";
+import { ArticleSchema, FAQSchema, BreadcrumbSchema, ProductSchema } from "@/components/seo/SchemaMarkup";
 
 const UtmOneVsBitly = () => {
+  const faqs = [
+    { question: "What's the main difference between utm.one and Bitly?", answer: "Bitly focuses on link shortening. utm.one focuses on trust, governance, metadata, accessibility, and structured attribution for enterprise teams." },
+    { question: "Does utm.one offer QR code attribution?", answer: "Yes, utm.one provides full QR code attribution with branded codes, while Bitly offers only basic QR functionality." },
+    { question: "Is utm.one accessible?", answer: "Yes, utm.one is built with AAA accessibility compliance. Bitly does not prioritize accessibility standards." },
+    { question: "Can I use utm.one for partner links?", answer: "Yes, utm.one includes partner link management with clean tracking and governance. Bitly does not offer this feature." },
+    { question: "How does utm.one handle UTM governance?", answer: "utm.one enforces clean-track rules ensuring consistent UTM parameters across all campaigns. Bitly has no UTM governance features." }
+  ];
+
+  const breadcrumbs = [
+    { name: "Home", url: "https://utm.one" },
+    { name: "Compare", url: "https://utm.one/compare" },
+    { name: "utm.one vs Bitly", url: "https://utm.one/compare/bitly" }
+  ];
+
   return (
     <>
       <SEO 
         title="utm.one vs Bitly - Comparison"
         description="Bitly shortens links. utm.one builds trust, structure, metadata, accessibility, and attribution around them."
         canonical="https://utm.one/compare/bitly"
+      />
+      <ArticleSchema
+        headline="utm.one vs Bitly - Enterprise Link Management Comparison"
+        description="Bitly shortens links. utm.one builds trust, structure, metadata, accessibility, and attribution around them."
+        author="utm.one"
+        datePublished="2025-01-01"
+        dateModified="2025-01-23"
+      />
+      <FAQSchema questions={faqs} />
+      <BreadcrumbSchema items={breadcrumbs} />
+      <ProductSchema
+        name="utm.one"
+        description="Enterprise link management platform with trust, governance, metadata, accessibility, and attribution"
+        brand="utm.one"
       />
       <ComparisonPage
         competitor="bitly"
