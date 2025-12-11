@@ -477,7 +477,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
             <AccordionTrigger className="hover:no-underline">
               <div className="flex items-center gap-3">
                 <Link2 className="h-5 w-5 text-white-80" />
-                <span className="font-serif text-lg font-semibold">Basic Information</span>
+                <span className="font-display text-lg font-semibold">Basic Information</span>
                 <Badge variant="destructive" className="text-xs">Required</Badge>
               </div>
             </AccordionTrigger>
@@ -646,7 +646,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
             <AccordionTrigger className="hover:no-underline">
               <div className="flex items-center gap-3">
                 <BarChart3 className="h-5 w-5 text-amber-600" />
-                <span className="font-serif text-lg font-semibold">UTM Parameters</span>
+                <span className="font-display text-lg font-semibold">UTM Parameters</span>
                 <Badge variant="outline" className="text-xs bg-amber-50 text-amber-700 border-amber-200">Recommended</Badge>
               </div>
             </AccordionTrigger>
@@ -660,7 +660,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
             <AccordionTrigger className="hover:no-underline">
               <div className="flex items-center gap-3">
                 <Eye className="h-5 w-5 text-primary" />
-                <span className="font-serif text-lg font-semibold">Social Media Preview</span>
+                <span className="font-display text-lg font-semibold">Social Media Preview</span>
                 <Badge variant="secondary" className="text-xs">Optional</Badge>
               </div>
             </AccordionTrigger>
@@ -734,7 +734,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
             <AccordionTrigger className="hover:no-underline">
               <div className="flex items-center gap-3">
                 <Settings className="h-5 w-5 text-white/60" />
-                <span className="font-serif text-lg font-semibold">Advanced Settings</span>
+                <span className="font-display text-lg font-semibold">Advanced Settings</span>
                 <Badge variant="secondary" className="text-xs">Optional</Badge>
               </div>
             </AccordionTrigger>
@@ -887,7 +887,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
               <AccordionTrigger className="hover:no-underline">
                 <div className="flex items-center gap-3">
                   <Target className="h-5 w-5 text-indigo-500/90" />
-                  <span className="font-serif text-lg font-semibold">Geo & Device Targeting</span>
+                  <span className="font-display text-lg font-semibold">Geo & Device Targeting</span>
                   <Badge variant="secondary" className="text-xs">Optional</Badge>
                 </div>
               </AccordionTrigger>
@@ -905,7 +905,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
             <AccordionTrigger className="hover:no-underline">
               <div className="flex items-center gap-3">
                 <Sparkles className="h-5 w-5 text-purple-500" />
-                <span className="font-serif text-lg font-semibold">Smart Defaults</span>
+                <span className="font-display text-lg font-semibold">Smart Defaults</span>
                 <Badge variant="secondary" className="text-xs">Preferences</Badge>
               </div>
             </AccordionTrigger>

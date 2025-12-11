@@ -597,7 +597,7 @@ All colors MUST be HSL.
   
   /* BRAND TYPOGRAPHY ENFORCEMENT */
   h1 {
-    @apply font-serif tracking-tight;
+    @apply font-display tracking-tight;
   }
   
   h2, h3, h4 {
@@ -625,7 +625,7 @@ All colors MUST be HSL.
   
   /* Obsidian System - Platinum H1 Headlines */
   .obsidian-h1 {
-    @apply font-serif text-5xl md:text-7xl tracking-tight font-medium;
+    @apply font-display text-5xl md:text-7xl tracking-tight font-medium;
     background: linear-gradient(to bottom, #FFFFFF 0%, #A1A1AA 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

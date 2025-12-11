@@ -112,7 +112,7 @@ const ScrollLine = ({
   if (tag === "h1") {
     return (
       <h1 
-        className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight"
+        className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight"
         style={{ 
           letterSpacing: "-0.02em",
           fontWeight: 400,
@@ -125,7 +125,7 @@ const ScrollLine = ({
 
   return (
     <h2 
-      className="font-serif text-lg sm:text-xl md:text-2xl lg:text-3xl tracking-normal leading-relaxed"
+      className="font-display text-lg sm:text-xl md:text-2xl lg:text-3xl tracking-normal leading-relaxed"
       style={{ 
         letterSpacing: "0.01em",
         fontWeight: 300,
@@ -456,7 +456,7 @@ export const DotPhilosophyModal = ({
               >
                 <h2 className="sr-only">Call to action</h2>
                 <div 
-                  className="px-10 py-5 rounded-full font-serif text-lg relative overflow-hidden"
+                  className="px-10 py-5 rounded-full font-display text-lg relative overflow-hidden"
                   style={{
                     background: "linear-gradient(135deg, rgba(255, 248, 230, 0.12) 0%, rgba(255, 240, 210, 0.04) 100%)",
                     backdropFilter: "blur(20px)",
@@ -482,7 +482,7 @@ export const DotPhilosophyModal = ({
                     }}
                   />
                   
-                  <span className="relative flex items-center gap-3 font-serif tracking-wide">
+                  <span className="relative flex items-center gap-3 font-display tracking-wide">
                     start connecting yours
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                   </span>

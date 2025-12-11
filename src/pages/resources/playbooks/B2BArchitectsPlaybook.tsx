@@ -67,7 +67,7 @@ utm.one/resources/playbooks/b2b-architects-2026
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6"
+              className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6"
             >
               Beyond the Algorithm: <br />
               <span className="text-gray-600">The 25 B2B Marketing Architects Defining 2026</span>
@@ -139,7 +139,7 @@ utm.one/resources/playbooks/b2b-architects-2026
         <section className="py-12 md:py-16 px-4 bg-gray-50">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-10">
-              <h2 className="font-serif text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+              <h2 className="font-display text-2xl md:text-3xl font-bold text-gray-900 mb-4">
                 Your Curriculum for 2026
               </h2>
               <p className="font-sans text-gray-600 max-w-2xl mx-auto mb-8">
@@ -168,7 +168,7 @@ utm.one/resources/playbooks/b2b-architects-2026
           <div className="max-w-4xl mx-auto">
             <div className="bg-white rounded-2xl p-8 md:p-12 shadow-lg border border-gray-100">
               <Quote className="w-10 h-10 text-gray-300 mb-6" />
-              <h2 className="font-serif text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+              <h2 className="font-display text-2xl md:text-3xl font-bold text-gray-900 mb-6">
                 The Common Thread
               </h2>
               <p className="font-sans text-lg text-gray-700 leading-relaxed mb-6">
@@ -193,7 +193,7 @@ utm.one/resources/playbooks/b2b-architects-2026
         {/* EGC Section */}
         <section className="py-16 md:py-24 px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="font-serif text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-6">
               The Era of Employee Generated Content (EGC)
             </h2>
             <p className="font-sans text-lg text-gray-600 leading-relaxed mb-6 max-w-2xl mx-auto">
@@ -225,7 +225,7 @@ utm.one/resources/playbooks/b2b-architects-2026
         {/* Category Breakdown */}
         <section className="py-16 md:py-24 px-4 bg-gray-50">
           <div className="max-w-6xl mx-auto">
-            <h2 className="font-serif text-2xl md:text-3xl font-bold text-gray-900 text-center mb-4">
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-gray-900 text-center mb-4">
               The Five Pillars of B2B Influence
             </h2>
             <p className="font-sans text-gray-600 text-center max-w-2xl mx-auto mb-12">

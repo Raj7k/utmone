@@ -33,7 +33,7 @@ export function SelectionCriteria() {
     <section className="py-16 md:py-24 px-4 bg-gray-50">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="font-serif text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-gray-900 mb-4">
             Why These 25?
           </h2>
           <p className="font-sans text-gray-600 max-w-2xl mx-auto">

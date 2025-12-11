@@ -48,7 +48,7 @@ export function FeaturedSpotlight() {
     <section className="py-16 md:py-24 px-4">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-10">
-          <h2 className="font-serif text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-gray-900 mb-4">
             Featured Spotlight
           </h2>
           <p className="font-sans text-gray-600">
@@ -84,7 +84,7 @@ export function FeaturedSpotlight() {
                   <span className="font-sans text-sm text-gray-500">{category.label}</span>
                 </div>
 
-                <h3 className="font-serif text-2xl md:text-3xl font-bold text-gray-900 mb-1">
+                <h3 className="font-display text-2xl md:text-3xl font-bold text-gray-900 mb-1">
                   {architect.name}
                 </h3>
                 <p className="font-sans text-gray-600 mb-4">
@@ -96,7 +96,7 @@ export function FeaturedSpotlight() {
                 </p>
 
                 <blockquote className="bg-amber-50 border-l-4 border-amber-400 rounded-r-lg p-4 mb-6">
-                  <p className="font-serif text-amber-900 italic">
+                  <p className="font-display text-amber-900 italic">
                     "{currentFeatured.keyInsight}"
                   </p>
                 </blockquote>
