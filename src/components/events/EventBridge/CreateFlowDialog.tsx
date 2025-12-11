@@ -20,8 +20,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { notify } from '@/lib/notify';
-import { Zap, Database, ArrowRight } from 'lucide-react';
+import { Zap, Database, ArrowRight, Link2, Key, FileSpreadsheet, Info } from 'lucide-react';
+
+type ConnectionMethod = 'zapier' | 'api' | 'manual';
 
 interface CreateFlowDialogProps {
   open: boolean;
@@ -34,6 +37,7 @@ export function CreateFlowDialog({ open, onOpenChange }: CreateFlowDialogProps) 
 
   const [name, setName] = useState('');
   const [sourceType, setSourceType] = useState('luma');
+  const [connectionMethod, setConnectionMethod] = useState<ConnectionMethod>('zapier');
   const [eventUrl, setEventUrl] = useState('');
   const [enrichmentEnabled, setEnrichmentEnabled] = useState(true);
   const [enrichmentProvider, setEnrichmentProvider] = useState('apollo');
@@ -49,7 +53,10 @@ export function CreateFlowDialog({ open, onOpenChange }: CreateFlowDialogProps) 
           workspace_id: currentWorkspace.id,
           name,
           source_type: sourceType,
-          source_config: { event_url: eventUrl },
+          source_config: { 
+            event_url: eventUrl,
+            connection_method: connectionMethod,
+          },
           enrichment_enabled: enrichmentEnabled,
           enrichment_provider: enrichmentEnabled ? enrichmentProvider : null,
           magic_link_enabled: magicLinkEnabled,
@@ -77,6 +84,7 @@ export function CreateFlowDialog({ open, onOpenChange }: CreateFlowDialogProps) 
   const resetForm = () => {
     setName('');
     setSourceType('luma');
+    setConnectionMethod('zapier');
     setEventUrl('');
     setEnrichmentEnabled(true);
     setEnrichmentProvider('apollo');
@@ -147,9 +155,69 @@ export function CreateFlowDialog({ open, onOpenChange }: CreateFlowDialogProps) 
             </Select>
           </div>
 
+          {/* Connection Method - Only show for Luma */}
+          {sourceType === 'luma' && (
+            <div className="space-y-2">
+              <Label>connection method</Label>
+              <Select value={connectionMethod} onValueChange={(v) => setConnectionMethod(v as ConnectionMethod)}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="zapier">
+                    <div className="flex items-center gap-2">
+                      <Link2 className="h-4 w-4" />
+                      Zapier Bridge (recommended)
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="api">
+                    <div className="flex items-center gap-2">
+                      <Key className="h-4 w-4" />
+                      Luma API Polling
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="manual">
+                    <div className="flex items-center gap-2">
+                      <FileSpreadsheet className="h-4 w-4" />
+                      Manual CSV Import
+                    </div>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+              
+              {/* Connection method descriptions */}
+              {connectionMethod === 'zapier' && (
+                <Alert className="mt-2">
+                  <Info className="h-4 w-4" />
+                  <AlertDescription className="text-xs">
+                    use Zapier to connect Luma events to this webhook. setup guide shown after creation.
+                  </AlertDescription>
+                </Alert>
+              )}
+              {connectionMethod === 'api' && (
+                <Alert className="mt-2">
+                  <Info className="h-4 w-4" />
+                  <AlertDescription className="text-xs">
+                    requires Luma Plus subscription with API access. we'll poll for new registrations every 5 minutes.
+                  </AlertDescription>
+                </Alert>
+              )}
+              {connectionMethod === 'manual' && (
+                <Alert className="mt-2">
+                  <Info className="h-4 w-4" />
+                  <AlertDescription className="text-xs">
+                    export attendees from Luma as CSV and import them here. best for one-time imports.
+                  </AlertDescription>
+                </Alert>
+              )}
+            </div>
+          )}
+
           {/* Event URL */}
           <div className="space-y-2">
-            <Label htmlFor="eventUrl">event URL (optional)</Label>
+            <Label htmlFor="eventUrl">
+              event URL {connectionMethod === 'api' ? '(required)' : '(optional)'}
+            </Label>
             <Input
               id="eventUrl"
               placeholder="https://lu.ma/your-event"
@@ -157,7 +225,9 @@ export function CreateFlowDialog({ open, onOpenChange }: CreateFlowDialogProps) 
               onChange={(e) => setEventUrl(e.target.value)}
             />
             <p className="text-xs text-muted-foreground">
-              used for magic link redirects
+              {connectionMethod === 'api' 
+                ? 'required to fetch guests from Luma API'
+                : 'used for magic link redirects'}
             </p>
           </div>
 

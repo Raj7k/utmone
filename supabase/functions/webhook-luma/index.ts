@@ -35,7 +35,13 @@ Deno.serve(async (req) => {
     // Extract flow_id from URL path
     const url = new URL(req.url);
     const pathParts = url.pathname.split('/');
-    const flowId = pathParts[pathParts.length - 1];
+    let flowId = pathParts[pathParts.length - 1];
+    
+    // Check if this is a test request
+    const isTestRequest = flowId === 'test' && pathParts.length > 2;
+    if (isTestRequest) {
+      flowId = pathParts[pathParts.length - 2];
+    }
 
     if (!flowId || flowId === 'webhook-luma') {
       return new Response(
@@ -44,7 +50,7 @@ Deno.serve(async (req) => {
       );
     }
 
-    console.log(`[webhook-luma] Processing for flow: ${flowId}`);
+    console.log(`[webhook-luma] Processing for flow: ${flowId}${isTestRequest ? ' (TEST)' : ''}`);
 
     // Get the flow configuration
     const { data: flow, error: flowError } = await supabase
@@ -59,6 +65,23 @@ Deno.serve(async (req) => {
       return new Response(
         JSON.stringify({ error: 'Flow not found or inactive' }),
         { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Handle test request
+    if (isTestRequest) {
+      console.log('[webhook-luma] Test request successful for flow:', flowId);
+      return new Response(
+        JSON.stringify({
+          success: true,
+          test: true,
+          message: 'Webhook connection verified',
+          flow_name: flow.name,
+          flow_id: flowId,
+          enrichment_enabled: flow.enrichment_enabled,
+          magic_link_enabled: flow.magic_link_enabled,
+        }),
+        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
