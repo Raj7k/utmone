@@ -16,6 +16,32 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { shareToLinkedIn } from '@/utils/linkedinShare';
 import { useToast } from '@/hooks/use-toast';
+import { ArticleSchema, FAQSchema, BreadcrumbSchema } from '@/components/seo/SchemaMarkup';
+import { SpeakableSchema } from '@/components/seo/SpeakableSchema';
+
+// FAQ data for schema markup
+const PLAYBOOK_FAQS = [
+  {
+    question: "Who are the top B2B marketing leaders to follow in 2026?",
+    answer: "The top 25 B2B marketing architects for 2026 include Elena Verna (PLG expert at Dropbox, Miro), Tim Soulo (CMO at Ahrefs), Kieran Flanagan (SVP Marketing at HubSpot), Chris Walker (CEO of Refine Labs), and 21 more leaders across PLG, AI, brand storytelling, GTM strategy, and community building categories."
+  },
+  {
+    question: "What is Employee Generated Content (EGC)?",
+    answer: "Employee Generated Content (EGC) is content created by employees rather than corporate marketing teams. In 2026, the most successful B2B companies empower their people to become authentic voices that connect with audiences. EGC has higher engagement rates than brand content because it's more personal and trustworthy."
+  },
+  {
+    question: "How do I build a personal brand in B2B marketing?",
+    answer: "Start by picking 5 marketing leaders whose style aligns with yours. Study their content cadence, hooks, and engagement patterns. Define your unique angle and topics. Post consistently (3x per week minimum), engage with others' content daily, and iterate based on what resonates with your audience."
+  },
+  {
+    question: "What makes a great B2B marketing leader?",
+    answer: "Great B2B marketing leaders in 2026 share common traits: they build personal brands alongside company brands, create consistent high-quality content, challenge conventional marketing wisdom with data-backed insights, and generously share knowledge that helps others succeed."
+  },
+  {
+    question: "What are the five categories of B2B marketing architects?",
+    answer: "The five categories are: (1) Product-Led Growth experts who master user acquisition through product, (2) AI & Automation pioneers leveraging artificial intelligence, (3) Brand Storytellers crafting compelling narratives, (4) GTM Strategists optimizing go-to-market execution, and (5) Community Builders growing engaged audiences."
+  }
+];
 
 const CONTENT_STRATEGY_TEMPLATE = `# 30-DAY EGC CONTENT STRATEGY TEMPLATE
 
@@ -173,7 +199,32 @@ utm.one/resources/playbooks/b2b-architects-2026
           name="description" 
           content="The definitive guide to the 25 most influential B2B marketing leaders shaping the industry in 2026. Learn from the masters of PLG, AI, brand storytelling, and GTM strategy." 
         />
+        <link rel="canonical" href="https://utm.one/resources/playbooks/b2b-architects-2026" />
       </Helmet>
+      
+      {/* Structured Data for SEO & LLM optimization */}
+      <ArticleSchema
+        headline="Beyond the Algorithm: The 25 B2B Marketing Architects Defining 2026"
+        description="The definitive guide to the 25 most influential B2B marketing leaders shaping the industry in 2026. Learn from the masters of PLG, AI, brand storytelling, and GTM strategy."
+        datePublished="2025-12-01"
+        dateModified="2025-12-11"
+        author="utm.one"
+        url="https://utm.one/resources/playbooks/b2b-architects-2026"
+      />
+      <FAQSchema questions={PLAYBOOK_FAQS} />
+      <BreadcrumbSchema 
+        items={[
+          { name: 'Home', url: 'https://utm.one' },
+          { name: 'Resources', url: 'https://utm.one/resources' },
+          { name: 'Playbooks', url: 'https://utm.one/resources/playbooks' },
+          { name: '25 B2B Marketing Architects 2026', url: 'https://utm.one/resources/playbooks/b2b-architects-2026' }
+        ]} 
+      />
+      <SpeakableSchema
+        headline="25 B2B Marketing Architects Defining 2026"
+        summary="The definitive guide to the most influential B2B marketing leaders. Learn from the masters of PLG, AI, brand storytelling, and GTM strategy."
+        cssSelectors={['h1', 'h2', '.speakable-content', 'article']}
+      />
 
       <div className="min-h-screen bg-white">
         {/* Hero Section */}

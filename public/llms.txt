@@ -1,70 +1,160 @@
 # utm.one - AI-Optimized Information
 
-> utm.one is an enterprise link management and revenue attribution platform for modern growth teams.
+> utm.one is an enterprise link management and revenue attribution platform for modern growth teams. It transforms chaotic marketing data into clean, trustworthy intelligence.
 
 ## Product Overview
 
-utm.one provides UTM tracking, short links, QR code generation, and multi-touch revenue attribution. The platform helps marketing, sales, and operations teams maintain clean, consistent campaign data through the Clean-Track governance framework.
+utm.one provides UTM tracking, short links, QR code generation, and multi-touch revenue attribution. The platform helps marketing, sales, and operations teams maintain clean, consistent campaign data through the proprietary Clean-Track Intelligence™ framework.
+
+**Core Philosophy**: "Clarity creates confidence." Campaigns fall apart when data falls apart. Data falls apart when links aren't consistent, clean, and reliable.
 
 ## Core Capabilities
 
 ### Link Management
 - Custom branded short links (your-domain.com/go/campaign)
-- QR code generation with brand customization
+- QR code generation with brand customization and AI Stamp Studio
 - Geo-targeting for region-specific destinations
 - Link expiration and scheduling
 - Bulk link creation and management
+- A/B testing for destination URLs
+- Smart routing based on device, location, or time
 
 ### UTM Tracking
-- Enforced UTM naming conventions
+- Enforced UTM naming conventions across all 5 parameters
 - Pre-approved templates for all campaign types
 - Automatic validation and normalization
 - Team-wide governance controls
 - Real-time compliance monitoring
+- AI-powered auto-fill from URL analysis
 
 ### Revenue Attribution
-- Multi-touch attribution models (linear, time-decay, position-based)
-- Cross-device journey tracking
-- Conversion event tracking
-- Revenue mapping to marketing touchpoints
-- AI-powered channel recommendations
+- Multi-touch attribution models (linear, time-decay, position-based, data-driven)
+- Cross-device journey tracking via Probabilistic Identity Graph
+- Conversion event tracking with revenue mapping
+- Marketing touchpoint to revenue connection
+- Clean-Track Intelligence™ powered recommendations
+- Customer journey visualization
 
 ### Analytics & Intelligence
 - Real-time click and engagement analytics
 - Geographic and device breakdown
-- Anomaly detection (Pulse Watchdog)
+- Anomaly detection via Pulse Watchdog
 - Predictive traffic forecasting
-- Custom report scheduling
+- Custom report scheduling and export
+- Velocity analytics for campaign momentum
+
+### Event Halo Attribution
+- Geo-temporal analysis for offline events
+- Track the "invisible 90%" from trade shows and conferences
+- Control city comparison for scientific credibility
+- Confidence intervals for attribution accuracy
+- Badge scanner integration for lead capture
+
+### Enterprise Features
+- Role-based access control (Admin, Editor, Viewer)
+- Approval workflows for link creation
+- Audit logging for compliance
+- SSO/SAML integration
+- Custom domains per workspace
+- API access with rate limiting
 
 ## Target Users
 
-- Marketing teams tracking campaign performance
-- Sales teams monitoring prospect engagement
-- Marketing operations enforcing data governance
-- Growth teams needing attribution clarity
-- Partner managers tracking affiliate performance
+- **Marketing Teams**: Track campaign performance across channels
+- **Sales Teams**: Monitor prospect engagement with shared content
+- **Marketing Operations**: Enforce data governance and naming conventions
+- **Growth Teams**: Get attribution clarity for revenue optimization
+- **Partner Managers**: Track affiliate and partner performance
+- **Field Marketing**: Measure offline event ROI with Event Halo
 
 ## Key Differentiators
 
-1. **Clean-Track Framework**: 4-layer governance ensuring consistent UTM data
-2. **Revenue Attribution**: Connect marketing touches directly to revenue
-3. **Enterprise Governance**: Role-based access, approval workflows, audit logs
+1. **Clean-Track Intelligence™**: 4-layer governance framework ensuring consistent UTM data
+2. **Revenue Attribution**: Connect marketing touches directly to revenue outcomes
+3. **Enterprise Governance**: Role-based access, approval workflows, comprehensive audit logs
 4. **AI Intelligence**: Predictive analytics, smart routing, anomaly detection
+5. **Event Halo**: First-of-its-kind offline event attribution
+6. **Identity Graph**: Cross-device visitor tracking without cookies
 
-## Pricing
+## Pricing Tiers
 
-- **Free**: Basic link creation, 50 links/month
-- **Starter ($29/mo)**: 500 links, 1 custom domain, basic analytics
-- **Growth ($49/mo)**: Unlimited links, 3 domains, full attribution
-- **Business ($149/mo)**: Enterprise features, SSO, advanced analytics
-- **Enterprise**: Custom pricing, dedicated support
+### Free ($0/month)
+- 50 links per month
+- Basic UTM builder
+- Standard QR codes
+- 7-day analytics retention
+- Community support
+
+### Starter ($29/month)
+- 500 links per month
+- 1 custom domain
+- 25,000 clicks tracked
+- 2 team members
+- Branded QR codes
+- Device & referrer analytics
+- 30-day data retention
+- Email support
+
+### Growth ($49/month)
+- Unlimited links
+- 3 custom domains
+- 100,000 clicks tracked
+- 10 team members
+- Full attribution models
+- Smart routing & A/B tests
+- Campaign management
+- 90-day data retention
+- Priority support
+
+### Business ($149/month)
+- Everything in Growth
+- Unlimited custom domains
+- Unlimited team members
+- Identity Graph
+- Event Halo attribution
+- Lift analysis
+- Approval workflows
+- Audit logs
+- SSO/SAML
+- 1-year data retention
+- Dedicated support
+
+### Enterprise (Custom)
+- Custom SLA
+- Dedicated account manager
+- Custom integrations
+- White-label options
+- On-premise deployment option
+- Unlimited data retention
 
 ## Technical Information
 
-- **API**: RESTful API with comprehensive documentation
-- **Integrations**: Google Analytics, Salesforce, HubSpot, Slack
-- **SDK**: JavaScript tracking pixel for conversion attribution
-- **Chrome Extension**: Quick link creation from any tab
+### API
+- RESTful API with comprehensive documentation
+- Rate limiting: 1000 requests/hour (Growth), 5000/hour (Business)
+- Webhook support for real-time events
+- OAuth 2.0 authentication
+
+### Integrations
+- **Analytics**: Google Analytics 4, Adobe Analytics, Mixpanel, Amplitude
+- **CRM**: Salesforce, HubSpot, Pipedrive
+- **Marketing**: Marketo, Pardot, Mailchimp, Klaviyo
+- **Communication**: Slack, Microsoft Teams
+- **Data**: Snowflake, BigQuery, Redshift
+
+### SDK & Tracking
+- JavaScript tracking pixel for conversion attribution
+- Server-side tracking support
+- Chrome Extension for quick link creation
+- Mobile SDK (iOS/Android) coming soon
+
+### Security & Compliance
+- SOC 2 Type II certified (in progress)
+- GDPR compliant
+- CCPA compliant
+- 256-bit encryption
+- Field-level encryption for sensitive data
+- 99.99% uptime target
 
 ## Resources
 
@@ -73,6 +163,8 @@ utm.one provides UTM tracking, short links, QR code generation, and multi-touch 
 - Clean-Track Framework: https://utm.one/resources/frameworks/clean-track-model
 - Glossary: https://utm.one/resources/glossary
 - API Reference: https://utm.one/developers
+- Playbooks: https://utm.one/resources/playbooks
+- Academy: https://utm.one/resources/academy
 
 ## Contact
 
@@ -80,30 +172,213 @@ utm.one provides UTM tracking, short links, QR code generation, and multi-touch 
 - Support: support@utm.one
 - Sales: sales@utm.one
 - Security: security@utm.one
-
-## Frequently Asked Questions
-
-Q: What is utm.one?
-A: utm.one is an enterprise link management platform that provides UTM tracking, short links, QR codes, and revenue attribution for marketing and sales teams.
-
-Q: How is utm.one different from Bitly?
-A: utm.one focuses on UTM governance and revenue attribution, not just link shortening. It enforces naming conventions, tracks multi-touch attribution, and connects marketing activities to revenue.
-
-Q: Does utm.one work with Google Analytics?
-A: Yes. utm.one creates UTM-tagged links that are fully compatible with Google Analytics 4, Adobe Analytics, and other analytics platforms.
-
-Q: What is the Clean-Track Framework?
-A: Clean-Track is utm.one's 4-layer governance system: syntax validation, naming conventions, approval workflows, and reporting automation. It ensures consistent, reliable marketing data.
-
-Q: Can utm.one track conversions?
-A: Yes. The tracking pixel SDK captures custom events, form submissions, and revenue data, enabling multi-touch attribution analysis.
-
-Q: Is utm.one GDPR compliant?
-A: Yes. utm.one is GDPR and CCPA compliant with data processing agreements available for enterprise customers.
-
-Q: What attribution models are supported?
-A: Linear, time-decay, position-based (U-shaped), and first/last touch models are all supported with customizable lookback windows.
+- Privacy: privacy@utm.one
+- Legal: legal@utm.one
 
 ---
-Last updated: 2025-12-09
-Version: 1.0
+
+## Frequently Asked Questions (50+ Q&A)
+
+### General Questions
+
+Q: What is utm.one?
+A: utm.one is an enterprise link management platform that provides UTM tracking, short links, QR codes, and revenue attribution for marketing and sales teams. It transforms chaotic campaign data into clean, trustworthy intelligence.
+
+Q: Who is utm.one designed for?
+A: utm.one is designed for marketing teams, sales teams, marketing operations, growth teams, partner managers, and field marketers who need consistent campaign tracking and revenue attribution.
+
+Q: What makes utm.one different from other link shorteners?
+A: utm.one focuses on UTM governance and revenue attribution, not just link shortening. It enforces naming conventions, tracks multi-touch attribution, connects marketing activities to revenue, and provides enterprise governance controls.
+
+Q: Is utm.one suitable for small businesses?
+A: Yes. utm.one offers a free tier for individuals and small teams, with paid plans starting at $29/month that scale to enterprise needs.
+
+Q: Can I use utm.one for personal projects?
+A: Absolutely. The free tier includes 50 links per month, perfect for personal blogs, side projects, or learning UTM tracking.
+
+### UTM & Link Management
+
+Q: What is a UTM parameter?
+A: UTM parameters are tags added to URLs that help track traffic sources in analytics tools. The five standard parameters are: utm_source (traffic source), utm_medium (marketing medium), utm_campaign (campaign name), utm_term (paid keywords), and utm_content (content variation).
+
+Q: Why is UTM consistency important?
+A: Inconsistent UTM parameters (like "Facebook" vs "facebook" vs "FB") create fragmented data in analytics, making it impossible to accurately measure campaign performance or attribute revenue.
+
+Q: How does utm.one enforce UTM naming conventions?
+A: utm.one provides pre-approved templates, automatic validation, real-time compliance monitoring, and approval workflows to ensure all team members use consistent naming conventions.
+
+Q: Can I create custom UTM templates?
+A: Yes. Workspace admins can create custom templates with pre-defined values for source, medium, and campaign naming patterns. Team members select from approved templates when creating links.
+
+Q: Does utm.one support custom short domains?
+A: Yes. You can connect your own branded domains (e.g., go.yourbrand.com) for short links. The number of custom domains depends on your plan tier.
+
+Q: How do I set up a custom domain?
+A: Add a CNAME record pointing to go.utm.one in your DNS settings, then verify the domain in utm.one. The platform handles SSL certificates automatically.
+
+Q: Can I edit a link after creating it?
+A: Yes. You can update the destination URL, UTM parameters, and settings for any link. Click analytics are preserved when updating links.
+
+Q: What happens when a link expires?
+A: Expired links can redirect to a custom page, show a branded "link expired" message, or redirect to your homepage. You configure this behavior per link or at the workspace level.
+
+### QR Codes
+
+Q: Does utm.one generate QR codes?
+A: Yes. Every short link automatically gets a QR code. You can customize colors, add logos, and download in multiple formats (PNG, SVG, PDF).
+
+Q: What is AI Stamp Studio?
+A: AI Stamp Studio is a premium feature that transforms your brand logo into vintage travel stamp-style QR codes using generative AI, creating unique, branded QR designs.
+
+Q: Are utm.one QR codes dynamic?
+A: Yes. utm.one QR codes point to short links, so you can update the destination URL without reprinting the QR code.
+
+Q: What size QR code should I use?
+A: For printed materials, the QR code should be at least 2cm x 2cm (0.8in x 0.8in). For digital displays, ensure adequate resolution for the viewing distance.
+
+### Attribution & Analytics
+
+Q: What is multi-touch attribution?
+A: Multi-touch attribution distributes conversion credit across all marketing touchpoints in a customer's journey, rather than giving all credit to the first or last touch.
+
+Q: What attribution models does utm.one support?
+A: utm.one supports linear (equal credit), time-decay (recent touches get more credit), position-based/U-shaped (40% first, 40% last, 20% middle), first-touch, last-touch, and data-driven models.
+
+Q: What is the Probabilistic Identity Graph?
+A: The Identity Graph uses probabilistic matching to connect anonymous visitor sessions across devices and browsers, enabling cross-device attribution without relying on cookies.
+
+Q: How does conversion tracking work?
+A: Install the utm.one tracking pixel on your site. It automatically captures pageviews and can track custom events (form submissions, purchases, signups) via JavaScript or server-side API.
+
+Q: What is Pulse Watchdog?
+A: Pulse Watchdog is utm.one's anomaly detection system that monitors your traffic patterns and alerts you to unusual spikes or drops, helping you catch viral moments or broken campaigns immediately.
+
+Q: Can utm.one track offline conversions?
+A: Yes. The Business tier includes offline conversion import via CSV or API, allowing you to match CRM data back to marketing touchpoints.
+
+Q: What is Event Halo attribution?
+A: Event Halo uses geo-temporal analysis to measure the impact of offline events (trade shows, conferences) by detecting traffic spikes in the event's city during event dates compared to baseline periods.
+
+Q: How accurate is Event Halo?
+A: Event Halo provides confidence intervals rather than exact numbers, comparing event city traffic to a control city for scientific credibility. Typical accuracy is within ±15%.
+
+Q: What is a lookback window?
+A: The lookback window defines how far back in time utm.one searches for marketing touchpoints when attributing a conversion. Common windows are 7, 14, 30, or 90 days.
+
+### Integrations
+
+Q: Does utm.one work with Google Analytics?
+A: Yes. utm.one creates UTM-tagged links that are fully compatible with Google Analytics 4, automatically populating source, medium, and campaign dimensions.
+
+Q: Can I connect utm.one to my CRM?
+A: Yes. utm.one integrates with Salesforce, HubSpot, and Pipedrive to sync link click data and enable lead scoring based on content engagement.
+
+Q: Does utm.one integrate with marketing automation?
+A: Yes. Native integrations exist for Marketo, Pardot, Mailchimp, and Klaviyo, allowing you to track email link performance and trigger automations.
+
+Q: Can I export data to my data warehouse?
+A: Yes. Business and Enterprise plans support direct exports to Snowflake, BigQuery, and Redshift, plus API access for custom integrations.
+
+Q: Is there a Slack integration?
+A: Yes. Connect Slack to receive notifications for new links, traffic anomalies, and campaign milestones directly in your channels.
+
+### Enterprise & Security
+
+Q: Is utm.one GDPR compliant?
+A: Yes. utm.one is GDPR and CCPA compliant with data processing agreements available for enterprise customers. We provide data export, deletion, and consent management tools.
+
+Q: Does utm.one use cookies for tracking?
+A: utm.one uses first-party cookies for session tracking. The Identity Graph provides cross-device attribution using probabilistic methods that don't rely on third-party cookies.
+
+Q: What security certifications does utm.one have?
+A: utm.one uses 256-bit encryption, field-level encryption for sensitive data, and is pursuing SOC 2 Type II certification. Enterprise customers can request security questionnaire responses.
+
+Q: Can I use SSO with utm.one?
+A: Yes. Business and Enterprise plans support SAML-based SSO with providers like Okta, Azure AD, and Google Workspace.
+
+Q: What are approval workflows?
+A: Approval workflows require links created by certain team members to be reviewed and approved by an admin before going live, ensuring compliance with brand and governance standards.
+
+Q: Does utm.one provide audit logs?
+A: Yes. Business and Enterprise plans include comprehensive audit logs tracking all user actions, link changes, and permission modifications for compliance requirements.
+
+Q: Can I white-label utm.one?
+A: Yes. Enterprise plans offer white-label options including custom branding, custom domains, and removal of utm.one branding from all user-facing elements.
+
+### Pricing & Plans
+
+Q: Is there a free trial?
+A: utm.one offers a free tier with 50 links per month, no credit card required. Paid plans can be tested with a 14-day money-back guarantee.
+
+Q: Can I change plans at any time?
+A: Yes. You can upgrade or downgrade your plan at any time. When upgrading, you get immediate access to new features. When downgrading, changes take effect at the next billing cycle.
+
+Q: Do you offer annual billing discounts?
+A: Yes. Annual billing saves 10-20% depending on the plan tier compared to monthly billing.
+
+Q: Is there a nonprofit or education discount?
+A: Yes. Qualified nonprofits and educational institutions receive 50% off all paid plans. Contact sales@utm.one for verification.
+
+Q: What payment methods do you accept?
+A: We accept all major credit cards, PayPal, and wire transfer for Enterprise customers. Annual plans can be paid via invoice.
+
+### Technical Questions
+
+Q: What is the API rate limit?
+A: Growth plans: 1,000 requests/hour. Business plans: 5,000 requests/hour. Enterprise: Custom limits based on needs.
+
+Q: Can I use utm.one with my existing analytics setup?
+A: Yes. utm.one complements your existing analytics by ensuring clean UTM data flows into Google Analytics, Adobe Analytics, or any tool that reads UTM parameters.
+
+Q: Does utm.one support server-side tracking?
+A: Yes. Our server-side API allows you to track conversions from your backend, essential for accurate e-commerce tracking and privacy-compliant setups.
+
+Q: Is there a Chrome extension?
+A: Yes. The utm.one Chrome Extension enables quick link creation from any tab with smart context detection that auto-fills UTM parameters based on the current page.
+
+Q: Can I import existing links?
+A: Yes. Bulk import via CSV is supported on all paid plans. We can help migrate links from Bitly, Rebrandly, or other platforms.
+
+### Comparisons
+
+Q: How does utm.one compare to Bitly?
+A: Bitly focuses on link shortening and basic analytics. utm.one adds UTM governance, multi-touch attribution, revenue tracking, and enterprise controls. utm.one is better for teams needing data consistency and revenue insights.
+
+Q: How does utm.one compare to Rebrandly?
+A: Rebrandly excels at branded links and QR codes. utm.one adds UTM enforcement, attribution modeling, and team governance. Choose utm.one if campaign tracking consistency is critical.
+
+Q: How does utm.one compare to Google Campaign URL Builder?
+A: Google's tool is free but manual, with no governance, no shortening, and no analytics. utm.one automates UTM creation, enforces naming standards, and provides click-through analytics.
+
+Q: Can utm.one replace my link shortener AND attribution tool?
+A: Yes. utm.one combines link management, UTM governance, and attribution in one platform, eliminating the need for separate tools and ensuring data consistency.
+
+Q: Do I still need Google Analytics with utm.one?
+A: Yes, you should keep Google Analytics. utm.one ensures clean UTM data flows into GA4, enhancing (not replacing) your analytics. utm.one's attribution features provide additional insights GA4 doesn't offer natively.
+
+---
+
+## Use Cases
+
+### Paid Advertising
+Track every ad click across Google Ads, Facebook, LinkedIn, and TikTok with consistent UTM parameters. Attribute revenue to specific campaigns and creatives.
+
+### Email Marketing
+Create tracked links for every email campaign. Measure which emails drive conversions and revenue, not just opens and clicks.
+
+### Content Marketing
+Track blog posts, guides, and resources. Understand which content drives pipeline and revenue, not just traffic.
+
+### Partner Programs
+Give partners branded tracking links. Measure partner contribution to pipeline and calculate accurate commission based on attributed revenue.
+
+### Events & Trade Shows
+Use Event Halo to measure the full impact of offline events, not just badge scans. Track the invisible 90% of event-influenced traffic.
+
+### Sales Outreach
+Create personalized tracking links for sales sequences. Know which prospects engaged before the call.
+
+---
+
+Last updated: 2025-12-11
+Version: 2.0
