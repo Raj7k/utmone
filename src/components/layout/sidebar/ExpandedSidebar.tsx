@@ -1,12 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { formatText } from "@/utils/textFormatter";
 import { 
   ChevronLeft,
   Search,
-  Plus,
-  Building2,
-  HelpCircle,
   LucideIcon,
   LayoutGrid,
   Link2,
@@ -21,9 +17,9 @@ import {
   Beaker,
   Waves,
   Scan,
-  Briefcase,
-  CreditCard,
-  User
+  Settings,
+  Bug,
+  ChevronRight
 } from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { useState, useEffect } from "react";
@@ -31,12 +27,8 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { useSidebar } from "./SidebarProvider";
-import { SidebarUserFooter } from "./SidebarUserFooter";
-import { Button } from "@/components/ui/button";
-import { CreateWorkspaceDialog } from "@/components/workspace/CreateWorkspaceDialog";
 import { motion } from "framer-motion";
-import { newFeatures, featureHelpDescriptions } from "@/config/featureHelp";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { newFeatures } from "@/config/featureHelp";
 
 interface NavItem {
   name: string;
@@ -44,20 +36,20 @@ interface NavItem {
   icon: LucideIcon;
   badge?: boolean | string;
   isNew?: boolean;
+  tourId?: string;
 }
 
-// Simplified flat navigation
 const coreNavigation: NavItem[] = [
-  { name: "Dashboard", href: "/dashboard", icon: LayoutGrid },
-  { name: "Links", href: "/dashboard/links", icon: Link2 },
-  { name: "Intelligence", href: "/dashboard/intelligence", icon: BarChart3 },
-  { name: "Sales", href: "/dashboard/sales", icon: DollarSign },
-  { name: "Events", href: "/dashboard/events", icon: CalendarDays, isNew: true },
+  { name: "Dashboard", href: "/dashboard", icon: LayoutGrid, tourId: "nav-dashboard" },
+  { name: "Links", href: "/dashboard/links", icon: Link2, tourId: "nav-links" },
+  { name: "Intelligence", href: "/dashboard/intelligence", icon: BarChart3, tourId: "nav-intelligence" },
+  { name: "Sales", href: "/dashboard/sales", icon: DollarSign, tourId: "nav-sales" },
+  { name: "Events", href: "/dashboard/events", icon: CalendarDays, isNew: true, tourId: "nav-events" },
   { name: "Approvals", href: "/dashboard/approvals", icon: Clock, badge: true },
 ];
 
 const toolsNavigation: NavItem[] = [
-  { name: "QR Codes", href: "/dashboard/qr-codes", icon: QrCode },
+  { name: "QR Codes", href: "/dashboard/qr-codes", icon: QrCode, tourId: "nav-qr-codes" },
   { name: "Geo Targeting", href: "/dashboard/targeting", icon: Target },
   { name: "Bulk Create", href: "/dashboard/bulk-create", icon: Layers },
   { name: "Link Validator", href: "/dashboard/onelink-validator", icon: Brain },
@@ -66,13 +58,7 @@ const toolsNavigation: NavItem[] = [
   { name: "One-Tap Scanner", href: "/scan", icon: Scan, isNew: true },
 ];
 
-const settingsNavigation: NavItem[] = [
-  { name: "Workspace", href: "/settings?tab=domains", icon: Briefcase },
-  { name: "Billing", href: "/settings?tab=billing", icon: CreditCard },
-  { name: "Account", href: "/settings/profile", icon: User },
-];
-
-const NavItem = ({ 
+const NavItemComponent = ({ 
   item, 
   isActive, 
   pendingCount, 
@@ -85,72 +71,50 @@ const NavItem = ({
 }) => {
   const Icon = item.icon;
   const showBadge = item.badge && pendingCount && pendingCount > 0;
-  const helpText = featureHelpDescriptions[item.name];
   const isNewFeature = newFeatures.includes(item.name) && !visitedFeatures.includes(item.name);
-  const tourId = item.name.toLowerCase().replace(/\s+/g, '-');
 
   return (
     <Link
       to={item.href}
-      data-tour={`nav-${tourId}`}
+      data-tour={item.tourId}
       className={cn(
-        "group flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200",
+        "group flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
         isActive
-          ? "bg-primary text-primary-foreground font-medium shadow-sm"
-          : "text-foreground/70 hover:text-foreground hover:bg-muted/60"
+          ? "bg-primary text-primary-foreground font-medium"
+          : "text-muted-foreground hover:text-foreground hover:bg-muted"
       )}
     >
-      <Icon className={cn(
-        "h-[18px] w-[18px] flex-shrink-0",
-        isActive ? "opacity-100" : "opacity-70"
-      )} />
-      <span className="flex-1 text-[13px]">{formatText(item.name)}</span>
+      <Icon className="h-4 w-4 flex-shrink-0" />
+      <span className="flex-1">{item.name}</span>
       
       {isNewFeature && !isActive && (
-        <span className="px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide rounded-full bg-primary/10 text-primary">
+        <span className="px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide rounded bg-primary/10 text-primary">
           new
         </span>
       )}
       
       {showBadge && (
-        <span className="flex h-5 min-w-5 px-1.5 items-center justify-center rounded-full bg-destructive text-destructive-foreground text-[10px] font-semibold">
+        <span className="flex h-5 min-w-5 px-1 items-center justify-center rounded-full bg-destructive text-destructive-foreground text-[10px] font-semibold">
           {pendingCount > 9 ? '9+' : pendingCount}
         </span>
       )}
-      
-      {helpText && !isActive && (
-        <TooltipProvider delayDuration={300}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <span 
-                className="p-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                onClick={(e) => e.preventDefault()}
-              >
-                <HelpCircle className="h-3.5 w-3.5 text-muted-foreground" />
-              </span>
-            </TooltipTrigger>
-            <TooltipContent side="right" className="max-w-[180px]">
-              <p className="text-xs">{helpText}</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      )}
+
+      {isActive && <ChevronRight className="h-4 w-4 ml-auto opacity-50" />}
     </Link>
   );
 };
 
 export const ExpandedSidebar = () => {
   const location = useLocation();
-  const { currentWorkspace, workspaces } = useWorkspaceContext();
+  const { currentWorkspace } = useWorkspaceContext();
   const { toggleSidebar, openSearch } = useSidebar();
-  const [createDialogOpen, setCreateDialogOpen] = useState(false);
   
   const [visitedFeatures, setVisitedFeatures] = useState<string[]>(() => {
     const stored = localStorage.getItem('visited_features');
     return stored ? JSON.parse(stored) : [];
   });
 
-  const allNavItems = [...coreNavigation, ...toolsNavigation, ...settingsNavigation];
+  const allNavItems = [...coreNavigation, ...toolsNavigation];
   const currentFeature = allNavItems.find(item => {
     if (item.href === "/dashboard") return location.pathname === item.href;
     return location.pathname.startsWith(item.href.split('?')[0]);
@@ -184,10 +148,17 @@ export const ExpandedSidebar = () => {
     return location.pathname.startsWith(href.split('?')[0]);
   };
 
+  const openFeedback = () => {
+    const feedbackTrigger = document.querySelector('.feedback-widget-trigger') as HTMLButtonElement;
+    if (feedbackTrigger) {
+      feedbackTrigger.click();
+    }
+  };
+
   return (
-    <aside className="w-64 h-screen bg-card border-r border-border flex flex-col z-40">
+    <aside className="w-64 h-screen bg-card border-r border-border flex flex-col">
       {/* Header */}
-      <div className="h-16 flex items-center justify-between px-4 border-b border-border/50">
+      <div className="h-14 flex items-center justify-between px-4 border-b border-border/50">
         <Link to="/" className="flex items-center">
           <UtmOneLogo size="md" />
         </Link>
@@ -195,33 +166,32 @@ export const ExpandedSidebar = () => {
           onClick={toggleSidebar}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="w-8 h-8 rounded-lg flex items-center justify-center text-foreground/40 hover:text-foreground/70 hover:bg-muted/50 transition-colors"
+          className="w-7 h-7 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
         >
           <ChevronLeft className="h-4 w-4" />
         </motion.button>
       </div>
 
-      {/* Search Bar */}
-      <div className="px-3 pt-4 pb-2">
+      {/* Search */}
+      <div className="px-3 py-3">
         <motion.button
           onClick={openSearch}
           whileHover={{ scale: 1.01 }}
           whileTap={{ scale: 0.99 }}
-          className="w-full h-10 px-3 rounded-xl border border-border/50 bg-muted/30 flex items-center gap-2 text-sm text-foreground/50 hover:border-border hover:bg-muted/50 transition-all duration-200"
+          className="w-full h-9 px-3 rounded-lg border border-border/50 bg-muted/30 flex items-center gap-2 text-sm text-muted-foreground hover:border-border hover:bg-muted/50 transition-colors"
         >
           <Search className="h-4 w-4" />
-          <span className="text-[13px]">Search...</span>
-          <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded-md border border-border/50 bg-muted/50 px-1.5 font-mono text-[10px] font-medium text-foreground/40">
-            <span className="text-xs">⌘</span>F
+          <span>Search...</span>
+          <kbd className="ml-auto inline-flex h-5 items-center gap-1 rounded border border-border/50 bg-muted/50 px-1.5 font-mono text-[10px] text-muted-foreground">
+            ⌘F
           </kbd>
         </motion.button>
       </div>
 
-      {/* Navigation - Flat list */}
-      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
-        {/* Core Navigation */}
+      {/* Navigation */}
+      <nav className="flex-1 px-3 py-2 space-y-1 overflow-y-auto">
         {coreNavigation.map((item) => (
-          <NavItem
+          <NavItemComponent
             key={item.name}
             item={item}
             isActive={isActive(item.href)}
@@ -230,31 +200,13 @@ export const ExpandedSidebar = () => {
           />
         ))}
 
-        {/* Divider */}
-        <div className="my-4 border-t border-border/50" />
+        <div className="my-3 border-t border-border/50" />
 
-        {/* Tools */}
-        <p className="px-3 mb-2 text-[11px] font-semibold text-foreground/40 uppercase tracking-widest">
+        <p className="px-3 mb-2 text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
           Tools
         </p>
         {toolsNavigation.map((item) => (
-          <NavItem
-            key={item.name}
-            item={item}
-            isActive={isActive(item.href)}
-            visitedFeatures={visitedFeatures}
-          />
-        ))}
-
-        {/* Divider */}
-        <div className="my-4 border-t border-border/50" />
-
-        {/* Settings */}
-        <p className="px-3 mb-2 text-[11px] font-semibold text-foreground/40 uppercase tracking-widest">
-          Settings
-        </p>
-        {settingsNavigation.map((item) => (
-          <NavItem
+          <NavItemComponent
             key={item.name}
             item={item}
             isActive={isActive(item.href)}
@@ -263,40 +215,24 @@ export const ExpandedSidebar = () => {
         ))}
       </nav>
 
-      {/* Team Section */}
-      {workspaces && workspaces.length > 0 && (
-        <div className="px-3 py-3 border-t border-border/50 space-y-2">
-          <div className="px-3 mb-1">
-            <p className="text-[11px] font-semibold text-foreground/40 uppercase tracking-widest">
-              Team
-            </p>
-          </div>
-          <div data-tour="workspace-switcher" className="px-3 py-2.5 rounded-xl bg-muted/40 flex items-center gap-2">
-            <Building2 className="h-4 w-4 text-foreground/50" />
-            <span className="text-[13px] text-foreground/80 font-medium truncate flex-1">
-              {currentWorkspace?.name || 'Workspace'}
-            </span>
-          </div>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="w-full justify-start gap-2 h-9 text-foreground/50 hover:text-foreground/80 hover:bg-muted/40 rounded-xl"
-            onClick={() => setCreateDialogOpen(true)}
-          >
-            <Plus className="h-4 w-4" />
-            <span className="text-[13px]">Add new team</span>
-          </Button>
-        </div>
-      )}
-
-      {/* User Footer */}
-      <SidebarUserFooter />
-
-      {/* Create Workspace Dialog */}
-      <CreateWorkspaceDialog 
-        open={createDialogOpen} 
-        onOpenChange={setCreateDialogOpen}
-      />
+      {/* Footer */}
+      <div className="px-3 py-3 border-t border-border/50 space-y-1">
+        <Link
+          to="/settings"
+          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+        >
+          <Settings className="h-4 w-4" />
+          Settings
+        </Link>
+        <button
+          data-tour="feedback-link"
+          onClick={openFeedback}
+          className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+        >
+          <Bug className="h-4 w-4" />
+          Report Bug
+        </button>
+      </div>
     </aside>
   );
 };

@@ -5,6 +5,7 @@ import { OnboardingChecklist } from "@/components/dashboard/OnboardingChecklist"
 import { DemoModeBanner } from "@/components/dashboard/DemoModeBanner";
 import { WelcomeModal } from "@/components/dashboard/WelcomeModal";
 import { PixelSetupCTA } from "@/components/dashboard/PixelSetupCTA";
+import { DashboardQuickActions } from "@/components/dashboard/DashboardQuickActions";
 import { useDemoMode } from "@/hooks/useDemoMode";
 import { useOnboardingProgress } from "@/hooks/useOnboardingProgress";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
@@ -38,9 +39,16 @@ const DashboardHome = () => {
           </ErrorBoundary>
         )}
 
+        {/* Quick Actions - Apple-inspired */}
+        <ErrorBoundary section="quick-actions">
+          <div className="animate-fade-in">
+            <DashboardQuickActions />
+          </div>
+        </ErrorBoundary>
+
         {/* Hero: Quick Create */}
         <ErrorBoundary section="quick-create">
-          <div className="animate-fade-in">
+          <div className="animate-fade-in" style={{ animationDelay: '50ms' }}>
             <QuickCreateTile />
           </div>
         </ErrorBoundary>

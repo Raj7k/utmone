@@ -108,8 +108,8 @@ export default function QRCodes() {
         <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
           <TabsList>
             <TabsTrigger value="all">All QR Codes</TabsTrigger>
-            <TabsTrigger value="create">Create New</TabsTrigger>
-            <TabsTrigger value="brick-builder" className="gap-2">
+            <TabsTrigger value="create" data-tour="qr-create-tab">Create New</TabsTrigger>
+            <TabsTrigger value="brick-builder" data-tour="qr-brick-tab" className="gap-2">
               <Boxes className="h-4 w-4" />
               Brick Builder
               <Badge variant="secondary" className="ml-1 text-[10px] px-1.5 py-0">NEW</Badge>
