@@ -1,19 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Sparkles, 
   Check, 
   ExternalLink, 
   Loader2,
-  AlertCircle
+  AlertCircle,
+  Zap
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
+import { useEnrichmentSettings } from "@/hooks/useEnrichmentSettings";
 
 interface EnrichmentCardProps {
   workspaceId: string;
@@ -27,6 +30,18 @@ export const EnrichmentCard = ({ workspaceId }: EnrichmentCardProps) => {
   const [isSaving, setIsSaving] = useState(false);
   const [isTesting, setIsTesting] = useState(false);
   const [activeTab, setActiveTab] = useState("apollo");
+  
+  const { isConfigured, autoEnrichEnabled, updateSettings } = useEnrichmentSettings(workspaceId);
+
+  const handleAutoEnrichToggle = async (enabled: boolean) => {
+    try {
+      await updateSettings.mutateAsync({ auto_enrich_enabled: enabled });
+      notify.success(enabled ? "auto-enrich enabled" : "auto-enrich disabled");
+    } catch (error) {
+      console.error('Failed to toggle auto-enrich:', error);
+      notify.error("failed to update setting");
+    }
+  };
 
   const saveSettings = async (provider: string) => {
     setIsSaving(true);
@@ -109,6 +124,34 @@ export const EnrichmentCard = ({ workspaceId }: EnrichmentCardProps) => {
             automatically find missing emails, phones & linkedin profiles from badge scans
           </p>
         </div>
+      </div>
+
+      {/* Auto-Enrich Toggle */}
+      <div className="mb-4 p-4 rounded-lg bg-muted/50 border border-border">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center">
+              <Zap className="h-4 w-4 text-green-600" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-foreground">auto-enrich new scans</p>
+              <p className="text-xs text-muted-foreground">
+                automatically enrich leads when badges are scanned
+              </p>
+            </div>
+          </div>
+          <Switch 
+            checked={autoEnrichEnabled}
+            onCheckedChange={handleAutoEnrichToggle}
+            disabled={!isConfigured || updateSettings.isPending}
+          />
+        </div>
+        {!isConfigured && (
+          <p className="text-xs text-amber-600 mt-2 flex items-center gap-1">
+            <AlertCircle className="h-3 w-3" />
+            configure a provider below to enable auto-enrich
+          </p>
+        )}
       </div>
 
       <div className="mb-4 p-3 rounded-lg bg-primary/5 border border-primary/20">
