@@ -83,8 +83,9 @@ const Auth = () => {
 
     // Check if this is a claim-access redirect (existing user claiming invite)
     const isClaimRedirect = redirectTo?.includes('/claim-access');
+    const claimToken = isClaimRedirect ? new URLSearchParams(redirectTo?.split('?')[1] || '').get('token') : null;
     if (isClaimRedirect) {
-      console.log('[Auth] Claim access redirect detected, user needs to sign in');
+      console.log('[Auth] Claim access redirect detected, token:', claimToken);
     }
 
     // Shorter timeout (3s) to prevent infinite loading
@@ -166,6 +167,26 @@ const Auth = () => {
           try {
             if (inviteToken) {
               navigate(`/accept-invite?token=${inviteToken}`);
+              return;
+            }
+
+            // Handle claim-access redirect for existing users
+            if (claimToken) {
+              console.log('[Auth] Claiming invite for existing user...');
+              const { error: claimError } = await supabase.functions.invoke('claim-invite', {
+                body: {
+                  token: claimToken,
+                  user_id: session.user.id,
+                  user_email: session.user.email,
+                },
+              });
+
+              if (claimError) {
+                console.error('[Auth] Error claiming invite:', claimError);
+              } else {
+                notify.success("invite claimed successfully");
+              }
+              navigate("/dashboard");
               return;
             }
             

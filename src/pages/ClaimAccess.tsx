@@ -47,6 +47,9 @@ const ClaimAccess = () => {
       }
 
       try {
+        // Check if user is already authenticated
+        const { data: { session } } = await supabase.auth.getSession();
+        
         const { data, error } = await supabase
           .from("early_access_invites")
           .select("*")
@@ -63,6 +66,40 @@ const ClaimAccess = () => {
         if (new Date(data.expires_at) < new Date()) {
           notify.error("this invite link has expired");
           navigate("/");
+          return;
+        }
+
+        // If user is authenticated, automatically claim the invite
+        if (session?.user) {
+          setIsLoading(true);
+          
+          const { error: claimError } = await supabase.functions.invoke('claim-invite', {
+            body: {
+              token,
+              user_id: session.user.id,
+              user_email: session.user.email,
+            },
+          });
+
+          if (claimError) {
+            console.error("Error claiming invite:", claimError);
+            notify.error("failed to claim invite");
+            setIsLoading(false);
+            navigate("/dashboard");
+            return;
+          }
+
+          // Update profile with access level
+          await supabase
+            .from("profiles")
+            .update({ 
+              access_level: data.access_level,
+              plan_tier: data.plan_tier || 'growth',
+            })
+            .eq("id", session.user.id);
+
+          notify.success("invite claimed successfully");
+          navigate("/dashboard");
           return;
         }
 
@@ -89,7 +126,7 @@ const ClaimAccess = () => {
         email: formData.email,
         password: formData.password,
         options: {
-          emailRedirectTo: `${window.location.origin}/onboarding`,
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
         },
       });
 
