@@ -8,6 +8,13 @@ import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
 const Playbooks = () => {
   const playbooks = [
     {
+      slug: "b2b-architects-2026",
+      title: "25 B2B Marketing Architects Defining 2026",
+      description: "The definitive guide to the 25 most influential B2B marketing leaders shaping the industry. Interactive flip-card profiles, category filters, and direct LinkedIn access.",
+      readTime: "8 min read",
+      badge: "FEATURED"
+    },
+    {
       slug: "llm-ranking",
       title: "LLM Ranking Playbook — The Complete Implementation Guide",
       description: "90-day step-by-step roadmap to rank your content in ChatGPT, Claude, Perplexity, and Gemini. Includes 9 interactive tools, 50+ optimization tactics, and real-world case studies.",

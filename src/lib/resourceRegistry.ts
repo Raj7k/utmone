@@ -22,7 +22,8 @@ export const resourceRegistry = {
     { slug: 'naming-convention-playbook', title: 'Naming Convention' },
     { slug: 'sales-marketing-alignment', title: 'Sales & Marketing Alignment' },
     { slug: 'ai-marketing', title: 'AI Marketing', badge: 'NEW' as const },
-    { slug: 'llm-ranking', title: 'LLM Ranking Playbook', badge: 'NEW' as const }
+    { slug: 'llm-ranking', title: 'LLM Ranking Playbook', badge: 'NEW' as const },
+    { slug: 'b2b-architects-2026', title: '25 B2B Architects of Influence', badge: 'FEATURED' as const }
   ],
   templates: [
     { slug: 'utm-template', title: 'UTM Template' },
