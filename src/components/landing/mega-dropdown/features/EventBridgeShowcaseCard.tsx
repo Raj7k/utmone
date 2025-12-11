@@ -12,7 +12,7 @@ export function EventBridgeShowcaseCard({ variant = "dark" }: EventBridgeShowcas
   const isLight = variant === "light";
   
   return (
-    <Link to="/features/event-bridge">
+    <Link to="/features/event-halo">
       <motion.div
         whileHover={{ scale: 1.02 }}
         className={cn(

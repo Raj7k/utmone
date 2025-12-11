@@ -134,7 +134,7 @@ export function EventBridgeTab() {
               </Link>
             </Button>
             <Button variant="outline" asChild>
-              <Link to="/features/event-bridge">learn more</Link>
+              <Link to="/features/event-halo">learn more</Link>
             </Button>
           </div>
         </div>

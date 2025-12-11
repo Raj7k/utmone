@@ -16,6 +16,7 @@ import {
   Target,
   Users,
   Sparkles,
+  GitMerge,
 } from "lucide-react";
 
 const articles = [
@@ -57,6 +58,35 @@ const articles = [
     href: "/help/articles/lead-enrichment",
     icon: Sparkles,
     isNew: true,
+  },
+];
+
+// Event Bridge articles
+const eventBridgeArticles = [
+  {
+    title: "Event Bridge overview",
+    description: "Automatically sync event registrations from Luma, Airmeet, Goldcast, and Eventbrite to your CRM in real-time.",
+    href: "/help/articles/event-bridge-overview",
+    icon: GitMerge,
+    isNew: true,
+  },
+  {
+    title: "Setting up Event Bridge",
+    description: "Step-by-step guide to create an Event Bridge flow and connect your event platform webhooks.",
+    href: "/help/articles/event-bridge-setup",
+    icon: Target,
+  },
+  {
+    title: "Routing rules configuration",
+    description: "Create conditional routing rules to send leads to different CRMs based on enrichment data.",
+    href: "/help/articles/event-bridge-routing",
+    icon: MapPin,
+  },
+  {
+    title: "CRM integration setup",
+    description: "Connect HubSpot, Salesforce, Zoho, Pipedrive, or Kylas to receive enriched event registrations.",
+    href: "/help/articles/event-bridge-crm",
+    icon: Users,
   },
 ];
 
@@ -146,11 +176,31 @@ const Events = () => {
         </div>
       </div>
 
+      {/* Event Bridge */}
+      <div className="mb-8">
+        <div className="flex items-center gap-2 mb-4">
+          <h2 className="font-sans text-lg font-semibold text-zinc-900">Event Bridge</h2>
+          <span className="px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">business</span>
+        </div>
+        <div className="space-y-4">
+          {eventBridgeArticles.map((article) => (
+            <ArticleCard
+              key={article.href}
+              title={article.title}
+              description={article.description}
+              href={article.href}
+              icon={article.icon}
+              isNew={article.isNew}
+            />
+          ))}
+        </div>
+      </div>
+
       {/* Event Management */}
       <div className="mb-8">
         <h2 className="font-sans text-lg font-semibold text-zinc-900 mb-4">Event management</h2>
         <div className="space-y-4">
-          {articles.slice(7).map((article) => (
+          {articles.slice(5).map((article) => (
             <ArticleCard
               key={article.href}
               title={article.title}
