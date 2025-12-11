@@ -5,6 +5,7 @@ import { CTABanner } from "@/components/resources/CTABanner";
 import { QuickAnswer } from "@/components/resources/QuickAnswer";
 import { SEO } from "@/components/seo/SEO";
 import { ArticleSchema, FAQSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
+import { SpeakableSchema } from "@/components/seo/SpeakableSchema";
 import { Link } from "react-router-dom";
 
 const SimpleAnalytics = () => {
@@ -62,6 +63,7 @@ const SimpleAnalytics = () => {
       />
       <FAQSchema questions={faqs} />
       <BreadcrumbSchema items={breadcrumbs.map(b => ({ name: b.label, url: b.href }))} />
+      <SpeakableSchema headline="Simple Analytics" summary="Reducing measurement to the smallest set of metrics, events, and dashboards required for confident decisions" cssSelectors={['.speakable-content', 'article', 'h1', 'h2']} />
       
       <GuideLayout
         title="Simple Analytics — Clarity Over Complexity"

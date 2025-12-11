@@ -5,6 +5,7 @@ import { CTABanner } from "@/components/resources/CTABanner";
 import { QuickAnswer } from "@/components/resources/QuickAnswer";
 import { SEO } from "@/components/seo/SEO";
 import { ArticleSchema, FAQSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
+import { SpeakableSchema } from "@/components/seo/SpeakableSchema";
 import { Link } from "react-router-dom";
 import { GitBranch, Database, BarChart3, Users, Zap } from "lucide-react";
 
@@ -63,6 +64,7 @@ const TrackingArchitecture = () => {
       />
       <FAQSchema questions={faqs} />
       <BreadcrumbSchema items={breadcrumbs.map(b => ({ name: b.label, url: b.href }))} />
+      <SpeakableSchema headline="Tracking Architecture" summary="Blueprint for how campaigns, UTMs, channels, events, and reporting systems connect into unified data flow" cssSelectors={['.speakable-content', 'article', 'h1', 'h2']} />
       
       <GuideLayout
         title="Tracking Architecture — Building for Scale"

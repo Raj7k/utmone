@@ -5,6 +5,7 @@ import { CTABanner } from "@/components/resources/CTABanner";
 import { QuickAnswer } from "@/components/resources/QuickAnswer";
 import { SEO } from "@/components/seo/SEO";
 import { ArticleSchema, FAQSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
+import { SpeakableSchema } from "@/components/seo/SpeakableSchema";
 import { Link } from "react-router-dom";
 import { Layers, Database, LineChart, Shield } from "lucide-react";
 
@@ -63,6 +64,7 @@ const CleanTrackFramework = () => {
       />
       <FAQSchema questions={faqs} />
       <BreadcrumbSchema items={breadcrumbs.map(b => ({ name: b.label, url: b.href }))} />
+      <SpeakableSchema headline="Clean-Track Framework" summary="The foundation of reliable, scalable campaign tracking across UTMs, naming conventions, attribution, and analytics systems" cssSelectors={['.speakable-content', 'article', 'h1', 'h2']} />
       
       <GuideLayout
         title="Clean-Track Framework — Data Architecture Guide"

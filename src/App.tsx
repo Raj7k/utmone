@@ -86,6 +86,11 @@ const TroubleshootingDocs = lazy(() => import("./pages/Docs/Troubleshooting"));
 const PublicQRGenerator = lazy(() => import("./pages/tools/QRGenerator"));
 const PublicURLShortener = lazy(() => import("./pages/tools/URLShortener"));
 const PublicUTMBuilder = lazy(() => import("./pages/tools/UTMBuilder"));
+const UTMBuilderLinkedIn = lazy(() => import("./pages/tools/UTMBuilderLinkedIn"));
+const UTMBuilderFacebook = lazy(() => import("./pages/tools/UTMBuilderFacebook"));
+const UTMBuilderGoogleAds = lazy(() => import("./pages/tools/UTMBuilderGoogleAds"));
+const UTMBuilderTikTok = lazy(() => import("./pages/tools/UTMBuilderTikTok"));
+const UTMBuilderEmail = lazy(() => import("./pages/tools/UTMBuilderEmail"));
 const PublicLinkHealthChecker = lazy(() => import("./pages/tools/LinkHealthChecker"));
 const TrustPage = lazy(() => import("./pages/Trust"));
 const StatusPage = lazy(() => import("./pages/Status"));
@@ -404,6 +409,11 @@ const App = () => (
                <Route path="/tools/qr" element={<Suspense fallback={<DashboardSkeleton />}><PublicQRGenerator /></Suspense>} />
                <Route path="/tools/shorten" element={<Suspense fallback={<DashboardSkeleton />}><PublicURLShortener /></Suspense>} />
                <Route path="/tools/utm-builder" element={<Suspense fallback={<DashboardSkeleton />}><PublicUTMBuilder /></Suspense>} />
+               <Route path="/tools/utm-builder-linkedin" element={<Suspense fallback={<DashboardSkeleton />}><UTMBuilderLinkedIn /></Suspense>} />
+               <Route path="/tools/utm-builder-facebook" element={<Suspense fallback={<DashboardSkeleton />}><UTMBuilderFacebook /></Suspense>} />
+               <Route path="/tools/utm-builder-google-ads" element={<Suspense fallback={<DashboardSkeleton />}><UTMBuilderGoogleAds /></Suspense>} />
+               <Route path="/tools/utm-builder-tiktok" element={<Suspense fallback={<DashboardSkeleton />}><UTMBuilderTikTok /></Suspense>} />
+               <Route path="/tools/utm-builder-email" element={<Suspense fallback={<DashboardSkeleton />}><UTMBuilderEmail /></Suspense>} />
                <Route path="/tools/link-health-checker" element={<Suspense fallback={<DashboardSkeleton />}><PublicLinkHealthChecker /></Suspense>} />
                
                {/* Viral Tools Hub */}
