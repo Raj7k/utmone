@@ -20,6 +20,7 @@ const getPageMeta = (pathname: string): PageMeta => {
     '/dashboard': { title: 'dashboard', subtitle: 'your command center' },
     '/dashboard/links': { title: 'links', subtitle: 'manage your short links' },
     '/dashboard/qr-codes': { title: 'qr codes', subtitle: 'generate branded codes' },
+    '/dashboard/brickmatrix': { title: 'brick builder', subtitle: 'QR codes you can build' },
     '/dashboard/analytics': { title: 'intelligence', subtitle: 'insights & attribution' },
     '/dashboard/sales': { title: 'sales', subtitle: 'track prospect engagement' },
     '/dashboard/events': { title: 'events', subtitle: 'field marketing attribution' },

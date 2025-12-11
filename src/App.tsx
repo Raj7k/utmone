@@ -51,6 +51,7 @@ const RobustAttribution = lazy(() => import("./pages/RobustAttribution"));
 const DashboardSales = lazy(() => import("./pages/dashboard/Sales"));
 const DashboardEvents = lazy(() => import("./pages/dashboard/Events"));
 const Intelligence = lazy(() => import("./pages/dashboard/Intelligence"));
+const BrickMatrix = lazy(() => import("./pages/dashboard/BrickMatrix"));
 // Critical layouts - static imports to prevent module loading failures
 import { DashboardLayout } from "./components/layout/DashboardLayout";
 const Links = lazy(() => import("./pages/Links"));
@@ -587,6 +588,7 @@ const App = () => (
               <Route path="/dashboard/links" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardLinks /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/analytics" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardAnalytics /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/qr-codes" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardQRCodes /></DashboardLayout></Suspense></ProtectedRoute>} />
+              <Route path="/dashboard/brickmatrix" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><BrickMatrix /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/targeting" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Targeting /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/targeting/:linkId" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Targeting /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/bulk-create" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><BulkCreate /></DashboardLayout></Suspense></ProtectedRoute>} />
