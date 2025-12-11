@@ -223,3 +223,54 @@ export const WebPageSchema = ({ name, description, url }: WebPageSchemaProps) =>
     </Helmet>
   );
 };
+
+interface ProductSchemaProps {
+  name: string;
+  description: string;
+  brand?: string;
+  url?: string;
+  image?: string;
+  aggregateRating?: {
+    ratingValue: number;
+    reviewCount: number;
+  };
+}
+
+export const ProductSchema = ({ 
+  name, 
+  description, 
+  brand = 'utm.one',
+  url,
+  image,
+  aggregateRating
+}: ProductSchemaProps) => {
+  const schema: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name,
+    description,
+    brand: {
+      '@type': 'Brand',
+      name: brand
+    },
+    url: url || `https://utm.one${window.location.pathname}`
+  };
+
+  if (image) {
+    schema.image = image;
+  }
+
+  if (aggregateRating) {
+    schema.aggregateRating = {
+      '@type': 'AggregateRating',
+      ratingValue: aggregateRating.ratingValue,
+      reviewCount: aggregateRating.reviewCount
+    };
+  }
+
+  return (
+    <Helmet>
+      <script type="application/ld+json">{JSON.stringify(schema)}</script>
+    </Helmet>
+  );
+};

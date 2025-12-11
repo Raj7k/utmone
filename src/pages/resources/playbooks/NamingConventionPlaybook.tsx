@@ -106,7 +106,7 @@ Bad Campaign Names:
         description="6-step process for designing and rolling out campaign naming taxonomy"
         steps={howToSteps}
       />
-      <SpeakableSchema cssSelector=".speakable-content" />
+      <SpeakableSchema headline="Naming Convention Playbook" summary="Practical steps for designing campaign naming taxonomy" cssSelectors={['.speakable-content']} />
       
       <GuideLayout
         title="Naming Convention Playbook"

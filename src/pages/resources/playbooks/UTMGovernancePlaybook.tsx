@@ -96,7 +96,7 @@ export default function UTMGovernancePlaybook() {
         description="8-step process for implementing and enforcing UTM standards"
         steps={howToSteps}
       />
-      <SpeakableSchema cssSelector=".speakable-content" />
+      <SpeakableSchema headline="UTM Governance Playbook" summary="Implementing and enforcing UTM standards" cssSelectors={['.speakable-content']} />
       
       <GuideLayout
         title="UTM Governance Playbook"

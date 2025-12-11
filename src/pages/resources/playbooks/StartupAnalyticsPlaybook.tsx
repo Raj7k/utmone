@@ -112,7 +112,7 @@ That's it. Track 9 metrics religiously. Ignore everything else.`;
         description="6-step process for setting up analytics infrastructure for startups"
         steps={howToSteps}
       />
-      <SpeakableSchema cssSelector=".speakable-content" />
+      <SpeakableSchema headline="Startup Analytics Playbook" summary="Setting up analytics infrastructure from scratch" cssSelectors={['.speakable-content']} />
       
       <GuideLayout
         title="Startup Analytics Playbook"

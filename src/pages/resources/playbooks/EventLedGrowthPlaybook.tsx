@@ -103,7 +103,7 @@ export default function EventLedGrowthPlaybook() {
         description="7-step process for tracking events, webinars, and in-person campaigns"
         steps={howToSteps}
       />
-      <SpeakableSchema cssSelector=".speakable-content" />
+      <SpeakableSchema headline="Event-Led Growth Playbook" summary="How to structure tracking for events, webinars, and in-person campaigns" cssSelectors={['.speakable-content']} />
       
       <GuideLayout
         title="Event-Led Growth Playbook"
