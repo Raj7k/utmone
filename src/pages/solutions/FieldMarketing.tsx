@@ -359,7 +359,7 @@ const FieldMarketing = () => {
               
               <div className="text-center">
                 <Button asChild size="lg">
-                  <Link to="/features/one-tap">
+                  <Link to="/features/event-halo?tab=scanner">
                     explore one-tap
                     <ArrowRight className="ml-2 w-4 h-4" />
                   </Link>

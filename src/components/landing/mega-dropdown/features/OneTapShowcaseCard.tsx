@@ -4,7 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 
 export function OneTapShowcaseCard() {
   return (
-    <Link to="/features/one-tap" className="block group">
+    <Link to="/features/event-halo?tab=scanner" className="block group">
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
