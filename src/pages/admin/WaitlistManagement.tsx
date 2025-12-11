@@ -25,6 +25,16 @@ import {
   WaitlistBulkToolbar,
   ApplicantDetailDialog,
 } from "@/components/admin/waitlist";
+import { PlanTier, PLAN_CONFIG } from "@/lib/planConfig";
+
+// Map plan tier to legacy access level for backward compatibility
+const planTierToAccessLevel: Record<PlanTier, number> = {
+  free: 1,
+  starter: 2,
+  growth: 3,
+  business: 4,
+  enterprise: 4,
+};
 
 type EarlyAccessRequest = {
   id: string;
@@ -53,7 +63,7 @@ export default function WaitlistManagement() {
   const [selectedRequest, setSelectedRequest] = useState<EarlyAccessRequest | null>(null);
   const [detailDialogOpen, setDetailDialogOpen] = useState(false);
   const [approveDialogOpen, setApproveDialogOpen] = useState(false);
-  const [selectedAccessLevel, setSelectedAccessLevel] = useState<number>(2);
+  const [selectedPlanTier, setSelectedPlanTier] = useState<PlanTier>("growth");
   const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
   const [batchInviteOpen, setBatchInviteOpen] = useState(false);
   const [batchApproveOpen, setBatchApproveOpen] = useState(false);
@@ -89,14 +99,16 @@ export default function WaitlistManagement() {
   });
 
   const approveMutation = useMutation({
-    mutationFn: async ({ request, accessLevel }: { request: EarlyAccessRequest; accessLevel: number }) => {
+    mutationFn: async ({ request, planTier }: { request: EarlyAccessRequest; planTier: PlanTier }) => {
       const inviteToken = btoa(`${request.email}-${Date.now()}-${Math.random().toString(36).substring(2)}`);
+      const accessLevel = planTierToAccessLevel[planTier];
       
       const { error: inviteError } = await supabase
         .from("early_access_invites")
         .insert({
           email: request.email,
           access_level: accessLevel,
+          plan_tier: planTier,
           invite_token: inviteToken,
         });
 
@@ -112,7 +124,9 @@ export default function WaitlistManagement() {
           email: request.email,
           name: request.name,
           access_level: accessLevel,
+          plan_tier: planTier,
           invite_token: inviteToken,
+          origin: window.location.origin,
         },
       });
 
@@ -121,7 +135,7 @@ export default function WaitlistManagement() {
         resourceType: "waitlist_user",
         resourceId: request.id,
         oldValues: { status: request.status, access_level: request.access_level },
-        newValues: { status: "approved", access_level: accessLevel },
+        newValues: { status: "approved", access_level: accessLevel, plan_tier: planTier },
       });
     },
     onSuccess: () => {
@@ -326,7 +340,7 @@ export default function WaitlistManagement() {
                       }}
                       onApprove={() => {
                         setSelectedRequest(request);
-                        setSelectedAccessLevel(2);
+                        setSelectedPlanTier("growth");
                         setApproveDialogOpen(true);
                       }}
                     />
@@ -376,19 +390,23 @@ export default function WaitlistManagement() {
             <DialogTitle>approve user</DialogTitle>
             <DialogDescription>select access level for {selectedRequest?.name}</DialogDescription>
           </DialogHeader>
-          <Select value={selectedAccessLevel.toString()} onValueChange={(v) => setSelectedAccessLevel(Number(v))}>
+          <Select value={selectedPlanTier} onValueChange={(v) => setSelectedPlanTier(v as PlanTier)}>
             <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="1">read-only preview</SelectItem>
-              <SelectItem value="2">limited beta</SelectItem>
-              <SelectItem value="3">full access</SelectItem>
-              <SelectItem value="4">power user</SelectItem>
+              {Object.entries(PLAN_CONFIG).map(([key, plan]) => (
+                <SelectItem key={key} value={key}>
+                  <span className="capitalize">{plan.name}</span>
+                  <span className="text-muted-foreground ml-2">
+                    {plan.price === 'custom' ? '(custom)' : plan.price === 0 ? '(free)' : `($${plan.price}/mo)`}
+                  </span>
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
           <Button
-            onClick={() => selectedRequest && approveMutation.mutate({ request: selectedRequest, accessLevel: selectedAccessLevel })}
+            onClick={() => selectedRequest && approveMutation.mutate({ request: selectedRequest, planTier: selectedPlanTier })}
             disabled={approveMutation.isPending}
           >
             {approveMutation.isPending ? "approving..." : "approve & send invite"}

@@ -5,6 +5,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Loader2, Users, Zap } from "lucide-react";
+import { PlanTier, PLAN_CONFIG } from "@/lib/planConfig";
+
+// Map plan tier to legacy access level for backward compatibility
+const planTierToAccessLevel: Record<PlanTier, number> = {
+  free: 1,
+  starter: 2,
+  growth: 3,
+  business: 4,
+  enterprise: 4,
+};
 
 interface BatchApproveModalProps {
   open: boolean;
@@ -20,7 +30,7 @@ export function BatchApproveModal({
   pendingCount 
 }: BatchApproveModalProps) {
   const [count, setCount] = useState<string>("10");
-  const [accessLevel, setAccessLevel] = useState<string>("2");
+  const [planTier, setPlanTier] = useState<PlanTier>("growth");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleApprove = async () => {
@@ -31,7 +41,7 @@ export function BatchApproveModal({
 
     setIsLoading(true);
     try {
-      await onApprove(countNum, parseInt(accessLevel));
+      await onApprove(countNum, planTierToAccessLevel[planTier]);
       onOpenChange(false);
       setCount("10");
     } finally {
@@ -97,20 +107,25 @@ export function BatchApproveModal({
           </div>
 
           <div className="space-y-3">
-            <Label htmlFor="access-level">access level</Label>
-            <Select value={accessLevel} onValueChange={setAccessLevel}>
-              <SelectTrigger id="access-level">
+            <Label htmlFor="plan-tier">plan tier</Label>
+            <Select value={planTier} onValueChange={(v) => setPlanTier(v as PlanTier)}>
+              <SelectTrigger id="plan-tier">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="1">read-only preview</SelectItem>
-                <SelectItem value="2">limited beta (recommended)</SelectItem>
-                <SelectItem value="3">full access</SelectItem>
-                <SelectItem value="4">power user</SelectItem>
+                {Object.entries(PLAN_CONFIG).map(([key, plan]) => (
+                  <SelectItem key={key} value={key}>
+                    <span className="capitalize">{plan.name}</span>
+                    <span className="text-muted-foreground ml-2">
+                      {plan.price === 'custom' ? '(custom)' : plan.price === 0 ? '(free)' : `($${plan.price}/mo)`}
+                    </span>
+                    {key === 'growth' && <span className="text-muted-foreground ml-1">(recommended)</span>}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
             <p className="text-xs text-muted-foreground">
-              all users will receive 1 month of pro free
+              all users will receive 1 month free of selected plan
             </p>
           </div>
 

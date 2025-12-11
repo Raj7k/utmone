@@ -5,6 +5,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { AlertCircle, CheckCircle2, Loader2, Mail } from "lucide-react";
+import { PlanTier, PLAN_CONFIG } from "@/lib/planConfig";
+
+// Map plan tier to legacy access level for backward compatibility
+const planTierToAccessLevel: Record<PlanTier, number> = {
+  free: 1,
+  starter: 2,
+  growth: 3,
+  business: 4,
+  enterprise: 4,
+};
 
 type InviteResult = {
   success: number;
@@ -26,25 +36,15 @@ type BatchInviteModalProps = {
   onConfirm: (accessLevel: number) => Promise<InviteResult>;
 };
 
-const getAccessLevelLabel = (level: number): string => {
-  const labels: Record<number, string> = {
-    1: "Read-Only Preview",
-    2: "Limited Beta",
-    3: "Full Access",
-    4: "Power User",
-  };
-  return labels[level] || "Unknown";
-};
-
 export function BatchInviteModal({ open, onOpenChange, selectedUsers, onConfirm }: BatchInviteModalProps) {
-  const [accessLevel, setAccessLevel] = useState<number>(2);
+  const [planTier, setPlanTier] = useState<PlanTier>("growth");
   const [sending, setSending] = useState(false);
   const [result, setResult] = useState<InviteResult | null>(null);
 
   const handleSend = async () => {
     setSending(true);
     try {
-      const inviteResult = await onConfirm(accessLevel);
+      const inviteResult = await onConfirm(planTierToAccessLevel[planTier]);
       setResult(inviteResult);
     } catch (error: any) {
       console.error(error);
@@ -77,18 +77,22 @@ export function BatchInviteModal({ open, onOpenChange, selectedUsers, onConfirm 
 
         {!result ? (
           <div className="space-y-6">
-            {/* Access Level Selector */}
+            {/* Plan Tier Selector */}
             <div className="space-y-2">
-              <label className="text-sm font-medium">Access Level</label>
-              <Select value={accessLevel.toString()} onValueChange={(v) => setAccessLevel(parseInt(v))}>
+              <label className="text-sm font-medium">Plan Tier</label>
+              <Select value={planTier} onValueChange={(v) => setPlanTier(v as PlanTier)}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="1">Read-Only Preview</SelectItem>
-                  <SelectItem value="2">Limited Beta</SelectItem>
-                  <SelectItem value="3">Full Access</SelectItem>
-                  <SelectItem value="4">Power User</SelectItem>
+                  {Object.entries(PLAN_CONFIG).map(([key, plan]) => (
+                    <SelectItem key={key} value={key}>
+                      <span className="capitalize">{plan.name}</span>
+                      <span className="text-muted-foreground ml-2">
+                        {plan.price === 'custom' ? '(custom)' : plan.price === 0 ? '(free)' : `($${plan.price}/mo)`}
+                      </span>
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -106,7 +110,7 @@ export function BatchInviteModal({ open, onOpenChange, selectedUsers, onConfirm 
                   <div className="mt-3 p-3 bg-background rounded border">
                     <p className="text-sm">hey {sampleUser.name},</p>
                     <p className="text-sm mt-2">you're in. after reviewing hundreds of applications, we're excited to invite you to utm.one.</p>
-                    <Badge className="mt-2" variant="default">{getAccessLevelLabel(accessLevel)}</Badge>
+                    <Badge className="mt-2 capitalize" variant="default">{PLAN_CONFIG[planTier].name}</Badge>
                   </div>
                 </div>
               </div>
