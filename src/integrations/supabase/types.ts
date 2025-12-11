@@ -4609,11 +4609,17 @@ export type Database = {
           mfa_challenge: string | null
           mfa_enforced: boolean | null
           mfa_verified_at: string | null
+          notify_analytics_milestones: boolean | null
+          notify_in_app: boolean | null
+          notify_link_created: boolean | null
+          notify_team_invites: boolean | null
+          notify_weekly_digest: boolean | null
           onboarding_completed: boolean | null
           primary_use_case: string | null
           referred_by_code: string | null
           team_members_invited_count: number | null
           team_size: string | null
+          timezone: string | null
           tracking_consent: boolean | null
           updated_at: string | null
           user_type: string | null
@@ -4639,11 +4645,17 @@ export type Database = {
           mfa_challenge?: string | null
           mfa_enforced?: boolean | null
           mfa_verified_at?: string | null
+          notify_analytics_milestones?: boolean | null
+          notify_in_app?: boolean | null
+          notify_link_created?: boolean | null
+          notify_team_invites?: boolean | null
+          notify_weekly_digest?: boolean | null
           onboarding_completed?: boolean | null
           primary_use_case?: string | null
           referred_by_code?: string | null
           team_members_invited_count?: number | null
           team_size?: string | null
+          timezone?: string | null
           tracking_consent?: boolean | null
           updated_at?: string | null
           user_type?: string | null
@@ -4669,11 +4681,17 @@ export type Database = {
           mfa_challenge?: string | null
           mfa_enforced?: boolean | null
           mfa_verified_at?: string | null
+          notify_analytics_milestones?: boolean | null
+          notify_in_app?: boolean | null
+          notify_link_created?: boolean | null
+          notify_team_invites?: boolean | null
+          notify_weekly_digest?: boolean | null
           onboarding_completed?: boolean | null
           primary_use_case?: string | null
           referred_by_code?: string | null
           team_members_invited_count?: number | null
           team_size?: string | null
+          timezone?: string | null
           tracking_consent?: boolean | null
           updated_at?: string | null
           user_type?: string | null

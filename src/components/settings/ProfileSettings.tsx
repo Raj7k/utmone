@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
 import { 
   User, 
   Mail, 
@@ -18,7 +19,12 @@ import {
   Download,
   Trash2,
   Link2,
-  Globe
+  Globe,
+  Bell,
+  LinkIcon,
+  BarChart3,
+  Users,
+  Zap
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
@@ -50,6 +56,13 @@ export function ProfileSettings() {
   const [timezone, setTimezone] = useState("UTC");
   const [isSaved, setIsSaved] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  // Notification preferences
+  const [notifyLinkCreated, setNotifyLinkCreated] = useState(true);
+  const [notifyWeeklyDigest, setNotifyWeeklyDigest] = useState(true);
+  const [notifyTeamInvites, setNotifyTeamInvites] = useState(true);
+  const [notifyAnalyticsMilestones, setNotifyAnalyticsMilestones] = useState(true);
+  const [notifyInApp, setNotifyInApp] = useState(true);
 
   const { data: user, isLoading: userLoading } = useQuery({
     queryKey: ['current-user'],
@@ -78,6 +91,14 @@ export function ProfileSettings() {
   useEffect(() => {
     if (profile) {
       setFullName(profile.full_name || "");
+      // Load saved timezone from profile
+      setTimezone((profile as any).timezone || "UTC");
+      // Load notification preferences
+      setNotifyLinkCreated((profile as any).notify_link_created ?? true);
+      setNotifyWeeklyDigest((profile as any).notify_weekly_digest ?? true);
+      setNotifyTeamInvites((profile as any).notify_team_invites ?? true);
+      setNotifyAnalyticsMilestones((profile as any).notify_analytics_milestones ?? true);
+      setNotifyInApp((profile as any).notify_in_app ?? true);
     } else if (user?.user_metadata?.full_name) {
       setFullName(user.user_metadata.full_name);
     }
@@ -88,7 +109,16 @@ export function ProfileSettings() {
       if (!user?.id) throw new Error('No user');
       const { error } = await supabase
         .from('profiles')
-        .update({ full_name: fullName, updated_at: new Date().toISOString() })
+        .update({ 
+          full_name: fullName, 
+          timezone: timezone,
+          notify_link_created: notifyLinkCreated,
+          notify_weekly_digest: notifyWeeklyDigest,
+          notify_team_invites: notifyTeamInvites,
+          notify_analytics_milestones: notifyAnalyticsMilestones,
+          notify_in_app: notifyInApp,
+          updated_at: new Date().toISOString() 
+        } as any)
         .eq('id', user.id);
       if (error) throw error;
     },
@@ -240,6 +270,83 @@ export function ProfileSettings() {
                 </Select>
               </div>
             </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Notification Preferences Card */}
+      <Card>
+        <CardHeader className="pb-4">
+          <CardTitle className="text-lg font-medium flex items-center gap-2">
+            <Bell className="h-5 w-5" />
+            notification preferences
+          </CardTitle>
+          <CardDescription>choose which updates you'd like to receive</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between py-3 border-b border-border/50">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-muted">
+                <LinkIcon className="h-4 w-4 text-muted-foreground" />
+              </div>
+              <div>
+                <p className="text-sm font-medium">link created</p>
+                <p className="text-xs text-muted-foreground">get notified when a new link is created</p>
+              </div>
+            </div>
+            <Switch checked={notifyLinkCreated} onCheckedChange={setNotifyLinkCreated} />
+          </div>
+
+          <div className="flex items-center justify-between py-3 border-b border-border/50">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-muted">
+                <BarChart3 className="h-4 w-4 text-muted-foreground" />
+              </div>
+              <div>
+                <p className="text-sm font-medium">weekly digest</p>
+                <p className="text-xs text-muted-foreground">receive weekly performance summary</p>
+              </div>
+            </div>
+            <Switch checked={notifyWeeklyDigest} onCheckedChange={setNotifyWeeklyDigest} />
+          </div>
+
+          <div className="flex items-center justify-between py-3 border-b border-border/50">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-muted">
+                <Users className="h-4 w-4 text-muted-foreground" />
+              </div>
+              <div>
+                <p className="text-sm font-medium">team invites</p>
+                <p className="text-xs text-muted-foreground">notifications about team invitations</p>
+              </div>
+            </div>
+            <Switch checked={notifyTeamInvites} onCheckedChange={setNotifyTeamInvites} />
+          </div>
+
+          <div className="flex items-center justify-between py-3 border-b border-border/50">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-muted">
+                <Zap className="h-4 w-4 text-muted-foreground" />
+              </div>
+              <div>
+                <p className="text-sm font-medium">analytics milestones</p>
+                <p className="text-xs text-muted-foreground">celebrate when you hit engagement goals</p>
+              </div>
+            </div>
+            <Switch checked={notifyAnalyticsMilestones} onCheckedChange={setNotifyAnalyticsMilestones} />
+          </div>
+
+          <div className="flex items-center justify-between py-3">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-muted">
+                <Bell className="h-4 w-4 text-muted-foreground" />
+              </div>
+              <div>
+                <p className="text-sm font-medium">in-app notifications</p>
+                <p className="text-xs text-muted-foreground">show notifications inside the app</p>
+              </div>
+            </div>
+            <Switch checked={notifyInApp} onCheckedChange={setNotifyInApp} />
           </div>
         </CardContent>
       </Card>
