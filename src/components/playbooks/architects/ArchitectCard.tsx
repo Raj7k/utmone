@@ -52,10 +52,10 @@ export function ArchitectCard({ architect, index }: ArchitectCardProps) {
             {/* Info Section */}
             <div className="p-4 h-[40%] flex flex-col justify-between">
               <div>
-                <h3 className="font-semibold text-gray-900 text-sm leading-tight">
+                <h3 className="font-serif font-semibold text-gray-900 text-sm leading-tight">
                   {architect.name}
                 </h3>
-                <p className="text-xs text-gray-500 mt-0.5">
+                <p className="font-sans text-xs text-gray-500 mt-0.5">
                   {architect.role} @ {architect.company}
                 </p>
               </div>
@@ -81,7 +81,7 @@ export function ArchitectCard({ architect, index }: ArchitectCardProps) {
 
             {/* Description */}
             <div className="p-4 h-[45%] flex flex-col justify-between bg-gradient-to-b from-white to-gray-50">
-              <p className="text-sm text-gray-700 italic leading-relaxed">
+              <p className="font-serif text-sm text-gray-700 italic leading-relaxed">
                 "{architect.description}"
               </p>
               
@@ -89,7 +89,7 @@ export function ArchitectCard({ architect, index }: ArchitectCardProps) {
                 href={architect.linkedIn}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors group/link"
+                className="inline-flex items-center gap-2 font-sans text-sm font-medium text-primary hover:text-primary/80 transition-colors group/link"
                 onClick={(e) => e.stopPropagation()}
               >
                 <Linkedin className="w-4 h-4" />
