@@ -115,12 +115,12 @@ const categories = [
 ];
 
 const popularArticles = [
-  { title: "Creating your first short link", href: "/help/getting-started#first-link" },
-  { title: "Understanding UTM parameters", href: "/help/utm" },
-  { title: "Setting up your custom domain", href: "/help/domains" },
-  { title: "How attribution models work", href: "/help/attribution#models" },
-  { title: "Installing the tracking pixel", href: "/help/integrations#pixel" },
-  { title: "Using Event Halo for trade shows", href: "/help/events#event-halo" },
+  { title: "Creating your first short link", href: "/help/articles/first-link" },
+  { title: "Understanding UTM parameters", href: "/help/articles/what-are-utms" },
+  { title: "Setting up your custom domain", href: "/help/articles/adding-domains" },
+  { title: "How attribution models work", href: "/help/articles/attribution-models" },
+  { title: "Installing the tracking pixel", href: "/help/articles/tracking-pixel" },
+  { title: "Using Event Halo for trade shows", href: "/help/articles/event-halo-overview" },
 ];
 
 const HelpIndex = () => {
