@@ -8,6 +8,7 @@ import { FeedbackWidget } from "@/components/FeedbackWidget";
 import { ImpersonationBanner } from "@/components/admin/ImpersonationBanner";
 import { SubscriptionExpiryBanner } from "@/components/subscription/SubscriptionExpiryBanner";
 import { TourProvider, TourOverlay } from "@/components/onboarding";
+import { MobileNav } from "@/components/mobile/MobileNav";
 import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
@@ -73,11 +74,16 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             {/* Contextual Header */}
             <ContextualHeader />
 
-            {/* Page Content */}
-            <main className="flex-1 overflow-y-auto px-6 py-6 lg:px-8 lg:py-8">
-              {children}
+            {/* Page Content - with proper overflow and mobile bottom padding */}
+            <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-4 lg:px-8 lg:py-6 pb-24 md:pb-6">
+              <div className="max-w-full">
+                {children}
+              </div>
             </main>
           </div>
+
+          {/* Mobile Bottom Navigation */}
+          <MobileNav />
 
           {/* Modals & Widgets */}
           <CreateLinkModal />

@@ -241,7 +241,13 @@ export default function OnboardingWizard() {
         .select()
         .single();
 
-      if (workspaceError) throw workspaceError;
+      if (workspaceError) {
+        // Handle duplicate workspace name with friendly message
+        if (workspaceError.code === '23505') {
+          throw new Error("this workspace name is already taken. please try a different name.");
+        }
+        throw workspaceError;
+      }
 
       // Invalidate workspace cache to ensure fresh data
       queryClient.invalidateQueries({ queryKey: ["client-workspaces"] });
@@ -253,7 +259,11 @@ export default function OnboardingWizard() {
       navigate("/dashboard");
     } catch (error: any) {
       console.error("Onboarding error:", error);
-      notify.error(error.message || "setup failed, please try again");
+      // Show user-friendly error message
+      const friendlyMessage = error.message?.includes('taken') || error.message?.includes('exists')
+        ? error.message
+        : "something went wrong. please try again.";
+      notify.error(friendlyMessage);
       setIsCreating(false);
       setCompletionPhase(null);
     }
@@ -334,9 +344,16 @@ export default function OnboardingWizard() {
     );
   }
 
+  // Handle input focus to scroll into view on mobile (keyboard overlap fix)
+  const handleInputFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    setTimeout(() => {
+      e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 300);
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-background">
-      <div className="w-full max-w-lg">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-background overflow-y-auto">
+      <div className="w-full max-w-lg pb-[env(safe-area-inset-bottom)] pb-8">
         {/* Logo */}
         <div className="flex items-center justify-center mb-8">
           <UtmOneLogo size="xl" />
@@ -381,6 +398,7 @@ export default function OnboardingWizard() {
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleNext()}
+                    onFocus={handleInputFocus}
                     className="text-lg h-12"
                     autoFocus
                   />
@@ -478,6 +496,7 @@ export default function OnboardingWizard() {
                             placeholder={currentPlaceholder}
                             value={workspaceName}
                             onChange={(e) => setWorkspaceName(e.target.value)}
+                            onFocus={handleInputFocus}
                             className="text-lg h-12 pr-12"
                           />
                         </motion.div>
