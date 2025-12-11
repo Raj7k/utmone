@@ -66,7 +66,7 @@ serve(async (req) => {
               "Authorization": `Bearer ${resendApiKey}`,
             },
             body: JSON.stringify({
-              from: "utm.one <invites@utm.one>",
+              from: "Raj from utm.one <invites@utm.one>",
               to: [normalizedEmail],
               subject: `Reminder: You're invited to join ${existingInvite.workspace_name || "a workspace"} on utm.one`,
               html: `
@@ -77,27 +77,33 @@ serve(async (req) => {
                     <meta name="viewport" content="width=device-width, initial-scale=1">
                   </head>
                   <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #1a1a1a; max-width: 600px; margin: 0 auto; padding: 20px;">
-                    <div style="background: #f5f5f7; padding: 40px 20px; border-radius: 12px; text-align: center;">
-                      <h1 style="font-size: 24px; font-weight: 700; margin: 0 0 8px 0;">Reminder: You're invited!</h1>
-                      <p style="font-size: 16px; color: #666; margin: 0;">Your invitation is still active</p>
+                    <div style="background: linear-gradient(135deg, #f5f5f7 0%, #e8e8ed 100%); padding: 40px 20px; border-radius: 16px; text-align: center;">
+                      <h1 style="font-size: 28px; font-weight: 700; margin: 0 0 8px 0; color: #1a1a1a;">friendly reminder 👋</h1>
+                      <p style="font-size: 16px; color: #666; margin: 0;">your spot is still waiting for you</p>
                     </div>
                     
                     <div style="padding: 32px 0;">
-                      <p style="font-size: 16px; margin: 0 0 16px 0;">Hi there,</p>
-                      <p style="font-size: 16px; margin: 0 0 16px 0;">This is a reminder that you've been invited to join <strong>${existingInvite.workspace_name || "a workspace"}</strong> on utm.one.</p>
-                      <p style="font-size: 16px; margin: 0 0 24px 0;">Your role: <strong>${role}</strong></p>
+                      <p style="font-size: 16px; margin: 0 0 16px 0;">hey there,</p>
+                      <p style="font-size: 16px; margin: 0 0 16px 0;">just wanted to check in — you've been invited to join <strong>${existingInvite.workspace_name || "a workspace"}</strong> on utm.one, and we'd love to have you on board!</p>
+                      <p style="font-size: 16px; margin: 0 0 8px 0;">you'll be joining as: <strong style="color: #007aff;">${role}</strong></p>
+                      <p style="font-size: 16px; margin: 0 0 24px 0;">with access to powerful link tracking, branded QR codes, and campaign analytics.</p>
                       
                       <div style="text-align: center; margin: 32px 0;">
-                        <a href="${inviteUrl}" style="display: inline-block; background: #007aff; color: white; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px;">Accept Invitation →</a>
+                        <a href="${inviteUrl}" style="display: inline-block; background: linear-gradient(135deg, #007aff 0%, #0056b3 100%); color: white; text-decoration: none; padding: 16px 40px; border-radius: 12px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 14px rgba(0, 122, 255, 0.3);">accept invitation →</a>
                       </div>
                       
-                      <p style="font-size: 14px; color: #666; margin: 24px 0 0 0;">This invitation expires on ${new Date(existingInvite.expires_at).toLocaleDateString()}.</p>
-                      <p style="font-size: 14px; color: #666; margin: 8px 0 0 0;">If the button doesn't work, copy and paste this link:</p>
-                      <p style="font-size: 12px; color: #999; word-break: break-all; margin: 8px 0 0 0;">${inviteUrl}</p>
+                      <div style="background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; padding: 12px 16px; margin: 24px 0;">
+                        <p style="font-size: 14px; color: #856404; margin: 0; font-weight: 600;">⏰ this invitation expires on ${new Date(existingInvite.expires_at).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                      </div>
+                      
+                      <p style="font-size: 14px; color: #666; margin: 16px 0 0 0;">if the button doesn't work, copy and paste this link:</p>
+                      <p style="font-size: 12px; color: #999; word-break: break-all; margin: 8px 0 0 0; background: #f5f5f7; padding: 8px 12px; border-radius: 6px;">${inviteUrl}</p>
                     </div>
                     
                     <div style="border-top: 1px solid #e5e5e7; padding-top: 20px; text-align: center;">
-                      <p style="font-size: 14px; color: #999; margin: 0;">utm.one – clarity creates confidence</p>
+                      <p style="font-size: 14px; color: #666; margin: 0;">cheers,</p>
+                      <p style="font-size: 14px; color: #1a1a1a; font-weight: 600; margin: 4px 0 0 0;">raj from utm.one</p>
+                      <p style="font-size: 12px; color: #999; margin: 16px 0 0 0;">clarity creates confidence ✨</p>
                     </div>
                   </body>
                 </html>
@@ -199,9 +205,9 @@ serve(async (req) => {
             "Authorization": `Bearer ${resendApiKey}`,
           },
             body: JSON.stringify({
-            from: "utm.one <invites@utm.one>",
+            from: "Raj from utm.one <invites@utm.one>",
             to: [normalizedEmail],
-            subject: `You're invited to join ${workspace?.name || "a workspace"} on utm.one`,
+            subject: `🎉 ${inviterName} invited you to join ${workspace?.name || "their team"} on utm.one`,
             html: `
               <!DOCTYPE html>
               <html>
@@ -210,27 +216,33 @@ serve(async (req) => {
                   <meta name="viewport" content="width=device-width, initial-scale=1">
                 </head>
                 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #1a1a1a; max-width: 600px; margin: 0 auto; padding: 20px;">
-                  <div style="background: #f5f5f7; padding: 40px 20px; border-radius: 12px; text-align: center;">
-                    <h1 style="font-size: 24px; font-weight: 700; margin: 0 0 8px 0;">You're invited!</h1>
-                    <p style="font-size: 16px; color: #666; margin: 0;">${inviterName} invited you to collaborate</p>
+                  <div style="background: linear-gradient(135deg, #f5f5f7 0%, #e8e8ed 100%); padding: 40px 20px; border-radius: 16px; text-align: center;">
+                    <h1 style="font-size: 28px; font-weight: 700; margin: 0 0 8px 0; color: #1a1a1a;">you're invited! 🎉</h1>
+                    <p style="font-size: 16px; color: #666; margin: 0;">${inviterName} thinks you'd be perfect for the team</p>
                   </div>
                   
                   <div style="padding: 32px 0;">
-                    <p style="font-size: 16px; margin: 0 0 16px 0;">Hi there,</p>
-                    <p style="font-size: 16px; margin: 0 0 16px 0;">${inviterName} has invited you to join <strong>${workspace?.name || "their workspace"}</strong> on utm.one.</p>
-                    <p style="font-size: 16px; margin: 0 0 24px 0;">Your role: <strong>${role}</strong></p>
+                    <p style="font-size: 16px; margin: 0 0 16px 0;">hey there,</p>
+                    <p style="font-size: 16px; margin: 0 0 16px 0;">great news! <strong>${inviterName}</strong> has invited you to join <strong>${workspace?.name || "their workspace"}</strong> on utm.one.</p>
+                    <p style="font-size: 16px; margin: 0 0 8px 0;">you'll be joining as: <strong style="color: #007aff;">${role}</strong></p>
+                    <p style="font-size: 16px; margin: 0 0 24px 0;">with access to powerful link tracking, branded QR codes, and campaign analytics.</p>
                     
                     <div style="text-align: center; margin: 32px 0;">
-                      <a href="${inviteUrl}" style="display: inline-block; background: #007aff; color: white; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px;">Accept Invitation →</a>
+                      <a href="${inviteUrl}" style="display: inline-block; background: linear-gradient(135deg, #007aff 0%, #0056b3 100%); color: white; text-decoration: none; padding: 16px 40px; border-radius: 12px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 14px rgba(0, 122, 255, 0.3);">accept invitation →</a>
                     </div>
                     
-                    <p style="font-size: 14px; color: #666; margin: 24px 0 0 0;">This invitation expires in 7 days.</p>
-                    <p style="font-size: 14px; color: #666; margin: 8px 0 0 0;">If the button doesn't work, copy and paste this link:</p>
-                    <p style="font-size: 12px; color: #999; word-break: break-all; margin: 8px 0 0 0;">${inviteUrl}</p>
+                    <div style="background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; padding: 12px 16px; margin: 24px 0;">
+                      <p style="font-size: 14px; color: #856404; margin: 0; font-weight: 600;">⏰ act fast! this invitation expires on ${new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                    </div>
+                    
+                    <p style="font-size: 14px; color: #666; margin: 16px 0 0 0;">if the button doesn't work, copy and paste this link:</p>
+                    <p style="font-size: 12px; color: #999; word-break: break-all; margin: 8px 0 0 0; background: #f5f5f7; padding: 8px 12px; border-radius: 6px;">${inviteUrl}</p>
                   </div>
                   
                   <div style="border-top: 1px solid #e5e5e7; padding-top: 20px; text-align: center;">
-                    <p style="font-size: 14px; color: #999; margin: 0;">utm.one – clarity creates confidence</p>
+                    <p style="font-size: 14px; color: #666; margin: 0;">cheers,</p>
+                    <p style="font-size: 14px; color: #1a1a1a; font-weight: 600; margin: 4px 0 0 0;">raj from utm.one</p>
+                    <p style="font-size: 12px; color: #999; margin: 16px 0 0 0;">clarity creates confidence ✨</p>
                   </div>
                 </body>
               </html>
