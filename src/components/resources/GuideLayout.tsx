@@ -1,7 +1,7 @@
 import { ReactNode, useState, useEffect } from "react";
 import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
 import { Link } from "react-router-dom";
-import { Twitter, Linkedin, Copy, Check } from "lucide-react";
+import { Twitter, Linkedin, Copy, Check, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
@@ -13,6 +13,8 @@ interface GuideLayoutProps {
   breadcrumbs: Array<{ label: string; href: string }>;
   children: ReactNode;
   relatedResources?: Array<{ title: string; href: string; description: string }>;
+  backLink?: string;
+  backLabel?: string;
 }
 
 export const GuideLayout = ({
@@ -22,7 +24,9 @@ export const GuideLayout = ({
   lastUpdated,
   breadcrumbs,
   children,
-  relatedResources
+  relatedResources,
+  backLink,
+  backLabel
 }: GuideLayoutProps) => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [copied, setCopied] = useState(false);
@@ -69,6 +73,17 @@ export const GuideLayout = ({
       {/* Hero Section */}
       <section className="py-20 border-b border-zinc-200">
         <div className="max-w-[1200px] mx-auto px-8">
+          {/* Back Navigation */}
+          {backLink && backLabel && (
+            <Link
+              to={backLink}
+              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              {backLabel}
+            </Link>
+          )}
+          
           {/* Breadcrumbs */}
           <nav className="flex items-center gap-2 text-sm text-zinc-400 mb-8">
             {breadcrumbs.map((crumb, index) => (

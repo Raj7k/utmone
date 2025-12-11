@@ -77,6 +77,8 @@ const UTMGuide = () => {
         lastUpdated="January 2025"
         breadcrumbs={breadcrumbs}
         relatedResources={relatedResources}
+        backLink="/resources/guides"
+        backLabel="Back to Guides"
       >
       <TableOfContents />
       
@@ -87,7 +89,7 @@ const UTMGuide = () => {
       {/* Section 1: Why This Guide Exists */}
       <ProgressiveReveal>
         <section className="mb-12">
-          <h2 className="text-3xl font-display font-bold text-foreground mb-6" id="why-this-guide-exists">
+          <h2 id="why-this-guide-exists" className="text-3xl font-display font-bold text-foreground mb-6 scroll-mt-24">
             Why This Guide Exists
           </h2>
           
@@ -110,8 +112,8 @@ const UTMGuide = () => {
 
       {/* Section 2: What Are UTMs + Interactive Visualizer */}
       <ProgressiveReveal>
-        <section className="mb-12" id="what-are-utms">
-          <h2 className="text-3xl font-display font-bold text-foreground mb-6">What Are UTM Parameters?</h2>
+        <section className="mb-12">
+          <h2 id="what-are-utms" className="text-3xl font-display font-bold text-foreground mb-6 scroll-mt-24">What Are UTM Parameters?</h2>
           
           <div className="space-y-4 text-lg text-foreground leading-relaxed mb-8">
             <p>UTM parameters are tags you add to URLs to track where your website traffic comes from. They were created by Urchin (a web analytics company later acquired by Google) and have become the de facto standard for campaign tracking.</p>
@@ -135,8 +137,8 @@ const UTMGuide = () => {
 
       {/* Section 3: The 5 Parameters + Validation Tool */}
       <ProgressiveReveal>
-        <section className="mb-12" id="utm-parameters">
-          <h2 className="text-3xl font-display font-bold text-foreground mb-6">The 5 UTM Parameters</h2>
+        <section className="mb-12">
+          <h2 id="utm-parameters" className="text-3xl font-display font-bold text-foreground mb-6 scroll-mt-24">The 5 UTM Parameters</h2>
           
           <div className="space-y-8 mb-8">
             <div>
@@ -155,8 +157,8 @@ const UTMGuide = () => {
 
       {/* Section 4: Naming Conventions + Simulator */}
       <ProgressiveReveal>
-        <section className="mb-12" id="naming-conventions">
-          <h2 className="text-3xl font-display font-bold text-foreground mb-6">UTM Naming Conventions That Scale</h2>
+        <section className="mb-12">
+          <h2 id="naming-conventions" className="text-3xl font-display font-bold text-foreground mb-6 scroll-mt-24">UTM Naming Conventions That Scale</h2>
           
           <div className="space-y-4 text-lg text-foreground leading-relaxed mb-8">
             <p>Naming conventions are the most important part of UTM governance. Without them, your data fragments over time as different team members use different formats.</p>
@@ -180,8 +182,8 @@ const UTMGuide = () => {
 
       {/* Section 5: UTM Templates + Builder */}
       <ProgressiveReveal>
-        <section className="mb-12" id="utm-templates">
-          <h2 className="text-3xl font-display font-bold text-foreground mb-6">UTM Template Builder</h2>
+        <section className="mb-12">
+          <h2 id="utm-templates" className="text-3xl font-display font-bold text-foreground mb-6 scroll-mt-24">UTM Template Builder</h2>
           
           <div className="space-y-4 text-lg text-foreground leading-relaxed mb-8">
             <p>Templates ensure consistency across your team. Instead of manually building UTMs for each campaign, use pre-approved templates that automatically enforce your naming conventions.</p>
@@ -193,8 +195,8 @@ const UTMGuide = () => {
 
       {/* Section 6: Multi-Touch Attribution */}
       <ProgressiveReveal>
-        <section className="mb-12" id="attribution">
-          <h2 className="text-3xl font-display font-bold text-foreground mb-6">Multi-Touch Attribution with UTMs</h2>
+        <section className="mb-12">
+          <h2 id="attribution" className="text-3xl font-display font-bold text-foreground mb-6 scroll-mt-24">Multi-Touch Attribution with UTMs</h2>
           
           <div className="space-y-4 text-lg text-foreground leading-relaxed mb-8">
             <p>UTM parameters enable multi-touch attribution by tracking every customer touchpoint. Understanding how different attribution models assign credit helps you optimize campaign budgets and channel mix.</p>
@@ -210,8 +212,8 @@ const UTMGuide = () => {
 
       {/* Section 7: Governance + Assessment */}
       <ProgressiveReveal>
-        <section className="mb-12" id="governance">
-          <h2 className="text-3xl font-display font-bold text-foreground mb-6">UTM Governance Framework</h2>
+        <section className="mb-12">
+          <h2 id="governance" className="text-3xl font-display font-bold text-foreground mb-6 scroll-mt-24">UTM Governance Framework</h2>
           
           <div className="space-y-4 text-lg text-foreground leading-relaxed mb-8">
             <p>Governance isn't bureaucracy—it's the system that prevents data chaos. A good governance framework defines who creates links, how they're approved, and what happens when mistakes occur.</p>
@@ -227,8 +229,8 @@ const UTMGuide = () => {
 
       {/* Section 8: Troubleshooting + Debugger */}
       <ProgressiveReveal>
-        <section className="mb-12" id="troubleshooting">
-          <h2 className="text-3xl font-display font-bold text-foreground mb-6">UTM Troubleshooting & Debugging</h2>
+        <section className="mb-12">
+          <h2 id="troubleshooting" className="text-3xl font-display font-bold text-foreground mb-6 scroll-mt-24">UTM Troubleshooting & Debugging</h2>
           
           <div className="space-y-4 text-lg text-foreground leading-relaxed mb-8">
             <p>Even with perfect governance, mistakes happen. The UTM Debugger identifies issues and provides corrected versions automatically.</p>
@@ -241,8 +243,8 @@ const UTMGuide = () => {
 
       {/* Section 9: Implementation Roadmap */}
       <ProgressiveReveal>
-        <section className="mb-12" id="roadmap">
-          <h2 className="text-3xl font-display font-bold text-foreground mb-6">90-Day Implementation Roadmap</h2>
+        <section className="mb-12">
+          <h2 id="roadmap" className="text-3xl font-display font-bold text-foreground mb-6 scroll-mt-24">90-Day Implementation Roadmap</h2>
           
           <div className="space-y-4 text-lg text-foreground leading-relaxed mb-8">
             <p>Implementing UTM governance takes time. This 90-day roadmap breaks the work into manageable phases with specific tasks and milestones.</p>
@@ -263,8 +265,8 @@ const UTMGuide = () => {
 
       {/* FAQ Section */}
       <ProgressiveReveal>
-        <section className="mb-12" id="faq">
-          <h2 className="text-3xl font-display font-bold text-foreground mb-6">Frequently Asked Questions</h2>
+        <section className="mb-12">
+          <h2 id="faq" className="text-3xl font-display font-bold text-foreground mb-6 scroll-mt-24">Frequently Asked Questions</h2>
           <FAQAccordion items={[
             { question: "What are UTM parameters?", answer: <p>UTM parameters are tags added to URLs to track where website traffic comes from. They were created by Urchin (later acquired by Google) and are now the standard way to measure campaign performance in Google Analytics and other analytics tools.</p> },
             { question: "Why do my UTMs keep breaking?", answer: <p>UTMs break because of inconsistent naming conventions across teams. When one person uses "linkedin" and another uses "LinkedIn" or "li", your analytics tools treat them as different sources, fragmenting your data.</p> },

@@ -70,6 +70,8 @@ const SimpleAnalytics = () => {
         lastUpdated="2025-01-23"
         breadcrumbs={breadcrumbs}
         relatedResources={relatedResources}
+        backLink="/resources/guides"
+        backLabel="Back to Guides"
       >
       <QuickAnswer>
         Simple Analytics is the discipline of reducing your measurement system to the smallest set of metrics, events, and dashboards required to make confident decisions. It focuses on 3 core metrics (acquisition, engagement, revenue) instead of tracking everything, eliminating analytics paralysis and reporting noise.
