@@ -12,24 +12,42 @@ type Props = {
   onSuccess: () => void;
 };
 
+const PLAN_TIERS = [
+  { value: "starter", label: "Starter", description: "500 links, 1 domain" },
+  { value: "growth", label: "Growth", description: "Unlimited links, 3 domains" },
+  { value: "business", label: "Business", description: "Full features + SSO" },
+  { value: "enterprise", label: "Enterprise", description: "Custom SLA" },
+];
+
+const DURATION_OPTIONS = [
+  { value: "30", label: "1 month" },
+  { value: "60", label: "2 months" },
+  { value: "90", label: "3 months" },
+  { value: "180", label: "6 months" },
+  { value: "365", label: "1 year" },
+];
+
 export function DirectInviteForm({ onSuccess }: Props) {
   const queryClient = useQueryClient();
   const [email, setEmail] = useState("");
-  const [accessLevel, setAccessLevel] = useState("2");
+  const [planTier, setPlanTier] = useState("growth");
+  const [durationDays, setDurationDays] = useState("30");
   const [lastInviteToken, setLastInviteToken] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
   const sendInviteMutation = useMutation({
     mutationFn: async () => {
       const inviteToken = btoa(`${email}-${Date.now()}-${Math.random().toString(36).substring(2)}`);
+      const duration = parseInt(durationDays);
 
       const { error: inviteError } = await supabase
         .from("early_access_invites")
         .insert({
           email: email.toLowerCase(),
           invite_token: inviteToken,
-          access_level: parseInt(accessLevel),
-          expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+          plan_tier: planTier,
+          plan_duration_days: duration,
+          expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days to claim
         });
 
       if (inviteError) throw inviteError;
@@ -37,8 +55,10 @@ export function DirectInviteForm({ onSuccess }: Props) {
       const { error: emailError } = await supabase.functions.invoke("send-approval-email", {
         body: {
           email: email.toLowerCase(),
-          accessLevel: parseInt(accessLevel),
-          inviteToken,
+          name: email.split('@')[0],
+          invite_token: inviteToken,
+          plan_tier: planTier,
+          plan_duration_days: duration,
         },
       });
 
@@ -51,6 +71,7 @@ export function DirectInviteForm({ onSuccess }: Props) {
       setLastInviteToken(inviteToken);
       setEmail("");
       queryClient.invalidateQueries({ queryKey: ["early-access-invites"] });
+      onSuccess();
     },
     onError: (error: Error) => {
       notify.error(error.message || "failed to send invite");
@@ -88,19 +109,41 @@ export function DirectInviteForm({ onSuccess }: Props) {
           />
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="access-level">access level</Label>
-          <Select value={accessLevel} onValueChange={setAccessLevel}>
-            <SelectTrigger id="access-level">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="1">read-only preview</SelectItem>
-              <SelectItem value="2">limited beta</SelectItem>
-              <SelectItem value="3">full access</SelectItem>
-              <SelectItem value="4">power user</SelectItem>
-            </SelectContent>
-          </Select>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="plan-tier">plan tier</Label>
+            <Select value={planTier} onValueChange={setPlanTier}>
+              <SelectTrigger id="plan-tier">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {PLAN_TIERS.map((tier) => (
+                  <SelectItem key={tier.value} value={tier.value}>
+                    <div className="flex flex-col">
+                      <span>{tier.label}</span>
+                      <span className="text-xs text-muted-foreground">{tier.description}</span>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="duration">duration</Label>
+            <Select value={durationDays} onValueChange={setDurationDays}>
+              <SelectTrigger id="duration">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {DURATION_OPTIONS.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         <Button type="submit" className="w-full gap-2" disabled={sendInviteMutation.isPending}>
