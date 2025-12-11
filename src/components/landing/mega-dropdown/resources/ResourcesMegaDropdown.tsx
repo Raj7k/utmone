@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
-import { FeaturedResourceCard } from "./FeaturedResourceCard";
+import { LLMPlaybookShowcaseCard } from "./LLMPlaybookShowcaseCard";
+import { GTMInsightsShowcaseCard } from "./GTMInsightsShowcaseCard";
+import { B2BArchitectsShowcaseCard } from "./B2BArchitectsShowcaseCard";
 import { ResourceCategoryGrid } from "./ResourceCategoryGrid";
-import { ResourceSearchCard } from "./ResourceSearchCard";
 
 export function ResourcesMegaDropdown() {
   return (
@@ -10,23 +11,20 @@ export function ResourcesMegaDropdown() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -8 }}
       transition={{ duration: 0.2 }}
-      className="w-[700px] p-4 rounded-[20px] bg-zinc-950/95 backdrop-blur-xl border border-white/[0.1] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)]"
+      className="w-[800px] p-4 rounded-[20px] bg-zinc-950/95 backdrop-blur-xl border border-white/[0.1] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)]"
     >
       <div className="flex gap-4">
-        {/* Left Column - Featured Resources */}
-        <div className="w-[260px]">
-          <FeaturedResourceCard />
+        {/* Left Column - Featured Showcase Cards */}
+        <div className="w-[200px] flex flex-col gap-3">
+          <LLMPlaybookShowcaseCard />
+          <GTMInsightsShowcaseCard />
+          <B2BArchitectsShowcaseCard />
         </div>
 
         {/* Right Column - Category Grid */}
         <div className="flex-1">
           <ResourceCategoryGrid />
         </div>
-      </div>
-
-      {/* Footer - Search */}
-      <div className="mt-3">
-        <ResourceSearchCard />
       </div>
 
       {/* Subtle divider */}
