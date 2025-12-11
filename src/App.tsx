@@ -464,6 +464,12 @@ const OneTapScanner = lazy(() => import("./pages/Help/articles/OneTapScanner"));
 const BadgeImport = lazy(() => import("./pages/Help/articles/BadgeImport"));
 const EventROI = lazy(() => import("./pages/Help/articles/EventROI"));
 
+// Help Article Pages - Event Bridge
+const EventBridgeOverviewArticle = lazy(() => import("./pages/Help/articles/EventBridgeOverview"));
+const EventBridgeSetupArticle = lazy(() => import("./pages/Help/articles/EventBridgeSetup"));
+const EventBridgeRoutingArticle = lazy(() => import("./pages/Help/articles/EventBridgeRouting"));
+const EventBridgeCRMArticle = lazy(() => import("./pages/Help/articles/EventBridgeCRM"));
+
 // Help Article Pages - Advanced
 const GeoTargetingArticle = lazy(() => import("./pages/Help/articles/GeoTargeting"));
 const DeviceTargeting = lazy(() => import("./pages/Help/articles/DeviceTargeting"));
@@ -824,6 +830,12 @@ const App = () => (
               <Route path="/help/articles/one-tap-scanner" element={<Suspense fallback={<DashboardSkeleton />}><OneTapScanner /></Suspense>} />
               <Route path="/help/articles/badge-import" element={<Suspense fallback={<DashboardSkeleton />}><BadgeImport /></Suspense>} />
               <Route path="/help/articles/event-roi" element={<Suspense fallback={<DashboardSkeleton />}><EventROI /></Suspense>} />
+              
+              {/* Help Article Pages - Event Bridge */}
+              <Route path="/help/articles/event-bridge-overview" element={<Suspense fallback={<DashboardSkeleton />}><EventBridgeOverviewArticle /></Suspense>} />
+              <Route path="/help/articles/event-bridge-setup" element={<Suspense fallback={<DashboardSkeleton />}><EventBridgeSetupArticle /></Suspense>} />
+              <Route path="/help/articles/event-bridge-routing" element={<Suspense fallback={<DashboardSkeleton />}><EventBridgeRoutingArticle /></Suspense>} />
+              <Route path="/help/articles/event-bridge-crm" element={<Suspense fallback={<DashboardSkeleton />}><EventBridgeCRMArticle /></Suspense>} />
               
               {/* Help Article Pages - Advanced */}
               <Route path="/help/articles/geo-targeting" element={<Suspense fallback={<DashboardSkeleton />}><GeoTargetingArticle /></Suspense>} />

@@ -85,7 +85,11 @@ interface CRMConnectionStatus {
   lastTested?: string;
 }
 
-export function CRMSetupGuide() {
+interface CRMSetupGuideProps {
+  onComplete?: () => void;
+}
+
+export function CRMSetupGuide({ onComplete }: CRMSetupGuideProps = {}) {
   const { currentWorkspace } = useWorkspaceContext();
   const queryClient = useQueryClient();
   const [selectedCRM, setSelectedCRM] = useState<string>('hubspot');
