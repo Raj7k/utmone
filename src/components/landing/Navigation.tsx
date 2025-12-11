@@ -80,9 +80,7 @@ export const Navigation = () => {
 
   return (
     <header 
-      className={`sticky z-50 py-4 px-4 md:px-8 transition-all duration-300 ${
-        announcementVisible ? "top-[48px]" : "top-0"
-      } ${
+      className={`sticky z-50 py-4 px-4 md:px-8 transition-all duration-300 top-0 ${
         hideNav ? "opacity-0 pointer-events-none -translate-y-full" : "opacity-100"
       }`}
     >
