@@ -1,35 +1,40 @@
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Upload, Palette, Sparkles, Download, QrCode } from "lucide-react";
+import { ArrowRight, Upload, Palette, Sparkles, Download, QrCode, ScanLine } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useRef, useState, useEffect } from "react";
-import QRCode from "react-qr-code";
 
-// Demo stamp backgrounds - Four distinctive art styles
+// Import real stamp images
+import stampMandala from "@/assets/stamps/stamp-mandala.png";
+import stampDavinci from "@/assets/stamps/stamp-davinci.png";
+import stampParis from "@/assets/stamps/stamp-paris.png";
+import stampNyc from "@/assets/stamps/stamp-nyc.png";
+
+// Demo stamps with real images - all link to /surprise
 const demoStamps = [
   {
     name: "mandala",
-    brandColors: ["#E8B44D", "#8B4513", "#F5DEB3"],
+    image: stampMandala,
     theme: "mandala art",
-    gradient: "linear-gradient(135deg, #E8B44D 0%, #8B4513 40%, #F5DEB3 100%)",
+    brandColors: ["#E8B44D", "#8B4513", "#F5DEB3"],
   },
   {
     name: "davinci",
-    brandColors: ["#C4A35A", "#2C2416", "#E8D5A3"],
+    image: stampDavinci,
     theme: "da vinci renaissance",
-    gradient: "linear-gradient(135deg, #C4A35A 0%, #2C2416 50%, #E8D5A3 100%)",
+    brandColors: ["#C4A35A", "#2C2416", "#E8D5A3"],
   },
   {
     name: "paris",
-    brandColors: ["#1E3A5F", "#C9B037", "#F0EDE5"],
+    image: stampParis,
     theme: "paris elegance",
-    gradient: "linear-gradient(135deg, #1E3A5F 0%, #C9B037 50%, #F0EDE5 100%)",
+    brandColors: ["#1E3A5F", "#C9B037", "#F0EDE5"],
   },
   {
     name: "nyc",
-    brandColors: ["#1C1C1C", "#FFD700", "#FFFFFF"],
+    image: stampNyc,
     theme: "new york city",
-    gradient: "linear-gradient(135deg, #1C1C1C 0%, #FFD700 50%, #FFFFFF 100%)",
+    brandColors: ["#1C1C1C", "#FFD700", "#FFFFFF"],
   },
 ];
 
@@ -51,13 +56,9 @@ const StampEdgeMask = ({ children, size = 200 }: { children: React.ReactNode; si
     const holes: string[] = [];
     for (let i = 0; i <= numHoles; i++) {
       const pos = i * holeSpacing + holeSpacing / 2;
-      // Top edge
       holes.push(`<circle cx="${pos}" cy="${holeRadius}" r="${holeRadius}" fill="black"/>`);
-      // Bottom edge
       holes.push(`<circle cx="${pos}" cy="${size - holeRadius}" r="${holeRadius}" fill="black"/>`);
-      // Left edge
       holes.push(`<circle cx="${holeRadius}" cy="${pos}" r="${holeRadius}" fill="black"/>`);
-      // Right edge
       holes.push(`<circle cx="${size - holeRadius}" cy="${pos}" r="${holeRadius}" fill="black"/>`);
     }
     return holes.join('');
@@ -90,136 +91,94 @@ const StampEdgeMask = ({ children, size = 200 }: { children: React.ReactNode; si
   );
 };
 
-// Interactive Demo Component
+// Interactive Demo Component with real stamp images
 const StampDemo = () => {
-  const [currentStep, setCurrentStep] = useState(0);
   const [activeStamp, setActiveStamp] = useState(0);
-  const [isGenerating, setIsGenerating] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   
   // Auto-cycle through stamps
   useEffect(() => {
+    if (isHovered) return; // Pause on hover
     const interval = setInterval(() => {
       setActiveStamp((prev) => (prev + 1) % demoStamps.length);
     }, 4000);
     return () => clearInterval(interval);
-  }, []);
-  
-  // Simulate workflow animation
-  useEffect(() => {
-    const stepInterval = setInterval(() => {
-      setCurrentStep((prev) => {
-        const next = (prev + 1) % 5;
-        if (next === 2) {
-          setIsGenerating(true);
-          setTimeout(() => setIsGenerating(false), 1500);
-        }
-        return next;
-      });
-    }, 2000);
-    return () => clearInterval(stepInterval);
-  }, []);
+  }, [isHovered]);
 
   const stamp = demoStamps[activeStamp];
 
   return (
     <div className="relative w-full max-w-md mx-auto">
       {/* Stamp Preview Container */}
-      <motion.div
-        key={activeStamp}
-        initial={{ opacity: 0, scale: 0.9, rotate: -5 }}
-        animate={{ opacity: 1, scale: 1, rotate: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="relative"
+      <Link 
+        to="/surprise"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className="block"
       >
-        <StampEdgeMask size={280}>
+        <motion.div
+          key={activeStamp}
+          initial={{ opacity: 0, scale: 0.9, rotate: -5 }}
+          animate={{ opacity: 1, scale: 1, rotate: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="relative group cursor-pointer"
+        >
+          <StampEdgeMask size={280}>
+            <div className="relative w-[280px] h-[280px] overflow-hidden">
+              {/* Real stamp image */}
+              <img 
+                src={stamp.image} 
+                alt={`${stamp.theme} QR stamp`}
+                className="w-full h-full object-cover"
+              />
+              
+              {/* Hover overlay */}
+              <motion.div 
+                className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              >
+                <div className="text-center">
+                  <ScanLine className="w-8 h-8 text-white mx-auto mb-2 animate-pulse" />
+                  <span className="text-white text-sm font-medium">scan me ✨</span>
+                </div>
+              </motion.div>
+            </div>
+          </StampEdgeMask>
+
+          {/* Drop shadow */}
           <div 
-            className="relative w-[280px] h-[280px] overflow-hidden"
-            style={{ background: stamp.gradient }}
-          >
-            {/* Decorative stamp elements */}
-            <div className="absolute inset-0 opacity-30">
-              <svg viewBox="0 0 280 280" className="w-full h-full">
-                {/* Geometric patterns */}
-                <circle cx="40" cy="40" r="20" fill="none" stroke="white" strokeWidth="1" opacity="0.5" />
-                <circle cx="240" cy="40" r="15" fill="none" stroke="white" strokeWidth="1" opacity="0.4" />
-                <circle cx="40" cy="240" r="15" fill="none" stroke="white" strokeWidth="1" opacity="0.4" />
-                <circle cx="240" cy="240" r="20" fill="none" stroke="white" strokeWidth="1" opacity="0.5" />
-                <path d="M140 20 L160 60 L120 60 Z" fill="white" opacity="0.3" />
-                <path d="M140 260 L160 220 L120 220 Z" fill="white" opacity="0.3" />
-              </svg>
-            </div>
-            
-            {/* QR Code Center */}
-            <div 
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/95 rounded-lg p-3 backdrop-blur-sm"
-              style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.2)' }}
-            >
-              <AnimatePresence mode="wait">
-                {isGenerating ? (
-                  <motion.div
-                    key="generating"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="w-[100px] h-[100px] flex items-center justify-center"
-                  >
-                    <div className="relative">
-                      <Sparkles className="w-8 h-8 text-primary animate-pulse" />
-                      <motion.div
-                        className="absolute inset-0"
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                      >
-                        <div className="w-2 h-2 bg-primary rounded-full absolute -top-4 left-1/2 -translate-x-1/2" />
-                      </motion.div>
-                    </div>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="qr"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                  >
-                    <QRCode
-                      value="https://utm.one/demo-stamp"
-                      size={100}
-                      fgColor={stamp.brandColors[1]}
-                      bgColor="transparent"
-                      level="H"
-                    />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+            className="absolute inset-0 -z-10 rounded-lg"
+            style={{
+              boxShadow: '0 20px 50px rgba(0,0,0,0.4)',
+              transform: 'translateY(8px)',
+            }}
+          />
+        </motion.div>
+      </Link>
 
-            {/* Theme label */}
-            <div className="absolute bottom-4 left-4 right-4">
-              <span className="text-white/80 text-xs font-medium uppercase tracking-wider">
-                {stamp.theme}
-              </span>
-            </div>
-          </div>
-        </StampEdgeMask>
+      {/* Stamp selector dots */}
+      <div className="mt-6 flex items-center justify-center gap-2">
+        {demoStamps.map((s, i) => (
+          <button
+            key={s.name}
+            onClick={() => setActiveStamp(i)}
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              i === activeStamp 
+                ? 'bg-white w-6' 
+                : 'bg-white/30 hover:bg-white/50'
+            }`}
+            aria-label={`View ${s.theme} stamp`}
+          />
+        ))}
+      </div>
 
-        {/* Drop shadow */}
-        <div 
-          className="absolute inset-0 -z-10 rounded-lg"
-          style={{
-            boxShadow: '0 20px 50px rgba(0,0,0,0.4)',
-            transform: 'translateY(8px)',
-          }}
-        />
-      </motion.div>
-
-      {/* Extracted Color Palette */}
+      {/* Theme label */}
       <motion.div 
-        className="mt-6 flex items-center justify-center gap-3"
+        className="mt-4 flex items-center justify-center gap-3"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
       >
-        <span className="text-xs text-white/40 uppercase tracking-wider">palette</span>
+        <span className="text-xs text-white/40 uppercase tracking-wider">{stamp.theme}</span>
         <div className="flex gap-2">
           {stamp.brandColors.map((color, i) => (
             <motion.div
@@ -227,7 +186,7 @@ const StampDemo = () => {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.4 + i * 0.1 }}
-              className="w-6 h-6 rounded-full border-2 border-white/20"
+              className="w-4 h-4 rounded-full border border-white/20"
               style={{ backgroundColor: color }}
             />
           ))}
@@ -283,7 +242,6 @@ const WorkflowSteps = () => {
               {step.description}
             </div>
             
-            {/* Connection line */}
             {index < workflowSteps.length - 1 && (
               <div className="absolute top-1/2 -right-1 md:-right-2 w-2 md:w-4 h-px bg-gradient-to-r from-white/20 to-transparent" />
             )}
