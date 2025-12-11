@@ -29,6 +29,7 @@ import ResetPassword from "./pages/ResetPassword";
 import ComingSoonPage from "./pages/ComingSoon";
 import LinkExpired from "./pages/LinkExpired";
 import Blog from "./pages/Blog";
+import Surprise from "./pages/Surprise";
 
 // Auth callback gatekeeper and waitlist pages
 const AuthCallback = lazy(() => import("./pages/AuthCallback"));
@@ -532,8 +533,11 @@ const App = () => (
               <Route path="/features/event-halo" element={<Suspense fallback={<DashboardSkeleton />}><EventHalo /></Suspense>} />
               <Route path="/features/one-tap" element={<Suspense fallback={<DashboardSkeleton />}><OneTap /></Suspense>} />
               
-              {/* PWA Standalone Scanner */}
+{/* PWA Standalone Scanner */}
               <Route path="/scan" element={<Suspense fallback={<DashboardSkeleton />}><ScanPage /></Suspense>} />
+              
+              {/* Easter Egg */}
+              <Route path="/surprise" element={<Surprise />} />
               
               {/* Product Pages */}
               <Route path="/product" element={<Suspense fallback={<DashboardSkeleton />}><Product /></Suspense>} />

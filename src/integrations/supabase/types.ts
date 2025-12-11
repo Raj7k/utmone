@@ -1949,6 +1949,33 @@ export type Database = {
           },
         ]
       }
+      easter_egg_discoveries: {
+        Row: {
+          country: string | null
+          device_type: string | null
+          discovered_at: string
+          id: string
+          source: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          country?: string | null
+          device_type?: string | null
+          discovered_at?: string
+          id?: string
+          source?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          country?: string | null
+          device_type?: string | null
+          discovered_at?: string
+          id?: string
+          source?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       email_campaigns: {
         Row: {
           campaign_type: string

@@ -10,7 +10,20 @@ import { preserveAcronyms as p } from "@/utils/textFormatter";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
-import { QrCode, Palette, Repeat, Download, Image, BarChart3, CheckCircle2, Sparkles, Upload, RefreshCw } from "lucide-react";
+import { QrCode, Palette, Repeat, Download, Image, BarChart3, CheckCircle2, Sparkles, Upload, RefreshCw, ScanLine } from "lucide-react";
+
+// Import real stamp images
+import stampMandala from "@/assets/stamps/stamp-mandala.png";
+import stampDavinci from "@/assets/stamps/stamp-davinci.png";
+import stampParis from "@/assets/stamps/stamp-paris.png";
+import stampNyc from "@/assets/stamps/stamp-nyc.png";
+
+const stampImages = [
+  { src: stampMandala, name: "mandala" },
+  { src: stampDavinci, name: "da vinci" },
+  { src: stampParis, name: "paris" },
+  { src: stampNyc, name: "NYC" },
+];
 
 const QRGenerator = () => {
   const capabilities = [
@@ -204,27 +217,39 @@ const QRGenerator = () => {
             </div>
           </div>
 
-          {/* Right: Visual mockup showing art styles */}
+          {/* Right: Visual mockup showing real stamps */}
           <div className="relative">
             <div className="absolute inset-0 rounded-2xl blur-3xl bg-gradient-to-br from-primary/20 to-transparent" />
             <div className="relative bg-card border border-border rounded-xl p-8">
               <div className="grid grid-cols-2 gap-4">
-                {/* Art style previews */}
-                <div className="aspect-square bg-gradient-to-br from-amber-500/20 to-amber-900/20 rounded-lg flex items-center justify-center border border-border">
-                  <span className="text-xs text-muted-foreground uppercase tracking-wider">mandala</span>
-                </div>
-                <div className="aspect-square bg-gradient-to-br from-amber-700/20 to-stone-900/20 rounded-lg flex items-center justify-center border border-border">
-                  <span className="text-xs text-muted-foreground uppercase tracking-wider">da vinci</span>
-                </div>
-                <div className="aspect-square bg-gradient-to-br from-blue-900/20 to-amber-500/20 rounded-lg flex items-center justify-center border border-border">
-                  <span className="text-xs text-muted-foreground uppercase tracking-wider">paris</span>
-                </div>
-                <div className="aspect-square bg-gradient-to-br from-zinc-900/40 to-amber-400/20 rounded-lg flex items-center justify-center border border-border">
-                  <span className="text-xs text-muted-foreground uppercase tracking-wider">NYC</span>
-                </div>
+                {/* Real stamp images - all link to /surprise */}
+                {stampImages.map((stamp) => (
+                  <Link 
+                    key={stamp.name}
+                    to="/surprise"
+                    className="aspect-square rounded-lg overflow-hidden border border-border relative group"
+                  >
+                    <img 
+                      src={stamp.src} 
+                      alt={`${stamp.name} QR stamp`}
+                      className="w-full h-full object-cover"
+                    />
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="text-center">
+                        <ScanLine className="w-5 h-5 text-white mx-auto mb-1 animate-pulse" />
+                        <span className="text-white text-xs font-medium">scan me ✨</span>
+                      </div>
+                    </div>
+                    {/* Label */}
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-2">
+                      <span className="text-xs text-white uppercase tracking-wider">{stamp.name}</span>
+                    </div>
+                  </Link>
+                ))}
               </div>
               <p className="text-center text-sm text-muted-foreground mt-4">
-                Four distinctive art styles to inspire your brand
+                Scan any stamp to discover a surprise ✨
               </p>
             </div>
           </div>
