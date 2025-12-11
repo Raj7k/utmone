@@ -1,11 +1,13 @@
 import React from "react";
 import { Navigation } from "@/components/landing/Navigation";
 import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
+import { AnnouncementBar } from "@/components/landing/AnnouncementBar";
 import { Footer } from "@/components/landing/Footer";
 
 interface ObsidianMarketingLayoutProps {
   children: React.ReactNode;
   showFloatingNav?: boolean;
+  showAnnouncement?: boolean;
 }
 
 /**
@@ -20,7 +22,8 @@ interface ObsidianMarketingLayoutProps {
  */
 export const ObsidianMarketingLayout = ({ 
   children, 
-  showFloatingNav = true 
+  showFloatingNav = true,
+  showAnnouncement = true,
 }: ObsidianMarketingLayoutProps) => {
   return (
     <div 
@@ -44,6 +47,9 @@ export const ObsidianMarketingLayout = ({
       <div 
         className="fixed top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] pointer-events-none bg-[radial-gradient(ellipse_at_center_top,_hsl(0_0%_100%_/_0.06)_0%,_hsl(220_50%_90%_/_0.03)_30%,_transparent_70%)]"
       />
+
+      {/* Announcement Bar - Document flow, nav adjusts when dismissed */}
+      {showAnnouncement && <AnnouncementBar dismissible={true} />}
 
       <Navigation />
       {showFloatingNav && <FloatingNavigation />}
