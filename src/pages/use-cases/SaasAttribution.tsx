@@ -15,11 +15,11 @@ import {
 import { SankeyJourneyFlow } from "@/components/use-cases/SankeyJourneyFlow";
 
 const SaasAttribution = () => {
-  const journeySteps = [
-    { id: "blog", label: "Blog Post", description: "Day 1: Organic search", weight: 25 },
-    { id: "webinar", label: "Webinar", description: "Day 14: Email invite", weight: 35 },
-    { id: "pricing", label: "Pricing Page", description: "Day 45: Direct visit", weight: 15 },
-    { id: "demo", label: "Demo Request", description: "Day 62: LinkedIn ad", weight: 25 },
+const journeySteps = [
+    { id: "blog", label: "Blog Post", description: "Organic search discovery", time: "Day 1", weight: 20 },
+    { id: "webinar", label: "Webinar", description: "Registered via email invite", time: "Day 14", weight: 30 },
+    { id: "pricing", label: "Pricing Page", description: "Researched plans", time: "Day 45", weight: 15 },
+    { id: "demo", label: "Demo Request", description: "Booked via LinkedIn ad", time: "Day 62", weight: 35 },
   ];
 
   const beforeItems = [

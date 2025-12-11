@@ -14,11 +14,11 @@ import {
 import { SankeyJourneyFlow } from "@/components/use-cases/SankeyJourneyFlow";
 
 const AgencyClientReporting = () => {
-  const journeySteps = [
-    { id: "campaign", label: "Campaign Launch", description: "Links deployed", weight: 20 },
-    { id: "tracking", label: "Auto-Tracking", description: "UTMs enforced", weight: 25 },
-    { id: "data", label: "Data Collection", description: "Clicks, conversions", weight: 30 },
-    { id: "report", label: "Report Generated", description: "White-labeled", weight: 25 },
+const journeySteps = [
+    { id: "campaign", label: "Campaign Launch", description: "Links deployed across channels", time: "Week 1", weight: 20 },
+    { id: "tracking", label: "Auto-Tracking", description: "UTMs enforced automatically", time: "Ongoing", weight: 25 },
+    { id: "data", label: "Data Collection", description: "Clicks and conversions tracked", time: "Week 2-4", weight: 30 },
+    { id: "report", label: "Report Generated", description: "White-labeled PDF sent", time: "Month End", weight: 25 },
   ];
 
   const beforeItems = [

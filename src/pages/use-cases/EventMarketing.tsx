@@ -14,11 +14,11 @@ import {
 import { SankeyJourneyFlow } from "@/components/use-cases/SankeyJourneyFlow";
 
 const EventMarketing = () => {
-  const journeySteps = [
-    { id: "booth", label: "Booth Visit", description: "Badge scanned", weight: 20 },
-    { id: "qr", label: "QR Scan", description: "Collateral downloaded", weight: 15 },
-    { id: "halo", label: "Halo Traffic", description: "+1,200 site visitors", weight: 40 },
-    { id: "followup", label: "Email Followup", description: "7 days post-event", weight: 25 },
+const journeySteps = [
+    { id: "booth", label: "Booth Visit", description: "Badge scanned at trade show", time: "Day 0", weight: 20 },
+    { id: "qr", label: "QR Scan", description: "Downloaded sales collateral", time: "Day 0", weight: 15 },
+    { id: "halo", label: "Halo Traffic", description: "+1,200 visitors from event city", time: "Days 1-7", weight: 40 },
+    { id: "followup", label: "Email Followup", description: "Nurtured via drip campaign", time: "Day 7+", weight: 25 },
   ];
 
   const beforeItems = [
