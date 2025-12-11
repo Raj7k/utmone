@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Linkedin, ArrowUpRight, Share2, Download } from 'lucide-react';
+import { Linkedin, ArrowUpRight, Share2, Download, MapPin } from 'lucide-react';
 import { Architect, categories } from '@/data/b2bArchitects';
 import { Button } from '@/components/ui/button';
 import { shareToLinkedIn } from '@/utils/linkedinShare';
+import { getLocationTheme } from './locationBackgrounds';
 
 interface ArchitectCardProps {
   architect: Architect;
@@ -13,6 +14,7 @@ interface ArchitectCardProps {
 export function ArchitectCard({ architect, index }: ArchitectCardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
   const category = categories[architect.category];
+  const locationTheme = getLocationTheme(architect.location);
 
   const handleShare = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -44,11 +46,11 @@ export function ArchitectCard({ architect, index }: ArchitectCardProps) {
       onMouseLeave={() => setIsFlipped(false)}
     >
       <div
-        className={`relative w-full aspect-[3/4] transition-transform duration-500 transform-style-3d cursor-pointer ${
+        className={`relative w-full aspect-[2/3] transition-transform duration-500 transform-style-3d cursor-pointer ${
           isFlipped ? 'rotate-y-180' : ''
         }`}
       >
-        {/* Front - Retro Styled Photo */}
+        {/* Front - Retro Styled Photo with Location Background */}
         <div className="absolute inset-0 backface-hidden">
           <div className="h-full bg-card rounded-xl border border-border shadow-sm overflow-hidden group hover:shadow-lg transition-shadow">
             {/* Action Buttons */}
@@ -71,32 +73,63 @@ export function ArchitectCard({ architect, index }: ArchitectCardProps) {
               </Button>
             </div>
 
-            {/* Retro Stamp Container with perforated edge effect */}
-            <div className="relative h-[60%] bg-amber-50 p-3">
+            {/* Retro Stamp Container with location-themed background */}
+            <div 
+              className="relative h-[55%] p-3"
+              style={{ background: locationTheme.gradient }}
+            >
+              {/* City silhouette overlay */}
+              <svg 
+                className="absolute bottom-0 left-0 right-0 h-16 opacity-20"
+                viewBox="0 0 100 100" 
+                preserveAspectRatio="none"
+              >
+                <path 
+                  d={locationTheme.silhouette} 
+                  fill={locationTheme.accentColor}
+                />
+              </svg>
+              
               {/* Vintage stamp frame */}
               <div className="relative w-full h-full">
                 {/* Perforated border - top */}
                 <div className="absolute inset-x-0 top-0 h-3 flex justify-around items-center">
                   {Array.from({ length: 10 }).map((_, i) => (
-                    <div key={`top-${i}`} className="w-2 h-2 rounded-full bg-amber-50" />
+                    <div 
+                      key={`top-${i}`} 
+                      className="w-2 h-2 rounded-full" 
+                      style={{ backgroundColor: locationTheme.gradient.includes('87CEEB') ? '#87CEEB' : '#F5DEB3' }}
+                    />
                   ))}
                 </div>
                 {/* Perforated border - bottom */}
                 <div className="absolute inset-x-0 bottom-0 h-3 flex justify-around items-center">
                   {Array.from({ length: 10 }).map((_, i) => (
-                    <div key={`bottom-${i}`} className="w-2 h-2 rounded-full bg-amber-50" />
+                    <div 
+                      key={`bottom-${i}`} 
+                      className="w-2 h-2 rounded-full"
+                      style={{ backgroundColor: locationTheme.gradient.includes('87CEEB') ? '#87CEEB' : '#F5DEB3' }}
+                    />
                   ))}
                 </div>
                 {/* Perforated border - left */}
                 <div className="absolute inset-y-0 left-0 w-3 flex flex-col justify-around items-center">
                   {Array.from({ length: 8 }).map((_, i) => (
-                    <div key={`left-${i}`} className="w-2 h-2 rounded-full bg-amber-50" />
+                    <div 
+                      key={`left-${i}`} 
+                      className="w-2 h-2 rounded-full"
+                      style={{ backgroundColor: locationTheme.gradient.includes('87CEEB') ? '#87CEEB' : '#F5DEB3' }}
+                    />
                   ))}
                 </div>
                 {/* Perforated border - right */}
                 <div className="absolute inset-y-0 right-0 w-3 flex flex-col justify-around items-center">
                   {Array.from({ length: 8 }).map((_, i) => (
-                    <div key={`right-${i}`} className="w-2 h-2 rounded-full bg-amber-50" />
+                    <div 
+                      key={`right-${i}`} 
+                      className="w-2 h-2 rounded-full"
+                      style={{ backgroundColor: locationTheme.gradient.includes('87CEEB') ? '#87CEEB' : '#F5DEB3' }}
+                    />
                   ))}
                 </div>
 
@@ -110,8 +143,13 @@ export function ArchitectCard({ architect, index }: ArchitectCardProps) {
                     filter: 'sepia(20%) saturate(1.3) contrast(1.1)',
                   }}
                 >
-                  {/* Vintage overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-amber-900/10 via-transparent to-amber-800/20" />
+                  {/* Vintage overlay matching location theme */}
+                  <div 
+                    className="absolute inset-0" 
+                    style={{ 
+                      background: `linear-gradient(135deg, ${locationTheme.accentColor}15 0%, transparent 50%, ${locationTheme.accentColor}20 100%)` 
+                    }}
+                  />
                   {/* Noise texture */}
                   <div className="absolute inset-0 opacity-30 mix-blend-overlay" 
                     style={{ 
@@ -123,7 +161,7 @@ export function ArchitectCard({ architect, index }: ArchitectCardProps) {
             </div>
 
             {/* Info Section */}
-            <div className="p-4 h-[40%] flex flex-col justify-between bg-card">
+            <div className="p-4 h-[45%] flex flex-col justify-between bg-card">
               <div>
                 <h3 className="font-serif font-semibold text-foreground text-sm leading-tight">
                   {architect.name}
@@ -131,6 +169,10 @@ export function ArchitectCard({ architect, index }: ArchitectCardProps) {
                 <p className="font-sans text-xs text-muted-foreground mt-0.5">
                   {architect.role} @ {architect.company}
                 </p>
+                <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground/70">
+                  <MapPin className="w-3 h-3" />
+                  <span>{architect.location}</span>
+                </div>
               </div>
               
               <div className="flex items-center justify-between">
@@ -148,17 +190,19 @@ export function ArchitectCard({ architect, index }: ArchitectCardProps) {
           <div className="h-full bg-card rounded-xl border border-border shadow-lg overflow-hidden">
             {/* Photo */}
             <div 
-              className="h-[50%] bg-cover bg-center"
+              className="h-[40%] bg-cover bg-center"
               style={{ backgroundImage: `url(${architect.originalPhoto})` }}
             />
 
             {/* Description & Quote */}
-            <div className="p-4 h-[50%] flex flex-col justify-between bg-gradient-to-b from-card to-muted/30">
-              <p className="font-serif text-sm text-foreground italic leading-relaxed line-clamp-4">
-                "{architect.nugget}"
-              </p>
+            <div className="p-4 h-[60%] flex flex-col justify-between bg-gradient-to-b from-card to-muted/30">
+              <div className="flex-1 overflow-y-auto">
+                <p className="font-serif text-sm text-foreground italic leading-relaxed">
+                  "{architect.nugget}"
+                </p>
+              </div>
               
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 mt-3 pt-3 border-t border-border/50">
                 <Button
                   asChild
                   size="sm"
