@@ -39,64 +39,192 @@ interface ContactData {
   enrichmentSource: string;
 }
 
-// Push contact to HubSpot
-async function pushToHubSpot(accessToken: string, contact: ContactData): Promise<void> {
-  const response = await fetch('https://api.hubapi.com/crm/v3/objects/contacts', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
-    },
-    body: JSON.stringify({
-      properties: {
-        firstname: contact.firstName,
-        lastname: contact.lastName,
-        email: contact.email,
-        phone: contact.phone,
-        company: contact.company,
-        jobtitle: contact.title,
-        hs_lead_status: 'NEW',
-        utm_one_source: contact.source,
-        linkedin_url: contact.linkedIn,
-      },
-    }),
-  });
-
-  if (!response.ok) {
-    const error = await response.text();
-    throw new Error(`HubSpot API error: ${response.status} - ${error}`);
-  }
+interface CrmCredentials {
+  accessToken?: string;
+  apiKey?: string;
+  instanceUrl?: string;
 }
 
-// Push contact to Salesforce
-async function pushToSalesforce(accessToken: string, instanceUrl: string | null, contact: ContactData): Promise<void> {
-  if (!instanceUrl) {
-    throw new Error('Salesforce instance URL not configured');
-  }
-
-  const response = await fetch(`${instanceUrl}/services/data/v58.0/sobjects/Lead`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
-    },
-    body: JSON.stringify({
-      FirstName: contact.firstName,
-      LastName: contact.lastName || 'Unknown',
-      Email: contact.email,
-      Phone: contact.phone,
-      Company: contact.company || 'Unknown',
-      Title: contact.title,
-      LeadSource: contact.source,
-      Description: `Enriched via ${contact.enrichmentSource}. LinkedIn: ${contact.linkedIn}`,
-    }),
-  });
-
-  if (!response.ok) {
-    const error = await response.text();
-    throw new Error(`Salesforce API error: ${response.status} - ${error}`);
-  }
+// CRM Adapter Interface
+interface CrmAdapter {
+  pushContact(credentials: CrmCredentials, contact: ContactData): Promise<{ success: boolean; externalId?: string; error?: string }>;
 }
+
+// HubSpot Adapter
+const hubspotAdapter: CrmAdapter = {
+  async pushContact(credentials, contact) {
+    try {
+      const response = await fetch('https://api.hubapi.com/crm/v3/objects/contacts', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${credentials.accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          properties: {
+            firstname: contact.firstName,
+            lastname: contact.lastName,
+            email: contact.email,
+            phone: contact.phone,
+            company: contact.company,
+            jobtitle: contact.title,
+            hs_lead_status: 'NEW',
+            utm_one_source: contact.source,
+            linkedin_url: contact.linkedIn,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.text();
+        console.error('[CRM-Adapter] HubSpot push failed:', error);
+        return { success: false, error };
+      }
+
+      const data = await response.json();
+      console.log('[CRM-Adapter] HubSpot contact created:', data.id);
+      return { success: true, externalId: data.id };
+    } catch (error) {
+      console.error('[CRM-Adapter] HubSpot error:', error);
+      return { success: false, error: String(error) };
+    }
+  },
+};
+
+// Salesforce Adapter
+const salesforceAdapter: CrmAdapter = {
+  async pushContact(credentials, contact) {
+    try {
+      if (!credentials.instanceUrl) {
+        return { success: false, error: 'Salesforce instance URL not configured' };
+      }
+
+      const response = await fetch(
+        `${credentials.instanceUrl}/services/data/v58.0/sobjects/Lead`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${credentials.accessToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            FirstName: contact.firstName,
+            LastName: contact.lastName || 'Unknown',
+            Email: contact.email,
+            Phone: contact.phone,
+            Company: contact.company || 'Unknown',
+            Title: contact.title,
+            LeadSource: contact.source,
+            Description: `Enriched via ${contact.enrichmentSource}. LinkedIn: ${contact.linkedIn}`,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const error = await response.text();
+        console.error('[CRM-Adapter] Salesforce push failed:', error);
+        return { success: false, error };
+      }
+
+      const data = await response.json();
+      console.log('[CRM-Adapter] Salesforce lead created:', data.id);
+      return { success: true, externalId: data.id };
+    } catch (error) {
+      console.error('[CRM-Adapter] Salesforce error:', error);
+      return { success: false, error: String(error) };
+    }
+  },
+};
+
+// Zoho CRM Adapter
+const zohoAdapter: CrmAdapter = {
+  async pushContact(credentials, contact) {
+    try {
+      const response = await fetch('https://www.zohoapis.com/crm/v3/Leads', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Zoho-oauthtoken ${credentials.accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: [{
+            First_Name: contact.firstName || '',
+            Last_Name: contact.lastName || contact.email.split('@')[0],
+            Email: contact.email,
+            Phone: contact.phone || '',
+            Company: contact.company || 'Unknown',
+            Designation: contact.title || '',
+            Lead_Source: contact.source || 'Event',
+            LinkedIn: contact.linkedIn || '',
+          }],
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.text();
+        console.error('[CRM-Adapter] Zoho push failed:', error);
+        return { success: false, error };
+      }
+
+      const data = await response.json();
+      const leadId = data.data?.[0]?.details?.id;
+      console.log('[CRM-Adapter] Zoho lead created:', leadId);
+      return { success: true, externalId: leadId };
+    } catch (error) {
+      console.error('[CRM-Adapter] Zoho error:', error);
+      return { success: false, error: String(error) };
+    }
+  },
+};
+
+// Pipedrive Adapter
+const pipedriveAdapter: CrmAdapter = {
+  async pushContact(credentials, contact) {
+    try {
+      const response = await fetch(
+        `https://api.pipedrive.com/v1/persons?api_token=${credentials.apiKey}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: `${contact.firstName || ''} ${contact.lastName || ''}`.trim() || contact.email,
+            email: [{ value: contact.email, primary: true }],
+            phone: contact.phone ? [{ value: contact.phone, primary: true }] : [],
+            org_name: contact.company || '',
+            job_title: contact.title || '',
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const error = await response.text();
+        console.error('[CRM-Adapter] Pipedrive push failed:', error);
+        return { success: false, error };
+      }
+
+      const data = await response.json();
+      console.log('[CRM-Adapter] Pipedrive person created:', data.data?.id);
+      return { success: true, externalId: String(data.data?.id) };
+    } catch (error) {
+      console.error('[CRM-Adapter] Pipedrive error:', error);
+      return { success: false, error: String(error) };
+    }
+  },
+};
+
+// Adapter Registry
+const crmAdapters: Record<string, CrmAdapter> = {
+  hubspot: hubspotAdapter,
+  salesforce: salesforceAdapter,
+  zoho: zohoAdapter,
+  pipedrive: pipedriveAdapter,
+};
+
+const getCrmAdapter = (providerId: string): CrmAdapter | null => {
+  return crmAdapters[providerId] || null;
+};
 
 serve(async (req) => {
   // Handle CORS preflight
@@ -139,7 +267,7 @@ serve(async (req) => {
 
     // If workspace provided, check workspace-specific settings
     let crmPushEnabled = false;
-    let crmPushTarget: string | null = null;
+    let crmPushTargets: string[] = [];
     
     if (workspaceId) {
       const { data: workspace } = await supabase
@@ -153,7 +281,14 @@ serve(async (req) => {
         apolloApiKey = (settings.apollo_api_key as string) || apolloApiKey;
         clayWebhookUrl = (settings.clay_webhook_url as string) || clayWebhookUrl;
         crmPushEnabled = (settings.crm_push_enabled as boolean) || false;
-        crmPushTarget = (settings.crm_push_target as string) || null;
+        
+        // Support both single target (string) and multiple targets (array)
+        const crmTarget = settings.crm_push_target;
+        if (Array.isArray(crmTarget)) {
+          crmPushTargets = crmTarget as string[];
+        } else if (typeof crmTarget === 'string' && crmTarget) {
+          crmPushTargets = [crmTarget];
+        }
       }
     }
 
@@ -359,46 +494,62 @@ serve(async (req) => {
       }
     }
 
-    // Push to CRM if enabled and enrichment was successful
-    if (enrichmentResult && crmPushEnabled && crmPushTarget && workspaceId) {
-      console.log(`Pushing enriched lead to ${crmPushTarget}...`);
+    // Push to CRMs if enabled and enrichment was successful
+    if (enrichmentResult && crmPushEnabled && crmPushTargets.length > 0 && workspaceId) {
+      console.log(`Pushing enriched lead to CRMs: ${crmPushTargets.join(', ')}...`);
       
-      try {
-        // Get CRM integration credentials from integrations table
-        const { data: integration } = await supabase
-          .from('integrations')
-          .select('*')
-          .eq('workspace_id', workspaceId)
-          .eq('provider', crmPushTarget)
-          .eq('is_active', true)
-          .single();
+      const contactData: ContactData = {
+        firstName: firstName || '',
+        lastName: lastName || '',
+        email: enrichmentResult.email || email || '',
+        phone: enrichmentResult.phone || '',
+        company: company || '',
+        title: enrichmentResult.title || '',
+        linkedIn: enrichmentResult.linkedin || '',
+        source: 'utm.one Event Scanner',
+        enrichmentSource: enrichmentResult.source,
+      };
 
-        if (integration) {
-          const contactData = {
-            firstName: firstName || '',
-            lastName: lastName || '',
-            email: enrichmentResult.email || email || '',
-            phone: enrichmentResult.phone || '',
-            company: company || '',
-            title: enrichmentResult.title || '',
-            linkedIn: enrichmentResult.linkedin || '',
-            source: 'utm.one Event Scanner',
-            enrichmentSource: enrichmentResult.source,
+      // Push to each configured CRM
+      for (const crmTarget of crmPushTargets) {
+        try {
+          const adapter = getCrmAdapter(crmTarget);
+          if (!adapter) {
+            console.log(`Unknown CRM adapter: ${crmTarget}`);
+            continue;
+          }
+
+          // Get CRM integration credentials from integrations table
+          const { data: integration } = await supabase
+            .from('integrations')
+            .select('*')
+            .eq('workspace_id', workspaceId)
+            .eq('provider', crmTarget)
+            .eq('is_active', true)
+            .single();
+
+          if (!integration) {
+            console.log(`No active ${crmTarget} integration found for workspace`);
+            continue;
+          }
+
+          const credentials: CrmCredentials = {
+            accessToken: integration.access_token_encrypted,
+            apiKey: integration.api_key_encrypted,
+            instanceUrl: integration.instance_url,
           };
 
-          if (crmPushTarget === 'hubspot') {
-            await pushToHubSpot(integration.access_token_encrypted, contactData);
-          } else if (crmPushTarget === 'salesforce') {
-            await pushToSalesforce(integration.access_token_encrypted, integration.instance_url, contactData);
-          }
+          const result = await adapter.pushContact(credentials, contactData);
           
-          console.log(`Successfully pushed lead to ${crmPushTarget}`);
-        } else {
-          console.log(`No active ${crmPushTarget} integration found for workspace`);
+          if (result.success) {
+            console.log(`Successfully pushed lead to ${crmTarget}, ID: ${result.externalId}`);
+          } else {
+            console.error(`CRM push to ${crmTarget} failed:`, result.error);
+          }
+        } catch (crmError) {
+          console.error(`CRM push to ${crmTarget} failed:`, crmError);
+          // Don't fail the whole request if CRM push fails
         }
-      } catch (crmError) {
-        console.error(`CRM push to ${crmPushTarget} failed:`, crmError);
-        // Don't fail the whole request if CRM push fails
       }
     }
 

@@ -8,6 +8,8 @@ import { ZapierCard } from "@/components/integrations/ZapierCard";
 import { SlackCard } from "@/components/integrations/SlackCard";
 import { WebhookCard } from "@/components/integrations/WebhookCard";
 import { EnrichmentCard } from "@/components/integrations/EnrichmentCard";
+import { CrmCard } from "@/components/integrations/CrmCard";
+import { CRM_PROVIDERS } from "@/config/crmProviders";
 
 export const Integrations = () => {
   const { currentWorkspace } = useWorkspaceContext();
@@ -19,6 +21,10 @@ export const Integrations = () => {
       </div>
     );
   }
+
+  // Get Zoho and Pipedrive from the registry
+  const zohoProvider = CRM_PROVIDERS.zoho;
+  const pipedriveProvider = CRM_PROVIDERS.pipedrive;
 
   return (
     <div className="space-y-6">
@@ -45,6 +51,12 @@ export const Integrations = () => {
                 HubSpot
               </Badge>
               <Badge variant="outline" className="bg-background">
+                Zoho CRM
+              </Badge>
+              <Badge variant="outline" className="bg-background">
+                Pipedrive
+              </Badge>
+              <Badge variant="outline" className="bg-background">
                 Zapier
               </Badge>
               <Badge variant="outline" className="bg-background">
@@ -57,10 +69,12 @@ export const Integrations = () => {
 
       {/* Native CRM Integrations */}
       <div>
-        <h3 className="text-lg font-semibold mb-4">native crm integrations</h3>
+        <h3 className="text-lg font-semibold mb-4">native CRM integrations</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <SalesforceCard workspaceId={currentWorkspace.id} />
           <HubSpotCard workspaceId={currentWorkspace.id} />
+          <CrmCard provider={zohoProvider} workspaceId={currentWorkspace.id} userTier="growth" />
+          <CrmCard provider={pipedriveProvider} workspaceId={currentWorkspace.id} userTier="growth" />
         </div>
       </div>
 
