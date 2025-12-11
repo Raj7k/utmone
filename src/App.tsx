@@ -387,6 +387,18 @@ const HelpDomains = lazy(() => import("./pages/Help/Domains"));
 const HelpBilling = lazy(() => import("./pages/Help/Billing"));
 const HelpSecurity = lazy(() => import("./pages/Help/Security"));
 
+// Help Article Pages
+const WhatIsUtmOne = lazy(() => import("./pages/Help/articles/WhatIsUtmOne"));
+const CreateAccount = lazy(() => import("./pages/Help/articles/CreateAccount"));
+const TrackingPixel = lazy(() => import("./pages/Help/articles/TrackingPixel"));
+const CreateLink = lazy(() => import("./pages/Help/articles/CreateLink"));
+const WhatAreUTMs = lazy(() => import("./pages/Help/articles/WhatAreUTMs"));
+const QRCodeBasics = lazy(() => import("./pages/Help/articles/QRCodeBasics"));
+const AttributionModels = lazy(() => import("./pages/Help/articles/AttributionModels"));
+const EventHaloArticle = lazy(() => import("./pages/Help/articles/EventHalo"));
+const TeamRoles = lazy(() => import("./pages/Help/articles/TeamRoles"));
+const CustomDomainSetup = lazy(() => import("./pages/Help/articles/CustomDomainSetup"));
+
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient({
@@ -630,6 +642,18 @@ const App = () => (
               <Route path="/help/domains" element={<Suspense fallback={<DashboardSkeleton />}><HelpDomains /></Suspense>} />
               <Route path="/help/billing" element={<Suspense fallback={<DashboardSkeleton />}><HelpBilling /></Suspense>} />
               <Route path="/help/security" element={<Suspense fallback={<DashboardSkeleton />}><HelpSecurity /></Suspense>} />
+              
+              {/* Help Article Pages */}
+              <Route path="/help/getting-started/what-is-utm-one" element={<Suspense fallback={<DashboardSkeleton />}><WhatIsUtmOne /></Suspense>} />
+              <Route path="/help/getting-started/create-account" element={<Suspense fallback={<DashboardSkeleton />}><CreateAccount /></Suspense>} />
+              <Route path="/help/getting-started/tracking-pixel" element={<Suspense fallback={<DashboardSkeleton />}><TrackingPixel /></Suspense>} />
+              <Route path="/help/links/create-link" element={<Suspense fallback={<DashboardSkeleton />}><CreateLink /></Suspense>} />
+              <Route path="/help/utm/what-are-utms" element={<Suspense fallback={<DashboardSkeleton />}><WhatAreUTMs /></Suspense>} />
+              <Route path="/help/qr/basics" element={<Suspense fallback={<DashboardSkeleton />}><QRCodeBasics /></Suspense>} />
+              <Route path="/help/attribution/models" element={<Suspense fallback={<DashboardSkeleton />}><AttributionModels /></Suspense>} />
+              <Route path="/help/events/event-halo" element={<Suspense fallback={<DashboardSkeleton />}><EventHaloArticle /></Suspense>} />
+              <Route path="/help/team/roles" element={<Suspense fallback={<DashboardSkeleton />}><TeamRoles /></Suspense>} />
+              <Route path="/help/domains/dns-setup" element={<Suspense fallback={<DashboardSkeleton />}><CustomDomainSetup /></Suspense>} />
 
               <Route path="/resources" element={<Suspense fallback={<DashboardSkeleton />}><Resources /></Suspense>} />
               <Route path="/resources/guides" element={<Suspense fallback={<DashboardSkeleton />}><Guides /></Suspense>} />
