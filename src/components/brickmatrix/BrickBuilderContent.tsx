@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
-import { LinkSelector } from "@/components/brickmatrix/LinkSelector";
+import { ContentTypeSelector } from "@/components/brickmatrix/ContentTypeSelector";
 import { BrickStyleSelector } from "@/components/brickmatrix/BrickStyleSelector";
 import { BrickColorPalette } from "@/components/brickmatrix/BrickColorPalette";
 import { BrickPreview } from "@/components/brickmatrix/BrickPreview";
-import { BrickStats } from "@/components/brickmatrix/BrickStats";
 import { BrickInstructions } from "@/components/brickmatrix/BrickInstructions";
 import { generateQRMatrix, QRMatrixResult, BrickStyle, BrickColorId } from "@/lib/qrMatrix";
 import { Separator } from "@/components/ui/separator";
@@ -23,6 +22,7 @@ export const BrickBuilderContent = () => {
     isValid: false,
     warning: "enter content to generate QR code"
   });
+  const previewRef = useRef<HTMLDivElement>(null);
 
   // Generate QR matrix when content changes
   useEffect(() => {
@@ -40,7 +40,7 @@ export const BrickBuilderContent = () => {
       {/* Left Panel - Controls */}
       <div className="space-y-6">
         <Card className="p-5 space-y-6">
-          <LinkSelector value={content} onChange={setContent} />
+          <ContentTypeSelector value={content} onChange={setContent} />
           
           <Separator />
           
@@ -64,6 +64,7 @@ export const BrickBuilderContent = () => {
               foreground={foreground} 
               background={background}
               style={style}
+              previewRef={previewRef}
             />
           </Card>
         </div>
@@ -72,18 +73,13 @@ export const BrickBuilderContent = () => {
       {/* Right Panel - Preview */}
       <div className="space-y-4">
         {/* Preview Container */}
-        <div className="sticky top-24">
+        <div className="sticky top-24" ref={previewRef}>
           <BrickPreview
             result={result}
             style={style}
             foreground={foreground}
             background={background}
           />
-          
-          {/* Stats Bar */}
-          <div className="mt-4">
-            <BrickStats result={result} />
-          </div>
         </div>
       </div>
 
@@ -95,6 +91,7 @@ export const BrickBuilderContent = () => {
             foreground={foreground} 
             background={background}
             style={style}
+            previewRef={previewRef}
           />
         </Card>
       </div>

@@ -1,16 +1,26 @@
+import { RefObject } from "react";
 import { QRMatrixResult, BrickColorId, BRICK_COLORS, getBrickColor, BrickStyle } from "@/lib/qrMatrix";
 import { Button } from "@/components/ui/button";
-import { Download, FileText, FileCode } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Download, FileText, FileCode, Image, FileImage, ChevronDown } from "lucide-react";
 import { notify } from "@/lib/notify";
+import { toPng, toSvg } from "html-to-image";
 
 interface BrickInstructionsProps {
   result: QRMatrixResult;
   foreground: BrickColorId;
   background: BrickColorId;
   style: BrickStyle;
+  previewRef?: RefObject<HTMLDivElement>;
 }
 
-export const BrickInstructions = ({ result, foreground, background, style }: BrickInstructionsProps) => {
+export const BrickInstructions = ({ result, foreground, background, style, previewRef }: BrickInstructionsProps) => {
   const fgName = BRICK_COLORS.find(c => c.id === foreground)?.name || foreground;
   const bgName = BRICK_COLORS.find(c => c.id === background)?.name || background;
 
@@ -99,8 +109,7 @@ export const BrickInstructions = ({ result, foreground, background, style }: Bri
             </div>
           </div>
 
-          <p><strong>Baseplate:</strong> ${result.size}×${result.size} studs</p>
-          <p><strong>Physical Size:</strong> ~${result.physicalSize.cm.toFixed(1)}cm (${result.physicalSize.inches.toFixed(1)}")</p>
+          <p><strong>Size:</strong> ${result.size}×${result.size} studs (~${result.physicalSize.cm.toFixed(1)}cm)</p>
 
           <div class="grid-container">
             <h3>Build Grid</h3>
@@ -117,7 +126,46 @@ export const BrickInstructions = ({ result, foreground, background, style }: Bri
       </html>
     `);
     printWindow.document.close();
-    notify.success("instructions ready", { description: "print dialog opened." });
+    notify.success("instructions ready");
+  };
+
+  const downloadPNG = async () => {
+    if (!previewRef?.current) {
+      notify.error("preview not ready");
+      return;
+    }
+    
+    try {
+      const dataUrl = await toPng(previewRef.current, { 
+        pixelRatio: 3,
+        backgroundColor: '#1C1C1E'
+      });
+      const link = document.createElement('a');
+      link.download = 'brickmatrix-qr.png';
+      link.href = dataUrl;
+      link.click();
+      notify.success("PNG downloaded");
+    } catch (err) {
+      notify.error("failed to export PNG");
+    }
+  };
+
+  const downloadSVG = async () => {
+    if (!previewRef?.current) {
+      notify.error("preview not ready");
+      return;
+    }
+    
+    try {
+      const dataUrl = await toSvg(previewRef.current);
+      const link = document.createElement('a');
+      link.download = 'brickmatrix-qr.svg';
+      link.href = dataUrl;
+      link.click();
+      notify.success("SVG downloaded");
+    } catch (err) {
+      notify.error("failed to export SVG");
+    }
   };
 
   const downloadBrickLinkXML = () => {
@@ -145,7 +193,7 @@ export const BrickInstructions = ({ result, foreground, background, style }: Bri
     a.download = 'brickmatrix-parts.xml';
     a.click();
     URL.revokeObjectURL(url);
-    notify.success("xml downloaded", { description: "import to bricklink to order parts." });
+    notify.success("BrickLink XML downloaded");
   };
 
   if (!result.isValid) return null;
@@ -177,25 +225,39 @@ export const BrickInstructions = ({ result, foreground, background, style }: Bri
         </div>
       </div>
 
-      {/* Download Buttons */}
-      <div className="flex flex-col gap-2">
-        <Button 
-          onClick={downloadPDF} 
-          className="w-full gap-2"
-          size="lg"
-        >
-          <FileText className="h-4 w-4" />
-          download instructions
-        </Button>
-        <Button 
-          onClick={downloadBrickLinkXML} 
-          variant="outline"
-          className="w-full gap-2"
-        >
-          <FileCode className="h-4 w-4" />
-          export bricklink xml
-        </Button>
-      </div>
+      {/* Download Dropdown */}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button className="w-full gap-2" size="lg">
+            <Download className="h-4 w-4" />
+            download
+            <ChevronDown className="h-4 w-4 ml-auto" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-56">
+          <DropdownMenuItem onClick={downloadPDF} className="gap-2">
+            <FileText className="h-4 w-4" />
+            PDF instructions
+            <span className="ml-auto text-xs text-muted-foreground">print-ready</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={downloadPNG} className="gap-2">
+            <Image className="h-4 w-4" />
+            PNG image
+            <span className="ml-auto text-xs text-muted-foreground">high-res</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={downloadSVG} className="gap-2">
+            <FileImage className="h-4 w-4" />
+            SVG vector
+            <span className="ml-auto text-xs text-muted-foreground">scalable</span>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={downloadBrickLinkXML} className="gap-2">
+            <FileCode className="h-4 w-4" />
+            BrickLink XML
+            <span className="ml-auto text-xs text-muted-foreground">order parts</span>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
 
       {/* Disclaimer */}
       <p className="text-[10px] text-muted-foreground text-center leading-relaxed">
