@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Bell, BellOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
+import { notify } from "@/lib/notify";
 import { cn } from "@/lib/utils";
 import {
   Tooltip,
@@ -30,11 +30,11 @@ export const SalesAlertToggle = ({ linkId, enabled, onToggle }: SalesAlertToggle
 
       if (error) throw error;
 
-      toast.success(enabled ? "alerts disabled" : "alerts enabled");
+      notify.success(enabled ? "alerts disabled" : "alerts enabled");
       onToggle();
     } catch (error) {
       console.error("Failed to toggle alert:", error);
-      toast.error("failed to update alert settings");
+      notify.error("failed to update alert settings");
     } finally {
       setIsUpdating(false);
     }

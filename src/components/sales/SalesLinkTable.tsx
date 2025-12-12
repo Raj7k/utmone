@@ -18,7 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SalesAlertToggle } from "./SalesAlertToggle";
-import { toast } from "sonner";
+import { notify } from "@/lib/notify";
 import { cn } from "@/lib/utils";
 
 interface SalesLink {
@@ -43,7 +43,7 @@ export const SalesLinkTable = ({ links, isLoading, onRefresh }: SalesLinkTablePr
   const copyLink = (link: SalesLink) => {
     const url = `https://${link.domain}/${link.slug}`;
     navigator.clipboard.writeText(url);
-    toast.success("link copied");
+    notify.success("link copied");
   };
 
   const getStatus = (link: SalesLink) => {
