@@ -29,49 +29,27 @@ export const ActivityFeed = () => {
     queryFn: async () => {
       if (!effectiveWorkspaceId) return [];
       
+      // Single optimized query - use total_clicks from links table instead of N+1 queries
       const { data: links, error } = await supabase
         .from('links')
-        .select(`
-          id,
-          slug,
-          short_url,
-          destination_url,
-          title,
-          created_at,
-          expires_at,
-          status
-        `)
+        .select('id, slug, short_url, destination_url, title, created_at, expires_at, status, total_clicks')
         .eq('workspace_id', effectiveWorkspaceId)
         .order('created_at', { ascending: false })
-        .limit(5);
+        .range(0, 4);
 
       if (error) throw error;
       if (!links || links.length === 0) return [];
       
-      // Get all click counts in parallel instead of sequentially
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const todayIso = today.toISOString();
-      
-      const clickCountPromises = links.map(link =>
-        supabase
-          .from('link_clicks')
-          .select('*', { count: 'exact', head: true })
-          .eq('link_id', link.id)
-          .gte('clicked_at', todayIso)
-      );
-      
-      const clickResults = await Promise.all(clickCountPromises);
-      
-      const linksWithClicks: LinkWithClicks[] = links.map((link, index) => ({
+      // Map to expected format - use total_clicks as proxy for activity
+      const linksWithClicks: LinkWithClicks[] = links.map(link => ({
         ...link,
-        todayClicks: clickResults[index].count || 0,
+        todayClicks: link.total_clicks || 0,
       }));
 
       return linksWithClicks;
     },
     enabled: !!effectiveWorkspaceId,
-    staleTime: 60 * 1000, // 1 minute - activity updates more frequently
+    staleTime: 60 * 1000,
     gcTime: 5 * 60 * 1000,
   });
 
@@ -150,11 +128,11 @@ export const ActivityFeed = () => {
               </div>
               
               <div className="flex items-center gap-4 ml-4">
-                {/* Today's clicks */}
+                {/* Total clicks */}
                 <div className="flex items-center gap-1.5 text-sm">
                   <MousePointer className="h-3.5 w-3.5 text-muted-foreground" />
                   <span className="font-medium">{link.todayClicks}</span>
-                  <span className="text-muted-foreground">today</span>
+                  <span className="text-muted-foreground">clicks</span>
                 </div>
                 
                 {/* Status badge */}

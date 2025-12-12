@@ -36,10 +36,10 @@ export const useDashboardData = (workspaceId: string | undefined) => {
           
           const { data, error } = await supabase
             .from("links")
-            .select("*")
+            .select("id, title, slug, short_url, destination_url, status, total_clicks, created_at")
             .eq("workspace_id", workspaceId)
             .order("created_at", { ascending: false })
-            .limit(5);
+            .range(0, 4);
 
           if (error) throw error;
           return data || [];
