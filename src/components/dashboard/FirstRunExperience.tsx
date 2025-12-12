@@ -67,7 +67,6 @@ export const FirstRunExperience = ({ onLinkCreated }: FirstRunExperienceProps) =
           final_url: finalUrl,
           slug,
           title: new URL(finalUrl).hostname,
-          short_url: `utm.one/${slug}`,
           status: 'active',
         });
 

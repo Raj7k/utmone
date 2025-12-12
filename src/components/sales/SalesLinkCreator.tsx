@@ -104,7 +104,6 @@ export const SalesLinkCreator = ({ onSuccess, onCancel }: SalesLinkCreatorProps)
           created_by: user.id,
           destination_url: fullDestinationUrl,
           final_url: fullDestinationUrl,
-          short_url: shortUrl,
           title: prospectName,
           slug,
           domain,
