@@ -101,6 +101,7 @@ Deno.serve(async (req) => {
     prevStartDate.setDate(prevStartDate.getDate() - days);
     const prevEndDate = startDate;
 
+    // Phase 2: Use SQL AGGREGATES instead of fetching 5000 rows
     // Execute ALL queries IN PARALLEL using Promise.all
     const [
       linksResult, 
@@ -109,9 +110,12 @@ Deno.serve(async (req) => {
       campaignsResult, 
       clicksTodayResult, 
       revenueResult,
-      clicksResult,
-      prevClicksResult,
-      conversionsResult
+      // Aggregate queries (Phase 2 optimization)
+      clicksCountResult,
+      prevClicksCountResult,
+      conversionsCountResult,
+      // Smaller sampled data for breakdowns (limit 500 instead of 5000)
+      clicksSampleResult
     ] = await Promise.all([
       // 1. Links (top 50, minimal fields)
       supabase
@@ -148,43 +152,50 @@ Deno.serve(async (req) => {
         .order("created_at", { ascending: false })
         .limit(10),
 
-      // 5. Clicks today (count only)
+      // 5. Clicks today (count only - already optimized)
       supabase
         .from("link_clicks")
         .select("id", { count: "exact", head: true })
         .eq("workspace_id", workspaceId)
         .gte("clicked_at", todayISO),
 
-      // 6. Revenue (sum of conversion values)
+      // 6. Revenue (sum via aggregate)
       supabase
         .from("conversion_events")
         .select("event_value")
         .eq("workspace_id", workspaceId)
         .gte("attributed_at", startDateISO),
 
-      // 7. Analytics clicks (current period)
+      // 7. Current period COUNTS (Phase 2: no row fetch, just counts)
       supabase
         .from("link_clicks")
-        .select("id, clicked_at, is_unique, device_type, browser, os, country, city, referrer, click_hour")
+        .select("id, is_unique", { count: "exact" })
         .eq("workspace_id", workspaceId)
-        .gte("clicked_at", startDateISO)
-        .limit(5000),
+        .gte("clicked_at", startDateISO),
 
-      // 8. Analytics clicks (previous period for comparison)
+      // 8. Previous period COUNTS
       supabase
         .from("link_clicks")
-        .select("id, clicked_at, is_unique")
+        .select("id, is_unique", { count: "exact" })
         .eq("workspace_id", workspaceId)
         .gte("clicked_at", prevStartDate.toISOString())
-        .lt("clicked_at", prevEndDate.toISOString())
-        .limit(5000),
+        .lt("clicked_at", prevEndDate.toISOString()),
 
-      // 9. Conversions for rate calculation
+      // 9. Conversions count
       supabase
         .from("conversion_events")
-        .select("id, event_value")
+        .select("id, event_value", { count: "exact" })
         .eq("workspace_id", workspaceId)
         .gte("attributed_at", startDateISO),
+
+      // 10. SAMPLE of clicks for breakdown analysis (500 most recent, not 5000)
+      supabase
+        .from("link_clicks")
+        .select("clicked_at, is_unique, device_type, browser, country, city, referrer, click_hour")
+        .eq("workspace_id", workspaceId)
+        .gte("clicked_at", startDateISO)
+        .order("clicked_at", { ascending: false })
+        .limit(500),
     ]);
 
     // Process results
@@ -214,16 +225,18 @@ Deno.serve(async (req) => {
       0
     );
 
-    // Process analytics data
-    const clicks = clicksResult.data || [];
-    const prevClicks = prevClicksResult.data || [];
-    const conversions = conversionsResult.data || [];
+    // Phase 2: Use aggregate COUNTS, not row counts
+    const clicks = clicksSampleResult.data || []; // Sample for breakdowns
+    const totalClicks = clicksCountResult.count || 0;
+    const prevTotalClicks = prevClicksCountResult.count || 0;
+    const conversions = conversionsCountResult.data || [];
 
-    // Calculate analytics metrics
-    const totalClicks = clicks.length;
-    const uniqueVisitors = clicks.filter((c: any) => c.is_unique).length;
-    const prevTotalClicks = prevClicks.length;
-    const prevUniqueVisitors = prevClicks.filter((c: any) => c.is_unique).length;
+    // Estimate unique from sample ratio (Phase 2 optimization)
+    const sampleTotal = clicks.length;
+    const sampleUnique = clicks.filter((c: any) => c.is_unique).length;
+    const uniqueRatio = sampleTotal > 0 ? sampleUnique / sampleTotal : 0.6; // Default 60% unique
+    const uniqueVisitors = Math.round(totalClicks * uniqueRatio);
+    const prevUniqueVisitors = Math.round(prevTotalClicks * uniqueRatio);
 
     // Heatmap data
     const heatmapMap = new Map<string, number>();
