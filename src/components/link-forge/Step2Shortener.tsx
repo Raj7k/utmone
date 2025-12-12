@@ -5,11 +5,12 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link2, ArrowLeft, Shuffle, CheckCircle2, AlertCircle, Globe, AlertTriangle, Route, Briefcase, Bell } from "lucide-react";
+import { Link2, ArrowLeft, Shuffle, CheckCircle2, AlertCircle, Globe, AlertTriangle, Route, Briefcase, Bell, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { generateSlugFromTitle } from "@/lib/slugify";
+import { getFriendlyErrorMessage } from "@/lib/errorMessages";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useLinkWebhooks } from "@/hooks/useLinkWebhooks";
 import { useActivationTracking } from "@/hooks/useActivationTracking";
@@ -67,6 +68,9 @@ export const Step2Shortener = ({
   // Check user role for approval workflow
   const { data: userRole } = useUserWorkspaceRole(workspaceId);
   const needsApproval = requiresApproval(userRole);
+  
+  // Slug checking state
+  const [isCheckingSlug, setIsCheckingSlug] = useState(false);
 
   // Fetch verified domains for this workspace + system-level defaults
   const { data: verifiedDomains } = useQuery({
@@ -106,24 +110,34 @@ export const Step2Shortener = ({
     return () => subscription.unsubscribe();
   }, [form]);
 
-  // Check slug availability
+  // Check slug availability with loading state
   useEffect(() => {
+    if (!values.slug || values.slug.length < 3) {
+      setSlugAvailable(null);
+      setIsCheckingSlug(false);
+      return;
+    }
+    
+    setIsCheckingSlug(true);
+    setSlugAvailable(null);
+    
     const checkSlug = async () => {
-      if (values.slug && values.slug.length >= 3) {
-        const { data } = await supabase
-          .from("links")
-          .select("id")
-          .eq("domain", selectedDomain)
-          .eq("path", "")
-          .eq("slug", values.slug)
-          .maybeSingle();
+      const { data } = await supabase
+        .from("links")
+        .select("id")
+        .eq("domain", selectedDomain)
+        .eq("path", "")
+        .eq("slug", values.slug)
+        .maybeSingle();
 
-        setSlugAvailable(!data);
-      }
+      setSlugAvailable(!data);
+      setIsCheckingSlug(false);
     };
 
-    const timeoutId = setTimeout(checkSlug, 500);
-    return () => clearTimeout(timeoutId);
+    const timeoutId = setTimeout(checkSlug, 400);
+    return () => {
+      clearTimeout(timeoutId);
+    };
   }, [values.slug, selectedDomain]);
 
   const generateRandomSlug = () => {
@@ -211,16 +225,33 @@ export const Step2Shortener = ({
       
       onComplete(link.id, shortUrl);
     },
-    onError: (error: Error) => {
-      notify.error(error.message);
+    onError: (error: any) => {
+      const message = getFriendlyErrorMessage(error);
+      notify.error(message);
+      // Reset slug check to force re-validation
+      setSlugAvailable(null);
     },
   });
 
-  const onSubmit = (data: ShortenerFormData) => {
-    if (!slugAvailable) {
-      notify.error("this slug is already in use");
+  const onSubmit = async (data: ShortenerFormData) => {
+    // Prevent double-submission
+    if (createLinkMutation.isPending) return;
+    
+    // Final synchronous slug check before submission
+    const { data: existing } = await supabase
+      .from("links")
+      .select("id")
+      .eq("domain", selectedDomain)
+      .eq("path", "")
+      .eq("slug", data.slug)
+      .maybeSingle();
+    
+    if (existing) {
+      setSlugAvailable(false);
+      notify.error("this short link already exists. please try a different slug.");
       return;
     }
+    
     createLinkMutation.mutate(data);
   };
 
@@ -307,10 +338,13 @@ export const Step2Shortener = ({
                 />
                 {values.slug && values.slug.length >= 3 && (
                   <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                    {slugAvailable === true && (
+                    {isCheckingSlug && (
+                      <Loader2 className="h-4 w-4 text-muted-foreground animate-spin" />
+                    )}
+                    {!isCheckingSlug && slugAvailable === true && (
                       <CheckCircle2 className="h-4 w-4 text-system-green" />
                     )}
-                    {slugAvailable === false && (
+                    {!isCheckingSlug && slugAvailable === false && (
                       <AlertCircle className="h-4 w-4 text-system-red" />
                     )}
                   </div>
@@ -493,13 +527,18 @@ export const Step2Shortener = ({
           <Button
             type="submit"
             className="flex-1"
-            disabled={createLinkMutation.isPending || !slugAvailable}
+            disabled={createLinkMutation.isPending || isCheckingSlug || slugAvailable === false}
           >
-            {createLinkMutation.isPending 
-              ? "creating..." 
-              : needsApproval 
-                ? "request approval" 
-                : "create short link"}
+            {createLinkMutation.isPending ? (
+              <>
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                creating...
+              </>
+            ) : needsApproval ? (
+              "request approval"
+            ) : (
+              "create short link"
+            )}
           </Button>
         </div>
       </form>
