@@ -36,11 +36,12 @@ export const OnboardingChecklist = () => {
     isLoading,
   } = useOnboardingProgress();
 
+  // Simplified 3-item checklist focused on the core "aha" moments
   const items: ChecklistItem[] = [
     {
       id: 'link',
       label: 'create your first link',
-      description: 'start shortening and tracking your URLs',
+      description: 'the foundation of everything you do here',
       completed: hasLinks,
       action: () => navigate('/dashboard/links'),
       buttonLabel: 'create',
@@ -48,48 +49,55 @@ export const OnboardingChecklist = () => {
     {
       id: 'qr',
       label: 'generate a QR code',
-      description: 'add a branded QR code to your link',
+      description: 'perfect for print and physical campaigns',
       completed: hasQrCodes,
       action: () => navigate('/dashboard/qr-codes'),
       buttonLabel: 'generate',
     },
     {
       id: 'analytics',
-      label: 'view analytics',
-      description: 'see how your links are performing',
+      label: 'view your analytics',
+      description: 'see the impact of your links',
       completed: hasViewedAnalytics,
-      action: () => navigate('/dashboard/analytics'),
+      action: () => navigate('/dashboard/intelligence'),
       buttonLabel: 'view',
     },
+  ];
+
+  // Advanced setup items - shown only after core items are done
+  const advancedItems: ChecklistItem[] = [
     {
-      id: 'team',
-      label: 'invite team member',
-      description: 'collaborate with your team',
-      completed: hasInvitedTeam,
-      action: () => navigate('/settings?tab=team&action=invite'),
-      buttonLabel: 'invite',
+      id: 'pixel',
+      label: 'install tracking pixel',
+      description: 'unlock revenue attribution',
+      completed: hasInstalledPixel,
+      action: () => navigate('/settings?tab=pixel'),
+      buttonLabel: 'install',
     },
     {
       id: 'domain',
-      label: 'set up custom domain',
-      description: 'use your own branded domain',
+      label: 'add custom domain',
+      description: 'use your branded short URLs',
       completed: hasCustomDomain,
       action: () => navigate('/settings/domains'),
       buttonLabel: 'setup',
     },
     {
-      id: 'pixel',
-      label: 'install tracking pixel',
-      description: 'required for click attribution and revenue insights',
-      completed: hasInstalledPixel,
-      action: () => navigate('/settings?tab=pixel'),
-      buttonLabel: 'install now',
-      isWarning: true, // P0 priority - make it stand out
+      id: 'team',
+      label: 'invite your team',
+      description: 'collaborate together',
+      completed: hasInvitedTeam,
+      action: () => navigate('/settings?tab=team&action=invite'),
+      buttonLabel: 'invite',
     },
   ];
 
-  const completedCount = items.filter(item => item.completed).length;
-  const totalCount = items.length;
+  const coreCompleted = items.filter(item => item.completed).length;
+  const showAdvanced = coreCompleted === items.length;
+
+  const allItems = showAdvanced ? [...items, ...advancedItems] : items;
+  const completedCount = allItems.filter(item => item.completed).length;
+  const totalCount = allItems.length;
   const progress = (completedCount / totalCount) * 100;
   const isComplete = completedCount === totalCount;
 
@@ -160,15 +168,16 @@ export const OnboardingChecklist = () => {
         <CardContent className="space-y-4">
           <Progress value={progress} className="h-2" />
           
+          {/* Core items */}
           <div className="space-y-2">
-            {items.map((item) => (
+            {items.map((item, index) => (
               <div 
                 key={item.id}
                 onClick={item.completed ? undefined : item.action}
                 className={cn(
                   "flex items-center gap-3 p-3 rounded-lg transition-apple",
                   !item.completed && "hover:bg-fill-tertiary cursor-pointer group",
-                  item.isWarning && !item.completed && "border-l-4 border-system-orange bg-system-orange/5"
+                  index === 0 && !item.completed && "ring-2 ring-primary/20 bg-primary/5"
                 )}
               >
                 <div className="flex-shrink-0">
@@ -195,13 +204,13 @@ export const OnboardingChecklist = () => {
 
                 {!item.completed && (
                   <Button
-                    variant="ghost"
+                    variant={index === 0 ? "default" : "ghost"}
                     size="sm"
                     onClick={(e) => {
                       e.stopPropagation();
                       item.action();
                     }}
-                    className="flex-shrink-0 hover:bg-accent text-foreground"
+                    className="flex-shrink-0"
                   >
                     {item.buttonLabel}
                     <ChevronRight className="h-4 w-4 ml-1" />
@@ -210,6 +219,62 @@ export const OnboardingChecklist = () => {
               </div>
             ))}
           </div>
+
+          {/* Advanced items - shown after core completion */}
+          {showAdvanced && (
+            <div className="mt-4 pt-4 border-t border-border">
+              <p className="text-xs text-muted-foreground uppercase tracking-wide mb-3">advanced setup</p>
+              <div className="space-y-2">
+                {advancedItems.map((item) => (
+                  <div 
+                    key={item.id}
+                    onClick={item.completed ? undefined : item.action}
+                    className={cn(
+                      "flex items-center gap-3 p-3 rounded-lg transition-apple",
+                      !item.completed && "hover:bg-fill-tertiary cursor-pointer group"
+                    )}
+                  >
+                    <div className="flex-shrink-0">
+                      {item.completed ? (
+                        <CheckCircle2 className="h-5 w-5 text-system-green" />
+                      ) : (
+                        <Circle className="h-5 w-5 text-tertiary-label group-hover:text-secondary-label transition-apple" />
+                      )}
+                    </div>
+                    
+                    <div className="flex-1 min-w-0">
+                      <div className={cn(
+                        "text-callout",
+                        item.completed ? "text-secondary-label line-through" : "text-label"
+                      )}>
+                        {item.label}
+                      </div>
+                      {!item.completed && (
+                        <div className="text-footnote text-tertiary-label mt-0.5">
+                          {item.description}
+                        </div>
+                      )}
+                    </div>
+
+                    {!item.completed && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          item.action();
+                        }}
+                        className="flex-shrink-0"
+                      >
+                        {item.buttonLabel}
+                        <ChevronRight className="h-4 w-4 ml-1" />
+                      </Button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
     </>
