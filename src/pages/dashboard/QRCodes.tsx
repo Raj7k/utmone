@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -14,6 +14,7 @@ import { QRCodeGenerator } from "@/components/QRCodeGenerator";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { BrickBuilderContent } from "@/components/brickmatrix/BrickBuilderContent";
+import { completeNavigation } from "@/hooks/useNavigationProgress";
 
 export default function QRCodes() {
   const { currentWorkspace } = useWorkspace();
@@ -27,7 +28,7 @@ export default function QRCodes() {
     setSearchParams({ tab: value });
   };
 
-  const { data: qrCodes, isLoading } = useQuery({
+  const { data: qrCodes, isLoading, isFetched } = useQuery({
     queryKey: ["qr-codes", currentWorkspace?.id],
     queryFn: async () => {
       if (!currentWorkspace) return [];
@@ -60,6 +61,13 @@ export default function QRCodes() {
     },
     enabled: !!currentWorkspace,
   });
+
+  // Complete navigation when data loads
+  useEffect(() => {
+    if (isFetched) {
+      completeNavigation();
+    }
+  }, [isFetched]);
 
   const { data: workspaceLinks } = useQuery({
     queryKey: ["workspace-links", currentWorkspace?.id],

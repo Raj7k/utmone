@@ -12,6 +12,7 @@ import { FeatureGuard } from "@/components/feature-gating";
 import { EnhancedLinksTable } from "@/components/EnhancedLinksTable";
 import { FeatureHint } from "@/components/FeatureHint";
 import { BulkSentinelPanel } from "@/components/sentinel";
+import { completeNavigation } from "@/hooks/useNavigationProgress";
 
 export default function Links() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -19,10 +20,10 @@ export default function Links() {
   const [performanceFilter, setPerformanceFilter] = useState<string[]>([]);
   const [healthFilter, setHealthFilter] = useState<string[]>([]);
   const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
-  const { currentWorkspace } = useWorkspace();
+  const { currentWorkspace, isLoading: isWorkspaceLoading } = useWorkspace();
   const isMobile = useIsMobile();
 
-  const { data, isLoading } = useEnhancedLinks({
+  const { data, isLoading, isFetched } = useEnhancedLinks({
     workspaceId: currentWorkspace?.id || "",
     searchQuery,
     statusFilter,
@@ -33,11 +34,19 @@ export default function Links() {
   const [loadingTooLong, setLoadingTooLong] = useState(false);
   
   useEffect(() => {
-    if (!currentWorkspace) {
+    if (!currentWorkspace || isLoading) {
+      setLoadingTooLong(false);
       const timer = setTimeout(() => setLoadingTooLong(true), 3000);
       return () => clearTimeout(timer);
     }
-  }, [currentWorkspace]);
+  }, [currentWorkspace, isLoading]);
+
+  // Complete navigation when data loads
+  useEffect(() => {
+    if (isFetched && !isWorkspaceLoading) {
+      completeNavigation();
+    }
+  }, [isFetched, isWorkspaceLoading]);
 
   if (!currentWorkspace) {
     return (

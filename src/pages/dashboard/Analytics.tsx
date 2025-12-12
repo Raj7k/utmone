@@ -25,6 +25,7 @@ import { AnalyticsShareDialog } from "@/components/analytics/AnalyticsShareDialo
 import { ScheduleReportDialog } from "@/components/analytics/ScheduleReportDialog";
 import { AttributionTabContent } from "@/components/analytics/AttributionTabContent";
 import { useQueryClient } from "@tanstack/react-query";
+import { completeNavigation } from "@/hooks/useNavigationProgress";
 
 const COLORS = {
   mobile: "hsl(var(--primary))",
@@ -66,6 +67,13 @@ export default function Analytics() {
   useEffect(() => {
     trackFirstAnalyticsView();
   }, [trackFirstAnalyticsView]);
+
+  // Complete navigation when data loads
+  useEffect(() => {
+    if (!isLoading) {
+      completeNavigation();
+    }
+  }, [isLoading]);
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
