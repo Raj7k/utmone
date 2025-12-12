@@ -11,6 +11,8 @@ import { Search, Link2, Plus, ArrowRight } from "lucide-react";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useWorkspace } from "@/hooks/useWorkspace";
+import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 
 // Skeleton for link list
 const LinkListSkeleton = () => (
@@ -25,27 +27,15 @@ export default function Targeting() {
   const { linkId } = useParams<{ linkId?: string }>();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
+  
+  // Use shared workspace context instead of duplicate queries
+  const { currentWorkspace } = useWorkspace();
+  const effectiveWorkspaceId = currentWorkspace?.id || getCachedWorkspaceId() || '';
 
   const { data: links, isLoading, isFetched } = useQuery({
-    queryKey: ['links-with-targeting'],
+    queryKey: ['links-with-targeting', effectiveWorkspaceId],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return [];
-
-      const { data: ownedWorkspace } = await supabase
-        .from('workspaces')
-        .select('id')
-        .eq('owner_id', user.id)
-        .single();
-
-      const { data: memberWorkspace } = await supabase
-        .from('workspace_members')
-        .select('workspace_id')
-        .eq('user_id', user.id)
-        .single();
-
-      const workspaceId = ownedWorkspace?.id || memberWorkspace?.workspace_id;
-      if (!workspaceId) return [];
+      if (!effectiveWorkspaceId) return [];
 
       const { data, error } = await supabase
         .from('links')
@@ -58,13 +48,16 @@ export default function Targeting() {
           path,
           targeting_rules(count)
         `)
-        .eq('workspace_id', workspaceId)
+        .eq('workspace_id', effectiveWorkspaceId)
         .eq('status', 'active')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
       return data;
-    }
+    },
+    enabled: !!effectiveWorkspaceId,
+    refetchOnWindowFocus: false,
+    staleTime: 2 * 60 * 1000
   });
 
   // Complete navigation when data loads
