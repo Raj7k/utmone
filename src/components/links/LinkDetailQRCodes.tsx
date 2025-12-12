@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { QRCodeDialog } from "@/components/QRCodeDialog";
 import { Download, Trash2, QrCode } from "lucide-react";
 import { format } from "date-fns";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 
 interface LinkDetailQRCodesProps {
   linkId: string;
@@ -87,7 +88,7 @@ export const LinkDetailQRCodes = ({ linkId, shortUrl }: LinkDetailQRCodesProps) 
             <CardContent className="space-y-4">
               {qr.svg_url && (
                 <div className="aspect-square bg-white p-4 rounded-md border">
-                  <img src={qr.svg_url} alt={qr.name} className="w-full h-full" />
+                  <OptimizedImage src={qr.svg_url} alt={qr.name} className="w-full h-full" aspectRatio="1/1" />
                 </div>
               )}
               

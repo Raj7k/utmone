@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Shield, Download, Copy, Check } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 
 interface TotpSetupModalProps {
   open: boolean;
@@ -141,7 +142,7 @@ export function TotpSetupModal({ open, onOpenChange }: TotpSetupModalProps) {
           <div className="space-y-6">
             {qrCodeUrl && (
               <div className="flex flex-col items-center gap-4">
-                <img src={qrCodeUrl} alt="QR Code" className="w-48 h-48 border border-border rounded-lg" />
+                <OptimizedImage src={qrCodeUrl} alt="QR Code" width={192} height={192} className="w-48 h-48 border border-border rounded-lg" priority />
                 
                 <div className="w-full space-y-2">
                   <Label className="text-xs text-muted-foreground">or enter manually</Label>

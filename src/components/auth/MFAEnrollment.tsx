@@ -7,6 +7,7 @@ import { Shield, Loader2, CheckCircle2, Copy, Download } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
 import QRCode from "qrcode";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 
 interface MFAEnrollmentProps {
   onComplete: () => void;
@@ -147,7 +148,7 @@ export function MFAEnrollment({ onComplete }: MFAEnrollmentProps) {
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex justify-center p-6 bg-muted/30 rounded-xl">
-            {qrCodeUrl && <img src={qrCodeUrl} alt="QR Code" className="w-48 h-48" />}
+            {qrCodeUrl && <OptimizedImage src={qrCodeUrl} alt="QR Code" width={192} height={192} className="w-48 h-48" priority />}
           </div>
 
           <div className="space-y-2">

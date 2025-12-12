@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { notify } from "@/lib/notify";
 import { Palette, Upload, Save } from "lucide-react";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 
 interface BrandingSettings {
   logo_url: string | null;
@@ -149,7 +150,7 @@ export const WorkspaceBranding = ({ workspaceId }: WorkspaceBrandingProps) => {
           </div>
           {settings.logo_url && (
             <div className="mt-2 p-4 border rounded-lg bg-muted/50">
-              <img src={settings.logo_url} alt="Logo preview" className="h-12 object-contain" />
+              <OptimizedImage src={settings.logo_url} alt="Logo preview" height={48} className="h-12 w-auto object-contain" />
             </div>
           )}
         </div>
