@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { User, Session } from "@supabase/supabase-js";
+import { prefetchCriticalData } from "@/lib/queryConfig";
 
 interface AuthState {
   user: User | null;
@@ -124,7 +125,7 @@ export function CachedAuthProvider({ children }: { children: ReactNode }) {
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
+      async (_event, session) => {
         cacheSession(session);
         setState({
           user: session?.user ?? null,
@@ -132,6 +133,11 @@ export function CachedAuthProvider({ children }: { children: ReactNode }) {
           isLoading: false,
           isAuthenticated: !!session,
         });
+        
+        // Prefetch critical data on sign in to warm cache
+        if (session?.user?.id && (_event === 'SIGNED_IN' || _event === 'TOKEN_REFRESHED')) {
+          prefetchCriticalData(session.user.id);
+        }
       }
     );
 

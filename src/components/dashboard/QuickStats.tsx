@@ -7,15 +7,16 @@ import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Progress } from "@/components/ui/progress";
 import { PLAN_CONFIG } from "@/lib/planConfig";
+import { queryKeys } from "@/lib/queryConfig";
 
 export const QuickStats = () => {
   const { currentWorkspace } = useWorkspaceContext();
   const { id: planId } = useCurrentPlan();
   const planConfig = PLAN_CONFIG[planId] || PLAN_CONFIG.free;
 
-  // Get clicks this week
+  // Get clicks this week - optimized with parallel queries
   const { data: clicksData, isLoading: clicksLoading } = useQuery({
-    queryKey: ['dashboard-clicks-week', currentWorkspace?.id],
+    queryKey: queryKeys.dashboard.clicksWeek(currentWorkspace?.id || ''),
     queryFn: async () => {
       if (!currentWorkspace?.id) return { current: 0, previous: 0 };
       
@@ -32,29 +33,34 @@ export const QuickStats = () => {
       const linkIds = links?.map(l => l.id) || [];
       if (linkIds.length === 0) return { current: 0, previous: 0 };
 
-      // Current week
-      const { count: currentCount } = await supabase
-        .from('link_clicks')
-        .select('*', { count: 'exact', head: true })
-        .gte('clicked_at', weekAgo.toISOString())
-        .in('link_id', linkIds);
+      // Run both week queries in parallel
+      const [currentResult, previousResult] = await Promise.all([
+        supabase
+          .from('link_clicks')
+          .select('*', { count: 'exact', head: true })
+          .gte('clicked_at', weekAgo.toISOString())
+          .in('link_id', linkIds),
+        supabase
+          .from('link_clicks')
+          .select('*', { count: 'exact', head: true })
+          .gte('clicked_at', twoWeeksAgo.toISOString())
+          .lt('clicked_at', weekAgo.toISOString())
+          .in('link_id', linkIds),
+      ]);
 
-      // Previous week
-      const { count: previousCount } = await supabase
-        .from('link_clicks')
-        .select('*', { count: 'exact', head: true })
-        .gte('clicked_at', twoWeeksAgo.toISOString())
-        .lt('clicked_at', weekAgo.toISOString())
-        .in('link_id', linkIds);
-
-      return { current: currentCount || 0, previous: previousCount || 0 };
+      return { 
+        current: currentResult.count || 0, 
+        previous: previousResult.count || 0 
+      };
     },
     enabled: !!currentWorkspace?.id,
+    staleTime: 2 * 60 * 1000, // 2 minutes
+    gcTime: 10 * 60 * 1000,
   });
 
   // Get link count for plan usage
   const { data: linksData, isLoading: linksLoading } = useQuery({
-    queryKey: ['dashboard-links-count', currentWorkspace?.id],
+    queryKey: queryKeys.dashboard.linksCount(currentWorkspace?.id || ''),
     queryFn: async () => {
       if (!currentWorkspace?.id) return 0;
       const { count } = await supabase
@@ -64,6 +70,8 @@ export const QuickStats = () => {
       return count || 0;
     },
     enabled: !!currentWorkspace?.id,
+    staleTime: 2 * 60 * 1000, // 2 minutes
+    gcTime: 10 * 60 * 1000,
   });
 
   const calculateChange = () => {
