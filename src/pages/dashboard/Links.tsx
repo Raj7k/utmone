@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useEnhancedLinks } from "@/hooks/useEnhancedLinks";
+import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { LinksHeroStats } from "@/components/links/LinksHeroStats";
 import { SmartLinkFilters } from "@/components/links/SmartLinkFilters";
@@ -42,8 +43,11 @@ export default function Links() {
   const { currentWorkspace, isLoading: isWorkspaceLoading, hasTimedOut, retry } = useWorkspace();
   const isMobile = useIsMobile();
 
+  // Use cached workspace ID as fallback for immediate query start
+  const effectiveWorkspaceId = currentWorkspace?.id || getCachedWorkspaceId() || "";
+
   const { data, isLoading, isFetched } = useEnhancedLinks({
-    workspaceId: currentWorkspace?.id || "",
+    workspaceId: effectiveWorkspaceId,
     searchQuery,
     statusFilter,
     pageSize: 50,
@@ -93,16 +97,16 @@ export default function Links() {
         </div>
       }
     >
-      {/* Hero Stats Bar - skeleton if no workspace */}
-      {currentWorkspace ? (
-        <LinksHeroStats workspaceId={currentWorkspace.id} />
+      {/* Hero Stats Bar - use effectiveWorkspaceId */}
+      {effectiveWorkspaceId ? (
+        <LinksHeroStats workspaceId={effectiveWorkspaceId} />
       ) : (
         <HeroStatsSkeleton />
       )}
 
       {/* Bulk Sentinel Panel - only show with workspace */}
-      {currentWorkspace && (
-        <BulkSentinelPanel workspaceId={currentWorkspace.id} />
+      {effectiveWorkspaceId && (
+        <BulkSentinelPanel workspaceId={effectiveWorkspaceId} />
       )}
 
       {/* Feature Discovery Hint */}
@@ -124,14 +128,14 @@ export default function Links() {
         onStatusChange={setStatusFilter}
       />
 
-      {/* View Content - skeleton if loading */}
-      {isLoading || !currentWorkspace ? (
+      {/* View Content - skeleton only while actively loading */}
+      {isLoading ? (
         <LinkCardGridSkeleton />
       ) : viewMode === "cards" ? (
         <LinkCardGrid links={data?.links || []} />
       ) : (
         <EnhancedLinksTable 
-          workspaceId={currentWorkspace?.id || ""}
+          workspaceId={effectiveWorkspaceId}
           searchQuery={searchQuery}
           statusFilter={statusFilter}
         />

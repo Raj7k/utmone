@@ -45,13 +45,15 @@ const DashboardHome = () => {
     setShowSkeleton(false);
   }, [isLoadingProgress, isFetched]);
 
-  // Workspace timeout logic
+  // Workspace timeout logic - only reset when workspace actually loads
   useEffect(() => {
     if (isWorkspaceLoading && !currentWorkspace) {
       const timer = setTimeout(() => setWorkspaceTimeout(true), 3000);
       return () => clearTimeout(timer);
+    } else if (currentWorkspace) {
+      // Only reset timeout when workspace successfully loads
+      setWorkspaceTimeout(false);
     }
-    setWorkspaceTimeout(false);
   }, [isWorkspaceLoading, currentWorkspace]);
 
   // Complete navigation as soon as we have any data (cached or fresh)

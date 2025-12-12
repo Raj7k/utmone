@@ -16,11 +16,11 @@ const loadingMessages = [
 ];
 
 // Check localStorage directly for instant decision
+// Only require user cache, not workspaceId (workspace loads progressively)
 function hasCachedAuth(): boolean {
   try {
     const sessionCache = localStorage.getItem('utm_session_cache');
-    const workspaceId = localStorage.getItem('currentWorkspaceId');
-    if (!sessionCache || !workspaceId) return false;
+    if (!sessionCache) return false;
     
     const { user, timestamp } = JSON.parse(sessionCache);
     // 15 min expiry
