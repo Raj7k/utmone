@@ -1,6 +1,6 @@
 import { HelpLayout } from "@/components/help/HelpLayout";
 import { HelpBreadcrumbs } from "@/components/help/HelpBreadcrumbs";
-import { ArticleCard } from "@/components/help/ArticleCard";
+import { ExpandableArticle } from "@/components/help/ExpandableArticle";
 import { ProTip } from "@/components/help/ProTip";
 import {
   Rocket,
@@ -12,57 +12,6 @@ import {
   Settings,
   Zap,
 } from "lucide-react";
-
-const articles = [
-  {
-    title: "What is utm.one?",
-    description: "utm.one is an enterprise-grade link management platform that transforms every URL into a clean, tracked, revenue-attributed asset.",
-    href: "/help/articles/what-is-utm-one",
-    icon: Rocket,
-  },
-  {
-    title: "Creating your account",
-    description: "Sign up with email or Google, verify your email, and you're ready to go. No credit card required to start.",
-    href: "/help/articles/creating-account",
-    icon: User,
-  },
-  {
-    title: "Your first short link",
-    description: "Paste any URL, add UTM parameters, and get a branded short link with full analytics—all in under 30 seconds.",
-    href: "/help/articles/first-link",
-    icon: Link2,
-  },
-  {
-    title: "Installing the tracking pixel",
-    description: "Add our lightweight JavaScript snippet to your site to unlock conversion tracking, journey analytics, and revenue attribution.",
-    href: "/help/articles/tracking-pixel",
-    icon: Activity,
-  },
-  {
-    title: "Understanding your dashboard",
-    description: "Your command center for links, analytics, campaigns, and team management. Here's what each section does.",
-    href: "/help/articles/dashboard-overview",
-    icon: LayoutDashboard,
-  },
-  {
-    title: "Onboarding checklist",
-    description: "Follow our step-by-step checklist to set up your workspace, connect your domain, and configure your first campaign.",
-    href: "/help/articles/onboarding-checklist",
-    icon: CheckCircle2,
-  },
-  {
-    title: "Account settings",
-    description: "Update your profile, manage notification preferences, connect accounts, and configure security settings.",
-    href: "/help/articles/account-settings",
-    icon: Settings,
-  },
-  {
-    title: "Quick wins",
-    description: "5 things you can do in your first 10 minutes to get immediate value from utm.one.",
-    href: "/help/articles/quick-wins",
-    icon: Zap,
-  },
-];
 
 const GettingStarted = () => {
   return (
@@ -109,17 +58,151 @@ const GettingStarted = () => {
         </div>
       </div>
 
-      {/* Articles Grid */}
+      {/* Expandable Articles */}
       <div className="space-y-4">
-        {articles.slice(1).map((article) => (
-          <ArticleCard
-            key={article.href}
-            title={article.title}
-            description={article.description}
-            href={article.href}
-            icon={article.icon}
-          />
-        ))}
+        <ExpandableArticle
+          title="Creating your account"
+          description="Sign up with email or Google, verify your email, and you're ready to go. No credit card required to start."
+          icon={User}
+        >
+          <h2>How to sign up</h2>
+          <ol>
+            <li>Visit <strong>utm.one/signup</strong></li>
+            <li>Enter your email address and create a password</li>
+            <li>Verify your email by clicking the link we send you</li>
+            <li>Complete your profile with your name and organization</li>
+          </ol>
+
+          <h2>What you'll need</h2>
+          <ul>
+            <li>A valid email address</li>
+            <li>A password (minimum 8 characters)</li>
+          </ul>
+
+          <p>That's it. No credit card required to get started.</p>
+        </ExpandableArticle>
+
+        <ExpandableArticle
+          title="Your first short link"
+          description="Paste any URL, add UTM parameters, and get a branded short link with full analytics—all in under 30 seconds."
+          icon={Link2}
+        >
+          <h2>Creating a link</h2>
+          <ol>
+            <li>Click <strong>Create Link</strong> from your dashboard</li>
+            <li>Paste the destination URL you want to shorten</li>
+            <li>Add UTM parameters (source, medium, campaign)</li>
+            <li>Optionally customize the short link slug</li>
+            <li>Click <strong>Create</strong></li>
+          </ol>
+
+          <h2>What happens next</h2>
+          <p>
+            Your link is immediately active. Share it anywhere—email, social media, 
+            print materials—and watch the clicks roll in on your analytics dashboard.
+          </p>
+        </ExpandableArticle>
+
+        <ExpandableArticle
+          title="Installing the tracking pixel"
+          description="Add our lightweight JavaScript snippet to your site to unlock conversion tracking, journey analytics, and revenue attribution."
+          icon={Activity}
+        >
+          <h2>Why install the pixel?</h2>
+          <p>
+            The tracking pixel enables advanced features like conversion tracking, 
+            customer journey mapping, and revenue attribution. Without it, you'll 
+            only see click data.
+          </p>
+
+          <h2>Installation steps</h2>
+          <ol>
+            <li>Go to <strong>Settings → Tracking Pixel</strong></li>
+            <li>Copy the JavaScript snippet</li>
+            <li>Paste it in the <code>&lt;head&gt;</code> section of your website</li>
+            <li>Verify the installation using our pixel checker tool</li>
+          </ol>
+
+          <p>
+            The pixel is lightweight (under 5KB) and won't slow down your site.
+          </p>
+        </ExpandableArticle>
+
+        <ExpandableArticle
+          title="Understanding your dashboard"
+          description="Your command center for links, analytics, campaigns, and team management. Here's what each section does."
+          icon={LayoutDashboard}
+        >
+          <h2>Dashboard sections</h2>
+          <ul>
+            <li><strong>Links:</strong> View, create, and manage all your short links</li>
+            <li><strong>Analytics:</strong> Click data, device breakdown, geographic distribution</li>
+            <li><strong>Campaigns:</strong> Organize links by marketing campaign</li>
+            <li><strong>QR Codes:</strong> Generate and customize QR codes for your links</li>
+            <li><strong>Intelligence:</strong> Attribution, journey analytics, and AI insights</li>
+            <li><strong>Settings:</strong> Workspace configuration, domains, team members</li>
+          </ul>
+        </ExpandableArticle>
+
+        <ExpandableArticle
+          title="Onboarding checklist"
+          description="Follow our step-by-step checklist to set up your workspace, connect your domain, and configure your first campaign."
+          icon={CheckCircle2}
+        >
+          <h2>Quick setup checklist</h2>
+          <ol>
+            <li>Create your account and verify email</li>
+            <li>Create your first workspace</li>
+            <li>Create your first short link</li>
+            <li>Install the tracking pixel on your website</li>
+            <li>Connect a custom domain (optional)</li>
+            <li>Invite team members (optional)</li>
+          </ol>
+
+          <p>
+            Completing these steps takes about 10 minutes and unlocks the full 
+            power of utm.one.
+          </p>
+        </ExpandableArticle>
+
+        <ExpandableArticle
+          title="Account settings"
+          description="Update your profile, manage notification preferences, connect accounts, and configure security settings."
+          icon={Settings}
+        >
+          <h2>What you can configure</h2>
+          <ul>
+            <li><strong>Profile:</strong> Name, email, avatar, timezone</li>
+            <li><strong>Notifications:</strong> Email alerts for link activity</li>
+            <li><strong>Security:</strong> Password, two-factor authentication, security keys</li>
+            <li><strong>Connected accounts:</strong> Google, Slack integrations</li>
+          </ul>
+
+          <p>
+            Access settings by clicking your avatar in the top right corner 
+            and selecting <strong>Settings</strong>.
+          </p>
+        </ExpandableArticle>
+
+        <ExpandableArticle
+          title="Quick wins"
+          description="5 things you can do in your first 10 minutes to get immediate value from utm.one."
+          icon={Zap}
+        >
+          <h2>5 quick wins</h2>
+          <ol>
+            <li><strong>Create a branded link:</strong> Shorten your homepage with proper UTMs</li>
+            <li><strong>Generate a QR code:</strong> Perfect for business cards or event materials</li>
+            <li><strong>Set up a campaign:</strong> Organize your first set of links</li>
+            <li><strong>Install the Chrome extension:</strong> Create links from any page</li>
+            <li><strong>Share a link:</strong> Post on social media and watch the analytics</li>
+          </ol>
+
+          <p>
+            Each of these takes under 2 minutes and helps you understand how 
+            utm.one fits into your workflow.
+          </p>
+        </ExpandableArticle>
       </div>
 
       {/* Video Section */}
