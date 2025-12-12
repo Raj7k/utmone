@@ -1,10 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { PieChart } from "lucide-react";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
 
 interface ChannelMixDonutProps {
   workspaceId?: string;
@@ -27,10 +25,38 @@ const CHANNEL_COLORS = [
   "hsl(var(--muted-foreground))",
 ];
 
+// Cache helpers
+const CACHE_KEY = 'channel-mix-cache';
+const CACHE_EXPIRY = 2 * 60 * 1000; // 2 minutes
+
+function getCached(workspaceId: string, days: number): ChannelData[] | undefined {
+  try {
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (!cached) return undefined;
+    const { data, timestamp, wid, d } = JSON.parse(cached);
+    if (wid !== workspaceId || d !== days) return undefined;
+    if (Date.now() - timestamp > CACHE_EXPIRY) return undefined;
+    return data;
+  } catch {
+    return undefined;
+  }
+}
+
+function setCache(workspaceId: string, days: number, data: ChannelData[]) {
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({
+      data,
+      timestamp: Date.now(),
+      wid: workspaceId,
+      d: days,
+    }));
+  } catch {}
+}
+
 export default function ChannelMixDonut({ workspaceId, days, preloadedData }: ChannelMixDonutProps) {
   const hasPreloadedData = !!preloadedData && preloadedData.length > 0;
 
-  const { data, isLoading } = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: ["channel-mix", workspaceId, days],
     queryFn: async () => {
       if (!workspaceId) return [];
@@ -65,10 +91,14 @@ export default function ChannelMixDonut({ workspaceId, days, preloadedData }: Ch
           color: CHANNEL_COLORS[index] || CHANNEL_COLORS[4],
         }));
 
+      if (workspaceId) setCache(workspaceId, days, channels);
       return channels;
     },
+    initialData: () => workspaceId ? getCached(workspaceId, days) : undefined,
     enabled: !!workspaceId && !hasPreloadedData,
     staleTime: 2 * 60 * 1000,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   // Use preloaded data if available
@@ -79,26 +109,15 @@ export default function ChannelMixDonut({ workspaceId, days, preloadedData }: Ch
       }))
     : data;
 
-  const showLoading = !hasPreloadedData && isLoading;
-
-  if (showLoading) {
-    return (
-      <Card className="h-full">
-        <CardHeader className="pb-2">
-          <Skeleton className="h-5 w-24" />
-        </CardHeader>
-        <CardContent>
-          <Skeleton className="h-32 w-32 rounded-full mx-auto" />
-        </CardContent>
-      </Card>
-    );
-  }
-
   const channels = displayData || [];
   const total = channels.reduce((sum, c) => sum + c.value, 0);
 
   return (
-    <Card className="h-full">
+    <Card className="h-full relative">
+      {/* Subtle loading indicator */}
+      {isFetching && (
+        <div className="absolute top-3 right-3 h-2 w-2 rounded-full bg-primary animate-pulse" />
+      )}
       <CardHeader className="pb-2">
         <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
           <PieChart className="w-4 h-4" />

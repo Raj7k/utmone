@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Globe, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -20,10 +19,38 @@ interface CityData {
   percentage: number;
 }
 
+// Cache helpers
+const CACHE_KEY = 'geo-heat-cache';
+const CACHE_EXPIRY = 2 * 60 * 1000; // 2 minutes
+
+function getCached(workspaceId: string, days: number): CityData[] | undefined {
+  try {
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (!cached) return undefined;
+    const { data, timestamp, wid, d } = JSON.parse(cached);
+    if (wid !== workspaceId || d !== days) return undefined;
+    if (Date.now() - timestamp > CACHE_EXPIRY) return undefined;
+    return data;
+  } catch {
+    return undefined;
+  }
+}
+
+function setCache(workspaceId: string, days: number, data: CityData[]) {
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({
+      data,
+      timestamp: Date.now(),
+      wid: workspaceId,
+      d: days,
+    }));
+  } catch {}
+}
+
 export default function GeoHeatTiles({ workspaceId, days, preloadedData }: GeoHeatTilesProps) {
   const hasPreloadedData = !!preloadedData && preloadedData.length > 0;
 
-  const { data, isLoading } = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: ["geo-heat", workspaceId, days],
     queryFn: async () => {
       if (!workspaceId) return [];
@@ -64,37 +91,26 @@ export default function GeoHeatTiles({ workspaceId, days, preloadedData }: GeoHe
           percentage: total > 0 ? (data.count / total) * 100 : 0,
         }));
 
+      if (workspaceId) setCache(workspaceId, days, cities);
       return cities;
     },
+    initialData: () => workspaceId ? getCached(workspaceId, days) : undefined,
     enabled: !!workspaceId && !hasPreloadedData,
     staleTime: 2 * 60 * 1000,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   const displayData = hasPreloadedData ? preloadedData : data;
-  const showLoading = !hasPreloadedData && isLoading;
-
-  if (showLoading) {
-    return (
-      <Card className="h-full">
-        <CardHeader className="pb-2">
-          <Skeleton className="h-5 w-24" />
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 gap-2">
-            {[1, 2, 3, 4].map((i) => (
-              <Skeleton key={i} className="h-16" />
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
-
   const cities = displayData || [];
   const maxClicks = Math.max(...cities.map((c) => c.clicks), 1);
 
   return (
-    <Card className="h-full">
+    <Card className="h-full relative">
+      {/* Subtle loading indicator */}
+      {isFetching && (
+        <div className="absolute top-3 right-3 h-2 w-2 rounded-full bg-primary animate-pulse" />
+      )}
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">

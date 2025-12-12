@@ -132,9 +132,6 @@ export default function Intelligence() {
 
       {/* Main Content based on Tab */}
       {activeTab === "overview" && (
-        isLoading ? (
-          <IntelligenceOverviewSkeleton />
-        ) : (
         <div className="flex gap-6">
           {/* Main Content */}
           <div className="flex-1 space-y-6 min-w-0">
@@ -257,7 +254,6 @@ export default function Intelligence() {
             </div>
           </div>
         </div>
-        )
       )}
 
       {activeTab === "attribution" && (

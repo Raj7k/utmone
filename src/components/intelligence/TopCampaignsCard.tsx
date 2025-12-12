@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Megaphone, ChevronRight, TrendingUp, TrendingDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { IntelligenceContext } from "./ContextSwitcher";
@@ -24,10 +23,39 @@ interface CampaignData {
   sparkline: number[];
 }
 
+// Cache helpers
+const CACHE_KEY = 'top-campaigns-cache';
+const CACHE_EXPIRY = 2 * 60 * 1000; // 2 minutes
+
+function getCached(workspaceId: string, days: number, context: string): CampaignData[] | undefined {
+  try {
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (!cached) return undefined;
+    const { data, timestamp, wid, d, ctx } = JSON.parse(cached);
+    if (wid !== workspaceId || d !== days || ctx !== context) return undefined;
+    if (Date.now() - timestamp > CACHE_EXPIRY) return undefined;
+    return data;
+  } catch {
+    return undefined;
+  }
+}
+
+function setCache(workspaceId: string, days: number, context: string, data: CampaignData[]) {
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({
+      data,
+      timestamp: Date.now(),
+      wid: workspaceId,
+      d: days,
+      ctx: context,
+    }));
+  } catch {}
+}
+
 export default function TopCampaignsCard({ workspaceId, days, context, preloadedCampaigns }: TopCampaignsCardProps) {
   const hasPreloadedData = !!preloadedCampaigns;
 
-  const { data, isLoading } = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: ["top-campaigns", workspaceId, days, context],
     queryFn: async () => {
       if (!workspaceId) return [];
@@ -52,10 +80,15 @@ export default function TopCampaignsCard({ workspaceId, days, context, preloaded
         sparkline: Array.from({ length: 7 }, () => Math.random() * 50),
       }));
 
-      return campaignStats.sort((a, b) => b.clicks - a.clicks).slice(0, 3);
+      const result = campaignStats.sort((a, b) => b.clicks - a.clicks).slice(0, 3);
+      if (workspaceId) setCache(workspaceId, days, context, result);
+      return result;
     },
+    initialData: () => workspaceId ? getCached(workspaceId, days, context) : undefined,
     enabled: !!workspaceId && !hasPreloadedData,
     staleTime: 2 * 60 * 1000,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   // Use preloaded data if available
@@ -68,27 +101,14 @@ export default function TopCampaignsCard({ workspaceId, days, context, preloaded
       }))
     : data;
 
-  const showLoading = !hasPreloadedData && isLoading;
-
-  if (showLoading) {
-    return (
-      <Card className="h-full">
-        <CardHeader>
-          <Skeleton className="h-6 w-40" />
-        </CardHeader>
-        <CardContent className="space-y-3">
-          {[1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-16 w-full" />
-          ))}
-        </CardContent>
-      </Card>
-    );
-  }
-
   const campaigns = displayData || [];
 
   return (
-    <Card className="h-full">
+    <Card className="h-full relative">
+      {/* Subtle loading indicator */}
+      {isFetching && (
+        <div className="absolute top-3 right-3 h-2 w-2 rounded-full bg-primary animate-pulse" />
+      )}
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">

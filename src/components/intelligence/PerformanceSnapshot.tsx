@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { MousePointer, Users, Target, TrendingUp, TrendingDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import MiniSparkline from "./MiniSparkline";
@@ -20,10 +19,50 @@ interface MetricData {
   icon: typeof MousePointer;
 }
 
+interface SnapshotData {
+  clicks: number;
+  visitors: number;
+  conversionRate: string;
+  clicksSparkline: number[];
+  visitorsSparkline: number[];
+  conversionSparkline: number[];
+  clicksTrend: number;
+  visitorsTrend: number;
+  conversionTrend: number;
+}
+
+// Cache helpers
+const CACHE_KEY = 'performance-snapshot-cache';
+const CACHE_EXPIRY = 2 * 60 * 1000; // 2 minutes
+
+function getCached(workspaceId: string, days: number): SnapshotData | undefined {
+  try {
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (!cached) return undefined;
+    const { data, timestamp, wid, d } = JSON.parse(cached);
+    if (wid !== workspaceId || d !== days) return undefined;
+    if (Date.now() - timestamp > CACHE_EXPIRY) return undefined;
+    return data;
+  } catch {
+    return undefined;
+  }
+}
+
+function setCache(workspaceId: string, days: number, data: SnapshotData) {
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({
+      data,
+      timestamp: Date.now(),
+      wid: workspaceId,
+      d: days,
+    }));
+  } catch {}
+}
+
 export default function PerformanceSnapshot({ workspaceId, days, preloadedClicks }: PerformanceSnapshotProps) {
   const hasPreloadedData = preloadedClicks !== undefined;
   
-  const { data, isLoading } = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: ["performance-snapshot", workspaceId, days],
     queryFn: async () => {
       if (!workspaceId) return null;
@@ -52,7 +91,7 @@ export default function PerformanceSnapshot({ workspaceId, days, preloadedClicks
       // Generate sparkline data (mock for now)
       const generateSparkline = () => Array.from({ length: 7 }, () => Math.random() * 100);
 
-      return {
+      const result = {
         clicks,
         visitors: Math.round(clicks * 0.7), // Estimate unique visitors
         conversionRate: conversionRate.toFixed(1),
@@ -63,9 +102,15 @@ export default function PerformanceSnapshot({ workspaceId, days, preloadedClicks
         visitorsTrend: Math.random() > 0.5 ? 8 : -5,
         conversionTrend: Math.random() > 0.5 ? 15 : -3,
       };
+      
+      if (workspaceId) setCache(workspaceId, days, result);
+      return result;
     },
+    initialData: () => workspaceId ? getCached(workspaceId, days) : undefined,
     enabled: !!workspaceId && !hasPreloadedData,
     staleTime: 2 * 60 * 1000,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   // Use preloaded data if available
@@ -80,23 +125,6 @@ export default function PerformanceSnapshot({ workspaceId, days, preloadedClicks
     visitorsTrend: 0,
     conversionTrend: 0,
   } : data;
-
-  const showLoading = !hasPreloadedData && isLoading;
-
-  if (showLoading) {
-    return (
-      <Card className="h-full">
-        <CardHeader>
-          <Skeleton className="h-6 w-40" />
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {[1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-16 w-full" />
-          ))}
-        </CardContent>
-      </Card>
-    );
-  }
 
   const metrics: MetricData[] = [
     {
@@ -123,7 +151,11 @@ export default function PerformanceSnapshot({ workspaceId, days, preloadedClicks
   ];
 
   return (
-    <Card className="h-full">
+    <Card className="h-full relative">
+      {/* Subtle loading indicator */}
+      {isFetching && (
+        <div className="absolute top-3 right-3 h-2 w-2 rounded-full bg-primary animate-pulse" />
+      )}
       <CardHeader className="pb-2">
         <CardTitle className="text-sm font-medium text-muted-foreground">
           performance snapshot
