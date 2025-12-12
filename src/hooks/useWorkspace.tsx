@@ -56,11 +56,14 @@ export const useWorkspace = () => {
     },
   });
 
+  // isLoading should be true until both query is complete AND currentWorkspace is set
+  const isFullyLoaded = !isLoading && currentWorkspace !== null;
+
   return {
     workspaces,
     currentWorkspace,
     needsOnboarding,
-    isLoading,
+    isLoading: !isFullyLoaded, // True until workspace is actually ready
     createWorkspace: createWorkspaceMutation.mutate,
     completeOnboarding: completeOnboardingMutation.mutate,
     switchWorkspace,
