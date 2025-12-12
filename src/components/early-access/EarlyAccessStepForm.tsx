@@ -64,7 +64,7 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
       setLoadingStepIndex((prev) => 
         prev < LOADING_STEPS.length - 1 ? prev + 1 : prev
       );
-    }, 1200);
+    }, 700);
 
     return () => clearInterval(interval);
   }, [isSubmitting]);

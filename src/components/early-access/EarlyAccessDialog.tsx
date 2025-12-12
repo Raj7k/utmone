@@ -42,7 +42,7 @@ export const EarlyAccessDialog = ({
   return (
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent 
-        className={`${isSubmitted ? 'max-w-4xl' : 'max-w-[680px]'} max-h-[90vh] overflow-y-auto transition-all duration-300`}
+        className={`${isSubmitted ? 'max-w-2xl' : 'max-w-xl'} p-8 rounded-2xl shadow-[0_4px_24px_hsl(0_0%_0%/0.08)] max-h-[90vh] overflow-y-auto transition-all duration-300 bg-card border-border`}
       >
         {!isSubmitted ? (
           <div className="space-y-6">
@@ -50,7 +50,7 @@ export const EarlyAccessDialog = ({
               <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground">
                 join the early circle
               </h2>
-              <p className="text-base text-muted-foreground">
+              <p className="text-base text-foreground/70 leading-relaxed">
                 be among the first to use utm.one
               </p>
             </div>
