@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Clock, CheckCircle, XCircle, ExternalLink } from "lucide-react";
+import { Clock, CheckCircle, XCircle, ExternalLink, RefreshCw } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { notify } from "@/lib/notify";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
+import { useWorkspace } from "@/hooks/useWorkspace";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface PendingLink {
   id: string;
@@ -28,11 +29,43 @@ export default function ApprovalQueue() {
   const [showRejectDialog, setShowRejectDialog] = useState(false);
   const [selectedLinkId, setSelectedLinkId] = useState<string | null>(null);
   const [rejectionReason, setRejectionReason] = useState("");
-  const { currentWorkspace } = useWorkspaceContext();
+  const { currentWorkspace, isLoading: workspaceLoading, hasTimedOut, retry } = useWorkspace();
 
   useEffect(() => {
-    fetchPendingLinks();
-  }, []);
+    if (currentWorkspace?.id) {
+      fetchPendingLinks();
+    }
+  }, [currentWorkspace?.id]);
+
+  // Show loading skeleton while workspace is loading
+  if (workspaceLoading) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <Skeleton className="h-9 w-48 mb-2" />
+          <Skeleton className="h-5 w-72" />
+        </div>
+        <div className="space-y-4">
+          {[1, 2, 3].map((i) => (
+            <Skeleton key={i} className="h-32 w-full" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Show error state if workspace loading timed out
+  if (hasTimedOut || (!workspaceLoading && !currentWorkspace)) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 text-center">
+        <p className="text-muted-foreground mb-4">unable to load workspace data</p>
+        <Button onClick={retry} variant="outline" size="sm" className="gap-2">
+          <RefreshCw className="h-4 w-4" />
+          try again
+        </Button>
+      </div>
+    );
+  }
 
   const fetchPendingLinks = async () => {
     setIsLoading(true);
