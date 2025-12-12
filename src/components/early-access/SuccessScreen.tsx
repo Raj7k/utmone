@@ -56,12 +56,12 @@ export const SuccessScreen = ({
   }, []);
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-2xl mx-auto py-4">
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="text-center space-y-8"
+        className="text-center space-y-6"
       >
         {/* Success Badge */}
         <motion.div
@@ -71,9 +71,9 @@ export const SuccessScreen = ({
           className="inline-flex items-center justify-center mx-auto"
         >
           <div className="relative">
-            <div className="absolute inset-0 rounded-full blur-3xl bg-primary/20" />
-            <div className="relative rounded-full p-6 bg-gradient-to-br from-primary to-orange-500">
-              <Trophy className="w-16 h-16 text-white" />
+            <div className="absolute inset-0 rounded-full blur-2xl bg-primary/30" />
+            <div className="relative rounded-full p-4 bg-gradient-to-br from-primary to-orange-500">
+              <Trophy className="w-10 h-10 text-primary-foreground" />
             </div>
           </div>
         </motion.div>
@@ -83,30 +83,30 @@ export const SuccessScreen = ({
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="space-y-4"
+          className="space-y-3"
         >
-          <h1 className="font-display font-bold text-5xl md:text-6xl lg:text-7xl hero-gradient">
+          <h1 className="font-display font-bold text-3xl md:text-4xl text-foreground">
             you're on the list!
           </h1>
           
           {/* Queue Position Badge */}
-          <div className="inline-flex items-center gap-3 border-2 rounded-full px-8 py-4 bg-primary/10 border-primary/30">
-            <Sparkles className="w-6 h-6 text-primary" />
+          <div className="inline-flex items-center gap-3 border rounded-full px-6 py-3 bg-primary/10 border-primary/30">
+            <Sparkles className="w-5 h-5 text-primary" />
             <div className="text-left">
-              <p className="text-sm text-muted-foreground font-medium">queue position</p>
-              <p className="text-3xl font-display font-bold text-primary">
+              <p className="text-xs text-foreground/60 font-medium uppercase tracking-wide">queue position</p>
+              <p className="text-2xl font-display font-bold text-foreground">
                 #{queuePosition}
               </p>
             </div>
           </div>
         </motion.div>
 
-        {/* Golden Ticket */}
+        {/* Golden Ticket - Scaled down */}
         <motion.div
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="py-8"
+          className="py-4"
         >
           <GoldenTicket
             userName={userName}
@@ -121,21 +121,21 @@ export const SuccessScreen = ({
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.7 }}
-          className="rounded-3xl p-8 md:p-12 border-2 bg-gradient-to-br from-primary/5 via-primary/10 to-orange-500/5 border-primary/20"
+          className="rounded-2xl p-6 md:p-8 border bg-card border-border"
         >
-          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-            skip the line now
+          <h2 className="text-xl md:text-2xl font-display font-bold text-foreground mb-2">
+            skip the line
           </h2>
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            share your unique link — refer 3 friends and unlock instant access + 1 month Pro free!
+          <p className="text-base text-foreground/70 mb-6 max-w-md mx-auto leading-relaxed">
+            refer 3 friends and unlock instant access + 1 month Pro free!
           </p>
 
-          <div className="space-y-6">
+          <div className="space-y-4">
             <ShareReferralModal referralCode={referralCode} userName={userName} />
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
               <Link to={`/waitlist-status?email=${encodeURIComponent(email)}`}>
-                <Button variant="outline" size="lg" className="group">
+                <Button variant="outline" size="default" className="group">
                   view full status
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
@@ -149,7 +149,7 @@ export const SuccessScreen = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.9 }}
-          className="text-center text-sm text-muted-foreground"
+          className="text-center text-sm text-foreground/60"
         >
           <p>
             we'll email you when your position changes or when early access opens.

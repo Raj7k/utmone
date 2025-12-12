@@ -2,8 +2,10 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { preserveAcronyms as p } from "@/utils/textFormatter";
 import { useModal } from "@/contexts/ModalContext";
+import { supabase } from "@/integrations/supabase/client";
 import { 
   TrendingUp, 
   Route, 
@@ -11,7 +13,8 @@ import {
   ArrowRight,
   Shield,
   Sparkles,
-  ChevronRight
+  ChevronRight,
+  Loader2
 } from "lucide-react";
 import { UseCaseType } from "./ControlDeckHero";
 
@@ -75,11 +78,31 @@ const HERO_CONTENT: Record<UseCaseType, { headline: string; subheadline: string 
 
 export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
   const [activeUseCase, setActiveUseCase] = useState<UseCaseType>("attribution");
-  const { openEmailCapture } = useModal();
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { openEarlyAccessModal } = useModal();
 
   const handleUseCaseChange = (useCase: UseCaseType) => {
     setActiveUseCase(useCase);
     onUseCaseChange?.(useCase);
+  };
+
+  const handleEmailSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+    
+    setIsSubmitting(true);
+    try {
+      await supabase.functions.invoke("capture-email-lead", {
+        body: { email, source: "mobile_hero_inline" },
+      });
+      openEarlyAccessModal(email);
+      setEmail("");
+    } catch (error) {
+      console.error("Error capturing email:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const content = HERO_CONTENT[activeUseCase];
@@ -106,16 +129,33 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
           </motion.div>
         </AnimatePresence>
 
-        {/* Primary CTA Button */}
-        <Button 
-          onClick={openEmailCapture}
-          variant="halo"
-          size="lg" 
-          className="w-full h-14 text-base"
-        >
-          get early access
-          <ArrowRight className="ml-2 h-5 w-5" />
-        </Button>
+        {/* Inline Email CTA */}
+        <form onSubmit={handleEmailSubmit} className="space-y-3">
+          <Input
+            type="email"
+            placeholder="you@company.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="h-14 px-5 rounded-xl bg-white/5 border-white/10 text-foreground placeholder:text-muted-foreground focus:border-primary/50"
+            required
+          />
+          <Button 
+            type="submit"
+            disabled={isSubmitting}
+            variant="halo"
+            size="lg" 
+            className="w-full h-14 text-base"
+          >
+            {isSubmitting ? (
+              <Loader2 className="h-5 w-5 animate-spin" />
+            ) : (
+              <>
+                get early access
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </>
+            )}
+          </Button>
+        </form>
 
         <Link 
           to="/how-it-works" 

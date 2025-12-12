@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useModal } from "@/contexts/ModalContext";
 import { preserveAcronyms as p } from "@/utils/textFormatter";
 import { 
@@ -13,12 +14,14 @@ import {
   DollarSign,
   CheckCircle2,
   User,
-  Brain
+  Brain,
+  Loader2
 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileHero } from "./MobileHero";
 import { FiberOpticGraph } from "./FiberOpticGraph";
 import { FoundingSpotsCounter } from "./AnimatedCounter";
+import { supabase } from "@/integrations/supabase/client";
 
 export type UseCaseType = "attribution" | "journey" | "links" | "intelligence" | "governance";
 
@@ -80,8 +83,28 @@ const appleEase = "easeOut";
 export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const isMobile = useIsMobile();
-  const { openEmailCapture } = useModal();
+  const { openEarlyAccessModal } = useModal();
+
+  const handleEmailSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+    
+    setIsSubmitting(true);
+    try {
+      await supabase.functions.invoke("capture-email-lead", {
+        body: { email, source: "hero_inline" },
+      });
+      openEarlyAccessModal(email);
+      setEmail("");
+    } catch (error) {
+      console.error("Error capturing email:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handleSelect = (index: number) => {
     if (index === activeIndex) return;
@@ -229,18 +252,33 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                       {activeItem.subheadline}
                     </p>
 
-                    {/* CTA Button */}
+                    {/* Inline Email CTA */}
                     <div className="pt-2">
-                      <div className="flex flex-col sm:flex-row gap-4 items-start">
+                      <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+                        <Input
+                          type="email"
+                          placeholder="you@company.com"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="h-14 px-6 rounded-full bg-white/5 border-white/10 text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:ring-primary/20 min-w-[280px]"
+                          required
+                        />
                         <Button 
-                          onClick={openEmailCapture}
+                          type="submit"
+                          disabled={isSubmitting}
                           size="lg"
-                          className="h-14 rounded-full px-10 font-medium font-sans bg-primary text-primary-foreground shadow-[0_0_30px_hsl(0_0%_100%/0.3),0_4px_15px_hsl(0_0%_0%/0.2)]"
+                          className="h-14 rounded-full px-8 font-medium font-sans bg-primary text-primary-foreground shadow-[0_0_30px_hsl(0_0%_100%/0.3),0_4px_15px_hsl(0_0%_0%/0.2)]"
                         >
-                          get early access
-                          <ArrowRight className="w-4 h-4 ml-2" />
+                          {isSubmitting ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                          ) : (
+                            <>
+                              get early access
+                              <ArrowRight className="w-4 h-4 ml-2" />
+                            </>
+                          )}
                         </Button>
-                      </div>
+                      </form>
                       
                       {/* Founding spots - Animated urgency counter */}
                       <div className="mt-4">
