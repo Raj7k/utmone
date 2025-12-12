@@ -10,6 +10,7 @@ import { SubscriptionExpiryBanner } from "@/components/subscription/Subscription
 import { TourProvider, TourOverlay } from "@/components/onboarding";
 import { KeyboardShortcutsProvider } from "@/components/keyboard/KeyboardShortcutsProvider";
 import { MobileNav } from "@/components/mobile/MobileNav";
+import { NavigationProgress } from "@/components/navigation/NavigationProgress";
 import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
@@ -46,6 +47,9 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     <TourProvider>
       <KeyboardShortcutsProvider>
         <SidebarProvider>
+          {/* Navigation Progress Bar */}
+          <NavigationProgress />
+          
           <div className="dashboard-root min-h-screen bg-background flex w-full overflow-hidden">
             {/* Sidebar - Desktop only */}
             <div className="hidden lg:block flex-shrink-0">
