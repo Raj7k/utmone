@@ -4019,6 +4019,8 @@ export type Database = {
           rejection_reason: string | null
           routing_strategy: string | null
           security_status: Database["public"]["Enums"]["security_status"] | null
+          sentinel_config: Json | null
+          sentinel_enabled: boolean | null
           short_url: string | null
           slug: string
           smart_rotate: boolean | null
@@ -4102,6 +4104,8 @@ export type Database = {
           security_status?:
             | Database["public"]["Enums"]["security_status"]
             | null
+          sentinel_config?: Json | null
+          sentinel_enabled?: boolean | null
           short_url?: string | null
           slug: string
           smart_rotate?: boolean | null
@@ -4185,6 +4189,8 @@ export type Database = {
           security_status?:
             | Database["public"]["Enums"]["security_status"]
             | null
+          sentinel_config?: Json | null
+          sentinel_enabled?: boolean | null
           short_url?: string | null
           slug?: string
           smart_rotate?: boolean | null
@@ -5397,6 +5403,74 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "scheduled_reports_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sentinel_saves: {
+        Row: {
+          estimated_value: number | null
+          id: string
+          link_id: string | null
+          metadata: Json | null
+          original_destination: string
+          redirected_to: string
+          save_type: string
+          saved_at: string | null
+          visitor_info: Json | null
+          workspace_id: string | null
+        }
+        Insert: {
+          estimated_value?: number | null
+          id?: string
+          link_id?: string | null
+          metadata?: Json | null
+          original_destination: string
+          redirected_to: string
+          save_type: string
+          saved_at?: string | null
+          visitor_info?: Json | null
+          workspace_id?: string | null
+        }
+        Update: {
+          estimated_value?: number | null
+          id?: string
+          link_id?: string | null
+          metadata?: Json | null
+          original_destination?: string
+          redirected_to?: string
+          save_type?: string
+          saved_at?: string | null
+          visitor_info?: Json | null
+          workspace_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sentinel_saves_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "hot_links_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sentinel_saves_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sentinel_saves_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_click_time_series"
+            referencedColumns: ["link_id"]
+          },
+          {
+            foreignKeyName: "sentinel_saves_workspace_id_fkey"
             columns: ["workspace_id"]
             isOneToOne: false
             referencedRelation: "workspaces"
