@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
+import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { Link } from "react-router-dom";
 import { ExternalLink, MousePointer, Clock } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -21,11 +22,12 @@ interface LinkWithClicks {
 
 export const ActivityFeed = () => {
   const { currentWorkspace } = useWorkspaceContext();
+  const effectiveWorkspaceId = currentWorkspace?.id || getCachedWorkspaceId() || "";
 
   const { data: recentLinks, isLoading } = useQuery({
-    queryKey: queryKeys.dashboard.activityFeed(currentWorkspace?.id || ''),
+    queryKey: queryKeys.dashboard.activityFeed(effectiveWorkspaceId),
     queryFn: async () => {
-      if (!currentWorkspace?.id) return [];
+      if (!effectiveWorkspaceId) return [];
       
       const { data: links, error } = await supabase
         .from('links')
@@ -39,7 +41,7 @@ export const ActivityFeed = () => {
           expires_at,
           status
         `)
-        .eq('workspace_id', currentWorkspace.id)
+        .eq('workspace_id', effectiveWorkspaceId)
         .order('created_at', { ascending: false })
         .limit(5);
 
@@ -68,7 +70,7 @@ export const ActivityFeed = () => {
 
       return linksWithClicks;
     },
-    enabled: !!currentWorkspace?.id,
+    enabled: !!effectiveWorkspaceId,
     staleTime: 60 * 1000, // 1 minute - activity updates more frequently
     gcTime: 5 * 60 * 1000,
   });
