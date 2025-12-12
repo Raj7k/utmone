@@ -23,7 +23,7 @@ import { ProfileSettings } from "@/components/settings/ProfileSettings";
 import { SecurityTabContent } from "@/components/settings/SecurityTabContent";
 import { SettingsContentWrapper } from "@/components/settings/SettingsContentWrapper";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { Loader2 } from "lucide-react";
+
 import { AnimatePresence } from "framer-motion";
 import { CreateLinkModal } from "@/components/CreateLinkModal";
 
@@ -43,15 +43,27 @@ const tabTitles: Record<string, { title: string; description: string }> = {
   extension: { title: "browser extension", description: "get quick access from any tab" },
 };
 
+// Read cached user synchronously at module level
+const getCachedUser = () => {
+  try {
+    const cached = localStorage.getItem('utm_session_cache');
+    if (!cached) return null;
+    const { user, timestamp } = JSON.parse(cached);
+    if (Date.now() - timestamp > 15 * 60 * 1000) return null;
+    return user;
+  } catch { return null; }
+};
+
 export default function Settings() {
   const navigate = useNavigate();
   const location = useLocation();
   const { currentWorkspace } = useWorkspace();
-  const [user, setUser] = useState<any>(null);
+  // Initialize from cache - ProtectedRoute guarantees authentication
+  const [user, setUser] = useState<any>(getCachedUser);
   const [activeTab, setActiveTab] = useState("profile");
   const isMobile = useIsMobile();
 
-  // Get user from session (already authenticated via ProtectedRoute)
+  // Sync user from session (backup for cache miss)
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
@@ -84,13 +96,7 @@ export default function Settings() {
     }
   }, [location]);
 
-  if (!user) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-      </div>
-    );
-  }
+  // No blocking spinner - ProtectedRoute guarantees user exists
 
   const currentTabInfo = tabTitles[activeTab] || { title: activeTab, description: "" };
 
