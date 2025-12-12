@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
+import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 
 type Link = Database["public"]["Tables"]["links"]["Row"];
 type Profile = Database["public"]["Tables"]["profiles"]["Row"];
@@ -29,9 +30,12 @@ export const useEnhancedLinks = ({
   page = 1,
   pageSize = 10,
 }: UseEnhancedLinksParams) => {
+  // Use cached workspace ID as fallback to enable query immediately
+  const effectiveWorkspaceId = workspaceId || getCachedWorkspaceId() || "";
+  
   return useQuery({
-    queryKey: ["enhanced-links", workspaceId, searchQuery, statusFilter, sortBy, sortOrder, page, pageSize],
-    enabled: !!workspaceId,
+    queryKey: ["enhanced-links", effectiveWorkspaceId, searchQuery, statusFilter, sortBy, sortOrder, page, pageSize],
+    enabled: !!effectiveWorkspaceId,
     queryFn: async () => {
       let query = supabase
         .from("links")
@@ -42,7 +46,7 @@ export const useEnhancedLinks = ({
             email
           )
         `, { count: "exact" })
-        .eq("workspace_id", workspaceId);
+        .eq("workspace_id", effectiveWorkspaceId);
 
       // Apply status filter
       if (statusFilter !== "all") {

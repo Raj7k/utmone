@@ -22,7 +22,7 @@
       (function() {
         // Check for cached session to speed up initial auth
         try {
-          const cachedSession = sessionStorage.getItem('utm_session_cache');
+          const cachedSession = localStorage.getItem('utm_session_cache');
           if (cachedSession) {
             const parsed = JSON.parse(cachedSession);
             // Valid cache = pre-warm successful
