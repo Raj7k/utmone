@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useWorkspace } from "@/hooks/useWorkspace";
+import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { 
   useFieldEvents, 
   useFieldEvent, 
@@ -73,23 +74,26 @@ const Events = () => {
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [qrDialogEvent, setQrDialogEvent] = useState<FieldEvent | null>(null);
   const [scannerEventId, setScannerEventId] = useState<string | null>(null);
+
+  // Use cached workspace ID for immediate query start
+  const effectiveWorkspaceId = currentWorkspace?.id || getCachedWorkspaceId() || '';
   
-  const { data: events, isLoading, isFetched, refetch } = useFieldEvents(currentWorkspace?.id || '');
+  const { data: events, isLoading, isFetched, refetch } = useFieldEvents(effectiveWorkspaceId);
   const { data: eventDetails } = useFieldEvent(selectedEvent?.id || '');
   const { data: badgeScans } = useEventBadgeScans(selectedEvent?.id || '');
   const calculateHalo = useCalculateEventHalo();
   const updateValueSettings = useUpdateEventValueSettings();
-  const { data: inferredMetrics } = useInferEventMetrics(currentWorkspace?.id || '');
+  const { data: inferredMetrics } = useInferEventMetrics(effectiveWorkspaceId);
   const queryClient = useQueryClient();
   
   const haloResult = queryClient.getQueryData<EventHaloResult>(['event-halo-result', selectedEvent?.id]);
 
   // Complete navigation when data loads
   useEffect(() => {
-    if ((isFetched && currentWorkspace?.id) || hasTimedOut) {
+    if ((isFetched && effectiveWorkspaceId) || hasTimedOut) {
       completeNavigation();
     }
-  }, [isFetched, currentWorkspace?.id, hasTimedOut]);
+  }, [isFetched, effectiveWorkspaceId, hasTimedOut]);
 
   const handleEventSelect = (event: FieldEvent) => {
     setSelectedEvent(event);
@@ -110,9 +114,9 @@ const Events = () => {
   };
 
   const handleRecalculate = async () => {
-    if (!currentWorkspace?.id || !selectedEvent) return;
+    if (!effectiveWorkspaceId || !selectedEvent) return;
     try {
-      await calculateHalo.mutateAsync({ eventId: selectedEvent.id, workspaceId: currentWorkspace.id });
+      await calculateHalo.mutateAsync({ eventId: selectedEvent.id, workspaceId: effectiveWorkspaceId });
       toast({ title: "halo recalculated", description: "event metrics have been updated" });
     } catch (error) {
       toast({ title: "calculation failed", description: "please try again", variant: "destructive" });
@@ -173,8 +177,8 @@ const Events = () => {
                   </p>
                 </div>
 
-                {/* Content - skeleton or data */}
-                {(isLoading || workspaceLoading) && !hasTimedOut ? (
+                {/* Content - skeleton only while loading */}
+                {isLoading && !hasTimedOut ? (
                   <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {[1, 2, 3].map((i) => (
                       <Skeleton key={i} className="h-48 w-full rounded-xl" />
@@ -258,7 +262,7 @@ const Events = () => {
       <CreateEventDialog
         open={createDialogOpen}
         onOpenChange={setCreateDialogOpen}
-        workspaceId={currentWorkspace?.id || ''}
+        workspaceId={effectiveWorkspaceId}
         onEventCreated={refetch}
       />
 

@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useWorkspace } from "@/hooks/useWorkspace";
+import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { Download, ExternalLink, QrCode, Plus, Boxes } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -36,19 +37,22 @@ export default function QRCodes() {
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [selectedLink, setSelectedLink] = useState<{ id: string; shortUrl: string } | null>(null);
 
+  // Use cached workspace ID for immediate query start
+  const effectiveWorkspaceId = currentWorkspace?.id || getCachedWorkspaceId() || "";
+
   const handleTabChange = (value: string) => {
     setSearchParams({ tab: value });
   };
 
   const { data: qrCodes, isLoading, isFetched } = useQuery({
-    queryKey: ["qr-codes", currentWorkspace?.id],
+    queryKey: ["qr-codes", effectiveWorkspaceId],
     queryFn: async () => {
-      if (!currentWorkspace) return [];
+      if (!effectiveWorkspaceId) return [];
 
       const { data: workspaceLinks } = await supabase
         .from("links")
         .select("id")
-        .eq("workspace_id", currentWorkspace.id);
+        .eq("workspace_id", effectiveWorkspaceId);
 
       if (!workspaceLinks || workspaceLinks.length === 0) return [];
 
@@ -71,7 +75,7 @@ export default function QRCodes() {
       if (error) throw error;
       return data;
     },
-    enabled: !!currentWorkspace,
+    enabled: !!effectiveWorkspaceId,
   });
 
   // Complete navigation when data loads
@@ -82,18 +86,18 @@ export default function QRCodes() {
   }, [isFetched]);
 
   const { data: workspaceLinks } = useQuery({
-    queryKey: ["workspace-links", currentWorkspace?.id],
+    queryKey: ["workspace-links", effectiveWorkspaceId],
     queryFn: async () => {
-      if (!currentWorkspace) return [];
+      if (!effectiveWorkspaceId) return [];
       const { data } = await supabase
         .from("links")
         .select("id, title, slug, domain, path, short_url")
-        .eq("workspace_id", currentWorkspace.id)
+        .eq("workspace_id", effectiveWorkspaceId)
         .order("created_at", { ascending: false })
         .limit(20);
       return data || [];
     },
-    enabled: !!currentWorkspace,
+    enabled: !!effectiveWorkspaceId,
   });
 
   const filteredQRCodes = qrCodes?.filter((qr) =>
@@ -135,8 +139,8 @@ export default function QRCodes() {
         </div>
 
         <TabsContent value="all" className="space-y-6">
-          {/* Progressive loading - skeleton or content */}
-          {isLoading || !currentWorkspace ? (
+          {/* Progressive loading - skeleton only while loading */}
+          {isLoading ? (
             <QRGridSkeleton />
           ) : qrCodes && qrCodes.length > 0 ? (
             <>

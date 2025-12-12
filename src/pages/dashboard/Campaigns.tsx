@@ -4,6 +4,7 @@ import { Plus, Megaphone } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/useWorkspace";
+import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { CreateCampaignModal } from "@/components/campaigns/CreateCampaignModal";
 import { CampaignCard } from "@/components/campaigns/CampaignCard";
 import { FeatureGuard } from "@/components/FeatureGuard";
@@ -30,11 +31,14 @@ export default function Campaigns() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const { currentWorkspace } = useWorkspace();
 
+  // Use cached workspace ID for immediate query start
+  const effectiveWorkspaceId = currentWorkspace?.id || getCachedWorkspaceId() || "";
+
   // Fetch campaigns with stats in a single optimized query
   const { data: campaignsWithStats, isLoading, isFetched } = useQuery({
-    queryKey: ["campaigns-with-stats", currentWorkspace?.id],
+    queryKey: ["campaigns-with-stats", effectiveWorkspaceId],
     queryFn: async () => {
-      if (!currentWorkspace) return [];
+      if (!effectiveWorkspaceId) return [];
 
       const { data: campaigns, error: campaignsError } = await supabase
         .from("campaigns")
@@ -49,7 +53,7 @@ export default function Campaigns() {
             total_clicks
           )
         `)
-        .eq("workspace_id", currentWorkspace.id)
+        .eq("workspace_id", effectiveWorkspaceId)
         .order("created_at", { ascending: false });
 
       if (campaignsError) throw campaignsError;
@@ -104,7 +108,7 @@ export default function Campaigns() {
         };
       });
     },
-    enabled: !!currentWorkspace,
+    enabled: !!effectiveWorkspaceId,
   });
 
   // Complete navigation when data loads
@@ -114,7 +118,7 @@ export default function Campaigns() {
     }
   }, [isFetched]);
 
-  const dataLoading = isLoading || !currentWorkspace;
+  const dataLoading = isLoading;
 
   return (
     <PageContentWrapper
