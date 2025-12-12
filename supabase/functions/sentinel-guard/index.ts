@@ -101,16 +101,43 @@ async function checkDestinationHealth(
   }
 }
 
-// Check Shopify inventory (placeholder - requires OAuth integration)
+// Check Shopify inventory via dedicated edge function
 async function checkShopifyInventory(
-  _sku: string,
-  _threshold: number,
-  _workspaceId: string
+  sku: string,
+  threshold: number,
+  workspaceId: string
 ): Promise<{ available: boolean; count: number }> {
-  // TODO: Implement Shopify API integration in Phase 2
-  // For now, return available to not block redirects
-  console.log('Shopify inventory check - integration pending');
-  return { available: true, count: 999 };
+  try {
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    
+    const response = await fetch(`${supabaseUrl}/functions/v1/shopify-inventory`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${supabaseKey}`,
+      },
+      body: JSON.stringify({
+        sku,
+        threshold,
+        workspace_id: workspaceId,
+      }),
+    });
+
+    if (!response.ok) {
+      console.error('Shopify inventory check failed:', response.status);
+      return { available: true, count: 999 }; // Fail open
+    }
+
+    const data = await response.json();
+    return {
+      available: data.available,
+      count: data.quantity,
+    };
+  } catch (error) {
+    console.error('Shopify inventory check error:', error);
+    return { available: true, count: 999 }; // Fail open
+  }
 }
 
 // Log sentinel save to database
