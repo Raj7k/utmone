@@ -16,7 +16,7 @@ export const QuickStats = () => {
   const { id: planId } = useCurrentPlan();
   const planConfig = PLAN_CONFIG[planId] || PLAN_CONFIG.free;
 
-  // Get clicks this week - optimized with parallel queries
+  // Get clicks this week - optimized: query link_clicks directly by workspace_id
   const { data: clicksData, isLoading: clicksLoading } = useQuery({
     queryKey: queryKeys.dashboard.clicksWeek(effectiveWorkspaceId),
     queryFn: async () => {
@@ -26,28 +26,19 @@ export const QuickStats = () => {
       const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
       const twoWeeksAgo = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000);
 
-      // Get all link IDs for this workspace first
-      const { data: links } = await supabase
-        .from('links')
-        .select('id')
-        .eq('workspace_id', effectiveWorkspaceId);
-
-      const linkIds = links?.map(l => l.id) || [];
-      if (linkIds.length === 0) return { current: 0, previous: 0 };
-
-      // Run both week queries in parallel
+      // Query link_clicks directly by workspace_id - no need to fetch link IDs first
       const [currentResult, previousResult] = await Promise.all([
         supabase
           .from('link_clicks')
-          .select('*', { count: 'exact', head: true })
-          .gte('clicked_at', weekAgo.toISOString())
-          .in('link_id', linkIds),
+          .select('id', { count: 'exact', head: true })
+          .eq('workspace_id', effectiveWorkspaceId)
+          .gte('clicked_at', weekAgo.toISOString()),
         supabase
           .from('link_clicks')
-          .select('*', { count: 'exact', head: true })
+          .select('id', { count: 'exact', head: true })
+          .eq('workspace_id', effectiveWorkspaceId)
           .gte('clicked_at', twoWeeksAgo.toISOString())
-          .lt('clicked_at', weekAgo.toISOString())
-          .in('link_id', linkIds),
+          .lt('clicked_at', weekAgo.toISOString()),
       ]);
 
       return { 
@@ -56,23 +47,23 @@ export const QuickStats = () => {
       };
     },
     enabled: !!effectiveWorkspaceId,
-    staleTime: 2 * 60 * 1000, // 2 minutes
+    staleTime: 2 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
   });
 
-  // Get link count for plan usage
+  // Get link count for plan usage - optimized: select only id for count
   const { data: linksData, isLoading: linksLoading } = useQuery({
     queryKey: queryKeys.dashboard.linksCount(effectiveWorkspaceId),
     queryFn: async () => {
       if (!effectiveWorkspaceId) return 0;
       const { count } = await supabase
         .from('links')
-        .select('*', { count: 'exact', head: true })
+        .select('id', { count: 'exact', head: true })
         .eq('workspace_id', effectiveWorkspaceId);
       return count || 0;
     },
     enabled: !!effectiveWorkspaceId,
-    staleTime: 2 * 60 * 1000, // 2 minutes
+    staleTime: 2 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
   });
 
