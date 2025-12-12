@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { preserveAcronyms as p } from "@/utils/textFormatter";
+import { useModal } from "@/contexts/ModalContext";
 import { 
   TrendingUp, 
   Route, 
@@ -74,6 +75,7 @@ const HERO_CONTENT: Record<UseCaseType, { headline: string; subheadline: string 
 
 export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
   const [activeUseCase, setActiveUseCase] = useState<UseCaseType>("attribution");
+  const { openEarlyAccessModal } = useModal();
 
   const handleUseCaseChange = (useCase: UseCaseType) => {
     setActiveUseCase(useCase);
@@ -105,16 +107,15 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
         </AnimatePresence>
 
         {/* Primary CTA - Always Visible */}
-        <Link to="/early-access" className="block">
-          <Button 
-            variant="halo"
-            size="lg" 
-            className="w-full h-14 text-base"
-          >
-            get early access
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
-        </Link>
+        <Button 
+          variant="halo"
+          size="lg" 
+          className="w-full h-14 text-base"
+          onClick={() => openEarlyAccessModal()}
+        >
+          get early access
+          <ArrowRight className="ml-2 h-5 w-5" />
+        </Button>
 
         <Link 
           to="/how-it-works" 
