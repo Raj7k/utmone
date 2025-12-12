@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { ArrowRight } from "lucide-react";
 import { z } from "zod";
 import { useModal } from "@/contexts/ModalContext";
+import { captureEmailLead } from "@/lib/captureEmailLead";
 
 const emailSchema = z.string().email();
 
@@ -22,6 +23,14 @@ export const HeroInlineCTA = () => {
       return;
     }
 
+    // Capture email immediately (fire-and-forget)
+    captureEmailLead({
+      email,
+      source: 'hero_inline_cta',
+      referralCode: new URLSearchParams(window.location.search).get('ref'),
+    });
+
+    // Open modal with prefilled email
     openEarlyAccessModal(email);
   };
 

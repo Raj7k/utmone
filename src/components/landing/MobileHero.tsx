@@ -2,8 +2,13 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { preserveAcronyms as p } from "@/utils/textFormatter";
 import { useModal } from "@/contexts/ModalContext";
+import { captureEmailLead } from "@/lib/captureEmailLead";
+import { z } from "zod";
+
+const emailSchema = z.string().email();
 import { 
   TrendingUp, 
   Route, 
@@ -75,7 +80,30 @@ const HERO_CONTENT: Record<UseCaseType, { headline: string; subheadline: string 
 
 export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
   const [activeUseCase, setActiveUseCase] = useState<UseCaseType>("attribution");
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
   const { openEarlyAccessModal } = useModal();
+
+  const handleEmailSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setEmailError("");
+
+    const result = emailSchema.safeParse(email);
+    if (!result.success) {
+      setEmailError("please enter a valid email");
+      return;
+    }
+
+    // Capture email immediately (fire-and-forget)
+    captureEmailLead({
+      email,
+      source: 'mobile_hero',
+      referralCode: new URLSearchParams(window.location.search).get('ref'),
+    });
+
+    // Open modal with prefilled email
+    openEarlyAccessModal(email);
+  };
 
   const handleUseCaseChange = (useCase: UseCaseType) => {
     setActiveUseCase(useCase);
@@ -106,16 +134,31 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
           </motion.div>
         </AnimatePresence>
 
-        {/* Primary CTA - Always Visible */}
-        <Button 
-          variant="halo"
-          size="lg" 
-          className="w-full h-14 text-base"
-          onClick={() => openEarlyAccessModal()}
-        >
-          get early access
-          <ArrowRight className="ml-2 h-5 w-5" />
-        </Button>
+        {/* Primary CTA - Inline Email Form */}
+        <form onSubmit={handleEmailSubmit} className="space-y-3">
+          <div className="flex flex-col gap-3 p-3 bg-muted/30 dark:bg-zinc-900/40 backdrop-blur-xl border border-border dark:border-white/10 rounded-2xl">
+            <Input
+              type="email"
+              placeholder="enter your email..."
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="h-12 bg-muted/50 dark:bg-white/5 border-border dark:border-white/10 text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-white/40 rounded-xl"
+              required
+            />
+            <Button 
+              type="submit"
+              variant="halo"
+              size="lg" 
+              className="w-full h-14 text-base"
+            >
+              get early access
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </div>
+          {emailError && (
+            <p className="text-sm text-destructive text-center">{emailError}</p>
+          )}
+        </form>
 
         <Link 
           to="/how-it-works" 
