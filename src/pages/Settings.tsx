@@ -51,27 +51,22 @@ export default function Settings() {
   const [activeTab, setActiveTab] = useState("profile");
   const isMobile = useIsMobile();
 
+  // Get user from session (already authenticated via ProtectedRoute)
   useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (!user) {
-        navigate("/auth");
-      } else {
-        setUser(user);
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        setUser(session.user);
       }
     });
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!session) {
-        navigate("/auth");
-      } else {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
         setUser(session.user);
       }
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, []);
 
   useEffect(() => {
     if (location.pathname.includes("/domains")) {
