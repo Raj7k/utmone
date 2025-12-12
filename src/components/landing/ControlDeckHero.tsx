@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useModal } from "@/contexts/ModalContext";
 import { preserveAcronyms as p } from "@/utils/textFormatter";
 import { 
   TrendingUp, 
@@ -81,6 +81,7 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const isMobile = useIsMobile();
+  const { openEarlyAccessModal } = useModal();
 
   const handleSelect = (index: number) => {
     if (index === activeIndex) return;
@@ -230,15 +231,14 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
 
                     {/* CTA Button - Clean, single action */}
                     <div className="pt-2">
-                      <Link to="/early-access">
-                        <Button 
-                          size="lg"
-                          className="rounded-full px-8 font-medium font-sans bg-primary text-primary-foreground shadow-[0_0_30px_hsl(0_0%_100%/0.3),0_4px_15px_hsl(0_0%_0%/0.2)]"
-                        >
-                          get early access
-                          <ArrowRight className="w-4 h-4 ml-2" />
-                        </Button>
-                      </Link>
+                      <Button 
+                        size="lg"
+                        onClick={() => openEarlyAccessModal()}
+                        className="rounded-full px-8 font-medium font-sans bg-primary text-primary-foreground shadow-[0_0_30px_hsl(0_0%_100%/0.3),0_4px_15px_hsl(0_0%_0%/0.2)]"
+                      >
+                        get early access
+                        <ArrowRight className="w-4 h-4 ml-2" />
+                      </Button>
                       
                       {/* Founding spots - Animated urgency counter */}
                       <div className="mt-4">
