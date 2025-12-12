@@ -17,40 +17,16 @@
       })();
     </script>
     
-    <!-- Pre-warm Auth Session + Dashboard Data - Start before React loads -->
+    <!-- Pre-warm Auth Session Cache Check -->
     <script>
       (function() {
-        // Check for cached session to speed up initial auth
         try {
-          const cachedSession = localStorage.getItem('utm_session_cache');
+          var cachedSession = localStorage.getItem('utm_session_cache');
           if (cachedSession) {
-            const parsed = JSON.parse(cachedSession);
-            // Valid cache = pre-warm successful (15 min expiry)
+            var parsed = JSON.parse(cachedSession);
             if (Date.now() - parsed.timestamp < 15 * 60 * 1000) {
               window.__AUTH_READY__ = true;
               window.__CACHED_USER__ = parsed.user;
-              
-              // Phase 1: Pre-warm dashboard data fetch IN PARALLEL with auth
-              const workspaceId = localStorage.getItem('currentWorkspaceId');
-              if (workspaceId && parsed.accessToken) {
-                window.__DASHBOARD_PREFETCH__ = { status: 'loading', workspaceId: workspaceId };
-                fetch('https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/get-dashboard-data', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + parsed.accessToken,
-                    'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoZ25zbWpkdWJudmJtYXJuamZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM0ODQyOTgsImV4cCI6MjA3OTA2MDI5OH0.KUMy4nnJ1VXenU8CbF19ZhdAQrQ416OJOeFSMa47MWY'
-                  },
-                  body: JSON.stringify({ workspaceId: workspaceId, range: '30d' })
-                })
-                .then(function(res) { return res.json(); })
-                .then(function(data) {
-                  if (!data.error) {
-                    window.__DASHBOARD_PREFETCH__ = { status: 'ready', workspaceId: workspaceId, data: data };
-                  }
-                })
-                .catch(function() {});
-              }
             }
           }
         } catch (e) {}
@@ -62,8 +38,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://whgnsmjdubnvbmarnjfx.supabase.co" crossorigin>
     
-    <!-- Phase 4: Prefetch hints for dashboard route (reduces bundle parse blocking) -->
-    <link rel="prefetch" href="/src/pages/dashboard/DashboardHome.tsx" as="script">
     
     <!-- Critical fonts only (Inter - body text) - loaded synchronously -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
