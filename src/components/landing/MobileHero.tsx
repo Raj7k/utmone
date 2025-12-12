@@ -14,7 +14,8 @@ import {
   Shield,
   Sparkles,
   ChevronRight,
-  Loader2
+  Loader2,
+  CheckCircle2
 } from "lucide-react";
 import { UseCaseType } from "./ControlDeckHero";
 
@@ -80,7 +81,19 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
   const [activeUseCase, setActiveUseCase] = useState<UseCaseType>("attribution");
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(false);
   const { openEarlyAccessModal } = useModal();
+
+  const validateEmail = (value: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(value);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+    setIsEmailValid(validateEmail(value));
+  };
 
   const handleUseCaseChange = (useCase: UseCaseType) => {
     setActiveUseCase(useCase);
@@ -131,14 +144,29 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
 
         {/* Inline Email CTA */}
         <form onSubmit={handleEmailSubmit} className="space-y-3">
-          <Input
-            type="email"
-            placeholder="you@company.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="h-14 px-5 rounded-xl bg-white/5 border-white/10 text-foreground placeholder:text-muted-foreground focus:border-primary/50"
-            required
-          />
+          <div className="relative">
+            <Input
+              type="email"
+              placeholder="you@company.com"
+              value={email}
+              onChange={handleEmailChange}
+              className="h-14 px-5 pr-12 rounded-xl bg-white/5 border-white/10 text-foreground placeholder:text-muted-foreground focus:border-primary/50"
+              required
+            />
+            <AnimatePresence>
+              {isEmailValid && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="absolute right-4 top-1/2 -translate-y-1/2"
+                >
+                  <CheckCircle2 className="w-5 h-5 text-green-500" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
           <Button 
             type="submit"
             disabled={isSubmitting}
