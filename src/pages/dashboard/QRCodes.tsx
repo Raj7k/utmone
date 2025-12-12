@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -13,8 +13,10 @@ import { Input } from "@/components/ui/input";
 import { QRCodeGenerator } from "@/components/QRCodeGenerator";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
-import { BrickBuilderContent } from "@/components/brickmatrix/BrickBuilderContent";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
+
+// Lazy load BrickBuilderContent - it's a heavy component only shown when tab is clicked
+const BrickBuilderContent = lazy(() => import("@/components/brickmatrix/BrickBuilderContent").then(m => ({ default: m.BrickBuilderContent })));
 
 export default function QRCodes() {
   const { currentWorkspace } = useWorkspace();
@@ -250,7 +252,16 @@ export default function QRCodes() {
         </TabsContent>
 
         <TabsContent value="brick-builder" className="space-y-6">
-          <BrickBuilderContent />
+          <Suspense fallback={
+            <div className="flex items-center justify-center py-24">
+              <div className="text-center">
+                <Boxes className="w-12 h-12 text-muted-foreground mb-4 mx-auto animate-pulse" />
+                <p className="text-muted-foreground">loading brick builder...</p>
+              </div>
+            </div>
+          }>
+            <BrickBuilderContent />
+          </Suspense>
         </TabsContent>
       </Tabs>
 
