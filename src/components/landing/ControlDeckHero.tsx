@@ -85,8 +85,20 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(false);
   const isMobile = useIsMobile();
   const { openEarlyAccessModal } = useModal();
+
+  const validateEmail = (value: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(value);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+    setIsEmailValid(validateEmail(value));
+  };
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -255,14 +267,29 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                     {/* Inline Email CTA */}
                     <div className="pt-2">
                       <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
-                        <Input
-                          type="email"
-                          placeholder="you@company.com"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          className="h-14 px-6 rounded-full bg-white/5 border-white/10 text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:ring-primary/20 min-w-[280px]"
-                          required
-                        />
+                        <div className="relative">
+                          <Input
+                            type="email"
+                            placeholder="you@company.com"
+                            value={email}
+                            onChange={handleEmailChange}
+                            className="h-14 px-6 pr-12 rounded-full bg-white/5 border-white/10 text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:ring-primary/20 min-w-[280px]"
+                            required
+                          />
+                          <AnimatePresence>
+                            {isEmailValid && (
+                              <motion.div
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.5 }}
+                                transition={{ duration: 0.2, ease: "easeOut" }}
+                                className="absolute right-4 top-1/2 -translate-y-1/2"
+                              >
+                                <CheckCircle2 className="w-5 h-5 text-green-500" />
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
                         <Button 
                           type="submit"
                           disabled={isSubmitting}
