@@ -1,11 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { CalendarDays, ChevronRight, TrendingUp } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
 
 interface EventImpactRowProps {
   workspaceId?: string;
@@ -21,8 +19,36 @@ interface EventData {
   date: string;
 }
 
+// Cache helpers
+const CACHE_KEY = 'event-impact-cache';
+const CACHE_EXPIRY = 2 * 60 * 1000; // 2 minutes
+
+function getCached(workspaceId: string, days: number): EventData[] | undefined {
+  try {
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (!cached) return undefined;
+    const { data, timestamp, wid, d } = JSON.parse(cached);
+    if (wid !== workspaceId || d !== days) return undefined;
+    if (Date.now() - timestamp > CACHE_EXPIRY) return undefined;
+    return data;
+  } catch {
+    return undefined;
+  }
+}
+
+function setCache(workspaceId: string, days: number, data: EventData[]) {
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({
+      data,
+      timestamp: Date.now(),
+      wid: workspaceId,
+      d: days,
+    }));
+  } catch {}
+}
+
 export default function EventImpactRow({ workspaceId, days }: EventImpactRowProps) {
-  const { data: events, isLoading } = useQuery({
+  const { data: events, isFetching } = useQuery({
     queryKey: ["event-impact", workspaceId, days],
     queryFn: async () => {
       if (!workspaceId) return [];
@@ -36,7 +62,7 @@ export default function EventImpactRow({ workspaceId, days }: EventImpactRowProp
 
       if (error) throw error;
 
-      return (data || []).map((event: any) => ({
+      const result = (data || []).map((event: any) => ({
         id: event.id,
         name: event.name || "Untitled Event",
         city: event.location_city || "Unknown",
@@ -44,30 +70,23 @@ export default function EventImpactRow({ workspaceId, days }: EventImpactRowProp
         haloVisitors: event.halo_visitors || 0,
         date: event.start_date,
       }));
+      
+      if (workspaceId) setCache(workspaceId, days, result);
+      return result;
     },
+    initialData: () => workspaceId ? getCached(workspaceId, days) : undefined,
     enabled: !!workspaceId,
-    staleTime: 5 * 60 * 1000,
+    staleTime: 2 * 60 * 1000,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
-  if (isLoading) {
-    return (
-      <Card>
-        <CardHeader className="pb-2">
-          <Skeleton className="h-5 w-32" />
-        </CardHeader>
-        <CardContent>
-          <div className="flex gap-3 overflow-hidden">
-            {[1, 2, 3].map((i) => (
-              <Skeleton key={i} className="h-32 w-48 shrink-0" />
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
-
   return (
-    <Card>
+    <Card className="relative">
+      {/* Subtle loading indicator */}
+      {isFetching && (
+        <div className="absolute top-3 right-3 h-2 w-2 rounded-full bg-primary animate-pulse" />
+      )}
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import {
   Activity,
@@ -52,6 +51,33 @@ interface Insight {
   actionLabel?: string;
 }
 
+// Cache helpers
+const ANOMALIES_CACHE_KEY = 'anomalies-cache';
+const CACHE_EXPIRY = 60 * 1000; // 1 minute
+
+function getCachedAnomalies(workspaceId: string): Anomaly[] | undefined {
+  try {
+    const cached = localStorage.getItem(ANOMALIES_CACHE_KEY);
+    if (!cached) return undefined;
+    const { data, timestamp, wid } = JSON.parse(cached);
+    if (wid !== workspaceId) return undefined;
+    if (Date.now() - timestamp > CACHE_EXPIRY) return undefined;
+    return data.map((a: any) => ({ ...a, timestamp: new Date(a.timestamp) }));
+  } catch {
+    return undefined;
+  }
+}
+
+function setCacheAnomalies(workspaceId: string, data: Anomaly[]) {
+  try {
+    localStorage.setItem(ANOMALIES_CACHE_KEY, JSON.stringify({
+      data,
+      timestamp: Date.now(),
+      wid: workspaceId,
+    }));
+  } catch {}
+}
+
 export default function LiveActivityRail({ workspaceId, preloadedClicks }: LiveActivityRailProps) {
   const hasPreloadedData = !!preloadedClicks && preloadedClicks.length > 0;
   
@@ -63,7 +89,7 @@ export default function LiveActivityRail({ workspaceId, preloadedClicks }: LiveA
   const [isLive, setIsLive] = useState(true);
 
   // Fetch recent clicks only if no preloaded data
-  const { data: initialClicks, isLoading } = useQuery({
+  const { data: initialClicks } = useQuery({
     queryKey: ["live-clicks", workspaceId],
     queryFn: async () => {
       if (!workspaceId) return [];
@@ -88,10 +114,12 @@ export default function LiveActivityRail({ workspaceId, preloadedClicks }: LiveA
     },
     enabled: !!workspaceId && !hasPreloadedData,
     staleTime: 30 * 1000,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
-  // Fetch anomalies
-  const { data: anomalies } = useQuery({
+  // Fetch anomalies with caching
+  const { data: anomalies, isFetching: anomaliesFetching } = useQuery({
     queryKey: ["anomalies", workspaceId],
     queryFn: async () => {
       if (!workspaceId) return [];
@@ -106,15 +134,21 @@ export default function LiveActivityRail({ workspaceId, preloadedClicks }: LiveA
 
       if (error) throw error;
 
-      return (data || []).map((anomaly: any) => ({
+      const result = (data || []).map((anomaly: any) => ({
         id: anomaly.id,
         title: anomaly.title,
         severity: anomaly.severity as "warning" | "critical",
         timestamp: new Date(anomaly.detected_at),
       }));
+      
+      if (workspaceId) setCacheAnomalies(workspaceId, result);
+      return result;
     },
+    initialData: () => workspaceId ? getCachedAnomalies(workspaceId) : undefined,
     enabled: !!workspaceId,
     staleTime: 60 * 1000,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   // Mock insights (would come from AI in production)
@@ -138,8 +172,6 @@ export default function LiveActivityRail({ workspaceId, preloadedClicks }: LiveA
       setRecentClicks(initialClicks);
     }
   }, [initialClicks, hasPreloadedData]);
-
-  const showLoading = !hasPreloadedData && isLoading;
 
   // Real-time subscription
   useEffect(() => {
@@ -214,45 +246,45 @@ export default function LiveActivityRail({ workspaceId, preloadedClicks }: LiveA
           </div>
         </CardHeader>
         <CardContent>
-          {showLoading ? (
-            <div className="space-y-2">
-              {[1, 2, 3].map((i) => (
-                <Skeleton key={i} className="h-10 w-full" />
+          <div className="space-y-1 max-h-[240px] overflow-y-auto scrollbar-hide">
+            <AnimatePresence mode="popLayout">
+              {recentClicks.map((click) => (
+                <motion.div
+                  key={click.id}
+                  initial={{ opacity: 0, x: -20, height: 0 }}
+                  animate={{ opacity: 1, x: 0, height: "auto" }}
+                  exit={{ opacity: 0, x: 20, height: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex items-center gap-2 p-2 rounded-lg hover:bg-muted/50 transition-colors text-sm"
+                >
+                  <MousePointer className="w-3 h-3 text-primary shrink-0" />
+                  <span className="font-mono text-xs text-primary">
+                    /{click.shortCode}
+                  </span>
+                  <span className="text-muted-foreground truncate flex-1">
+                    {click.city}
+                  </span>
+                  <span className="text-xs text-muted-foreground shrink-0">
+                    {formatDistanceToNow(click.timestamp, { addSuffix: true })}
+                  </span>
+                </motion.div>
               ))}
-            </div>
-          ) : (
-            <div className="space-y-1 max-h-[240px] overflow-y-auto scrollbar-hide">
-              <AnimatePresence mode="popLayout">
-                {recentClicks.map((click) => (
-                  <motion.div
-                    key={click.id}
-                    initial={{ opacity: 0, x: -20, height: 0 }}
-                    animate={{ opacity: 1, x: 0, height: "auto" }}
-                    exit={{ opacity: 0, x: 20, height: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="flex items-center gap-2 p-2 rounded-lg hover:bg-muted/50 transition-colors text-sm"
-                  >
-                    <MousePointer className="w-3 h-3 text-primary shrink-0" />
-                    <span className="font-mono text-xs text-primary">
-                      /{click.shortCode}
-                    </span>
-                    <span className="text-muted-foreground truncate flex-1">
-                      {click.city}
-                    </span>
-                    <span className="text-xs text-muted-foreground shrink-0">
-                      {formatDistanceToNow(click.timestamp, { addSuffix: true })}
-                    </span>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
-          )}
+            </AnimatePresence>
+            {recentClicks.length === 0 && (
+              <div className="text-center py-4 text-sm text-muted-foreground">
+                no recent activity
+              </div>
+            )}
+          </div>
         </CardContent>
       </Card>
 
       {/* Anomalies */}
       {anomalies && anomalies.length > 0 && (
-        <Card className="border-amber-500/20">
+        <Card className="border-amber-500/20 relative">
+          {anomaliesFetching && (
+            <div className="absolute top-3 right-3 h-2 w-2 rounded-full bg-amber-500 animate-pulse" />
+          )}
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-amber-500 flex items-center gap-2">
               <AlertTriangle className="w-4 h-4" />
