@@ -1426,6 +1426,92 @@ export type Database = {
           },
         ]
       }
+      click_queue: {
+        Row: {
+          browser: string | null
+          clicked_at: string
+          created_at: string
+          device_type: string | null
+          id: string
+          ip_address: string | null
+          is_unique: boolean | null
+          link_id: string
+          og_variant_id: string | null
+          os: string | null
+          processed: boolean | null
+          processed_at: string | null
+          qr_code_id: string | null
+          referrer: string | null
+          user_agent: string | null
+          workspace_id: string
+        }
+        Insert: {
+          browser?: string | null
+          clicked_at?: string
+          created_at?: string
+          device_type?: string | null
+          id?: string
+          ip_address?: string | null
+          is_unique?: boolean | null
+          link_id: string
+          og_variant_id?: string | null
+          os?: string | null
+          processed?: boolean | null
+          processed_at?: string | null
+          qr_code_id?: string | null
+          referrer?: string | null
+          user_agent?: string | null
+          workspace_id: string
+        }
+        Update: {
+          browser?: string | null
+          clicked_at?: string
+          created_at?: string
+          device_type?: string | null
+          id?: string
+          ip_address?: string | null
+          is_unique?: boolean | null
+          link_id?: string
+          og_variant_id?: string | null
+          os?: string | null
+          processed?: boolean | null
+          processed_at?: string | null
+          qr_code_id?: string | null
+          referrer?: string | null
+          user_agent?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "click_queue_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "hot_links_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "click_queue_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "click_queue_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_click_time_series"
+            referencedColumns: ["link_id"]
+          },
+          {
+            foreignKeyName: "click_queue_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       conversion_events: {
         Row: {
           attributed_at: string
