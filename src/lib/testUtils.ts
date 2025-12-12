@@ -400,10 +400,18 @@ export async function testClickRecording(linkId: string): Promise<TestResult> {
   const testName = "Click Recording";
 
   try {
+    // First get the workspace_id from the link (now required)
+    const { data: linkData } = await supabase
+      .from("links")
+      .select("workspace_id")
+      .eq("id", linkId)
+      .single();
+
     const { error } = await supabase
       .from("link_clicks")
       .insert({
         link_id: linkId,
+        workspace_id: linkData?.workspace_id || "",
         ip_address: "127.0.0.1",
         user_agent: "Test Agent",
         device_type: "desktop",

@@ -3569,7 +3569,7 @@ export type Database = {
           targeting_rule_name: string | null
           user_agent: string | null
           visitor_id: string | null
-          workspace_id: string | null
+          workspace_id: string
         }
         Insert: {
           browser?: string | null
@@ -3593,7 +3593,7 @@ export type Database = {
           targeting_rule_name?: string | null
           user_agent?: string | null
           visitor_id?: string | null
-          workspace_id?: string | null
+          workspace_id: string
         }
         Update: {
           browser?: string | null
@@ -3617,7 +3617,7 @@ export type Database = {
           targeting_rule_name?: string | null
           user_agent?: string | null
           visitor_id?: string | null
-          workspace_id?: string | null
+          workspace_id?: string
         }
         Relationships: [
           {
