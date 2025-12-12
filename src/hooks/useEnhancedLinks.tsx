@@ -69,16 +69,12 @@ export const useEnhancedLinks = ({
     refetchOnMount: false, // Trust cache on mount
     initialData: () => getCachedLinks(params),
     queryFn: async () => {
+      // Direct query without JOINs for performance
       let query = supabase
         .from("links")
-        .select(`
-          *,
-          owner:created_by (
-            full_name,
-            email
-          )
-        `, { count: "exact" })
-        .eq("workspace_id", effectiveWorkspaceId);
+        .select("*", { count: "exact" })
+        .eq("workspace_id", effectiveWorkspaceId)
+        .is("deleted_at", null);
 
       if (statusFilter !== "all") {
         query = query.eq("status", statusFilter as Database["public"]["Enums"]["link_status"]);
@@ -106,7 +102,7 @@ export const useEnhancedLinks = ({
 
       const enhancedLinks = (links || []).map((link) => ({
         ...link,
-        owner: Array.isArray(link.owner) ? link.owner[0] : link.owner,
+        owner: null, // Skip JOIN for performance
         clicks_last_30_days: link.total_clicks || 0,
       })) as EnhancedLink[];
 
