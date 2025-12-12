@@ -8,7 +8,7 @@ import { Calculator, Download, Share2, TrendingUp } from "lucide-react";
 import { formatCurrency, getSalaryForRole, getAdjustedSalary, getPercentile } from "@/lib/salaryData";
 import { getIndustryMultiplier } from "@/lib/salaryData/industries";
 import { Badge } from "@/components/ui/badge";
-import confetti from "canvas-confetti";
+import { triggerConfetti } from "@/components/lazy/LazyConfetti";
 
 export const InteractiveSalaryCalculator = () => {
   const [role, setRole] = useState("Marketing Manager");
@@ -43,7 +43,7 @@ export const InteractiveSalaryCalculator = () => {
       }
     });
 
-    confetti({
+    triggerConfetti({
       particleCount: 100,
       spread: 70,
       origin: { y: 0.6 }

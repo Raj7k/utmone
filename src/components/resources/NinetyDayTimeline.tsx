@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Check, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import confetti from "canvas-confetti";
+import { triggerConfetti } from "@/components/lazy/LazyConfetti";
 
 interface Task {
   id: string;
@@ -72,7 +72,7 @@ export const NinetyDayTimeline = () => {
 
     // Check if all tasks completed
     if (completedTasks.length === tasks.length && completedTasks.length > 0) {
-      confetti({
+      triggerConfetti({
         particleCount: 100,
         spread: 70,
         origin: { y: 0.6 }

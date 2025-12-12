@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
-import confetti from "canvas-confetti";
+import { triggerConfetti } from "@/components/lazy/LazyConfetti";
 import { GoldenTicket } from "./GoldenTicket";
 import { ShareReferralModal } from "@/components/waitlist/ShareReferralModal";
 import { Button } from "@/components/ui/button";
@@ -40,12 +40,12 @@ export const SuccessScreen = ({
 
       const particleCount = 50 * (timeLeft / duration);
 
-      confetti({
+      triggerConfetti({
         ...defaults,
         particleCount,
         origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
       });
-      confetti({
+      triggerConfetti({
         ...defaults,
         particleCount,
         origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },

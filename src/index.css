@@ -1,4 +1,29 @@
 /* Fonts loaded via index.html for Obsidian System: Space Grotesk, Inter, Playfair Display, JetBrains Mono */
+/* Font display optimization for faster text rendering */
+@font-face {
+  font-family: 'Inter';
+  font-display: swap;
+  src: local('Inter');
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-display: swap;
+  src: local('Space Grotesk');
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  font-display: swap;
+  src: local('Playfair Display');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-display: swap;
+  src: local('JetBrains Mono');
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Calculator, Download, Share2, TrendingUp, AlertCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import confetti from "canvas-confetti";
+import { triggerConfetti } from "@/components/lazy/LazyConfetti";
 import { formatCurrency } from "@/lib/salaryData";
 
 // Section 8 Formula Implementation
@@ -153,7 +153,7 @@ export const EnhancedSalaryCalculator = () => {
       percentile
     });
 
-    confetti({
+    triggerConfetti({
       particleCount: 100,
       spread: 70,
       origin: { y: 0.6 }

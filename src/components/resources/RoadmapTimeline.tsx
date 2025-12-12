@@ -5,8 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, CheckCircle2, Target, TrendingUp } from "lucide-react";
-import confetti from "canvas-confetti";
-// @ts-ignore - canvas-confetti types
+import { triggerConfetti } from "@/components/lazy/LazyConfetti";
 
 interface Milestone {
   id: string;
@@ -92,7 +91,7 @@ export const RoadmapTimeline = () => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(newMonths));
 
       if (milestone.completed) {
-        confetti({
+        triggerConfetti({
           particleCount: 50,
           spread: 60,
           origin: { y: 0.6 }

@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { CheckCircle2, Circle, ChevronRight } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
-import Confetti from "react-confetti";
+import { LazyConfetti } from "@/components/lazy/LazyConfetti";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { useNavigate } from "react-router-dom";
 import { useOnboardingProgress } from "@/hooks/useOnboardingProgress";
@@ -142,14 +142,13 @@ export const OnboardingChecklist = () => {
 
   return (
     <>
-      {showConfetti && (
-        <Confetti
-          width={width}
-          height={height}
-          recycle={false}
-          numberOfPieces={500}
-        />
-      )}
+      <LazyConfetti
+        show={showConfetti}
+        width={width}
+        height={height}
+        recycle={false}
+        numberOfPieces={500}
+      />
       
       <Card variant="grouped" className="border-primary/20">
         <CardHeader>
