@@ -31,29 +31,29 @@ export function SentinelSavesWidget({ workspaceId, days = 7, compact = false }: 
       key: 'inventory' as const, 
       label: 'stock-aware', 
       icon: Package, 
-      color: 'text-amber-500',
-      bgColor: 'bg-amber-500/10'
+      color: 'text-system-orange',
+      bgColor: 'bg-system-orange/10'
     },
     { 
       key: 'health' as const, 
       label: 'health check', 
       icon: Activity, 
-      color: 'text-emerald-500',
-      bgColor: 'bg-emerald-500/10'
+      color: 'text-system-green',
+      bgColor: 'bg-system-green/10'
     },
     { 
       key: 'ai_bot' as const, 
       label: 'AI bot', 
       icon: Bot, 
-      color: 'text-blue-500',
-      bgColor: 'bg-blue-500/10'
+      color: 'text-system-blue',
+      bgColor: 'bg-system-blue/10'
     },
     { 
       key: 'auto_heal' as const, 
       label: 'auto-heal', 
       icon: Wrench, 
-      color: 'text-purple-500',
-      bgColor: 'bg-purple-500/10'
+      color: 'text-system-indigo',
+      bgColor: 'bg-system-indigo/10'
     },
   ];
 
@@ -70,7 +70,7 @@ export function SentinelSavesWidget({ workspaceId, days = 7, compact = false }: 
           <p className="text-xs text-muted-foreground">clicks saved</p>
         </div>
         <div className="ml-auto text-right">
-          <p className="text-lg font-semibold text-emerald-500">
+          <p className="text-lg font-semibold text-system-green">
             ${stats.total_value.toLocaleString()}
           </p>
           <p className="text-xs text-muted-foreground">value protected</p>
@@ -99,8 +99,8 @@ export function SentinelSavesWidget({ workspaceId, days = 7, compact = false }: 
             </p>
             <p className="text-sm text-muted-foreground">clicks saved</p>
           </div>
-          <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-            <p className="text-3xl font-display font-bold text-emerald-500">
+          <div className="p-4 rounded-xl bg-system-green/10 border border-system-green/20">
+            <p className="text-3xl font-display font-bold text-system-green">
               ${stats.total_value.toLocaleString()}
             </p>
             <p className="text-sm text-muted-foreground">value protected</p>

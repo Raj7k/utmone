@@ -172,7 +172,7 @@ const LinkDetail = () => {
                     <p className="text-sm font-medium text-foreground">status</p>
                     <p className="text-2xl font-display font-bold mt-1">
                       {sentinelData?.sentinel_enabled ? (
-                        <span className="text-emerald-500">active</span>
+                        <span className="text-system-green">active</span>
                       ) : (
                         <span className="text-muted-foreground">disabled</span>
                       )}
