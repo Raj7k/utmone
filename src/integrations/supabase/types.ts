@@ -7620,6 +7620,10 @@ export type Database = {
         Args: { _user_id: string; _workspace_id: string }
         Returns: boolean
       }
+      has_workspace_access_fast: {
+        Args: { _user_id: string; _workspace_id: string }
+        Returns: boolean
+      }
       increment_link_clicks: {
         Args: {
           p_link_id: string
