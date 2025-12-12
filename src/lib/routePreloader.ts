@@ -33,6 +33,13 @@ export const preloaders = {
   settings: () => preloadRoute(() => import("@/pages/Settings")),
   pricing: () => preloadRoute(() => import("@/pages/Pricing")),
   earlyAccess: () => preloadRoute(() => import("@/pages/EarlyAccess")),
+  // Feature pages
+  shortLinks: () => preloadRoute(() => import("@/pages/features/ShortLinks")),
+  utmBuilder: () => preloadRoute(() => import("@/pages/features/UTMBuilder")),
+  qrGenerator: () => preloadRoute(() => import("@/pages/features/QRGenerator")),
+  attributionGraph: () => preloadRoute(() => import("@/pages/features/AttributionGraph")),
+  // Product page
+  product: () => preloadRoute(() => import("@/pages/Product")),
 };
 
 /**

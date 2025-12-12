@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { announcements } from "@/lib/announcementConfig";
 import { AnnouncementScheduler } from "@/lib/announcementScheduler";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
+import { createPreloadHandler } from "@/lib/routePreloader";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -153,6 +154,7 @@ export const Navigation = () => {
                 <Link 
                   to="/pricing" 
                   className="h-9 px-3 text-small-text font-medium transition-apple inline-flex items-center justify-center text-white-70 hover:text-white-90"
+                  onMouseEnter={createPreloadHandler('pricing')}
                 >
                   {formatText("pricing")}
                 </Link>
@@ -165,7 +167,7 @@ export const Navigation = () => {
         <div className="flex items-center gap-3">
           {/* Desktop CTAs */}
           <div className="hidden lg:flex items-center gap-3">
-            <Link to="/early-access">
+            <Link to="/early-access" onMouseEnter={createPreloadHandler('earlyAccess')}>
               <Button variant="marketing" className="rounded-full">
                 get early access
               </Button>

@@ -4,26 +4,36 @@ import { getSessionData } from '@/lib/sessionManager';
 
 const PROJECT_URL = import.meta.env.VITE_SUPABASE_URL;
 
-const sendAnalyticsEvent = async (
+const sendAnalyticsEvent = (
   eventType: 'page_view' | 'cta_click' | 'scroll_depth' | 'time_on_page',
   eventData?: Record<string, any>
 ) => {
-  const sessionData = getSessionData();
-  if (!sessionData) return;
+  // Defer analytics to avoid blocking render
+  const doSend = async () => {
+    const sessionData = getSessionData();
+    if (!sessionData) return;
 
-  try {
-    await supabase.functions.invoke('landing-analytics', {
-      body: {
-        session_id: sessionData.sessionId,
-        event_type: eventType,
-        event_data: eventData || {},
-        hero_variant: sessionData.variant,
-        user_agent: navigator.userAgent,
-        referrer: document.referrer,
-      },
-    });
-  } catch (error) {
-    console.error('Analytics error:', error);
+    try {
+      await supabase.functions.invoke('landing-analytics', {
+        body: {
+          session_id: sessionData.sessionId,
+          event_type: eventType,
+          event_data: eventData || {},
+          hero_variant: sessionData.variant,
+          user_agent: navigator.userAgent,
+          referrer: document.referrer,
+        },
+      });
+    } catch (error) {
+      console.error('Analytics error:', error);
+    }
+  };
+
+  // Use requestIdleCallback to defer analytics, avoiding render blocking
+  if ('requestIdleCallback' in window) {
+    (window as any).requestIdleCallback(() => doSend(), { timeout: 2000 });
+  } else {
+    setTimeout(doSend, 100);
   }
 };
 

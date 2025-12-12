@@ -8,6 +8,7 @@ import { HeroInlineCTA } from "@/components/landing/HeroInlineCTA";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
 import { LinkLayersSection } from "@/components/landing/LinkLayersSection";
 import { UseCaseType } from "@/components/landing/SideNavHero";
+import { LazyOnScroll } from "@/components/lazy/LazyOnScroll";
 import { 
   useTrackPageView, 
   useTrackCTAClick, 
@@ -35,6 +36,7 @@ const EventHaloShowcase = lazy(() => import("@/components/landing/EventHaloShowc
 const AIStampStudioShowcase = lazy(() => import("@/components/landing/AIStampStudioShowcase").then(m => ({ default: m.AIStampStudioShowcase })));
 const TrustSection = lazy(() => import("@/components/landing/TrustSection").then(m => ({ default: m.TrustSection })));
 const AnalyticsFeatureCarousel = lazy(() => import("@/components/landing/AnalyticsFeatureCarousel").then(m => ({ default: m.AnalyticsFeatureCarousel })));
+
 // Simple loading placeholder
 const SectionSkeleton = () => (
   <div className="w-full py-16 flex items-center justify-center">
@@ -137,51 +139,69 @@ const Index = () => {
       )}
 
       {/* OmniDemo - The Hidden Revenue Story + Live Demo */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <OmniDemo />
-      </Suspense>
+      <LazyOnScroll height="600px" rootMargin="300px">
+        <Suspense fallback={<SectionSkeleton />}>
+          <OmniDemo />
+        </Suspense>
+      </LazyOnScroll>
 
       {/* NARRATIVE FLOW - All sections change based on Control Deck selection */}
 
       {/* Fold 2: The Problem - Show the pain with visceral clarity */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <DynamicProblemSection selectedUseCase={selectedUseCase} />
-      </Suspense>
+      <LazyOnScroll height="400px" rootMargin="200px">
+        <Suspense fallback={<SectionSkeleton />}>
+          <DynamicProblemSection selectedUseCase={selectedUseCase} />
+        </Suspense>
+      </LazyOnScroll>
 
       {/* Fold 3: The Insight - Share the philosophical breakthrough */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <DynamicInsightSection selectedUseCase={selectedUseCase} />
-      </Suspense>
+      <LazyOnScroll height="400px" rootMargin="200px">
+        <Suspense fallback={<SectionSkeleton />}>
+          <DynamicInsightSection selectedUseCase={selectedUseCase} />
+        </Suspense>
+      </LazyOnScroll>
 
       {/* Fold 4: The Proof - Capability proof, not fake testimonials */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <DynamicProofSection selectedUseCase={selectedUseCase} />
-      </Suspense>
+      <LazyOnScroll height="400px" rootMargin="200px">
+        <Suspense fallback={<SectionSkeleton />}>
+          <DynamicProofSection selectedUseCase={selectedUseCase} />
+        </Suspense>
+      </LazyOnScroll>
 
       {/* Common: AI Intelligence Layers - Shown for all use cases */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <AIIntelligenceHero />
-      </Suspense>
+      <LazyOnScroll height="500px" rootMargin="200px">
+        <Suspense fallback={<SectionSkeleton />}>
+          <AIIntelligenceHero />
+        </Suspense>
+      </LazyOnScroll>
 
       {/* Event Halo Showcase - New Feature Highlight */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <EventHaloShowcase />
-      </Suspense>
+      <LazyOnScroll height="500px" rootMargin="200px">
+        <Suspense fallback={<SectionSkeleton />}>
+          <EventHaloShowcase />
+        </Suspense>
+      </LazyOnScroll>
 
       {/* AI Stamp Studio Showcase - AI-Generated QR Codes */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <AIStampStudioShowcase />
-      </Suspense>
+      <LazyOnScroll height="500px" rootMargin="200px">
+        <Suspense fallback={<SectionSkeleton />}>
+          <AIStampStudioShowcase />
+        </Suspense>
+      </LazyOnScroll>
 
       {/* Analytics Feature Carousel - 12 features with Instagram-style swipe */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <AnalyticsFeatureCarousel />
-      </Suspense>
+      <LazyOnScroll height="400px" rootMargin="200px">
+        <Suspense fallback={<SectionSkeleton />}>
+          <AnalyticsFeatureCarousel />
+        </Suspense>
+      </LazyOnScroll>
 
       {/* Static: Unified Tools Showcase */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <UnifiedToolsShowcase />
-      </Suspense>
+      <LazyOnScroll height="400px" rootMargin="200px">
+        <Suspense fallback={<SectionSkeleton />}>
+          <UnifiedToolsShowcase />
+        </Suspense>
+      </LazyOnScroll>
 
       {/* Developer Experience */}
       <AnimatedSection className="py-16 md:py-24">
@@ -248,29 +268,39 @@ const Index = () => {
       </AnimatedSection>
 
       {/* Trust & Permanence */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <TrustSection />
-      </Suspense>
+      <LazyOnScroll height="300px" rootMargin="200px">
+        <Suspense fallback={<SectionSkeleton />}>
+          <TrustSection />
+        </Suspense>
+      </LazyOnScroll>
 
       {/* Transparency Strip - Public roadmap/status */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <TransparencyStrip />
-      </Suspense>
+      <LazyOnScroll height="200px" rootMargin="200px">
+        <Suspense fallback={<SectionSkeleton />}>
+          <TransparencyStrip />
+        </Suspense>
+      </LazyOnScroll>
 
       {/* Authority Tools Strip - Tool usage proof */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <AuthorityToolsStrip />
-      </Suspense>
+      <LazyOnScroll height="200px" rootMargin="200px">
+        <Suspense fallback={<SectionSkeleton />}>
+          <AuthorityToolsStrip />
+        </Suspense>
+      </LazyOnScroll>
 
       {/* Dynamic FAQ - Questions change based on use case */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <DynamicFAQ selectedUseCase={selectedUseCase} />
-      </Suspense>
+      <LazyOnScroll height="400px" rootMargin="200px">
+        <Suspense fallback={<SectionSkeleton />}>
+          <DynamicFAQ selectedUseCase={selectedUseCase} />
+        </Suspense>
+      </LazyOnScroll>
 
       {/* Dynamic CTA - Personalized call-to-action */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <DynamicCTA selectedUseCase={selectedUseCase} />
-      </Suspense>
+      <LazyOnScroll height="300px" rootMargin="200px">
+        <Suspense fallback={<SectionSkeleton />}>
+          <DynamicCTA selectedUseCase={selectedUseCase} />
+        </Suspense>
+      </LazyOnScroll>
     </MainLayout>
   );
 };

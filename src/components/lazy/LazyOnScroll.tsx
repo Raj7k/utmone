@@ -5,6 +5,8 @@ interface LazyOnScrollProps {
   fallback?: ReactNode;
   rootMargin?: string;
   threshold?: number;
+  height?: string;
+  className?: string;
 }
 
 /**
@@ -13,9 +15,11 @@ interface LazyOnScrollProps {
  */
 export function LazyOnScroll({ 
   children, 
-  fallback = null,
+  fallback,
   rootMargin = "200px",
-  threshold = 0.1
+  threshold = 0.1,
+  height = "200px",
+  className = ""
 }: LazyOnScrollProps) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -38,9 +42,19 @@ export function LazyOnScroll({
     return () => observer.disconnect();
   }, [rootMargin, threshold]);
 
+  // Default fallback with spinner
+  const defaultFallback = (
+    <div 
+      className={`flex items-center justify-center ${className}`}
+      style={{ minHeight: height }}
+    >
+      <div className="w-8 h-8 border-2 border-white/20 border-t-white/60 rounded-full animate-spin" />
+    </div>
+  );
+
   return (
-    <div ref={ref}>
-      {isVisible ? children : fallback}
+    <div ref={ref} className={className}>
+      {isVisible ? children : (fallback ?? defaultFallback)}
     </div>
   );
 }
