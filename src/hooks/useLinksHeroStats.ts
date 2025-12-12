@@ -5,49 +5,53 @@ export const useLinksHeroStats = (workspaceId: string) => {
   return useQuery({
     queryKey: ["links-hero-stats", workspaceId],
     enabled: !!workspaceId,
+    staleTime: 2 * 60 * 1000, // 2 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
+    refetchOnWindowFocus: false,
     queryFn: async () => {
-      // Get total active links
-      const { count: totalActiveLinks } = await supabase
-        .from("links")
-        .select("*", { count: "exact", head: true })
-        .eq("workspace_id", workspaceId)
-        .eq("status", "active");
-
-      // Get this week's clicks
       const sevenDaysAgo = new Date();
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
       
-      const { count: thisWeekClicks } = await supabase
-        .from("link_clicks")
-        .select("*", { count: "exact", head: true })
-        .eq("workspace_id", workspaceId)
-        .gte("clicked_at", sevenDaysAgo.toISOString());
-
-      // Get last week's clicks for comparison
       const fourteenDaysAgo = new Date();
       fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
-      
-      const { count: lastWeekClicks } = await supabase
-        .from("link_clicks")
-        .select("*", { count: "exact", head: true })
-        .eq("workspace_id", workspaceId)
-        .gte("clicked_at", fourteenDaysAgo.toISOString())
-        .lt("clicked_at", sevenDaysAgo.toISOString());
+
+      // Run all queries in parallel
+      const [
+        { count: totalActiveLinks },
+        { count: thisWeekClicks },
+        { count: lastWeekClicks },
+        { data: topLink }
+      ] = await Promise.all([
+        supabase
+          .from("links")
+          .select("*", { count: "exact", head: true })
+          .eq("workspace_id", workspaceId)
+          .eq("status", "active"),
+        supabase
+          .from("link_clicks")
+          .select("id", { count: "exact", head: true })
+          .eq("workspace_id", workspaceId)
+          .gte("clicked_at", sevenDaysAgo.toISOString()),
+        supabase
+          .from("link_clicks")
+          .select("id", { count: "exact", head: true })
+          .eq("workspace_id", workspaceId)
+          .gte("clicked_at", fourteenDaysAgo.toISOString())
+          .lt("clicked_at", sevenDaysAgo.toISOString()),
+        supabase
+          .from("links")
+          .select("id, title, short_url, total_clicks")
+          .eq("workspace_id", workspaceId)
+          .eq("status", "active")
+          .order("total_clicks", { ascending: false })
+          .limit(1)
+          .maybeSingle()
+      ]);
 
       // Calculate trend
       const clickTrend = lastWeekClicks && lastWeekClicks > 0 
         ? Math.round(((thisWeekClicks || 0) - lastWeekClicks) / lastWeekClicks * 100)
         : 0;
-
-      // Get top performer
-      const { data: topLink } = await supabase
-        .from("links")
-        .select("id, title, short_url, total_clicks")
-        .eq("workspace_id", workspaceId)
-        .eq("status", "active")
-        .order("total_clicks", { ascending: false })
-        .limit(1)
-        .single();
 
       return {
         totalActiveLinks: totalActiveLinks || 0,

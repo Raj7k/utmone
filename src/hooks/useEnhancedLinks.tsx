@@ -36,6 +36,9 @@ export const useEnhancedLinks = ({
   return useQuery({
     queryKey: ["enhanced-links", effectiveWorkspaceId, searchQuery, statusFilter, sortBy, sortOrder, page, pageSize],
     enabled: !!effectiveWorkspaceId,
+    staleTime: 2 * 60 * 1000, // 2 minutes - don't refetch if fresh
+    gcTime: 10 * 60 * 1000, // 10 minutes cache
+    refetchOnWindowFocus: false, // Prevent unnecessary refetches
     queryFn: async () => {
       let query = supabase
         .from("links")
@@ -76,30 +79,11 @@ export const useEnhancedLinks = ({
 
       if (error) throw error;
 
-      // Fix N+1 query: Fetch all click counts in a single query
-      const thirtyDaysAgo = new Date();
-      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-
-      const linkIds = (links || []).map(link => link.id);
-      
-      // Batch query for all click counts
-      const { data: clickCounts } = await supabase
-        .from("link_clicks")
-        .select("link_id")
-        .in("link_id", linkIds)
-        .gte("clicked_at", thirtyDaysAgo.toISOString());
-
-      // Create a map of link_id -> click count
-      const clickCountMap = (clickCounts || []).reduce((acc, click) => {
-        acc[click.link_id] = (acc[click.link_id] || 0) + 1;
-        return acc;
-      }, {} as Record<string, number>);
-
-      // Enhance links with click data
+      // Use cached total_clicks column instead of fetching all click rows
       const enhancedLinks = (links || []).map((link) => ({
         ...link,
         owner: Array.isArray(link.owner) ? link.owner[0] : link.owner,
-        clicks_last_30_days: clickCountMap[link.id] || 0,
+        clicks_last_30_days: link.total_clicks || 0,
       })) as EnhancedLink[];
 
       return {
