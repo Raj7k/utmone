@@ -9,12 +9,22 @@ import { CampaignCard } from "@/components/campaigns/CampaignCard";
 import { FeatureGuard } from "@/components/FeatureGuard";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface CampaignStats {
   linkCount: number;
   totalClicks: number;
   recentClicks: number[];
 }
+
+// Skeleton for progressive loading
+const CampaignGridSkeleton = () => (
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {[1, 2, 3, 4, 5, 6].map(i => (
+      <Skeleton key={i} className="h-48 rounded-xl" />
+    ))}
+  </div>
+);
 
 export default function Campaigns() {
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -26,7 +36,6 @@ export default function Campaigns() {
     queryFn: async () => {
       if (!currentWorkspace) return [];
 
-      // Single query to get campaigns with aggregated link data
       const { data: campaigns, error: campaignsError } = await supabase
         .from("campaigns")
         .select(`
@@ -46,12 +55,10 @@ export default function Campaigns() {
       if (campaignsError) throw campaignsError;
       if (!campaigns || campaigns.length === 0) return [];
 
-      // Collect all link IDs for batch click query
       const allLinkIds = campaigns.flatMap((c: any) => 
         (c.links || []).map((l: any) => l.id)
       );
 
-      // Single batch query for recent clicks (last 7 days) for all campaigns
       const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
       const { data: recentClicksData } = allLinkIds.length > 0
         ? await supabase
@@ -61,7 +68,6 @@ export default function Campaigns() {
             .gte("clicked_at", sevenDaysAgo)
         : { data: [] };
 
-      // Build a map of link_id → campaign_id for aggregation
       const linkToCampaign = new Map<string, string>();
       campaigns.forEach((c: any) => {
         (c.links || []).forEach((l: any) => {
@@ -69,7 +75,6 @@ export default function Campaigns() {
         });
       });
 
-      // Aggregate clicks by campaign and day
       const campaignClicksByDay = new Map<string, Record<string, number>>();
       (recentClicksData || []).forEach((click: any) => {
         const campaignId = linkToCampaign.get(click.link_id);
@@ -83,7 +88,6 @@ export default function Campaigns() {
         dayMap[day] = (dayMap[day] || 0) + 1;
       });
 
-      // Transform campaigns with computed stats
       return campaigns.map((campaign: any) => {
         const links = campaign.links || [];
         const linkCount = links.length;
@@ -110,6 +114,8 @@ export default function Campaigns() {
     }
   }, [isFetched]);
 
+  const dataLoading = isLoading || !currentWorkspace;
+
   return (
     <PageContentWrapper
       title="campaigns"
@@ -124,9 +130,9 @@ export default function Campaigns() {
         </FeatureGuard>
       }
     >
-      {/* Campaigns Grid */}
-      {isLoading ? (
-        <div className="text-center py-12 text-muted-foreground">Loading campaigns...</div>
+      {/* Progressive loading - skeleton or content */}
+      {dataLoading ? (
+        <CampaignGridSkeleton />
       ) : campaignsWithStats && campaignsWithStats.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {campaignsWithStats.map((campaign) => (

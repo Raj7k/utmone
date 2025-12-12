@@ -14,9 +14,19 @@ import { QRCodeGenerator } from "@/components/QRCodeGenerator";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
+import { Skeleton } from "@/components/ui/skeleton";
 
-// Lazy load BrickBuilderContent - it's a heavy component only shown when tab is clicked
+// Lazy load BrickBuilderContent
 const BrickBuilderContent = lazy(() => import("@/components/brickmatrix/BrickBuilderContent").then(m => ({ default: m.BrickBuilderContent })));
+
+// Skeleton for progressive loading
+const QRGridSkeleton = () => (
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {[1, 2, 3, 4, 5, 6].map(i => (
+      <Skeleton key={i} className="h-64 rounded-xl" />
+    ))}
+  </div>
+);
 
 export default function QRCodes() {
   const { currentWorkspace } = useWorkspace();
@@ -86,17 +96,6 @@ export default function QRCodes() {
     enabled: !!currentWorkspace,
   });
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="flex flex-col items-center gap-3">
-          <div className="h-12 w-12 rounded-full border-2 border-primary border-t-transparent animate-spin" />
-          <p className="text-sm text-muted-foreground">loading QR codes…</p>
-        </div>
-      </div>
-    );
-  }
-
   const filteredQRCodes = qrCodes?.filter((qr) =>
     qr.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     qr.links?.title?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -136,7 +135,10 @@ export default function QRCodes() {
         </div>
 
         <TabsContent value="all" className="space-y-6">
-          {qrCodes && qrCodes.length > 0 ? (
+          {/* Progressive loading - skeleton or content */}
+          {isLoading || !currentWorkspace ? (
+            <QRGridSkeleton />
+          ) : qrCodes && qrCodes.length > 0 ? (
             <>
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                 <span>{qrCodes.length} QR Codes</span>
@@ -165,11 +167,9 @@ export default function QRCodes() {
                           className="w-32 h-32"
                         />
                       </div>
-
                       <div className="text-xs text-muted-foreground font-mono">
                         https://{qr.links?.domain}/{qr.links?.path ? `${qr.links.path}/` : ""}{qr.links?.slug}
                       </div>
-
                       <div className="flex gap-2">
                         <Button variant="outline" size="sm" className="flex-1" asChild>
                           <a href={qr.png_url || qr.svg_url || ""} download={`qr-${qr.links?.slug}.png`}>

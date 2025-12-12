@@ -46,6 +46,25 @@ interface FieldEvent {
 
 type ViewState = "overview" | "dashboard" | "leads";
 
+// Skeleton for progressive loading
+const EventsSkeleton = () => (
+  <div className="space-y-6">
+    <div className="flex items-center justify-between">
+      <Skeleton className="h-10 w-64" />
+      <Skeleton className="h-10 w-32" />
+    </div>
+    <div>
+      <Skeleton className="h-7 w-32 mb-2" />
+      <Skeleton className="h-5 w-80" />
+    </div>
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {[1, 2, 3].map((i) => (
+        <Skeleton key={i} className="h-48 w-full rounded-xl" />
+      ))}
+    </div>
+  </div>
+);
+
 const Events = () => {
   const { currentWorkspace, isLoading: workspaceLoading, hasTimedOut, retry } = useWorkspace();
   const [activeTab, setActiveTab] = useState("halo");
@@ -67,44 +86,10 @@ const Events = () => {
 
   // Complete navigation when data loads
   useEffect(() => {
-    if (isFetched && currentWorkspace?.id) {
+    if ((isFetched && currentWorkspace?.id) || hasTimedOut) {
       completeNavigation();
     }
-  }, [isFetched, currentWorkspace?.id]);
-
-  // Show loading skeleton while workspace is loading
-  if (workspaceLoading) {
-    return (
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <Skeleton className="h-10 w-64" />
-          <Skeleton className="h-10 w-32" />
-        </div>
-        <div>
-          <Skeleton className="h-7 w-32 mb-2" />
-          <Skeleton className="h-5 w-80" />
-        </div>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {[1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-48 w-full" />
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  // Show error state if workspace loading timed out
-  if (hasTimedOut || (!workspaceLoading && !currentWorkspace)) {
-    return (
-      <div className="flex flex-col items-center justify-center py-20 text-center">
-        <p className="text-muted-foreground mb-4">unable to load workspace data</p>
-        <Button onClick={retry} variant="outline" size="sm" className="gap-2">
-          <RefreshCw className="h-4 w-4" />
-          try again
-        </Button>
-      </div>
-    );
-  }
+  }, [isFetched, currentWorkspace?.id, hasTimedOut]);
 
   const handleEventSelect = (event: FieldEvent) => {
     setSelectedEvent(event);
@@ -146,6 +131,7 @@ const Events = () => {
   // Merge event details if available
   const currentEvent = eventDetails ? { ...selectedEvent, ...eventDetails } as FieldEvent : selectedEvent;
 
+  // Progressive render - show layout immediately
   return (
     <div className="space-y-6">
       {/* Tab Navigation */}
@@ -187,12 +173,12 @@ const Events = () => {
                   </p>
                 </div>
 
-                {isLoading ? (
-                  <div className="flex items-center justify-center py-24">
-                    <div className="text-center">
-                      <Waves className="w-12 h-12 text-muted-foreground mb-4 mx-auto animate-pulse" />
-                      <p className="text-muted-foreground">loading events...</p>
-                    </div>
+                {/* Content - skeleton or data */}
+                {(isLoading || workspaceLoading) && !hasTimedOut ? (
+                  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    {[1, 2, 3].map((i) => (
+                      <Skeleton key={i} className="h-48 w-full rounded-xl" />
+                    ))}
                   </div>
                 ) : (
                   <EventsOverviewGrid
@@ -201,6 +187,17 @@ const Events = () => {
                     onQRClick={handleQRClick}
                     onScanClick={handleScanClick}
                   />
+                )}
+
+                {/* Error state */}
+                {hasTimedOut && !currentWorkspace && (
+                  <div className="flex flex-col items-center justify-center py-20 text-center">
+                    <p className="text-muted-foreground mb-4">unable to load workspace data</p>
+                    <Button onClick={retry} variant="outline" size="sm" className="gap-2">
+                      <RefreshCw className="h-4 w-4" />
+                      try again
+                    </Button>
+                  </div>
                 )}
               </motion.div>
             )}
