@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { motion, AnimatePresence } from "framer-motion";
@@ -15,10 +15,43 @@ const loadingMessages = [
   "almost there..."
 ];
 
+// Cache auth in sessionStorage for instant render
+const AUTH_CACHE_KEY = 'utm_auth_cached';
+const AUTH_CACHE_EXPIRY = 5 * 60 * 1000; // 5 minutes
+
+function getCachedAuth(): boolean | null {
+  try {
+    const cached = sessionStorage.getItem(AUTH_CACHE_KEY);
+    if (!cached) return null;
+    const { isAuth, timestamp } = JSON.parse(cached);
+    if (Date.now() - timestamp > AUTH_CACHE_EXPIRY) {
+      sessionStorage.removeItem(AUTH_CACHE_KEY);
+      return null;
+    }
+    return isAuth;
+  } catch {
+    return null;
+  }
+}
+
+function setCachedAuth(isAuth: boolean) {
+  try {
+    sessionStorage.setItem(AUTH_CACHE_KEY, JSON.stringify({
+      isAuth,
+      timestamp: Date.now()
+    }));
+  } catch {
+    // Ignore storage errors
+  }
+}
+
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [authCheckCompleted, setAuthCheckCompleted] = useState(false);
+  // Use cached auth for instant render
+  const cachedAuth = useRef(getCachedAuth());
+  
+  const [isLoading, setIsLoading] = useState(cachedAuth.current === null);
+  const [isAuthenticated, setIsAuthenticated] = useState(cachedAuth.current ?? false);
+  const [authCheckCompleted, setAuthCheckCompleted] = useState(cachedAuth.current !== null);
   const [hasTimedOut, setHasTimedOut] = useState(false);
   const [messageIndex, setMessageIndex] = useState(0);
   const location = useLocation();
@@ -35,8 +68,12 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   }, [isLoading]);
 
   const checkAuth = useCallback(async () => {
-    setIsLoading(true);
-    setHasTimedOut(false);
+    // If we have cached auth, trust it and validate in background
+    if (cachedAuth.current !== null) {
+      setIsAuthenticated(cachedAuth.current);
+      setAuthCheckCompleted(true);
+      setIsLoading(false);
+    }
     
     try {
       const { data: { session }, error } = await supabase.auth.getSession();
@@ -45,11 +82,14 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
         console.error("[ProtectedRoute] Session error:", error.message);
       }
       
-      setIsAuthenticated(!!session);
+      const isAuth = !!session;
+      setCachedAuth(isAuth);
+      setIsAuthenticated(isAuth);
       setAuthCheckCompleted(true);
       setIsLoading(false);
     } catch (error) {
       console.error("[ProtectedRoute] Auth check failed:", error);
+      setCachedAuth(false);
       setIsAuthenticated(false);
       setAuthCheckCompleted(true);
       setIsLoading(false);
@@ -59,21 +99,23 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   useEffect(() => {
     let isMounted = true;
 
-    // Safety timeout - show retry UI after 5 seconds (don't redirect)
+    // Reduced timeout - 3 seconds instead of 5
     const timeout = setTimeout(() => {
       if (isMounted && isLoading && !authCheckCompleted) {
         console.warn("[ProtectedRoute] Timeout reached - showing retry UI");
         setHasTimedOut(true);
         setIsLoading(false);
       }
-    }, 5000);
+    }, 3000);
 
     checkAuth();
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (isMounted) {
-        setIsAuthenticated(!!session);
+        const isAuth = !!session;
+        setCachedAuth(isAuth);
+        setIsAuthenticated(isAuth);
         setAuthCheckCompleted(true);
         setIsLoading(false);
         setHasTimedOut(false);

@@ -1,5 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { motion } from "framer-motion";
 
 export const TableSkeleton = () => (
   <div className="space-y-3">
@@ -40,17 +41,115 @@ export const MetricSkeleton = () => (
   </div>
 );
 
+/**
+ * Dashboard skeleton - shows immediately while JS loads
+ */
 export const DashboardSkeleton = () => (
-  <div className="space-y-6">
-    <div>
-      <Skeleton className="h-10 w-48 mb-2" />
-      <Skeleton className="h-4 w-64" />
+  <div className="min-h-screen bg-background flex">
+    {/* Sidebar skeleton */}
+    <div className="hidden lg:flex w-64 border-r border-border/50 flex-col p-4 gap-3">
+      <div className="h-8 w-32 bg-muted/20 rounded animate-pulse" />
+      <div className="h-px bg-border/50 my-2" />
+      {[1, 2, 3, 4, 5].map((i) => (
+        <div key={i} className="h-9 bg-muted/10 rounded animate-pulse" />
+      ))}
     </div>
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <CardSkeleton />
-      <CardSkeleton />
-      <CardSkeleton />
+    
+    {/* Main content skeleton */}
+    <div className="flex-1 flex flex-col">
+      {/* Header skeleton */}
+      <div className="h-14 border-b border-border/50 flex items-center px-4 gap-4">
+        <div className="h-8 w-8 bg-muted/20 rounded animate-pulse lg:hidden" />
+        <div className="h-6 w-48 bg-muted/20 rounded animate-pulse" />
+        <div className="flex-1" />
+        <div className="h-8 w-8 bg-muted/20 rounded-full animate-pulse" />
+      </div>
+      
+      {/* Content skeleton */}
+      <div className="flex-1 p-6">
+        <div className="max-w-6xl mx-auto space-y-6">
+          {/* Title */}
+          <div className="h-8 w-64 bg-muted/20 rounded animate-pulse" />
+          
+          {/* Stats cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-24 bg-muted/10 rounded-lg border border-border/50 animate-pulse" />
+            ))}
+          </div>
+          
+          {/* Table skeleton */}
+          <div className="bg-muted/5 rounded-lg border border-border/50 overflow-hidden">
+            <div className="h-12 bg-muted/10 border-b border-border/50" />
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="h-16 border-b border-border/50 last:border-0 animate-pulse" />
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
-    <CardSkeleton />
+  </div>
+);
+
+/**
+ * Marketing page skeleton - lightweight
+ */
+export const MarketingSkeleton = () => (
+  <div className="min-h-screen bg-background">
+    {/* Header */}
+    <div className="h-16 border-b border-border/50">
+      <div className="max-w-7xl mx-auto px-4 h-full flex items-center">
+        <div className="h-8 w-24 bg-muted/20 rounded animate-pulse" />
+      </div>
+    </div>
+    
+    {/* Hero skeleton */}
+    <div className="max-w-7xl mx-auto px-4 py-16">
+      <div className="text-center space-y-4">
+        <div className="h-12 w-96 mx-auto bg-muted/20 rounded animate-pulse" />
+        <div className="h-6 w-64 mx-auto bg-muted/10 rounded animate-pulse" />
+      </div>
+    </div>
+  </div>
+);
+
+/**
+ * Inline loading indicator
+ */
+export const InlineLoader = ({ size = "sm" }: { size?: "sm" | "md" | "lg" }) => {
+  const sizeClasses = {
+    sm: "h-4 w-4",
+    md: "h-6 w-6", 
+    lg: "h-8 w-8",
+  };
+  
+  return (
+    <motion.div
+      className={`${sizeClasses[size]} rounded-full border-2 border-primary/30 border-t-primary`}
+      animate={{ rotate: 360 }}
+      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+    />
+  );
+};
+
+/**
+ * Full page loading state with breathing animation
+ */
+export const PageLoader = ({ message = "loading..." }: { message?: string }) => (
+  <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center">
+    {/* Breathing Pulse Bar */}
+    <motion.div
+      className="w-24 h-1 rounded-full bg-primary"
+      animate={{
+        opacity: [0.3, 1, 0.3],
+        scaleX: [1, 1.1, 1],
+      }}
+      transition={{
+        duration: 2,
+        ease: "easeInOut",
+        repeat: Infinity,
+      }}
+    />
+    <p className="mt-6 text-muted-foreground text-sm">{message}</p>
   </div>
 );
