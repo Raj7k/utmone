@@ -10,10 +10,10 @@ import { useAppSession, getCachedUserId, getCachedWorkspaceId } from "@/contexts
 // Re-export cache helpers
 export { getCachedUserId, getCachedWorkspaceId };
 
-// Legacy clearSessionCache
+// Legacy clearSessionCache - now clears localStorage
 export function clearSessionCache(): void {
   try {
-    sessionStorage.removeItem('utm_session_cache');
+    localStorage.removeItem('utm_session_cache');
   } catch {
     // Ignore storage errors
   }

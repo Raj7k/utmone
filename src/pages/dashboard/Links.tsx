@@ -13,6 +13,25 @@ import { EnhancedLinksTable } from "@/components/EnhancedLinksTable";
 import { FeatureHint } from "@/components/FeatureHint";
 import { BulkSentinelPanel } from "@/components/sentinel";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
+import { Skeleton } from "@/components/ui/skeleton";
+
+// Skeleton for hero stats
+const HeroStatsSkeleton = () => (
+  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+    {[1, 2, 3, 4].map(i => (
+      <Skeleton key={i} className="h-24 rounded-xl" />
+    ))}
+  </div>
+);
+
+// Skeleton for link cards
+const LinkCardGridSkeleton = () => (
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {[1, 2, 3, 4, 5, 6].map(i => (
+      <Skeleton key={i} className="h-48 rounded-xl" />
+    ))}
+  </div>
+);
 
 export default function Links() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -37,53 +56,7 @@ export default function Links() {
     }
   }, [isFetched, isWorkspaceLoading, hasTimedOut]);
 
-  // Show loading state with better UX
-  if (isWorkspaceLoading && !hasTimedOut) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="flex flex-col items-center gap-3">
-          <div className="h-12 w-12 rounded-full border-2 border-primary border-t-transparent animate-spin" />
-          <p className="text-sm text-muted-foreground">loading workspace…</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Show error/timeout state with retry option
-  if (!currentWorkspace) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="flex flex-col items-center gap-4 text-center max-w-md px-4">
-          <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center">
-            <span className="text-2xl">⚠️</span>
-          </div>
-          <div>
-            <h3 className="font-medium text-foreground mb-1">couldn't load workspace</h3>
-            <p className="text-sm text-muted-foreground">
-              {hasTimedOut 
-                ? "the request took too long. this might be a temporary issue." 
-                : "there was a problem loading your workspace data."}
-            </p>
-          </div>
-          <div className="flex gap-3">
-            <button 
-              onClick={() => retry?.()}
-              className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
-            >
-              try again
-            </button>
-            <button 
-              onClick={() => window.location.reload()}
-              className="px-4 py-2 text-sm border border-border rounded-lg hover:bg-muted transition-colors"
-            >
-              refresh page
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
+  // Progressive render - always show layout, skeleton for data-dependent sections
   return (
     <PageContentWrapper
       title="links"
@@ -120,12 +93,14 @@ export default function Links() {
         </div>
       }
     >
-      {/* Hero Stats Bar */}
-      {currentWorkspace && (
+      {/* Hero Stats Bar - skeleton if no workspace */}
+      {currentWorkspace ? (
         <LinksHeroStats workspaceId={currentWorkspace.id} />
+      ) : (
+        <HeroStatsSkeleton />
       )}
 
-      {/* Bulk Sentinel Panel */}
+      {/* Bulk Sentinel Panel - only show with workspace */}
       {currentWorkspace && (
         <BulkSentinelPanel workspaceId={currentWorkspace.id} />
       )}
@@ -137,7 +112,7 @@ export default function Links() {
         description="Enable AI-powered routing when creating links with multiple destinations. The system learns which URLs perform best for different devices and locations."
       />
 
-      {/* Smart Filters */}
+      {/* Smart Filters - always visible */}
       <SmartLinkFilters
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
@@ -149,8 +124,10 @@ export default function Links() {
         onStatusChange={setStatusFilter}
       />
 
-      {/* View Content */}
-      {viewMode === "cards" ? (
+      {/* View Content - skeleton if loading */}
+      {isLoading || !currentWorkspace ? (
+        <LinkCardGridSkeleton />
+      ) : viewMode === "cards" ? (
         <LinkCardGrid links={data?.links || []} />
       ) : (
         <EnhancedLinksTable 
@@ -158,6 +135,21 @@ export default function Links() {
           searchQuery={searchQuery}
           statusFilter={statusFilter}
         />
+      )}
+
+      {/* Error state with retry - only show after timeout */}
+      {hasTimedOut && !currentWorkspace && (
+        <div className="flex flex-col items-center gap-4 py-12">
+          <p className="text-sm text-muted-foreground">couldn't load workspace data</p>
+          <div className="flex gap-3">
+            <button 
+              onClick={() => retry?.()}
+              className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+            >
+              try again
+            </button>
+          </div>
+        </div>
       )}
     </PageContentWrapper>
   );

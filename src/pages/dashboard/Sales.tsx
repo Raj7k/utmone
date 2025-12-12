@@ -4,7 +4,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { SalesLinkTable } from "@/components/sales/SalesLinkTable";
 import { SalesActivityFeed } from "@/components/sales/SalesActivityFeed";
-import { SalesPageSkeleton } from "@/components/sales/SalesPageSkeleton";
 import { SalesStatCard } from "@/components/sales/SalesStatCard";
 import { CreateSalesLinkModal } from "@/components/sales/CreateSalesLinkModal";
 import { Button } from "@/components/ui/button";
@@ -12,6 +11,28 @@ import { Plus, Zap, Briefcase, Eye } from "lucide-react";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { motion } from "framer-motion";
+import { Skeleton } from "@/components/ui/skeleton";
+
+// Stats skeleton for progressive loading
+const StatsSkeleton = () => (
+  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    {[1, 2, 3].map(i => (
+      <Skeleton key={i} className="h-24 rounded-xl" />
+    ))}
+  </div>
+);
+
+// Content skeleton
+const ContentSkeleton = () => (
+  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div className="lg:col-span-2">
+      <Skeleton className="h-96 rounded-xl" />
+    </div>
+    <div className="lg:col-span-1">
+      <Skeleton className="h-96 rounded-xl" />
+    </div>
+  </div>
+);
 
 const Sales = () => {
   const { currentWorkspace, isLoading: isWorkspaceLoading, hasTimedOut, retry } = useWorkspace();
@@ -22,7 +43,6 @@ const Sales = () => {
     queryFn: async () => {
       if (!currentWorkspace?.id) return [];
 
-      // Parallel execution instead of sequential waterfall
       const [userResult, linksResult] = await Promise.all([
         supabase.auth.getUser(),
         supabase
@@ -36,15 +56,14 @@ const Sales = () => {
       const user = userResult.data?.user;
       if (!user) return [];
 
-      // Filter by user on client side (faster than additional query)
       const data = linksResult.data?.filter(link => link.created_by === user.id) || [];
       if (linksResult.error) throw linksResult.error;
       
       return data;
     },
     enabled: !!currentWorkspace?.id,
-    staleTime: 30 * 1000, // Stale after 30s
-    refetchOnMount: "always", // Always check for updates
+    staleTime: 30 * 1000,
+    refetchOnMount: "always",
   });
 
   // Complete navigation progress when data loads or times out
@@ -64,50 +83,7 @@ const Sales = () => {
 
   const totalViews = salesLinks.reduce((sum, l) => sum + (l.total_clicks || 0), 0);
 
-  // Show loading state
-  if (isWorkspaceLoading && !hasTimedOut) {
-    return <SalesPageSkeleton showSlowMessage={false} />;
-  }
-
-  // Show error/timeout state
-  if (!currentWorkspace) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="flex flex-col items-center gap-4 text-center max-w-md px-4">
-          <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center">
-            <span className="text-2xl">⚠️</span>
-          </div>
-          <div>
-            <h3 className="font-medium text-foreground mb-1">couldn't load workspace</h3>
-            <p className="text-sm text-muted-foreground">
-              {hasTimedOut 
-                ? "the request took too long. this might be a temporary issue." 
-                : "there was a problem loading your workspace data."}
-            </p>
-          </div>
-          <div className="flex gap-3">
-            <button 
-              onClick={() => retry?.()}
-              className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
-            >
-              try again
-            </button>
-            <button 
-              onClick={() => window.location.reload()}
-              className="px-4 py-2 text-sm border border-border rounded-lg hover:bg-muted transition-colors"
-            >
-              refresh page
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Show data loading skeleton
-  if (isLoading) {
-    return <SalesPageSkeleton showSlowMessage={false} />;
-  }
+  const dataLoading = isLoading || !currentWorkspace;
 
   return (
     <PageContentWrapper
@@ -124,56 +100,77 @@ const Sales = () => {
         </Button>
       }
     >
-      {/* Stats Banner */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="grid grid-cols-1 sm:grid-cols-3 gap-4"
-      >
-        <SalesStatCard
-          icon={Zap}
-          label="hot leads (1h)"
-          value={hotLeads}
-          variant="hot"
-          pulse={hotLeads > 0}
-        />
-        <SalesStatCard
-          icon={Briefcase}
-          label="active deals"
-          value={salesLinks.length}
-          variant="primary"
-        />
-        <SalesStatCard
-          icon={Eye}
-          label="total views"
-          value={totalViews}
-          variant="amber"
-        />
-      </motion.div>
-
-      {/* Main Content */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-        className="grid grid-cols-1 lg:grid-cols-3 gap-6"
-      >
-        {/* Sales Links Table */}
-        <div className="lg:col-span-2">
-          <SalesLinkTable 
-            links={salesLinks} 
-            isLoading={isLoading} 
-            onRefresh={refetch}
-            onCreateLink={() => setIsCreateModalOpen(true)}
+      {/* Stats Banner - skeleton if loading */}
+      {dataLoading ? (
+        <StatsSkeleton />
+      ) : (
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="grid grid-cols-1 sm:grid-cols-3 gap-4"
+        >
+          <SalesStatCard
+            icon={Zap}
+            label="hot leads (1h)"
+            value={hotLeads}
+            variant="hot"
+            pulse={hotLeads > 0}
           />
-        </div>
+          <SalesStatCard
+            icon={Briefcase}
+            label="active deals"
+            value={salesLinks.length}
+            variant="primary"
+          />
+          <SalesStatCard
+            icon={Eye}
+            label="total views"
+            value={totalViews}
+            variant="amber"
+          />
+        </motion.div>
+      )}
 
-        {/* Activity Feed */}
-        <div className="lg:col-span-1">
-          <SalesActivityFeed />
+      {/* Main Content - skeleton if loading */}
+      {dataLoading ? (
+        <ContentSkeleton />
+      ) : (
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="grid grid-cols-1 lg:grid-cols-3 gap-6"
+        >
+          {/* Sales Links Table */}
+          <div className="lg:col-span-2">
+            <SalesLinkTable 
+              links={salesLinks} 
+              isLoading={isLoading} 
+              onRefresh={refetch}
+              onCreateLink={() => setIsCreateModalOpen(true)}
+            />
+          </div>
+
+          {/* Activity Feed */}
+          <div className="lg:col-span-1">
+            <SalesActivityFeed />
+          </div>
+        </motion.div>
+      )}
+
+      {/* Error state with retry */}
+      {hasTimedOut && !currentWorkspace && (
+        <div className="flex flex-col items-center gap-4 py-12">
+          <p className="text-sm text-muted-foreground">couldn't load workspace data</p>
+          <button 
+            onClick={() => retry?.()}
+            className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+          >
+            try again
+          </button>
         </div>
-      </motion.div>
+      )}
 
       {/* Create Sales Link Modal */}
       <CreateSalesLinkModal

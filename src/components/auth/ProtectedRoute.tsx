@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAppSession } from "@/contexts/AppSessionContext";
 import { motion, AnimatePresence } from "framer-motion";
@@ -15,40 +15,66 @@ const loadingMessages = [
   "almost there..."
 ];
 
+// Check localStorage directly for instant decision
+function hasCachedAuth(): boolean {
+  try {
+    const sessionCache = localStorage.getItem('utm_session_cache');
+    const workspaceId = localStorage.getItem('currentWorkspaceId');
+    if (!sessionCache || !workspaceId) return false;
+    
+    const { user, timestamp } = JSON.parse(sessionCache);
+    // 15 min expiry
+    if (Date.now() - timestamp > 15 * 60 * 1000) return false;
+    
+    return !!user;
+  } catch {
+    return false;
+  }
+}
+
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { user, isReady, isAuthenticated, error, refresh } = useAppSession();
+  const { isReady, isAuthenticated, error, refresh } = useAppSession();
   
   const [hasTimedOut, setHasTimedOut] = useState(false);
   const [messageIndex, setMessageIndex] = useState(0);
   const location = useLocation();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // FAST PATH: If we have cached user, render immediately
-  // isReady becomes true instantly when cache exists
-  const shouldRender = isReady && isAuthenticated && user;
+  // INSTANT RENDER: If localStorage has valid cache, trust it immediately
+  const cachedAuth = hasCachedAuth();
+  
+  // Fast path - render immediately if cache exists
+  if (cachedAuth) {
+    return <>{children}</>;
+  }
+
+  // Also render if context says ready and authenticated
+  if (isReady && isAuthenticated) {
+    return <>{children}</>;
+  }
 
   // Rotate loading messages only when actually loading
   useEffect(() => {
-    if (shouldRender) return;
+    if (cachedAuth || (isReady && isAuthenticated)) return;
     
     const interval = setInterval(() => {
       setMessageIndex((prev) => (prev + 1) % loadingMessages.length);
     }, 1500);
     
     return () => clearInterval(interval);
-  }, [shouldRender]);
+  }, [cachedAuth, isReady, isAuthenticated]);
 
-  // Timeout - 2 seconds max wait
+  // Timeout - 3 seconds max wait (only if no cache)
   useEffect(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
 
-    if (!isReady && !hasTimedOut) {
+    if (!isReady && !hasTimedOut && !cachedAuth) {
       timeoutRef.current = setTimeout(() => {
         console.warn("[ProtectedRoute] Timeout - showing retry");
         setHasTimedOut(true);
-      }, 2000);
+      }, 3000);
     }
 
     return () => {
@@ -56,12 +82,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [isReady, hasTimedOut]);
-
-  // INSTANT RENDER: Cache hit = render immediately
-  if (shouldRender) {
-    return <>{children}</>;
-  }
+  }, [isReady, hasTimedOut, cachedAuth]);
 
   // Show loading only if no cache and still initializing
   if (!isReady && !hasTimedOut && !error) {

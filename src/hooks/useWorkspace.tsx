@@ -56,17 +56,11 @@ export const useWorkspace = () => {
     },
   });
 
-  // isLoading should be false if we have a cached workspace OR query finished with data
-  // This enables instant rendering when cache exists
-  const cachedWorkspaceId = typeof window !== 'undefined' ? localStorage.getItem('currentWorkspaceId') : null;
-  const hasCachedWorkspace = !!cachedWorkspaceId || currentWorkspace !== null;
-  const isFullyLoaded = hasCachedWorkspace || (!isLoading && currentWorkspace !== null) || hasTimedOut;
-
   return {
     workspaces,
     currentWorkspace,
     needsOnboarding,
-    isLoading: !isFullyLoaded, // True until workspace is actually ready
+    isLoading,
     hasTimedOut,
     error,
     createWorkspace: createWorkspaceMutation.mutate,

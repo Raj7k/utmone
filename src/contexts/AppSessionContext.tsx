@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useRef, useCallback, useMemo, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, useCallback, useMemo, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Session, User } from "@supabase/supabase-js";
 
@@ -42,15 +42,20 @@ interface AppSessionState {
 
 const AppSessionContext = createContext<AppSessionState | undefined>(undefined);
 
-// Instant cache reads - no async
-function getCachedSession(): { user: User | null; accessToken: string | null } | null {
+// ============================================
+// SYNCHRONOUS CACHE READS - Module level
+// These execute BEFORE React component mounts
+// ============================================
+
+function getCachedSession(): { user: User | null; accessToken: string | null; timestamp: number } | null {
   try {
-    const cached = sessionStorage.getItem(SESSION_CACHE_KEY);
+    // Use localStorage (persists across tabs) instead of sessionStorage
+    const cached = localStorage.getItem(SESSION_CACHE_KEY);
     if (!cached) return null;
     const parsed = JSON.parse(cached);
     // 15 min expiry
     if (Date.now() - parsed.timestamp > 15 * 60 * 1000) {
-      sessionStorage.removeItem(SESSION_CACHE_KEY);
+      localStorage.removeItem(SESSION_CACHE_KEY);
       return null;
     }
     return parsed;
@@ -80,16 +85,27 @@ function getCachedWorkspaces(): Workspace[] | null {
   }
 }
 
+// ============================================
+// MODULE-LEVEL CACHE CONSTANTS
+// Read synchronously before any React renders
+// ============================================
+const INITIAL_SESSION = getCachedSession();
+const INITIAL_WORKSPACE = getCachedWorkspace();
+const INITIAL_WORKSPACES = getCachedWorkspaces();
+
+// Export for ProtectedRoute to use
+export const hasValidCachedAuth = !!(INITIAL_SESSION?.user && INITIAL_WORKSPACE);
+
 function cacheSession(session: Session | null): void {
   try {
     if (session?.user) {
-      sessionStorage.setItem(SESSION_CACHE_KEY, JSON.stringify({
+      localStorage.setItem(SESSION_CACHE_KEY, JSON.stringify({
         user: session.user,
         accessToken: session.access_token,
         timestamp: Date.now(),
       }));
     } else {
-      sessionStorage.removeItem(SESSION_CACHE_KEY);
+      localStorage.removeItem(SESSION_CACHE_KEY);
     }
   } catch {}
 }
@@ -113,23 +129,17 @@ function cacheWorkspaces(workspaces: Workspace[]): void {
 }
 
 export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
-  // Read caches synchronously for instant state
-  const cachedSession = useRef(getCachedSession());
-  const cachedWorkspace = useRef(getCachedWorkspace());
-  const cachedWorkspaces = useRef(getCachedWorkspaces());
-  
-  // State initialized from cache
-  const [user, setUser] = useState<User | null>(cachedSession.current?.user ?? null);
+  // Initialize state from MODULE-LEVEL constants (synchronous)
+  const [user, setUser] = useState<User | null>(INITIAL_SESSION?.user ?? null);
   const [session, setSession] = useState<Session | null>(null);
-  const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(cachedWorkspace.current);
-  const [workspaces, setWorkspaces] = useState<Workspace[]>(cachedWorkspaces.current ?? []);
+  const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(INITIAL_WORKSPACE);
+  const [workspaces, setWorkspaces] = useState<Workspace[]>(INITIAL_WORKSPACES ?? []);
   const [isFullyLoaded, setIsFullyLoaded] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   
-  const fetchInProgress = useRef(false);
-  
   // isReady = we have cached data OR fresh data loaded
-  const isReady = !!(user || cachedSession.current?.user) || isFullyLoaded;
+  // Uses MODULE-LEVEL constants, not refs
+  const isReady = hasValidCachedAuth || isFullyLoaded;
   const isAuthenticated = !!user;
 
   // Fetch workspaces for a user
@@ -151,9 +161,6 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
 
   // Main initialization - runs once on mount
   useEffect(() => {
-    if (fetchInProgress.current) return;
-    fetchInProgress.current = true;
-    
     let isMounted = true;
     
     const initialize = async () => {
@@ -171,15 +178,16 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
         }
 
         if (!freshSession?.user) {
-          // Not authenticated
+          // Not authenticated - clear everything
           if (isMounted) {
             setUser(null);
             setSession(null);
             setCurrentWorkspace(null);
             setWorkspaces([]);
             setIsFullyLoaded(true);
-            // Clear caches
-            sessionStorage.removeItem(SESSION_CACHE_KEY);
+            localStorage.removeItem(SESSION_CACHE_KEY);
+            localStorage.removeItem(WORKSPACE_CACHE_KEY);
+            localStorage.removeItem('currentWorkspaceId');
           }
           return;
         }
@@ -237,7 +245,7 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
             setSession(null);
             setCurrentWorkspace(null);
             setWorkspaces([]);
-            sessionStorage.removeItem(SESSION_CACHE_KEY);
+            localStorage.removeItem(SESSION_CACHE_KEY);
             localStorage.removeItem(WORKSPACE_CACHE_KEY);
             localStorage.removeItem('currentWorkspaceId');
           }
@@ -265,14 +273,13 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
     setSession(null);
     setCurrentWorkspace(null);
     setWorkspaces([]);
-    sessionStorage.removeItem(SESSION_CACHE_KEY);
+    localStorage.removeItem(SESSION_CACHE_KEY);
     localStorage.removeItem(WORKSPACE_CACHE_KEY);
     localStorage.removeItem('currentWorkspaceId');
     localStorage.removeItem(WORKSPACES_CACHE_KEY);
   }, []);
 
   const refresh = useCallback(() => {
-    fetchInProgress.current = false;
     setIsFullyLoaded(false);
     window.location.reload();
   }, []);
