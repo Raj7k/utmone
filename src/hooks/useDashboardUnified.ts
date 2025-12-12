@@ -138,6 +138,8 @@ export const useDashboardUnified = (range: string = "30d") => {
     gcTime: 10 * 60 * 1000, // 10 minutes
     refetchOnMount: false,
     refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    retry: 1,
   });
 
   // Invalidate specific subsets if needed
