@@ -158,11 +158,8 @@ export default function CampaignDetails() {
     a.click();
   };
 
-  if (campaignLoading) {
-    return <div className="p-6">Loading campaign...</div>;
-  }
-
-  if (!campaign) {
+  // Show not found only after loading completes
+  if (!campaignLoading && !campaign) {
     return <div className="p-6">Campaign not found</div>;
   }
 
@@ -170,59 +167,75 @@ export default function CampaignDetails() {
 
   return (
     <div className="space-y-6 w-full max-w-full overflow-hidden">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link to="/dashboard/campaigns">
-            <Button variant="outline" size="icon">
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-          </Link>
-          <div>
-            <div className="flex items-center gap-3">
-              <div
-                className="h-4 w-4 rounded-full"
-                style={{ backgroundColor: campaign.color }}
-              />
-              <h1 className="text-2xl font-display font-semibold text-label">{campaign.name}</h1>
+      {/* Header - show skeleton while loading */}
+      {campaignLoading ? (
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="h-10 w-10 rounded-md bg-muted animate-pulse" />
+            <div>
+              <div className="h-6 w-48 bg-muted animate-pulse rounded" />
+              <div className="h-4 w-32 bg-muted animate-pulse rounded mt-2" />
             </div>
-            <p className="text-sm text-secondary-label mt-1">
-              {links?.length || 0} links • {totalClicks.toLocaleString()} total clicks
-            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="h-10 w-28 bg-muted animate-pulse rounded" />
+            <div className="h-10 w-10 bg-muted animate-pulse rounded" />
           </div>
         </div>
-
-        <div className="flex items-center gap-2">
-          <Button variant="outline" onClick={exportToCSV}>
-            <Download className="h-4 w-4 mr-2" />
-            Export CSV
-          </Button>
-          
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+      ) : campaign ? (
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link to="/dashboard/campaigns">
               <Button variant="outline" size="icon">
-                <MoreVertical className="h-4 w-4" />
+                <ArrowLeft className="h-4 w-4" />
               </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem
-                onClick={() => archiveCampaignMutation.mutate()}
-                disabled={campaign.status === "archived"}
-              >
-                <Archive className="h-4 w-4 mr-2" />
-                Archive Campaign
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => setShowDeleteDialog(true)}
-                className="text-destructive"
-              >
-                <Trash2 className="h-4 w-4 mr-2" />
-                Delete Campaign
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+            </Link>
+            <div>
+              <div className="flex items-center gap-3">
+                <div
+                  className="h-4 w-4 rounded-full"
+                  style={{ backgroundColor: campaign.color }}
+                />
+                <h1 className="text-2xl font-display font-semibold text-label">{campaign.name}</h1>
+              </div>
+              <p className="text-sm text-secondary-label mt-1">
+                {links?.length || 0} links • {totalClicks.toLocaleString()} total clicks
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Button variant="outline" onClick={exportToCSV}>
+              <Download className="h-4 w-4 mr-2" />
+              Export CSV
+            </Button>
+            
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <MoreVertical className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem
+                  onClick={() => archiveCampaignMutation.mutate()}
+                  disabled={campaign.status === "archived"}
+                >
+                  <Archive className="h-4 w-4 mr-2" />
+                  Archive Campaign
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => setShowDeleteDialog(true)}
+                  className="text-destructive"
+                >
+                  <Trash2 className="h-4 w-4 mr-2" />
+                  Delete Campaign
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
-      </div>
+      ) : null}
 
       {/* Channel Breakdown */}
       <Card>
