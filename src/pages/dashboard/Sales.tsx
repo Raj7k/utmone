@@ -15,7 +15,7 @@ const Sales = () => {
   const { currentWorkspace, isLoading: isWorkspaceLoading } = useWorkspace();
   const { setCreateModalOpen } = useModal();
 
-  const { data: salesLinks = [], isLoading, refetch } = useQuery({
+  const { data: salesLinks = [], isLoading, refetch, isFetched } = useQuery({
     queryKey: ["sales-links", currentWorkspace?.id],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -37,13 +37,13 @@ const Sales = () => {
 
   // Complete navigation progress when data loads
   useEffect(() => {
-    if (!isLoading && !isWorkspaceLoading && currentWorkspace) {
+    if (isFetched && !isWorkspaceLoading) {
       completeNavigation();
     }
-  }, [isLoading, isWorkspaceLoading, currentWorkspace]);
+  }, [isFetched, isWorkspaceLoading]);
 
   // Show skeleton while workspace or data is loading
-  if (isWorkspaceLoading || !currentWorkspace || isLoading) {
+  if (isWorkspaceLoading || isLoading) {
     return <SalesPageSkeleton />;
   }
 

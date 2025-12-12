@@ -1,37 +1,47 @@
 import { useEffect, useState, useRef } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
+const loadingMessages = [
+  "verifying security...",
+  "loading your workspace...",
+  "almost there..."
+];
+
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loadingMessage, setLoadingMessage] = useState("verifying security...");
+  const [messageIndex, setMessageIndex] = useState(0);
   const location = useLocation();
   const hasChecked = useRef(false);
   const retryCount = useRef(0);
 
+  // Rotate loading messages
+  useEffect(() => {
+    if (!isLoading) return;
+    
+    const interval = setInterval(() => {
+      setMessageIndex((prev) => (prev + 1) % loadingMessages.length);
+    }, 1500);
+    
+    return () => clearInterval(interval);
+  }, [isLoading]);
+
   useEffect(() => {
     let isMounted = true;
 
-    // Safety timeout - force end loading after 5 seconds (increased from 3)
+    // Safety timeout - force end loading after 5 seconds
     const timeout = setTimeout(() => {
       if (isMounted && isLoading) {
         console.warn("[ProtectedRoute] Timeout reached - forcing loading to end");
         setIsLoading(false);
       }
     }, 5000);
-
-    // Show extended loading message after 2 seconds
-    const extendedTimeout = setTimeout(() => {
-      if (isMounted && isLoading) {
-        setLoadingMessage("still connecting...");
-      }
-    }, 2000);
 
     const checkAuth = async () => {
       // Prevent duplicate checks
@@ -92,20 +102,50 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     return () => {
       isMounted = false;
       clearTimeout(timeout);
-      clearTimeout(extendedTimeout);
       subscription.unsubscribe();
     };
   }, []);
 
-  // Show full-screen loading skeleton while verifying
+  // Show beautiful loading screen while verifying
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <Loader2 className="w-8 h-8 animate-spin mx-auto text-muted-foreground" />
-          <p className="text-sm text-muted-foreground font-medium">
-            {loadingMessage}
-          </p>
+      <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center">
+        {/* Noise texture overlay */}
+        <div 
+          className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          }}
+        />
+
+        {/* Breathing Pulse Bar */}
+        <motion.div
+          className="w-24 h-1 rounded-full bg-primary"
+          animate={{
+            opacity: [0.3, 1, 0.3],
+            scaleX: [1, 1.1, 1],
+          }}
+          transition={{
+            duration: 2,
+            ease: "easeInOut",
+            repeat: Infinity,
+          }}
+        />
+
+        {/* Rotating Messages */}
+        <div className="mt-6 h-5">
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={messageIndex}
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.2 }}
+              className="text-muted-foreground text-sm font-medium"
+            >
+              {loadingMessages[messageIndex]}
+            </motion.p>
+          </AnimatePresence>
         </div>
       </div>
     );
