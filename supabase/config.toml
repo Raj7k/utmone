@@ -289,6 +289,10 @@ verify_jwt = false
 [functions.sync-luma-guests]
 verify_jwt = false
 
+# Sentinel Mode - Active Revenue Defense
+[functions.sentinel-guard]
+verify_jwt = false
+
 # Cron schedules for automated tasks
 # Generate recommendations every 6 hours
 [[edge_runtime.scheduler]]
