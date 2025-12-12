@@ -15,7 +15,7 @@ export const useDashboardData = (workspaceId: string | undefined) => {
           
           const { count, error } = await supabase
             .from("link_clicks")
-            .select("*", { count: "exact", head: true })
+            .select("id", { count: "exact", head: true })
             .eq("workspace_id", workspaceId)
             .gte("clicked_at", today.toISOString());
 
@@ -23,11 +23,17 @@ export const useDashboardData = (workspaceId: string | undefined) => {
           return count || 0;
         },
         enabled: !!workspaceId,
+        staleTime: 2 * 60 * 1000,
+        gcTime: 5 * 60 * 1000,
+        refetchOnWindowFocus: false,
       },
       {
         queryKey: ["plan-limits", workspaceId],
         queryFn: () => checkPlanLimits(workspaceId!),
         enabled: !!workspaceId,
+        staleTime: 5 * 60 * 1000,
+        gcTime: 10 * 60 * 1000,
+        refetchOnWindowFocus: false,
       },
       {
         queryKey: ["recent-links", workspaceId],
@@ -45,6 +51,9 @@ export const useDashboardData = (workspaceId: string | undefined) => {
           return data || [];
         },
         enabled: !!workspaceId,
+        staleTime: 2 * 60 * 1000,
+        gcTime: 5 * 60 * 1000,
+        refetchOnWindowFocus: false,
       },
       {
         queryKey: ["profile-referral"],
@@ -61,6 +70,9 @@ export const useDashboardData = (workspaceId: string | undefined) => {
           if (error) throw error;
           return data;
         },
+        staleTime: 5 * 60 * 1000,
+        gcTime: 10 * 60 * 1000,
+        refetchOnWindowFocus: false,
       },
     ],
   });

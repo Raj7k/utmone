@@ -107,22 +107,24 @@ export function useIntelligenceData(workspaceId: string | undefined, days: numbe
           .eq("status", "active")
           .limit(5),
         
-        // 5. Channel mix - aggregate utm_source counts
+        // 5. Channel mix - use links table with total_clicks (database-side aggregation)
         supabase
-          .from("link_clicks")
-          .select("id, links!inner(workspace_id, utm_source)")
-          .eq("links.workspace_id", workspaceId)
-          .gte("clicked_at", startDateStr)
-          .limit(500), // Cap at 500 for performance
+          .from("links")
+          .select("utm_source, total_clicks")
+          .eq("workspace_id", workspaceId)
+          .not("utm_source", "is", null)
+          .order("total_clicks", { ascending: false })
+          .limit(10),
         
-        // 6. Geo data - aggregate by city
+        // 6. Geo data - limit to top 50 most recent, ordered
         supabase
           .from("link_clicks")
           .select("city, country")
           .eq("workspace_id", workspaceId)
           .gte("clicked_at", startDateStr)
           .not("city", "is", null)
-          .limit(500), // Cap at 500 for performance
+          .order("clicked_at", { ascending: false })
+          .limit(50),
         
         // 7. Recent clicks for live feed - only last 10
         supabase
@@ -171,20 +173,15 @@ export function useIntelligenceData(workspaceId: string | undefined, days: numbe
         clicks: 0, // Would need separate query if needed
       }));
 
-      // Process channel mix
-      const channelMap = new Map<string, number>();
-      (channelMixResult.data || []).forEach((click: any) => {
-        const source = click.links?.utm_source || "direct";
-        channelMap.set(source, (channelMap.get(source) || 0) + 1);
-      });
-      const channelTotal = channelMixResult.data?.length || 0;
-      const channelMix = Array.from(channelMap.entries())
-        .sort((a, b) => b[1] - a[1])
+      // Process channel mix - already aggregated from links table
+      const channelData = (channelMixResult.data || []).filter((link: any) => link.utm_source);
+      const channelTotal = channelData.reduce((sum: number, link: any) => sum + (link.total_clicks || 0), 0);
+      const channelMix = channelData
         .slice(0, 5)
-        .map(([name, value]) => ({
-          name,
-          value,
-          percentage: channelTotal > 0 ? (value / channelTotal) * 100 : 0,
+        .map((link: any) => ({
+          name: link.utm_source,
+          value: link.total_clicks || 0,
+          percentage: channelTotal > 0 ? ((link.total_clicks || 0) / channelTotal) * 100 : 0,
         }));
 
       // Process geo data
