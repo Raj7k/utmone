@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { memo, useState, useEffect, useCallback } from "react";
 import { 
   ChevronLeft,
   Search,
@@ -22,7 +23,6 @@ import {
   ChevronRight
 } from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
-import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
@@ -58,17 +58,19 @@ const toolsNavigation: NavItem[] = [
   { name: "One-Tap Scanner", href: "/scan", icon: Scan, isNew: true },
 ];
 
-const NavItemComponent = ({ 
+interface NavItemComponentProps {
+  item: NavItem;
+  isActive: boolean;
+  pendingCount?: number;
+  visitedFeatures: string[];
+}
+
+const NavItemComponent = memo(({ 
   item, 
   isActive, 
   pendingCount, 
   visitedFeatures 
-}: { 
-  item: NavItem; 
-  isActive: boolean; 
-  pendingCount?: number;
-  visitedFeatures: string[];
-}) => {
+}: NavItemComponentProps) => {
   const Icon = item.icon;
   const showBadge = item.badge && pendingCount && pendingCount > 0;
   const isNewFeature = newFeatures.includes(item.name) && !visitedFeatures.includes(item.name);
@@ -102,7 +104,9 @@ const NavItemComponent = ({
       {isActive && <ChevronRight className="h-4 w-4 ml-auto opacity-50" />}
     </Link>
   );
-};
+});
+
+NavItemComponent.displayName = "NavItemComponent";
 
 export const ExpandedSidebar = () => {
   const location = useLocation();
@@ -126,7 +130,7 @@ export const ExpandedSidebar = () => {
       setVisitedFeatures(updated);
       localStorage.setItem('visited_features', JSON.stringify(updated));
     }
-  }, [location.pathname]);
+  }, [location.pathname, currentFeature, visitedFeatures]);
 
   const { data: pendingCount } = useQuery({
     queryKey: ['pending-approvals-count', currentWorkspace?.id],
@@ -143,17 +147,17 @@ export const ExpandedSidebar = () => {
     refetchInterval: 30000,
   });
 
-  const isActive = (href: string) => {
+  const isActive = useCallback((href: string) => {
     if (href === "/dashboard") return location.pathname === href;
     return location.pathname.startsWith(href.split('?')[0]);
-  };
+  }, [location.pathname]);
 
-  const openFeedback = () => {
+  const openFeedback = useCallback(() => {
     const feedbackTrigger = document.querySelector('.feedback-widget-trigger') as HTMLButtonElement;
     if (feedbackTrigger) {
       feedbackTrigger.click();
     }
-  };
+  }, []);
 
   return (
     <aside className="w-64 h-screen bg-card border-r border-border flex flex-col">

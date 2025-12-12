@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useCallback, useMemo, ReactNode } from 'react';
 
 export type NotificationType = 'success' | 'error' | 'warning' | 'info' | 'loading';
 export type DisplayMode = 'hud' | 'banner' | 'alert';
@@ -38,6 +38,16 @@ const generateId = () => `notification-${++notificationId}`;
 export function NotificationProvider({ children }: { children: ReactNode }) {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
+  const dismiss = useCallback((id: string) => {
+    setNotifications(prev => {
+      const notification = prev.find(n => n.id === id);
+      if (notification?.onDismiss) {
+        notification.onDismiss();
+      }
+      return prev.filter(n => n.id !== id);
+    });
+  }, []);
+
   const show = useCallback((notification: Omit<Notification, 'id' | 'createdAt'>) => {
     const id = generateId();
     const newNotification: Notification = {
@@ -57,17 +67,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     }
 
     return id;
-  }, []);
-
-  const dismiss = useCallback((id: string) => {
-    setNotifications(prev => {
-      const notification = prev.find(n => n.id === id);
-      if (notification?.onDismiss) {
-        notification.onDismiss();
-      }
-      return prev.filter(n => n.id !== id);
-    });
-  }, []);
+  }, [dismiss]);
 
   const dismissAll = useCallback(() => {
     setNotifications([]);
@@ -79,8 +79,17 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
+  // Memoize context value to prevent unnecessary re-renders
+  const contextValue = useMemo(() => ({
+    notifications,
+    show,
+    dismiss,
+    dismissAll,
+    update,
+  }), [notifications, show, dismiss, dismissAll, update]);
+
   return (
-    <NotificationContext.Provider value={{ notifications, show, dismiss, dismissAll, update }}>
+    <NotificationContext.Provider value={contextValue}>
       {children}
     </NotificationContext.Provider>
   );
