@@ -14,7 +14,7 @@ const aiFeatures = [
   { icon: Sparkles, label: "Predictive", path: "/features/predictive-analytics", desc: "forecast performance" },
   { icon: GitBranch, label: "Attribution", path: "/features/attribution-graph", desc: "revenue mapping" },
   { icon: Route, label: "Smart Routing", path: "/features/smart-routing", desc: "geo-targeting" },
-  { icon: Shield, label: "Link Immunity", path: "/features/link-immunity", desc: "zero broken links" },
+  { icon: Shield, label: "Sentinel Mode", path: "/features/sentinel", desc: "link protection" },
 ];
 
 interface FeatureGridCardProps {

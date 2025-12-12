@@ -148,6 +148,8 @@ const Automation = lazy(() => import("./pages/features/Automation"));
 const AccessibilityFeature = lazy(() => import("./pages/features/Accessibility"));
 const EventHalo = lazy(() => import("./pages/features/EventHalo"));
 const AIIntelligence = lazy(() => import("./pages/features/AIIntelligence"));
+const Sentinel = lazy(() => import("./pages/features/Sentinel"));
+
 
 
 // PWA Standalone Pages
@@ -388,6 +390,7 @@ const HelpIntegrations = lazy(() => import("./pages/Help/Integrations"));
 const HelpDomains = lazy(() => import("./pages/Help/Domains"));
 const HelpBilling = lazy(() => import("./pages/Help/Billing"));
 const HelpSecurity = lazy(() => import("./pages/Help/Security"));
+const HelpSentinel = lazy(() => import("./pages/Help/Sentinel"));
 
 // Help Article Pages - Getting Started
 const WhatIsUtmOne = lazy(() => import("./pages/Help/articles/WhatIsUtmOne"));
@@ -695,6 +698,7 @@ const App = () => (
               <Route path="/features/event-halo" element={<Suspense fallback={<DashboardSkeleton />}><EventHalo /></Suspense>} />
               <Route path="/features/one-tap" element={<Navigate to="/features/event-halo?tab=scanner" replace />} />
               <Route path="/intelligence" element={<Suspense fallback={<DashboardSkeleton />}><AIIntelligence /></Suspense>} />
+              <Route path="/features/sentinel" element={<Suspense fallback={<DashboardSkeleton />}><Sentinel /></Suspense>} />
               
 {/* PWA Standalone Scanner */}
               <Route path="/scan" element={<Suspense fallback={<DashboardSkeleton />}><ScanPage /></Suspense>} />
@@ -758,6 +762,7 @@ const App = () => (
               <Route path="/help/domains" element={<Suspense fallback={<DashboardSkeleton />}><HelpDomains /></Suspense>} />
               <Route path="/help/billing" element={<Suspense fallback={<DashboardSkeleton />}><HelpBilling /></Suspense>} />
               <Route path="/help/security" element={<Suspense fallback={<DashboardSkeleton />}><HelpSecurity /></Suspense>} />
+              <Route path="/help/sentinel" element={<Suspense fallback={<DashboardSkeleton />}><HelpSentinel /></Suspense>} />
               
               {/* Help Article Pages - Getting Started */}
               <Route path="/help/articles/what-is-utm-one" element={<Suspense fallback={<DashboardSkeleton />}><WhatIsUtmOne /></Suspense>} />
