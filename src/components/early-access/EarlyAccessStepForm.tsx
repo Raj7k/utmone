@@ -17,7 +17,8 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
 import { useSearchParams } from "react-router-dom";
-import { ArrowRight, ArrowLeft, Sparkles } from "lucide-react";
+import { ArrowRight, ArrowLeft, Sparkles, Check, AlertCircle } from "lucide-react";
+import { validateEmailSmart } from "@/lib/emailValidator";
 
 const LOADING_STEPS = [
   "verifying your email...",
@@ -29,7 +30,16 @@ const LOADING_STEPS = [
 
 const earlyAccessSchema = z.object({
   name: z.string().min(1, "name is required").max(100),
-  email: z.string().email("please enter a valid email").max(255),
+  email: z.string()
+    .email("please enter a valid email")
+    .max(255)
+    .refine((email) => {
+      const result = validateEmailSmart(email);
+      return result.isValid;
+    }, (email) => {
+      const result = validateEmailSmart(email);
+      return { message: result.error || "please enter a valid email" };
+    }),
   team_size: z.string().min(1, "please select team size"),
   reason_for_joining: z.string().optional(),
 });
@@ -51,6 +61,7 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loadingStepIndex, setLoadingStepIndex] = useState(0);
+  const [emailValidation, setEmailValidation] = useState<{ isValid: boolean; error?: string; suggestion?: string } | null>(null);
   const [searchParams] = useSearchParams();
 
   // Cycle through loading steps while submitting
@@ -300,14 +311,42 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
                         transition={{ delay: 0.2 }}
                       >
                         <Label htmlFor="email">email</Label>
-                        <Input
-                          id="email"
-                          type="email"
-                          placeholder="you@company.com"
-                          {...register("email")}
-                          className="h-11 focus:scale-[1.02] transition-transform duration-200"
-                        />
-                        {errors.email && (
+                        <div className="relative">
+                          <Input
+                            id="email"
+                            type="email"
+                            placeholder="you@company.com"
+                            {...register("email", {
+                              onChange: (e) => {
+                                const result = validateEmailSmart(e.target.value);
+                                setEmailValidation(result);
+                              }
+                            })}
+                            className={`h-11 focus:scale-[1.02] transition-transform duration-200 pr-10 ${
+                              emailValidation?.isValid ? 'border-green-500' :
+                              emailValidation?.error ? 'border-red-500' : ''
+                            }`}
+                          />
+                          {emailValidation?.isValid && (
+                            <Check className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-green-500" />
+                          )}
+                          {emailValidation?.error && !emailValidation?.isValid && (
+                            <AlertCircle className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-red-500" />
+                          )}
+                        </div>
+                        {emailValidation?.suggestion && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setValue("email", emailValidation.suggestion!);
+                              setEmailValidation({ isValid: true });
+                            }}
+                            className="text-sm text-amber-600 dark:text-amber-400 hover:underline"
+                          >
+                            {emailValidation.error} <span className="font-medium">click to fix</span>
+                          </button>
+                        )}
+                        {errors.email && !emailValidation?.suggestion && (
                           <p className="text-sm text-destructive">
                             {errors.email.message}
                           </p>

@@ -1,13 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowRight, X } from "lucide-react";
-import { z } from "zod";
+import { ArrowRight, X, Check, AlertCircle } from "lucide-react";
 import { captureEmailLead } from "@/lib/captureEmailLead";
 import { useModal } from "@/contexts/ModalContext";
-
-const emailSchema = z.string().email();
+import { validateEmailSmart, ValidationResult } from "@/lib/emailValidator";
 
 interface FullScreenEmailCaptureProps {
   open: boolean;
@@ -19,17 +17,28 @@ export const FullScreenEmailCapture = ({
   onOpenChange,
 }: FullScreenEmailCaptureProps) => {
   const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
+  const [validation, setValidation] = useState<ValidationResult | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { openEarlyAccessModal } = useModal();
 
+  // Validate on change with debounce
+  useEffect(() => {
+    if (!email) {
+      setValidation(null);
+      return;
+    }
+    const timeout = setTimeout(() => {
+      setValidation(validateEmailSmart(email));
+    }, 300);
+    return () => clearTimeout(timeout);
+  }, [email]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setEmailError("");
 
-    const result = emailSchema.safeParse(email);
-    if (!result.success) {
-      setEmailError("please enter a valid email");
+    const result = validateEmailSmart(email);
+    if (!result.isValid) {
+      setValidation(result);
       return;
     }
 
@@ -48,13 +57,14 @@ export const FullScreenEmailCapture = ({
     
     // Reset state
     setEmail("");
+    setValidation(null);
     setIsSubmitting(false);
   };
 
   const handleClose = () => {
     onOpenChange(false);
     setEmail("");
-    setEmailError("");
+    setValidation(null);
   };
 
   // Handle Escape key
@@ -120,14 +130,40 @@ export const FullScreenEmailCapture = ({
                     placeholder="you@company.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="h-14 text-lg bg-card border-border rounded-xl text-center placeholder:text-muted-foreground focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                    className={`h-14 text-lg bg-card border-border rounded-xl text-center placeholder:text-muted-foreground focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all pr-12 ${
+                      validation?.isValid ? 'border-green-500' :
+                      validation?.error && validation.severity === 'error' ? 'border-red-500' :
+                      validation?.error && validation.severity === 'warning' ? 'border-amber-500' : ''
+                    }`}
                     autoFocus
                     required
                   />
-                  {emailError && (
-                    <p className="absolute -bottom-6 left-0 right-0 text-sm text-destructive text-center">
-                      {emailError}
-                    </p>
+                  {/* Status icon */}
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                    {validation?.isValid && (
+                      <Check className="h-5 w-5 text-green-500" />
+                    )}
+                    {validation?.error && !validation.isValid && (
+                      <AlertCircle className={`h-5 w-5 ${validation.severity === 'error' ? 'text-red-500' : 'text-amber-500'}`} />
+                    )}
+                  </div>
+                  {validation?.error && (
+                    <div className="absolute -bottom-7 left-0 right-0 text-center">
+                      {validation.suggestion ? (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setEmail(validation.suggestion!);
+                            setValidation({ isValid: true });
+                          }}
+                          className="text-sm text-amber-600 dark:text-amber-400 hover:underline"
+                        >
+                          {validation.error} <span className="font-medium">click to fix</span>
+                        </button>
+                      ) : (
+                        <p className="text-sm text-destructive">{validation.error}</p>
+                      )}
+                    </div>
                   )}
                 </div>
 
