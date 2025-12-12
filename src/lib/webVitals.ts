@@ -221,6 +221,45 @@ export function initWebVitals() {
     // FCP not supported
   }
 
+  // Track INP (Interaction to Next Paint) - Core Web Vital 2024
+  try {
+    let maxINP = 0;
+    let inpEntries: any[] = [];
+    
+    const inpObserver = new PerformanceObserver((list) => {
+      for (const entry of list.getEntries() as any[]) {
+        // Filter for user interactions
+        if (entry.interactionId) {
+          inpEntries.push(entry);
+          
+          // Calculate INP as the max interaction duration
+          if (entry.duration > maxINP) {
+            maxINP = entry.duration;
+          }
+        }
+      }
+    });
+    
+    inpObserver.observe({ type: 'event', buffered: true, durationThreshold: 16 } as any);
+
+    // Report INP on page hide
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden' && maxINP > 0) {
+        const metric: WebVitalMetric = {
+          name: 'INP',
+          value: maxINP,
+          rating: getRating('INP', maxINP),
+          delta: maxINP,
+          id: `inp-${Date.now()}`,
+        };
+        logMetric(metric);
+        queueMetric(metric);
+      }
+    });
+  } catch (e) {
+    // INP not supported
+  }
+
   // Report remaining metrics on page unload
   window.addEventListener('pagehide', () => {
     reportMetrics();

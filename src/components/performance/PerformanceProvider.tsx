@@ -1,5 +1,9 @@
 import { useEffect } from 'react';
 import { useIntentPrefetch } from '@/hooks/useIntentPrefetch';
+import { useLongTaskMonitor } from '@/hooks/useLongTaskMonitor';
+import { useRoutePerformance } from '@/hooks/useRoutePerformance';
+import { useMemoryMonitor } from '@/hooks/useMemoryMonitor';
+import { PerformanceMonitor } from '@/components/dev/PerformanceMonitor';
 
 interface PerformanceProviderProps {
   children: React.ReactNode;
@@ -16,6 +20,9 @@ interface PerformanceProviderProps {
  * - Markovian Prefetching (predictive page loading)
  * - Resource hints injection
  * - Network-aware adaptations
+ * - Long task monitoring (dev)
+ * - Memory monitoring (dev)
+ * - Route performance tracking
  * 
  * Usage:
  * ```tsx
@@ -35,6 +42,11 @@ export function PerformanceProvider({
     maxConcurrent: 3,
     respectSaveData: true,
   });
+
+  // Development-only monitoring
+  useLongTaskMonitor(50);
+  useMemoryMonitor(30000, 80);
+  useRoutePerformance();
 
   useEffect(() => {
     // Inject DNS prefetch hints for critical domains
@@ -81,5 +93,10 @@ export function PerformanceProvider({
     }
   }, []);
 
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <PerformanceMonitor />
+    </>
+  );
 }
