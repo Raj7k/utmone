@@ -15,6 +15,7 @@ import {
   AICommandVisual,
   AnomalyRadarVisual,
 } from "@/components/features/visuals/FeatureVisuals";
+import { RevenueIntelligenceDashboard } from "@/components/features/visuals/RevenueIntelligenceDashboard";
 import { motion } from "framer-motion";
 import { 
   BarChart3, 
@@ -227,12 +228,7 @@ const Analytics = () => {
         headline="see the complete picture"
         subheadline="every touchpoint, every device, every conversion"
       >
-        <div className="aspect-video rounded-2xl bg-gradient-to-br from-muted/50 to-muted/20 border border-border flex items-center justify-center">
-          <div className="text-center space-y-4">
-            <BarChart3 className="w-16 h-16 text-primary mx-auto" />
-            <p className="text-muted-foreground">revenue intelligence dashboard</p>
-          </div>
-        </div>
+        <RevenueIntelligenceDashboard />
       </FeatureShowcase>
 
       {/* Bento Grid */}
