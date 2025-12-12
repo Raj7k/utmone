@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useWorkspace } from "@/hooks/useWorkspace";
+import { useIntelligenceData } from "@/hooks/useIntelligenceData";
+import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BarChart3, Network, TrendingUp, Activity, Shield } from "lucide-react";
@@ -25,6 +27,7 @@ import { TopicAttributionView } from "@/components/attribution/TopicAttributionV
 import { SentinelSavesWidget } from "@/components/analytics/SentinelSavesWidget";
 import { useSentinelStats } from "@/hooks/useSentinelSaves";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { IntelligenceOverviewSkeleton } from "@/components/intelligence/IntelligenceOverviewSkeleton";
 
 export default function Intelligence() {
   const { currentWorkspace } = useWorkspace();
@@ -40,6 +43,16 @@ export default function Intelligence() {
   const days = period === "custom" && customRange 
     ? Math.ceil((customRange.to.getTime() - customRange.from.getTime()) / (1000 * 60 * 60 * 24)) + 1
     : periodDays[period];
+
+  // Use unified data hook for fast loading
+  const { data: intelligenceData, isLoading } = useIntelligenceData(currentWorkspace?.id, days);
+
+  // Signal navigation complete when data loads
+  useEffect(() => {
+    if (!isLoading) {
+      completeNavigation();
+    }
+  }, [isLoading]);
 
   return (
     <PageContentWrapper
@@ -80,6 +93,9 @@ export default function Intelligence() {
 
       {/* Main Content based on Tab */}
       {activeTab === "overview" && (
+        isLoading ? (
+          <IntelligenceOverviewSkeleton />
+        ) : (
         <div className="flex gap-6">
           {/* Main Content */}
           <div className="flex-1 space-y-6 min-w-0">
@@ -89,6 +105,9 @@ export default function Intelligence() {
               period={period}
               hidePeriodSelector
               customDays={days}
+              initialClicks={intelligenceData.totalClicks}
+              initialTrend={intelligenceData.clicksTrend}
+              initialTrendPercent={intelligenceData.clicksTrendPercent}
             />
 
             {/* Context Switcher */}
@@ -105,6 +124,11 @@ export default function Intelligence() {
                   workspaceId={currentWorkspace?.id}
                   days={days}
                   context={context}
+                  preloadedData={{
+                    totalRevenue: intelligenceData.totalRevenue,
+                    conversions: intelligenceData.conversionsCount,
+                    channels: intelligenceData.topChannels,
+                  }}
                 />
               </div>
 
@@ -113,6 +137,7 @@ export default function Intelligence() {
                 <PerformanceSnapshot
                   workspaceId={currentWorkspace?.id}
                   days={days}
+                  preloadedClicks={intelligenceData.totalClicks}
                 />
               </div>
             </div>
@@ -127,11 +152,13 @@ export default function Intelligence() {
                   workspaceId={currentWorkspace?.id}
                   days={days}
                   context={context}
+                  preloadedCampaigns={intelligenceData.topCampaigns}
                 />
               </div>
               <ChannelMixDonut
                 workspaceId={currentWorkspace?.id}
                 days={days}
+                preloadedData={intelligenceData.channelMix}
               />
             </div>
 
@@ -166,6 +193,7 @@ export default function Intelligence() {
               <GeoHeatTiles
                 workspaceId={currentWorkspace?.id}
                 days={days}
+                preloadedData={intelligenceData.topCities}
               />
               {/* Placeholder for Sales Velocity */}
               <div className="rounded-2xl border border-border bg-card/50 p-6 flex items-center justify-center min-h-[200px]">
@@ -177,10 +205,14 @@ export default function Intelligence() {
           {/* Live Activity Rail - Right Sidebar (hidden on mobile) */}
           <div className="hidden xl:block w-80 shrink-0">
             <div className="sticky top-6">
-              <LiveActivityRail workspaceId={currentWorkspace?.id} />
+              <LiveActivityRail 
+                workspaceId={currentWorkspace?.id}
+                preloadedClicks={intelligenceData.recentClicks}
+              />
             </div>
           </div>
         </div>
+        )
       )}
 
       {activeTab === "attribution" && (

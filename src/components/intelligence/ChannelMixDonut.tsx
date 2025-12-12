@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 interface ChannelMixDonutProps {
   workspaceId?: string;
   days: number;
+  preloadedData?: Array<{ name: string; value: number; percentage: number }>;
 }
 
 interface ChannelData {
@@ -26,7 +27,9 @@ const CHANNEL_COLORS = [
   "hsl(var(--muted-foreground))",
 ];
 
-export default function ChannelMixDonut({ workspaceId, days }: ChannelMixDonutProps) {
+export default function ChannelMixDonut({ workspaceId, days, preloadedData }: ChannelMixDonutProps) {
+  const hasPreloadedData = !!preloadedData && preloadedData.length > 0;
+
   const { data, isLoading } = useQuery({
     queryKey: ["channel-mix", workspaceId, days],
     queryFn: async () => {
@@ -39,7 +42,8 @@ export default function ChannelMixDonut({ workspaceId, days }: ChannelMixDonutPr
         .from("link_clicks")
         .select("referrer, links!inner(workspace_id, utm_source)")
         .eq("links.workspace_id", workspaceId)
-        .gte("clicked_at", startDate.toISOString());
+        .gte("clicked_at", startDate.toISOString())
+        .limit(500); // Cap for performance
 
       if (error) throw error;
 
@@ -63,11 +67,21 @@ export default function ChannelMixDonut({ workspaceId, days }: ChannelMixDonutPr
 
       return channels;
     },
-    enabled: !!workspaceId,
+    enabled: !!workspaceId && !hasPreloadedData,
     staleTime: 2 * 60 * 1000,
   });
 
-  if (isLoading) {
+  // Use preloaded data if available
+  const displayData = hasPreloadedData 
+    ? preloadedData.map((c, index) => ({
+        ...c,
+        color: CHANNEL_COLORS[index] || CHANNEL_COLORS[4],
+      }))
+    : data;
+
+  const showLoading = !hasPreloadedData && isLoading;
+
+  if (showLoading) {
     return (
       <Card className="h-full">
         <CardHeader className="pb-2">
@@ -80,7 +94,7 @@ export default function ChannelMixDonut({ workspaceId, days }: ChannelMixDonutPr
     );
   }
 
-  const channels = data || [];
+  const channels = displayData || [];
   const total = channels.reduce((sum, c) => sum + c.value, 0);
 
   return (

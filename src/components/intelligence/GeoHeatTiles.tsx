@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 interface GeoHeatTilesProps {
   workspaceId?: string;
   days: number;
+  preloadedData?: Array<{ city: string; country: string; clicks: number; percentage: number }>;
 }
 
 interface CityData {
@@ -19,7 +20,9 @@ interface CityData {
   percentage: number;
 }
 
-export default function GeoHeatTiles({ workspaceId, days }: GeoHeatTilesProps) {
+export default function GeoHeatTiles({ workspaceId, days, preloadedData }: GeoHeatTilesProps) {
+  const hasPreloadedData = !!preloadedData && preloadedData.length > 0;
+
   const { data, isLoading } = useQuery({
     queryKey: ["geo-heat", workspaceId, days],
     queryFn: async () => {
@@ -30,13 +33,14 @@ export default function GeoHeatTiles({ workspaceId, days }: GeoHeatTilesProps) {
 
       const { data: clicks, error } = await supabase
         .from("link_clicks")
-        .select("city, country, links!inner(workspace_id)")
-        .eq("links.workspace_id", workspaceId)
-        .gte("clicked_at", startDate.toISOString());
+        .select("city, country")
+        .eq("workspace_id", workspaceId)
+        .gte("clicked_at", startDate.toISOString())
+        .not("city", "is", null)
+        .limit(500);
 
       if (error) throw error;
 
-      // Aggregate by city
       const cityMap = new Map<string, { country: string; count: number }>();
       clicks?.forEach((click: any) => {
         const city = click.city || "Unknown";
@@ -62,11 +66,14 @@ export default function GeoHeatTiles({ workspaceId, days }: GeoHeatTilesProps) {
 
       return cities;
     },
-    enabled: !!workspaceId,
+    enabled: !!workspaceId && !hasPreloadedData,
     staleTime: 2 * 60 * 1000,
   });
 
-  if (isLoading) {
+  const displayData = hasPreloadedData ? preloadedData : data;
+  const showLoading = !hasPreloadedData && isLoading;
+
+  if (showLoading) {
     return (
       <Card className="h-full">
         <CardHeader className="pb-2">
@@ -83,7 +90,7 @@ export default function GeoHeatTiles({ workspaceId, days }: GeoHeatTilesProps) {
     );
   }
 
-  const cities = data || [];
+  const cities = displayData || [];
   const maxClicks = Math.max(...cities.map((c) => c.clicks), 1);
 
   return (
