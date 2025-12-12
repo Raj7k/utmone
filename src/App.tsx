@@ -678,6 +678,7 @@ const App = () => (
               <Route path="/features/short-links" element={<Suspense fallback={<DashboardSkeleton />}><ShortLinks /></Suspense>} />
               <Route path="/features/utm-builder" element={<Suspense fallback={<DashboardSkeleton />}><UTMBuilder /></Suspense>} />
               <Route path="/features/qr-generator" element={<Suspense fallback={<DashboardSkeleton />}><QRGenerator /></Suspense>} />
+              <Route path="/features/customer-journey" element={<Suspense fallback={<DashboardSkeleton />}><CustomerJourney /></Suspense>} />
               <Route path="/features/identity-resolution" element={<Suspense fallback={<DashboardSkeleton />}><IdentityResolution /></Suspense>} />
               <Route path="/features/bayesian-attribution" element={<Suspense fallback={<DashboardSkeleton />}><BayesianAttribution /></Suspense>} />
               <Route path="/features/journey-valuation" element={<Suspense fallback={<DashboardSkeleton />}><JourneyValuation /></Suspense>} />
