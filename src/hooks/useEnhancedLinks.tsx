@@ -21,6 +21,32 @@ interface UseEnhancedLinksParams {
   pageSize?: number;
 }
 
+const CACHE_KEY = 'enhanced-links-cache';
+
+function getCacheKey(params: UseEnhancedLinksParams) {
+  return `${CACHE_KEY}-${params.workspaceId}-${params.searchQuery}-${params.statusFilter}-${params.page}`;
+}
+
+function getCachedLinks(params: UseEnhancedLinksParams) {
+  try {
+    const cached = localStorage.getItem(getCacheKey(params));
+    if (!cached) return undefined;
+    const { data, timestamp } = JSON.parse(cached);
+    // 2 minute cache validity
+    if (Date.now() - timestamp > 2 * 60 * 1000) return undefined;
+    return data;
+  } catch { return undefined; }
+}
+
+function setCachedLinks(params: UseEnhancedLinksParams, data: any) {
+  try {
+    localStorage.setItem(getCacheKey(params), JSON.stringify({
+      data,
+      timestamp: Date.now()
+    }));
+  } catch { /* ignore storage errors */ }
+}
+
 export const useEnhancedLinks = ({
   workspaceId,
   searchQuery = "",
@@ -30,15 +56,18 @@ export const useEnhancedLinks = ({
   page = 1,
   pageSize = 10,
 }: UseEnhancedLinksParams) => {
-  // Use cached workspace ID as fallback to enable query immediately
   const effectiveWorkspaceId = workspaceId || getCachedWorkspaceId() || "";
+  
+  const params = { workspaceId: effectiveWorkspaceId, searchQuery, statusFilter, sortBy, sortOrder, page, pageSize };
   
   return useQuery({
     queryKey: ["enhanced-links", effectiveWorkspaceId, searchQuery, statusFilter, sortBy, sortOrder, page, pageSize],
     enabled: !!effectiveWorkspaceId,
-    staleTime: 2 * 60 * 1000, // 2 minutes - don't refetch if fresh
-    gcTime: 10 * 60 * 1000, // 10 minutes cache
-    refetchOnWindowFocus: false, // Prevent unnecessary refetches
+    staleTime: 2 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false, // Trust cache on mount
+    initialData: () => getCachedLinks(params),
     queryFn: async () => {
       let query = supabase
         .from("links")
@@ -51,12 +80,10 @@ export const useEnhancedLinks = ({
         `, { count: "exact" })
         .eq("workspace_id", effectiveWorkspaceId);
 
-      // Apply status filter
       if (statusFilter !== "all") {
         query = query.eq("status", statusFilter as Database["public"]["Enums"]["link_status"]);
       }
 
-      // Apply search filter
       if (searchQuery) {
         query = query.or(
           `title.ilike.%${searchQuery}%,` +
@@ -67,10 +94,8 @@ export const useEnhancedLinks = ({
         );
       }
 
-      // Apply sorting
       query = query.order(sortBy, { ascending: sortOrder === "asc" });
 
-      // Apply pagination
       const from = (page - 1) * pageSize;
       const to = from + pageSize - 1;
       query = query.range(from, to);
@@ -79,18 +104,22 @@ export const useEnhancedLinks = ({
 
       if (error) throw error;
 
-      // Use cached total_clicks column instead of fetching all click rows
       const enhancedLinks = (links || []).map((link) => ({
         ...link,
         owner: Array.isArray(link.owner) ? link.owner[0] : link.owner,
         clicks_last_30_days: link.total_clicks || 0,
       })) as EnhancedLink[];
 
-      return {
+      const result = {
         links: enhancedLinks,
         totalCount: count || 0,
         totalPages: Math.ceil((count || 0) / pageSize),
       };
+
+      // Cache for next load
+      setCachedLinks(params, result);
+
+      return result;
     },
   });
 };

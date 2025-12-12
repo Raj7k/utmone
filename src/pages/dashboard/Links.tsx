@@ -128,8 +128,8 @@ export default function Links() {
         onStatusChange={setStatusFilter}
       />
 
-      {/* View Content - skeleton only while actively loading */}
-      {isLoading ? (
+      {/* View Content - skeleton only if no cached data (first load) */}
+      {isLoading && !data?.links?.length ? (
         <LinkCardGridSkeleton />
       ) : viewMode === "cards" ? (
         <LinkCardGrid links={data?.links || []} />

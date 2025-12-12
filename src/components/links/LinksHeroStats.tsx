@@ -10,7 +10,7 @@ interface LinksHeroStatsProps {
 }
 
 export const LinksHeroStats = ({ workspaceId }: LinksHeroStatsProps) => {
-  const { data, isLoading } = useLinksHeroStats(workspaceId);
+  const { data, isLoading, isFetching } = useLinksHeroStats(workspaceId);
 
   const handleCopyTopLink = () => {
     if (data?.topPerformer?.shortUrl) {
@@ -19,7 +19,8 @@ export const LinksHeroStats = ({ workspaceId }: LinksHeroStatsProps) => {
     }
   };
 
-  if (isLoading) {
+  // Show skeleton ONLY if no cached data available (first ever load)
+  if (!data) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <Skeleton className="h-24 w-full" />
@@ -29,10 +30,16 @@ export const LinksHeroStats = ({ workspaceId }: LinksHeroStatsProps) => {
     );
   }
 
-  if (!data) return null;
+  // Always render with data (cached or fresh), show subtle loading indicator if fetching
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <div className="relative grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      {/* Subtle loading indicator when refreshing in background */}
+      {isFetching && (
+        <div className="absolute top-2 right-2 z-10">
+          <div className="h-2 w-2 bg-primary rounded-full animate-pulse" />
+        </div>
+      )}
       {/* Total Active Links */}
       <div className="bg-card border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
         <div className="flex items-center gap-3">
