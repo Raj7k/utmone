@@ -1,11 +1,13 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useState, lazy, Suspense } from "react";
 import { EnhancedLink } from "@/hooks/useEnhancedLinks";
-import { LinkHealthScore } from "./LinkHealthScore";
-import { LinkInsightBadge } from "./LinkInsightBadge";
 import { SentinelBadge } from "@/components/sentinel/SentinelBadge";
-import { SentinelSettingsDialog } from "@/components/sentinel/SentinelSettingsDialog";
 import { Button } from "@/components/ui/button";
-import { Copy, QrCode, BarChart3, ExternalLink, MoreHorizontal, Shield } from "lucide-react";
+import { Copy, QrCode, BarChart3, ExternalLink, MoreHorizontal, Shield, TrendingUp } from "lucide-react";
+
+// Lazy load heavy dialog component - only loads when user opens it
+const SentinelSettingsDialog = lazy(() => 
+  import("@/components/sentinel/SentinelSettingsDialog").then(m => ({ default: m.SentinelSettingsDialog }))
+);
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -66,11 +68,13 @@ export const LinkCard = memo(({ link }: LinkCardProps) => {
       onMouseLeave={handleMouseLeave}
       onClick={handleCardClick}
     >
-      {/* Header with Health Score */}
+      {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-4">
-          {/* Mini Health Ring */}
-          <LinkHealthScore linkId={link.id} compact />
+          {/* Simple click count indicator instead of expensive health score */}
+          <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary">
+            <TrendingUp className="h-5 w-5" />
+          </div>
           
           <div className="flex-1 min-w-0">
             <h3 className="font-display font-semibold text-foreground truncate mb-1">
@@ -136,21 +140,22 @@ export const LinkCard = memo(({ link }: LinkCardProps) => {
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <SentinelBadge 
-            enabled={!!(link as any).sentinel_enabled} 
-            onClick={handleSentinelClick} 
-          />
-          <LinkInsightBadge linkId={link.id} />
-        </div>
+        <SentinelBadge 
+          enabled={!!(link as any).sentinel_enabled} 
+          onClick={handleSentinelClick} 
+        />
       </div>
 
-      {/* Sentinel Settings Dialog */}
-      <SentinelSettingsDialog
-        open={sentinelDialogOpen}
-        onOpenChange={setSentinelDialogOpen}
-        linkId={link.id}
-      />
+      {/* Sentinel Settings Dialog - Only rendered when open (lazy loaded) */}
+      {sentinelDialogOpen && (
+        <Suspense fallback={null}>
+          <SentinelSettingsDialog
+            open={sentinelDialogOpen}
+            onOpenChange={setSentinelDialogOpen}
+            linkId={link.id}
+          />
+        </Suspense>
+      )}
 
       {/* UTM Tags */}
       {(link.utm_source || link.utm_medium || link.utm_campaign) && (
