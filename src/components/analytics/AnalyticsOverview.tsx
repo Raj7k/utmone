@@ -26,78 +26,57 @@ export const AnalyticsOverview = ({ workspaceId }: AnalyticsOverviewProps) => {
       // Get current user for "my links" mode
       const { data: { user } } = await supabase.auth.getUser();
       const currentUserId = user?.id;
-      // Build query with filters
+      
+      // Build base filter for links
+      const buildLinkFilter = (query: any) => {
+        query = query.eq("workspace_id", workspaceId);
+        if (viewMode === "my" && currentUserId) {
+          query = query.eq("created_by", currentUserId);
+        } else if (ownerFilter !== "all") {
+          query = query.eq("created_by", ownerFilter);
+        }
+        return query;
+      };
+
+      // Get links count using COUNT query (no row fetch)
       let linksQuery = supabase
         .from("links")
-        .select("*", { count: "exact", head: true })
-        .eq("workspace_id", workspaceId);
-
-      // Apply owner filter
-      if (viewMode === "my" && currentUserId) {
-        linksQuery = linksQuery.eq("created_by", currentUserId);
-      } else if (ownerFilter !== "all") {
-        linksQuery = linksQuery.eq("created_by", ownerFilter);
-      }
-
+        .select("id", { count: "exact", head: true });
+      linksQuery = buildLinkFilter(linksQuery);
       const { count: linksCount } = await linksQuery;
 
-      // Get link IDs with same filters
-      let dataQuery = supabase
-        .from("links")
-        .select("id")
+      // Use workspace_id directly for click counts - much more efficient!
+      // Get total clicks using COUNT (no row fetch)
+      const { count: totalClicks } = await supabase
+        .from("link_clicks")
+        .select("id", { count: "exact", head: true })
         .eq("workspace_id", workspaceId);
 
-      if (viewMode === "my" && currentUserId) {
-        dataQuery = dataQuery.eq("created_by", currentUserId);
-      } else if (ownerFilter !== "all") {
-        dataQuery = dataQuery.eq("created_by", ownerFilter);
-      }
-
-      const { data: links } = await dataQuery;
-
-      if (!links || links.length === 0) {
-        return {
-          totalLinks: 0,
-          totalClicks: 0,
-          uniqueClicks: 0,
-          topLinks: [],
-        };
-      }
-
-      const linkIds = links.map(l => l.id);
-
-      // Get total clicks
-      const { data: clicksData } = await supabase
+      // Get unique clicks using COUNT (no row fetch)
+      const { count: uniqueClicks } = await supabase
         .from("link_clicks")
-        .select("link_id, is_unique")
-        .in("link_id", linkIds);
+        .select("id", { count: "exact", head: true })
+        .eq("workspace_id", workspaceId)
+        .eq("is_unique", true);
 
-      const totalClicks = clicksData?.length || 0;
-      const uniqueClicks = clicksData?.filter(c => c.is_unique).length || 0;
-
-      // Get top performing links with same filters
+      // Get top performing links - this is the only query that fetches rows
       let topLinksQuery = supabase
         .from("links")
-        .select("id, title, short_url, total_clicks")
-        .eq("workspace_id", workspaceId);
-
-      if (viewMode === "my" && currentUserId) {
-        topLinksQuery = topLinksQuery.eq("created_by", currentUserId);
-      } else if (ownerFilter !== "all") {
-        topLinksQuery = topLinksQuery.eq("created_by", ownerFilter);
-      }
-
+        .select("id, title, short_url, total_clicks");
+      topLinksQuery = buildLinkFilter(topLinksQuery);
       const { data: topLinks } = await topLinksQuery
         .order("total_clicks", { ascending: false })
         .limit(5);
 
       return {
         totalLinks: linksCount || 0,
-        totalClicks,
-        uniqueClicks,
+        totalClicks: totalClicks || 0,
+        uniqueClicks: uniqueClicks || 0,
         topLinks: topLinks || [],
       };
     },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    refetchOnWindowFocus: false,
   });
 
     return <div className="text-center py-8 text-secondary-label">loading analytics…</div>;

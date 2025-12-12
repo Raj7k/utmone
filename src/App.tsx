@@ -628,6 +628,8 @@ const App = () => (
               
               <Route path="/links" element={<Navigate to="/dashboard/links" replace />} />
               <Route path="/links/:linkId" element={<LinkIdRedirect />} />
+              {/* Explicit create route BEFORE dynamic :linkId to prevent "create" being treated as UUID */}
+              <Route path="/dashboard/links/create" element={<Navigate to="/dashboard/links" replace />} />
               <Route path="/dashboard/links/:linkId" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><LinkDetail /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/analytics" element={<Navigate to="/dashboard/intelligence" replace />} />
               
