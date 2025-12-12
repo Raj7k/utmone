@@ -1450,3 +1450,35 @@ All colors MUST be HSL.
 .rotate-y-180 {
   transform: rotateY(180deg);
 }
+
+/* ============================================
+   REDUCED MOTION - ACCESSIBILITY
+   Respects user's prefers-reduced-motion setting
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  /* Disable decorative animations */
+  .animate-gradient,
+  .animate-shimmer,
+  .animate-float,
+  .animate-pulse-subtle,
+  .animate-spin,
+  .animate-bounce,
+  .animate-ping {
+    animation: none !important;
+  }
+  
+  /* Disable Framer Motion animations via CSS */
+  [data-framer-motion] {
+    transition: none !important;
+    transform: none !important;
+  }
+}

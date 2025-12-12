@@ -20,6 +20,8 @@ import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { PerformanceProvider } from "@/components/performance/PerformanceProvider";
 import { LinkIdRedirect } from "./components/redirects/LinkIdRedirect";
 import { lazyWithRetry } from "./utils/lazyWithRetry";
+import { InstallPrompt } from "./components/pwa/InstallPrompt";
+import { UpdateNotification } from "./components/pwa/UpdateNotification";
 
 // Critical pages - not lazy loaded for fast initial load
 import Index from "./pages/Index";
@@ -1102,6 +1104,8 @@ const App = () => (
             </AnimatedRoutes>
             </AppWithHelp>
           <GlobalEarlyAccessModal />
+          <InstallPrompt />
+          <UpdateNotification />
           </ModalProvider>
           </AdminSimulationProvider>
           </WorkspaceProvider>
