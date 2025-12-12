@@ -7,11 +7,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link2, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { generateSlugFromTitle } from "@/lib/slugify";
 import { useLinkWebhooks } from "@/hooks/useLinkWebhooks";
 import { LinkSuccessCard } from "@/components/shared/LinkSuccessCard";
@@ -22,6 +21,7 @@ import { useAIAnalyzeUrl } from "@/hooks/useAIAnalyzeUrl";
 import { LinkQualityScore } from "@/components/ai/LinkQualityScore";
 import { SlugCycleInput } from "@/components/ai/SlugCycleInput";
 import { motion, AnimatePresence } from "framer-motion";
+import { DomainSelectorWithAdd } from "@/components/domains/DomainSelectorWithAdd";
 
 const shortenerSchema = z.object({
   url: z.string().url("enter a valid url"),
@@ -59,22 +59,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
   const [usedAISlug, setUsedAISlug] = useState(false);
   const [currentAnalyzedUrl, setCurrentAnalyzedUrl] = useState<string>("");
 
-  // Fetch verified domains for this workspace + system-level defaults
-  const { data: verifiedDomains } = useQuery({
-    queryKey: ["verified-domains", workspaceId],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("domains")
-        .select("id, domain, workspace_id")
-        .eq("is_verified", true)
-        .or(`workspace_id.eq.${workspaceId},is_system_domain.eq.true`)
-        .order("is_primary", { ascending: false });
-
-      if (error) throw error;
-      // Filter out utm.one (main website) and return only shortener domains
-      return (data || []).filter(d => d.domain !== 'utm.one');
-    },
-  });
+  // Domain selection is now handled by DomainSelectorWithAdd component
 
   const form = useForm<ShortenerFormData>({
     resolver: zodResolver(shortenerSchema),
@@ -307,18 +292,11 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
 
           <div>
             <Label htmlFor="domain">Domain</Label>
-            <Select value={selectedDomain} onValueChange={setSelectedDomain}>
-              <SelectTrigger className="mt-1.5">
-                <SelectValue placeholder="Select domain" />
-              </SelectTrigger>
-              <SelectContent>
-                {verifiedDomains?.map((d) => (
-                  <SelectItem key={d.id} value={d.domain}>
-                    {d.domain}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <DomainSelectorWithAdd
+              value={selectedDomain}
+              onChange={setSelectedDomain}
+              workspaceId={workspaceId}
+            />
           </div>
 
           <div>

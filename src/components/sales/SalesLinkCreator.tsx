@@ -9,6 +9,7 @@ import { Switch } from "@/components/ui/switch";
 import { Bell, Loader2, Link as LinkIcon } from "lucide-react";
 import { notify } from "@/lib/notify";
 import { motion } from "framer-motion";
+import { DomainSelectorWithAdd } from "@/components/domains/DomainSelectorWithAdd";
 
 interface SalesLinkCreatorProps {
   onSuccess: (linkData: { shortUrl: string; prospectName: string; id: string }) => void;
@@ -22,6 +23,7 @@ export const SalesLinkCreator = ({ onSuccess, onCancel }: SalesLinkCreatorProps)
   const [destinationUrl, setDestinationUrl] = useState("");
   const [prospectName, setProspectName] = useState("");
   const [slug, setSlug] = useState("");
+  const [selectedDomain, setSelectedDomain] = useState("utm.click");
   const [alertOnClick, setAlertOnClick] = useState(true);
   const [isCheckingSlug, setIsCheckingSlug] = useState(false);
   const [slugError, setSlugError] = useState<string | null>(null);
@@ -85,15 +87,7 @@ export const SalesLinkCreator = ({ onSuccess, onCancel }: SalesLinkCreatorProps)
         throw new Error("this short link already exists. please try a different slug.");
       }
 
-      // Get default domain
-      const { data: domains } = await supabase
-        .from("domains")
-        .select("domain")
-        .eq("workspace_id", currentWorkspace.id)
-        .eq("is_primary", true)
-        .limit(1);
-
-      const domain = domains?.[0]?.domain || "utm.one";
+      const domain = selectedDomain;
       const fullDestinationUrl = destinationUrl.startsWith("http") ? destinationUrl : `https://${destinationUrl}`;
       const shortUrl = `https://${domain}/${slug}`;
 
@@ -183,13 +177,24 @@ export const SalesLinkCreator = ({ onSuccess, onCancel }: SalesLinkCreatorProps)
         </p>
       </div>
 
+      {/* Domain */}
+      <div className="space-y-2">
+        <Label className="text-sm font-medium">domain</Label>
+        <DomainSelectorWithAdd
+          value={selectedDomain}
+          onChange={setSelectedDomain}
+          workspaceId={currentWorkspace?.id || ""}
+          className="mt-0"
+        />
+      </div>
+
       {/* Slug */}
       <div className="space-y-2">
         <Label htmlFor="slug" className="text-sm font-medium">
           short link
         </Label>
         <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground whitespace-nowrap">utm.one/</span>
+          <span className="text-sm text-muted-foreground whitespace-nowrap">{selectedDomain}/</span>
           <Input
             id="slug"
             placeholder="acme-proposal"

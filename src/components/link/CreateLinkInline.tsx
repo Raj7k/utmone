@@ -10,7 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Copy, ExternalLink, Sparkles } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useQuery } from "@tanstack/react-query";
+import { DomainSelectorWithAdd } from "@/components/domains/DomainSelectorWithAdd";
 
 const linkSchema = z.object({
   destination: z.string().url("Enter a valid URL"),
@@ -35,22 +35,7 @@ export function CreateLinkInline({ workspaceId, onSuccess }: CreateLinkInlinePro
   const [activeTab, setActiveTab] = useState<"simple" | "advanced">("simple");
   const [selectedDomain, setSelectedDomain] = useState<string>("utm.click");
 
-  // Fetch verified domains for this workspace + system-level defaults
-  const { data: verifiedDomains } = useQuery({
-    queryKey: ["verified-domains", workspaceId],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("domains")
-        .select("id, domain, workspace_id")
-        .eq("is_verified", true)
-        .or(`workspace_id.eq.${workspaceId},is_system_domain.eq.true`)
-        .order("is_primary", { ascending: false });
-
-      if (error) throw error;
-      // Filter out utm.one (main website) and return only shortener domains
-      return (data || []).filter(d => d.domain !== 'utm.one');
-    },
-  });
+  // Domain selection is now handled by DomainSelectorWithAdd component
 
   const form = useForm<LinkFormData>({
     resolver: zodResolver(linkSchema),
@@ -227,17 +212,12 @@ export function CreateLinkInline({ workspaceId, onSuccess }: CreateLinkInlinePro
 
             <div>
               <Label htmlFor="domain">Domain</Label>
-              <select
+              <DomainSelectorWithAdd
                 value={selectedDomain}
-                onChange={(e) => setSelectedDomain(e.target.value)}
-                className="w-full h-10 px-3 rounded-md border border-input bg-background"
-              >
-                {verifiedDomains?.map((d) => (
-                  <option key={d.id} value={d.domain}>
-                    {d.domain}
-                  </option>
-                ))}
-              </select>
+                onChange={setSelectedDomain}
+                workspaceId={workspaceId}
+                className="mt-0"
+              />
             </div>
 
             <div>
