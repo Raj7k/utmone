@@ -25,6 +25,7 @@ import { BoothQRDialog } from "@/components/events/BoothQRDialog";
 import { toast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 // Lazy load EventBridgeTab - it's only shown when user clicks the tab
 const EventBridgeTab = lazy(() => import("@/components/events/EventBridge/EventBridgeTab").then(m => ({ default: m.EventBridgeTab })));
@@ -128,157 +129,159 @@ const Events = () => {
 
   // Progressive render - show layout immediately
   return (
-    <div className="space-y-6 relative">
-      {/* Subtle loading indicator for background refresh */}
-      {isFetching && (
-        <div className="absolute top-2 right-2 z-10">
-          <div className="h-2 w-2 bg-primary rounded-full animate-pulse" />
-        </div>
-      )}
+    <ErrorBoundary fallback={<div className="p-8 text-center text-muted-foreground">Something went wrong loading events. Please refresh the page.</div>}>
+      <div className="space-y-6 relative">
+        {/* Subtle loading indicator for background refresh */}
+        {isFetching && (
+          <div className="absolute top-2 right-2 z-10">
+            <div className="h-2 w-2 bg-primary rounded-full animate-pulse" />
+          </div>
+        )}
 
-      {/* Tab Navigation */}
-      <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <div className="flex items-center justify-between mb-6">
-          <TabsList>
-            <TabsTrigger value="halo" className="flex items-center gap-2">
-              <Waves className="h-4 w-4" />
-              event halo
-            </TabsTrigger>
-            <TabsTrigger value="bridge" className="flex items-center gap-2">
-              <Zap className="h-4 w-4" />
-              event bridge
-            </TabsTrigger>
-          </TabsList>
-          
-          {activeTab === "halo" && viewState === "overview" && (
-            <Button onClick={() => setCreateDialogOpen(true)}>
-              <Plus className="w-4 h-4 mr-2" />
-              create event
-            </Button>
-          )}
-        </div>
-
-        <TabsContent value="halo" className="mt-0">
-          <AnimatePresence mode="wait">
-            {viewState === "overview" && (
-              <motion.div
-                key="overview"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0, x: -20 }}
-              >
-                {/* Header */}
-                <div className="mb-6">
-                  <h2 className="font-display text-xl font-semibold text-foreground">field events</h2>
-                  <p className="text-muted-foreground text-sm">
-                    track the invisible lift from conferences, trade shows, and meetups
-                  </p>
-                </div>
-
-                {/* Content - render immediately with data or empty state */}
-                <EventsOverviewGrid
-                  events={typedEvents}
-                  onEventSelect={handleEventSelect}
-                  onQRClick={handleQRClick}
-                  onScanClick={handleScanClick}
-                />
-
-                {/* Error state */}
-                {hasTimedOut && !currentWorkspace && (
-                  <div className="flex flex-col items-center justify-center py-20 text-center">
-                    <p className="text-muted-foreground mb-4">unable to load workspace data</p>
-                    <Button onClick={retry} variant="outline" size="sm" className="gap-2">
-                      <RefreshCw className="h-4 w-4" />
-                      try again
-                    </Button>
-                  </div>
-                )}
-              </motion.div>
+        {/* Tab Navigation */}
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <div className="flex items-center justify-between mb-6">
+            <TabsList>
+              <TabsTrigger value="halo" className="flex items-center gap-2">
+                <Waves className="h-4 w-4" />
+                event halo
+              </TabsTrigger>
+              <TabsTrigger value="bridge" className="flex items-center gap-2">
+                <Zap className="h-4 w-4" />
+                event bridge
+              </TabsTrigger>
+            </TabsList>
+            
+            {activeTab === "halo" && viewState === "overview" && (
+              <Button onClick={() => setCreateDialogOpen(true)}>
+                <Plus className="w-4 h-4 mr-2" />
+                create event
+              </Button>
             )}
+          </div>
 
-        {viewState === "dashboard" && currentEvent && (
-          <EventDashboardView
-            key="dashboard"
-            event={currentEvent}
-            haloResult={haloResult}
-            inferredMetrics={inferredMetrics}
-            leadsCount={badgeScans?.length || 0}
-            onBack={handleBackToOverview}
-            onQRClick={() => setQrDialogEvent(currentEvent)}
-            onScanClick={() => setScannerEventId(currentEvent.id)}
-            onRecalculate={handleRecalculate}
-            onViewLeads={handleViewLeads}
-            onValueSettingsSave={async (values) => {
-              await updateValueSettings.mutateAsync({ eventId: currentEvent.id, ...values });
-              refetch();
-            }}
-            onUploadComplete={() => {
-              refetch();
-              handleRecalculate();
-            }}
-            isRecalculating={calculateHalo.isPending}
+          <TabsContent value="halo" className="mt-0">
+            <AnimatePresence mode="wait">
+              {viewState === "overview" && (
+                <motion.div
+                  key="overview"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, x: -20 }}
+                >
+                  {/* Header */}
+                  <div className="mb-6">
+                    <h2 className="font-display text-xl font-semibold text-foreground">field events</h2>
+                    <p className="text-muted-foreground text-sm">
+                      track the invisible lift from conferences, trade shows, and meetups
+                    </p>
+                  </div>
+
+                  {/* Content - render immediately with data or empty state */}
+                  <EventsOverviewGrid
+                    events={typedEvents}
+                    onEventSelect={handleEventSelect}
+                    onQRClick={handleQRClick}
+                    onScanClick={handleScanClick}
+                  />
+
+                  {/* Error state */}
+                  {hasTimedOut && !currentWorkspace && (
+                    <div className="flex flex-col items-center justify-center py-20 text-center">
+                      <p className="text-muted-foreground mb-4">unable to load workspace data</p>
+                      <Button onClick={retry} variant="outline" size="sm" className="gap-2">
+                        <RefreshCw className="h-4 w-4" />
+                        try again
+                      </Button>
+                    </div>
+                  )}
+                </motion.div>
+              )}
+
+              {viewState === "dashboard" && currentEvent && (
+                <EventDashboardView
+                  key="dashboard"
+                  event={currentEvent}
+                  haloResult={haloResult}
+                  inferredMetrics={inferredMetrics}
+                  leadsCount={badgeScans?.length || 0}
+                  onBack={handleBackToOverview}
+                  onQRClick={() => setQrDialogEvent(currentEvent)}
+                  onScanClick={() => setScannerEventId(currentEvent.id)}
+                  onRecalculate={handleRecalculate}
+                  onViewLeads={handleViewLeads}
+                  onValueSettingsSave={async (values) => {
+                    await updateValueSettings.mutateAsync({ eventId: currentEvent.id, ...values });
+                    refetch();
+                  }}
+                  onUploadComplete={() => {
+                    refetch();
+                    handleRecalculate();
+                  }}
+                  isRecalculating={calculateHalo.isPending}
+                />
+              )}
+
+              {viewState === "leads" && currentEvent && badgeScans && (
+                <LeadsFullScreen
+                  key="leads"
+                  eventName={currentEvent.name}
+                  eventId={currentEvent.id}
+                  badgeScans={badgeScans}
+                  workspaceId={currentWorkspace?.id}
+                  onBack={handleBackToDashboard}
+                  onRefresh={refetch}
+                />
+              )}
+            </AnimatePresence>
+          </TabsContent>
+
+          <TabsContent value="bridge" className="mt-0">
+            <Suspense fallback={
+              <div className="flex items-center justify-center py-24">
+                <div className="text-center">
+                  <Zap className="w-12 h-12 text-muted-foreground mb-4 mx-auto animate-pulse" />
+                  <p className="text-muted-foreground">loading event bridge...</p>
+                </div>
+              </div>
+            }>
+              <EventBridgeTab />
+            </Suspense>
+          </TabsContent>
+        </Tabs>
+
+        {/* Dialogs */}
+        <CreateEventDialog
+          open={createDialogOpen}
+          onOpenChange={setCreateDialogOpen}
+          workspaceId={effectiveWorkspaceId}
+          onEventCreated={refetch}
+        />
+
+        {qrDialogEvent && (
+          <BoothQRDialog
+            open={!!qrDialogEvent}
+            onOpenChange={(open) => !open && setQrDialogEvent(null)}
+            eventId={qrDialogEvent.id}
+            eventName={qrDialogEvent.name}
+            city={qrDialogEvent.location_city}
           />
         )}
 
-        {viewState === "leads" && currentEvent && badgeScans && (
-          <LeadsFullScreen
-            key="leads"
+        {scannerEventId && currentEvent && (
+          <ScannerModal
+            open={!!scannerEventId}
+            onOpenChange={(open) => !open && setScannerEventId(null)}
+            eventId={scannerEventId}
             eventName={currentEvent.name}
-            eventId={currentEvent.id}
-            badgeScans={badgeScans}
-            workspaceId={currentWorkspace?.id}
-            onBack={handleBackToDashboard}
-            onRefresh={refetch}
+            onScanComplete={() => {
+              refetch();
+              handleRecalculate();
+            }}
           />
-          )}
-          </AnimatePresence>
-        </TabsContent>
-
-        <TabsContent value="bridge" className="mt-0">
-          <Suspense fallback={
-            <div className="flex items-center justify-center py-24">
-              <div className="text-center">
-                <Zap className="w-12 h-12 text-muted-foreground mb-4 mx-auto animate-pulse" />
-                <p className="text-muted-foreground">loading event bridge...</p>
-              </div>
-            </div>
-          }>
-            <EventBridgeTab />
-          </Suspense>
-        </TabsContent>
-      </Tabs>
-
-      {/* Dialogs */}
-      <CreateEventDialog
-        open={createDialogOpen}
-        onOpenChange={setCreateDialogOpen}
-        workspaceId={effectiveWorkspaceId}
-        onEventCreated={refetch}
-      />
-
-      {qrDialogEvent && (
-        <BoothQRDialog
-          open={!!qrDialogEvent}
-          onOpenChange={(open) => !open && setQrDialogEvent(null)}
-          eventId={qrDialogEvent.id}
-          eventName={qrDialogEvent.name}
-          city={qrDialogEvent.location_city}
-        />
-      )}
-
-      {scannerEventId && currentEvent && (
-        <ScannerModal
-          open={!!scannerEventId}
-          onOpenChange={(open) => !open && setScannerEventId(null)}
-          eventId={scannerEventId}
-          eventName={currentEvent.name}
-          onScanComplete={() => {
-            refetch();
-            handleRecalculate();
-          }}
-        />
-      )}
-    </div>
+        )}
+      </div>
+    </ErrorBoundary>
   );
 };
 

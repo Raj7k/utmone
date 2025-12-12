@@ -15,6 +15,7 @@ import { FeatureHint } from "@/components/FeatureHint";
 import { BulkSentinelPanel } from "@/components/sentinel";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 // Skeleton for hero stats
 const HeroStatsSkeleton = () => (
@@ -62,99 +63,101 @@ export default function Links() {
 
   // Progressive render - always show layout, skeleton for data-dependent sections
   return (
-    <PageContentWrapper
-      title="links"
-      description="decision intelligence dashboard with health scores and AI insights"
-      breadcrumbs={[{ label: "links" }]}
-      action={
-        <div className="flex items-center gap-3">
-          <FeatureGuard feature="csv_export">
-            <Button variant="outline" size="sm" className="gap-2">
-              <Download className="h-4 w-4" />
-              export csv
-            </Button>
-          </FeatureGuard>
-          
-          {/* View Toggle */}
-          <div className="hidden md:flex items-center border border-border rounded-lg p-1">
-            <Button
-              variant={viewMode === "cards" ? "secondary" : "ghost"}
-              size="sm"
-              className="h-8 px-3"
-              onClick={() => setViewMode("cards")}
-            >
-              <LayoutGrid className="h-4 w-4" />
-            </Button>
-            <Button
-              variant={viewMode === "table" ? "secondary" : "ghost"}
-              size="sm"
-              className="h-8 px-3"
-              onClick={() => setViewMode("table")}
-            >
-              <List className="h-4 w-4" />
-            </Button>
+    <ErrorBoundary fallback={<div className="p-8 text-center text-muted-foreground">Something went wrong loading links. Please refresh the page.</div>}>
+      <PageContentWrapper
+        title="links"
+        description="decision intelligence dashboard with health scores and AI insights"
+        breadcrumbs={[{ label: "links" }]}
+        action={
+          <div className="flex items-center gap-3">
+            <FeatureGuard feature="csv_export">
+              <Button variant="outline" size="sm" className="gap-2">
+                <Download className="h-4 w-4" />
+                export csv
+              </Button>
+            </FeatureGuard>
+            
+            {/* View Toggle */}
+            <div className="hidden md:flex items-center border border-border rounded-lg p-1">
+              <Button
+                variant={viewMode === "cards" ? "secondary" : "ghost"}
+                size="sm"
+                className="h-8 px-3"
+                onClick={() => setViewMode("cards")}
+              >
+                <LayoutGrid className="h-4 w-4" />
+              </Button>
+              <Button
+                variant={viewMode === "table" ? "secondary" : "ghost"}
+                size="sm"
+                className="h-8 px-3"
+                onClick={() => setViewMode("table")}
+              >
+                <List className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
-        </div>
-      }
-    >
-      {/* Hero Stats Bar - use effectiveWorkspaceId */}
-      {effectiveWorkspaceId ? (
-        <LinksHeroStats workspaceId={effectiveWorkspaceId} />
-      ) : (
-        <HeroStatsSkeleton />
-      )}
+        }
+      >
+        {/* Hero Stats Bar - use effectiveWorkspaceId */}
+        {effectiveWorkspaceId ? (
+          <LinksHeroStats workspaceId={effectiveWorkspaceId} />
+        ) : (
+          <HeroStatsSkeleton />
+        )}
 
-      {/* Bulk Sentinel Panel - only show with workspace */}
-      {effectiveWorkspaceId && (
-        <BulkSentinelPanel workspaceId={effectiveWorkspaceId} />
-      )}
+        {/* Bulk Sentinel Panel - only show with workspace */}
+        {effectiveWorkspaceId && (
+          <BulkSentinelPanel workspaceId={effectiveWorkspaceId} />
+        )}
 
-      {/* Feature Discovery Hint */}
-      <FeatureHint
-        id="links-contextual-routing"
-        title="New: Context-Aware Routing"
-        description="Enable AI-powered routing when creating links with multiple destinations. The system learns which URLs perform best for different devices and locations."
-      />
-
-      {/* Smart Filters - always visible */}
-      <SmartLinkFilters
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        performanceFilter={performanceFilter}
-        onPerformanceFilterChange={setPerformanceFilter}
-        healthFilter={healthFilter}
-        onHealthFilterChange={setHealthFilter}
-        statusFilter={statusFilter}
-        onStatusChange={setStatusFilter}
-      />
-
-      {/* View Content - skeleton only if no cached data (first load) */}
-      {isLoading && !data?.links?.length ? (
-        <LinkCardGridSkeleton />
-      ) : viewMode === "cards" ? (
-        <LinkCardGrid links={data?.links || []} />
-      ) : (
-        <EnhancedLinksTable 
-          workspaceId={effectiveWorkspaceId}
-          searchQuery={searchQuery}
-          statusFilter={statusFilter}
+        {/* Feature Discovery Hint */}
+        <FeatureHint
+          id="links-contextual-routing"
+          title="New: Context-Aware Routing"
+          description="Enable AI-powered routing when creating links with multiple destinations. The system learns which URLs perform best for different devices and locations."
         />
-      )}
 
-      {/* Error state with retry - only show after timeout */}
-      {hasTimedOut && !currentWorkspace && (
-        <div className="flex flex-col items-center gap-4 py-12">
-          <p className="text-sm text-muted-foreground">couldn't load workspace data</p>
-          <div className="flex gap-3">
-            <button 
-              onClick={() => retry?.()}
-              className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
-            >
-              try again
-            </button>
+        {/* Smart Filters - always visible */}
+        <SmartLinkFilters
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          performanceFilter={performanceFilter}
+          onPerformanceFilterChange={setPerformanceFilter}
+          healthFilter={healthFilter}
+          onHealthFilterChange={setHealthFilter}
+          statusFilter={statusFilter}
+          onStatusChange={setStatusFilter}
+        />
+
+        {/* View Content - skeleton only if no cached data (first load) */}
+        {isLoading && !data?.links?.length ? (
+          <LinkCardGridSkeleton />
+        ) : viewMode === "cards" ? (
+          <LinkCardGrid links={data?.links || []} />
+        ) : (
+          <EnhancedLinksTable 
+            workspaceId={effectiveWorkspaceId}
+            searchQuery={searchQuery}
+            statusFilter={statusFilter}
+          />
+        )}
+
+        {/* Error state with retry - only show after timeout */}
+        {hasTimedOut && !currentWorkspace && (
+          <div className="flex flex-col items-center gap-4 py-12">
+            <p className="text-sm text-muted-foreground">couldn't load workspace data</p>
+            <div className="flex gap-3">
+              <button 
+                onClick={() => retry?.()}
+                className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+              >
+                try again
+              </button>
+            </div>
           </div>
-        </div>
-      )}
-    </PageContentWrapper>
+        )}
+      </PageContentWrapper>
+    </ErrorBoundary>
   );
 }
