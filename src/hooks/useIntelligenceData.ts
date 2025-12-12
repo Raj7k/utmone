@@ -148,11 +148,11 @@ export function useIntelligenceData(workspaceId: string | undefined, days: numbe
           .order("clicked_at", { ascending: false })
           .limit(50),
         
-        // 7. Recent clicks for live feed - only last 10
+        // 7. Recent clicks for live feed - only last 10 (direct workspace_id, no JOIN)
         supabase
           .from("link_clicks")
-          .select("id, city, country, device_type, clicked_at, links!inner(slug, workspace_id)")
-          .eq("links.workspace_id", workspaceId)
+          .select("id, city, country, device_type, clicked_at, link_id")
+          .eq("workspace_id", workspaceId)
           .order("clicked_at", { ascending: false })
           .limit(10),
       ]);
@@ -224,10 +224,10 @@ export function useIntelligenceData(workspaceId: string | undefined, days: numbe
           percentage: geoTotal > 0 ? (data.clicks / geoTotal) * 100 : 0,
         }));
 
-      // Process recent clicks
+      // Process recent clicks (link_id used as fallback for slug display)
       const recentClicks = (recentClicksResult.data || []).map((click: any) => ({
         id: click.id,
-        slug: click.links?.slug || "unknown",
+        slug: click.link_id?.substring(0, 8) || "unknown",
         city: click.city || "Unknown",
         country: click.country || "",
         device: click.device_type || "desktop",
