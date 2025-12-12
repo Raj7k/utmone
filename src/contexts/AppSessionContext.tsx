@@ -170,10 +170,10 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
   
   // ============================================
   // DYNAMIC isReady CALCULATION
-  // Uses live state, not stale module constants
-  // Ready = we have user AND workspace (cached or fresh)
+  // Ready = we have user (cached or fresh) - workspace loads progressively
+  // This allows UI to render immediately while workspace data loads
   // ============================================
-  const isReady = (!!user && !!currentWorkspace) || isFullyLoaded;
+  const isReady = !!user || isFullyLoaded;
   const isAuthenticated = !!user;
 
   // Fetch workspaces for a user
