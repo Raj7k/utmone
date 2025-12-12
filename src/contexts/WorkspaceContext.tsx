@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, useRef, ReactNode } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useClientWorkspaces } from "@/hooks/useClientWorkspaces";
 import { supabase } from "@/integrations/supabase/client";
@@ -21,20 +21,57 @@ interface WorkspaceContextType {
   currentWorkspace: Workspace | null;
   workspaces: Workspace[];
   isLoading: boolean;
+  hasTimedOut: boolean;
+  error: Error | null;
   switchWorkspace: (workspaceId: string) => void;
+  retry: () => void;
 }
 
 const WorkspaceContext = createContext<WorkspaceContextType | undefined>(undefined);
 
+// Maximum time to wait for workspace data before showing fallback UI
+const WORKSPACE_TIMEOUT_MS = 8000;
+
 export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
-  const { workspaces = [], isLoading, error: workspacesError } = useClientWorkspaces();
+  const { workspaces = [], isLoading: isQueryLoading, error: workspacesError, refetch } = useClientWorkspaces();
   const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [queryCompleted, setQueryCompleted] = useState(false);
+  const [hasTimedOut, setHasTimedOut] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
   const queryClient = useQueryClient();
   const { data: isAdmin = false } = useIsAdmin();
+
+  // Safety timeout - prevent infinite loading state
+  useEffect(() => {
+    // Clear any existing timeout
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    // Only set timeout if we're still loading
+    if (isQueryLoading && !hasTimedOut) {
+      timeoutRef.current = setTimeout(() => {
+        console.warn("[WorkspaceContext] Timeout reached after", WORKSPACE_TIMEOUT_MS, "ms - forcing completion");
+        setHasTimedOut(true);
+        setQueryCompleted(true);
+      }, WORKSPACE_TIMEOUT_MS);
+    }
+
+    // Clear timeout when loading completes successfully
+    if (!isQueryLoading && timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [isQueryLoading, hasTimedOut]);
 
   // Check authentication status - defer async work to prevent deadlocks
   useEffect(() => {
@@ -103,17 +140,17 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
 
   // Mark query as completed when loading finishes
   useEffect(() => {
-    if (!isLoading && isAuthenticated !== null) {
+    if (!isQueryLoading && isAuthenticated !== null) {
       setQueryCompleted(true);
     }
-  }, [isLoading, isAuthenticated]);
+  }, [isQueryLoading, isAuthenticated]);
 
   // Redirect to onboarding if user has no workspaces (with race condition protection)
   useEffect(() => {
     const checkWorkspaces = async () => {
       try {
         // Wait for query to complete
-        if (isLoading || isAuthenticated === null || !queryCompleted) return;
+        if (isQueryLoading || isAuthenticated === null || !queryCompleted) return;
         
         // CRITICAL: Don't redirect if already on auth-related paths to prevent loops
         const authPaths = ["/auth", "/signup", "/onboarding", "/auth/callback", "/auth/verify-2fa", "/accept-invite"];
@@ -124,17 +161,13 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
         
         // DISABLED: Auth pages handle onboarding redirect as single source of truth
         // This context should only manage workspace state, not navigation
-        // Only redirect to onboarding if user is authenticated, query completed, and genuinely has no workspaces
-        // if (isAuthenticated && workspaces.length === 0) {
-        //   navigate("/onboarding");
-        // }
       } catch (err) {
         console.error("Workspace check error:", err);
       }
     };
 
     checkWorkspaces();
-  }, [workspaces, isLoading, isAuthenticated, queryCompleted, isAdmin, navigate, location.pathname]);
+  }, [workspaces, isQueryLoading, isAuthenticated, queryCompleted, isAdmin, navigate, location.pathname]);
 
   const switchWorkspace = (workspaceId: string) => {
     const workspace = workspaces.find((w) => w.id === workspaceId);
@@ -144,13 +177,25 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const retry = () => {
+    setHasTimedOut(false);
+    setQueryCompleted(false);
+    refetch();
+  };
+
+  // Combined loading state - false if timed out or query finished
+  const isLoading = isQueryLoading && !hasTimedOut;
+
   return (
     <WorkspaceContext.Provider
       value={{
         currentWorkspace,
         workspaces,
         isLoading,
+        hasTimedOut,
+        error: workspacesError as Error | null,
         switchWorkspace,
+        retry,
       }}
     >
       {children}

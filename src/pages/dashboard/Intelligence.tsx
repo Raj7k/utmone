@@ -32,7 +32,7 @@ import { IntelligenceOverviewSkeleton } from "@/components/intelligence/Intellig
 const IdentityGraphView = lazy(() => import("@/components/attribution/IdentityGraphView").then(m => ({ default: m.IdentityGraphView })));
 
 export default function Intelligence() {
-  const { currentWorkspace } = useWorkspace();
+  const { currentWorkspace, hasTimedOut, retry } = useWorkspace();
   const [period, setPeriod] = useState<PeriodOption>("7d");
   const [customRange, setCustomRange] = useState<{ from: Date; to: Date } | undefined>();
   const [compareEnabled, setCompareEnabled] = useState(false);
@@ -49,12 +49,45 @@ export default function Intelligence() {
   // Use unified data hook for fast loading
   const { data: intelligenceData, isLoading } = useIntelligenceData(currentWorkspace?.id, days);
 
-  // Signal navigation complete when data loads
+  // Signal navigation complete when data loads or times out
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading || hasTimedOut) {
       completeNavigation();
     }
-  }, [isLoading]);
+  }, [isLoading, hasTimedOut]);
+
+  // Show error/timeout state if no workspace
+  if (!currentWorkspace && hasTimedOut) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="flex flex-col items-center gap-4 text-center max-w-md px-4">
+          <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center">
+            <span className="text-2xl">⚠️</span>
+          </div>
+          <div>
+            <h3 className="font-medium text-foreground mb-1">couldn't load workspace</h3>
+            <p className="text-sm text-muted-foreground">
+              the request took too long. this might be a temporary issue.
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <button 
+              onClick={() => retry?.()}
+              className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+            >
+              try again
+            </button>
+            <button 
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 text-sm border border-border rounded-lg hover:bg-muted transition-colors"
+            >
+              refresh page
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <PageContentWrapper

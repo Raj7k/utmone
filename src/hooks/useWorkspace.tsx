@@ -6,7 +6,7 @@ import { getFriendlyErrorMessage } from "@/lib/errorMessages";
 
 export const useWorkspace = () => {
   const queryClient = useQueryClient();
-  const { currentWorkspace, workspaces, isLoading, switchWorkspace } = useWorkspaceContext();
+  const { currentWorkspace, workspaces, isLoading, hasTimedOut, error, switchWorkspace, retry } = useWorkspaceContext();
 
   const createWorkspaceMutation = useMutation({
     mutationFn: async (name: string) => {
@@ -57,15 +57,19 @@ export const useWorkspace = () => {
   });
 
   // isLoading should be true until both query is complete AND currentWorkspace is set
-  const isFullyLoaded = !isLoading && currentWorkspace !== null;
+  // But should be false if we've timed out to prevent infinite loading
+  const isFullyLoaded = (!isLoading && currentWorkspace !== null) || hasTimedOut;
 
   return {
     workspaces,
     currentWorkspace,
     needsOnboarding,
     isLoading: !isFullyLoaded, // True until workspace is actually ready
+    hasTimedOut,
+    error,
     createWorkspace: createWorkspaceMutation.mutate,
     completeOnboarding: completeOnboardingMutation.mutate,
     switchWorkspace,
+    retry,
   };
 };

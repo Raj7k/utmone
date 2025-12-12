@@ -144,7 +144,7 @@ export type Database = {
       admin_audit_logs: {
         Row: {
           action: string
-          admin_user_id: string
+          admin_user_id: string | null
           changed_by_role: string | null
           created_at: string
           id: string
@@ -159,7 +159,7 @@ export type Database = {
         }
         Insert: {
           action: string
-          admin_user_id: string
+          admin_user_id?: string | null
           changed_by_role?: string | null
           created_at?: string
           id?: string
@@ -174,7 +174,7 @@ export type Database = {
         }
         Update: {
           action?: string
-          admin_user_id?: string
+          admin_user_id?: string | null
           changed_by_role?: string | null
           created_at?: string
           id?: string

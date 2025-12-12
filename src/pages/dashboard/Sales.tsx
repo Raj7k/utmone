@@ -14,8 +14,7 @@ import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { motion } from "framer-motion";
 
 const Sales = () => {
-  const { currentWorkspace, isLoading: isWorkspaceLoading } = useWorkspace();
-  const [loadingTooLong, setLoadingTooLong] = useState(false);
+  const { currentWorkspace, isLoading: isWorkspaceLoading, hasTimedOut, retry } = useWorkspace();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const { data: salesLinks = [], isLoading, refetch, isFetched } = useQuery({
@@ -38,21 +37,12 @@ const Sales = () => {
     enabled: !!currentWorkspace?.id,
   });
 
-  // Timeout fallback for stuck loading
+  // Complete navigation progress when data loads or times out
   useEffect(() => {
-    if (isWorkspaceLoading || isLoading) {
-      setLoadingTooLong(false);
-      const timer = setTimeout(() => setLoadingTooLong(true), 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [isWorkspaceLoading, isLoading]);
-
-  // Complete navigation progress when data loads
-  useEffect(() => {
-    if (isFetched && !isWorkspaceLoading) {
+    if ((isFetched && !isWorkspaceLoading) || hasTimedOut) {
       completeNavigation();
     }
-  }, [isFetched, isWorkspaceLoading]);
+  }, [isFetched, isWorkspaceLoading, hasTimedOut]);
 
   // Calculate stats
   const hotLeads = salesLinks.filter(l => {
@@ -64,9 +54,49 @@ const Sales = () => {
 
   const totalViews = salesLinks.reduce((sum, l) => sum + (l.total_clicks || 0), 0);
 
-  // Show skeleton while workspace or data is loading
-  if (isWorkspaceLoading || isLoading) {
-    return <SalesPageSkeleton showSlowMessage={loadingTooLong} />;
+  // Show loading state
+  if (isWorkspaceLoading && !hasTimedOut) {
+    return <SalesPageSkeleton showSlowMessage={false} />;
+  }
+
+  // Show error/timeout state
+  if (!currentWorkspace) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="flex flex-col items-center gap-4 text-center max-w-md px-4">
+          <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center">
+            <span className="text-2xl">⚠️</span>
+          </div>
+          <div>
+            <h3 className="font-medium text-foreground mb-1">couldn't load workspace</h3>
+            <p className="text-sm text-muted-foreground">
+              {hasTimedOut 
+                ? "the request took too long. this might be a temporary issue." 
+                : "there was a problem loading your workspace data."}
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <button 
+              onClick={() => retry?.()}
+              className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+            >
+              try again
+            </button>
+            <button 
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 text-sm border border-border rounded-lg hover:bg-muted transition-colors"
+            >
+              refresh page
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show data loading skeleton
+  if (isLoading) {
+    return <SalesPageSkeleton showSlowMessage={false} />;
   }
 
   return (
