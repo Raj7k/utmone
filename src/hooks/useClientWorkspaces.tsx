@@ -2,9 +2,38 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
 import { getFriendlyErrorMessage } from "@/lib/errorMessages";
+import { getCachedUserId } from "@/hooks/useAuthSession";
 
-// Maximum time for workspace fetch before aborting
-const FETCH_TIMEOUT_MS = 10000;
+// Reduced timeout for faster failure
+const FETCH_TIMEOUT_MS = 5000;
+
+// Get cached workspaces for instant render
+function getCachedWorkspaces(): any[] | null {
+  try {
+    const cached = localStorage.getItem('utm_workspaces_cache');
+    if (!cached) return null;
+    const { data, timestamp } = JSON.parse(cached);
+    // 10 minute cache
+    if (Date.now() - timestamp > 10 * 60 * 1000) {
+      localStorage.removeItem('utm_workspaces_cache');
+      return null;
+    }
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+function cacheWorkspaces(workspaces: any[]): void {
+  try {
+    localStorage.setItem('utm_workspaces_cache', JSON.stringify({
+      data: workspaces,
+      timestamp: Date.now(),
+    }));
+  } catch {
+    // Ignore storage errors
+  }
+}
 
 export const useClientWorkspaces = () => {
   const queryClient = useQueryClient();
@@ -12,53 +41,58 @@ export const useClientWorkspaces = () => {
   const { data: workspaces, isLoading, error, refetch } = useQuery({
     queryKey: ["client-workspaces"],
     queryFn: async ({ signal }) => {
-      // Create timeout for the entire operation
       const timeoutPromise = new Promise<never>((_, reject) => {
         setTimeout(() => reject(new Error("Workspace fetch timed out")), FETCH_TIMEOUT_MS);
       });
 
       const fetchPromise = async () => {
-        const { data: { user }, error: authError } = await supabase.auth.getUser();
-        if (authError) {
-          console.error("[useClientWorkspaces] Auth error:", authError);
-          return [];
-        }
-        if (!user) return [];
-
-        // Get workspaces where user is owner
-        const { data: ownedWorkspaces, error: ownedError } = await supabase
-          .from("workspaces")
-          .select("*")
-          .eq("owner_id", user.id);
-
-        if (ownedError) {
-          console.error("[useClientWorkspaces] Owned workspaces error:", ownedError);
-          throw ownedError;
+        // Use cached user ID if available to avoid auth call
+        let userId = getCachedUserId();
+        
+        if (!userId) {
+          const { data: { user }, error: authError } = await supabase.auth.getUser();
+          if (authError) {
+            console.error("[useClientWorkspaces] Auth error:", authError);
+            return [];
+          }
+          if (!user) return [];
+          userId = user.id;
         }
 
-        // Get workspaces where user is a member
-        const { data: memberWorkspaces, error: memberError } = await supabase
-          .from("workspace_members")
-          .select(`
-            workspace_id,
-            role,
-            workspaces (*)
-          `)
-          .eq("user_id", user.id);
+        // Parallel fetch: owned + member workspaces
+        const [ownedResult, memberResult] = await Promise.all([
+          supabase
+            .from("workspaces")
+            .select("*")
+            .eq("owner_id", userId),
+          supabase
+            .from("workspace_members")
+            .select(`workspace_id, role, workspaces (*)`)
+            .eq("user_id", userId),
+        ]);
 
-        if (memberError) {
-          console.error("[useClientWorkspaces] Member workspaces error:", memberError);
-          throw memberError;
+        if (ownedResult.error) {
+          console.error("[useClientWorkspaces] Owned error:", ownedResult.error);
+          throw ownedResult.error;
         }
 
-        const memberWorkspacesList = memberWorkspaces
+        if (memberResult.error) {
+          console.error("[useClientWorkspaces] Member error:", memberResult.error);
+          throw memberResult.error;
+        }
+
+        const memberWorkspacesList = memberResult.data
           ?.map(m => m.workspaces)
           .filter(Boolean) || [];
 
-        return [...(ownedWorkspaces || []), ...memberWorkspacesList];
+        const allWorkspaces = [...(ownedResult.data || []), ...memberWorkspacesList];
+        
+        // Cache for next load
+        cacheWorkspaces(allWorkspaces);
+        
+        return allWorkspaces;
       };
 
-      // Race between fetch and timeout
       try {
         return await Promise.race([fetchPromise(), timeoutPromise]);
       } catch (err) {
@@ -67,16 +101,15 @@ export const useClientWorkspaces = () => {
       }
     },
     retry: 1,
-    retryDelay: 1000,
-    // PERFORMANCE: 10 minute stale time - workspaces rarely change
+    retryDelay: 500,
+    // Use cached workspaces as placeholder for instant render
+    placeholderData: getCachedWorkspaces() ?? undefined,
+    // 10 minute stale time
     staleTime: 10 * 60 * 1000,
-    // Keep in cache for 30 minutes
     gcTime: 30 * 60 * 1000,
-    // Prevent all automatic refetches
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     refetchOnMount: false,
-    // Use cached data first
     networkMode: 'offlineFirst',
   });
 
@@ -105,7 +138,6 @@ export const useClientWorkspaces = () => {
 
       if (error) throw error;
 
-      // Create default workspace branding
       await supabase
         .from("workspace_branding")
         .insert({

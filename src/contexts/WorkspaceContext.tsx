@@ -1,7 +1,7 @@
-import { createContext, useContext, useState, useEffect, useRef, useCallback, useMemo, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, useRef, useCallback, useMemo, ReactNode, startTransition } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useClientWorkspaces } from "@/hooks/useClientWorkspaces";
-import { supabase } from "@/integrations/supabase/client";
+import { useAuthSession, getCachedWorkspaceId } from "@/hooks/useAuthSession";
 import { useQueryClient } from "@tanstack/react-query";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 
@@ -29,42 +29,64 @@ interface WorkspaceContextType {
 
 const WorkspaceContext = createContext<WorkspaceContextType | undefined>(undefined);
 
-// Maximum time to wait for workspace data before showing fallback UI
-// Reduced from 8s to 3s for faster perceived performance
-const WORKSPACE_TIMEOUT_MS = 3000;
+// Reduced timeout for faster perceived performance
+const WORKSPACE_TIMEOUT_MS = 2000;
+
+// Get cached workspace from localStorage for instant render
+function getCachedWorkspace(): Workspace | null {
+  try {
+    const cached = localStorage.getItem('currentWorkspaceData');
+    if (!cached) return null;
+    return JSON.parse(cached);
+  } catch {
+    return null;
+  }
+}
+
+function cacheWorkspace(workspace: Workspace | null): void {
+  try {
+    if (workspace) {
+      localStorage.setItem('currentWorkspaceData', JSON.stringify(workspace));
+      localStorage.setItem('currentWorkspaceId', workspace.id);
+    }
+  } catch {
+    // Ignore storage errors
+  }
+}
 
 export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
+  // Use unified auth session - no duplicate auth calls
+  const { isAuthenticated, user } = useAuthSession();
+  
+  // Workspaces query - starts immediately with cached data
   const { workspaces = [], isLoading: isQueryLoading, error: workspacesError, refetch } = useClientWorkspaces();
-  const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-  const [queryCompleted, setQueryCompleted] = useState(false);
+  
+  // Initialize from cache for instant render
+  const cachedWorkspace = useRef(getCachedWorkspace());
+  const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(cachedWorkspace.current);
   const [hasTimedOut, setHasTimedOut] = useState(false);
+  
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
   const queryClient = useQueryClient();
   const { data: isAdmin = false } = useIsAdmin();
 
-  // Safety timeout - prevent infinite loading state
+  // Safety timeout - reduced for faster failure
   useEffect(() => {
-    // Clear any existing timeout
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
 
-    // Only set timeout if we're still loading
-    if (isQueryLoading && !hasTimedOut) {
+    if (isQueryLoading && !hasTimedOut && !cachedWorkspace.current) {
       timeoutRef.current = setTimeout(() => {
-        console.warn("[WorkspaceContext] Timeout reached after", WORKSPACE_TIMEOUT_MS, "ms - forcing completion");
+        console.warn("[WorkspaceContext] Timeout - forcing completion");
         setHasTimedOut(true);
-        setQueryCompleted(true);
       }, WORKSPACE_TIMEOUT_MS);
     }
 
-    // Clear timeout when loading completes successfully
     if (!isQueryLoading && timeoutRef.current) {
       clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
     }
 
     return () => {
@@ -74,122 +96,59 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
     };
   }, [isQueryLoading, hasTimedOut]);
 
-  // Check authentication status - defer async work to prevent deadlocks
+  // Initialize workspace when data arrives - use startTransition for non-urgent updates
   useEffect(() => {
-    let isMounted = true;
-
-    const checkAuth = async () => {
-      try {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        
-        if (!isMounted) return;
-        
-        if (error) {
-          console.error("[WorkspaceContext] Auth check error:", error);
-          setIsAuthenticated(false);
-          return;
-        }
-        
-        setIsAuthenticated(!!session);
-      } catch (err) {
-        console.error("[WorkspaceContext] Auth check exception:", err);
-        if (isMounted) {
-          setIsAuthenticated(false);
-        }
-      }
-    };
-    
-    checkAuth();
-    
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      // Defer state updates to prevent deadlock
-      setTimeout(() => {
-        if (!isMounted) return;
-        setIsAuthenticated(!!session?.user);
-        
-        // Force refetch of workspaces on login
-        if (session?.user) {
-          queryClient.invalidateQueries({ queryKey: ["client-workspaces"] });
-        }
-      }, 0);
-    });
-    
-    return () => {
-      isMounted = false;
-      subscription.unsubscribe();
-    };
-  }, [queryClient]);
-
-  // Initialize current workspace from localStorage or first workspace
-  useEffect(() => {
-    if (workspaces && workspaces.length > 0 && !currentWorkspace) {
-      const savedWorkspaceId = localStorage.getItem("currentWorkspaceId");
+    if (workspaces.length > 0 && !currentWorkspace) {
+      const savedWorkspaceId = getCachedWorkspaceId();
       const workspace = savedWorkspaceId
         ? workspaces.find((w) => w.id === savedWorkspaceId)
         : null;
       
-      // If saved workspace not found, default to first and clear invalid localStorage
-      if (!workspace) {
-        localStorage.removeItem("currentWorkspaceId");
-        setCurrentWorkspace(workspaces[0]);
-        localStorage.setItem("currentWorkspaceId", workspaces[0].id);
-      } else {
-        setCurrentWorkspace(workspace);
+      startTransition(() => {
+        if (!workspace) {
+          localStorage.removeItem("currentWorkspaceId");
+          setCurrentWorkspace(workspaces[0]);
+          cacheWorkspace(workspaces[0]);
+        } else {
+          setCurrentWorkspace(workspace);
+          cacheWorkspace(workspace);
+        }
+      });
+    } else if (workspaces.length > 0 && currentWorkspace) {
+      // Validate cached workspace is still valid
+      const stillValid = workspaces.some(w => w.id === currentWorkspace.id);
+      if (!stillValid) {
+        startTransition(() => {
+          setCurrentWorkspace(workspaces[0]);
+          cacheWorkspace(workspaces[0]);
+        });
       }
     }
   }, [workspaces, currentWorkspace]);
 
-  // Mark query as completed when loading finishes
+  // Invalidate workspaces on auth change
   useEffect(() => {
-    if (!isQueryLoading && isAuthenticated !== null) {
-      setQueryCompleted(true);
+    if (user) {
+      queryClient.invalidateQueries({ queryKey: ["client-workspaces"] });
     }
-  }, [isQueryLoading, isAuthenticated]);
+  }, [user?.id, queryClient]);
 
-  // Redirect to onboarding if user has no workspaces (with race condition protection)
-  useEffect(() => {
-    const checkWorkspaces = async () => {
-      try {
-        // Wait for query to complete
-        if (isQueryLoading || isAuthenticated === null || !queryCompleted) return;
-        
-        // CRITICAL: Don't redirect if already on auth-related paths to prevent loops
-        const authPaths = ["/auth", "/signup", "/onboarding", "/auth/callback", "/auth/verify-2fa", "/accept-invite"];
-        if (authPaths.some(path => location.pathname.startsWith(path))) return;
-        
-        // Admin bypass - admins should not be redirected to onboarding
-        if (isAdmin) return;
-        
-        // DISABLED: Auth pages handle onboarding redirect as single source of truth
-        // This context should only manage workspace state, not navigation
-      } catch (err) {
-        console.error("Workspace check error:", err);
-      }
-    };
-
-    checkWorkspaces();
-  }, [workspaces, isQueryLoading, isAuthenticated, queryCompleted, isAdmin, navigate, location.pathname]);
-
-  // Memoized switchWorkspace function
   const switchWorkspace = useCallback((workspaceId: string) => {
     const workspace = workspaces.find((w) => w.id === workspaceId);
     if (workspace) {
       setCurrentWorkspace(workspace);
-      localStorage.setItem("currentWorkspaceId", workspaceId);
+      cacheWorkspace(workspace);
     }
   }, [workspaces]);
 
-  // Memoized retry function
   const retry = useCallback(() => {
     setHasTimedOut(false);
-    setQueryCompleted(false);
     refetch();
   }, [refetch]);
 
-  // Combined loading state - false if timed out or query finished
-  const isLoading = isQueryLoading && !hasTimedOut;
+  // Loading is false if we have cached workspace OR query finished
+  const isLoading = (isQueryLoading && !cachedWorkspace.current && !hasTimedOut);
 
-  // Memoized context value to prevent unnecessary re-renders
   const contextValue = useMemo(() => ({
     currentWorkspace,
     workspaces,
@@ -207,7 +166,6 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Safe default for when context is not available (prevents crashes during initialization)
 const DEFAULT_CONTEXT: WorkspaceContextType = {
   currentWorkspace: null,
   workspaces: [],
@@ -220,9 +178,8 @@ const DEFAULT_CONTEXT: WorkspaceContextType = {
 
 export const useWorkspaceContext = () => {
   const context = useContext(WorkspaceContext);
-  // Return safe defaults instead of throwing - prevents race condition crashes
   if (context === undefined) {
-    console.warn("[useWorkspaceContext] Context not available yet, returning defaults");
+    console.warn("[useWorkspaceContext] Context not available yet");
     return DEFAULT_CONTEXT;
   }
   return context;
