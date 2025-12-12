@@ -27,10 +27,12 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatText } from "@/utils/textFormatter";
-import { ProductMegaDropdown } from "./mega-dropdown/ProductMegaDropdown";
-import { FeaturesMegaDropdown } from "./mega-dropdown/features/FeaturesMegaDropdown";
-import { SolutionsMegaDropdown } from "./mega-dropdown/solutions/SolutionsMegaDropdown";
-import { ResourcesMegaDropdown } from "./mega-dropdown/resources/ResourcesMegaDropdown";
+import { 
+  ProductDropdown, 
+  FeaturesDropdown, 
+  SolutionsDropdown, 
+  ResourcesDropdown 
+} from "@/components/lazy/LazyMegaDropdowns";
 
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -112,7 +114,7 @@ export const Navigation = () => {
                   {formatText("product")}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ProductMegaDropdown />
+                  <ProductDropdown />
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
@@ -122,7 +124,7 @@ export const Navigation = () => {
                   {formatText("features")}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <FeaturesMegaDropdown />
+                  <FeaturesDropdown />
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
@@ -132,7 +134,7 @@ export const Navigation = () => {
                   {formatText("solutions")}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <SolutionsMegaDropdown />
+                  <SolutionsDropdown />
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
@@ -142,7 +144,7 @@ export const Navigation = () => {
                   {formatText("resources")}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ResourcesMegaDropdown />
+                  <ResourcesDropdown />
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
