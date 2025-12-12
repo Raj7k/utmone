@@ -95,11 +95,11 @@ export default function RevenueBentoCard({ workspaceId, days, context, preloaded
     staleTime: 2 * 60 * 1000,
   });
 
-  // Use preloaded data if available
+  // Use preloaded data if available - with null safety
   const displayData = hasPreloadedData ? {
-    totalRevenue: preloadedData.totalRevenue,
-    conversions: preloadedData.conversions,
-    channels: preloadedData.channels.map(c => ({ ...c, trend: 0 })),
+    totalRevenue: preloadedData?.totalRevenue ?? 0,
+    conversions: preloadedData?.conversions ?? 0,
+    channels: (preloadedData?.channels ?? []).map(c => ({ ...c, trend: 0 })),
     sparklineData: Array.from({ length: 7 }, () => ({ value: Math.floor(Math.random() * 1000) + 500 })),
   } : data;
 

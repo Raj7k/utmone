@@ -56,9 +56,11 @@ export const useWorkspace = () => {
     },
   });
 
-  // isLoading should be true until both query is complete AND currentWorkspace is set
-  // But should be false if we've timed out to prevent infinite loading
-  const isFullyLoaded = (!isLoading && currentWorkspace !== null) || hasTimedOut;
+  // isLoading should be false if we have a cached workspace OR query finished with data
+  // This enables instant rendering when cache exists
+  const cachedWorkspaceId = typeof window !== 'undefined' ? localStorage.getItem('currentWorkspaceId') : null;
+  const hasCachedWorkspace = !!cachedWorkspaceId || currentWorkspace !== null;
+  const isFullyLoaded = hasCachedWorkspace || (!isLoading && currentWorkspace !== null) || hasTimedOut;
 
   return {
     workspaces,

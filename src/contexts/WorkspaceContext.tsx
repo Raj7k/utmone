@@ -146,8 +146,8 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
     refetch();
   }, [refetch]);
 
-  // Loading is false if we have cached workspace OR query finished
-  const isLoading = (isQueryLoading && !cachedWorkspace.current && !hasTimedOut);
+  // Loading is false if we have cached workspace OR current workspace OR query finished
+  const isLoading = (isQueryLoading && !cachedWorkspace.current && !currentWorkspace && !hasTimedOut);
 
   const contextValue = useMemo(() => ({
     currentWorkspace,
