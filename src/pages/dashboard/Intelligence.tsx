@@ -1,5 +1,6 @@
 import { useState, useEffect, lazy, Suspense } from "react";
 import { useWorkspace } from "@/hooks/useWorkspace";
+import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { useIntelligenceData } from "@/hooks/useIntelligenceData";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
@@ -33,7 +34,9 @@ const IdentityGraphView = lazy(() => import("@/components/attribution/IdentityGr
 
 export default function Intelligence() {
   const { currentWorkspace, hasTimedOut, retry } = useWorkspace();
-  const workspaceId = currentWorkspace?.id;
+  // Use cached workspace ID for immediate query start
+  const effectiveWorkspaceId = currentWorkspace?.id || getCachedWorkspaceId() || "";
+  const workspaceId = effectiveWorkspaceId;
   const [period, setPeriod] = useState<PeriodOption>("7d");
   const [customRange, setCustomRange] = useState<{ from: Date; to: Date } | undefined>();
   const [compareEnabled, setCompareEnabled] = useState(false);
@@ -48,7 +51,7 @@ export default function Intelligence() {
     : periodDays[period];
 
   // Use unified data hook for fast loading
-  const { data: intelligenceData, isLoading } = useIntelligenceData(currentWorkspace?.id, days);
+  const { data: intelligenceData, isLoading } = useIntelligenceData(effectiveWorkspaceId, days);
 
   // Signal navigation complete when data loads or times out
   useEffect(() => {

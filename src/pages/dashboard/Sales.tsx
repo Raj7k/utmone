@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/useWorkspace";
+import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { SalesLinkTable } from "@/components/sales/SalesLinkTable";
 import { SalesActivityFeed } from "@/components/sales/SalesActivityFeed";
 import { SalesStatCard } from "@/components/sales/SalesStatCard";
@@ -38,17 +39,20 @@ const Sales = () => {
   const { currentWorkspace, isLoading: isWorkspaceLoading, hasTimedOut, retry } = useWorkspace();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
+  // Use cached workspace ID for immediate query start
+  const effectiveWorkspaceId = currentWorkspace?.id || getCachedWorkspaceId() || "";
+
   const { data: salesLinks = [], isLoading, refetch, isFetched } = useQuery({
-    queryKey: ["sales-links", currentWorkspace?.id],
+    queryKey: ["sales-links", effectiveWorkspaceId],
     queryFn: async () => {
-      if (!currentWorkspace?.id) return [];
+      if (!effectiveWorkspaceId) return [];
 
       const [userResult, linksResult] = await Promise.all([
         supabase.auth.getUser(),
         supabase
           .from("links")
           .select("*")
-          .eq("workspace_id", currentWorkspace.id)
+          .eq("workspace_id", effectiveWorkspaceId)
           .eq("link_type", "sales")
           .order("created_at", { ascending: false })
       ]);
@@ -61,7 +65,7 @@ const Sales = () => {
       
       return data;
     },
-    enabled: !!currentWorkspace?.id,
+    enabled: !!effectiveWorkspaceId,
     staleTime: 30 * 1000,
     refetchOnMount: "always",
   });
@@ -83,7 +87,7 @@ const Sales = () => {
 
   const totalViews = salesLinks.reduce((sum, l) => sum + (l.total_clicks || 0), 0);
 
-  const dataLoading = isLoading || !currentWorkspace;
+  const dataLoading = isLoading;
 
   return (
     <PageContentWrapper

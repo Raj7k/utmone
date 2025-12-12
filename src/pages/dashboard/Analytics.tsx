@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useWorkspace } from "@/hooks/useWorkspace";
+import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { useActivationTracking } from "@/hooks/useActivationTracking";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -60,6 +61,9 @@ export default function Analytics() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [scheduleDialogOpen, setScheduleDialogOpen] = useState(false);
+
+  // Use cached workspace ID for immediate query start
+  const effectiveWorkspaceId = currentWorkspace?.id || getCachedWorkspaceId() || '';
   
   // Get active tab from URL params, default to "overview"
   const activeTab = searchParams.get("tab") || "overview";
@@ -68,17 +72,17 @@ export default function Analytics() {
   };
 
   const { data: analytics, isLoading, error } = useRealAnalytics({ 
-    workspaceId: currentWorkspace?.id || '',
+    workspaceId: effectiveWorkspaceId,
     dateRange: 30 
   });
 
   const { data: executiveMetrics, isLoading: metricsLoading } = useExecutiveMetrics({
-    workspaceId: currentWorkspace?.id || '',
+    workspaceId: effectiveWorkspaceId,
     dateRange: 30
   });
   
-  const { data: forecastData } = useTrafficForecast(currentWorkspace?.id || '', 7);
-  const { data: campaignPerformance } = useCampaignPerformance(currentWorkspace?.id || '');
+  const { data: forecastData } = useTrafficForecast(effectiveWorkspaceId, 7);
+  const { data: campaignPerformance } = useCampaignPerformance(effectiveWorkspaceId);
 
   useEffect(() => {
     trackFirstAnalyticsView();
@@ -101,7 +105,7 @@ export default function Analytics() {
     setIsRefreshing(false);
   };
 
-  const dataLoading = isLoading || !currentWorkspace;
+  const dataLoading = isLoading;
 
   // Error state
   if (error) {
@@ -155,9 +159,9 @@ export default function Analytics() {
       description="analytics, attribution, and revenue insights in one place"
       breadcrumbs={[{ label: "intelligence" }]}
       action={
-        currentWorkspace && (
+        effectiveWorkspaceId && (
           <QuickActionsPanel 
-            workspaceId={currentWorkspace.id}
+            workspaceId={effectiveWorkspaceId}
             onRefresh={handleRefresh} 
             isRefreshing={isRefreshing}
             onShare={() => setShareDialogOpen(true)}
@@ -167,17 +171,17 @@ export default function Analytics() {
       }
     >
       {/* Share & Schedule Dialogs */}
-      {currentWorkspace && (
+      {effectiveWorkspaceId && (
         <>
           <AnalyticsShareDialog
             open={shareDialogOpen}
             onOpenChange={setShareDialogOpen}
-            workspaceId={currentWorkspace.id}
+            workspaceId={effectiveWorkspaceId}
           />
           <ScheduleReportDialog
             open={scheduleDialogOpen}
             onOpenChange={setScheduleDialogOpen}
-            workspaceId={currentWorkspace.id}
+            workspaceId={effectiveWorkspaceId}
           />
         </>
       )}
@@ -205,11 +209,11 @@ export default function Analytics() {
           {/* Main Dashboard Grid */}
           <div className="grid lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2">
-              <PerformanceTrendChart workspaceId={currentWorkspace?.id || ''} />
+              <PerformanceTrendChart workspaceId={effectiveWorkspaceId} />
             </div>
             <div className="lg:col-span-1">
               <AICommandCenter
-                workspaceId={currentWorkspace?.id || ''}
+                workspaceId={effectiveWorkspaceId}
                 insights={analytics?.insights || []}
                 topChannel={executiveMetrics?.topChannel}
                 topChannelClicks={executiveMetrics?.topChannelClicks}
@@ -222,8 +226,8 @@ export default function Analytics() {
 
           {/* Channel Performance & Top Campaigns */}
           <div className="grid lg:grid-cols-2 gap-6">
-            <ChannelPerformanceGrid workspaceId={currentWorkspace?.id || ''} />
-            <TopCampaignsTable workspaceId={currentWorkspace?.id || ''} />
+            <ChannelPerformanceGrid workspaceId={effectiveWorkspaceId} />
+            <TopCampaignsTable workspaceId={effectiveWorkspaceId} />
           </div>
 
           {/* Main Tabs */}
@@ -267,11 +271,11 @@ export default function Analytics() {
               />
               <div className="grid lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2">
-                  <PerformanceTrendChart workspaceId={currentWorkspace?.id || ''} />
+                  <PerformanceTrendChart workspaceId={effectiveWorkspaceId} />
                 </div>
                 <div className="lg:col-span-1">
                   <AICommandCenter
-                    workspaceId={currentWorkspace?.id || ''}
+                    workspaceId={effectiveWorkspaceId}
                     insights={analytics?.insights || []}
                     topChannel={executiveMetrics?.topChannel}
                     topChannelClicks={executiveMetrics?.topChannelClicks}
@@ -282,8 +286,8 @@ export default function Analytics() {
                 </div>
               </div>
               <div className="grid lg:grid-cols-2 gap-6">
-                <ChannelPerformanceGrid workspaceId={currentWorkspace?.id || ''} />
-                <TopCampaignsTable workspaceId={currentWorkspace?.id || ''} />
+                <ChannelPerformanceGrid workspaceId={effectiveWorkspaceId} />
+                <TopCampaignsTable workspaceId={effectiveWorkspaceId} />
               </div>
             </TabsContent>
 
