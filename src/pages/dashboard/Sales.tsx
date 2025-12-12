@@ -6,17 +6,17 @@ import { SalesLinkTable } from "@/components/sales/SalesLinkTable";
 import { SalesActivityFeed } from "@/components/sales/SalesActivityFeed";
 import { SalesPageSkeleton } from "@/components/sales/SalesPageSkeleton";
 import { SalesStatCard } from "@/components/sales/SalesStatCard";
+import { CreateSalesLinkModal } from "@/components/sales/CreateSalesLinkModal";
 import { Button } from "@/components/ui/button";
 import { Plus, Zap, Briefcase, Eye } from "lucide-react";
-import { useModal } from "@/contexts/ModalContext";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { motion } from "framer-motion";
 
 const Sales = () => {
   const { currentWorkspace, isLoading: isWorkspaceLoading } = useWorkspace();
-  const { setCreateModalOpen } = useModal();
   const [loadingTooLong, setLoadingTooLong] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const { data: salesLinks = [], isLoading, refetch, isFetched } = useQuery({
     queryKey: ["sales-links", currentWorkspace?.id],
@@ -76,7 +76,7 @@ const Sales = () => {
       breadcrumbs={[{ label: "sales" }]}
       action={
         <Button 
-          onClick={() => setCreateModalOpen(true)} 
+          onClick={() => setIsCreateModalOpen(true)} 
           className="gap-2 rounded-xl"
         >
           <Plus className="h-4 w-4" />
@@ -125,6 +125,7 @@ const Sales = () => {
             links={salesLinks} 
             isLoading={isLoading} 
             onRefresh={refetch}
+            onCreateLink={() => setIsCreateModalOpen(true)}
           />
         </div>
 
@@ -133,6 +134,12 @@ const Sales = () => {
           <SalesActivityFeed />
         </div>
       </motion.div>
+
+      {/* Create Sales Link Modal */}
+      <CreateSalesLinkModal
+        open={isCreateModalOpen}
+        onOpenChange={setIsCreateModalOpen}
+      />
     </PageContentWrapper>
   );
 };
