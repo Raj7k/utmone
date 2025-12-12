@@ -29,6 +29,7 @@ import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { useSidebar } from "./SidebarProvider";
 import { motion } from "framer-motion";
 import { newFeatures } from "@/config/featureHelp";
+import { useDashboardPrefetch } from "@/hooks/useDashboardPrefetch";
 
 interface NavItem {
   name: string;
@@ -63,13 +64,15 @@ interface NavItemComponentProps {
   isActive: boolean;
   pendingCount?: number;
   visitedFeatures: string[];
+  onMouseEnter?: () => void;
 }
 
 const NavItemComponent = memo(({ 
   item, 
   isActive, 
   pendingCount, 
-  visitedFeatures 
+  visitedFeatures,
+  onMouseEnter,
 }: NavItemComponentProps) => {
   const Icon = item.icon;
   const showBadge = item.badge && pendingCount && pendingCount > 0;
@@ -79,6 +82,7 @@ const NavItemComponent = memo(({
     <Link
       to={item.href}
       data-tour={item.tourId}
+      onMouseEnter={onMouseEnter}
       className={cn(
         "group flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
         isActive
@@ -112,6 +116,7 @@ export const ExpandedSidebar = () => {
   const location = useLocation();
   const { currentWorkspace } = useWorkspaceContext();
   const { toggleSidebar, openSearch } = useSidebar();
+  const { prefetchLinks, prefetchIntelligence, prefetchSales, prefetchEvents } = useDashboardPrefetch();
   
   const [visitedFeatures, setVisitedFeatures] = useState<string[]>(() => {
     const stored = localStorage.getItem('visited_features');
@@ -151,6 +156,22 @@ export const ExpandedSidebar = () => {
     if (href === "/dashboard") return location.pathname === href;
     return location.pathname.startsWith(href.split('?')[0]);
   }, [location.pathname]);
+
+  // Create prefetch handler map for routes
+  const getPrefetchHandler = useCallback((href: string) => {
+    switch (href) {
+      case "/dashboard/links":
+        return prefetchLinks;
+      case "/dashboard/intelligence":
+        return prefetchIntelligence;
+      case "/dashboard/sales":
+        return prefetchSales;
+      case "/dashboard/events":
+        return prefetchEvents;
+      default:
+        return undefined;
+    }
+  }, [prefetchLinks, prefetchIntelligence, prefetchSales, prefetchEvents]);
 
   const openFeedback = useCallback(() => {
     const feedbackTrigger = document.querySelector('.feedback-widget-trigger') as HTMLButtonElement;
@@ -201,6 +222,7 @@ export const ExpandedSidebar = () => {
             isActive={isActive(item.href)}
             pendingCount={pendingCount}
             visitedFeatures={visitedFeatures}
+            onMouseEnter={getPrefetchHandler(item.href)}
           />
         ))}
 
@@ -215,6 +237,7 @@ export const ExpandedSidebar = () => {
             item={item}
             isActive={isActive(item.href)}
             visitedFeatures={visitedFeatures}
+            onMouseEnter={getPrefetchHandler(item.href)}
           />
         ))}
       </nav>

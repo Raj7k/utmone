@@ -59,14 +59,52 @@ export const useDeleteLink = () => {
           });
         }
       }
+      
+      return { linkId, permanent, link };
+    },
+    // Optimistic update for instant UI feedback
+    onMutate: async ({ linkId, permanent }) => {
+      // Cancel outgoing refetches
+      await queryClient.cancelQueries({ queryKey: ["enhanced-links"] });
+
+      // Snapshot previous value
+      const previousLinks = queryClient.getQueryData(["enhanced-links"]);
+
+      // Optimistically update
+      queryClient.setQueryData(["enhanced-links"], (old: any) => {
+        if (!old?.links) return old;
+        
+        if (permanent) {
+          // Remove from list
+          return {
+            ...old,
+            links: old.links.filter((link: any) => link.id !== linkId),
+            totalCount: Math.max(0, (old.totalCount || 0) - 1),
+          };
+        } else {
+          // Update status to archived
+          return {
+            ...old,
+            links: old.links.map((link: any) =>
+              link.id === linkId ? { ...link, status: "archived" } : link
+            ),
+          };
+        }
+      });
+
+      return { previousLinks };
+    },
+    onError: (error: Error, _, context) => {
+      // Rollback on error
+      if (context?.previousLinks) {
+        queryClient.setQueryData(["enhanced-links"], context.previousLinks);
+      }
+      toast.error(error.message || "Failed to delete link");
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["enhanced-links"] });
       queryClient.invalidateQueries({ queryKey: ["link-detail", variables.linkId] });
       toast.success(variables.permanent ? "Link deleted permanently" : "Link archived");
-    },
-    onError: (error: Error) => {
-      toast.error(error.message || "Failed to delete link");
     },
   });
 };
