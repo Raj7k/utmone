@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Download, X, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { isStandalone } from "@/lib/serviceWorker";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -22,7 +23,7 @@ export const InstallPrompt = () => {
     }
 
     // Check if already installed (standalone mode)
-    if (window.matchMedia('(display-mode: standalone)').matches) {
+    if (isStandalone()) {
       return;
     }
 
@@ -33,27 +34,26 @@ export const InstallPrompt = () => {
       // Show prompt after a short delay (less intrusive)
       setTimeout(() => {
         setShowPrompt(true);
-      }, 3000);
+      }, 5000);
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstall);
 
     // Also show on mobile if no PWA prompt available (iOS Safari)
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
     
-    if (isMobile && !deferredPrompt) {
+    if (isMobile) {
       setTimeout(() => {
-        if (!dismissed) {
+        if (!dismissed && !deferredPrompt) {
           setShowPrompt(true);
         }
-      }, 5000);
+      }, 8000);
     }
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
     };
-  }, [dismissed]);
+  }, [dismissed, deferredPrompt]);
 
   const handleInstall = async () => {
     if (deferredPrompt) {
