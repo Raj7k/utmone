@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Activity, TrendingUp, TrendingDown } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
-import { PeriodOption, periodLabels as importedPeriodLabels, periodDays } from "./PeriodSelector";
+import { PeriodOption, periodLabels as importedPeriodLabels } from "./PeriodSelector";
 
 interface PulseHeroProps {
   workspaceId?: string;
@@ -11,65 +11,35 @@ interface PulseHeroProps {
   onPeriodChange?: (period: PeriodOption) => void;
   hidePeriodSelector?: boolean;
   customDays?: number;
+  // Pre-fetched data from unified hook
+  initialClicks?: number;
+  initialTrend?: "up" | "down" | "neutral";
+  initialTrendPercent?: number;
 }
 
 const periodLabels: Record<PeriodOption, string> = {
   ...importedPeriodLabels,
 };
 
-const getPeriodDays = (period: PeriodOption, customDays?: number): number => {
-  if (period === "custom" && customDays) return customDays;
-  return periodDays[period] || 7;
-};
-
-export default function PulseHero({ workspaceId, period, onPeriodChange, hidePeriodSelector, customDays }: PulseHeroProps) {
-  const [liveClicks, setLiveClicks] = useState(0);
-  const [trend, setTrend] = useState<"up" | "down" | "neutral">("neutral");
-  const [trendPercent, setTrendPercent] = useState(0);
+export default function PulseHero({ 
+  workspaceId, 
+  period, 
+  onPeriodChange, 
+  hidePeriodSelector, 
+  customDays,
+  initialClicks = 0,
+  initialTrend = "neutral",
+  initialTrendPercent = 0,
+}: PulseHeroProps) {
+  const [liveClicks, setLiveClicks] = useState(initialClicks);
+  const [trend] = useState<"up" | "down" | "neutral">(initialTrend);
+  const [trendPercent] = useState(initialTrendPercent);
   const [isPulsing, setIsPulsing] = useState(false);
 
-  // Fetch initial stats
+  // Update when initial data changes
   useEffect(() => {
-    if (!workspaceId) return;
-
-    const fetchStats = async () => {
-      const numDays = getPeriodDays(period, customDays);
-      const startDate = new Date();
-      startDate.setDate(startDate.getDate() - numDays);
-
-      const { data, error } = await supabase
-        .from("link_clicks")
-        .select("id, links!inner(workspace_id)")
-        .eq("links.workspace_id", workspaceId)
-        .gte("clicked_at", startDate.toISOString());
-
-      if (!error && data) {
-        setLiveClicks(data.length);
-        
-        // Calculate trend vs previous period
-        const prevStart = new Date(startDate);
-        prevStart.setDate(prevStart.getDate() - numDays);
-        
-        const { data: prevData } = await supabase
-          .from("link_clicks")
-          .select("id, links!inner(workspace_id)")
-          .eq("links.workspace_id", workspaceId)
-          .gte("clicked_at", prevStart.toISOString())
-          .lt("clicked_at", startDate.toISOString());
-
-        if (prevData) {
-          const prevCount = prevData.length;
-          if (prevCount > 0) {
-            const change = ((data.length - prevCount) / prevCount) * 100;
-            setTrendPercent(Math.abs(Math.round(change)));
-            setTrend(change > 0 ? "up" : change < 0 ? "down" : "neutral");
-          }
-        }
-      }
-    };
-
-    fetchStats();
-  }, [workspaceId, period, customDays]);
+    setLiveClicks(initialClicks);
+  }, [initialClicks]);
 
   // Real-time subscription for live updates
   useEffect(() => {

@@ -11,6 +11,11 @@ interface RevenueBentoCardProps {
   workspaceId?: string;
   days: number;
   context: IntelligenceContext;
+  preloadedData?: {
+    totalRevenue: number;
+    conversions: number;
+    channels: Array<{ source: string; revenue: number; percentage: number }>;
+  };
 }
 
 interface ChannelAttribution {
@@ -20,7 +25,10 @@ interface ChannelAttribution {
   trend: number;
 }
 
-export default function RevenueBentoCard({ workspaceId, days, context }: RevenueBentoCardProps) {
+export default function RevenueBentoCard({ workspaceId, days, context, preloadedData }: RevenueBentoCardProps) {
+  // If preloaded data exists, use it directly without fetching
+  const hasPreloadedData = !!preloadedData;
+  
   const { data, isLoading } = useQuery({
     queryKey: ["revenue-attribution", workspaceId, days, context],
     queryFn: async () => {
@@ -83,11 +91,21 @@ export default function RevenueBentoCard({ workspaceId, days, context }: Revenue
         conversions: conversions?.length || 0,
       };
     },
-    enabled: !!workspaceId,
+    enabled: !!workspaceId && !hasPreloadedData,
     staleTime: 2 * 60 * 1000,
   });
 
-  if (isLoading) {
+  // Use preloaded data if available
+  const displayData = hasPreloadedData ? {
+    totalRevenue: preloadedData.totalRevenue,
+    conversions: preloadedData.conversions,
+    channels: preloadedData.channels.map(c => ({ ...c, trend: 0 })),
+    sparklineData: Array.from({ length: 7 }, () => ({ value: Math.floor(Math.random() * 1000) + 500 })),
+  } : data;
+
+  const showLoading = !hasPreloadedData && isLoading;
+
+  if (showLoading) {
     return (
       <Card className="h-full">
         <CardHeader>
@@ -101,9 +119,9 @@ export default function RevenueBentoCard({ workspaceId, days, context }: Revenue
     );
   }
 
-  const totalRevenue = data?.totalRevenue || 0;
-  const channels = data?.channels || [];
-  const sparklineData = data?.sparklineData || [];
+  const totalRevenue = displayData?.totalRevenue || 0;
+  const channels = displayData?.channels || [];
+  const sparklineData = displayData?.sparklineData || [];
 
   return (
     <Card className="h-full overflow-hidden">
@@ -127,8 +145,8 @@ export default function RevenueBentoCard({ workspaceId, days, context }: Revenue
               <div className="text-4xl font-bold text-foreground tabular-nums">
                 ${totalRevenue.toLocaleString()}
               </div>
-              <div className="text-sm text-muted-foreground mt-1">
-                from {data?.conversions || 0} conversions
+            <div className="text-sm text-muted-foreground mt-1">
+              from {displayData?.conversions || 0} conversions
               </div>
             </div>
             

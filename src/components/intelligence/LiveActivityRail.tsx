@@ -19,6 +19,14 @@ import { formatDistanceToNow } from "date-fns";
 
 interface LiveActivityRailProps {
   workspaceId?: string;
+  preloadedClicks?: Array<{
+    id: string;
+    slug: string;
+    city: string;
+    country: string;
+    device: string;
+    timestamp: Date;
+  }>;
 }
 
 interface ClickEvent {
@@ -44,11 +52,17 @@ interface Insight {
   actionLabel?: string;
 }
 
-export default function LiveActivityRail({ workspaceId }: LiveActivityRailProps) {
-  const [recentClicks, setRecentClicks] = useState<ClickEvent[]>([]);
+export default function LiveActivityRail({ workspaceId, preloadedClicks }: LiveActivityRailProps) {
+  const hasPreloadedData = !!preloadedClicks && preloadedClicks.length > 0;
+  
+  const [recentClicks, setRecentClicks] = useState<ClickEvent[]>(
+    hasPreloadedData 
+      ? preloadedClicks.map(c => ({ ...c, shortCode: c.slug }))
+      : []
+  );
   const [isLive, setIsLive] = useState(true);
 
-  // Fetch recent clicks
+  // Fetch recent clicks only if no preloaded data
   const { data: initialClicks, isLoading } = useQuery({
     queryKey: ["live-clicks", workspaceId],
     queryFn: async () => {
@@ -72,7 +86,7 @@ export default function LiveActivityRail({ workspaceId }: LiveActivityRailProps)
         timestamp: new Date(click.clicked_at),
       }));
     },
-    enabled: !!workspaceId,
+    enabled: !!workspaceId && !hasPreloadedData,
     staleTime: 30 * 1000,
   });
 
@@ -118,12 +132,14 @@ export default function LiveActivityRail({ workspaceId }: LiveActivityRailProps)
     },
   ];
 
-  // Initialize with fetched data
+  // Initialize with fetched data only if no preloaded data
   useEffect(() => {
-    if (initialClicks) {
+    if (initialClicks && !hasPreloadedData) {
       setRecentClicks(initialClicks);
     }
-  }, [initialClicks]);
+  }, [initialClicks, hasPreloadedData]);
+
+  const showLoading = !hasPreloadedData && isLoading;
 
   // Real-time subscription
   useEffect(() => {
@@ -198,7 +214,7 @@ export default function LiveActivityRail({ workspaceId }: LiveActivityRailProps)
           </div>
         </CardHeader>
         <CardContent>
-          {isLoading ? (
+          {showLoading ? (
             <div className="space-y-2">
               {[1, 2, 3].map((i) => (
                 <Skeleton key={i} className="h-10 w-full" />
