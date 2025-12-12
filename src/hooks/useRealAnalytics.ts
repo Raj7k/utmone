@@ -13,7 +13,7 @@ export const useRealAnalytics = ({ workspaceId, dateRange = 30 }: UseRealAnalyti
     queryFn: async () => {
       const startDate = startOfDay(subDays(new Date(), dateRange));
 
-      // Fetch all click data for the workspace
+      // OPTIMIZED: Query link_clicks directly via workspace_id column (no JOIN)
       const { data: clicks, error } = await supabase
         .from("link_clicks")
         .select(`
@@ -26,11 +26,11 @@ export const useRealAnalytics = ({ workspaceId, dateRange = 30 }: UseRealAnalyti
           country,
           city,
           referrer,
-          click_hour,
-          links!inner(workspace_id)
+          click_hour
         `)
-        .eq("links.workspace_id", workspaceId)
-        .gte("clicked_at", startDate.toISOString());
+        .eq("workspace_id", workspaceId)
+        .gte("clicked_at", startDate.toISOString())
+        .limit(5000); // Safety limit to prevent massive payloads
 
       if (error) throw error;
 
@@ -153,7 +153,9 @@ export const useRealAnalytics = ({ workspaceId, dateRange = 30 }: UseRealAnalyti
         insights
       };
     },
-    enabled: !!workspaceId
+    enabled: !!workspaceId,
+    refetchOnWindowFocus: false,
+    staleTime: 2 * 60 * 1000
   });
 };
 
