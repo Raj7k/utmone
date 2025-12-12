@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  build: {
+build: {
     rollupOptions: {
       output: {
         manualChunks: {
@@ -34,6 +34,8 @@ export default defineConfig(({ mode }) => ({
           // Heavy utilities (lazy loaded)
           'vendor-xlsx': ['xlsx'],
           'vendor-qr': ['qrcode', 'react-qr-code', 'html5-qrcode'],
+          // Confetti libraries (lazy loaded)
+          'vendor-confetti': ['canvas-confetti', 'react-confetti'],
           // UI primitives
           'vendor-radix': [
             '@radix-ui/react-dialog',
