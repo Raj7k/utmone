@@ -13,6 +13,7 @@ export const completeNavigation = () => {
 export const useNavigationProgress = () => {
   const [isNavigating, setIsNavigating] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [isSlowLoad, setIsSlowLoad] = useState(false);
   const location = useLocation();
   const previousPath = useRef(location.pathname);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -27,6 +28,7 @@ export const useNavigationProgress = () => {
     
     // Complete the progress bar
     setProgress(100);
+    setIsSlowLoad(false);
     
     // Hide after animation
     setTimeout(() => {
@@ -54,6 +56,7 @@ export const useNavigationProgress = () => {
       // Start navigation progress
       setIsNavigating(true);
       setProgress(0);
+      setIsSlowLoad(false);
 
       // Animate progress slowly to 80% over 2 seconds (allows for slow loads)
       let currentProgress = 0;
@@ -73,10 +76,15 @@ export const useNavigationProgress = () => {
         setProgress(currentProgress);
       }, 100);
 
-      // Default completion after 3 seconds (fallback for pages without explicit completion)
+      // Detect slow load after 2 seconds
+      slowLoadTimeoutRef.current = setTimeout(() => {
+        setIsSlowLoad(true);
+      }, 2000);
+
+      // Default completion after 5 seconds (fallback for pages without explicit completion)
       timeoutRef.current = setTimeout(() => {
         complete();
-      }, 3000);
+      }, 5000);
 
       previousPath.current = location.pathname;
     }
@@ -88,5 +96,5 @@ export const useNavigationProgress = () => {
     };
   }, [location.pathname, complete]);
 
-  return { isNavigating, progress, complete };
+  return { isNavigating, progress, isSlowLoad, complete };
 };
