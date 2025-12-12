@@ -203,10 +203,23 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+// Safe default for when context is not available (prevents crashes during initialization)
+const DEFAULT_CONTEXT: WorkspaceContextType = {
+  currentWorkspace: null,
+  workspaces: [],
+  isLoading: true,
+  hasTimedOut: false,
+  error: null,
+  switchWorkspace: () => {},
+  retry: () => {},
+};
+
 export const useWorkspaceContext = () => {
   const context = useContext(WorkspaceContext);
+  // Return safe defaults instead of throwing - prevents race condition crashes
   if (context === undefined) {
-    throw new Error("useWorkspaceContext must be used within a WorkspaceProvider");
+    console.warn("[useWorkspaceContext] Context not available yet, returning defaults");
+    return DEFAULT_CONTEXT;
   }
   return context;
 };
