@@ -44,38 +44,54 @@ export default function QRCodes() {
     setSearchParams({ tab: value });
   };
 
-  const { data: qrCodes, isLoading, isFetched } = useQuery({
+  // Single JOIN query instead of nested queries
+  const { data: qrCodes, isLoading, isFetching, isFetched } = useQuery({
     queryKey: ["qr-codes", effectiveWorkspaceId],
     queryFn: async () => {
       if (!effectiveWorkspaceId) return [];
 
-      const { data: workspaceLinks } = await supabase
-        .from("links")
-        .select("id")
-        .eq("workspace_id", effectiveWorkspaceId);
-
-      if (!workspaceLinks || workspaceLinks.length === 0) return [];
-
-      const linkIds = workspaceLinks.map(l => l.id);
-
+      // Single optimized query with JOIN
       const { data, error } = await supabase
         .from("qr_codes")
         .select(`
           *,
-          links (
+          links!inner (
+            id,
             title,
             slug,
             domain,
-            path
+            path,
+            workspace_id
           )
         `)
-        .in("link_id", linkIds)
+        .eq("links.workspace_id", effectiveWorkspaceId)
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      return data;
+      
+      // Cache for instant render on next visit
+      try {
+        localStorage.setItem(`qr-codes-cache-${effectiveWorkspaceId}`, JSON.stringify({
+          data,
+          timestamp: Date.now(),
+        }));
+      } catch {}
+      
+      return data || [];
     },
     enabled: !!effectiveWorkspaceId,
+    staleTime: 2 * 60 * 1000,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    initialData: () => {
+      try {
+        const cached = localStorage.getItem(`qr-codes-cache-${effectiveWorkspaceId}`);
+        if (!cached) return undefined;
+        const { data, timestamp } = JSON.parse(cached);
+        if (Date.now() - timestamp > 2 * 60 * 1000) return undefined;
+        return data;
+      } catch { return undefined; }
+    },
   });
 
   // Complete navigation when data loads
@@ -139,8 +155,8 @@ export default function QRCodes() {
         </div>
 
         <TabsContent value="all" className="space-y-6">
-          {/* Progressive loading - skeleton only while loading */}
-          {isLoading ? (
+          {/* Show skeleton only if no data at all (first load without cache) */}
+          {isLoading && !qrCodes?.length ? (
             <QRGridSkeleton />
           ) : qrCodes && qrCodes.length > 0 ? (
             <>

@@ -173,7 +173,8 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
   // Ready = we have user (cached or fresh) - workspace loads progressively
   // This allows UI to render immediately while workspace data loads
   // ============================================
-  const isReady = !!user || isFullyLoaded;
+  // Ready immediately if we have cached user AND workspace (no blocking)
+  const isReady = !!(INITIAL_SESSION?.user && INITIAL_WORKSPACE) || !!user || isFullyLoaded;
   const isAuthenticated = !!user;
 
   // Fetch workspaces for a user
@@ -198,8 +199,31 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
     let isMounted = true;
     
     const initialize = async () => {
+      // FAST PATH: If we have valid cached session AND workspace, skip blocking getSession
+      // This makes dashboard load instantly - we'll refresh in background
+      if (INITIAL_SESSION?.user && INITIAL_WORKSPACE) {
+        if (isMounted) {
+          setIsFullyLoaded(true);
+        }
+        // Background refresh - non-blocking
+        supabase.auth.getSession().then(async ({ data: { session } }) => {
+          if (!isMounted) return;
+          if (session?.user) {
+            setSession(session);
+            cacheSession(session);
+            // Refresh workspaces in background
+            const freshWorkspaces = await fetchWorkspaces(session.user.id);
+            if (isMounted && freshWorkspaces.length > 0) {
+              setWorkspaces(freshWorkspaces);
+              cacheWorkspaces(freshWorkspaces);
+            }
+          }
+        });
+        return;
+      }
+      
+      // SLOW PATH: No cache - must wait for auth
       try {
-        // Single auth call
         const { data: { session: freshSession }, error: authError } = await supabase.auth.getSession();
         
         if (authError) {

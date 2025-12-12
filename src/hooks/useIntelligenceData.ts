@@ -50,6 +50,28 @@ interface IntelligenceData {
   }>;
 }
 
+// Cache helpers
+const CACHE_KEY = 'intelligence-data-cache';
+
+function getCachedIntelligence(workspaceId: string, days: number): IntelligenceData | undefined {
+  try {
+    const cached = localStorage.getItem(`${CACHE_KEY}-${workspaceId}-${days}`);
+    if (!cached) return undefined;
+    const { data, timestamp } = JSON.parse(cached);
+    if (Date.now() - timestamp > 2 * 60 * 1000) return undefined; // 2 min expiry
+    return data;
+  } catch { return undefined; }
+}
+
+function setCachedIntelligence(workspaceId: string, days: number, data: IntelligenceData): void {
+  try {
+    localStorage.setItem(`${CACHE_KEY}-${workspaceId}-${days}`, JSON.stringify({
+      data,
+      timestamp: Date.now(),
+    }));
+  } catch {}
+}
+
 export function useIntelligenceData(workspaceId: string | undefined, days: number = 7) {
   const startDate = new Date();
   startDate.setDate(startDate.getDate() - days);
@@ -60,7 +82,7 @@ export function useIntelligenceData(workspaceId: string | undefined, days: numbe
   const prevStartDateStr = prevStartDate.toISOString();
 
   // Single optimized query that gets all essential data
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, isFetching, error } = useQuery({
     queryKey: ["intelligence-unified", workspaceId, days],
     queryFn: async (): Promise<IntelligenceData> => {
       if (!workspaceId) {
@@ -216,7 +238,7 @@ export function useIntelligenceData(workspaceId: string | undefined, days: numbe
         timestamp: new Date(click.clicked_at),
       }));
 
-      return {
+      const result: IntelligenceData = {
         totalClicks,
         previousPeriodClicks,
         clicksTrend,
@@ -229,16 +251,26 @@ export function useIntelligenceData(workspaceId: string | undefined, days: numbe
         topCities,
         recentClicks,
       };
+      
+      // Cache for next load
+      if (workspaceId) {
+        setCachedIntelligence(workspaceId, days, result);
+      }
+      
+      return result;
     },
     enabled: !!workspaceId,
     staleTime: 2 * 60 * 1000, // 2 minutes
     gcTime: 5 * 60 * 1000, // 5 minutes
     refetchOnWindowFocus: false,
+    refetchOnMount: false, // Trust cache
+    initialData: () => workspaceId ? getCachedIntelligence(workspaceId, days) : undefined,
   });
 
   return {
     data: data || getEmptyData(),
     isLoading,
+    isFetching,
     error,
   };
 }
