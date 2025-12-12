@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Link2, ArrowLeft, Shuffle, CheckCircle2, AlertCircle, Globe, AlertTriangle, Route, Briefcase, Bell, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { generateSlugFromTitle } from "@/lib/slugify";
 import { getFriendlyErrorMessage } from "@/lib/errorMessages";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -20,6 +20,7 @@ import { useUserWorkspaceRole, requiresApproval } from "@/hooks/useUserWorkspace
 import { DestinationRotator } from "@/components/links/DestinationRotator";
 import { Destination } from "@/hooks/useSmartRotator";
 import { Switch } from "@/components/ui/switch";
+import { DomainSelectorWithAdd } from "@/components/domains/DomainSelectorWithAdd";
 
 const shortenerSchema = z.object({
   title: z.string().min(1, "title is required").max(100),
@@ -72,22 +73,7 @@ export const Step2Shortener = ({
   // Slug checking state
   const [isCheckingSlug, setIsCheckingSlug] = useState(false);
 
-  // Fetch verified domains for this workspace + system-level defaults
-  const { data: verifiedDomains } = useQuery({
-    queryKey: ["verified-domains", workspaceId],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("domains")
-        .select("id, domain, workspace_id")
-        .eq("is_verified", true)
-        .or(`workspace_id.eq.${workspaceId},is_system_domain.eq.true`)
-        .order("is_primary", { ascending: false });
-
-      if (error) throw error;
-      // Filter out utm.one (main website) and return only shortener domains
-      return (data || []).filter(d => d.domain !== 'utm.one');
-    },
-  });
+  // Domain selection is now handled by DomainSelectorWithAdd component
 
   const form = useForm<ShortenerFormData>({
     resolver: zodResolver(shortenerSchema),
@@ -313,17 +299,11 @@ export const Step2Shortener = ({
 
           <div>
             <Label htmlFor="domain">domain</Label>
-            <select
+            <DomainSelectorWithAdd
               value={selectedDomain}
-              onChange={(e) => setSelectedDomain(e.target.value)}
-              className="w-full mt-1.5 h-10 px-3 rounded-md border border-input bg-background"
-            >
-              {verifiedDomains?.map((d) => (
-                <option key={d.id} value={d.domain}>
-                  {d.domain}
-                </option>
-              ))}
-            </select>
+              onChange={setSelectedDomain}
+              workspaceId={workspaceId}
+            />
           </div>
 
           <div>
