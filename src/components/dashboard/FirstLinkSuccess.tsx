@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Check, Copy, ExternalLink, QrCode, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import Confetti from "react-confetti";
+import { LazyConfetti } from "@/components/lazy/LazyConfetti";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { notify } from "@/lib/notify";
 
@@ -40,15 +40,14 @@ export const FirstLinkSuccess = ({ shortUrl, onContinue }: FirstLinkSuccessProps
 
   return (
     <>
-      {showConfetti && (
-        <Confetti
-          width={width}
-          height={height}
-          recycle={false}
-          numberOfPieces={300}
-          gravity={0.3}
-        />
-      )}
+      <LazyConfetti
+        show={showConfetti}
+        width={width}
+        height={height}
+        recycle={false}
+        numberOfPieces={300}
+        gravity={0.3}
+      />
 
       <div className="min-h-[60vh] flex flex-col items-center justify-center px-4">
         <motion.div

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import Confetti from "react-confetti";
+import { LazyConfetti } from "@/components/lazy/LazyConfetti";
 import { Gift, Sparkles, ArrowRight, Users, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -58,16 +58,15 @@ const Surprise = () => {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center relative overflow-hidden">
       {/* Confetti */}
-      {showConfetti && (
-        <Confetti
-          width={windowSize.width}
-          height={windowSize.height}
-          recycle={false}
-          numberOfPieces={200}
-          gravity={0.1}
-          colors={['#FFD700', '#FFA500', '#FF6B6B', '#4ECDC4', '#A855F7', '#FFFFFF']}
-        />
-      )}
+      <LazyConfetti
+        show={showConfetti}
+        width={windowSize.width}
+        height={windowSize.height}
+        recycle={false}
+        numberOfPieces={200}
+        gravity={0.1}
+        colors={['#FFD700', '#FFA500', '#FF6B6B', '#4ECDC4', '#A855F7', '#FFFFFF']}
+      />
       
       {/* Background effects */}
       <div className="absolute inset-0">

@@ -34,7 +34,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { shareOnLinkedIn } from "@/lib/utils/linkedinShare";
 import { toast } from "sonner";
-import confetti from "canvas-confetti";
+import { triggerConfetti } from "@/components/lazy/LazyConfetti";
 
 // Tab definitions
 const TOOL_TABS = [
@@ -450,7 +450,7 @@ const FirstPrinciplesContent = () => {
         "Action: Start with the smallest possible experiment"
       ]);
       setStep(2);
-      confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#FFFFFF', '#A1A1AA'] });
+      triggerConfetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#FFFFFF', '#A1A1AA'] });
     } else {
       toast.error("please fill at least 3 'why' answers");
     }

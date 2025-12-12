@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { shareOnLinkedIn } from "@/lib/utils/linkedinShare";
 import { toast } from "sonner";
-import confetti from "canvas-confetti";
+import { triggerConfetti } from "@/components/lazy/LazyConfetti";
 
 interface StepProgressProps {
   currentStep: number;
@@ -83,7 +83,7 @@ export const FirstPrinciplesWizard = () => {
       ]);
       setStep(2);
       
-      confetti({
+      triggerConfetti({
         particleCount: 100,
         spread: 70,
         origin: { y: 0.6 },

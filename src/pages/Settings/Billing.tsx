@@ -34,7 +34,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { notify } from "@/lib/notify";
 import { Crown, Loader2, Check, X, Sparkles, Plus, Tag, Percent } from "lucide-react";
-import confetti from "canvas-confetti";
+import { triggerConfetti } from "@/components/lazy/LazyConfetti";
 import { UsageForecastWidget } from "@/components/workspace/UsageForecastWidget";
 import type { UsageDataPoint } from "@/lib/optimizations/usageForecasting";
 
@@ -138,7 +138,7 @@ export default function BillingSettings() {
       
       await new Promise(resolve => setTimeout(resolve, 500));
       
-      confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+      triggerConfetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
       
       const planName = PLAN_CONFIG[newPlanTier].name;
       notify.success(`🎉 Welcome to ${planName}!`, {
