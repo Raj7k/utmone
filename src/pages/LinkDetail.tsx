@@ -20,14 +20,33 @@ import { useSentinelConfig } from "@/hooks/useSentinelConfig";
 import { ArrowLeft, Copy, Archive, Shield } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
+// UUID validation helper
+const isValidUUID = (id: string): boolean =>
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+
 const LinkDetail = () => {
   const { linkId } = useParams();
   const navigate = useNavigate();
+  const isValidId = linkId && isValidUUID(linkId);
   const { data: link, isLoading, error } = useLinkDetail(linkId || "");
   const { data: sentinelData } = useSentinelConfig(linkId || "");
   const [duplicateDialogOpen, setDuplicateDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [sentinelDialogOpen, setSentinelDialogOpen] = useState(false);
+
+  // Early return for invalid linkId (e.g., "create" instead of UUID)
+  if (!isValidId) {
+    return (
+      <div className="text-center py-12">
+        <h2 className="text-2xl font-display font-bold mb-4 text-foreground">Link Not Found</h2>
+        <p className="text-muted-foreground mb-6">The link you're looking for doesn't exist.</p>
+        <Button onClick={() => navigate("/dashboard/links")}>
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back to Links
+        </Button>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (
