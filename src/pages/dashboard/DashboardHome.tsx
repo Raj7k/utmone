@@ -9,7 +9,7 @@ import { DashboardQuickActions } from "@/components/dashboard/DashboardQuickActi
 import { FirstRunExperience } from "@/components/dashboard/FirstRunExperience";
 import { FirstLinkSuccess } from "@/components/dashboard/FirstLinkSuccess";
 import { useDemoMode } from "@/hooks/useDemoMode";
-import { useOnboardingProgress } from "@/hooks/useOnboardingProgress";
+import { useDashboardUnified } from "@/hooks/useDashboardUnified";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { useQueryClient } from "@tanstack/react-query";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
@@ -20,23 +20,14 @@ import { DashboardContentLoader } from "@/components/loading/DashboardContentLoa
 
 const DashboardHome = () => {
   const { showDemoMode } = useDemoMode();
-  const { hasLinks, isLoading: isLoadingProgress, isFetched } = useOnboardingProgress();
   const { currentWorkspace, isWorkspaceLoading, retry } = useWorkspaceContext();
-
-  // Delayed skeleton - only show after 500ms to prevent flash
-  const [showSkeleton, setShowSkeleton] = useState(false);
   
+  // Use unified dashboard data
+  const { onboarding, isFetching, isFetched, refetch } = useDashboardUnified();
+  const hasLinks = onboarding.hasLinks;
+
   // Workspace timeout fallback - show retry after 3 seconds
   const [workspaceTimeout, setWorkspaceTimeout] = useState(false);
-
-  // Delayed skeleton logic
-  useEffect(() => {
-    if (isLoadingProgress && !isFetched) {
-      const timer = setTimeout(() => setShowSkeleton(true), 500);
-      return () => clearTimeout(timer);
-    }
-    setShowSkeleton(false);
-  }, [isLoadingProgress, isFetched]);
 
   // Workspace timeout logic - only reset when workspace actually loads
   useEffect(() => {
@@ -44,7 +35,6 @@ const DashboardHome = () => {
       const timer = setTimeout(() => setWorkspaceTimeout(true), 3000);
       return () => clearTimeout(timer);
     } else if (currentWorkspace) {
-      // Only reset timeout when workspace successfully loads
       setWorkspaceTimeout(false);
     }
   }, [isWorkspaceLoading, currentWorkspace]);
@@ -63,9 +53,8 @@ const DashboardHome = () => {
   const handleLinkCreated = useCallback(() => {
     // Use startTransition for non-urgent cache invalidation
     startTransition(() => {
-      queryClient.invalidateQueries({ queryKey: ['onboarding-progress'] });
+      queryClient.invalidateQueries({ queryKey: ['dashboard-unified'] });
       queryClient.invalidateQueries({ queryKey: ['activity-feed'] });
-      queryClient.invalidateQueries({ queryKey: ['dashboard-links-count'] });
     });
     
     const slug = Math.random().toString(36).substring(2, 8);
@@ -117,7 +106,14 @@ const DashboardHome = () => {
   // Regular dashboard - render immediately
   return (
     <ErrorBoundary section="dashboard-home">
-      <div className="p-6 lg:p-8 space-y-8 max-w-5xl mx-auto">
+      <div className="p-6 lg:p-8 space-y-8 max-w-5xl mx-auto relative">
+        {/* Subtle loading indicator for background refresh */}
+        {isFetching && (
+          <div className="absolute top-2 right-2 z-10">
+            <div className="h-2 w-2 bg-primary rounded-full animate-pulse" />
+          </div>
+        )}
+
         {showDemoMode && (
           <ErrorBoundary section="demo-mode-banner">
             <DemoModeBanner />

@@ -6,8 +6,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
+import { useDashboardUnified } from "@/hooks/useDashboardUnified";
 import { 
-  useFieldEvents, 
   useFieldEvent, 
   useCalculateEventHalo, 
   useDeleteFieldEvent, 
@@ -47,27 +47,8 @@ interface FieldEvent {
 
 type ViewState = "overview" | "dashboard" | "leads";
 
-// Skeleton for progressive loading
-const EventsSkeleton = () => (
-  <div className="space-y-6">
-    <div className="flex items-center justify-between">
-      <Skeleton className="h-10 w-64" />
-      <Skeleton className="h-10 w-32" />
-    </div>
-    <div>
-      <Skeleton className="h-7 w-32 mb-2" />
-      <Skeleton className="h-5 w-80" />
-    </div>
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {[1, 2, 3].map((i) => (
-        <Skeleton key={i} className="h-48 w-full rounded-xl" />
-      ))}
-    </div>
-  </div>
-);
-
 const Events = () => {
-  const { currentWorkspace, isLoading: workspaceLoading, hasTimedOut, retry } = useWorkspace();
+  const { currentWorkspace, hasTimedOut, retry } = useWorkspace();
   const [activeTab, setActiveTab] = useState("halo");
   const [viewState, setViewState] = useState<ViewState>("overview");
   const [selectedEvent, setSelectedEvent] = useState<FieldEvent | null>(null);
@@ -78,7 +59,10 @@ const Events = () => {
   // Use cached workspace ID for immediate query start
   const effectiveWorkspaceId = currentWorkspace?.id || getCachedWorkspaceId() || '';
   
-  const { data: events, isLoading, isFetched, refetch } = useFieldEvents(effectiveWorkspaceId);
+  // Use unified dashboard data for events
+  const { events, isFetching, isFetched, refetch: refetchUnified } = useDashboardUnified();
+  
+  // Detail queries (only when viewing a specific event)
   const { data: eventDetails } = useFieldEvent(selectedEvent?.id || '');
   const { data: badgeScans } = useEventBadgeScans(selectedEvent?.id || '');
   const calculateHalo = useCalculateEventHalo();
@@ -132,12 +116,26 @@ const Events = () => {
     setScannerEventId(event.id);
   };
 
+  const refetch = () => {
+    refetchUnified();
+  };
+
   // Merge event details if available
   const currentEvent = eventDetails ? { ...selectedEvent, ...eventDetails } as FieldEvent : selectedEvent;
 
+  // Cast events to FieldEvent type
+  const typedEvents = events as FieldEvent[];
+
   // Progressive render - show layout immediately
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative">
+      {/* Subtle loading indicator for background refresh */}
+      {isFetching && (
+        <div className="absolute top-2 right-2 z-10">
+          <div className="h-2 w-2 bg-primary rounded-full animate-pulse" />
+        </div>
+      )}
+
       {/* Tab Navigation */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <div className="flex items-center justify-between mb-6">
@@ -177,21 +175,13 @@ const Events = () => {
                   </p>
                 </div>
 
-                {/* Content - skeleton only while loading */}
-                {isLoading && !hasTimedOut ? (
-                  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    {[1, 2, 3].map((i) => (
-                      <Skeleton key={i} className="h-48 w-full rounded-xl" />
-                    ))}
-                  </div>
-                ) : (
-                  <EventsOverviewGrid
-                    events={events || []}
-                    onEventSelect={handleEventSelect}
-                    onQRClick={handleQRClick}
-                    onScanClick={handleScanClick}
-                  />
-                )}
+                {/* Content - render immediately with data or empty state */}
+                <EventsOverviewGrid
+                  events={typedEvents}
+                  onEventSelect={handleEventSelect}
+                  onQRClick={handleQRClick}
+                  onScanClick={handleScanClick}
+                />
 
                 {/* Error state */}
                 {hasTimedOut && !currentWorkspace && (

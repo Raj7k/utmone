@@ -303,6 +303,10 @@ verify_jwt = false
 [functions.sitemap-scanner]
 verify_jwt = false
 
+# Unified Dashboard API
+[functions.get-dashboard-data]
+verify_jwt = true
+
 # Cron schedules for automated tasks
 # Generate recommendations every 6 hours
 [[edge_runtime.scheduler]]
