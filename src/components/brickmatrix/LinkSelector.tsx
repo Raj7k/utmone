@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/useWorkspace";
@@ -6,7 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Link2, Type, ExternalLink } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Link2, Type, ExternalLink, RefreshCw, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface LinkSelectorProps {
@@ -15,10 +16,21 @@ interface LinkSelectorProps {
 }
 
 export const LinkSelector = ({ value, onChange }: LinkSelectorProps) => {
-  const { currentWorkspace } = useWorkspace();
+  const { currentWorkspace, isLoading: isWorkspaceLoading } = useWorkspace();
   const [tab, setTab] = useState<"links" | "custom">("links");
+  const [loadingTimeout, setLoadingTimeout] = useState(false);
 
-  const { data: links = [], isLoading } = useQuery({
+  // Set timeout for workspace loading
+  useEffect(() => {
+    if (isWorkspaceLoading) {
+      const timer = setTimeout(() => setLoadingTimeout(true), 5000);
+      return () => clearTimeout(timer);
+    } else {
+      setLoadingTimeout(false);
+    }
+  }, [isWorkspaceLoading]);
+
+  const { data: links = [], isLoading, refetch: refetchLinks } = useQuery({
     queryKey: ["workspace-links-selector", currentWorkspace?.id],
     queryFn: async () => {
       if (!currentWorkspace?.id) return [];
@@ -54,7 +66,26 @@ export const LinkSelector = ({ value, onChange }: LinkSelectorProps) => {
 
         <TabsContent value="links" className="mt-3">
           <ScrollArea className="h-[180px] rounded-lg border border-border bg-muted/30">
-            {isLoading ? (
+            {/* Workspace still loading */}
+            {isWorkspaceLoading ? (
+              <div className="p-4 text-center space-y-3">
+                <Loader2 className="h-5 w-5 animate-spin mx-auto text-muted-foreground" />
+                <p className="text-sm text-muted-foreground">
+                  {loadingTimeout ? "still loading workspace..." : "loading workspace..."}
+                </p>
+                {loadingTimeout && (
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={() => window.location.reload()}
+                    className="gap-2"
+                  >
+                    <RefreshCw className="h-3.5 w-3.5" />
+                    refresh page
+                  </Button>
+                )}
+              </div>
+            ) : isLoading ? (
               <div className="p-4 text-center text-sm text-muted-foreground">
                 loading links...
               </div>

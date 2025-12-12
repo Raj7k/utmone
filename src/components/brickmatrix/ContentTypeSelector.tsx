@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { AlertTriangle, AlertCircle } from "lucide-react";
+import { getContentComplexity } from "@/lib/qrMatrix";
 import {
   ContentType,
   CONTENT_TYPES,
@@ -333,6 +336,11 @@ export const ContentTypeSelector = ({ value, onChange }: ContentTypeSelectorProp
         )}
       </div>
 
+      {/* Complexity Indicator */}
+      {value && (
+        <ComplexityIndicator content={value} />
+      )}
+
       {/* Preview of encoded value */}
       {value && (
         <div className="p-2.5 rounded-lg bg-primary/5 border border-primary/10">
@@ -340,6 +348,34 @@ export const ContentTypeSelector = ({ value, onChange }: ContentTypeSelectorProp
           <p className="text-xs font-mono truncate">{value}</p>
         </div>
       )}
+    </div>
+  );
+};
+
+// Complexity indicator component
+const ComplexityIndicator = ({ content }: { content: string }) => {
+  const complexity = useMemo(() => getContentComplexity(content), [content]);
+
+  if (complexity.level === 'safe') return null;
+
+  return (
+    <div className={cn(
+      "flex items-center gap-2 p-2.5 rounded-lg border",
+      complexity.level === 'warning' 
+        ? "bg-yellow-500/10 border-yellow-500/20 text-yellow-600 dark:text-yellow-400"
+        : "bg-destructive/10 border-destructive/20 text-destructive"
+    )}>
+      {complexity.level === 'warning' ? (
+        <AlertTriangle className="h-4 w-4 shrink-0" />
+      ) : (
+        <AlertCircle className="h-4 w-4 shrink-0" />
+      )}
+      <p className="text-xs">
+        {complexity.message}
+      </p>
+      <Badge variant="outline" className="ml-auto text-[10px]">
+        {complexity.charCount} chars
+      </Badge>
     </div>
   );
 };

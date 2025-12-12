@@ -150,6 +150,7 @@ const AccessibilityFeature = lazy(() => import("./pages/features/Accessibility")
 const EventHalo = lazy(() => import("./pages/features/EventHalo"));
 const AIIntelligence = lazy(() => import("./pages/features/AIIntelligence"));
 const Sentinel = lazy(() => import("./pages/features/Sentinel"));
+const BrickBuilderFeature = lazy(() => import("./pages/features/BrickBuilder"));
 
 
 
@@ -701,6 +702,7 @@ const App = () => (
               <Route path="/features/one-tap" element={<Navigate to="/features/event-halo?tab=scanner" replace />} />
               <Route path="/intelligence" element={<Suspense fallback={<DashboardSkeleton />}><AIIntelligence /></Suspense>} />
               <Route path="/features/sentinel" element={<Suspense fallback={<DashboardSkeleton />}><Sentinel /></Suspense>} />
+              <Route path="/features/brick-builder" element={<Suspense fallback={<DashboardSkeleton />}><BrickBuilderFeature /></Suspense>} />
               
 {/* PWA Standalone Scanner */}
               <Route path="/scan" element={<Suspense fallback={<DashboardSkeleton />}><ScanPage /></Suspense>} />

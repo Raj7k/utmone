@@ -20,7 +20,40 @@ export interface QRMatrixResult {
 const BASEPLATE_SIZE = 32;
 const BRICK_SIZE_CM = 0.8; // 1x1 brick is 8mm
 
-export async function generateQRMatrix(content: string): Promise<QRMatrixResult> {
+// Character thresholds for complexity warnings
+const COMPLEXITY_THRESHOLDS = {
+  safe: 100,      // No issues expected
+  warning: 150,   // May approach limits
+  danger: 200,    // Likely too complex
+};
+
+export function getContentComplexity(content: string): { 
+  level: 'safe' | 'warning' | 'danger'; 
+  charCount: number;
+  message?: string;
+} {
+  const charCount = content.length;
+  if (charCount <= COMPLEXITY_THRESHOLDS.safe) {
+    return { level: 'safe', charCount };
+  } else if (charCount <= COMPLEXITY_THRESHOLDS.warning) {
+    return { 
+      level: 'warning', 
+      charCount, 
+      message: `${charCount} characters - approaching complexity limit` 
+    };
+  } else {
+    return { 
+      level: 'danger', 
+      charCount, 
+      message: `${charCount} characters - QR code may be too complex for 32×32 baseplate` 
+    };
+  }
+}
+
+export async function generateQRMatrix(
+  content: string, 
+  options?: { errorCorrectionLevel?: 'L' | 'M' | 'Q' | 'H' }
+): Promise<QRMatrixResult> {
   if (!content || content.trim().length === 0) {
     return {
       matrix: [],
@@ -33,10 +66,15 @@ export async function generateQRMatrix(content: string): Promise<QRMatrixResult>
     };
   }
 
+  // Auto-select error correction level based on content complexity
+  const complexity = getContentComplexity(content);
+  const errorCorrectionLevel = options?.errorCorrectionLevel || 
+    (complexity.level === 'danger' ? 'L' : 'M');
+
   try {
     // Generate QR code data
     const qrData = await QRCode.create(content, {
-      errorCorrectionLevel: 'M',
+      errorCorrectionLevel,
     });
 
     const moduleCount = qrData.modules.size;
