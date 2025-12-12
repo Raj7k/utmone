@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, ReactNode, useCallback } from "react";
+import { createContext, useContext, useMemo, ReactNode } from "react";
 import { useAppSession } from "@/contexts/AppSessionContext";
 
 interface Workspace {
@@ -23,7 +23,36 @@ interface WorkspaceContextType {
   retry: () => void;
 }
 
-const WorkspaceContext = createContext<WorkspaceContextType | undefined>(undefined);
+// ============================================
+// CACHED WORKSPACE FOR DEFAULT VALUE
+// Read synchronously at module load
+// ============================================
+const getCachedWorkspaceSync = (): Workspace | null => {
+  try {
+    const cached = localStorage.getItem('currentWorkspaceData');
+    return cached ? JSON.parse(cached) : null;
+  } catch {
+    return null;
+  }
+};
+
+const CACHED_WORKSPACE = getCachedWorkspaceSync();
+
+// ============================================
+// DEFAULT CONTEXT VALUE
+// Provides valid defaults so context is NEVER undefined
+// ============================================
+const DEFAULT_CONTEXT: WorkspaceContextType = {
+  currentWorkspace: CACHED_WORKSPACE,
+  workspaces: CACHED_WORKSPACE ? [CACHED_WORKSPACE] : [],
+  isLoading: !CACHED_WORKSPACE, // Not loading if we have cache
+  hasTimedOut: false,
+  error: null,
+  switchWorkspace: () => {},
+  retry: () => {},
+};
+
+const WorkspaceContext = createContext<WorkspaceContextType>(DEFAULT_CONTEXT);
 
 /**
  * WorkspaceProvider - Thin wrapper around AppSessionContext
@@ -63,21 +92,8 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const DEFAULT_CONTEXT: WorkspaceContextType = {
-  currentWorkspace: null,
-  workspaces: [],
-  isLoading: true,
-  hasTimedOut: false,
-  error: null,
-  switchWorkspace: () => {},
-  retry: () => {},
-};
-
+// Hook for consuming the context
+// Context is NEVER undefined due to default value
 export const useWorkspaceContext = () => {
-  const context = useContext(WorkspaceContext);
-  if (context === undefined) {
-    console.warn("[useWorkspaceContext] Context not available yet");
-    return DEFAULT_CONTEXT;
-  }
-  return context;
+  return useContext(WorkspaceContext);
 };
