@@ -1,16 +1,13 @@
 import { HelpLayout } from "@/components/help/HelpLayout";
 import { HelpBreadcrumbs } from "@/components/help/HelpBreadcrumbs";
-import { ArticleCard } from "@/components/help/ArticleCard";
+import { ExpandableArticle } from "@/components/help/ExpandableArticle";
 import { FeatureAvailability } from "@/components/help/FeatureAvailability";
 import { ProTip } from "@/components/help/ProTip";
-import { RelatedArticles } from "@/components/help/RelatedArticles";
 import {
   CalendarDays,
   Waves,
   Scan,
   Upload,
-  Thermometer,
-  QrCode,
   Calculator,
   MapPin,
   Target,
@@ -19,77 +16,6 @@ import {
   GitMerge,
 } from "lucide-react";
 
-const articles = [
-  {
-    title: "Event Halo overview",
-    description: "Track the invisible 90% of trade show impact. We measure traffic lifts in your event city vs baseline, proving offline ROI.",
-    href: "/help/articles/event-halo-overview",
-    icon: Waves,
-    isNew: true,
-  },
-  {
-    title: "Creating events",
-    description: "Set up event tracking with name, location, dates, and booth link. We start monitoring geo-traffic automatically.",
-    href: "/help/articles/creating-events",
-    icon: CalendarDays,
-  },
-  {
-    title: "One-Tap Universal Scanner",
-    description: "Scan badges, QR codes, barcodes, and business cards with one app. Works offline. Syncs when connected.",
-    href: "/help/articles/one-tap-scanner",
-    icon: Scan,
-    isNew: true,
-  },
-  {
-    title: "Badge scan import",
-    description: "Import badge scan CSVs from event organizers. We deduplicate, enrich, and attribute them to your event.",
-    href: "/help/articles/badge-import",
-    icon: Upload,
-  },
-  {
-    title: "Event ROI calculator",
-    description: "Input your event costs, scanned leads, and halo visitors. Get attributed pipeline value and ROI projection.",
-    href: "/help/articles/event-roi",
-    icon: Calculator,
-  },
-  {
-    title: "Lead enrichment setup",
-    description: "Connect Clay, Apollo, or ZoomInfo to auto-find missing emails, phone numbers, and LinkedIn profiles from badge scans.",
-    href: "/help/articles/lead-enrichment",
-    icon: Sparkles,
-    isNew: true,
-  },
-];
-
-// Event Bridge articles
-const eventBridgeArticles = [
-  {
-    title: "Event Bridge overview",
-    description: "Automatically sync event registrations from Luma, Airmeet, Goldcast, and Eventbrite to your CRM in real-time.",
-    href: "/help/articles/event-bridge-overview",
-    icon: GitMerge,
-    isNew: true,
-  },
-  {
-    title: "Setting up Event Bridge",
-    description: "Step-by-step guide to create an Event Bridge flow and connect your event platform webhooks.",
-    href: "/help/articles/event-bridge-setup",
-    icon: Target,
-  },
-  {
-    title: "Routing rules configuration",
-    description: "Create conditional routing rules to send leads to different CRMs based on enrichment data.",
-    href: "/help/articles/event-bridge-routing",
-    icon: MapPin,
-  },
-  {
-    title: "CRM integration setup",
-    description: "Connect HubSpot, Salesforce, Zoho, Pipedrive, or Kylas to receive enriched event registrations.",
-    href: "/help/articles/event-bridge-crm",
-    icon: Users,
-  },
-];
-
 const Events = () => {
   return (
     <HelpLayout>
@@ -97,10 +23,10 @@ const Events = () => {
       
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-3">
-          <h1 className="font-serif text-3xl font-bold text-zinc-900">Events & Field Marketing</h1>
+          <h1 className="font-serif text-3xl font-bold text-zinc-900 dark:text-zinc-100">Events & Field Marketing</h1>
           <span className="px-2 py-0.5 text-xs font-medium bg-emerald-100 text-emerald-700 rounded-full">new</span>
         </div>
-        <p className="text-lg text-zinc-500">
+        <p className="text-lg text-zinc-500 dark:text-zinc-400">
           Track offline events, measure trade show ROI, and prove the impact of field marketing with Event Halo technology.
         </p>
       </div>
@@ -142,87 +68,220 @@ const Events = () => {
         Create your event in utm.one before the show starts. This gives us baseline data to measure against, making your lift analysis more accurate.
       </ProTip>
 
-      {/* Event Halo Features */}
+      {/* Event Halo */}
       <div className="mb-8">
-        <h2 className="font-sans text-lg font-semibold text-zinc-900 mb-4">Event Halo</h2>
-        <div className="space-y-4">
-          {articles.slice(0, 3).map((article) => (
-            <ArticleCard
-              key={article.href}
-              title={article.title}
-              description={article.description}
-              href={article.href}
-              icon={article.icon}
-              isNew={article.isNew}
-            />
-          ))}
+        <h2 className="font-sans text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Event Halo</h2>
+        <div className="space-y-3">
+          <ExpandableArticle
+            title="Event Halo overview"
+            description="Track the invisible 90% of trade show impact with geo-temporal analysis."
+            icon={Waves}
+            isNew
+          >
+            <h3>What is Event Halo?</h3>
+            <p>Event Halo measures the total impact of your event presence by detecting traffic lifts from the event city compared to baseline. This captures visitors who saw your booth but never scanned a badge.</p>
+            <h3>How it works</h3>
+            <ol>
+              <li>Create an event with location and dates</li>
+              <li>We establish baseline traffic from that city</li>
+              <li>During the event, we measure the lift</li>
+              <li>Compare against a control city for validation</li>
+            </ol>
+            <h3>Metrics provided</h3>
+            <ul>
+              <li><strong>Halo visitors</strong> — Anonymous visitors from the event city</li>
+              <li><strong>Lift percentage</strong> — Increase vs baseline</li>
+              <li><strong>Confidence interval</strong> — Statistical reliability of the measurement</li>
+            </ul>
+          </ExpandableArticle>
+
+          <ExpandableArticle
+            title="Creating events"
+            description="Set up event tracking with name, location, dates, and booth link."
+            icon={CalendarDays}
+          >
+            <h3>Event setup</h3>
+            <ol>
+              <li>Go to Events → Create Event</li>
+              <li>Enter event name and description</li>
+              <li>Select the city (we use this for geo-targeting)</li>
+              <li>Set start and end dates</li>
+              <li>Optionally add a control city for comparison</li>
+              <li>Create a booth QR code link</li>
+            </ol>
+            <h3>Control city</h3>
+            <p>A control city is a similar city where you're NOT attending an event. This helps prove the lift is from the event, not general market trends.</p>
+          </ExpandableArticle>
+
+          <ExpandableArticle
+            title="Event ROI calculator"
+            description="Input costs, leads, and halo visitors to get attributed pipeline value."
+            icon={Calculator}
+          >
+            <h3>Inputs needed</h3>
+            <ul>
+              <li>Event costs (booth, travel, materials)</li>
+              <li>Badge scans collected</li>
+              <li>Average deal value (or we infer from historical data)</li>
+              <li>Expected conversion rate</li>
+            </ul>
+            <h3>Outputs</h3>
+            <ul>
+              <li><strong>Attributed pipeline</strong> — Potential revenue from event leads</li>
+              <li><strong>Cost per lead</strong> — Event cost divided by total leads</li>
+              <li><strong>ROI projection</strong> — Expected return on event investment</li>
+            </ul>
+          </ExpandableArticle>
         </div>
       </div>
 
       {/* One-Tap Scanner */}
       <div className="mb-8">
-        <h2 className="font-sans text-lg font-semibold text-zinc-900 mb-4">One-Tap Scanner</h2>
-        <div className="space-y-4">
-          {articles.slice(3, 7).map((article) => (
-            <ArticleCard
-              key={article.href}
-              title={article.title}
-              description={article.description}
-              href={article.href}
-              icon={article.icon}
-              isNew={article.isNew}
-            />
-          ))}
+        <h2 className="font-sans text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-4">One-Tap Scanner</h2>
+        <div className="space-y-3">
+          <ExpandableArticle
+            title="One-Tap Universal Scanner"
+            description="Scan badges, QR codes, barcodes, and business cards with one app."
+            icon={Scan}
+            isNew
+          >
+            <h3>Supported formats</h3>
+            <ul>
+              <li>Event badges (QR and barcodes)</li>
+              <li>Business cards (with AI text extraction)</li>
+              <li>Any QR code</li>
+              <li>Standard barcodes</li>
+            </ul>
+            <h3>Workflow</h3>
+            <ol>
+              <li>Open the scanner in your browser</li>
+              <li>Point camera at badge/card</li>
+              <li>Tap to tag lead temperature (Hot/Warm/Cold)</li>
+              <li>Optionally add a voice note</li>
+              <li>Data syncs automatically when connected</li>
+            </ol>
+            <h3>Offline mode</h3>
+            <p>Scanner works offline and syncs when you're back online.</p>
+          </ExpandableArticle>
+
+          <ExpandableArticle
+            title="Badge scan import"
+            description="Import badge scan CSVs from event organizers."
+            icon={Upload}
+          >
+            <h3>How to import</h3>
+            <ol>
+              <li>Get the badge scan export from the event organizer</li>
+              <li>Go to Events → Import Badges</li>
+              <li>Upload the CSV file</li>
+              <li>Map columns to fields (name, email, company, etc.)</li>
+              <li>Review and confirm import</li>
+            </ol>
+            <p>We automatically deduplicate and match against existing contacts.</p>
+          </ExpandableArticle>
+
+          <ExpandableArticle
+            title="Lead enrichment setup"
+            description="Connect Apollo, Clay, or ZoomInfo to auto-enrich badge scans."
+            icon={Sparkles}
+            isNew
+          >
+            <h3>Supported providers</h3>
+            <ul>
+              <li><strong>Apollo.io</strong> — Email and company data</li>
+              <li><strong>Clay</strong> — Comprehensive enrichment</li>
+              <li><strong>ZoomInfo</strong> — Enterprise contact data</li>
+            </ul>
+            <h3>What gets enriched</h3>
+            <ul>
+              <li>Missing email addresses</li>
+              <li>Phone numbers</li>
+              <li>LinkedIn profiles</li>
+              <li>Company information</li>
+              <li>Job title and department</li>
+            </ul>
+          </ExpandableArticle>
         </div>
       </div>
 
       {/* Event Bridge */}
       <div className="mb-8">
         <div className="flex items-center gap-2 mb-4">
-          <h2 className="font-sans text-lg font-semibold text-zinc-900">Event Bridge</h2>
+          <h2 className="font-sans text-lg font-semibold text-zinc-900 dark:text-zinc-100">Event Bridge</h2>
           <span className="px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">business</span>
         </div>
-        <div className="space-y-4">
-          {eventBridgeArticles.map((article) => (
-            <ArticleCard
-              key={article.href}
-              title={article.title}
-              description={article.description}
-              href={article.href}
-              icon={article.icon}
-              isNew={article.isNew}
-            />
-          ))}
-        </div>
-      </div>
+        <div className="space-y-3">
+          <ExpandableArticle
+            title="Event Bridge overview"
+            description="Sync event registrations from Luma, Airmeet, Goldcast, and Eventbrite to your CRM."
+            icon={GitMerge}
+            isNew
+          >
+            <h3>What is Event Bridge?</h3>
+            <p>Event Bridge automatically syncs event registrations and attendees from your event platforms directly to your CRM, with optional enrichment along the way.</p>
+            <h3>Supported platforms</h3>
+            <ul>
+              <li>Luma</li>
+              <li>Airmeet</li>
+              <li>Goldcast</li>
+              <li>Eventbrite</li>
+            </ul>
+          </ExpandableArticle>
 
-      {/* Event Management */}
-      <div className="mb-8">
-        <h2 className="font-sans text-lg font-semibold text-zinc-900 mb-4">Event management</h2>
-        <div className="space-y-4">
-          {articles.slice(5).map((article) => (
-            <ArticleCard
-              key={article.href}
-              title={article.title}
-              description={article.description}
-              href={article.href}
-              icon={article.icon}
-            />
-          ))}
+          <ExpandableArticle
+            title="Setting up Event Bridge"
+            description="Step-by-step guide to create an Event Bridge flow."
+            icon={Target}
+          >
+            <h3>Setup steps</h3>
+            <ol>
+              <li>Go to Integrations → Event Bridge</li>
+              <li>Click "Create Flow"</li>
+              <li>Select your event platform source</li>
+              <li>Connect your CRM destination</li>
+              <li>Configure field mappings</li>
+              <li>Enable the flow</li>
+            </ol>
+          </ExpandableArticle>
+
+          <ExpandableArticle
+            title="Routing rules configuration"
+            description="Create conditional routing rules based on enrichment data."
+            icon={MapPin}
+          >
+            <h3>Available conditions</h3>
+            <ul>
+              <li>Company size</li>
+              <li>Industry</li>
+              <li>Geographic location</li>
+              <li>Job title/seniority</li>
+              <li>Lead score thresholds</li>
+            </ul>
+            <p>Route high-value leads to your enterprise sales team while others go to nurture campaigns.</p>
+          </ExpandableArticle>
+
+          <ExpandableArticle
+            title="CRM integration setup"
+            description="Connect HubSpot, Salesforce, Zoho, Pipedrive, or Kylas."
+            icon={Users}
+          >
+            <h3>Supported CRMs</h3>
+            <ul>
+              <li>HubSpot</li>
+              <li>Salesforce</li>
+              <li>Zoho CRM</li>
+              <li>Pipedrive</li>
+              <li>Kylas</li>
+            </ul>
+            <h3>Field mapping</h3>
+            <p>Map event registration fields to your CRM contact fields. We support custom field mapping for each CRM.</p>
+          </ExpandableArticle>
         </div>
       </div>
 
       <FeatureAvailability
         feature="Event Halo"
         availability={{ free: false, starter: false, growth: true, business: true, enterprise: true }}
-      />
-
-      <RelatedArticles
-        articles={[
-          { title: "QR code generation", href: "/help/qr" },
-          { title: "Revenue attribution", href: "/help/attribution#revenue" },
-          { title: "Geo-targeting", href: "/help/advanced#geo-targeting" },
-        ]}
       />
     </HelpLayout>
   );
