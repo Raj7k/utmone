@@ -154,6 +154,9 @@ const AIIntelligence = lazy(() => import("./pages/features/AIIntelligence"));
 const Sentinel = lazy(() => import("./pages/features/Sentinel"));
 const BrickBuilderFeature = lazy(() => import("./pages/features/BrickBuilder"));
 
+// Dev Tools
+const PerformanceAudit = lazy(() => import("./pages/dev/PerformanceAudit"));
+
 
 
 // PWA Standalone Pages
@@ -1098,6 +1101,10 @@ const App = () => (
               <Route path="/legal/support" element={<Suspense fallback={<DashboardSkeleton />}><SupportPolicy /></Suspense>} />
               <Route path="/client-workspaces" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><ClientWorkspaces /></DashboardLayout></Suspense>} />
               <Route path="/analytics/share/:token" element={<Suspense fallback={<DashboardSkeleton />}><AnalyticsShare /></Suspense>} />
+              
+              {/* Dev Tools - Development Only */}
+              <Route path="/dev/performance" element={<Suspense fallback={<DashboardSkeleton />}><PerformanceAudit /></Suspense>} />
+              
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<Suspense fallback={<DashboardSkeleton />}><NotFound /></Suspense>} />
             </Routes>
