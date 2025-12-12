@@ -71,12 +71,12 @@ export default function Analytics() {
     setSearchParams({ tab });
   };
 
-  const { data: analytics, isLoading, error } = useRealAnalytics({ 
+  const { data: analytics, isLoading, isFetching, error } = useRealAnalytics({ 
     workspaceId: effectiveWorkspaceId,
     dateRange: 30 
   });
 
-  const { data: executiveMetrics, isLoading: metricsLoading } = useExecutiveMetrics({
+  const { data: executiveMetrics, isLoading: metricsLoading, isFetching: metricsFetching } = useExecutiveMetrics({
     workspaceId: effectiveWorkspaceId,
     dateRange: 30
   });
@@ -105,7 +105,8 @@ export default function Analytics() {
     setIsRefreshing(false);
   };
 
-  const dataLoading = isLoading;
+  // Non-blocking: show content immediately, use isFetching for subtle indicator
+  const showLoadingIndicator = isFetching || metricsFetching;
 
   // Error state
   if (error) {
@@ -123,7 +124,7 @@ export default function Analytics() {
   }
 
   // Empty state - only show after data loads
-  if (!dataLoading && analytics?.isEmpty) {
+  if (!isLoading && analytics?.isEmpty) {
     return (
       <PageContentWrapper
         title="analytics command center"
@@ -186,25 +187,28 @@ export default function Analytics() {
         </>
       )}
 
-      {/* Progressive loading - show skeleton or content */}
-      {dataLoading ? (
-        <AnalyticsSkeleton />
-      ) : (
-        <>
-          {/* Executive Metrics Hero Bar */}
-          <ExecutiveMetricsBar
-            totalClicks={executiveMetrics?.totalClicks || analytics?.totalClicks || 0}
-            uniqueVisitors={executiveMetrics?.uniqueVisitors || analytics?.uniqueVisitors || 0}
-            conversionRate={executiveMetrics?.conversionRate || 0}
-            revenue={executiveMetrics?.revenue || 0}
-            clicksChange={executiveMetrics?.clicksChange || 0}
-            visitorsChange={executiveMetrics?.visitorsChange || 0}
-            conversionChange={executiveMetrics?.conversionChange || 0}
-            revenueChange={executiveMetrics?.revenueChange || 0}
-            clicksTrend={executiveMetrics?.clicksTrend || []}
-            visitorsTrend={executiveMetrics?.visitorsTrend || []}
-            isLoading={metricsLoading}
-          />
+      {/* Non-blocking: always show content, with subtle loading indicator */}
+      {showLoadingIndicator && (
+        <div className="flex items-center gap-2 text-xs text-muted-foreground mb-4">
+          <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+          <span>updating...</span>
+        </div>
+      )}
+      
+      {/* Executive Metrics Hero Bar */}
+      <ExecutiveMetricsBar
+        totalClicks={executiveMetrics?.totalClicks || analytics?.totalClicks || 0}
+        uniqueVisitors={executiveMetrics?.uniqueVisitors || analytics?.uniqueVisitors || 0}
+        conversionRate={executiveMetrics?.conversionRate || 0}
+        revenue={executiveMetrics?.revenue || 0}
+        clicksChange={executiveMetrics?.clicksChange || 0}
+        visitorsChange={executiveMetrics?.visitorsChange || 0}
+        conversionChange={executiveMetrics?.conversionChange || 0}
+        revenueChange={executiveMetrics?.revenueChange || 0}
+        clicksTrend={executiveMetrics?.clicksTrend || []}
+        visitorsTrend={executiveMetrics?.visitorsTrend || []}
+        isLoading={isLoading && !analytics}
+      />
 
           {/* Main Dashboard Grid */}
           <div className="grid lg:grid-cols-3 gap-6">
@@ -430,8 +434,6 @@ export default function Analytics() {
               <AttributionTabContent workspaceId={currentWorkspace?.id} />
             </TabsContent>
           </Tabs>
-        </>
-      )}
 
       {/* Error state with retry */}
       {hasTimedOut && !currentWorkspace && (
