@@ -11,6 +11,7 @@ import { LayoutGrid, List, Download } from "lucide-react";
 import { FeatureGuard } from "@/components/feature-gating";
 import { EnhancedLinksTable } from "@/components/EnhancedLinksTable";
 import { FeatureHint } from "@/components/FeatureHint";
+import { BulkSentinelPanel } from "@/components/sentinel";
 
 export default function Links() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -78,6 +79,11 @@ export default function Links() {
       {/* Hero Stats Bar */}
       {currentWorkspace && (
         <LinksHeroStats workspaceId={currentWorkspace.id} />
+      )}
+
+      {/* Bulk Sentinel Panel */}
+      {currentWorkspace && (
+        <BulkSentinelPanel workspaceId={currentWorkspace.id} />
       )}
 
       {/* Feature Discovery Hint */}
