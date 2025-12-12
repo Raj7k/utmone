@@ -1,8 +1,10 @@
 import { EnhancedLink } from "@/hooks/useEnhancedLinks";
 import { LinkHealthScore } from "./LinkHealthScore";
 import { LinkInsightBadge } from "./LinkInsightBadge";
+import { SentinelBadge } from "@/components/sentinel/SentinelBadge";
+import { SentinelSettingsDialog } from "@/components/sentinel/SentinelSettingsDialog";
 import { Button } from "@/components/ui/button";
-import { Copy, QrCode, BarChart3, ExternalLink, MoreHorizontal } from "lucide-react";
+import { Copy, QrCode, BarChart3, ExternalLink, MoreHorizontal, Shield } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
@@ -10,6 +12,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +23,13 @@ interface LinkCardProps {
 
 export const LinkCard = ({ link }: LinkCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [sentinelDialogOpen, setSentinelDialogOpen] = useState(false);
   const navigate = useNavigate();
+
+  const handleSentinelClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSentinelDialogOpen(true);
+  };
 
   const handleCopy = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -91,6 +100,11 @@ export const LinkCard = ({ link }: LinkCardProps) => {
               <ExternalLink className="h-4 w-4 mr-2" />
               Visit Destination
             </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleSentinelClick}>
+              <Shield className="h-4 w-4 mr-2" />
+              Sentinel Settings
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -117,8 +131,21 @@ export const LinkCard = ({ link }: LinkCardProps) => {
           </div>
         </div>
 
-        <LinkInsightBadge linkId={link.id} />
+        <div className="flex items-center gap-2">
+          <SentinelBadge 
+            enabled={!!(link as any).sentinel_enabled} 
+            onClick={handleSentinelClick} 
+          />
+          <LinkInsightBadge linkId={link.id} />
+        </div>
       </div>
+
+      {/* Sentinel Settings Dialog */}
+      <SentinelSettingsDialog
+        open={sentinelDialogOpen}
+        onOpenChange={setSentinelDialogOpen}
+        linkId={link.id}
+      />
 
       {/* UTM Tags */}
       {(link.utm_source || link.utm_medium || link.utm_campaign) && (

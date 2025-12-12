@@ -14,15 +14,20 @@ import { DuplicateLinkDialog } from "@/components/links/DuplicateLinkDialog";
 import { DeleteLinkDialog } from "@/components/links/DeleteLinkDialog";
 import { FunnelChart } from "@/components/analytics/FunnelChart";
 import { LinkHealthScore } from "@/components/links/LinkHealthScore";
-import { ArrowLeft, Copy, Archive, Trash2 } from "lucide-react";
+import { SentinelSettingsDialog, SentinelBadge } from "@/components/sentinel";
+import { SentinelSavesWidget } from "@/components/analytics/SentinelSavesWidget";
+import { useSentinelConfig } from "@/hooks/useSentinelConfig";
+import { ArrowLeft, Copy, Archive, Shield } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const LinkDetail = () => {
   const { linkId } = useParams();
   const navigate = useNavigate();
   const { data: link, isLoading, error } = useLinkDetail(linkId || "");
+  const { data: sentinelData } = useSentinelConfig(linkId || "");
   const [duplicateDialogOpen, setDuplicateDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [sentinelDialogOpen, setSentinelDialogOpen] = useState(false);
 
   if (isLoading) {
     return (
@@ -85,6 +90,10 @@ const LinkDetail = () => {
               <Badge variant="outline" className={getStatusColor(link.status)}>
                 {link.status}
               </Badge>
+              <SentinelBadge 
+                enabled={sentinelData?.sentinel_enabled ?? false} 
+                onClick={() => setSentinelDialogOpen(true)} 
+              />
             </div>
             {link.description && (
               <p className="text-body-apple text-muted-foreground">{link.description}</p>
@@ -95,6 +104,10 @@ const LinkDetail = () => {
             <Button variant="outline" onClick={() => navigate("/dashboard/links")}>
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back
+            </Button>
+            <Button variant="outline" onClick={() => setSentinelDialogOpen(true)}>
+              <Shield className="h-4 w-4 mr-2" />
+              Sentinel
             </Button>
             <Button variant="outline" onClick={() => setDuplicateDialogOpen(true)}>
               <Copy className="h-4 w-4 mr-2" />
@@ -111,13 +124,14 @@ const LinkDetail = () => {
       {/* Tabs */}
       <div>
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-6 mb-6 bg-fill-tertiary">
+          <TabsList className="grid w-full grid-cols-7 mb-6 bg-fill-tertiary">
             <TabsTrigger value="overview" className="data-[state=active]:bg-fill data-[state=active]:text-system-blue">Overview</TabsTrigger>
             <TabsTrigger value="analytics" className="data-[state=active]:bg-fill data-[state=active]:text-system-blue">Analytics</TabsTrigger>
             <TabsTrigger value="funnel" className="data-[state=active]:bg-fill data-[state=active]:text-system-blue">Funnel</TabsTrigger>
             <TabsTrigger value="targeting" className="data-[state=active]:bg-fill data-[state=active]:text-system-blue">Targeting</TabsTrigger>
-            <TabsTrigger value="qr-codes" className="data-[state=active]:bg-fill data-[state=active]:text-system-blue">QR Codes ({link.qr_code_count})</TabsTrigger>
-            <TabsTrigger value="qr-performance" className="data-[state=active]:bg-fill data-[state=active]:text-system-blue">QR Performance</TabsTrigger>
+            <TabsTrigger value="sentinel" className="data-[state=active]:bg-fill data-[state=active]:text-system-blue">Sentinel</TabsTrigger>
+            <TabsTrigger value="qr-codes" className="data-[state=active]:bg-fill data-[state=active]:text-system-blue">QR ({link.qr_code_count})</TabsTrigger>
+            <TabsTrigger value="qr-performance" className="data-[state=active]:bg-fill data-[state=active]:text-system-blue">QR Perf</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview">
@@ -137,6 +151,45 @@ const LinkDetail = () => {
 
           <TabsContent value="targeting">
             <EnhancedTargetingRulesManager linkId={link.id} />
+          </TabsContent>
+
+          <TabsContent value="sentinel">
+            <div className="space-y-6">
+              <SentinelSavesWidget workspaceId={link.workspace_id} days={30} />
+              <div className="p-6 rounded-xl border border-border bg-card">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <h3 className="text-lg font-display font-semibold text-foreground">sentinel configuration</h3>
+                    <p className="text-sm text-muted-foreground">configure intelligent preflight checks for this link</p>
+                  </div>
+                  <Button onClick={() => setSentinelDialogOpen(true)}>
+                    <Shield className="h-4 w-4 mr-2" />
+                    Configure Sentinel
+                  </Button>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-4 rounded-lg bg-muted/50 border border-border">
+                    <p className="text-sm font-medium text-foreground">status</p>
+                    <p className="text-2xl font-display font-bold mt-1">
+                      {sentinelData?.sentinel_enabled ? (
+                        <span className="text-emerald-500">active</span>
+                      ) : (
+                        <span className="text-muted-foreground">disabled</span>
+                      )}
+                    </p>
+                  </div>
+                  <div className="p-4 rounded-lg bg-muted/50 border border-border">
+                    <p className="text-sm font-medium text-foreground">features enabled</p>
+                    <p className="text-2xl font-display font-bold mt-1">
+                      {sentinelData?.sentinel_config ? 
+                        Object.values(sentinelData.sentinel_config).filter((c: any) => c?.enabled).length 
+                        : 0
+                      }
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </TabsContent>
 
           <TabsContent value="qr-codes">
@@ -162,6 +215,12 @@ const LinkDetail = () => {
         totalClicks={link.total_clicks || 0}
         open={deleteDialogOpen}
         onOpenChange={setDeleteDialogOpen}
+      />
+
+      <SentinelSettingsDialog
+        open={sentinelDialogOpen}
+        onOpenChange={setSentinelDialogOpen}
+        linkId={link.id}
       />
     </div>
   );

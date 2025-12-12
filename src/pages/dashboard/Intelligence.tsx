@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BarChart3, Network, TrendingUp, Activity } from "lucide-react";
+import { BarChart3, Network, TrendingUp, Activity, Shield } from "lucide-react";
 import PulseHero from "@/components/intelligence/PulseHero";
 import ContextSwitcher, { IntelligenceContext } from "@/components/intelligence/ContextSwitcher";
 import { PeriodSelector, PeriodOption, periodDays } from "@/components/intelligence/PeriodSelector";
@@ -22,6 +22,8 @@ import { OfflineImporter } from "@/components/attribution/OfflineImporter";
 import { LiftAnalysis } from "@/components/attribution/LiftAnalysis";
 import { VelocityAnalytics } from "@/components/attribution/VelocityAnalytics";
 import { TopicAttributionView } from "@/components/attribution/TopicAttributionView";
+import { SentinelSavesWidget } from "@/components/analytics/SentinelSavesWidget";
+import { useSentinelStats } from "@/hooks/useSentinelSaves";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Intelligence() {
@@ -55,6 +57,10 @@ export default function Intelligence() {
             <TabsTrigger value="attribution" className="gap-2">
               <BarChart3 className="h-4 w-4" />
               <span className="hidden sm:inline">attribution</span>
+            </TabsTrigger>
+            <TabsTrigger value="sentinel" className="gap-2">
+              <Shield className="h-4 w-4" />
+              <span className="hidden sm:inline">sentinel</span>
             </TabsTrigger>
             <TabsTrigger value="advanced" className="gap-2">
               <Network className="h-4 w-4" />
@@ -179,6 +185,88 @@ export default function Intelligence() {
 
       {activeTab === "attribution" && (
         <AttributionTabContent workspaceId={currentWorkspace?.id} />
+      )}
+
+      {activeTab === "sentinel" && (
+        <div className="space-y-6">
+          {/* Sentinel Saves Overview */}
+          <SentinelSavesWidget workspaceId={currentWorkspace?.id} days={days} />
+
+          {/* Sentinel Stats Cards */}
+          <div className="grid lg:grid-cols-3 gap-4">
+            <Card className="rounded-2xl border-border">
+              <CardHeader className="pb-2">
+                <CardDescription>total clicks saved</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-4xl font-display font-bold text-foreground">
+                  protecting visitors from dead ends
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="rounded-2xl border-border">
+              <CardHeader className="pb-2">
+                <CardDescription>links with sentinel</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-4xl font-display font-bold text-foreground">
+                  configure sentinel on individual links
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="rounded-2xl border-border">
+              <CardHeader className="pb-2">
+                <CardDescription>value protected</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-4xl font-display font-bold text-emerald-500">
+                  estimated revenue saved
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* How Sentinel Works */}
+          <Card className="rounded-2xl border-border">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Shield className="h-5 w-5 text-primary" />
+                how sentinel protects your links
+              </CardTitle>
+              <CardDescription>
+                intelligent preflight checks before every redirect
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-4 gap-4">
+                <div className="p-4 rounded-lg bg-amber-500/10 border border-amber-500/20">
+                  <h4 className="font-semibold text-foreground mb-2">stock-aware routing</h4>
+                  <p className="text-sm text-muted-foreground">
+                    check shopify inventory and redirect to alternatives when out of stock
+                  </p>
+                </div>
+                <div className="p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+                  <h4 className="font-semibold text-foreground mb-2">health preflight</h4>
+                  <p className="text-sm text-muted-foreground">
+                    verify destination is reachable before redirecting visitors
+                  </p>
+                </div>
+                <div className="p-4 rounded-lg bg-blue-500/10 border border-blue-500/20">
+                  <h4 className="font-semibold text-foreground mb-2">AI bot detection</h4>
+                  <p className="text-sm text-muted-foreground">
+                    serve structured JSON to GPT, Claude, and Perplexity crawlers
+                  </p>
+                </div>
+                <div className="p-4 rounded-lg bg-purple-500/10 border border-purple-500/20">
+                  <h4 className="font-semibold text-foreground mb-2">auto-heal</h4>
+                  <p className="text-sm text-muted-foreground">
+                    automatically find replacement URLs via sitemap when links break
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       )}
 
       {activeTab === "advanced" && (

@@ -14,6 +14,23 @@ const hotLinkCache = new Map<string, {
 
 const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour TTL for in-memory cache
 
+// AI bot user agents
+const AI_BOT_PATTERNS = [
+  /GPTBot/i,
+  /ChatGPT-User/i,
+  /Claude-Web/i,
+  /ClaudeBot/i,
+  /Anthropic/i,
+  /PerplexityBot/i,
+  /Googlebot/i,
+  /Bingbot/i,
+  /Google-Extended/i,
+];
+
+function isAIBot(userAgent: string): boolean {
+  return AI_BOT_PATTERNS.some(pattern => pattern.test(userAgent));
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -22,6 +39,7 @@ Deno.serve(async (req) => {
   try {
     const url = new URL(req.url);
     const slug = url.searchParams.get('slug');
+    const userAgent = req.headers.get('user-agent') || '';
 
     if (!slug) {
       return new Response(
@@ -67,7 +85,7 @@ Deno.serve(async (req) => {
 
     const { data: link, error } = await supabase
       .from('links')
-      .select('id, destination_url, utm_source, utm_medium, utm_campaign, utm_term, utm_content, cache_priority, fallback_url, health_status')
+      .select('id, workspace_id, destination_url, utm_source, utm_medium, utm_campaign, utm_term, utm_content, cache_priority, fallback_url, health_status, sentinel_enabled, sentinel_config')
       .eq('slug', slug)
       .eq('status', 'active')
       .maybeSingle();
@@ -88,10 +106,127 @@ Deno.serve(async (req) => {
     }
 
     cacheTier = link.cache_priority || 'cold';
-
-    // Check link health and use fallback if unhealthy
     let destinationUrl = link.destination_url;
-    if (link.health_status === 'unhealthy' && link.fallback_url) {
+    let sentinelDecision: { action: string; fallback_url?: string; json_payload?: Record<string, unknown>; save_type?: string } | null = null;
+
+    // SENTINEL MODE: Run preflight checks if enabled
+    if (link.sentinel_enabled && link.sentinel_config) {
+      const sentinelConfig = link.sentinel_config as Record<string, unknown>;
+      
+      // AI Bot Detection - check first as it returns JSON instead of redirect
+      const aiBotConfig = sentinelConfig.ai_bot_mode as { enabled?: boolean; json_payload?: Record<string, unknown> } | undefined;
+      if (aiBotConfig?.enabled && isAIBot(userAgent)) {
+        console.log(`🤖 Sentinel: AI bot detected for ${slug}`);
+        
+        // Log the save
+        await supabase.from('sentinel_saves').insert({
+          link_id: link.id,
+          workspace_id: link.workspace_id,
+          save_type: 'ai_bot',
+          original_destination: link.destination_url,
+          redirected_to: 'json_response',
+          estimated_value: 0,
+          visitor_info: { user_agent: userAgent },
+          metadata: { json_payload: aiBotConfig.json_payload },
+        });
+
+        return new Response(
+          JSON.stringify(aiBotConfig.json_payload || { url: link.destination_url }),
+          { 
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            status: 200,
+          }
+        );
+      }
+
+      // Inventory Check (Shopify)
+      const inventoryConfig = sentinelConfig.inventory_check as { 
+        enabled?: boolean; 
+        shopify_sku?: string; 
+        threshold?: number; 
+        fallback_url?: string 
+      } | undefined;
+      
+      if (inventoryConfig?.enabled && inventoryConfig.shopify_sku && inventoryConfig.fallback_url) {
+        try {
+          const inventoryResponse = await supabase.functions.invoke('shopify-inventory', {
+            body: { sku: inventoryConfig.shopify_sku },
+          });
+          
+          if (inventoryResponse.data?.inventory !== undefined) {
+            const threshold = inventoryConfig.threshold || 0;
+            if (inventoryResponse.data.inventory <= threshold) {
+              console.log(`📦 Sentinel: Out of stock for ${slug}, redirecting to fallback`);
+              sentinelDecision = {
+                action: 'redirect',
+                fallback_url: inventoryConfig.fallback_url,
+                save_type: 'inventory',
+              };
+            }
+          }
+        } catch (err) {
+          console.error('Inventory check failed:', err);
+          // Fail open - continue with original URL
+        }
+      }
+
+      // Health Preflight Check
+      const healthConfig = sentinelConfig.health_preflight as { 
+        enabled?: boolean; 
+        timeout_ms?: number; 
+        fallback_url?: string 
+      } | undefined;
+      
+      if (!sentinelDecision && healthConfig?.enabled && healthConfig.fallback_url) {
+        try {
+          const timeout = healthConfig.timeout_ms || 3000;
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), timeout);
+          
+          const healthCheck = await fetch(link.destination_url, {
+            method: 'HEAD',
+            signal: controller.signal,
+          });
+          clearTimeout(timeoutId);
+          
+          if (!healthCheck.ok) {
+            console.log(`🏥 Sentinel: Health check failed for ${slug} (${healthCheck.status})`);
+            sentinelDecision = {
+              action: 'redirect',
+              fallback_url: healthConfig.fallback_url,
+              save_type: 'health',
+            };
+          }
+        } catch (err) {
+          console.log(`🏥 Sentinel: Health check timeout/error for ${slug}`);
+          sentinelDecision = {
+            action: 'redirect',
+            fallback_url: healthConfig.fallback_url,
+            save_type: 'health',
+          };
+        }
+      }
+
+      // Apply Sentinel decision if any
+      if (sentinelDecision?.fallback_url) {
+        destinationUrl = sentinelDecision.fallback_url;
+        
+        // Log the save
+        await supabase.from('sentinel_saves').insert({
+          link_id: link.id,
+          workspace_id: link.workspace_id,
+          save_type: sentinelDecision.save_type,
+          original_destination: link.destination_url,
+          redirected_to: sentinelDecision.fallback_url,
+          estimated_value: 5, // Default estimated value per save
+          visitor_info: { user_agent: userAgent },
+          metadata: {},
+        });
+      }
+    }
+
+    // Check link health and use fallback if unhealthy (legacy behavior)
+    if (!sentinelDecision && link.health_status === 'unhealthy' && link.fallback_url) {
       console.log(`⚠️ Link ${slug} is unhealthy, routing to fallback: ${link.fallback_url}`);
       destinationUrl = link.fallback_url;
     }
@@ -136,7 +271,7 @@ Deno.serve(async (req) => {
       });
 
     const latency = Date.now() - startTime;
-    console.log(`Redirect for ${slug} - ${cacheTier} tier - ${latency}ms`);
+    console.log(`Redirect for ${slug} - ${cacheTier} tier - ${latency}ms${sentinelDecision ? ` (sentinel: ${sentinelDecision.save_type})` : ''}`);
 
     return new Response(
       JSON.stringify({
@@ -144,6 +279,7 @@ Deno.serve(async (req) => {
         cache_hit: cacheHit,
         cache_tier: cacheTier,
         latency_ms: latency,
+        sentinel_applied: !!sentinelDecision,
       }),
       { 
         headers: { 
