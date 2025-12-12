@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useRef, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, useRef, useCallback, useMemo, ReactNode } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useClientWorkspaces } from "@/hooks/useClientWorkspaces";
 import { supabase } from "@/integrations/supabase/client";
@@ -170,35 +170,38 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
     checkWorkspaces();
   }, [workspaces, isQueryLoading, isAuthenticated, queryCompleted, isAdmin, navigate, location.pathname]);
 
-  const switchWorkspace = (workspaceId: string) => {
+  // Memoized switchWorkspace function
+  const switchWorkspace = useCallback((workspaceId: string) => {
     const workspace = workspaces.find((w) => w.id === workspaceId);
     if (workspace) {
       setCurrentWorkspace(workspace);
       localStorage.setItem("currentWorkspaceId", workspaceId);
     }
-  };
+  }, [workspaces]);
 
-  const retry = () => {
+  // Memoized retry function
+  const retry = useCallback(() => {
     setHasTimedOut(false);
     setQueryCompleted(false);
     refetch();
-  };
+  }, [refetch]);
 
   // Combined loading state - false if timed out or query finished
   const isLoading = isQueryLoading && !hasTimedOut;
 
+  // Memoized context value to prevent unnecessary re-renders
+  const contextValue = useMemo(() => ({
+    currentWorkspace,
+    workspaces,
+    isLoading,
+    hasTimedOut,
+    error: workspacesError as Error | null,
+    switchWorkspace,
+    retry,
+  }), [currentWorkspace, workspaces, isLoading, hasTimedOut, workspacesError, switchWorkspace, retry]);
+
   return (
-    <WorkspaceContext.Provider
-      value={{
-        currentWorkspace,
-        workspaces,
-        isLoading,
-        hasTimedOut,
-        error: workspacesError as Error | null,
-        switchWorkspace,
-        retry,
-      }}
-    >
+    <WorkspaceContext.Provider value={contextValue}>
       {children}
     </WorkspaceContext.Provider>
   );

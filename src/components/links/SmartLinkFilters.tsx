@@ -1,3 +1,4 @@
+import { useCallback, useMemo } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Filter, Flame, TrendingDown, AlertTriangle, Activity } from "lucide-react";
@@ -32,24 +33,36 @@ export const SmartLinkFilters = ({
   statusFilter,
   onStatusChange,
 }: SmartLinkFiltersProps) => {
-  const activeFiltersCount = 
+  const activeFiltersCount = useMemo(() => 
     performanceFilter.length + 
     healthFilter.length + 
-    (statusFilter !== "all" ? 1 : 0);
+    (statusFilter !== "all" ? 1 : 0),
+    [performanceFilter.length, healthFilter.length, statusFilter]
+  );
 
-  const handlePerformanceToggle = (value: string) => {
+  const handlePerformanceToggle = useCallback((value: string) => {
     const updated = performanceFilter.includes(value)
       ? performanceFilter.filter(v => v !== value)
       : [...performanceFilter, value];
     onPerformanceFilterChange(updated);
-  };
+  }, [performanceFilter, onPerformanceFilterChange]);
 
-  const handleHealthToggle = (value: string) => {
+  const handleHealthToggle = useCallback((value: string) => {
     const updated = healthFilter.includes(value)
       ? healthFilter.filter(v => v !== value)
       : [...healthFilter, value];
     onHealthFilterChange(updated);
-  };
+  }, [healthFilter, onHealthFilterChange]);
+
+  const handleClearAll = useCallback(() => {
+    onPerformanceFilterChange([]);
+    onHealthFilterChange([]);
+    onStatusChange("all");
+  }, [onPerformanceFilterChange, onHealthFilterChange, onStatusChange]);
+
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    onSearchChange(e.target.value);
+  }, [onSearchChange]);
 
   return (
     <div className="flex flex-col md:flex-row gap-3 mb-6">
@@ -60,7 +73,7 @@ export const SmartLinkFilters = ({
           placeholder="search links, campaigns, or type 'show me declining links'..."
           className="pl-10"
           value={searchQuery}
-          onChange={(e) => onSearchChange(e.target.value)}
+          onChange={handleSearchChange}
         />
       </div>
 
@@ -155,11 +168,7 @@ export const SmartLinkFilters = ({
       {activeFiltersCount > 0 && (
         <Button
           variant="ghost"
-          onClick={() => {
-            onPerformanceFilterChange([]);
-            onHealthFilterChange([]);
-            onStatusChange("all");
-          }}
+          onClick={handleClearAll}
         >
           clear all ({activeFiltersCount})
         </Button>

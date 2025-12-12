@@ -1,3 +1,4 @@
+import { memo, useCallback, useState } from "react";
 import { EnhancedLink } from "@/hooks/useEnhancedLinks";
 import { LinkHealthScore } from "./LinkHealthScore";
 import { LinkInsightBadge } from "./LinkInsightBadge";
@@ -5,7 +6,6 @@ import { SentinelBadge } from "@/components/sentinel/SentinelBadge";
 import { SentinelSettingsDialog } from "@/components/sentinel/SentinelSettingsDialog";
 import { Button } from "@/components/ui/button";
 import { Copy, QrCode, BarChart3, ExternalLink, MoreHorizontal, Shield } from "lucide-react";
-import { useState } from "react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -21,41 +21,49 @@ interface LinkCardProps {
   link: EnhancedLink;
 }
 
-export const LinkCard = ({ link }: LinkCardProps) => {
+export const LinkCard = memo(({ link }: LinkCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [sentinelDialogOpen, setSentinelDialogOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleSentinelClick = (e: React.MouseEvent) => {
+  const handleSentinelClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     setSentinelDialogOpen(true);
-  };
+  }, []);
 
-  const handleCopy = async (e: React.MouseEvent) => {
+  const handleCopy = useCallback(async (e: React.MouseEvent) => {
     e.stopPropagation();
     await navigator.clipboard.writeText(link.short_url);
     toast.success("Link copied to clipboard");
-  };
+  }, [link.short_url]);
 
-  const handleQR = (e: React.MouseEvent) => {
+  const handleQR = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     navigate(`/dashboard/links/${link.id}?tab=qr`);
-  };
+  }, [navigate, link.id]);
 
-  const handleAnalytics = (e: React.MouseEvent) => {
+  const handleAnalytics = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     navigate(`/dashboard/links/${link.id}?tab=analytics`);
-  };
+  }, [navigate, link.id]);
 
-  const handleCardClick = () => {
+  const handleCardClick = useCallback(() => {
     navigate(`/dashboard/links/${link.id}`);
-  };
+  }, [navigate, link.id]);
+
+  const handleVisitDestination = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    window.open(link.destination_url, "_blank");
+  }, [link.destination_url]);
+
+  const handleMouseEnter = useCallback(() => setIsHovered(true), []);
+  const handleMouseLeave = useCallback(() => setIsHovered(false), []);
 
   return (
     <div
       className="bg-card border rounded-xl p-6 shadow-sm hover:shadow-md transition-all cursor-pointer relative"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       onClick={handleCardClick}
     >
       {/* Header with Health Score */}
@@ -93,10 +101,7 @@ export const LinkCard = ({ link }: LinkCardProps) => {
               <BarChart3 className="h-4 w-4 mr-2" />
               View Analytics
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={(e) => {
-              e.stopPropagation();
-              window.open(link.destination_url, "_blank");
-            }}>
+            <DropdownMenuItem onClick={handleVisitDestination}>
               <ExternalLink className="h-4 w-4 mr-2" />
               Visit Destination
             </DropdownMenuItem>
@@ -202,4 +207,6 @@ export const LinkCard = ({ link }: LinkCardProps) => {
       )}
     </div>
   );
-};
+});
+
+LinkCard.displayName = "LinkCard";
