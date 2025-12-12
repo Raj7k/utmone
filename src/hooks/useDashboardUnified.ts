@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
+import { startOfDay, subDays } from "date-fns";
 
 const CACHE_KEY = "DASHBOARD_UNIFIED_CACHE";
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
@@ -118,7 +119,6 @@ function getCached(workspaceId: string): DashboardData | undefined {
     const cached = localStorage.getItem(`${CACHE_KEY}-${workspaceId}`);
     if (!cached) return undefined;
     const { data, timestamp } = JSON.parse(cached);
-    // Check if cache is still valid (5 min)
     if (Date.now() - timestamp > CACHE_TTL) return undefined;
     return data as DashboardData;
   } catch {
@@ -138,79 +138,229 @@ function setCache(workspaceId: string, data: DashboardData) {
   }
 }
 
-// Check for prefetched data from index.html pre-warm script
-function getPrefetchedData(workspaceId: string): DashboardData | undefined {
-  try {
-    const prefetch = (window as any).__DASHBOARD_PREFETCH__;
-    if (prefetch?.status === 'ready' && prefetch.workspaceId === workspaceId && prefetch.data) {
-      console.log("[useDashboardUnified] Using prefetched data from pre-warm script");
-      return prefetch.data as DashboardData;
-    }
-  } catch {
-    // Ignore
-  }
-  return undefined;
-}
-
 export const useDashboardUnified = (range: string = "30d") => {
   const { currentWorkspace } = useWorkspace();
   const queryClient = useQueryClient();
 
-  // Use cached workspace ID for immediate query start
   const workspaceId = currentWorkspace?.id || getCachedWorkspaceId() || "";
 
   const { data, isLoading, isFetching, isFetched, refetch, error } = useQuery({
-    queryKey: ["dashboard-unified", workspaceId, range],
+    queryKey: ["dashboard-direct", workspaceId, range],
     queryFn: async (): Promise<DashboardData> => {
-      // Phase 1: Check if pre-warm script already fetched data
-      const prefetched = getPrefetchedData(workspaceId);
-      if (prefetched) {
-        setCache(workspaceId, prefetched);
-        return prefetched;
-      }
+      console.log("[useDashboardUnified] Fetching directly from tables...");
       
-      console.log("[useDashboardUnified] Fetching from edge function...");
-      
-      const { data, error } = await supabase.functions.invoke("get-dashboard-data", {
-        body: { workspaceId, range },
-      });
+      const today = startOfDay(new Date());
+      const daysBack = range === "7d" ? 7 : range === "90d" ? 90 : 30;
+      const startDate = subDays(today, daysBack);
 
-      if (error) {
-        console.error("[useDashboardUnified] Edge function error:", error);
-        throw error;
-      }
+      // PARALLEL: Fetch all data at once from tables directly
+      const [
+        linksResult,
+        salesLinksResult,
+        eventsResult,
+        campaignsResult,
+        clicksTodayResult,
+        totalLinksResult
+      ] = await Promise.all([
+        // 1. Regular links
+        supabase
+          .from("links")
+          .select("id, title, slug, short_url, destination_url, status, total_clicks, created_at")
+          .eq("workspace_id", workspaceId)
+          .is("deleted_at", null)
+          .neq("link_type", "sales")
+          .order("created_at", { ascending: false })
+          .limit(20),
+
+        // 2. Sales links
+        supabase
+          .from("links")
+          .select("id, title, slug, short_url, destination_url, status, total_clicks, created_at, last_clicked_at, link_type, prospect_name, alert_on_click")
+          .eq("workspace_id", workspaceId)
+          .eq("link_type", "sales")
+          .is("deleted_at", null)
+          .order("created_at", { ascending: false })
+          .limit(50),
+
+        // 3. Events
+        supabase
+          .from("field_events")
+          .select("id, name, start_date, end_date, location_city, location_country, direct_scans, halo_visitors, lift_percentage, status")
+          .eq("workspace_id", workspaceId)
+          .order("start_date", { ascending: false })
+          .limit(10),
+
+        // 4. Campaigns with link counts
+        supabase
+          .from("campaigns")
+          .select(`
+            id, name, status, color, created_at,
+            links:links(count)
+          `)
+          .eq("workspace_id", workspaceId)
+          .order("created_at", { ascending: false })
+          .limit(10),
+
+        // 5. Clicks today (simple count)
+        supabase
+          .from("link_clicks")
+          .select("id", { count: "exact", head: true })
+          .eq("workspace_id", workspaceId)
+          .gte("clicked_at", today.toISOString()),
+
+        // 6. Total links count
+        supabase
+          .from("links")
+          .select("id", { count: "exact", head: true })
+          .eq("workspace_id", workspaceId)
+          .is("deleted_at", null)
+      ]);
+
+      // Process links
+      const links: DashboardLink[] = (linksResult.data || []).map(l => ({
+        id: l.id,
+        title: l.title || "",
+        slug: l.slug || "",
+        short_url: l.short_url || "",
+        destination_url: l.destination_url || "",
+        status: l.status || "active",
+        total_clicks: l.total_clicks || 0,
+        created_at: l.created_at || ""
+      }));
+
+      // Process sales links
+      const salesLinks: DashboardSalesLink[] = (salesLinksResult.data || []).map(l => ({
+        id: l.id,
+        title: l.title || "",
+        slug: l.slug || "",
+        domain: "",
+        short_url: l.short_url || "",
+        destination_url: l.destination_url || "",
+        status: l.status || "active",
+        total_clicks: l.total_clicks || 0,
+        created_at: l.created_at || "",
+        last_clicked_at: l.last_clicked_at,
+        link_type: l.link_type || "sales",
+        prospect_name: l.prospect_name,
+        alert_on_click: l.alert_on_click
+      }));
+
+      // Process events
+      const events: DashboardEvent[] = (eventsResult.data || []).map(e => ({
+        id: e.id,
+        name: e.name || "",
+        start_date: e.start_date || "",
+        end_date: e.end_date || "",
+        location_city: e.location_city || "",
+        location_country: e.location_country || "",
+        direct_scans: e.direct_scans || 0,
+        halo_visitors: e.halo_visitors || 0,
+        lift_percentage: Number(e.lift_percentage) || 0,
+        status: e.status || "upcoming"
+      }));
+
+      // Process campaigns
+      const campaigns: DashboardCampaign[] = (campaignsResult.data || []).map(c => ({
+        id: c.id,
+        name: c.name || "",
+        status: (c.status as "active" | "archived" | "draft") || "active",
+        color: c.color || "#3b82f6",
+        created_at: c.created_at || "",
+        stats: {
+          linkCount: Array.isArray(c.links) ? c.links.length : 0,
+          totalClicks: 0
+        }
+      }));
+
+      // Stats
+      const stats: DashboardStats = {
+        clicksToday: clicksTodayResult.count || 0,
+        totalRevenue: 0,
+        totalLinks: totalLinksResult.count || 0
+      };
+
+      // Onboarding
+      const linkCount = totalLinksResult.count || 0;
+      const onboarding: DashboardOnboarding = {
+        hasLinks: linkCount > 0,
+        linkCount
+      };
+
+      // Minimal analytics (avoid heavy queries)
+      const analytics: DashboardAnalytics = {
+        isEmpty: linkCount === 0,
+        totalClicks: links.reduce((sum, l) => sum + (l.total_clicks || 0), 0),
+        uniqueVisitors: 0,
+        heatmapData: [],
+        topCountries: [],
+        topCities: [],
+        devices: [],
+        browsers: [],
+        topReferrers: [],
+        insights: []
+      };
+
+      // Minimal executive metrics
+      const executiveMetrics: DashboardExecutiveMetrics = {
+        totalClicks: analytics.totalClicks,
+        uniqueVisitors: 0,
+        conversionRate: 0,
+        revenue: 0,
+        clicksChange: 0,
+        visitorsChange: 0,
+        conversionChange: 0,
+        revenueChange: 0,
+        clicksTrend: [],
+        visitorsTrend: [],
+        topChannel: null,
+        topChannelClicks: 0,
+        peakDay: null,
+        peakDayClicks: 0,
+        avgClicksPerDay: 0
+      };
+
+      const result: DashboardData = {
+        links,
+        salesLinks,
+        events,
+        campaigns,
+        stats,
+        onboarding,
+        analytics,
+        executiveMetrics,
+        fetchedAt: new Date().toISOString()
+      };
 
       // Cache on success
-      setCache(workspaceId, data);
-      console.log("[useDashboardUnified] Data cached successfully");
+      setCache(workspaceId, result);
+      console.log("[useDashboardUnified] Data fetched and cached");
 
-      return data as DashboardData;
+      return result;
     },
     enabled: !!workspaceId,
-    // INSTANT render: Check prefetch first, then localStorage cache
-    initialData: () => getPrefetchedData(workspaceId) || getCached(workspaceId),
-    staleTime: CACHE_TTL, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes
+    initialData: () => getCached(workspaceId),
+    staleTime: CACHE_TTL,
+    gcTime: 10 * 60 * 1000,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     retry: 1,
   });
 
-  // Invalidate specific subsets if needed
+  // Invalidate helpers
   const invalidateLinks = () => {
-    queryClient.invalidateQueries({ queryKey: ["dashboard-unified", workspaceId] });
+    queryClient.invalidateQueries({ queryKey: ["dashboard-direct", workspaceId] });
   };
 
   const invalidateEvents = () => {
-    queryClient.invalidateQueries({ queryKey: ["dashboard-unified", workspaceId] });
+    queryClient.invalidateQueries({ queryKey: ["dashboard-direct", workspaceId] });
   };
 
   const invalidateCampaigns = () => {
-    queryClient.invalidateQueries({ queryKey: ["dashboard-unified", workspaceId] });
+    queryClient.invalidateQueries({ queryKey: ["dashboard-direct", workspaceId] });
   };
 
-  // Default analytics structure
+  // Defaults
   const defaultAnalytics: DashboardAnalytics = {
     isEmpty: true,
     totalClicks: 0,
@@ -243,7 +393,6 @@ export const useDashboardUnified = (range: string = "30d") => {
   };
 
   return {
-    // Data slices
     links: data?.links || [],
     salesLinks: data?.salesLinks || [],
     events: data?.events || [],
@@ -252,17 +401,11 @@ export const useDashboardUnified = (range: string = "30d") => {
     onboarding: data?.onboarding || { hasLinks: false, linkCount: 0 },
     analytics: data?.analytics || defaultAnalytics,
     executiveMetrics: data?.executiveMetrics || defaultExecutiveMetrics,
-    
-    // Full data object
     data,
-    
-    // Loading states
-    isLoading: isLoading && !data, // Only true if no cached data
-    isFetching, // True during background refresh
+    isLoading: isLoading && !data,
+    isFetching,
     isFetched,
     error,
-    
-    // Actions
     refetch,
     invalidateLinks,
     invalidateEvents,
