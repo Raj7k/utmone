@@ -13,7 +13,6 @@ import { SalesAlertToggle } from "./SalesAlertToggle";
 import { notify } from "@/lib/notify";
 import { cn } from "@/lib/utils";
 import { EmptyProspects } from "./EmptyProspects";
-import { useModal } from "@/contexts/ModalContext";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface SalesLink {
@@ -32,6 +31,7 @@ interface SalesLinkTableProps {
   links: SalesLink[];
   isLoading: boolean;
   onRefresh: () => void;
+  onCreateLink: () => void;
 }
 
 const getStatus = (link: SalesLink) => {
@@ -70,8 +70,7 @@ const getStatus = (link: SalesLink) => {
   };
 };
 
-export const SalesLinkTable = ({ links, isLoading, onRefresh }: SalesLinkTableProps) => {
-  const { setCreateModalOpen } = useModal();
+export const SalesLinkTable = ({ links, isLoading, onRefresh, onCreateLink }: SalesLinkTableProps) => {
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const copyLink = (link: SalesLink) => {
@@ -106,7 +105,7 @@ export const SalesLinkTable = ({ links, isLoading, onRefresh }: SalesLinkTablePr
   }
 
   if (links.length === 0) {
-    return <EmptyProspects onCreateLink={() => setCreateModalOpen(true)} />;
+    return <EmptyProspects onCreateLink={onCreateLink} />;
   }
 
   return (
