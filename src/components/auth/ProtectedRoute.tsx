@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { motion, AnimatePresence } from "framer-motion";
@@ -18,8 +18,6 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [messageIndex, setMessageIndex] = useState(0);
   const location = useLocation();
-  const hasChecked = useRef(false);
-  const retryCount = useRef(0);
 
   // Rotate loading messages
   useEffect(() => {
@@ -44,59 +42,34 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     }, 5000);
 
     const checkAuth = async () => {
-      // Prevent duplicate checks
-      if (hasChecked.current) return;
-      hasChecked.current = true;
-
-      const attemptAuth = async (): Promise<boolean> => {
-        try {
-          const { data: { session }, error } = await supabase.auth.getSession();
-          
-          if (error) {
-            console.error("[ProtectedRoute] Session error:", error.message);
-            // Retry once on error
-            if (retryCount.current < 1) {
-              retryCount.current++;
-              await new Promise(r => setTimeout(r, 500));
-              return attemptAuth();
-            }
-            return false;
-          }
-          
-          return !!session;
-        } catch (error) {
-          console.error("[ProtectedRoute] Auth check failed:", error);
-          // Retry once on exception
-          if (retryCount.current < 1) {
-            retryCount.current++;
-            await new Promise(r => setTimeout(r, 500));
-            return attemptAuth();
-          }
-          return false;
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          console.error("[ProtectedRoute] Session error:", error.message);
         }
-      };
-
-      const authenticated = await attemptAuth();
-      
-      if (isMounted) {
-        setIsAuthenticated(authenticated);
-        setIsLoading(false);
+        
+        if (isMounted) {
+          setIsAuthenticated(!!session);
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.error("[ProtectedRoute] Auth check failed:", error);
+        if (isMounted) {
+          setIsAuthenticated(false);
+          setIsLoading(false);
+        }
       }
     };
 
     checkAuth();
 
-    // Listen for auth changes - defer async work to prevent deadlock
+    // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setTimeout(() => {
-        if (isMounted) {
-          setIsAuthenticated(!!session);
-          // Clear loading if still loading when auth state changes
-          if (isLoading) {
-            setIsLoading(false);
-          }
-        }
-      }, 0);
+      if (isMounted) {
+        setIsAuthenticated(!!session);
+        setIsLoading(false);
+      }
     });
 
     return () => {
