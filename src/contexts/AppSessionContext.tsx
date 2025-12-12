@@ -40,8 +40,6 @@ interface AppSessionState {
   refresh: () => void;
 }
 
-const AppSessionContext = createContext<AppSessionState | undefined>(undefined);
-
 // ============================================
 // SYNCHRONOUS CACHE READS - Module level
 // These execute BEFORE React component mounts
@@ -91,6 +89,27 @@ function getCachedWorkspaces(): Workspace[] | null {
 const INITIAL_SESSION = getCachedSession();
 const INITIAL_WORKSPACE = getCachedWorkspace();
 const INITIAL_WORKSPACES = getCachedWorkspaces();
+
+// ============================================
+// DEFAULT CONTEXT VALUE
+// Provides valid defaults so context is NEVER undefined
+// Uses cached values for instant availability
+// ============================================
+const DEFAULT_SESSION_STATE: AppSessionState = {
+  user: INITIAL_SESSION?.user ?? null,
+  session: null,
+  isAuthenticated: !!INITIAL_SESSION?.user,
+  currentWorkspace: INITIAL_WORKSPACE,
+  workspaces: INITIAL_WORKSPACES ?? [],
+  isReady: !!(INITIAL_SESSION?.user && INITIAL_WORKSPACE),
+  isFullyLoaded: false,
+  error: null,
+  switchWorkspace: () => {},
+  signOut: async () => {},
+  refresh: () => {},
+};
+
+const AppSessionContext = createContext<AppSessionState>(DEFAULT_SESSION_STATE);
 
 // ============================================
 // DYNAMIC CACHE CHECK FUNCTION
@@ -319,25 +338,9 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
 };
 
 // Hook for consuming the context
+// Context is NEVER undefined due to default value
 export const useAppSession = (): AppSessionState => {
-  const context = useContext(AppSessionContext);
-  if (context === undefined) {
-    // Return safe defaults when outside provider (shouldn't happen in normal usage)
-    return {
-      user: null,
-      session: null,
-      isAuthenticated: false,
-      currentWorkspace: null,
-      workspaces: [],
-      isReady: false,
-      isFullyLoaded: false,
-      error: null,
-      switchWorkspace: () => {},
-      signOut: async () => {},
-      refresh: () => {},
-    };
-  }
-  return context;
+  return useContext(AppSessionContext);
 };
 
 // Compatibility exports for gradual migration
