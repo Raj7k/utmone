@@ -13,20 +13,46 @@ import { useOnboardingProgress } from "@/hooks/useOnboardingProgress";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { useQueryClient } from "@tanstack/react-query";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
+import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
+import { Button } from "@/components/ui/button";
+import { RefreshCw } from "lucide-react";
 
-// Skeleton for instant render while data loads
-const DashboardSkeleton = () => (
-  <div className="p-6 lg:p-8 max-w-5xl mx-auto">
-    <div className="animate-pulse space-y-6">
-      <div className="h-32 bg-muted rounded-2xl" />
-      <div className="h-48 bg-muted rounded-2xl" />
-    </div>
+// Skeleton for data sections only (not full page)
+const ContentSkeleton = () => (
+  <div className="animate-pulse space-y-6">
+    <div className="h-32 bg-muted rounded-2xl" />
+    <div className="h-48 bg-muted rounded-2xl" />
   </div>
 );
 
 const DashboardHome = () => {
   const { showDemoMode } = useDemoMode();
   const { hasLinks, isLoading: isLoadingProgress, isFetched } = useOnboardingProgress();
+  const { currentWorkspace, isWorkspaceLoading, retry } = useWorkspaceContext();
+
+  // Delayed skeleton - only show after 500ms to prevent flash
+  const [showSkeleton, setShowSkeleton] = useState(false);
+  
+  // Workspace timeout fallback - show retry after 3 seconds
+  const [workspaceTimeout, setWorkspaceTimeout] = useState(false);
+
+  // Delayed skeleton logic
+  useEffect(() => {
+    if (isLoadingProgress && !isFetched) {
+      const timer = setTimeout(() => setShowSkeleton(true), 500);
+      return () => clearTimeout(timer);
+    }
+    setShowSkeleton(false);
+  }, [isLoadingProgress, isFetched]);
+
+  // Workspace timeout logic
+  useEffect(() => {
+    if (isWorkspaceLoading && !currentWorkspace) {
+      const timer = setTimeout(() => setWorkspaceTimeout(true), 3000);
+      return () => clearTimeout(timer);
+    }
+    setWorkspaceTimeout(false);
+  }, [isWorkspaceLoading, currentWorkspace]);
 
   // Complete navigation as soon as we have any data (cached or fresh)
   useEffect(() => {
@@ -56,9 +82,21 @@ const DashboardHome = () => {
     setShowSuccess(false);
   }, []);
 
-  // Show skeleton only if NO cached data exists
-  if (isLoadingProgress && !isFetched) {
-    return <DashboardSkeleton />;
+  // Workspace timeout - show retry option
+  if (workspaceTimeout && !currentWorkspace) {
+    return (
+      <div className="p-6 lg:p-8 max-w-5xl mx-auto">
+        <div className="flex flex-col items-center justify-center py-16 space-y-4">
+          <p className="text-muted-foreground text-center">
+            taking longer than expected to load your workspace...
+          </p>
+          <Button variant="outline" onClick={retry} className="gap-2">
+            <RefreshCw className="h-4 w-4" />
+            retry
+          </Button>
+        </div>
+      </div>
+    );
   }
 
   // First-run experience for users without links
