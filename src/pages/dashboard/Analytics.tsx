@@ -7,14 +7,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Activity, Link as LinkIcon, BarChart3, Globe, Users, Clock, DollarSign } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
-import { useRealAnalytics } from "@/hooks/useRealAnalytics";
-import { useExecutiveMetrics } from "@/hooks/useExecutiveMetrics";
+import { useDashboardUnified } from "@/hooks/useDashboardUnified";
 import { LazyPieChart, Pie, Cell, Tooltip as RechartsTooltip, ResponsiveContainer, LazyChartContainer } from "@/components/charts/LazyCharts";
 import { Link } from "react-router-dom";
 import { TrafficForecastChart } from "@/components/analytics/TrafficForecastChart";
 import { ParetoFrontier } from "@/components/analytics/ParetoFrontier";
-import { useTrafficForecast } from "@/hooks/useTrafficForecast";
-import { useCampaignPerformance } from "@/hooks/useCampaignPerformance";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { ExecutiveMetricsBar } from "@/components/analytics/ExecutiveMetricsBar";
 import { PerformanceTrendChart } from "@/components/analytics/PerformanceTrendChart";
@@ -54,7 +51,7 @@ const AnalyticsSkeleton = () => (
 );
 
 export default function Analytics() {
-  const { currentWorkspace, hasTimedOut, retry } = useWorkspace();
+  const { currentWorkspace, hasTimedOut } = useWorkspace();
   const { trackFirstAnalyticsView } = useActivationTracking();
   const queryClient = useQueryClient();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -71,18 +68,15 @@ export default function Analytics() {
     setSearchParams({ tab });
   };
 
-  const { data: analytics, isLoading, isFetching, error } = useRealAnalytics({ 
-    workspaceId: effectiveWorkspaceId,
-    dateRange: 30 
-  });
-
-  const { data: executiveMetrics, isLoading: metricsLoading, isFetching: metricsFetching } = useExecutiveMetrics({
-    workspaceId: effectiveWorkspaceId,
-    dateRange: 30
-  });
-  
-  const { data: forecastData } = useTrafficForecast(effectiveWorkspaceId, 7);
-  const { data: campaignPerformance } = useCampaignPerformance(effectiveWorkspaceId);
+  // CONSOLIDATED: Single unified query replaces 4 separate hooks
+  const { 
+    analytics, 
+    executiveMetrics, 
+    isLoading, 
+    isFetching, 
+    error,
+    refetch 
+  } = useDashboardUnified("30d");
 
   useEffect(() => {
     trackFirstAnalyticsView();
@@ -97,16 +91,12 @@ export default function Analytics() {
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
-    await queryClient.invalidateQueries({ queryKey: ["real-analytics"] });
-    await queryClient.invalidateQueries({ queryKey: ["executive-metrics"] });
-    await queryClient.invalidateQueries({ queryKey: ["performance-trend"] });
-    await queryClient.invalidateQueries({ queryKey: ["channel-performance"] });
-    await queryClient.invalidateQueries({ queryKey: ["top-campaigns"] });
+    await queryClient.invalidateQueries({ queryKey: ["dashboard-unified"] });
     setIsRefreshing(false);
   };
 
   // Non-blocking: show content immediately, use isFetching for subtle indicator
-  const showLoadingIndicator = isFetching || metricsFetching;
+  const showLoadingIndicator = isFetching;
 
   // Error state
   if (error) {
@@ -271,7 +261,7 @@ export default function Analytics() {
                 revenueChange={executiveMetrics?.revenueChange || 0}
                 clicksTrend={executiveMetrics?.clicksTrend || []}
                 visitorsTrend={executiveMetrics?.visitorsTrend || []}
-                isLoading={metricsLoading}
+                isLoading={isLoading}
               />
               <div className="grid lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2">
@@ -440,7 +430,7 @@ export default function Analytics() {
         <div className="flex flex-col items-center gap-4 py-12">
           <p className="text-sm text-muted-foreground">couldn't load workspace data</p>
           <button 
-            onClick={() => retry?.()}
+            onClick={() => refetch()}
             className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
           >
             try again

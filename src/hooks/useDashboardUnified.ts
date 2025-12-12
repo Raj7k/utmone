@@ -42,17 +42,6 @@ export interface DashboardCampaign {
   };
 }
 
-export interface DashboardStats {
-  clicksToday: number;
-  totalRevenue: number;
-  totalLinks: number;
-}
-
-export interface DashboardOnboarding {
-  hasLinks: boolean;
-  linkCount: number;
-}
-
 export interface DashboardSalesLink {
   id: string;
   title: string;
@@ -69,6 +58,48 @@ export interface DashboardSalesLink {
   alert_on_click?: boolean;
 }
 
+export interface DashboardStats {
+  clicksToday: number;
+  totalRevenue: number;
+  totalLinks: number;
+}
+
+export interface DashboardOnboarding {
+  hasLinks: boolean;
+  linkCount: number;
+}
+
+export interface DashboardAnalytics {
+  isEmpty: boolean;
+  totalClicks: number;
+  uniqueVisitors: number;
+  heatmapData: Array<{ day: number; hour: number; clicks: number; intensity: number }>;
+  topCountries: Array<{ name: string; clicks: number }>;
+  topCities: Array<{ name: string; clicks: number }>;
+  devices: Array<{ name: string; value: number }>;
+  browsers: Array<{ name: string; value: number }>;
+  topReferrers: Array<{ name: string; value: number }>;
+  insights: string[];
+}
+
+export interface DashboardExecutiveMetrics {
+  totalClicks: number;
+  uniqueVisitors: number;
+  conversionRate: number;
+  revenue: number;
+  clicksChange: number;
+  visitorsChange: number;
+  conversionChange: number;
+  revenueChange: number;
+  clicksTrend: number[];
+  visitorsTrend: number[];
+  topChannel: string | null;
+  topChannelClicks: number;
+  peakDay: string | null;
+  peakDayClicks: number;
+  avgClicksPerDay: number;
+}
+
 export interface DashboardData {
   links: DashboardLink[];
   salesLinks: DashboardSalesLink[];
@@ -76,6 +107,8 @@ export interface DashboardData {
   campaigns: DashboardCampaign[];
   stats: DashboardStats;
   onboarding: DashboardOnboarding;
+  analytics: DashboardAnalytics;
+  executiveMetrics: DashboardExecutiveMetrics;
   fetchedAt: string;
 }
 
@@ -155,6 +188,38 @@ export const useDashboardUnified = (range: string = "30d") => {
     queryClient.invalidateQueries({ queryKey: ["dashboard-unified", workspaceId] });
   };
 
+  // Default analytics structure
+  const defaultAnalytics: DashboardAnalytics = {
+    isEmpty: true,
+    totalClicks: 0,
+    uniqueVisitors: 0,
+    heatmapData: [],
+    topCountries: [],
+    topCities: [],
+    devices: [],
+    browsers: [],
+    topReferrers: [],
+    insights: [],
+  };
+
+  const defaultExecutiveMetrics: DashboardExecutiveMetrics = {
+    totalClicks: 0,
+    uniqueVisitors: 0,
+    conversionRate: 0,
+    revenue: 0,
+    clicksChange: 0,
+    visitorsChange: 0,
+    conversionChange: 0,
+    revenueChange: 0,
+    clicksTrend: [],
+    visitorsTrend: [],
+    topChannel: null,
+    topChannelClicks: 0,
+    peakDay: null,
+    peakDayClicks: 0,
+    avgClicksPerDay: 0,
+  };
+
   return {
     // Data slices
     links: data?.links || [],
@@ -163,6 +228,8 @@ export const useDashboardUnified = (range: string = "30d") => {
     campaigns: data?.campaigns || [],
     stats: data?.stats || { clicksToday: 0, totalRevenue: 0, totalLinks: 0 },
     onboarding: data?.onboarding || { hasLinks: false, linkCount: 0 },
+    analytics: data?.analytics || defaultAnalytics,
+    executiveMetrics: data?.executiveMetrics || defaultExecutiveMetrics,
     
     // Full data object
     data,
