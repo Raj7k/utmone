@@ -7309,6 +7309,10 @@ export type Database = {
         }[]
       }
       calculate_traffic_score: { Args: { p_link_id: string }; Returns: number }
+      can_edit_link: {
+        Args: { _link_id: string; _user_id: string }
+        Returns: boolean
+      }
       check_key_rotation: { Args: never; Returns: undefined }
       check_rate_limit: {
         Args: {
@@ -7589,12 +7593,20 @@ export type Database = {
           workspace_id: string
         }[]
       }
+      has_api_key_access: {
+        Args: { _api_key_id: string; _user_id: string }
+        Returns: boolean
+      }
       has_capability: {
         Args: {
           _capability: Database["public"]["Enums"]["workspace_capability"]
           _user_id: string
           _workspace_id: string
         }
+        Returns: boolean
+      }
+      has_link_access: {
+        Args: { _link_id: string; _user_id: string }
         Returns: boolean
       }
       has_role: {
@@ -7619,6 +7631,10 @@ export type Database = {
       increment_referral_count: {
         Args: { referrer_id: string }
         Returns: undefined
+      }
+      is_partner_owner: {
+        Args: { _partner_id: string; _user_id: string }
+        Returns: boolean
       }
       is_workspace_member: {
         Args: { _user_id: string; _workspace_id: string }
