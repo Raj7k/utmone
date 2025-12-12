@@ -30,7 +30,8 @@ interface WorkspaceContextType {
 const WorkspaceContext = createContext<WorkspaceContextType | undefined>(undefined);
 
 // Maximum time to wait for workspace data before showing fallback UI
-const WORKSPACE_TIMEOUT_MS = 8000;
+// Reduced from 8s to 3s for faster perceived performance
+const WORKSPACE_TIMEOUT_MS = 3000;
 
 export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
   const { workspaces = [], isLoading: isQueryLoading, error: workspacesError, refetch } = useClientWorkspaces();

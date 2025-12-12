@@ -523,10 +523,16 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 30000, // 30 seconds
-      gcTime: 300000, // 5 minutes
+      // PERFORMANCE: 5 minute stale time - most data rarely changes
+      staleTime: 5 * 60 * 1000,
+      // Keep in cache for 30 minutes
+      gcTime: 30 * 60 * 1000,
+      // Prevent unnecessary refetches
       refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      // Fail fast
       retry: 1,
+      retryDelay: 1000,
     },
   },
 });

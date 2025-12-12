@@ -66,12 +66,18 @@ export const useClientWorkspaces = () => {
         throw err;
       }
     },
-    retry: 2,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 3000),
-    staleTime: 30000, // Cache for 30 seconds to prevent excessive refetches
-    gcTime: 60000, // Keep in cache for 1 minute
-    refetchOnWindowFocus: false, // Don't refetch on window focus to prevent unnecessary requests
-    networkMode: 'offlineFirst', // Use cached data when available
+    retry: 1,
+    retryDelay: 1000,
+    // PERFORMANCE: 10 minute stale time - workspaces rarely change
+    staleTime: 10 * 60 * 1000,
+    // Keep in cache for 30 minutes
+    gcTime: 30 * 60 * 1000,
+    // Prevent all automatic refetches
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+    // Use cached data first
+    networkMode: 'offlineFirst',
   });
 
   const createWorkspaceMutation = useMutation({
