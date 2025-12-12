@@ -34,24 +34,19 @@ function hasCachedAuth(): boolean {
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { isReady, isAuthenticated, error, refresh } = useAppSession();
+  const location = useLocation();
   
   const [hasTimedOut, setHasTimedOut] = useState(false);
   const [messageIndex, setMessageIndex] = useState(0);
-  const location = useLocation();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // INSTANT RENDER: If localStorage has valid cache, trust it immediately
+  // Check cache - computed fresh each render
   const cachedAuth = hasCachedAuth();
-  
-  // Fast path - render immediately if cache exists
-  if (cachedAuth) {
-    return <>{children}</>;
-  }
 
-  // Also render if context says ready and authenticated
-  if (isReady && isAuthenticated) {
-    return <>{children}</>;
-  }
+  // ============================================
+  // ALL HOOKS MUST BE CALLED BEFORE ANY RETURNS
+  // This is required by React's Rules of Hooks
+  // ============================================
 
   // Rotate loading messages only when actually loading
   useEffect(() => {
@@ -64,7 +59,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     return () => clearInterval(interval);
   }, [cachedAuth, isReady, isAuthenticated]);
 
-  // Timeout - 3 seconds max wait (only if no cache)
+  // Timeout - 5 seconds max wait (only if no cache)
   useEffect(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -74,7 +69,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
       timeoutRef.current = setTimeout(() => {
         console.warn("[ProtectedRoute] Timeout - showing retry");
         setHasTimedOut(true);
-      }, 3000);
+      }, 5000);
     }
 
     return () => {
@@ -83,6 +78,20 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
       }
     };
   }, [isReady, hasTimedOut, cachedAuth]);
+
+  // ============================================
+  // CONDITIONAL RETURNS - AFTER ALL HOOKS
+  // ============================================
+
+  // INSTANT RENDER: If localStorage has valid cache, trust it immediately
+  if (cachedAuth) {
+    return <>{children}</>;
+  }
+
+  // Also render if context says ready and authenticated
+  if (isReady && isAuthenticated) {
+    return <>{children}</>;
+  }
 
   // Show loading only if no cache and still initializing
   if (!isReady && !hasTimedOut && !error) {

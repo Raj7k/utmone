@@ -49,7 +49,6 @@ const AppSessionContext = createContext<AppSessionState | undefined>(undefined);
 
 function getCachedSession(): { user: User | null; accessToken: string | null; timestamp: number } | null {
   try {
-    // Use localStorage (persists across tabs) instead of sessionStorage
     const cached = localStorage.getItem(SESSION_CACHE_KEY);
     if (!cached) return null;
     const parsed = JSON.parse(cached);
@@ -93,7 +92,18 @@ const INITIAL_SESSION = getCachedSession();
 const INITIAL_WORKSPACE = getCachedWorkspace();
 const INITIAL_WORKSPACES = getCachedWorkspaces();
 
-// Export for ProtectedRoute to use
+// ============================================
+// DYNAMIC CACHE CHECK FUNCTION
+// Called at render time, not module load time
+// This allows detecting fresh logins within same session
+// ============================================
+export function checkHasValidCachedAuth(): boolean {
+  const session = getCachedSession();
+  const workspaceId = localStorage.getItem('currentWorkspaceId');
+  return !!(session?.user && workspaceId);
+}
+
+// Legacy export for backward compatibility
 export const hasValidCachedAuth = !!(INITIAL_SESSION?.user && INITIAL_WORKSPACE);
 
 function cacheSession(session: Session | null): void {
@@ -137,9 +147,12 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
   const [isFullyLoaded, setIsFullyLoaded] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   
-  // isReady = we have cached data OR fresh data loaded
-  // Uses MODULE-LEVEL constants, not refs
-  const isReady = hasValidCachedAuth || isFullyLoaded;
+  // ============================================
+  // DYNAMIC isReady CALCULATION
+  // Uses live state, not stale module constants
+  // Ready = we have user AND workspace (cached or fresh)
+  // ============================================
+  const isReady = (!!user && !!currentWorkspace) || isFullyLoaded;
   const isAuthenticated = !!user;
 
   // Fetch workspaces for a user
