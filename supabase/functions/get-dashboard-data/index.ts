@@ -7,6 +7,7 @@ const corsHeaders = {
 
 interface DashboardPayload {
   links: any[];
+  salesLinks: any[];
   events: any[];
   campaigns: any[];
   stats: {
@@ -55,8 +56,18 @@ Deno.serve(async (req) => {
 
     console.log(`[get-dashboard-data] Fetching data for workspace ${workspaceId}, range: ${range}`);
 
-    // Execute 5 lightweight queries IN PARALLEL using Promise.all
-    const [linksResult, eventsResult, campaignsResult, clicksTodayResult, revenueResult] = await Promise.all([
+    // Get user from auth header for sales links filter
+    const authHeader = req.headers.get("Authorization");
+    let userId: string | null = null;
+    
+    if (authHeader) {
+      const token = authHeader.replace("Bearer ", "");
+      const { data: { user } } = await supabase.auth.getUser(token);
+      userId = user?.id || null;
+    }
+
+    // Execute 6 lightweight queries IN PARALLEL using Promise.all
+    const [linksResult, salesLinksResult, eventsResult, campaignsResult, clicksTodayResult, revenueResult] = await Promise.all([
       // 1. Links (top 50, minimal fields)
       supabase
         .from("links")
@@ -66,7 +77,17 @@ Deno.serve(async (req) => {
         .order("created_at", { ascending: false })
         .limit(50),
 
-      // 2. Events (top 10)
+      // 2. Sales Links (user's sales links)
+      userId ? supabase
+        .from("links")
+        .select("*")
+        .eq("workspace_id", workspaceId)
+        .eq("link_type", "sales")
+        .eq("created_by", userId)
+        .order("created_at", { ascending: false })
+        .limit(50) : Promise.resolve({ data: [], error: null }),
+
+      // 3. Events (top 10)
       supabase
         .from("field_events")
         .select("id, name, start_date, end_date, location_city, location_country, direct_scans, halo_visitors, lift_percentage, status")
@@ -74,7 +95,7 @@ Deno.serve(async (req) => {
         .order("start_date", { ascending: false })
         .limit(10),
 
-      // 3. Campaigns (top 10 with link counts)
+      // 4. Campaigns (top 10 with link counts)
       supabase
         .from("campaigns")
         .select("id, name, status, color, created_at, links!links_campaign_id_fkey(id, total_clicks)")
@@ -82,14 +103,14 @@ Deno.serve(async (req) => {
         .order("created_at", { ascending: false })
         .limit(10),
 
-      // 4. Clicks today (count only)
+      // 5. Clicks today (count only)
       supabase
         .from("link_clicks")
         .select("id", { count: "exact", head: true })
         .eq("workspace_id", workspaceId)
         .gte("clicked_at", todayISO),
 
-      // 5. Revenue (sum of conversion values)
+      // 6. Revenue (sum of conversion values)
       supabase
         .from("conversion_events")
         .select("event_value")
@@ -99,6 +120,7 @@ Deno.serve(async (req) => {
 
     // Process results
     const links = linksResult.data || [];
+    const salesLinks = salesLinksResult.data || [];
     const events = eventsResult.data || [];
     
     // Process campaigns with stats
@@ -125,6 +147,7 @@ Deno.serve(async (req) => {
 
     const payload: DashboardPayload = {
       links,
+      salesLinks,
       events,
       campaigns,
       stats: {
@@ -139,7 +162,7 @@ Deno.serve(async (req) => {
       fetchedAt: new Date().toISOString(),
     };
 
-    console.log(`[get-dashboard-data] Success: ${links.length} links, ${events.length} events, ${campaigns.length} campaigns`);
+    console.log(`[get-dashboard-data] Success: ${links.length} links, ${salesLinks.length} sales links, ${events.length} events, ${campaigns.length} campaigns`);
 
     return new Response(JSON.stringify(payload), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },

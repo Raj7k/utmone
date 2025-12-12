@@ -53,8 +53,25 @@ export interface DashboardOnboarding {
   linkCount: number;
 }
 
+export interface DashboardSalesLink {
+  id: string;
+  title: string;
+  slug: string;
+  domain: string;
+  short_url: string;
+  destination_url: string;
+  status: string;
+  total_clicks: number;
+  created_at: string;
+  last_clicked_at: string | null;
+  link_type: string;
+  prospect_name?: string;
+  alert_on_click?: boolean;
+}
+
 export interface DashboardData {
   links: DashboardLink[];
+  salesLinks: DashboardSalesLink[];
   events: DashboardEvent[];
   campaigns: DashboardCampaign[];
   stats: DashboardStats;
@@ -139,6 +156,7 @@ export const useDashboardUnified = (range: string = "30d") => {
   return {
     // Data slices
     links: data?.links || [],
+    salesLinks: data?.salesLinks || [],
     events: data?.events || [],
     campaigns: data?.campaigns || [],
     stats: data?.stats || { clicksToday: 0, totalRevenue: 0, totalLinks: 0 },
