@@ -1,9 +1,10 @@
 import { useState, useEffect, lazy, Suspense } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Plus, Waves, Zap } from "lucide-react";
+import { Plus, Waves, Zap, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useWorkspace } from "@/hooks/useWorkspace";
 import { 
   useFieldEvents, 
   useFieldEvent, 
@@ -46,7 +47,7 @@ interface FieldEvent {
 type ViewState = "overview" | "dashboard" | "leads";
 
 const Events = () => {
-  const { currentWorkspace } = useWorkspaceContext();
+  const { currentWorkspace, isLoading: workspaceLoading, hasTimedOut, retry } = useWorkspace();
   const [activeTab, setActiveTab] = useState("halo");
   const [viewState, setViewState] = useState<ViewState>("overview");
   const [selectedEvent, setSelectedEvent] = useState<FieldEvent | null>(null);
@@ -66,10 +67,44 @@ const Events = () => {
 
   // Complete navigation when data loads
   useEffect(() => {
-    if (isFetched) {
+    if (isFetched && currentWorkspace?.id) {
       completeNavigation();
     }
-  }, [isFetched]);
+  }, [isFetched, currentWorkspace?.id]);
+
+  // Show loading skeleton while workspace is loading
+  if (workspaceLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <Skeleton className="h-10 w-64" />
+          <Skeleton className="h-10 w-32" />
+        </div>
+        <div>
+          <Skeleton className="h-7 w-32 mb-2" />
+          <Skeleton className="h-5 w-80" />
+        </div>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {[1, 2, 3].map((i) => (
+            <Skeleton key={i} className="h-48 w-full" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Show error state if workspace loading timed out
+  if (hasTimedOut || (!workspaceLoading && !currentWorkspace)) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 text-center">
+        <p className="text-muted-foreground mb-4">unable to load workspace data</p>
+        <Button onClick={retry} variant="outline" size="sm" className="gap-2">
+          <RefreshCw className="h-4 w-4" />
+          try again
+        </Button>
+      </div>
+    );
+  }
 
   const handleEventSelect = (event: FieldEvent) => {
     setSelectedEvent(event);
