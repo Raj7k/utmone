@@ -1,15 +1,18 @@
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { SalesLinkTable } from "@/components/sales/SalesLinkTable";
 import { SalesActivityFeed } from "@/components/sales/SalesActivityFeed";
+import { SalesPageSkeleton } from "@/components/sales/SalesPageSkeleton";
 import { Button } from "@/components/ui/button";
 import { Plus, Briefcase, Zap } from "lucide-react";
 import { useModal } from "@/contexts/ModalContext";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
+import { completeNavigation } from "@/hooks/useNavigationProgress";
 
 const Sales = () => {
-  const { currentWorkspace } = useWorkspace();
+  const { currentWorkspace, isLoading: isWorkspaceLoading } = useWorkspace();
   const { setCreateModalOpen } = useModal();
 
   const { data: salesLinks = [], isLoading, refetch } = useQuery({
@@ -31,6 +34,18 @@ const Sales = () => {
     },
     enabled: !!currentWorkspace?.id,
   });
+
+  // Complete navigation progress when data loads
+  useEffect(() => {
+    if (!isLoading && !isWorkspaceLoading && currentWorkspace) {
+      completeNavigation();
+    }
+  }, [isLoading, isWorkspaceLoading, currentWorkspace]);
+
+  // Show skeleton while workspace or data is loading
+  if (isWorkspaceLoading || !currentWorkspace || isLoading) {
+    return <SalesPageSkeleton />;
+  }
 
   return (
     <PageContentWrapper
