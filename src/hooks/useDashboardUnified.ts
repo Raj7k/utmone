@@ -138,6 +138,20 @@ function setCache(workspaceId: string, data: DashboardData) {
   }
 }
 
+// Check for prefetched data from index.html pre-warm script
+function getPrefetchedData(workspaceId: string): DashboardData | undefined {
+  try {
+    const prefetch = (window as any).__DASHBOARD_PREFETCH__;
+    if (prefetch?.status === 'ready' && prefetch.workspaceId === workspaceId && prefetch.data) {
+      console.log("[useDashboardUnified] Using prefetched data from pre-warm script");
+      return prefetch.data as DashboardData;
+    }
+  } catch {
+    // Ignore
+  }
+  return undefined;
+}
+
 export const useDashboardUnified = (range: string = "30d") => {
   const { currentWorkspace } = useWorkspace();
   const queryClient = useQueryClient();
@@ -148,6 +162,13 @@ export const useDashboardUnified = (range: string = "30d") => {
   const { data, isLoading, isFetching, isFetched, refetch, error } = useQuery({
     queryKey: ["dashboard-unified", workspaceId, range],
     queryFn: async (): Promise<DashboardData> => {
+      // Phase 1: Check if pre-warm script already fetched data
+      const prefetched = getPrefetchedData(workspaceId);
+      if (prefetched) {
+        setCache(workspaceId, prefetched);
+        return prefetched;
+      }
+      
       console.log("[useDashboardUnified] Fetching from edge function...");
       
       const { data, error } = await supabase.functions.invoke("get-dashboard-data", {
@@ -166,7 +187,8 @@ export const useDashboardUnified = (range: string = "30d") => {
       return data as DashboardData;
     },
     enabled: !!workspaceId,
-    initialData: () => getCached(workspaceId), // INSTANT render from cache
+    // INSTANT render: Check prefetch first, then localStorage cache
+    initialData: () => getPrefetchedData(workspaceId) || getCached(workspaceId),
     staleTime: CACHE_TTL, // 5 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes
     refetchOnMount: false,
