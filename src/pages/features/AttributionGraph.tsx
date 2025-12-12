@@ -6,10 +6,185 @@ import { FeatureBeforeAfter } from "@/components/features/FeatureBeforeAfter";
 import { FeatureBentoGrid } from "@/components/features/FeatureBentoGrid";
 import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
 import { FeatureShowcase } from "@/components/features/FeatureShowcase";
+import { FeatureControlDeck } from "@/components/features/FeatureControlDeck";
+import {
+  AttributionFlowVisual,
+  CrossDeviceVisual,
+  PredictionVisual,
+} from "@/components/features/visuals/FeatureVisuals";
 import { motion } from "framer-motion";
-import { GitBranch, Target, BarChart3, Lightbulb, DollarSign, TrendingUp, Layers, Workflow } from "lucide-react";
+import { GitBranch, Target, BarChart3, Lightbulb, DollarSign, TrendingUp, Layers, Workflow, Route, RefreshCw } from "lucide-react";
 
 const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
+// Journey Flow Visual for Attribution
+const JourneyFlowVisual = () => (
+  <div className="w-full h-full flex items-center justify-center">
+    <svg viewBox="0 0 320 180" className="w-full h-full max-w-[320px]">
+      {/* Journey path */}
+      <motion.path
+        d="M40,90 Q100,40 160,90 T280,90"
+        fill="none"
+        stroke="rgba(255,255,255,0.2)"
+        strokeWidth="2"
+        strokeDasharray="8 4"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 1.5 }}
+      />
+      {/* Touchpoint nodes */}
+      {[
+        { x: 40, label: "First" },
+        { x: 120, label: "Middle" },
+        { x: 200, label: "Assist" },
+        { x: 280, label: "Convert" },
+      ].map((node, i) => (
+        <motion.g key={i} initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 + i * 0.15 }}>
+          <circle cx={node.x} cy="90" r={i === 3 ? 14 : 10} fill={i === 3 ? "rgba(74,222,128,0.2)" : "rgba(255,255,255,0.1)"} stroke={i === 3 ? "rgba(74,222,128,0.5)" : "rgba(255,255,255,0.3)"} strokeWidth="2" />
+          <text x={node.x} y="120" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="9">{node.label}</text>
+        </motion.g>
+      ))}
+      {/* Moving particle */}
+      <motion.circle
+        r="4"
+        fill="rgba(255,255,255,0.9)"
+        initial={{ offsetDistance: "0%" }}
+        animate={{ offsetDistance: "100%" }}
+        transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
+        style={{ offsetPath: 'path("M40,90 Q100,40 160,90 T280,90")' } as any}
+      />
+    </svg>
+  </div>
+);
+
+// Revenue Channel Visual
+const RevenueChannelVisual = () => (
+  <div className="w-full h-full flex items-center justify-center">
+    <svg viewBox="0 0 320 180" className="w-full h-full max-w-[320px]">
+      {/* Channel bars */}
+      {[
+        { label: "LinkedIn", pct: 32, color: "rgba(10,102,194,0.6)" },
+        { label: "Email", pct: 28, color: "rgba(255,255,255,0.4)" },
+        { label: "Content", pct: 18, color: "rgba(74,222,128,0.5)" },
+        { label: "Google", pct: 22, color: "rgba(251,191,36,0.5)" },
+      ].map((channel, i) => (
+        <motion.g key={i} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }}>
+          <text x="30" y={45 + i * 35} fill="rgba(255,255,255,0.6)" fontSize="10">{channel.label}</text>
+          <rect x="90" y={35 + i * 35} width="0" height="16" rx="4" fill="rgba(255,255,255,0.1)" />
+          <motion.rect
+            x="90" y={35 + i * 35}
+            width={channel.pct * 5}
+            height="16" rx="4"
+            fill={channel.color}
+            initial={{ width: 0 }}
+            animate={{ width: channel.pct * 5 }}
+            transition={{ delay: 0.3 + i * 0.1, duration: 0.6 }}
+          />
+          <motion.text
+            x={100 + channel.pct * 5}
+            y={47 + i * 35}
+            fill="rgba(255,255,255,0.8)"
+            fontSize="10"
+            fontWeight="bold"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 + i * 0.1 }}
+          >
+            {channel.pct}%
+          </motion.text>
+        </motion.g>
+      ))}
+    </svg>
+  </div>
+);
+
+// CRM Sync Visual
+const CRMSyncVisual = () => (
+  <div className="w-full h-full flex items-center justify-center">
+    <svg viewBox="0 0 320 180" className="w-full h-full max-w-[320px]">
+      {/* utm.one box */}
+      <motion.g initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
+        <rect x="30" y="60" width="80" height="60" rx="8" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" />
+        <text x="70" y="95" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="11" fontWeight="bold">utm.one</text>
+      </motion.g>
+      {/* Sync arrows */}
+      <motion.path
+        d="M120,90 L180,90"
+        stroke="rgba(74,222,128,0.5)"
+        strokeWidth="2"
+        strokeDasharray="6 4"
+        markerEnd="url(#arrowhead)"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ delay: 0.3, duration: 0.5 }}
+      />
+      <motion.circle
+        cx="150" cy="90" r="12"
+        fill="rgba(74,222,128,0.1)"
+        stroke="rgba(74,222,128,0.4)"
+        strokeWidth="1.5"
+        initial={{ scale: 0 }}
+        animate={{ scale: 1, rotate: 360 }}
+        transition={{ delay: 0.5, duration: 1, type: "spring" }}
+      />
+      {/* CRM boxes */}
+      {["HubSpot", "Salesforce"].map((crm, i) => (
+        <motion.g key={crm} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6 + i * 0.1 }}>
+          <rect x="200" y={50 + i * 40} width="90" height="35" rx="6" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+          <text x="245" y={72 + i * 40} textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="10">{crm}</text>
+        </motion.g>
+      ))}
+      <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+          <polygon points="0 0, 10 3.5, 0 7" fill="rgba(74,222,128,0.5)" />
+        </marker>
+      </defs>
+    </svg>
+  </div>
+);
+
+const controlDeckTabs = [
+  {
+    id: "journey",
+    icon: Route,
+    label: "journey tracking",
+    headline: "every touchpoint captured.",
+    subheadline: "30-day lookback window tracks the complete path from first anonymous visit to final sale.",
+    visual: <JourneyFlowVisual />,
+  },
+  {
+    id: "intelligence",
+    icon: Lightbulb,
+    label: "Clean Track Intelligence™",
+    headline: "probabilistic credit.",
+    subheadline: "which touchpoints caused the conversion, not just appeared. MIT & Harvard algorithms.",
+    visual: <AttributionFlowVisual />,
+  },
+  {
+    id: "revenue",
+    icon: DollarSign,
+    label: "revenue attribution",
+    headline: "channel ROI revealed.",
+    subheadline: "see exactly which channels drive revenue. prove marketing's contribution to the board.",
+    visual: <RevenueChannelVisual />,
+  },
+  {
+    id: "cross-device",
+    icon: Layers,
+    label: "cross-device tracking",
+    headline: "unified journeys.",
+    subheadline: "stitch journeys across devices. 80-85% cross-device journey capture accuracy.",
+    visual: <CrossDeviceVisual />,
+  },
+  {
+    id: "crm",
+    icon: RefreshCw,
+    label: "CRM push",
+    headline: "auto-sync deals.",
+    subheadline: "push attribution data to HubSpot & Salesforce. close the loop on marketing ROI.",
+    visual: <CRMSyncVisual />,
+  },
+];
 
 export default function AttributionGraph() {
   const carouselItems = [
@@ -107,6 +282,12 @@ export default function AttributionGraph() {
         headlineLine1="finally know where"
         headlineLine2="revenue comes from."
         subheadline="Tired of Google taking 100% credit? We reveal the true contribution of every touchpoint in the customer journey."
+      />
+
+      {/* Control Deck */}
+      <FeatureControlDeck
+        tabs={controlDeckTabs}
+        badge={{ title: "Clean Track Intelligence™", subtitle: "probabilistic attribution" }}
       />
 
       <FeatureCarouselSection
