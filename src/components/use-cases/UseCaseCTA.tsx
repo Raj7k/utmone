@@ -3,13 +3,15 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { useModal } from "@/contexts/ModalContext";
 
 interface UseCaseCTAProps {
   headline: string;
   subheadline?: string;
   primaryCTA?: {
     label: string;
-    href: string;
+    href?: string;
+    opensEarlyAccess?: boolean;
   };
   secondaryCTA?: {
     label: string;
@@ -21,12 +23,13 @@ interface UseCaseCTAProps {
 export const UseCaseCTA = ({
   headline,
   subheadline,
-  primaryCTA = { label: "get early access", href: "/early-access" },
+  primaryCTA = { label: "get early access", opensEarlyAccess: true },
   secondaryCTA,
   variant = "dark",
 }: UseCaseCTAProps) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { openEarlyAccessModal } = useModal();
 
   const bgClasses = {
     dark: "bg-foreground text-background",
@@ -35,6 +38,12 @@ export const UseCaseCTA = ({
   };
 
   const buttonVariant = variant === "dark" ? "secondary" : "default";
+
+  const handlePrimaryClick = () => {
+    if (primaryCTA.opensEarlyAccess !== false) {
+      openEarlyAccessModal();
+    }
+  };
 
   return (
     <section 
@@ -68,12 +77,24 @@ export const UseCaseCTA = ({
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <Button asChild size="lg" variant={buttonVariant} className="text-base group">
-            <Link to={primaryCTA.href}>
+          {primaryCTA.opensEarlyAccess !== false ? (
+            <Button 
+              size="lg" 
+              variant={buttonVariant} 
+              className="text-base group"
+              onClick={handlePrimaryClick}
+            >
               {primaryCTA.label}
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </Button>
+            </Button>
+          ) : (
+            <Button asChild size="lg" variant={buttonVariant} className="text-base group">
+              <Link to={primaryCTA.href || "/early-access"}>
+                {primaryCTA.label}
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </Button>
+          )}
           
           {secondaryCTA && (
             <Button 

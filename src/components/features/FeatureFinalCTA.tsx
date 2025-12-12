@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useModal } from "@/contexts/ModalContext";
 
 const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -10,7 +11,8 @@ interface FeatureFinalCTAProps {
   subheadline?: string;
   primaryCTA?: {
     label: string;
-    href: string;
+    href?: string;
+    opensEarlyAccess?: boolean;
   };
   secondaryCTA?: {
     label: string;
@@ -21,9 +23,17 @@ interface FeatureFinalCTAProps {
 export const FeatureFinalCTA = ({
   headline,
   subheadline,
-  primaryCTA = { label: "get started free", href: "/early-access" },
+  primaryCTA = { label: "get started free", opensEarlyAccess: true },
   secondaryCTA = { label: "book a demo", href: "/book-demo" },
 }: FeatureFinalCTAProps) => {
+  const { openEarlyAccessModal } = useModal();
+
+  const handlePrimaryClick = () => {
+    if (primaryCTA.opensEarlyAccess !== false) {
+      openEarlyAccessModal();
+    }
+  };
+
   return (
     <section className="py-24 md:py-32">
       <div className="max-w-4xl mx-auto px-6 text-center">
@@ -66,12 +76,24 @@ export const FeatureFinalCTA = ({
             transition={{ delay: 0.3, duration: 0.5, ease: appleEase }}
             className="flex flex-col sm:flex-row gap-4 justify-center relative z-10"
           >
-            <Link to={primaryCTA.href}>
-              <Button size="lg" variant="marketing" className="rounded-full px-10">
+            {primaryCTA.opensEarlyAccess !== false ? (
+              <Button 
+                size="lg" 
+                variant="marketing" 
+                className="rounded-full px-10"
+                onClick={handlePrimaryClick}
+              >
                 {primaryCTA.label}
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
-            </Link>
+            ) : (
+              <Link to={primaryCTA.href || "/early-access"}>
+                <Button size="lg" variant="marketing" className="rounded-full px-10">
+                  {primaryCTA.label}
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
+            )}
             <Link to={secondaryCTA.href}>
               <Button
                 size="lg"

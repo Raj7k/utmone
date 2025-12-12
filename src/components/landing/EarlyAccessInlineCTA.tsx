@@ -1,16 +1,16 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowRight } from "lucide-react";
 import { z } from "zod";
+import { useModal } from "@/contexts/ModalContext";
 
 const emailSchema = z.string().email();
 
 export const EarlyAccessInlineCTA = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();
+  const { openEarlyAccessModal } = useModal();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,7 +22,7 @@ export const EarlyAccessInlineCTA = () => {
       return;
     }
 
-    navigate(`/early-access?email=${encodeURIComponent(email)}#early-access-form`);
+    openEarlyAccessModal(email);
   };
 
   return (
