@@ -159,7 +159,7 @@ export const ExpandedSidebar = () => {
     <aside className="w-64 h-screen bg-card border-r border-border flex flex-col">
       {/* Header */}
       <div className="h-14 flex items-center justify-between px-4 border-b border-border/50">
-        <Link to="/" className="flex items-center">
+        <Link to="/dashboard" className="flex items-center">
           <UtmOneLogo size="md" />
         </Link>
         <motion.button
