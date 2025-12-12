@@ -18,10 +18,25 @@ export const UtmOneLogo = ({ size = "md", showIcon = true, className, variant = 
 
   const textColor = variant === "dark" ? "text-zinc-900" : "text-foreground";
 
+  // Size dimensions for CLS prevention
+  const dimensions = {
+    sm: { width: 24, height: 24 },
+    md: { width: 32, height: 32 },
+    lg: { width: 40, height: 40 },
+    xl: { width: 48, height: 48 },
+  };
+
   return (
     <div className={cn("flex items-center gap-2", className)}>
       {showIcon && (
-        <img src={utmOneIcon} alt="" className={sizeConfig[size].icon} />
+        <img 
+          src={utmOneIcon} 
+          alt="" 
+          width={dimensions[size].width}
+          height={dimensions[size].height}
+          className={sizeConfig[size].icon} 
+          loading="eager"
+        />
       )}
       <span className={cn(
         "font-display font-semibold tracking-tight",

@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, MapPin, Smartphone, TrendingUp } from "lucide-react";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 
 interface ClientAnalyticsDashboardProps {
   workspaceId: string;
@@ -42,7 +43,7 @@ export const ClientAnalyticsDashboard = ({
     <div className="space-y-6 p-6">
       {logoUrl && (
         <div className="flex items-center justify-between pb-6 border-b">
-          <img src={logoUrl} alt={companyName} className="h-10" />
+          <OptimizedImage src={logoUrl} alt={companyName || "Company"} height={40} className="h-10 w-auto object-contain" />
           <h1 className="text-2xl font-bold">{companyName} Analytics</h1>
         </div>
       )}

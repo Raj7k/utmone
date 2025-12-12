@@ -6,6 +6,14 @@ interface OptimizedImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   alt: string;
   fallback?: string;
   aspectRatio?: string;
+  /** Explicit width for CLS prevention */
+  width?: number;
+  /** Explicit height for CLS prevention */
+  height?: number;
+  /** Priority loading (above-the-fold images) */
+  priority?: boolean;
+  /** Wrapper className */
+  wrapperClassName?: string;
 }
 
 export const OptimizedImage = ({
@@ -14,6 +22,10 @@ export const OptimizedImage = ({
   fallback = "/placeholder.svg",
   aspectRatio,
   className,
+  wrapperClassName,
+  width,
+  height,
+  priority = false,
   ...props
 }: OptimizedImageProps) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,8 +33,12 @@ export const OptimizedImage = ({
 
   return (
     <div
-      className={cn("relative overflow-hidden bg-muted", className)}
-      style={aspectRatio ? { aspectRatio } : undefined}
+      className={cn("relative overflow-hidden", wrapperClassName)}
+      style={{
+        aspectRatio: aspectRatio || undefined,
+        width: width ? `${width}px` : undefined,
+        height: height ? `${height}px` : undefined,
+      }}
     >
       {isLoading && (
         <div className="absolute inset-0 animate-pulse bg-muted" />
@@ -30,7 +46,10 @@ export const OptimizedImage = ({
       <img
         src={error ? fallback : src}
         alt={alt}
-        loading="lazy"
+        width={width}
+        height={height}
+        loading={priority ? "eager" : "lazy"}
+        decoding={priority ? "sync" : "async"}
         onLoad={() => setIsLoading(false)}
         onError={() => {
           setError(true);
