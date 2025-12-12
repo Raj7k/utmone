@@ -31,18 +31,18 @@ export default function EventImpactRow({ workspaceId, days }: EventImpactRowProp
         .from("field_events")
         .select("*")
         .eq("workspace_id", workspaceId)
-        .order("event_date", { ascending: false })
+        .order("start_date", { ascending: false })
         .limit(5);
 
       if (error) throw error;
 
       return (data || []).map((event: any) => ({
         id: event.id,
-        name: event.event_name,
-        city: event.city || "Unknown",
-        lift: event.halo_lift_percent || Math.floor(Math.random() * 300) + 50,
-        haloVisitors: event.halo_visitors || Math.floor(Math.random() * 1500) + 200,
-        date: event.event_date,
+        name: event.name || "Untitled Event",
+        city: event.location_city || "Unknown",
+        lift: event.lift_percentage || 0,
+        haloVisitors: event.halo_visitors || 0,
+        date: event.start_date,
       }));
     },
     enabled: !!workspaceId,
