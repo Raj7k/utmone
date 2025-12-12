@@ -37,36 +37,6 @@ export default function ApprovalQueue() {
     }
   }, [currentWorkspace?.id]);
 
-  // Show loading skeleton while workspace is loading
-  if (workspaceLoading) {
-    return (
-      <div className="space-y-6">
-        <div>
-          <Skeleton className="h-9 w-48 mb-2" />
-          <Skeleton className="h-5 w-72" />
-        </div>
-        <div className="space-y-4">
-          {[1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-32 w-full" />
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  // Show error state if workspace loading timed out
-  if (hasTimedOut || (!workspaceLoading && !currentWorkspace)) {
-    return (
-      <div className="flex flex-col items-center justify-center py-20 text-center">
-        <p className="text-muted-foreground mb-4">unable to load workspace data</p>
-        <Button onClick={retry} variant="outline" size="sm" className="gap-2">
-          <RefreshCw className="h-4 w-4" />
-          try again
-        </Button>
-      </div>
-    );
-  }
-
   const fetchPendingLinks = async () => {
     setIsLoading(true);
     const { data: user } = await supabase.auth.getUser();
@@ -167,8 +137,13 @@ export default function ApprovalQueue() {
     }
   };
 
+  // ============================================
+  // PROGRESSIVE RENDERING - Layout always shows
+  // Only content area shows skeleton/error states
+  // ============================================
   return (
     <div className="space-y-6">
+      {/* Header - always visible immediately */}
       <div>
         <h1 className="text-3xl font-bold tracking-tight text-foreground">approval queue</h1>
         <p className="mt-2 text-muted-foreground">
@@ -176,17 +151,39 @@ export default function ApprovalQueue() {
         </p>
       </div>
 
-      {isLoading ? (
-        <div className="text-center py-12">
-          <p className="text-muted-foreground">loading...</p>
+      {/* Content - progressive loading */}
+      {workspaceLoading ? (
+        // Skeleton while workspace loads
+        <div className="space-y-4">
+          {[1, 2, 3].map((i) => (
+            <Skeleton key={i} className="h-32 w-full" />
+          ))}
+        </div>
+      ) : hasTimedOut || !currentWorkspace ? (
+        // Error state if workspace failed
+        <div className="flex flex-col items-center justify-center py-20 text-center">
+          <p className="text-muted-foreground mb-4">unable to load workspace data</p>
+          <Button onClick={retry} variant="outline" size="sm" className="gap-2">
+            <RefreshCw className="h-4 w-4" />
+            try again
+          </Button>
+        </div>
+      ) : isLoading ? (
+        // Loading links
+        <div className="space-y-4">
+          {[1, 2, 3].map((i) => (
+            <Skeleton key={i} className="h-32 w-full" />
+          ))}
         </div>
       ) : pendingLinks.length === 0 ? (
+        // Empty state
         <div className="text-center py-20 border-2 border-dashed border-border rounded-lg">
           <Clock className="h-16 w-16 mx-auto mb-4 text-muted-foreground/40" />
           <h3 className="text-xl font-semibold mb-2 text-foreground">no pending approvals</h3>
           <p className="text-muted-foreground">all links have been reviewed</p>
         </div>
       ) : (
+        // Links list
         <div className="space-y-4">
           {pendingLinks.map((link) => (
             <div
