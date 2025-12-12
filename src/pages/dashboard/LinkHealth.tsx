@@ -9,6 +9,7 @@ import { Shield, RefreshCw, AlertTriangle, CheckCircle, HelpCircle, ExternalLink
 import { notify } from "@/lib/notify";
 import { formatDistanceToNow } from "date-fns";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
+import { useWorkspace } from "@/hooks/useWorkspace";
 
 interface Link {
   id: string;
@@ -22,23 +23,54 @@ interface Link {
   total_clicks: number;
 }
 
+// Cache helpers
+const CACHE_KEY = 'link-health-cache';
+
+function getCachedLinkHealth(workspaceId: string): Link[] | undefined {
+  try {
+    const cached = localStorage.getItem(`${CACHE_KEY}-${workspaceId}`);
+    if (!cached) return undefined;
+    const { data, timestamp } = JSON.parse(cached);
+    if (Date.now() - timestamp > 2 * 60 * 1000) return undefined;
+    return data;
+  } catch { return undefined; }
+}
+
+function setCachedLinkHealth(workspaceId: string, data: Link[]) {
+  try {
+    localStorage.setItem(`${CACHE_KEY}-${workspaceId}`, JSON.stringify({
+      data,
+      timestamp: Date.now()
+    }));
+  } catch {}
+}
+
 export default function LinkHealth() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isChecking, setIsChecking] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState<"all" | "healthy" | "unhealthy" | "unknown">("all");
+  const { currentWorkspace } = useWorkspace();
+  const workspaceId = currentWorkspace?.id || "";
 
-  const { data: links, isLoading, refetch } = useQuery({
-    queryKey: ["link-health"],
+  const { data: links, isLoading, isFetching, refetch } = useQuery({
+    queryKey: ["link-health", workspaceId],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("links")
         .select("id, title, slug, destination_url, fallback_url, health_status, last_health_check, health_check_failures, total_clicks")
         .eq("status", "active")
+        .eq("workspace_id", workspaceId)
         .order("cache_score", { ascending: false });
 
       if (error) throw error;
+      setCachedLinkHealth(workspaceId, data as Link[]);
       return data as Link[];
     },
+    enabled: !!workspaceId,
+    initialData: () => getCachedLinkHealth(workspaceId),
+    staleTime: 2 * 60 * 1000,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   const handleManualCheck = async () => {
@@ -234,8 +266,15 @@ export default function LinkHealth() {
             />
           </div>
         </CardHeader>
-        <CardContent>
-          {isLoading ? (
+        <CardContent className="relative">
+          {/* Subtle loading indicator */}
+          {isFetching && (
+            <div className="absolute top-2 right-2">
+              <div className="h-2 w-2 bg-primary rounded-full animate-pulse" />
+            </div>
+          )}
+          
+          {isLoading && !links?.length ? (
             <div className="text-center py-8 text-muted-foreground">loading...</div>
           ) : filteredLinks && filteredLinks.length > 0 ? (
             <div className="space-y-4">
