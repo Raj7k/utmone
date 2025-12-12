@@ -1,14 +1,20 @@
 import { FeatureLayout } from "@/components/features/FeatureLayout";
-import { FeatureSection } from "@/components/features/FeatureSection";
-import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
-import { CapabilityCard } from "@/components/features/CapabilityCard";
-import { WorkflowStep } from "@/components/landing/WorkflowStep";
-import { Button } from "@/components/ui/button";
+import { FeatureHero } from "@/components/features/FeatureHero";
+import { FeatureStatsStrip } from "@/components/features/FeatureStatsStrip";
+import { FeatureBentoGrid } from "@/components/features/FeatureBentoGrid";
+import { FeatureBeforeAfter } from "@/components/features/FeatureBeforeAfter";
+import { FeatureShowcase } from "@/components/features/FeatureShowcase";
+import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
 import { FileDown, FileSpreadsheet, Mail, Calendar, BarChart2, FileText } from "lucide-react";
-import { formatText, preserveAcronyms as p } from "@/utils/textFormatter";
-import { motion } from "framer-motion";
 
 const Reporting = () => {
+  const stats = [
+    { value: "1-click", label: "PDF Export" },
+    { value: "∞", label: "Custom Ranges" },
+    { value: "Auto", label: "Scheduled Reports" },
+    { value: "White", label: "Label Branding" },
+  ];
+
   const capabilities = [
     {
       icon: FileDown,
@@ -28,7 +34,7 @@ const Reporting = () => {
     {
       icon: Calendar,
       title: "Custom Date Ranges",
-      description: "Export data for any time period (last 7 days, last quarter, custom).",
+      description: "Export data for any time period (last 7 days, quarter, custom).",
     },
     {
       icon: BarChart2,
@@ -42,27 +48,13 @@ const Reporting = () => {
     },
   ];
 
-  const workflowSteps = [
-    {
-      icon: FileText,
-      title: "Select Report Type",
-      description: "Choose from Executive Summary, Campaign Report, or Full Analytics Export.",
-    },
-    {
-      icon: Calendar,
-      title: "Configure Date Range",
-      description: "Pick last 7 days, last 30 days, quarter, or custom range.",
-    },
-    {
-      icon: BarChart2,
-      title: "Apply Branding",
-      description: "Add your logo, colors, and agency branding for white-label client reports.",
-    },
-    {
-      icon: FileDown,
-      title: "Download or Schedule",
-      description: "Export instantly or schedule automatic weekly/monthly email delivery.",
-    },
+  const comparisonItems = [
+    { feature: "Report creation", before: "Hours in spreadsheets", after: "One-click export" },
+    { feature: "Client branding", before: "Manual logo insertion", after: "Auto white-label templates" },
+    { feature: "Report delivery", before: "Manual email sends", after: "Scheduled automation" },
+    { feature: "Data access", before: "Copy from dashboards", after: "Direct CSV/PDF download" },
+    { feature: "Report consistency", before: "Different every time", after: "Standardized templates" },
+    { feature: "Executive summaries", before: "Built from scratch", after: "One-click KPI reports" },
   ];
 
   return (
@@ -77,115 +69,60 @@ const Reporting = () => {
         { name: "Reporting", url: "https://utm.one/features/reporting" },
       ]}
     >
-      {/* Hero with RetroGradientMesh */}
-      <section className="relative py-24 md:py-32 overflow-hidden">
-        <RetroGradientMesh />
-        <div className="container px-6 mx-auto relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center text-white"
-          >
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight mb-6">
-              {formatText("reporting without")}
-              <br />
-              {formatText("spreadsheet hell.")}
-            </h1>
-            <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto">
-              One-click PDF exports, white-label client reports, and scheduled email delivery.
-            </p>
-            <Button size="lg" className="bg-white hover:bg-white/90 text-primary">
-              get started
-            </Button>
-          </motion.div>
-        </div>
-      </section>
+      <FeatureHero
+        headline="reporting without spreadsheet hell."
+        subheadline="One-click PDF exports, white-label client reports, and scheduled email delivery. Stop wasting hours on manual reporting."
+        primaryCTA={{ label: "get started free", href: "/early-access" }}
+        secondaryCTA={{ label: "see templates", href: "#templates" }}
+      />
 
-      {/* Problem Section */}
-      <FeatureSection background="default">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
-            {formatText("The Client Reporting Problem")}
-          </h2>
-          <div className="max-w-4xl mx-auto space-y-8 text-left">
-            <div className="bg-destructive/5 border border-destructive/20 rounded-xl p-8">
-              <p className="text-lg text-secondary-label leading-relaxed mb-4">
-                <strong className="text-destructive">Before:</strong> Spend hours every week copying data into spreadsheets.
-              </p>
-              <ul className="space-y-2 text-secondary-label">
-                <li>❌ Manual data entry from analytics dashboards</li>
-                <li>❌ Formatting reports in PowerPoint/Excel</li>
-                <li>❌ Sending updated reports to clients manually</li>
-                <li>❌ No consistent report template</li>
-              </ul>
-            </div>
-            <div className="rounded-xl p-8 bg-primary/5 border border-primary/20">
-              <p className="text-lg text-label leading-relaxed mb-4">
-                <strong className="text-primary">After:</strong> One-click exports and automated scheduled reports.
-              </p>
-              <ul className="space-y-2 text-label">
-                <li>✓ Click "Export" → PDF/CSV ready in seconds</li>
-                <li>✓ White-label branding applied automatically</li>
-                <li>✓ Schedule weekly reports sent via email</li>
-                <li>✓ Executive summary + full data exports</li>
-              </ul>
-            </div>
+      <FeatureStatsStrip stats={stats} />
+
+      <FeatureBeforeAfter
+        headline="End the Reporting Pain"
+        subheadline="From hours of manual work to one-click automation"
+        items={comparisonItems}
+      />
+
+      <FeatureBentoGrid
+        headline="Reporting Features"
+        subheadline="Everything you need for professional analytics reporting"
+        items={capabilities}
+      />
+
+      <FeatureShowcase
+        headline="Report Types"
+        subheadline="Choose the right report for your audience"
+        background="muted"
+      >
+        <div className="grid md:grid-cols-3 gap-6">
+          <div className="bg-card border border-border rounded-xl p-6">
+            <FileText className="w-8 h-8 text-primary mb-4" />
+            <h3 className="text-xl font-sans font-semibold text-foreground mb-2">Executive Summary</h3>
+            <p className="text-muted-foreground text-sm mb-4">High-level KPIs for C-suite. Total clicks, top campaigns, conversion trends.</p>
+            <div className="text-xs text-primary">Best for: Executives, Board Updates</div>
+          </div>
+          
+          <div className="bg-card border border-border rounded-xl p-6">
+            <BarChart2 className="w-8 h-8 text-primary mb-4" />
+            <h3 className="text-xl font-sans font-semibold text-foreground mb-2">Campaign Report</h3>
+            <p className="text-muted-foreground text-sm mb-4">Detailed performance by campaign, source, medium. Geographic and device breakdown.</p>
+            <div className="text-xs text-primary">Best for: Marketing Teams, Clients</div>
+          </div>
+          
+          <div className="bg-card border border-border rounded-xl p-6">
+            <FileSpreadsheet className="w-8 h-8 text-primary mb-4" />
+            <h3 className="text-xl font-sans font-semibold text-foreground mb-2">Raw Data Export</h3>
+            <p className="text-muted-foreground text-sm mb-4">Full click-level CSV with all dimensions. Import to BI tools or Excel.</p>
+            <div className="text-xs text-primary">Best for: Analysts, Data Teams</div>
           </div>
         </div>
-      </FeatureSection>
+      </FeatureShowcase>
 
-      {/* Capabilities Grid */}
-      <FeatureSection background="muted">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
-            {formatText("What You Get")}
-          </h2>
-        </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {capabilities.map((capability, index) => (
-            <CapabilityCard key={index} {...capability} delay={index * 0.1} />
-          ))}
-        </div>
-      </FeatureSection>
-
-      {/* Workflow Timeline */}
-      <section className="py-24 md:py-32 bg-mirage relative overflow-hidden">
-        <div className="container px-6 mx-auto relative z-10">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-center mb-16 text-white">
-            {formatText("How It Works")}
-          </h2>
-          <div className="max-w-4xl mx-auto space-y-8">
-            {workflowSteps.map((step, index) => (
-              <WorkflowStep key={index} {...step} delay={index * 0.15} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="relative py-24 md:py-32 overflow-hidden">
-        <RetroGradientMesh />
-        <div className="container px-6 mx-auto relative z-10 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="max-w-3xl mx-auto text-white"
-          >
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">
-              {formatText("reporting that actually scales.")}
-            </h2>
-            <p className="text-xl text-white/90 mb-8">
-              Start exporting white-label reports in seconds, not hours.
-            </p>
-            <Button size="lg" className="bg-white hover:bg-white/90 text-primary">
-              get started
-            </Button>
-          </motion.div>
-        </div>
-      </section>
+      <FeatureFinalCTA
+        headline="reporting that actually scales."
+        subheadline="Start exporting white-label reports in seconds, not hours."
+      />
     </FeatureLayout>
   );
 };

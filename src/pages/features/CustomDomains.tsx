@@ -1,14 +1,20 @@
 import { FeatureLayout } from "@/components/features/FeatureLayout";
-import { FeatureSection } from "@/components/features/FeatureSection";
-import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
-import { CapabilityCard } from "@/components/features/CapabilityCard";
-import { WorkflowStep } from "@/components/landing/WorkflowStep";
-import { Button } from "@/components/ui/button";
+import { FeatureHero } from "@/components/features/FeatureHero";
+import { FeatureStatsStrip } from "@/components/features/FeatureStatsStrip";
+import { FeatureBentoGrid } from "@/components/features/FeatureBentoGrid";
+import { FeatureBeforeAfter } from "@/components/features/FeatureBeforeAfter";
+import { FeatureShowcase } from "@/components/features/FeatureShowcase";
+import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
 import { Globe, Lock, Zap, TrendingUp, Server, Shield } from "lucide-react";
-import { formatText } from "@/utils/textFormatter";
-import { motion } from "framer-motion";
 
 const CustomDomains = () => {
+  const stats = [
+    { value: "34%", label: "Higher CTR" },
+    { value: "2.5x", label: "More Trust" },
+    { value: "<5min", label: "Setup Time" },
+    { value: "∞", label: "Domains (Enterprise)" },
+  ];
+
   const capabilities = [
     {
       icon: Globe,
@@ -42,27 +48,13 @@ const CustomDomains = () => {
     },
   ];
 
-  const workflowSteps = [
-    {
-      icon: Globe,
-      title: "Add Your Domain",
-      description: "Enter your domain (e.g., go.yourcompany.com) in settings.",
-    },
-    {
-      icon: Server,
-      title: "Configure DNS",
-      description: "Add a CNAME record pointing to go.utm.one at your DNS provider.",
-    },
-    {
-      icon: Lock,
-      title: "Verify & Activate",
-      description: "utm.one verifies DNS and auto-provisions SSL certificate.",
-    },
-    {
-      icon: Zap,
-      title: "Start Creating Links",
-      description: "All new links default to your custom domain automatically.",
-    },
+  const comparisonItems = [
+    { feature: "Brand recognition", before: "Generic short domain", after: "Your company domain" },
+    { feature: "Click-through rate", before: "Lower trust = lower CTR", after: "34% higher CTR" },
+    { feature: "Email deliverability", before: "Often flagged as spam", after: "Trusted sender reputation" },
+    { feature: "SSL certificates", before: "Manual configuration", after: "Auto-provisioned HTTPS" },
+    { feature: "DNS setup", before: "Complex configuration", after: "Simple CNAME record" },
+    { feature: "Client branding", before: "One domain for all", after: "Domain per workspace" },
   ];
 
   return (
@@ -77,138 +69,52 @@ const CustomDomains = () => {
         { name: "Custom Domains", url: "https://utm.one/features/custom-domains" },
       ]}
     >
-      {/* Hero with RetroGradientMesh */}
-      <section className="relative py-24 md:py-32 overflow-hidden">
-        <RetroGradientMesh />
-        <div className="container px-6 mx-auto relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center text-white"
-          >
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight mb-6">
-              {formatText("your brand.")}
-              <br />
-              {formatText("your domain.")}
-            </h1>
-            <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto">
-              Use go.yourcompany.com for all short links with auto SSL and easy DNS setup.
-            </p>
-            <Button size="lg" className="bg-white hover:bg-white/90 text-primary">
-              get started
-            </Button>
-          </motion.div>
-        </div>
-      </section>
+      <FeatureHero
+        headline="your brand. your domain."
+        subheadline="Use go.yourcompany.com for all short links with auto SSL and easy DNS setup. Setup takes 5 minutes."
+        primaryCTA={{ label: "get started free", href: "/early-access" }}
+        secondaryCTA={{ label: "setup guide", href: "/help/domains" }}
+      />
 
-      {/* Problem Section */}
-      <FeatureSection background="default">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
-            {formatText("Why Branded Domains Matter")}
-          </h2>
-          <div className="max-w-4xl mx-auto space-y-8 text-left">
-            <div className="bg-destructive/5 border border-destructive/20 rounded-xl p-8">
-              <p className="text-lg text-secondary-label leading-relaxed mb-4">
-                <strong className="text-destructive">Generic short links:</strong> utm.one/abc123
-              </p>
-              <ul className="space-y-2 text-secondary-label">
-                <li>❌ No brand recognition</li>
-                <li>❌ Lower click-through rates</li>
-                <li>❌ Looks untrustworthy in emails</li>
-                <li>❌ Can't customize domain per client</li>
-              </ul>
-            </div>
-            <div className="border rounded-xl p-8 bg-primary/5 border-primary/20">
-              <p className="text-lg text-label leading-relaxed mb-4">
-                <strong className="text-primary">Branded custom domain:</strong> go.yourcompany.com/webinar
-              </p>
-              <ul className="space-y-2 text-label">
-                <li>✓ 34% higher click-through rate</li>
-                <li>✓ Instant brand recognition</li>
-                <li>✓ Builds trust with audience</li>
-                <li>✓ Different domain per client workspace</li>
-              </ul>
-            </div>
+      <FeatureStatsStrip stats={stats} />
+
+      <FeatureBeforeAfter
+        headline="Why Branded Domains Matter"
+        subheadline="Generic links hurt trust. Branded domains build confidence."
+        items={comparisonItems}
+      />
+
+      <FeatureBentoGrid
+        headline="Custom Domain Features"
+        subheadline="Everything you need for professional branded links"
+        items={capabilities}
+      />
+
+      <FeatureShowcase
+        headline="The Data on Branded Links"
+        subheadline="Research-backed benefits of using your own domain"
+        background="muted"
+      >
+        <div className="grid md:grid-cols-3 gap-8">
+          <div className="border rounded-xl p-8 bg-primary/5 border-primary/20 text-center">
+            <div className="text-5xl font-bold mb-2 text-primary">34%</div>
+            <p className="text-muted-foreground">Higher click-through rate with branded domains</p>
+          </div>
+          <div className="border rounded-xl p-8 bg-primary/5 border-primary/20 text-center">
+            <div className="text-5xl font-bold mb-2 text-primary">2.5x</div>
+            <p className="text-muted-foreground">More trust vs generic short links</p>
+          </div>
+          <div className="border rounded-xl p-8 bg-primary/5 border-primary/20 text-center">
+            <div className="text-5xl font-bold mb-2 text-primary">&lt;5min</div>
+            <p className="text-muted-foreground">Average DNS setup time</p>
           </div>
         </div>
-      </FeatureSection>
+      </FeatureShowcase>
 
-      {/* Capabilities Grid */}
-      <FeatureSection background="muted">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
-            {formatText("What You Get")}
-          </h2>
-        </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {capabilities.map((capability, index) => (
-            <CapabilityCard key={index} {...capability} delay={index * 0.1} />
-          ))}
-        </div>
-      </FeatureSection>
-
-      {/* Workflow Timeline */}
-      <section className="py-24 md:py-32 bg-mirage relative overflow-hidden">
-        <div className="container px-6 mx-auto relative z-10">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-center mb-16 text-white">
-            {formatText("Setup in 5 Minutes")}
-          </h2>
-          <div className="max-w-4xl mx-auto space-y-8">
-            {workflowSteps.map((step, index) => (
-              <WorkflowStep key={index} {...step} delay={index * 0.15} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Trust Stats Section */}
-      <FeatureSection background="default">
-        <div className="text-center max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-label">
-            {formatText("The Data on Branded Links")}
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="border rounded-xl p-8 bg-primary/5 border-primary/20">
-              <div className="text-5xl font-bold mb-2 text-primary">34%</div>
-              <p className="text-secondary-label">Higher click-through rate with branded domains</p>
-            </div>
-            <div className="border rounded-xl p-8 bg-primary/5 border-primary/20">
-              <div className="text-5xl font-bold mb-2 text-primary">2.5x</div>
-              <p className="text-secondary-label">More trust vs generic short links</p>
-            </div>
-            <div className="border rounded-xl p-8 bg-primary/5 border-primary/20">
-              <div className="text-5xl font-bold mb-2 text-primary">&lt; 5min</div>
-              <p className="text-secondary-label">Average DNS setup time</p>
-            </div>
-          </div>
-        </div>
-      </FeatureSection>
-
-      {/* CTA Section */}
-      <section className="relative py-24 md:py-32 overflow-hidden">
-        <RetroGradientMesh />
-        <div className="container px-6 mx-auto relative z-10 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="max-w-3xl mx-auto text-white"
-          >
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">
-              {formatText("start using your own domain.")}
-            </h2>
-            <p className="text-xl text-white/90 mb-8">
-              Setup takes 5 minutes. SSL provisioning is automatic. Branding is instant.
-            </p>
-            <Button size="lg" className="bg-white hover:bg-white/90 text-primary">
-              get started
-            </Button>
-          </motion.div>
-        </div>
-      </section>
+      <FeatureFinalCTA
+        headline="start using your own domain."
+        subheadline="Setup takes 5 minutes. SSL provisioning is automatic. Branding is instant."
+      />
     </FeatureLayout>
   );
 };

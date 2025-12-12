@@ -8,7 +8,8 @@ export interface CapabilityItem {
   id?: string;
   title: string;
   icon: LucideIcon;
-  features: string[];
+  features?: string[];
+  description?: string;
   href?: string;
 }
 
@@ -72,17 +73,21 @@ export const FeatureBentoGrid = ({
                       <h3 className="text-xl font-sans font-semibold text-foreground mb-4">
                         {cap.title}
                       </h3>
-                      <ul className="space-y-2">
-                        {cap.features.map((feature, i) => (
-                          <li
-                            key={i}
-                            className="flex items-center gap-2 text-sm text-muted-foreground"
-                          >
-                            <Check className="w-4 h-4 text-primary shrink-0" />
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
+                      {cap.description ? (
+                        <p className="text-sm text-muted-foreground">{cap.description}</p>
+                      ) : cap.features ? (
+                        <ul className="space-y-2">
+                          {cap.features.map((feature, i) => (
+                            <li
+                              key={i}
+                              className="flex items-center gap-2 text-sm text-muted-foreground"
+                            >
+                              <Check className="w-4 h-4 text-primary shrink-0" />
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : null}
                       {cap.href && (
                         <div className="mt-6 flex items-center gap-2 text-sm font-medium text-primary group-hover:gap-3 transition-all">
                           learn more
