@@ -16,14 +16,7 @@ import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
-
-// Skeleton for data sections only (not full page)
-const ContentSkeleton = () => (
-  <div className="animate-pulse space-y-6">
-    <div className="h-32 bg-muted rounded-2xl" />
-    <div className="h-48 bg-muted rounded-2xl" />
-  </div>
-);
+import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
 
 const DashboardHome = () => {
   const { showDemoMode } = useDemoMode();
@@ -88,10 +81,8 @@ const DashboardHome = () => {
   if (workspaceTimeout && !currentWorkspace) {
     return (
       <div className="p-6 lg:p-8 max-w-5xl mx-auto">
-        <div className="flex flex-col items-center justify-center py-16 space-y-4">
-          <p className="text-muted-foreground text-center">
-            taking longer than expected to load your workspace...
-          </p>
+        <DashboardContentLoader context="dashboard" minHeight="50vh" />
+        <div className="flex justify-center mt-4">
           <Button variant="outline" onClick={retry} className="gap-2">
             <RefreshCw className="h-4 w-4" />
             retry
