@@ -16,25 +16,23 @@ import { completeNavigation } from "@/hooks/useNavigationProgress";
 
 const DashboardHome = () => {
   const { showDemoMode } = useDemoMode();
-  const { hasLinks, isLoading: isLoadingProgress } = useOnboardingProgress();
+  const { hasLinks, isLoading: isLoadingProgress, isFetched } = useOnboardingProgress();
 
-  // Complete navigation when data loads
   useEffect(() => {
-    if (!isLoadingProgress) {
+    if (!isLoadingProgress && isFetched) {
       completeNavigation();
     }
-  }, [isLoadingProgress]);
+  }, [isLoadingProgress, isFetched]);
+  
   const [showSuccess, setShowSuccess] = useState(false);
   const [createdLinkUrl, setCreatedLinkUrl] = useState("");
   const queryClient = useQueryClient();
 
   const handleLinkCreated = useCallback(() => {
-    // Invalidate queries to refresh data
     queryClient.invalidateQueries({ queryKey: ['onboarding-progress'] });
     queryClient.invalidateQueries({ queryKey: ['activity-feed'] });
     queryClient.invalidateQueries({ queryKey: ['dashboard-links-count'] });
     
-    // Generate a demo URL for success screen
     const slug = Math.random().toString(36).substring(2, 8);
     setCreatedLinkUrl(`utm.one/${slug}`);
     setShowSuccess(true);
@@ -44,8 +42,8 @@ const DashboardHome = () => {
     setShowSuccess(false);
   }, []);
 
-  // Loading state
-  if (isLoadingProgress) {
+  // Show skeleton until we're SURE about the data
+  if (isLoadingProgress || !isFetched) {
     return (
       <div className="p-6 lg:p-8 max-w-5xl mx-auto">
         <div className="animate-pulse space-y-6">
@@ -56,7 +54,7 @@ const DashboardHome = () => {
     );
   }
 
-  // First-run experience for users with no links
+  // Only show first-run experience if we've confirmed user has no links
   if (!hasLinks && !showSuccess) {
     return (
       <ErrorBoundary section="dashboard-home">
