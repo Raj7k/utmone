@@ -14,6 +14,7 @@ import {
   Globe,
   CreditCard,
   Shield,
+  ShieldCheck,
 } from "lucide-react";
 
 const helpCategories = [
@@ -24,6 +25,7 @@ const helpCategories = [
   { name: "Analytics", href: "/help/analytics", icon: BarChart3 },
   { name: "Attribution", href: "/help/attribution", icon: Network },
   { name: "Events & Field Marketing", href: "/help/events", icon: CalendarDays },
+  { name: "Sentinel Mode", href: "/help/sentinel", icon: ShieldCheck, isNew: true },
   { name: "Advanced Features", href: "/help/advanced", icon: Zap },
   { name: "Team & Governance", href: "/help/team", icon: Users },
   { name: "Integrations", href: "/help/integrations", icon: Plug },
@@ -56,6 +58,7 @@ export const HelpSidebar = () => {
         {helpCategories.map((category) => {
           const Icon = category.icon;
           const isActive = location.pathname === category.href;
+          const isNew = 'isNew' in category && category.isNew;
           
           return (
             <Link
@@ -70,6 +73,11 @@ export const HelpSidebar = () => {
             >
               <Icon className="h-4 w-4 flex-shrink-0" />
               {category.name}
+              {isNew && (
+                <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-medium">
+                  NEW
+                </span>
+              )}
             </Link>
           );
         })}
