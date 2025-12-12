@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 
 const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-interface CapabilityItem {
-  id: string;
+export interface CapabilityItem {
+  id?: string;
   title: string;
   icon: LucideIcon;
   features: string[];
@@ -51,7 +51,7 @@ export const FeatureBentoGrid = ({
 
             return (
               <motion.div
-                key={cap.id}
+                key={cap.id || index}
                 initial={{ opacity: 0, y: 30, scale: 0.98 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true }}
