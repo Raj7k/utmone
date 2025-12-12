@@ -1,6 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
+// UUID validation helper - prevents invalid queries like "create" being passed as linkId
+const isValidUUID = (id: string): boolean =>
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+
 export interface LinkDetail {
   id: string;
   title: string;
@@ -46,6 +50,8 @@ export interface LinkDetail {
 }
 
 export const useLinkDetail = (linkId: string) => {
+  const validId = linkId && isValidUUID(linkId);
+  
   return useQuery({
     queryKey: ["link-detail", linkId],
     queryFn: async () => {
@@ -87,6 +93,8 @@ export const useLinkDetail = (linkId: string) => {
         qr_code_count: qrCount || 0,
       } as LinkDetail;
     },
-    enabled: !!linkId,
+    enabled: !!validId,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    refetchOnWindowFocus: false,
   });
 };

@@ -33,7 +33,13 @@ interface LinkSentinelData {
   title: string;
 }
 
+// UUID validation helper - prevents invalid queries like "create" being passed as linkId
+const isValidUUID = (id: string): boolean =>
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+
 export function useSentinelConfig(linkId: string | undefined) {
+  const validId = linkId && isValidUUID(linkId);
+  
   return useQuery({
     queryKey: ["sentinel-config", linkId],
     queryFn: async (): Promise<LinkSentinelData | null> => {
@@ -52,7 +58,9 @@ export function useSentinelConfig(linkId: string | undefined) {
         sentinel_config: (data.sentinel_config as SentinelConfig) || {},
       };
     },
-    enabled: !!linkId,
+    enabled: !!validId,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    refetchOnWindowFocus: false,
   });
 }
 
