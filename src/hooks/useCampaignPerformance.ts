@@ -69,6 +69,7 @@ export function useCampaignPerformance(workspaceId: string) {
       return performance;
     },
     enabled: !!workspaceId,
-    staleTime: 2 * 60 * 1000, // 2 minutes
+    staleTime: 2 * 60 * 1000,
+    refetchOnWindowFocus: false
   });
 }
