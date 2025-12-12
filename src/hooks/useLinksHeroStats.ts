@@ -1,13 +1,37 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
+const CACHE_KEY = 'links-hero-stats-cache';
+
+function getCachedStats(workspaceId: string) {
+  try {
+    const cached = localStorage.getItem(`${CACHE_KEY}-${workspaceId}`);
+    if (!cached) return undefined;
+    const { data, timestamp } = JSON.parse(cached);
+    // 5 minute cache validity
+    if (Date.now() - timestamp > 5 * 60 * 1000) return undefined;
+    return data;
+  } catch { return undefined; }
+}
+
+function setCachedStats(workspaceId: string, data: any) {
+  try {
+    localStorage.setItem(`${CACHE_KEY}-${workspaceId}`, JSON.stringify({
+      data,
+      timestamp: Date.now()
+    }));
+  } catch { /* ignore storage errors */ }
+}
+
 export const useLinksHeroStats = (workspaceId: string) => {
   return useQuery({
     queryKey: ["links-hero-stats", workspaceId],
     enabled: !!workspaceId,
-    staleTime: 2 * 60 * 1000, // 2 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes
+    staleTime: 2 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
     refetchOnWindowFocus: false,
+    refetchOnMount: false, // Trust cache on mount
+    initialData: () => getCachedStats(workspaceId),
     queryFn: async () => {
       const sevenDaysAgo = new Date();
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
@@ -15,7 +39,6 @@ export const useLinksHeroStats = (workspaceId: string) => {
       const fourteenDaysAgo = new Date();
       fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
 
-      // Run all queries in parallel
       const [
         { count: totalActiveLinks },
         { count: thisWeekClicks },
@@ -48,12 +71,11 @@ export const useLinksHeroStats = (workspaceId: string) => {
           .maybeSingle()
       ]);
 
-      // Calculate trend
       const clickTrend = lastWeekClicks && lastWeekClicks > 0 
         ? Math.round(((thisWeekClicks || 0) - lastWeekClicks) / lastWeekClicks * 100)
         : 0;
 
-      return {
+      const result = {
         totalActiveLinks: totalActiveLinks || 0,
         thisWeekClicks: thisWeekClicks || 0,
         clickTrend,
@@ -64,6 +86,11 @@ export const useLinksHeroStats = (workspaceId: string) => {
           totalClicks: topLink.total_clicks || 0,
         } : null,
       };
+
+      // Cache for next load
+      setCachedStats(workspaceId, result);
+
+      return result;
     },
   });
 };
