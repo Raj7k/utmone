@@ -10,41 +10,37 @@ interface OnboardingProgress {
   hasCustomDomain: boolean;
   hasInstalledPixel: boolean;
   isLoading: boolean;
+  isFetched: boolean;
 }
 
 export const useOnboardingProgress = (): OnboardingProgress => {
   const { currentWorkspace } = useWorkspace();
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isFetched } = useQuery({
     queryKey: ['onboarding-progress', currentWorkspace?.id],
     queryFn: async () => {
       if (!currentWorkspace) return null;
 
-      // Get current user
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return null;
 
-      // Check for actual links created by user
       const { count: linkCount } = await supabase
         .from('links')
         .select('*', { count: 'exact', head: true })
         .eq('created_by', user.id)
         .eq('workspace_id', currentWorkspace.id);
 
-      // Check for actual QR codes created by user
       const { count: qrCount } = await supabase
         .from('qr_codes')
         .select('*', { count: 'exact', head: true })
         .eq('created_by', user.id);
 
-      // Get profile data for analytics and team invites
       const { data: profile } = await supabase
         .from('profiles')
         .select('first_analytics_viewed_at, team_members_invited_count')
         .eq('id', user.id)
         .single();
 
-      // Check for custom domains (non-system domains)
       const { data: domains } = await supabase
         .from('domains')
         .select('id')
@@ -53,7 +49,6 @@ export const useOnboardingProgress = (): OnboardingProgress => {
         .not('domain', 'in', '(go.utm.one,utm.click)')
         .limit(1);
 
-      // Check for tracking pixel
       const { data: pixels } = await supabase
         .from('pixel_configs')
         .select('id')
@@ -70,7 +65,12 @@ export const useOnboardingProgress = (): OnboardingProgress => {
       };
     },
     enabled: !!currentWorkspace,
+    staleTime: 30000,
+    placeholderData: (previousData) => previousData,
   });
+
+  // Consider loading until workspace is ready AND query has actually fetched
+  const isActuallyLoading = !currentWorkspace || isLoading || !isFetched;
 
   return {
     hasLinks: data?.hasLinks ?? false,
@@ -79,6 +79,7 @@ export const useOnboardingProgress = (): OnboardingProgress => {
     hasInvitedTeam: data?.hasInvitedTeam ?? false,
     hasCustomDomain: data?.hasCustomDomain ?? false,
     hasInstalledPixel: data?.hasInstalledPixel ?? false,
-    isLoading,
+    isLoading: isActuallyLoading,
+    isFetched,
   };
 };
