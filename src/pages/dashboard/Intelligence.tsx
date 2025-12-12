@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { useIntelligenceData } from "@/hooks/useIntelligenceData";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
@@ -19,7 +19,6 @@ import AttributionSheet from "@/components/intelligence/AttributionSheet";
 import CampaignSheet from "@/components/intelligence/CampaignSheet";
 import MobileActivitySheet from "@/components/intelligence/MobileActivitySheet";
 import { AttributionTabContent } from "@/components/analytics/AttributionTabContent";
-import { IdentityGraphView } from "@/components/attribution/IdentityGraphView";
 import { OfflineImporter } from "@/components/attribution/OfflineImporter";
 import { LiftAnalysis } from "@/components/attribution/LiftAnalysis";
 import { VelocityAnalytics } from "@/components/attribution/VelocityAnalytics";
@@ -28,6 +27,9 @@ import { SentinelSavesWidget } from "@/components/analytics/SentinelSavesWidget"
 import { useSentinelStats } from "@/hooks/useSentinelSaves";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { IntelligenceOverviewSkeleton } from "@/components/intelligence/IntelligenceOverviewSkeleton";
+
+// Lazy load heavy visualization components
+const IdentityGraphView = lazy(() => import("@/components/attribution/IdentityGraphView").then(m => ({ default: m.IdentityGraphView })));
 
 export default function Intelligence() {
   const { currentWorkspace } = useWorkspace();
@@ -183,7 +185,13 @@ export default function Intelligence() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <IdentityGraphView />
+                  <Suspense fallback={
+                    <div className="flex items-center justify-center py-12">
+                      <Network className="w-8 h-8 text-muted-foreground animate-pulse" />
+                    </div>
+                  }>
+                    <IdentityGraphView />
+                  </Suspense>
                 </CardContent>
               </Card>
             )}
@@ -317,7 +325,13 @@ export default function Intelligence() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <IdentityGraphView />
+                <Suspense fallback={
+                  <div className="flex items-center justify-center py-12">
+                    <Network className="w-8 h-8 text-muted-foreground animate-pulse" />
+                  </div>
+                }>
+                  <IdentityGraphView />
+                </Suspense>
               </CardContent>
             </Card>
 

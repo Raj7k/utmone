@@ -141,8 +141,9 @@ async function handleLinksEndpoint(req: Request, supabase: any, keyData: any, pa
         slug,
         title: title || destination_url,
         domain: useDomain,
+        path: '',
         final_url: destination_url,
-        short_url: `https://${useDomain}/${slug}`,
+        // short_url is a GENERATED column - do not insert
         utm_campaign,
         utm_source,
         utm_medium,

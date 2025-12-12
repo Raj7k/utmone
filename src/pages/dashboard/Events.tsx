@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Plus, Waves, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -20,10 +20,12 @@ import { LeadsFullScreen } from "@/components/events/LeadsFullScreen";
 import { CreateEventDialog } from "@/components/events/CreateEventDialog";
 import { ScannerModal } from "@/components/events/ScannerModal";
 import { BoothQRDialog } from "@/components/events/BoothQRDialog";
-import { EventBridgeTab } from "@/components/events/EventBridge/EventBridgeTab";
 import { toast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
+
+// Lazy load EventBridgeTab - it's only shown when user clicks the tab
+const EventBridgeTab = lazy(() => import("@/components/events/EventBridge/EventBridgeTab").then(m => ({ default: m.EventBridgeTab })));
 
 interface FieldEvent {
   id: string;
@@ -207,7 +209,16 @@ const Events = () => {
         </TabsContent>
 
         <TabsContent value="bridge" className="mt-0">
-          <EventBridgeTab />
+          <Suspense fallback={
+            <div className="flex items-center justify-center py-24">
+              <div className="text-center">
+                <Zap className="w-12 h-12 text-muted-foreground mb-4 mx-auto animate-pulse" />
+                <p className="text-muted-foreground">loading event bridge...</p>
+              </div>
+            </div>
+          }>
+            <EventBridgeTab />
+          </Suspense>
         </TabsContent>
       </Tabs>
 

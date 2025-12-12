@@ -10,24 +10,95 @@ import { FeatureGuard } from "@/components/FeatureGuard";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 
+interface CampaignStats {
+  linkCount: number;
+  totalClicks: number;
+  recentClicks: number[];
+}
+
 export default function Campaigns() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const { currentWorkspace } = useWorkspace();
 
-  // Fetch campaigns
-  const { data: campaigns, isLoading, isFetched } = useQuery({
-    queryKey: ["campaigns", currentWorkspace?.id],
+  // Fetch campaigns with stats in a single optimized query
+  const { data: campaignsWithStats, isLoading, isFetched } = useQuery({
+    queryKey: ["campaigns-with-stats", currentWorkspace?.id],
     queryFn: async () => {
       if (!currentWorkspace) return [];
 
-      const { data, error } = await supabase
+      // Single query to get campaigns with aggregated link data
+      const { data: campaigns, error: campaignsError } = await supabase
         .from("campaigns")
-        .select("*")
+        .select(`
+          id,
+          name,
+          status,
+          color,
+          created_at,
+          links!links_campaign_id_fkey (
+            id,
+            total_clicks
+          )
+        `)
         .eq("workspace_id", currentWorkspace.id)
         .order("created_at", { ascending: false });
 
-      if (error) throw error;
-      return data;
+      if (campaignsError) throw campaignsError;
+      if (!campaigns || campaigns.length === 0) return [];
+
+      // Collect all link IDs for batch click query
+      const allLinkIds = campaigns.flatMap((c: any) => 
+        (c.links || []).map((l: any) => l.id)
+      );
+
+      // Single batch query for recent clicks (last 7 days) for all campaigns
+      const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+      const { data: recentClicksData } = allLinkIds.length > 0
+        ? await supabase
+            .from("link_clicks")
+            .select("link_id, clicked_at")
+            .in("link_id", allLinkIds)
+            .gte("clicked_at", sevenDaysAgo)
+        : { data: [] };
+
+      // Build a map of link_id → campaign_id for aggregation
+      const linkToCampaign = new Map<string, string>();
+      campaigns.forEach((c: any) => {
+        (c.links || []).forEach((l: any) => {
+          linkToCampaign.set(l.id, c.id);
+        });
+      });
+
+      // Aggregate clicks by campaign and day
+      const campaignClicksByDay = new Map<string, Record<string, number>>();
+      (recentClicksData || []).forEach((click: any) => {
+        const campaignId = linkToCampaign.get(click.link_id);
+        if (!campaignId) return;
+        
+        if (!campaignClicksByDay.has(campaignId)) {
+          campaignClicksByDay.set(campaignId, {});
+        }
+        const day = new Date(click.clicked_at).toISOString().split("T")[0];
+        const dayMap = campaignClicksByDay.get(campaignId)!;
+        dayMap[day] = (dayMap[day] || 0) + 1;
+      });
+
+      // Transform campaigns with computed stats
+      return campaigns.map((campaign: any) => {
+        const links = campaign.links || [];
+        const linkCount = links.length;
+        const totalClicks = links.reduce((sum: number, link: any) => sum + (link.total_clicks || 0), 0);
+        const clicksByDay = campaignClicksByDay.get(campaign.id) || {};
+        const recentClicks = Object.values(clicksByDay) as number[];
+
+        return {
+          id: campaign.id,
+          name: campaign.name,
+          status: campaign.status as "active" | "archived" | "draft",
+          color: campaign.color,
+          stats: { linkCount, totalClicks, recentClicks } as CampaignStats,
+        };
+      });
     },
     enabled: !!currentWorkspace,
   });
@@ -38,48 +109,6 @@ export default function Campaigns() {
       completeNavigation();
     }
   }, [isFetched]);
-
-  // Fetch links and clicks for each campaign
-  const { data: campaignStats } = useQuery({
-    queryKey: ["campaign-stats", currentWorkspace?.id, JSON.stringify(campaigns?.map(c => c.id) || [])],
-    queryFn: async () => {
-      if (!campaigns || campaigns.length === 0) return {};
-
-      const stats: Record<string, { linkCount: number; totalClicks: number; recentClicks: number[] }> = {};
-
-      for (const campaign of campaigns) {
-        // Get links for this campaign
-        const { data: links } = await supabase
-          .from("links")
-          .select("id, total_clicks")
-          .eq("campaign_id", campaign.id);
-
-        const linkCount = links?.length || 0;
-        const totalClicks = links?.reduce((sum, link) => sum + (link.total_clicks || 0), 0) || 0;
-
-        // Get recent clicks (last 7 days) for sparkline
-        const { data: clicksData } = await supabase
-          .from("link_clicks")
-          .select("clicked_at")
-          .in("link_id", links?.map(l => l.id) || [])
-          .gte("clicked_at", new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString());
-
-        // Group clicks by day
-        const clicksByDay: Record<string, number> = {};
-        for (const click of clicksData || []) {
-          const day = new Date(click.clicked_at).toISOString().split("T")[0];
-          clicksByDay[day] = (clicksByDay[day] || 0) + 1;
-        }
-
-        const recentClicks = Object.values(clicksByDay);
-
-        stats[campaign.id] = { linkCount, totalClicks, recentClicks };
-      }
-
-      return stats;
-    },
-    enabled: !!campaigns && campaigns.length > 0,
-  });
 
   return (
     <PageContentWrapper
@@ -98,23 +127,20 @@ export default function Campaigns() {
       {/* Campaigns Grid */}
       {isLoading ? (
         <div className="text-center py-12 text-muted-foreground">Loading campaigns...</div>
-      ) : campaigns && campaigns.length > 0 ? (
+      ) : campaignsWithStats && campaignsWithStats.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {campaigns.map((campaign) => {
-            const stats = campaignStats?.[campaign.id] || { linkCount: 0, totalClicks: 0, recentClicks: [] };
-            return (
-              <CampaignCard
-                key={campaign.id}
-                id={campaign.id}
-                name={campaign.name}
-                status={campaign.status as "active" | "archived" | "draft"}
-                color={campaign.color}
-                linkCount={stats.linkCount}
-                totalClicks={stats.totalClicks}
-                recentClicks={stats.recentClicks}
-              />
-            );
-          })}
+          {campaignsWithStats.map((campaign) => (
+            <CampaignCard
+              key={campaign.id}
+              id={campaign.id}
+              name={campaign.name}
+              status={campaign.status}
+              color={campaign.color}
+              linkCount={campaign.stats.linkCount}
+              totalClicks={campaign.stats.totalClicks}
+              recentClicks={campaign.stats.recentClicks}
+            />
+          ))}
         </div>
       ) : (
         <div className="text-center py-12">
