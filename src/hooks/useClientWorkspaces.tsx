@@ -3,54 +3,75 @@ import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
 import { getFriendlyErrorMessage } from "@/lib/errorMessages";
 
+// Maximum time for workspace fetch before aborting
+const FETCH_TIMEOUT_MS = 10000;
+
 export const useClientWorkspaces = () => {
   const queryClient = useQueryClient();
 
-  const { data: workspaces, isLoading, error } = useQuery({
+  const { data: workspaces, isLoading, error, refetch } = useQuery({
     queryKey: ["client-workspaces"],
-    queryFn: async () => {
-      const { data: { user }, error: authError } = await supabase.auth.getUser();
-      if (authError) {
-        console.error("[useClientWorkspaces] Auth error:", authError);
-        return [];
+    queryFn: async ({ signal }) => {
+      // Create timeout for the entire operation
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        setTimeout(() => reject(new Error("Workspace fetch timed out")), FETCH_TIMEOUT_MS);
+      });
+
+      const fetchPromise = async () => {
+        const { data: { user }, error: authError } = await supabase.auth.getUser();
+        if (authError) {
+          console.error("[useClientWorkspaces] Auth error:", authError);
+          return [];
+        }
+        if (!user) return [];
+
+        // Get workspaces where user is owner
+        const { data: ownedWorkspaces, error: ownedError } = await supabase
+          .from("workspaces")
+          .select("*")
+          .eq("owner_id", user.id);
+
+        if (ownedError) {
+          console.error("[useClientWorkspaces] Owned workspaces error:", ownedError);
+          throw ownedError;
+        }
+
+        // Get workspaces where user is a member
+        const { data: memberWorkspaces, error: memberError } = await supabase
+          .from("workspace_members")
+          .select(`
+            workspace_id,
+            role,
+            workspaces (*)
+          `)
+          .eq("user_id", user.id);
+
+        if (memberError) {
+          console.error("[useClientWorkspaces] Member workspaces error:", memberError);
+          throw memberError;
+        }
+
+        const memberWorkspacesList = memberWorkspaces
+          ?.map(m => m.workspaces)
+          .filter(Boolean) || [];
+
+        return [...(ownedWorkspaces || []), ...memberWorkspacesList];
+      };
+
+      // Race between fetch and timeout
+      try {
+        return await Promise.race([fetchPromise(), timeoutPromise]);
+      } catch (err) {
+        console.error("[useClientWorkspaces] Fetch failed:", err);
+        throw err;
       }
-      if (!user) return [];
-
-      // Get workspaces where user is owner
-      const { data: ownedWorkspaces, error: ownedError } = await supabase
-        .from("workspaces")
-        .select("*")
-        .eq("owner_id", user.id);
-
-      if (ownedError) {
-        console.error("[useClientWorkspaces] Owned workspaces error:", ownedError);
-        throw ownedError;
-      }
-
-      // Get workspaces where user is a member
-      const { data: memberWorkspaces, error: memberError } = await supabase
-        .from("workspace_members")
-        .select(`
-          workspace_id,
-          role,
-          workspaces (*)
-        `)
-        .eq("user_id", user.id);
-
-      if (memberError) {
-        console.error("[useClientWorkspaces] Member workspaces error:", memberError);
-        throw memberError;
-      }
-
-      const memberWorkspacesList = memberWorkspaces
-        ?.map(m => m.workspaces)
-        .filter(Boolean) || [];
-
-      return [...(ownedWorkspaces || []), ...memberWorkspacesList];
     },
     retry: 2,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 5000),
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 3000),
     staleTime: 30000, // Cache for 30 seconds to prevent excessive refetches
+    gcTime: 60000, // Keep in cache for 1 minute
+    refetchOnWindowFocus: false, // Don't refetch on window focus to prevent unnecessary requests
+    networkMode: 'offlineFirst', // Use cached data when available
   });
 
   const createWorkspaceMutation = useMutation({
@@ -119,6 +140,7 @@ export const useClientWorkspaces = () => {
     workspaces: workspaces || [],
     isLoading,
     error,
+    refetch,
     createWorkspace: createWorkspaceMutation.mutate,
     deleteWorkspace: deleteWorkspaceMutation.mutate,
   };

@@ -37,7 +37,7 @@ const COLORS = {
 const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export default function Analytics() {
-  const { currentWorkspace } = useWorkspace();
+  const { currentWorkspace, hasTimedOut, retry } = useWorkspace();
   const { trackFirstAnalyticsView } = useActivationTracking();
   const queryClient = useQueryClient();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -68,12 +68,12 @@ export default function Analytics() {
     trackFirstAnalyticsView();
   }, [trackFirstAnalyticsView]);
 
-  // Complete navigation when data loads
+  // Complete navigation when data loads or times out
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading || hasTimedOut) {
       completeNavigation();
     }
-  }, [isLoading]);
+  }, [isLoading, hasTimedOut]);
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
@@ -84,6 +84,39 @@ export default function Analytics() {
     await queryClient.invalidateQueries({ queryKey: ["top-campaigns"] });
     setIsRefreshing(false);
   };
+
+  // Show error/timeout state if no workspace
+  if (!currentWorkspace && hasTimedOut) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="flex flex-col items-center gap-4 text-center max-w-md px-4">
+          <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center">
+            <span className="text-2xl">⚠️</span>
+          </div>
+          <div>
+            <h3 className="font-medium text-foreground mb-1">couldn't load workspace</h3>
+            <p className="text-sm text-muted-foreground">
+              the request took too long. this might be a temporary issue.
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <button 
+              onClick={() => retry?.()}
+              className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+            >
+              try again
+            </button>
+            <button 
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 text-sm border border-border rounded-lg hover:bg-muted transition-colors"
+            >
+              refresh page
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!currentWorkspace || isLoading) {
     return (
