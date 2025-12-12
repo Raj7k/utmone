@@ -114,11 +114,11 @@ export function useIntelligenceData(workspaceId: string | undefined, days: numbe
           .gte("clicked_at", prevStartDateStr)
           .lt("clicked_at", startDateStr),
         
-        // 3. Revenue - only fetch aggregated data
+        // 3. Revenue - direct workspace_id query (no JOIN)
         supabase
           .from("conversion_events")
-          .select("event_value, link_id, links!inner(workspace_id, utm_source)")
-          .eq("links.workspace_id", workspaceId)
+          .select("event_value, link_id")
+          .eq("workspace_id", workspaceId)
           .gte("attributed_at", startDateStr),
         
         // 4. Campaigns with click counts - limit to top 5
@@ -169,35 +169,31 @@ export function useIntelligenceData(workspaceId: string | undefined, days: numbe
         clicksTrend = change > 0 ? "up" : change < 0 ? "down" : "neutral";
       }
 
+      // Process channel mix first (needed for topChannels)
+      const channelData = (channelMixResult.data || []).filter((link: any) => link.utm_source);
+      const channelTotal = channelData.reduce((sum: number, link: any) => sum + (link.total_clicks || 0), 0);
+
       // Process revenue data
       let totalRevenue = 0;
-      const sourceRevenueMap = new Map<string, number>();
       (revenueResult.data || []).forEach((conv: any) => {
-        const value = conv.event_value || 0;
-        totalRevenue += value;
-        const source = conv.links?.utm_source || "direct";
-        sourceRevenueMap.set(source, (sourceRevenueMap.get(source) || 0) + value);
+        totalRevenue += conv.event_value || 0;
       });
 
-      const topChannels = Array.from(sourceRevenueMap.entries())
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 3)
-        .map(([source, revenue]) => ({
-          source,
-          revenue,
-          percentage: totalRevenue > 0 ? (revenue / totalRevenue) * 100 : 0,
-        }));
+      // Top channels - use channel mix from links
+      const topChannels = channelData.slice(0, 3).map((link: any) => ({
+        source: link.utm_source || "direct",
+        revenue: 0,
+        percentage: channelTotal > 0 ? ((link.total_clicks || 0) / channelTotal) * 100 : 0,
+      }));
 
-      // Process campaigns (simple list, clicks calculated separately if needed)
+      // Process campaigns
       const topCampaigns = (campaignsResult.data || []).map((c: any) => ({
         id: c.id,
         name: c.name,
-        clicks: 0, // Would need separate query if needed
+        clicks: 0,
       }));
 
-      // Process channel mix - already aggregated from links table
-      const channelData = (channelMixResult.data || []).filter((link: any) => link.utm_source);
-      const channelTotal = channelData.reduce((sum: number, link: any) => sum + (link.total_clicks || 0), 0);
+      // Channel mix for donut chart
       const channelMix = channelData
         .slice(0, 5)
         .map((link: any) => ({
