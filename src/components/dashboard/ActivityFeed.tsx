@@ -97,12 +97,12 @@ export const ActivityFeed = () => {
     return (
       <div className="bg-card rounded-2xl border border-border p-6">
         <h3 className="text-lg font-semibold mb-4">recent activity</h3>
-        <div className="text-center py-12">
-          <div className="w-12 h-12 rounded-2xl bg-muted flex items-center justify-center mx-auto mb-4">
-            <Clock className="h-6 w-6 text-muted-foreground" />
+        <div className="text-center py-8">
+          <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
+            <Clock className="h-7 w-7 text-primary" />
           </div>
-          <p className="text-muted-foreground">no links yet</p>
-          <p className="text-sm text-muted-foreground mt-1">create your first link above</p>
+          <p className="text-foreground font-medium">your links will appear here</p>
+          <p className="text-sm text-muted-foreground mt-1">track clicks as they happen</p>
         </div>
       </div>
     );

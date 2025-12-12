@@ -1,24 +1,78 @@
+import { useState, useCallback } from "react";
 import { QuickCreateTile } from "@/components/dashboard/bento/QuickCreateTile";
 import { QuickStats } from "@/components/dashboard/QuickStats";
 import { ActivityFeed } from "@/components/dashboard/ActivityFeed";
 import { OnboardingChecklist } from "@/components/dashboard/OnboardingChecklist";
 import { DemoModeBanner } from "@/components/dashboard/DemoModeBanner";
 import { WelcomeModal } from "@/components/dashboard/WelcomeModal";
-import { PixelSetupCTA } from "@/components/dashboard/PixelSetupCTA";
 import { DashboardQuickActions } from "@/components/dashboard/DashboardQuickActions";
+import { FirstRunExperience } from "@/components/dashboard/FirstRunExperience";
+import { FirstLinkSuccess } from "@/components/dashboard/FirstLinkSuccess";
 import { useDemoMode } from "@/hooks/useDemoMode";
 import { useOnboardingProgress } from "@/hooks/useOnboardingProgress";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { useQueryClient } from "@tanstack/react-query";
 
 const DashboardHome = () => {
   const { showDemoMode } = useDemoMode();
-  const { hasInstalledPixel, isLoading: isLoadingProgress } = useOnboardingProgress();
+  const { hasLinks, isLoading: isLoadingProgress } = useOnboardingProgress();
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [createdLinkUrl, setCreatedLinkUrl] = useState("");
+  const queryClient = useQueryClient();
 
+  const handleLinkCreated = useCallback(() => {
+    // Invalidate queries to refresh data
+    queryClient.invalidateQueries({ queryKey: ['onboarding-progress'] });
+    queryClient.invalidateQueries({ queryKey: ['activity-feed'] });
+    queryClient.invalidateQueries({ queryKey: ['dashboard-links-count'] });
+    
+    // Generate a demo URL for success screen
+    const slug = Math.random().toString(36).substring(2, 8);
+    setCreatedLinkUrl(`utm.one/${slug}`);
+    setShowSuccess(true);
+  }, [queryClient]);
+
+  const handleContinue = useCallback(() => {
+    setShowSuccess(false);
+  }, []);
+
+  // Loading state
+  if (isLoadingProgress) {
+    return (
+      <div className="p-6 lg:p-8 max-w-5xl mx-auto">
+        <div className="animate-pulse space-y-6">
+          <div className="h-32 bg-muted rounded-2xl" />
+          <div className="h-48 bg-muted rounded-2xl" />
+        </div>
+      </div>
+    );
+  }
+
+  // First-run experience for users with no links
+  if (!hasLinks && !showSuccess) {
+    return (
+      <ErrorBoundary section="dashboard-home">
+        <WelcomeModal onLinkCreated={handleLinkCreated} />
+        <FirstRunExperience onLinkCreated={handleLinkCreated} />
+      </ErrorBoundary>
+    );
+  }
+
+  // Success celebration after creating first link
+  if (showSuccess) {
+    return (
+      <ErrorBoundary section="dashboard-home">
+        <FirstLinkSuccess 
+          shortUrl={createdLinkUrl} 
+          onContinue={handleContinue} 
+        />
+      </ErrorBoundary>
+    );
+  }
+
+  // Regular dashboard for users with links
   return (
     <ErrorBoundary section="dashboard-home">
-      {/* Welcome Modal for first-time users */}
-      <WelcomeModal />
-      
       <div className="p-6 lg:p-8 space-y-8 max-w-5xl mx-auto">
         {/* Demo Mode Banner */}
         {showDemoMode && (
@@ -27,19 +81,12 @@ const DashboardHome = () => {
           </ErrorBoundary>
         )}
 
-        {/* Onboarding Checklist - Shows for new users */}
+        {/* Onboarding Checklist - Shows progress for new users */}
         <ErrorBoundary section="onboarding-checklist">
           <OnboardingChecklist />
         </ErrorBoundary>
 
-        {/* Pixel Setup CTA - Shows if pixel not installed */}
-        {!isLoadingProgress && !hasInstalledPixel && (
-          <ErrorBoundary section="pixel-setup-cta">
-            <PixelSetupCTA />
-          </ErrorBoundary>
-        )}
-
-        {/* Quick Actions - Apple-inspired */}
+        {/* Quick Actions */}
         <ErrorBoundary section="quick-actions">
           <div className="animate-fade-in">
             <DashboardQuickActions />

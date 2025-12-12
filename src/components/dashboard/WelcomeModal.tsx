@@ -1,65 +1,49 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Link2, QrCode, BarChart3, Sparkles, ArrowRight, Navigation } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Link2, Sparkles, ArrowRight, Zap, Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useTour } from "@/components/onboarding";
+import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
+import { notify } from "@/lib/notify";
 
 interface WelcomeModalProps {
   userName?: string;
+  onLinkCreated?: () => void;
 }
 
-const FEATURES = [
-  {
-    icon: Link2,
-    title: "create tracked links",
-    description: "shorten URLs with built-in UTM tracking",
-  },
-  {
-    icon: QrCode,
-    title: "generate QR codes",
-    description: "print-ready codes for physical campaigns",
-  },
-  {
-    icon: BarChart3,
-    title: "analyze performance",
-    description: "see which channels drive results",
-  },
-];
-
-export function WelcomeModal({ userName }: WelcomeModalProps) {
+export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentFeature, setCurrentFeature] = useState(0);
-  const { startTour } = useTour();
+  const [url, setUrl] = useState("");
+  const [isCreating, setIsCreating] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [createdSlug, setCreatedSlug] = useState("");
+  const { currentWorkspace } = useWorkspaceContext();
 
   useEffect(() => {
     const checkFirstVisit = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      // Check if user has seen welcome modal
       const { data: profile } = await supabase
         .from("profiles")
         .select("has_seen_welcome_modal")
         .eq("id", user.id)
         .single();
 
-      // Show modal if not seen yet
       if (profile && !profile.has_seen_welcome_modal) {
         setIsOpen(true);
       }
     };
 
-    // Small delay to let dashboard render first
     const timer = setTimeout(checkFirstVisit, 500);
     return () => clearTimeout(timer);
   }, []);
 
-  const handleClose = async (shouldStartTour = false) => {
+  const handleClose = async () => {
     setIsOpen(false);
     
-    // Mark as seen
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
       await supabase
@@ -67,111 +51,192 @@ export function WelcomeModal({ userName }: WelcomeModalProps) {
         .update({ has_seen_welcome_modal: true })
         .eq("id", user.id);
     }
+  };
 
-    // Start tour if requested
-    if (shouldStartTour) {
-      setTimeout(() => startTour(), 300);
+  const handleCreateLink = async () => {
+    if (!url || !currentWorkspace?.id) return;
+
+    let finalUrl = url;
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      finalUrl = `https://${url}`;
+    }
+
+    try {
+      new URL(finalUrl);
+    } catch {
+      notify.error("please enter a valid URL");
+      return;
+    }
+
+    setIsCreating(true);
+
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        notify.error("please sign in to create links");
+        return;
+      }
+
+      const slug = Math.random().toString(36).substring(2, 8);
+      
+      const { error } = await supabase
+        .from('links')
+        .insert({
+          workspace_id: currentWorkspace.id,
+          created_by: user.id,
+          destination_url: finalUrl,
+          final_url: finalUrl,
+          slug,
+          title: new URL(finalUrl).hostname,
+          short_url: `utm.one/${slug}`,
+          status: 'active',
+        });
+
+      if (error) throw error;
+
+      setCreatedSlug(slug);
+      setIsSuccess(true);
+      onLinkCreated?.();
+
+      // Close after showing success
+      setTimeout(() => {
+        handleClose();
+      }, 2000);
+    } catch (error) {
+      console.error('Error creating link:', error);
+      notify.error("couldn't create link. please try again.");
+    } finally {
+      setIsCreating(false);
     }
   };
 
-  // Auto-rotate features
-  useEffect(() => {
-    if (!isOpen) return;
-    const timer = setInterval(() => {
-      setCurrentFeature((prev) => (prev + 1) % FEATURES.length);
-    }, 3000);
-    return () => clearInterval(timer);
-  }, [isOpen]);
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(`https://utm.one/${createdSlug}`);
+      notify.success("copied!");
+    } catch {
+      notify.error("couldn't copy");
+    }
+  };
 
   const firstName = userName?.split(" ")[0] || "there";
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose(false)}>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
       <DialogContent className="sm:max-w-md p-0 overflow-hidden border-border">
         <div className="p-8 space-y-6">
-          {/* Header */}
-          <div className="text-center space-y-2">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", delay: 0.1 }}
-              className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto"
-            >
-              <Sparkles className="w-8 h-8 text-primary" />
-            </motion.div>
-            <h2 className="text-2xl font-display font-bold text-foreground">
-              welcome to utm.one, {firstName}!
-            </h2>
-            <p className="text-muted-foreground">
-              here's what you can do
-            </p>
-          </div>
+          {!isSuccess ? (
+            <>
+              {/* Header */}
+              <div className="text-center space-y-2">
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", delay: 0.1 }}
+                  className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto"
+                >
+                  <Sparkles className="w-8 h-8 text-primary" />
+                </motion.div>
+                <h2 className="text-2xl font-display font-bold text-foreground">
+                  welcome, {firstName}!
+                </h2>
+                <p className="text-muted-foreground">
+                  let's create your first link together
+                </p>
+              </div>
 
-          {/* Feature carousel */}
-          <div className="relative h-24">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentFeature}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-                className="absolute inset-0 flex items-center justify-center"
-              >
-                <div className="text-center space-y-2">
-                  <div className="w-12 h-12 bg-muted rounded-xl flex items-center justify-center mx-auto">
-                    {(() => {
-                      const Icon = FEATURES[currentFeature].icon;
-                      return <Icon className="w-6 h-6 text-foreground" />;
-                    })()}
+              {/* URL Input */}
+              <div className="space-y-4">
+                <div className="relative">
+                  <div className="absolute left-3 top-1/2 -translate-y-1/2">
+                    <Link2 className="h-4 w-4 text-muted-foreground" />
                   </div>
-                  <div>
-                    <p className="font-medium text-foreground">
-                      {FEATURES[currentFeature].title}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {FEATURES[currentFeature].description}
-                    </p>
-                  </div>
+                  <Input
+                    type="url"
+                    placeholder="paste any URL..."
+                    value={url}
+                    onChange={(e) => setUrl(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && url && handleCreateLink()}
+                    className="h-12 pl-10 rounded-xl"
+                    autoFocus
+                  />
                 </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
 
-          {/* Feature indicators */}
-          <div className="flex justify-center gap-1.5">
-            {FEATURES.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrentFeature(i)}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  i === currentFeature 
-                    ? "bg-primary w-6" 
-                    : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
-                }`}
-              />
-            ))}
-          </div>
+                {url && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    className="bg-muted/50 rounded-lg p-3 text-sm"
+                  >
+                    <span className="text-muted-foreground">preview: </span>
+                    <span className="font-mono text-foreground">utm.one/</span>
+                    <span className="font-mono text-primary">abc123</span>
+                  </motion.div>
+                )}
 
-          {/* CTAs */}
-          <div className="space-y-3">
-            <Button 
-              onClick={() => handleClose(true)} 
-              className="w-full h-12" 
-              size="lg"
+                <Button
+                  onClick={handleCreateLink}
+                  disabled={!url || isCreating}
+                  className="w-full h-12"
+                  size="lg"
+                >
+                  {isCreating ? (
+                    <>
+                      <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                      creating...
+                    </>
+                  ) : (
+                    <>
+                      create my first link
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </>
+                  )}
+                </Button>
+              </div>
+
+              {/* Skip */}
+              <div className="text-center">
+                <button
+                  onClick={handleClose}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  skip for now →
+                </button>
+              </div>
+            </>
+          ) : (
+            /* Success State */
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="text-center space-y-4"
             >
-              <Navigation className="w-4 h-4 mr-2" />
-              take the guided tour
-            </Button>
-            <Button 
-              variant="ghost" 
-              onClick={() => handleClose(false)} 
-              className="w-full"
-            >
-              skip, i'll explore on my own
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          </div>
+              <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mx-auto">
+                <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center">
+                  <Check className="w-6 h-6 text-white" strokeWidth={3} />
+                </div>
+              </div>
+              
+              <div>
+                <h2 className="text-xl font-display font-bold text-foreground">
+                  link created!
+                </h2>
+                <p className="text-muted-foreground text-sm mt-1">
+                  your first link is ready
+                </p>
+              </div>
+
+              <div 
+                onClick={handleCopy}
+                className="bg-muted/50 rounded-lg p-3 cursor-pointer hover:bg-muted transition-colors"
+              >
+                <p className="font-mono text-primary text-lg">
+                  utm.one/{createdSlug}
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">click to copy</p>
+              </div>
+            </motion.div>
+          )}
         </div>
       </DialogContent>
     </Dialog>
