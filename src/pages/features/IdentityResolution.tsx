@@ -1,182 +1,130 @@
-import { Navigation } from "@/components/landing/Navigation";
-import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
-import { Footer } from "@/components/landing/Footer";
-import { SEO } from "@/components/seo/SEO";
-import { WebPageSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
-import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
-import { TheMomentStoryCard } from "@/components/solutions/TheMomentStoryCard";
-import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
-import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
-import { ProductMockup } from "@/components/product/ProductMockup";
-import { Card } from "@/components/ui/card";
-import { CheckCircle2, Users, Clock, Zap } from "lucide-react";
-import { CTAButton } from "@/components/ui/CTAButton";
-import { preserveAcronyms as p } from "@/utils/textFormatter";
+import { FeatureLayout } from "@/components/features/FeatureLayout";
+import { FeatureHero } from "@/components/features/FeatureHero";
+import { FeatureStatsStrip } from "@/components/features/FeatureStatsStrip";
+import { FeatureBentoGrid } from "@/components/features/FeatureBentoGrid";
+import { FeatureBeforeAfter } from "@/components/features/FeatureBeforeAfter";
+import { FeatureShowcase } from "@/components/features/FeatureShowcase";
+import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
+import { Users, Clock, Zap, Link2, Fingerprint, Shield } from "lucide-react";
 
 const IdentityResolution = () => {
-  const faqs = [
+  const stats = [
+    { value: "2.3x", label: "Attribution Lift" },
+    { value: "90", label: "Days Backfill" },
+    { value: "<1s", label: "Stitch Time" },
+    { value: "100%", label: "First-Party" },
+  ];
+
+  const capabilities = [
     {
-      question: "How does Identity Stitching differ from cookies?",
-      answer: "Cookies track devices. Identity Stitching tracks people. When a user signs up, we backfill their entire history across all devices and sessions, creating a unified identity graph."
+      icon: Fingerprint,
+      title: "Identity Stitching",
+      description: "Connect anonymous sessions to known users when they identify.",
     },
     {
-      question: "Does this work without third-party cookies?",
-      answer: "Yes. Identity Resolution is 100% first-party. We use deterministic matching (email, user ID) and probabilistic signals (IP + User Agent heuristics) to stitch sessions."
+      icon: Clock,
+      title: "Time-Travel Backfill",
+      description: "Retroactively link up to 90 days of anonymous browsing history.",
     },
     {
-      question: "How far back does Time-Travel Stitching go?",
-      answer: "We backfill up to 90 days of anonymous history by default. Enterprise plans can extend this to 365 days or longer with custom retention policies."
+      icon: Link2,
+      title: "Cross-Device Unity",
+      description: "Merge mobile and desktop sessions into unified identity graphs.",
     },
     {
-      question: "What triggers identity resolution?",
-      answer: "Any moment the user identifies: form submission, login, OAuth sign-in, or custom events you send via our tracking pixel or API."
+      icon: Users,
+      title: "Deterministic Matching",
+      description: "Email, user ID, and login-based identity resolution.",
     },
     {
-      question: "Is this GDPR compliant?",
-      answer: "Yes. Identity Resolution is first-party only. We don't share data between customers. You can delete a user's entire identity graph via our 'Right to be Forgotten' API."
+      icon: Zap,
+      title: "Real-Time Stitching",
+      description: "Identities merge instantly when users sign up or log in.",
     },
     {
-      question: "Can I see which anonymous visitors converted?",
-      answer: "Yes. The Journey Timeline shows the full path: Anonymous Visit → Blog → Whitepaper → Sign Up → Sarah@Nike.com. Every step is visible after stitching."
-    }
+      icon: Shield,
+      title: "Privacy Compliant",
+      description: "100% first-party data. GDPR/CCPA compliant with deletion APIs.",
+    },
+  ];
+
+  const comparisonItems = [
+    { feature: "Anonymous visitor tracking", before: "Lost when cookie expires", after: "Stitched to identity on signup" },
+    { feature: "Cross-device attribution", before: "Separate user profiles", after: "Unified identity graph" },
+    { feature: "Historical data", before: "Starts from signup", after: "90 days backfilled instantly" },
+    { feature: "Attribution accuracy", before: "40% attributed to 'Direct'", after: "True channel attribution" },
+    { feature: "Cookie dependency", before: "Breaks on cookie block", after: "First-party, cookie-independent" },
+    { feature: "Privacy compliance", before: "Third-party data risks", after: "100% GDPR/CCPA compliant" },
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <SEO 
-        title="Identity Resolution & Time-Travel Stitching | utm.one"
-        description="De-anonymize your traffic. utm.one's Identity Resolution backfills user history the moment they identify, revealing the full journey from first visit to conversion."
-        canonical="https://utm.one/features/identity-resolution"
-        keywords={['identity resolution', 'user stitching', 'anonymous visitor tracking', 'first-party identity', 'cross-device tracking']}
-      />
-      <WebPageSchema 
-        name="Identity Resolution"
-        description="De-anonymize your traffic with Time-Travel Stitching that backfills anonymous visitor history."
-        url="https://utm.one/features/identity-resolution"
-      />
-      <BreadcrumbSchema 
-        items={[
-          { name: 'Home', url: 'https://utm.one' },
-          { name: 'Features', url: 'https://utm.one/features' },
-          { name: 'Identity Resolution', url: 'https://utm.one/features/identity-resolution' }
-        ]}
+    <FeatureLayout
+      title="Identity Resolution & Time-Travel Stitching - utm.one"
+      description="De-anonymize your traffic with first-party identity stitching. Backfill 90 days of anonymous history when users identify."
+      canonical="https://utm.one/features/identity-resolution"
+      keywords={["identity resolution", "user stitching", "anonymous visitor tracking", "first-party identity", "cross-device tracking"]}
+      breadcrumbs={[
+        { name: "Home", url: "https://utm.one" },
+        { name: "Features", url: "https://utm.one/#features" },
+        { name: "Identity Resolution", url: "https://utm.one/features/identity-resolution" },
+      ]}
+    >
+      <FeatureHero
+        headline="de-anonymize your traffic."
+        subheadline="Time-Travel Stitching remembers that 'Anonymous Visitor 582' who read your blog 3 weeks ago is actually Sarah from Nike. When she signs up, we backfill her history instantly."
+        primaryCTA={{ label: "start stitching", href: "/early-access" }}
+        secondaryCTA={{ label: "see how it works", href: "#demo" }}
       />
 
-      <Navigation />
-      <FloatingNavigation />
+      <FeatureStatsStrip stats={stats} />
 
-      {/* Fold 1: Hero */}
-      <section className="relative py-32 overflow-hidden">
-        <RetroGradientMesh />
-        
-        <div className="relative max-w-[980px] mx-auto px-8 z-10">
-          <div className="text-center space-y-8">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter hero-gradient leading-[1.05]">
-              de-anonymize your traffic.
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto">
-              Time-Travel Stitching remembers that "Anonymous Visitor 582" who read your blog 3 weeks ago is actually Sarah from Nike. When she finally signs up, we backfill her history instantly.
-            </p>
-            <div className="pt-4">
-              <CTAButton href="/early-access" variant="primary" pulse>
-                start stitching identities
-              </CTAButton>
-            </div>
-            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-              <CheckCircle2 className="w-4 h-4 text-primary" />
-              <span>100% first-party • GDPR compliant</span>
-            </div>
+      <FeatureShowcase
+        headline="How Identity Stitching Works"
+        subheadline="From anonymous visitor to known customer in milliseconds"
+        background="muted"
+      >
+        <div className="space-y-6">
+          <div className="grid md:grid-cols-4 gap-4">
+            {[
+              { step: "1", title: "Anonymous Visit", desc: "Visitor 582 reads your blog post" },
+              { step: "2", title: "Multiple Touchpoints", desc: "Downloads whitepaper, views pricing" },
+              { step: "3", title: "Identity Moment", desc: "Signs up as sarah@nike.com" },
+              { step: "4", title: "History Backfilled", desc: "All sessions linked to Sarah" },
+            ].map((item) => (
+              <div key={item.step} className="bg-card border border-border rounded-xl p-6 text-center">
+                <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center mx-auto mb-4 font-bold">
+                  {item.step}
+                </div>
+                <h3 className="font-sans font-semibold text-foreground mb-2">{item.title}</h3>
+                <p className="text-sm text-muted-foreground">{item.desc}</p>
+              </div>
+            ))}
           </div>
-        </div>
-      </section>
-
-      {/* Fold 2: The Problem */}
-      <section className="py-24 md:py-32 bg-background">
-        <div className="max-w-[980px] mx-auto px-8">
-          <TheMomentStoryCard 
-            title="you're flying blind"
-            scenario="Standard analytics show 'Anonymous Visitor 582' clicked your blog. Then 'Unknown User' downloaded a whitepaper. Then 'Direct Traffic' signed up. You have no idea these are the same person. When Sarah signs up with sarah@nike.com, we backfill her entire journey instantly."
-          />
-        </div>
-      </section>
-
-      {/* Fold 3: Visual Demonstration */}
-      <section className="py-24 md:py-32 bg-muted/20">
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label mb-6">
-              how identity stitching works
-            </h2>
-            <p className="text-xl text-secondary-label max-w-2xl mx-auto">
-              Sequential State Estimation in action.
+          <div className="bg-primary/10 border border-primary/20 rounded-xl p-6 text-center">
+            <p className="text-primary font-medium">
+              Result: Sarah's complete journey visible from first anonymous visit to conversion
             </p>
           </div>
-
-          <div className="flex justify-center">
-            <ProductMockup type="identity-stitching" size="large" />
-          </div>
         </div>
-      </section>
+      </FeatureShowcase>
 
-      {/* Fold 4: Benefits Grid */}
-      <section className="py-24 md:py-32 bg-background">
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="p-8 space-y-4">
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-primary/10">
-                <Users className="w-8 h-8 text-primary" />
-              </div>
-              <h3 className="text-2xl font-display font-bold text-label">
-                2.3x attribution lift
-              </h3>
-              <p className="text-secondary-label">
-                Before: "Direct" drove 40% of signups. After: LinkedIn drove 42%. You finally know what's working.
-              </p>
-            </Card>
+      <FeatureBeforeAfter
+        headline="The Identity Gap Problem"
+        subheadline="Without identity resolution, most of your customer journey is invisible"
+        items={comparisonItems}
+      />
 
-            <Card className="p-8 space-y-4">
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-primary/10">
-                <Clock className="w-8 h-8 text-primary" />
-              </div>
-              <h3 className="text-2xl font-display font-bold text-label">
-                instant backfill
-              </h3>
-              <p className="text-secondary-label">
-                The moment a user identifies, we stitch up to 90 days of history. No waiting. No gaps.
-              </p>
-            </Card>
+      <FeatureBentoGrid
+        headline="Identity Resolution Features"
+        subheadline="Everything you need to understand the full customer journey"
+        items={capabilities}
+      />
 
-            <Card className="p-8 space-y-4">
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-primary/10">
-                <Zap className="w-8 h-8 text-primary" />
-              </div>
-              <h3 className="text-2xl font-display font-bold text-label">
-                cross-device unity
-              </h3>
-              <p className="text-secondary-label">
-                Mobile visit → Desktop sign-up. We merge both sessions into one unified identity graph.
-              </p>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Fold 5: FAQ */}
-      <section className="py-24 md:py-32 bg-muted/20">
-        <RoleSpecificFAQ role="identity resolution users" faqs={faqs} />
-      </section>
-
-      {/* Fold 6: CTA */}
-      <PremiumCTASection 
+      <FeatureFinalCTA
         headline="stop guessing. start knowing."
         subheadline="Join teams using Identity Resolution to attribute every conversion correctly."
-        primaryCTA="get early access"
-        secondaryCTA="see demo"
-        secondaryCTALink="/early-access"
       />
-
-      <Footer />
-    </div>
+    </FeatureLayout>
   );
 };
 

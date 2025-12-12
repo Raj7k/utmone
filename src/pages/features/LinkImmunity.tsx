@@ -1,273 +1,133 @@
 import { FeatureLayout } from "@/components/features/FeatureLayout";
-import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
-import { HorrorStorySection } from "@/components/solutions/HorrorStorySection";
-import { PersonaCalloutCards } from "@/components/solutions/PersonaCalloutCards";
-import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
-import { LinkHealthDashboard } from "@/components/features/LinkHealthDashboard";
-import { UseCasesGrid } from "@/components/features/UseCasesGrid";
-import { ShieldCheck, Users, Briefcase, Code, Activity, Bell, Clock, Zap } from "lucide-react";
-import { CTAButton } from "@/components/ui/CTAButton";
-import { preserveAcronyms as p } from "@/utils/textFormatter";
+import { FeatureHero } from "@/components/features/FeatureHero";
+import { FeatureStatsStrip } from "@/components/features/FeatureStatsStrip";
+import { FeatureBentoGrid } from "@/components/features/FeatureBentoGrid";
+import { FeatureBeforeAfter } from "@/components/features/FeatureBeforeAfter";
+import { FeatureShowcase } from "@/components/features/FeatureShowcase";
+import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
+import { Shield, Activity, Bell, Zap, Clock, RefreshCw } from "lucide-react";
 
-export default function LinkImmunity() {
-  const useCases = [
-    {
-      title: "Black Friday site crash",
-      scenario: "Your Black Friday campaign launches at midnight. Traffic surge crashes your website. 50,000 people click your ads and see 404 errors. By morning, you've burned $80K.",
-      solution: "Link Immunity detects the crash within 60 seconds. All campaign links automatically route to your fallback landing page. Zero 404 errors. Campaign runs smoothly."
-    },
-    {
-      title: "Product page renamed during campaign",
-      scenario: "Your campaign links to /product/summer-sale. Dev team renames it to /sale/summer. Your links break mid-campaign. 10,000 clicks go to 404 errors.",
-      solution: "Health monitor detects 404s immediately. Alerts your team. You update the destination. All 10,000 clicks after that go to the correct page."
-    },
-    {
-      title: "Partner site goes down",
-      scenario: "Your affiliate program sends traffic to partner websites. One partner's site goes down for 6 hours. 5,000 of your clicks land on error pages. Your brand looks bad.",
-      solution: "Link Immunity detects partner site downtime. Routes traffic to your own landing page with 'Partner temporarily unavailable' message. Trust preserved."
-    },
-    {
-      title: "DNS propagation delays",
-      scenario: "You're migrating to a new domain. DNS takes 24 hours to propagate. Some users see your new site, others see errors. Campaign performance tanks.",
-      solution: "Health checks detect DNS resolution failures. Routes affected users to cloudfront-cached version of your site. 100% uptime during migration."
-    }
+const LinkImmunity = () => {
+  const stats = [
+    { value: "99.99%", label: "Uptime Guarantee" },
+    { value: "<60s", label: "Failover Time" },
+    { value: "15+", label: "Global Probes" },
+    { value: "$0", label: "Clicks Lost" },
   ];
 
-  const faqs = [
+  const capabilities = [
     {
-      question: "What happens if my website goes down during a campaign?",
-      answer: "Link Immunity automatically routes traffic to your configured fallback URL. Your campaign links never show 404 errors, even when your website is down. Detection happens within 60 seconds of the first failed health check. You get instant Slack/email alerts so your team can fix the issue."
+      icon: Activity,
+      title: "Health Probes",
+      description: "Continuous monitoring of destination URLs from 15+ global locations.",
     },
     {
-      question: "How often are links checked?",
-      answer: "Top 100 links (by traffic) are checked every hour. High-traffic links (1000+ clicks/day) are checked every 15 minutes. All links are checked at least once per day. Enterprise plans get 5-minute health checks on critical links."
+      icon: Zap,
+      title: "Instant Detection",
+      description: "Detect 404s, 500s, DNS failures, and SSL errors within 60 seconds.",
     },
     {
-      question: "Can I set up multiple fallback URLs?",
-      answer: "Yes. Configure primary, fallback 1, fallback 2, etc. If primary fails, it tries fallback 1. If that fails, it tries fallback 2. Cascade failover ensures your links never break. You can set different fallbacks per link or use global workspace defaults."
+      icon: RefreshCw,
+      title: "Cascade Failover",
+      description: "Automatically route to fallback URLs when primary destination fails.",
     },
     {
-      question: "What types of failures does Link Immunity detect?",
-      answer: "We detect: HTTP errors (404, 500, 502, 503), DNS failures, SSL certificate errors, slow response times (>5 seconds), redirect loops, and partial page loads. Each failure type triggers appropriate fallback logic."
+      icon: Bell,
+      title: "Smart Alerts",
+      description: "Slack, email, or SMS notifications with configurable thresholds.",
     },
     {
-      question: "Can I test my fallback flow before a campaign launches?",
-      answer: "Yes. Use the 'Test Failover' button in link settings to simulate a failure. The system will temporarily route test traffic to your fallback URL so you can verify it works correctly before your campaign goes live."
+      icon: Clock,
+      title: "SLA Monitoring",
+      description: "Track uptime SLAs per link with historical reports and incident logs.",
     },
     {
-      question: "What if my fallback URL also goes down?",
-      answer: "Link Immunity cascades through all configured fallbacks. If all fail, it routes to a utm.one-hosted 'service temporarily unavailable' page with your brand logo and contact info. This prevents users from seeing generic 404 errors."
+      icon: Shield,
+      title: "Zero Downtime Deploys",
+      description: "Update your website without breaking campaign links.",
     },
-    {
-      question: "Does Link Immunity work with Smart Routing?",
-      answer: "Yes. Smart Routing rules apply first (e.g., US → Page A, UK → Page B). Then health checks verify each destination. If a destination fails, Link Immunity routes to that region's fallback. Example: US Page A down → US Fallback A."
-    },
-    {
-      question: "Can I get alerts when links fail?",
-      answer: "Yes. Configure Slack, email, SMS, or webhook alerts. Choose alert thresholds: immediate (first failure), 3 failures in 5 minutes (temporary issue), or 10 failures in 1 hour (sustained outage). Alerts include failure type, affected links, and recommended actions."
-    }
+  ];
+
+  const comparisonItems = [
+    { feature: "Website crashes", before: "50K clicks see 404 errors", after: "All traffic routes to fallback" },
+    { feature: "Detection time", before: "Hours or never", after: "Under 60 seconds" },
+    { feature: "Failover", before: "Manual intervention", after: "Automatic cascade routing" },
+    { feature: "Alerts", before: "Find out from customers", after: "Instant Slack/email notification" },
+    { feature: "Ad spend impact", before: "$80K wasted on broken pages", after: "$0 lost to downtime" },
+    { feature: "Partner sites", before: "Hope they stay up", after: "Auto-route on partner outage" },
   ];
 
   return (
     <FeatureLayout
-      title="Link Immunity - Never Show a 404 Again"
-      description="Your campaign goes viral and your website crashes. What happens to those clicks? With Link Immunity, they go to your fallback page—not a 404 error."
+      title="Link Immunity - Never Show a 404 Again - utm.one"
+      description="Automatic failover routing when destinations go down. Your links never break, even when your website does."
       canonical="https://utm.one/features/link-immunity"
-      keywords={["link monitoring", "uptime monitoring", "broken link detection", "automatic fallback"]}
+      keywords={["link monitoring", "uptime monitoring", "broken link detection", "automatic failover", "link health"]}
       breadcrumbs={[
-        { name: 'Home', url: 'https://utm.one' },
-        { name: 'Features', url: 'https://utm.one/features' },
-        { name: 'Link Immunity', url: 'https://utm.one/features/link-immunity' }
+        { name: "Home", url: "https://utm.one" },
+        { name: "Features", url: "https://utm.one/#features" },
+        { name: "Link Immunity", url: "https://utm.one/features/link-immunity" },
       ]}
     >
-      {/* Hero */}
-      <section className="relative py-32 overflow-hidden">
-        <RetroGradientMesh />
-        <div className="relative max-w-[980px] mx-auto px-8 z-10 text-center">
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold hero-gradient mb-6">
-            never show a 404 again.
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-            your campaign goes viral and your website crashes. what happens to those clicks? with link immunity, they go to your fallback page—not a 404 error.
-          </p>
-          <CTAButton href="/early-access" variant="primary" pulse>get early access</CTAButton>
-        </div>
-      </section>
+      <FeatureHero
+        headline="never show a 404 again."
+        subheadline="Your campaign goes viral and your website crashes. What happens to those clicks? With Link Immunity, they go to your fallback page—not a 404 error."
+        primaryCTA={{ label: "get started free", href: "/early-access" }}
+        secondaryCTA={{ label: "see demo", href: "#demo" }}
+      />
 
-      {/* Problem */}
-      <section className="py-24">
-        <div className="max-w-6xl mx-auto px-8">
-          <HorrorStorySection
-            title="404 errors destroy trust"
-            description="Your Black Friday campaign launches at midnight. Traffic surge crashes your website. 50,000 people click your ads and see 404 errors. By morning, you've burned $80K in ad spend sending people to broken pages. Your reputation is ruined."
-            stats={[
-              { label: "Clicks wasted", value: "50K" },
-              { label: "Ad spend lost", value: "$80K" },
-              { label: "Brand damage", value: "∞" }
-            ]}
-          />
-        </div>
-      </section>
+      <FeatureStatsStrip stats={stats} />
 
-      {/* Health Dashboard Preview */}
-      <section className="py-24 bg-white/[0.02]">
-        <div className="max-w-6xl mx-auto px-8">
-          <LinkHealthDashboard />
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="py-24">
-        <div className="max-w-6xl mx-auto px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">how link immunity works</h2>
-            <p className="text-xl text-muted-foreground">automatic failover in under 60 seconds</p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            <div className="obsidian-glass rounded-xl p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <Activity className="w-8 h-8 text-primary" />
-                <h3 className="text-2xl font-display font-semibold">health probes</h3>
+      <FeatureShowcase
+        headline="Cascade Failover Flow"
+        subheadline="Automatic routing when destinations fail"
+        background="muted"
+      >
+        <div className="max-w-2xl mx-auto space-y-4">
+          {[
+            { num: "1", label: "Primary Destination", url: "example.com/campaign", status: "✓ Healthy", active: true },
+            { num: "2", label: "Fallback 1", url: "example.com/backup", status: "Standby", active: false },
+            { num: "3", label: "Fallback 2", url: "example.com/final", status: "Standby", active: false },
+          ].map((item) => (
+            <div key={item.num} className={`flex items-center gap-4 p-4 rounded-xl border ${item.active ? 'bg-primary/10 border-primary/30' : 'bg-card border-border opacity-50'}`}>
+              <div className={`${item.active ? 'text-primary-foreground bg-primary' : 'bg-muted text-muted-foreground'} rounded-full w-10 h-10 flex items-center justify-center shrink-0 font-bold`}>
+                {item.num}
               </div>
-              <p className="text-muted-foreground mb-4">
-                We continuously check your links' destination URLs for availability, response time, and errors.
-              </p>
-              <div className="bg-white/[0.03] rounded-lg p-4 text-sm text-muted-foreground">
-                <span className="font-semibold text-foreground">Check frequency:</span> Top 100 links every hour, high-traffic links every 15 minutes
+              <div className="flex-1">
+                <p className="font-semibold text-foreground">{item.label}</p>
+                <p className="text-sm font-mono text-muted-foreground">{item.url}</p>
+              </div>
+              <div className={`text-sm font-semibold ${item.active ? 'text-green-500' : 'text-muted-foreground'}`}>
+                {item.status}
               </div>
             </div>
-
-            <div className="obsidian-glass rounded-xl p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <Zap className="w-8 h-8 text-primary" />
-                <h3 className="text-2xl font-display font-semibold">instant detection</h3>
-              </div>
-              <p className="text-muted-foreground mb-4">
-                When a destination fails, the system detects it within 60 seconds and automatically activates fallback routing.
-              </p>
-              <div className="rounded-lg p-4 text-sm bg-primary/10">
-                <span className="font-semibold text-primary">Detection types:</span>
-                <div className="mt-2 text-foreground text-xs">404, 500, DNS failures, SSL errors, slow response</div>
-              </div>
-            </div>
-
-            <div className="obsidian-glass rounded-xl p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <Bell className="w-8 h-8 text-primary" />
-                <h3 className="text-2xl font-display font-semibold">smart alerts</h3>
-              </div>
-              <p className="text-muted-foreground mb-4">
-                Get notified via Slack, email, or SMS when links fail. Choose thresholds: immediate, 3 failures, or sustained outage.
-              </p>
-              <div className="bg-white/[0.03] rounded-lg p-4 text-sm text-muted-foreground">
-                Alerts include failure type, affected links, and recommended actions
-              </div>
-            </div>
-          </div>
-
-          {/* Cascade Failover Visual */}
-          <div className="obsidian-glass rounded-xl p-8 max-w-3xl mx-auto">
-            <h3 className="text-lg font-semibold mb-6 text-foreground">cascade failover flow</h3>
-            <div className="space-y-4">
-              {[
-                { num: "1", label: "Primary Destination", url: "example.com/campaign", status: "✓ Healthy", statusColor: "text-green-500" },
-                { num: "2", label: "Fallback 1", url: "example.com/backup", status: "Standby", statusColor: "text-muted-foreground" },
-                { num: "3", label: "Fallback 2", url: "example.com/final", status: "Standby", statusColor: "text-muted-foreground" }
-              ].map((item, i) => (
-                <div key={i} className={`flex items-center gap-4 ${i > 0 ? 'opacity-50' : ''}`}>
-                  <div className={`${i === 0 ? 'text-white bg-primary' : 'bg-white/10 text-muted-foreground'} rounded-full w-8 h-8 flex items-center justify-center shrink-0 font-bold text-sm`}>{item.num}</div>
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold text-foreground mb-1">{item.label}</p>
-                    <p className="text-xs font-mono text-muted-foreground">{item.url}</p>
-                  </div>
-                  <div className={`text-xs font-semibold ${item.statusColor}`}>{item.status}</div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-6 p-4 rounded-lg bg-primary/10">
-              <p className="text-sm text-center font-medium text-primary">
-                <span className="font-semibold">If #1 fails:</span> Traffic automatically routes to #2 within 60 seconds
-              </p>
-            </div>
+          ))}
+          <div className="mt-6 p-4 rounded-lg bg-primary/10 border border-primary/20">
+            <p className="text-sm text-center font-medium text-primary">
+              If #1 fails: Traffic automatically routes to #2 within 60 seconds
+            </p>
           </div>
         </div>
-      </section>
+      </FeatureShowcase>
 
-      {/* Use Cases */}
-      <section className="py-24 bg-white/[0.02]">
-        <div className="max-w-6xl mx-auto px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">real use cases</h2>
-            <p className="text-xl text-muted-foreground">problems we actually solve</p>
-          </div>
-          <UseCasesGrid useCases={useCases} />
-        </div>
-      </section>
+      <FeatureBeforeAfter
+        headline="404 Errors Destroy Trust"
+        subheadline="See how Link Immunity protects your campaigns"
+        items={comparisonItems}
+      />
 
-      {/* Enterprise Features */}
-      <section className="py-24">
-        <div className="max-w-6xl mx-auto px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">enterprise-grade monitoring</h2>
-            <p className="text-xl text-muted-foreground">99.99% uptime guarantee</p>
-          </div>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="obsidian-glass border-2 border-white/10 rounded-xl p-8">
-              <div className="flex items-center gap-2 mb-4">
-                <Clock className="w-6 h-6 text-primary" />
-                <h3 className="text-xl font-display font-bold">global health checks</h3>
-              </div>
-              <p className="text-muted-foreground mb-4">Health probes run from 15+ global locations to detect regional outages.</p>
-              <div className="bg-white/[0.03] rounded-lg p-4 text-sm">
-                <p className="font-semibold text-foreground mb-2">Check locations:</p>
-                <ul className="space-y-1 text-muted-foreground">
-                  <li>• North America (US East, US West, Canada)</li>
-                  <li>• Europe (UK, Germany, France)</li>
-                  <li>• Asia-Pacific (Singapore, Tokyo, Sydney)</li>
-                </ul>
-              </div>
-            </div>
+      <FeatureBentoGrid
+        headline="Link Immunity Features"
+        subheadline="Enterprise-grade uptime monitoring for your links"
+        items={capabilities}
+      />
 
-            <div className="obsidian-glass border-2 border-white/10 rounded-xl p-8">
-              <div className="flex items-center gap-2 mb-4">
-                <ShieldCheck className="w-6 h-6 text-primary" />
-                <h3 className="text-xl font-display font-bold">SLA monitoring</h3>
-              </div>
-              <p className="text-muted-foreground mb-4">Track uptime SLAs per link with historical reports and incident logs.</p>
-              <div className="bg-white/[0.03] rounded-lg p-4 text-sm">
-                <p className="font-semibold text-foreground mb-2">Enterprise dashboard:</p>
-                <ul className="space-y-1 text-muted-foreground">
-                  <li>• 30-day uptime percentage</li>
-                  <li>• Incident timeline and resolution</li>
-                  <li>• Downtime attribution by link/destination</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Personas */}
-      <section className="py-24 bg-white/[0.02]">
-        <div className="max-w-6xl mx-auto px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">for your role</h2>
-          </div>
-          <PersonaCalloutCards callouts={[
-            { icon: Users, title: "for marketers", benefit: "Protect your campaign spend—never waste budget sending traffic to 404 errors." },
-            { icon: Briefcase, title: "for ops", benefit: "99.99% uptime guarantee—your links stay live even when your website goes down." },
-            { icon: Code, title: "for enterprise", benefit: "Zero-downtime deployments—update your website without breaking 50,000 campaign links." }
-          ]} />
-        </div>
-      </section>
-
-      {/* FAQs */}
-      <section className="py-24">
-        <div className="max-w-4xl mx-auto px-8">
-          <RoleSpecificFAQ role="teams" faqs={faqs} />
-        </div>
-      </section>
+      <FeatureFinalCTA
+        headline="protect your campaign spend."
+        subheadline="Never waste budget sending traffic to broken pages again."
+      />
     </FeatureLayout>
   );
-}
+};
+
+export default LinkImmunity;
