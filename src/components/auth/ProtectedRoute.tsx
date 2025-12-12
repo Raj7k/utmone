@@ -1,6 +1,6 @@
-import { useEffect, useState, useCallback, useRef, useDeferredValue } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { useAuthSession } from "@/hooks/useAuthSession";
+import { useAppSession } from "@/contexts/AppSessionContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
@@ -16,39 +16,39 @@ const loadingMessages = [
 ];
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  // Use unified auth session hook - instant from cache
-  const { user, isLoading: isAuthLoading, isAuthenticated, error } = useAuthSession();
-  
-  // Defer non-critical state updates
-  const deferredIsAuthenticated = useDeferredValue(isAuthenticated);
+  const { user, isReady, isAuthenticated, error, refresh } = useAppSession();
   
   const [hasTimedOut, setHasTimedOut] = useState(false);
   const [messageIndex, setMessageIndex] = useState(0);
   const location = useLocation();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Rotate loading messages
+  // FAST PATH: If we have cached user, render immediately
+  // isReady becomes true instantly when cache exists
+  const shouldRender = isReady && isAuthenticated && user;
+
+  // Rotate loading messages only when actually loading
   useEffect(() => {
-    if (!isAuthLoading) return;
+    if (shouldRender) return;
     
     const interval = setInterval(() => {
       setMessageIndex((prev) => (prev + 1) % loadingMessages.length);
     }, 1500);
     
     return () => clearInterval(interval);
-  }, [isAuthLoading]);
+  }, [shouldRender]);
 
-  // Reduced timeout - 1.5 seconds for fast failure
+  // Timeout - 2 seconds max wait
   useEffect(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
 
-    if (isAuthLoading) {
+    if (!isReady && !hasTimedOut) {
       timeoutRef.current = setTimeout(() => {
         console.warn("[ProtectedRoute] Timeout - showing retry");
         setHasTimedOut(true);
-      }, 1500);
+      }, 2000);
     }
 
     return () => {
@@ -56,20 +56,15 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [isAuthLoading]);
+  }, [isReady, hasTimedOut]);
 
-  const handleRetry = useCallback(() => {
-    setHasTimedOut(false);
-    window.location.reload();
-  }, []);
-
-  // FAST PATH: If authenticated (from cache or fresh), render immediately
-  if (deferredIsAuthenticated && user) {
+  // INSTANT RENDER: Cache hit = render immediately
+  if (shouldRender) {
     return <>{children}</>;
   }
 
-  // Show loading only if no cached auth and still loading
-  if (isAuthLoading && !hasTimedOut) {
+  // Show loading only if no cache and still initializing
+  if (!isReady && !hasTimedOut && !error) {
     return (
       <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center">
         <div 
@@ -127,7 +122,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
           <Button 
             variant="outline" 
             size="sm"
-            onClick={handleRetry}
+            onClick={() => refresh()}
             className="gap-2"
           >
             <RefreshCw className="h-4 w-4" />
@@ -138,12 +133,12 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     );
   }
 
-  // Not authenticated - redirect to signup
-  if (!isAuthLoading && !isAuthenticated) {
+  // Not authenticated after check - redirect to signup
+  if (isReady && !isAuthenticated) {
     return <Navigate to={`/signup?redirect_to=${encodeURIComponent(location.pathname)}`} replace />;
   }
 
-  // Fallback loading state
+  // Fallback loading
   return (
     <div className="fixed inset-0 z-50 bg-background flex items-center justify-center">
       <motion.div

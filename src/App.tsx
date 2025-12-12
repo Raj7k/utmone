@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { WorkspaceProvider } from "./contexts/WorkspaceContext";
+import { AppSessionProvider } from "./contexts/AppSessionContext";
 import { AdminSimulationProvider } from "./contexts/AdminSimulationContext";
 import { ModalProvider } from "./contexts/ModalContext";
 import { GlobalEarlyAccessModal } from "./components/early-access/GlobalEarlyAccessModal";
@@ -551,6 +552,7 @@ const App = () => (
             <TooltipProvider>
               <Toaster />
               <BrowserRouter>
+              <AppSessionProvider>
               <WorkspaceProvider>
                 <AdminSimulationProvider>
                   <ModalProvider>
@@ -1116,6 +1118,7 @@ const App = () => (
           </ModalProvider>
           </AdminSimulationProvider>
           </WorkspaceProvider>
+          </AppSessionProvider>
         </BrowserRouter>
       </TooltipProvider>
     </NotificationProvider>
