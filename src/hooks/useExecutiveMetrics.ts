@@ -33,33 +33,30 @@ export const useExecutiveMetrics = ({ workspaceId, dateRange = 30 }: UseExecutiv
       const previousStart = startOfDay(subDays(new Date(), dateRange * 2));
       const previousEnd = currentStart;
 
-      // Fetch current and previous period data in parallel
+      // OPTIMIZED: Query link_clicks directly via workspace_id column (no JOIN)
       const [
         { data: currentClicks },
         { data: previousClicks },
-        { data: conversions },
-        { data: links }
+        { data: conversions }
       ] = await Promise.all([
         supabase
           .from("link_clicks")
-          .select("id, is_unique, clicked_at, referrer, links!inner(workspace_id)")
-          .eq("links.workspace_id", workspaceId)
-          .gte("clicked_at", currentStart.toISOString()),
+          .select("id, is_unique, clicked_at, referrer")
+          .eq("workspace_id", workspaceId)
+          .gte("clicked_at", currentStart.toISOString())
+          .limit(5000),
         supabase
           .from("link_clicks")
-          .select("id, is_unique, links!inner(workspace_id)")
-          .eq("links.workspace_id", workspaceId)
+          .select("id, is_unique")
+          .eq("workspace_id", workspaceId)
           .gte("clicked_at", previousStart.toISOString())
-          .lt("clicked_at", previousEnd.toISOString()),
+          .lt("clicked_at", previousEnd.toISOString())
+          .limit(5000),
         supabase
           .from("conversion_events")
           .select("id, event_value")
           .eq("workspace_id", workspaceId)
-          .gte("created_at", currentStart.toISOString()),
-        supabase
-          .from("links")
-          .select("id, total_clicks")
-          .eq("workspace_id", workspaceId)
+          .gte("created_at", currentStart.toISOString())
       ]);
 
       // Calculate current metrics
@@ -154,6 +151,7 @@ export const useExecutiveMetrics = ({ workspaceId, dateRange = 30 }: UseExecutiv
       };
     },
     enabled: !!workspaceId,
-    staleTime: 2 * 60 * 1000
+    staleTime: 2 * 60 * 1000,
+    refetchOnWindowFocus: false
   });
 };

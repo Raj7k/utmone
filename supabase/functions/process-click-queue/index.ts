@@ -5,22 +5,10 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-interface QueuedClick {
-  link_id: string;
-  ip_address: string;
-  user_agent: string;
-  referrer: string | null;
-  browser: string | null;
-  os: string | null;
-  device_type: string | null;
-  is_unique: boolean;
-  og_variant_id: string | null;
-  qr_code_id: string | null;
-  clicked_at: string;
-}
+// NOTE: This function uses a database-backed queue instead of Deno.openKv
+// Clicks are queued in click_queue table and processed in batches
 
 Deno.serve(async (req) => {
-  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
@@ -29,34 +17,24 @@ Deno.serve(async (req) => {
     console.log('🔄 Starting click queue batch processing...');
     const startTime = Date.now();
 
-    // Initialize Deno KV
-    const kv = await Deno.openKv();
-
-    // Initialize Supabase with service role (bypass RLS)
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Collect all pending clicks from queue
-    const clicks: QueuedClick[] = [];
-    const keysToDelete: Deno.KvKey[] = [];
+    // Fetch pending clicks from database queue table
+    const { data: queuedClicks, error: fetchError } = await supabase
+      .from('click_queue')
+      .select('*')
+      .eq('processed', false)
+      .order('created_at', { ascending: true })
+      .limit(1000);
 
-    const entries = kv.list<QueuedClick>({ prefix: ['click_queue'] });
-    
-    let batchCount = 0;
-    for await (const entry of entries) {
-      clicks.push(entry.value);
-      keysToDelete.push(entry.key);
-      batchCount++;
-      
-      // Safety limit: process max 1000 clicks per run
-      if (batchCount >= 1000) {
-        console.log('⚠️ Reached batch limit of 1000 clicks');
-        break;
-      }
+    if (fetchError) {
+      console.error('❌ Error fetching click queue:', fetchError);
+      throw fetchError;
     }
 
-    if (clicks.length === 0) {
+    if (!queuedClicks || queuedClicks.length === 0) {
       console.log('✅ No clicks in queue to process');
       return new Response(
         JSON.stringify({ 
@@ -71,11 +49,12 @@ Deno.serve(async (req) => {
       );
     }
 
-    console.log(`📊 Processing ${clicks.length} clicks in batch...`);
+    console.log(`📊 Processing ${queuedClicks.length} clicks in batch...`);
 
-    // Batch insert all clicks
-    const clicksToInsert = clicks.map(click => ({
+    // Batch insert all clicks to link_clicks
+    const clicksToInsert = queuedClicks.map(click => ({
       link_id: click.link_id,
+      workspace_id: click.workspace_id,
       ip_address: click.ip_address,
       user_agent: click.user_agent,
       referrer: click.referrer,
@@ -86,7 +65,7 @@ Deno.serve(async (req) => {
       og_variant_id: click.og_variant_id,
       qr_code_id: click.qr_code_id,
       clicked_at: click.clicked_at,
-      country: null, // Processed by separate geolocation job
+      country: null,
       city: null,
     }));
 
@@ -100,11 +79,11 @@ Deno.serve(async (req) => {
     }
 
     // Update click counters for affected links
-    const linkIds = [...new Set(clicks.map(c => c.link_id))];
+    const linkIds = [...new Set(queuedClicks.map(c => c.link_id))];
     console.log(`📈 Updating counters for ${linkIds.length} links...`);
 
     for (const linkId of linkIds) {
-      const linkClicks = clicks.filter(c => c.link_id === linkId);
+      const linkClicks = queuedClicks.filter(c => c.link_id === linkId);
       const totalClicks = linkClicks.length;
       const uniqueClicks = linkClicks.filter(c => c.is_unique).length;
 
@@ -119,32 +98,24 @@ Deno.serve(async (req) => {
       }
     }
 
-    // Delete processed clicks from queue
-    console.log(`🧹 Cleaning up ${keysToDelete.length} queue entries...`);
-    const deletePromises = keysToDelete.map(key => kv.delete(key));
-    await Promise.all(deletePromises);
+    // Mark queue entries as processed
+    const queueIds = queuedClicks.map(c => c.id);
+    const { error: updateError } = await supabase
+      .from('click_queue')
+      .update({ processed: true, processed_at: new Date().toISOString() })
+      .in('id', queueIds);
 
-    // Invalidate cache for affected links
-    for (const linkId of linkIds) {
-      const { data: link } = await supabase
-        .from('links')
-        .select('domain, path, slug')
-        .eq('id', linkId)
-        .single();
-      
-      if (link) {
-        const cacheKey = ['link', link.domain, link.path || '', link.slug];
-        await kv.delete(cacheKey);
-      }
+    if (updateError) {
+      console.error('❌ Error marking queue entries as processed:', updateError);
     }
 
     const duration = Date.now() - startTime;
-    console.log(`✅ Successfully processed ${clicks.length} clicks in ${duration}ms`);
+    console.log(`✅ Successfully processed ${queuedClicks.length} clicks in ${duration}ms`);
 
     return new Response(
       JSON.stringify({ 
         success: true, 
-        processed: clicks.length,
+        processed: queuedClicks.length,
         affected_links: linkIds.length,
         duration_ms: duration,
       }),
