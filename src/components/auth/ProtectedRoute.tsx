@@ -10,53 +10,67 @@ interface ProtectedRouteProps {
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState("verifying security...");
   const location = useLocation();
   const hasChecked = useRef(false);
+  const retryCount = useRef(0);
 
   useEffect(() => {
     let isMounted = true;
-    
-    console.log("[ProtectedRoute] Component mounted");
 
-    // Safety timeout - force end loading after 3 seconds
+    // Safety timeout - force end loading after 5 seconds (increased from 3)
     const timeout = setTimeout(() => {
-      console.warn("[ProtectedRoute] Timeout reached - forcing loading to end");
       if (isMounted && isLoading) {
+        console.warn("[ProtectedRoute] Timeout reached - forcing loading to end");
         setIsLoading(false);
       }
-    }, 3000);
+    }, 5000);
+
+    // Show extended loading message after 2 seconds
+    const extendedTimeout = setTimeout(() => {
+      if (isMounted && isLoading) {
+        setLoadingMessage("still connecting...");
+      }
+    }, 2000);
 
     const checkAuth = async () => {
       // Prevent duplicate checks
-      if (hasChecked.current) {
-        console.log("[ProtectedRoute] Already checked, skipping");
-        return;
-      }
+      if (hasChecked.current) return;
       hasChecked.current = true;
+
+      const attemptAuth = async (): Promise<boolean> => {
+        try {
+          const { data: { session }, error } = await supabase.auth.getSession();
+          
+          if (error) {
+            console.error("[ProtectedRoute] Session error:", error.message);
+            // Retry once on error
+            if (retryCount.current < 1) {
+              retryCount.current++;
+              await new Promise(r => setTimeout(r, 500));
+              return attemptAuth();
+            }
+            return false;
+          }
+          
+          return !!session;
+        } catch (error) {
+          console.error("[ProtectedRoute] Auth check failed:", error);
+          // Retry once on exception
+          if (retryCount.current < 1) {
+            retryCount.current++;
+            await new Promise(r => setTimeout(r, 500));
+            return attemptAuth();
+          }
+          return false;
+        }
+      };
+
+      const authenticated = await attemptAuth();
       
-      console.log("[ProtectedRoute] Checking session...");
-      
-      try {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        
-        console.log("[ProtectedRoute] Session result:", !!session, error ? `Error: ${error.message}` : "");
-        
-        if (!isMounted) {
-          console.log("[ProtectedRoute] Component unmounted, skipping state update");
-          return;
-        }
-        
-        setIsAuthenticated(!!session);
-      } catch (error) {
-        console.error("[ProtectedRoute] Auth check failed:", error);
-        if (isMounted) {
-          setIsAuthenticated(false);
-        }
-      } finally {
-        if (isMounted) {
-          console.log("[ProtectedRoute] Setting isLoading to false");
-          setIsLoading(false);
-        }
+      if (isMounted) {
+        setIsAuthenticated(authenticated);
+        setIsLoading(false);
       }
     };
 
@@ -64,23 +78,24 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
     // Listen for auth changes - defer async work to prevent deadlock
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      console.log("[ProtectedRoute] Auth state changed:", _event, !!session);
       setTimeout(() => {
         if (isMounted) {
           setIsAuthenticated(!!session);
+          // Clear loading if still loading when auth state changes
+          if (isLoading) {
+            setIsLoading(false);
+          }
         }
       }, 0);
     });
 
     return () => {
-      console.log("[ProtectedRoute] Component unmounting");
       isMounted = false;
       clearTimeout(timeout);
+      clearTimeout(extendedTimeout);
       subscription.unsubscribe();
     };
   }, []);
-
-  console.log("[ProtectedRoute] Render - isLoading:", isLoading, "isAuthenticated:", isAuthenticated);
 
   // Show full-screen loading skeleton while verifying
   if (isLoading) {
@@ -89,7 +104,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
         <div className="text-center space-y-4">
           <Loader2 className="w-8 h-8 animate-spin mx-auto text-muted-foreground" />
           <p className="text-sm text-muted-foreground font-medium">
-            verifying security...
+            {loadingMessage}
           </p>
         </div>
       </div>

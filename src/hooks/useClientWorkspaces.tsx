@@ -6,10 +6,14 @@ import { getFriendlyErrorMessage } from "@/lib/errorMessages";
 export const useClientWorkspaces = () => {
   const queryClient = useQueryClient();
 
-  const { data: workspaces, isLoading } = useQuery({
+  const { data: workspaces, isLoading, error } = useQuery({
     queryKey: ["client-workspaces"],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { user }, error: authError } = await supabase.auth.getUser();
+      if (authError) {
+        console.error("[useClientWorkspaces] Auth error:", authError);
+        return [];
+      }
       if (!user) return [];
 
       // Get workspaces where user is owner
@@ -18,7 +22,10 @@ export const useClientWorkspaces = () => {
         .select("*")
         .eq("owner_id", user.id);
 
-      if (ownedError) throw ownedError;
+      if (ownedError) {
+        console.error("[useClientWorkspaces] Owned workspaces error:", ownedError);
+        throw ownedError;
+      }
 
       // Get workspaces where user is a member
       const { data: memberWorkspaces, error: memberError } = await supabase
@@ -30,15 +37,20 @@ export const useClientWorkspaces = () => {
         `)
         .eq("user_id", user.id);
 
-      if (memberError) throw memberError;
+      if (memberError) {
+        console.error("[useClientWorkspaces] Member workspaces error:", memberError);
+        throw memberError;
+      }
 
       const memberWorkspacesList = memberWorkspaces
         ?.map(m => m.workspaces)
         .filter(Boolean) || [];
 
-      return [...ownedWorkspaces, ...memberWorkspacesList];
+      return [...(ownedWorkspaces || []), ...memberWorkspacesList];
     },
-    retry: false,
+    retry: 2,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 5000),
+    staleTime: 30000, // Cache for 30 seconds to prevent excessive refetches
   });
 
   const createWorkspaceMutation = useMutation({
@@ -104,8 +116,9 @@ export const useClientWorkspaces = () => {
   });
 
   return {
-    workspaces,
+    workspaces: workspaces || [],
     isLoading,
+    error,
     createWorkspace: createWorkspaceMutation.mutate,
     deleteWorkspace: deleteWorkspaceMutation.mutate,
   };

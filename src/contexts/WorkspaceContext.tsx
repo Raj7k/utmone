@@ -27,7 +27,7 @@ interface WorkspaceContextType {
 const WorkspaceContext = createContext<WorkspaceContextType | undefined>(undefined);
 
 export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
-  const { workspaces = [], isLoading } = useClientWorkspaces();
+  const { workspaces = [], isLoading, error: workspacesError } = useClientWorkspaces();
   const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [queryCompleted, setQueryCompleted] = useState(false);
@@ -36,43 +36,51 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
   const queryClient = useQueryClient();
   const { data: isAdmin = false } = useIsAdmin();
 
-  // Check authentication status
+  // Check authentication status - defer async work to prevent deadlocks
   useEffect(() => {
+    let isMounted = true;
+
     const checkAuth = async () => {
       try {
-        const { data: { user }, error } = await supabase.auth.getUser();
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (!isMounted) return;
         
         if (error) {
-          console.error("Auth check error:", error);
+          console.error("[WorkspaceContext] Auth check error:", error);
           setIsAuthenticated(false);
           return;
         }
         
-        setIsAuthenticated(!!user);
-        
-        // Redirect to auth if not authenticated and on protected route
-        if (!user && location.pathname.startsWith('/dashboard')) {
-          navigate("/auth");
-        }
+        setIsAuthenticated(!!session);
       } catch (err) {
-        console.error("Auth check exception:", err);
-        setIsAuthenticated(false);
+        console.error("[WorkspaceContext] Auth check exception:", err);
+        if (isMounted) {
+          setIsAuthenticated(false);
+        }
       }
     };
     
     checkAuth();
     
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setIsAuthenticated(!!session?.user);
-      
-      // Force refetch of workspaces on login to prevent race condition
-      if (session?.user) {
-        queryClient.invalidateQueries({ queryKey: ["client-workspaces"] });
-      }
+      // Defer state updates to prevent deadlock
+      setTimeout(() => {
+        if (!isMounted) return;
+        setIsAuthenticated(!!session?.user);
+        
+        // Force refetch of workspaces on login
+        if (session?.user) {
+          queryClient.invalidateQueries({ queryKey: ["client-workspaces"] });
+        }
+      }, 0);
     });
     
-    return () => subscription.unsubscribe();
-  }, [location.pathname, navigate]);
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
+  }, [queryClient]);
 
   // Initialize current workspace from localStorage or first workspace
   useEffect(() => {

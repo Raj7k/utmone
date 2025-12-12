@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useEnhancedLinks } from "@/hooks/useEnhancedLinks";
@@ -29,12 +29,32 @@ export default function Links() {
     pageSize: 50,
   });
 
+  // Loading state with timeout fallback
+  const [loadingTooLong, setLoadingTooLong] = useState(false);
+  
+  useEffect(() => {
+    if (!currentWorkspace) {
+      const timer = setTimeout(() => setLoadingTooLong(true), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [currentWorkspace]);
+
   if (!currentWorkspace) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="flex flex-col items-center gap-3">
           <div className="h-12 w-12 rounded-full border-2 border-primary border-t-transparent animate-spin" />
-          <p className="text-sm text-muted-foreground">loading workspace…</p>
+          <p className="text-sm text-muted-foreground">
+            {loadingTooLong ? "still loading workspace..." : "loading workspace…"}
+          </p>
+          {loadingTooLong && (
+            <button 
+              onClick={() => window.location.reload()}
+              className="text-xs text-primary hover:underline"
+            >
+              refresh page
+            </button>
+          )}
         </div>
       </div>
     );
