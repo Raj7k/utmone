@@ -7,6 +7,8 @@ import { Link2, Sparkles, ArrowRight, Zap, Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { notify } from "@/lib/notify";
+import { useQuery } from "@tanstack/react-query";
+import { getCachedUserId } from "@/contexts/AppSessionContext";
 
 interface WelcomeModalProps {
   userName?: string;
@@ -21,35 +23,41 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
   const [createdSlug, setCreatedSlug] = useState("");
   const { currentWorkspace } = useWorkspaceContext();
 
-  useEffect(() => {
-    const checkFirstVisit = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-
-      const { data: profile } = await supabase
+  // Use cached user ID and React Query for efficient profile check
+  const userId = getCachedUserId();
+  
+  const { data: profile } = useQuery({
+    queryKey: ["welcome-modal-check", userId],
+    queryFn: async () => {
+      if (!userId) return null;
+      const { data } = await supabase
         .from("profiles")
         .select("has_seen_welcome_modal")
-        .eq("id", user.id)
+        .eq("id", userId)
         .single();
+      return data;
+    },
+    enabled: !!userId,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
 
-      if (profile && !profile.has_seen_welcome_modal) {
-        setIsOpen(true);
-      }
-    };
-
-    const timer = setTimeout(checkFirstVisit, 500);
-    return () => clearTimeout(timer);
-  }, []);
+  useEffect(() => {
+    if (profile && !profile.has_seen_welcome_modal) {
+      const timer = setTimeout(() => setIsOpen(true), 500);
+      return () => clearTimeout(timer);
+    }
+  }, [profile]);
 
   const handleClose = async () => {
     setIsOpen(false);
     
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
+    if (userId) {
       await supabase
         .from("profiles")
         .update({ has_seen_welcome_modal: true })
-        .eq("id", user.id);
+        .eq("id", userId);
     }
   };
 
