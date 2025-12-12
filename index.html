@@ -17,6 +17,24 @@
       })();
     </script>
     
+    <!-- Pre-warm Auth Session - Start before React loads -->
+    <script>
+      (function() {
+        // Check for cached session to speed up initial auth
+        try {
+          const cachedSession = sessionStorage.getItem('utm_session_cache');
+          if (cachedSession) {
+            const parsed = JSON.parse(cachedSession);
+            // Valid cache = pre-warm successful
+            if (Date.now() - parsed.timestamp < 15 * 60 * 1000) {
+              window.__AUTH_READY__ = true;
+              window.__CACHED_USER__ = parsed.user;
+            }
+          }
+        } catch (e) {}
+      })();
+    </script>
+    
     <!-- Critical Resource Preloading -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

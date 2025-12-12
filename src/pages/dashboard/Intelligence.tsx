@@ -33,6 +33,7 @@ const IdentityGraphView = lazy(() => import("@/components/attribution/IdentityGr
 
 export default function Intelligence() {
   const { currentWorkspace, hasTimedOut, retry } = useWorkspace();
+  const workspaceId = currentWorkspace?.id;
   const [period, setPeriod] = useState<PeriodOption>("7d");
   const [customRange, setCustomRange] = useState<{ from: Date; to: Date } | undefined>();
   const [compareEnabled, setCompareEnabled] = useState(false);
