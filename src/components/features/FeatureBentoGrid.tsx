@@ -15,14 +15,17 @@ export interface CapabilityItem {
 interface FeatureBentoGridProps {
   headline: string;
   subheadline?: string;
-  capabilities: CapabilityItem[];
+  capabilities?: CapabilityItem[];
+  items?: CapabilityItem[];
 }
 
 export const FeatureBentoGrid = ({
   headline,
   subheadline,
   capabilities,
+  items,
 }: FeatureBentoGridProps) => {
+  const data = items || capabilities || [];
   return (
     <section className="py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-6">
@@ -44,7 +47,7 @@ export const FeatureBentoGrid = ({
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {capabilities.map((cap, index) => {
+          {data.map((cap, index) => {
             const Icon = cap.icon;
             const Wrapper = cap.href ? Link : "div";
             const wrapperProps = cap.href ? { to: cap.href } : {};

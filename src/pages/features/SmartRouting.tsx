@@ -1,262 +1,208 @@
 import { FeatureLayout } from "@/components/features/FeatureLayout";
+import { FeatureCarouselSection } from "@/components/features/FeatureCarouselSection";
+import { FeatureStatsStrip } from "@/components/features/FeatureStatsStrip";
+import { FeatureBeforeAfter } from "@/components/features/FeatureBeforeAfter";
+import { FeatureBentoGrid } from "@/components/features/FeatureBentoGrid";
+import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
+import { FeatureShowcase } from "@/components/features/FeatureShowcase";
 import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
-import { HorrorStorySection } from "@/components/solutions/HorrorStorySection";
-import { PersonaCalloutCards } from "@/components/solutions/PersonaCalloutCards";
-import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
-import { RoutingMapPreview } from "@/components/features/RoutingMapPreview";
-import { UseCasesGrid } from "@/components/features/UseCasesGrid";
-import { Zap, Users, Code, Globe, Smartphone, Target, GitBranch, MapPin } from "lucide-react";
 import { CTAButton } from "@/components/ui/CTAButton";
-import { preserveAcronyms as p } from "@/utils/textFormatter";
+import { motion } from "framer-motion";
+import { 
+  Globe, 
+  Smartphone, 
+  GitBranch, 
+  MapPin, 
+  Clock, 
+  Target,
+  Zap,
+  Route,
+  Users,
+  Shield
+} from "lucide-react";
 
-export default function SmartRouting() {
-  const useCases = [
+const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
+const SmartRouting = () => {
+  const carouselItems = [
     {
-      title: "Localized pricing by country",
-      scenario: "Your LinkedIn ad targets US enterprises. It goes viral in India. 10,000 clicks. Zero conversions. Why? They all landed on your USD pricing page.",
-      solution: "Smart Routing: US visitors → /pricing-usd, India visitors → /pricing-inr, EU visitors → /pricing-eur. Conversion rate jumps 300%."
+      icon: Globe,
+      title: "geo routing",
+      description: "route by country, region, or city. US → /pricing-usd, UK → /pricing-gbp, India → /pricing-inr."
     },
     {
-      title: "App store routing by device",
-      scenario: "You're promoting your mobile app on social media. iOS users click and see Android Play Store link. They bounce. You paid $2 per click for nothing.",
-      solution: "Smart Routing: iOS users → App Store, Android users → Play Store, Desktop users → Web signup page. Install rate increases 5x."
+      icon: Smartphone,
+      title: "device routing",
+      description: "iOS → app store, android → play store, desktop → web signup. one link, every platform."
     },
     {
-      title: "Language-specific landing pages",
-      scenario: "Your EU campaign sends Spanish visitors to English landing pages. They can't understand your value prop. They leave immediately.",
-      solution: "Smart Routing: ES visitors → /es, FR visitors → /fr, DE visitors → /de. Engagement time increases from 8 seconds to 3 minutes."
+      icon: GitBranch,
+      title: "conditional routing",
+      description: "combine multiple conditions. US + mobile + weekday → enterprise demo. stack your rules."
     },
     {
-      title: "A/B testing by region",
-      scenario: "You want to test two landing pages but don't want to confuse users. You need clean regional splits.",
-      solution: "Smart Routing: US East → Landing A, US West → Landing B, track conversion rates by region. Clear winner emerges in 2 weeks."
+      icon: Clock,
+      title: "time-based routing",
+      description: "weekday 9-5 → sales page, weekend → self-serve. seasonal rules for campaigns."
+    },
+    {
+      icon: Target,
+      title: "traffic splitting",
+      description: "50% to page A, 50% to page B. clean A/B testing without separate links."
+    },
+    {
+      icon: Shield,
+      title: "cascade fallbacks",
+      description: "if primary fails, try fallback 1, then fallback 2. your links never break."
     }
   ];
 
-  const faqs = [
+  const stats = [
+    { value: "99", label: "geo accuracy", suffix: "%" },
+    { value: "50", label: "redirect latency", suffix: "ms" },
+    { value: "0", label: "broken links", suffix: "" },
+    { value: "∞", label: "destinations", suffix: "" }
+  ];
+
+  const beforeAfterItems = [
+    { feature: "international traffic", before: "everyone sees USD pricing", after: "localized currency per region" },
+    { feature: "app promotion", before: "wrong store links", after: "iOS → App Store, Android → Play Store" },
+    { feature: "language", before: "english only landing", after: "auto-detect browser language" },
+    { feature: "A/B testing", before: "multiple link chaos", after: "one link, traffic split rules" },
+    { feature: "link failures", before: "404 dead ends", after: "automatic fallback routing" }
+  ];
+
+  const capabilities = [
     {
-      question: "How does geo-targeting work?",
-      answer: "utm.one reads the visitor's country from their IP address (via Cloudflare headers) and routes them to the destination you've configured for that country. If no country-specific rule exists, they go to the default destination. Accuracy: 99%+ for country-level, 90%+ for city-level."
+      icon: Globe,
+      title: "geo intelligence",
+      features: ["country detection", "region targeting", "city-level routing", "currency matching"]
     },
     {
-      question: "Can I A/B test different landing pages by country?",
-      answer: "Yes. Set up different destinations for different countries, then track conversion rates by country to see which landing page performs best in each market. You can even run country-specific experiments with traffic split: US → 50% Page A, 50% Page B."
+      icon: Smartphone,
+      title: "device logic",
+      features: ["os detection", "browser routing", "app deeplinks", "responsive destinations"]
     },
     {
-      question: "What if I want to route by device (mobile vs desktop)?",
-      answer: "Smart Routing can route based on device type, OS, browser, or any combination. For example: iOS users → App Store, Android users → Play Store, Desktop users → Web version. Rules stack: 'US + iOS → App Store US' vs 'UK + iOS → App Store UK'."
+      icon: Clock,
+      title: "temporal rules",
+      features: ["time-of-day routing", "day-of-week logic", "seasonal campaigns", "timezone awareness"]
     },
     {
-      question: "Can I route based on time of day or day of week?",
-      answer: "Yes. Set up time-based rules: 'Weekday 9am-5pm → Sales landing page' vs 'Weekend → Self-service signup page'. Or seasonal rules: 'Nov 20-30 → Black Friday landing page'."
-    },
-    {
-      question: "What happens if a rule fails or the destination is down?",
-      answer: "Smart Routing includes automatic fallback: Primary rule fails → Try fallback destination → If that fails → Go to default URL. Your links never break, even when specific destinations go down."
-    },
-    {
-      question: "Can I route based on UTM parameters?",
-      answer: "Yes. Route based on utm_source, utm_medium, utm_campaign, or any combination. Example: 'utm_source=linkedin + US → /enterprise-demo' vs 'utm_source=linkedin + India → /startup-trial'."
-    },
-    {
-      question: "Does routing affect my analytics?",
-      answer: "No. All routing logic happens server-side before the redirect. Analytics still capture the original click, destination, device, and geo data. You see exactly which routing rule was applied in your reports."
-    },
-    {
-      question: "Can I use Smart Routing for affiliate programs?",
-      answer: "Yes. Route by referrer or utm_content to send different affiliates to different landing pages with their unique tracking parameters preserved. Example: 'Affiliate A → /landing-a?ref=affiliateA' vs 'Affiliate B → /landing-b?ref=affiliateB'."
+      icon: Shield,
+      title: "reliability",
+      features: ["cascade fallbacks", "health monitoring", "instant failover", "zero downtime"]
     }
   ];
 
   return (
     <FeatureLayout
-      title="Smart Routing - One Link. Infinite Destinations."
+      title="Smart Routing - One Link, Infinite Destinations | utm.one"
       description="Sending US visitors to a UK pricing page? That's lost revenue. utm.one routes visitors to the right destination based on location, device, and behavior."
       canonical="https://utm.one/features/smart-routing"
       keywords={["smart routing", "geo targeting", "adaptive routing", "contextual routing"]}
       breadcrumbs={[
-        { name: 'Home', url: 'https://utm.one' },
-        { name: 'Features', url: 'https://utm.one/features' },
-        { name: 'Smart Routing', url: 'https://utm.one/features/smart-routing' }
+        { name: "Home", url: "https://utm.one" },
+        { name: "Features", url: "https://utm.one/features" },
+        { name: "Smart Routing", url: "https://utm.one/features/smart-routing" },
       ]}
     >
-      {/* Hero */}
-      <section className="relative py-32 overflow-hidden">
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-16 overflow-hidden">
         <RetroGradientMesh />
-        <div className="relative max-w-[980px] mx-auto px-8 z-10 text-center">
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold hero-gradient mb-6">
-            one link. infinite destinations.
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-            sending US visitors to a UK pricing page? that's lost revenue. utm.one routes visitors to the right destination based on location, device, and behavior.
-          </p>
-          <CTAButton href="/early-access" variant="primary" pulse>get early access</CTAButton>
-        </div>
-      </section>
-
-      {/* Problem */}
-      <section className="py-24 bg-background">
-        <div className="max-w-6xl mx-auto px-8">
-          <HorrorStorySection
-            title="your campaign goes viral... in the wrong country"
-            description="Your LinkedIn ad targets US enterprises. It goes viral in India. 10,000 clicks. Zero conversions. Why? They all landed on your USD pricing page with US-only payment options. You just wasted $15K showing the wrong page to the wrong audience."
-            stats={[
-              { label: "Wasted clicks", value: "10K" },
-              { label: "Ad spend lost", value: "$15K" },
-              { label: "Conversion rate", value: "0%" }
-            ]}
-          />
-        </div>
-      </section>
-
-      {/* Visual Routing Preview */}
-      <section className="py-24 bg-muted/20">
-        <div className="max-w-6xl mx-auto px-8">
-          <RoutingMapPreview />
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="py-24 bg-background">
-        <div className="max-w-6xl mx-auto px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">how smart routing works</h2>
-            <p className="text-xl text-muted-foreground">one link adapts to every visitor</p>
-          </div>
-          
-          <div className="grid md:grid-cols-4 gap-6 max-w-4xl mx-auto mb-12">
-            {[
-              { num: "1", text: "User clicks link", icon: Target },
-              { num: "2", text: "System reads location, device, OS", icon: MapPin },
-              { num: "3", text: "Algorithm scores each destination", icon: GitBranch },
-              { num: "4", text: "Routes to best match", icon: Zap }
-            ].map((step, i) => (
-              <div key={i} className="text-center">
-                <div className="rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3 font-bold text-xl bg-primary/10 text-primary">{step.num}</div>
-                <step.icon className="w-8 h-8 mx-auto mb-2 text-primary" />
-                <p className="text-sm text-muted-foreground">{step.text}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Routing Rules Examples */}
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-card border border-border rounded-xl p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <Globe className="w-8 h-8 text-primary" />
-                <h3 className="text-2xl font-display font-semibold">geo routing</h3>
-              </div>
-              <p className="text-muted-foreground mb-4">
-                Route by country, region, or city to show localized content.
-              </p>
-              <div className="bg-muted/30 rounded-lg p-4 text-sm text-muted-foreground">
-                <span className="font-semibold text-foreground">Example:</span> US → /en-us/pricing, UK → /en-gb/pricing, France → /fr/tarifs
-              </div>
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: appleEase }}
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm mb-6">
+              <Route className="w-4 h-4" />
+              intelligent routing
             </div>
-
-            <div className="bg-card border border-border rounded-xl p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <Smartphone className="w-8 h-8 text-primary" />
-                <h3 className="text-2xl font-display font-semibold">device routing</h3>
-              </div>
-              <p className="text-muted-foreground mb-4">
-                Route by device type, OS, or browser for optimal experience.
-              </p>
-              <div className="rounded-lg p-4 text-sm bg-primary/10">
-                <span className="font-semibold text-primary">Example:</span> iOS → App Store, Android → Play Store, Desktop → Web app
-              </div>
+            <h1 className="text-5xl md:text-7xl font-display font-bold hero-gradient mb-6">
+              one link. infinite destinations.
+            </h1>
+            <p className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
+              sending US visitors to a UK pricing page? that's lost revenue. utm.one routes visitors to the right destination based on location, device, and behavior.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <CTAButton href="/early-access" variant="primary">
+                start free
+              </CTAButton>
+              <CTAButton href="/book-demo" variant="secondary">
+                book a demo
+              </CTAButton>
             </div>
-
-            <div className="bg-card border border-border rounded-xl p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <GitBranch className="w-8 h-8 text-primary" />
-                <h3 className="text-2xl font-display font-semibold">conditional routing</h3>
-              </div>
-              <p className="text-muted-foreground mb-4">
-                Combine multiple conditions for precise targeting.
-              </p>
-              <div className="bg-muted/30 rounded-lg p-4 text-sm text-muted-foreground">
-                <span className="font-semibold text-foreground">Example:</span> US + Mobile + Weekday → /enterprise-demo, US + Desktop + Weekend → /self-serve
-              </div>
-            </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Use Cases */}
-      <section className="py-24 bg-muted/20">
-        <div className="max-w-6xl mx-auto px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">real use cases</h2>
-            <p className="text-xl text-muted-foreground">problems we actually solve</p>
-          </div>
-          <UseCasesGrid useCases={useCases} />
+      {/* Problem Statement */}
+      <section className="py-16 md:py-24">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: appleEase }}
+            className="p-8 md:p-12 rounded-2xl bg-destructive/5 border border-destructive/20"
+          >
+            <MapPin className="w-12 h-12 text-destructive mx-auto mb-6" />
+            <h2 className="text-2xl md:text-3xl font-display font-bold mb-4">
+              your campaign goes viral... in the wrong country
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              your LinkedIn ad targets US enterprises. it goes viral in India. 10,000 clicks. zero conversions. why? they all landed on your USD pricing page. you just wasted $15K.
+            </p>
+          </motion.div>
         </div>
       </section>
 
-      {/* Advanced Features */}
-      <section className="py-24 bg-background">
-        <div className="max-w-6xl mx-auto px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">advanced routing features</h2>
-            <p className="text-xl text-muted-foreground">go beyond simple geo-targeting</p>
-          </div>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-card border-2 border-border rounded-xl p-8">
-              <div className="flex items-center gap-2 mb-4">
-                <Target className="w-6 h-6 text-primary" />
-                <h3 className="text-xl font-display font-bold">traffic splitting</h3>
-              </div>
-              <p className="text-muted-foreground mb-4">Route 50% of US traffic to Page A, 50% to Page B for clean A/B testing.</p>
-              <div className="bg-muted/30 rounded-lg p-4 text-sm">
-                <p className="font-semibold text-foreground mb-2">A/B test example:</p>
-                <ul className="space-y-1 text-muted-foreground">
-                  <li>• US East → Landing A (50%)</li>
-                  <li>• US West → Landing B (50%)</li>
-                  <li>• Track conversion rates by variant</li>
-                </ul>
-              </div>
-            </div>
+      {/* Carousel Section */}
+      <FeatureCarouselSection
+        headline="route smarter, not harder"
+        subheadline="6 routing dimensions working together"
+        items={carouselItems}
+      />
 
-            <div className="bg-card border-2 border-border rounded-xl p-8">
-              <div className="flex items-center gap-2 mb-4">
-                <GitBranch className="w-6 h-6 text-primary" />
-                <h3 className="text-xl font-display font-bold">cascade fallbacks</h3>
-              </div>
-              <p className="text-muted-foreground mb-4">If primary destination fails, automatically route to backup destination.</p>
-              <div className="bg-muted/30 rounded-lg p-4 text-sm">
-                <p className="font-semibold text-foreground mb-2">Failover flow:</p>
-                <ul className="space-y-1 text-muted-foreground">
-                  <li>• Try primary destination</li>
-                  <li>• If down, try fallback 1</li>
-                  <li>• If down, try fallback 2</li>
-                </ul>
-              </div>
-            </div>
+      {/* Stats Strip */}
+      <FeatureStatsStrip stats={stats} />
+
+      {/* Before/After */}
+      <FeatureBeforeAfter
+        headline="from one-size-fits-all to precision"
+        subheadline="every visitor gets the right destination"
+        items={beforeAfterItems}
+      />
+
+      {/* Showcase */}
+      <FeatureShowcase
+        headline="see routing in action"
+        subheadline="watch one link adapt to every visitor"
+      >
+        <div className="aspect-video rounded-2xl bg-gradient-to-br from-muted/50 to-muted/20 border border-border flex items-center justify-center">
+          <div className="text-center space-y-4">
+            <Globe className="w-16 h-16 text-primary mx-auto" />
+            <p className="text-muted-foreground">routing map preview</p>
           </div>
         </div>
-      </section>
+      </FeatureShowcase>
 
-      {/* Personas */}
-      <section className="py-24 bg-muted/20">
-        <div className="max-w-6xl mx-auto px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">for your role</h2>
-          </div>
-          <PersonaCalloutCards callouts={[
-            { icon: Users, title: "for marketers", benefit: "Route by country for localized pricing—US visitors see USD, EU visitors see EUR, no manual links." },
-            { icon: Code, title: "for developers", benefit: "One API endpoint, infinite routing rules—iOS → App Store, Android → Play Store, Desktop → Web." },
-            { icon: Globe, title: "for enterprise", benefit: "Route by region, language, device, and more—personalize at scale without managing 50+ links." }
-          ]} />
-        </div>
-      </section>
+      {/* Bento Grid */}
+      <FeatureBentoGrid
+        headline="four routing dimensions"
+        subheadline="one link adapts to every context"
+        items={capabilities}
+      />
 
-      {/* FAQs */}
-      <section className="py-24 bg-background">
-        <div className="max-w-4xl mx-auto px-8">
-          <RoleSpecificFAQ role="teams" faqs={faqs} />
-        </div>
-      </section>
+      {/* Final CTA */}
+      <FeatureFinalCTA
+        headline="ready to route visitors where they belong?"
+        subheadline="stop losing conversions to wrong destinations"
+      />
     </FeatureLayout>
   );
-}
+};
+
+export default SmartRouting;
