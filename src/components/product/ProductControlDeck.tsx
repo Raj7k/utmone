@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -10,13 +10,16 @@ import {
   Sparkles,
   ArrowRight
 } from "lucide-react";
+import { GlassSkeleton } from "@/components/ui/glass-skeleton";
 
-// Direct imports for immediate display (no lazy loading)
-import { RevenueFlow } from "./visuals/RevenueFlow";
-import { HeroGlobe } from "./visuals/HeroGlobe";
-import { LinkConstructor } from "./visuals/LinkConstructor";
-import { NeuralMesh } from "./visuals/NeuralMesh";
-import { SecurityTerminal } from "./visuals/SecurityTerminal";
+// Lazy load heavy visualization components for performance
+import {
+  LazyRevenueFlow,
+  LazyHeroGlobe,
+  LazyLinkConstructor,
+  LazyNeuralMesh,
+  LazySecurityTerminal,
+} from "@/components/lazy/LazyVisualizations";
 
 type TabType = "attribution" | "journey" | "links" | "intelligence" | "governance";
 
@@ -228,20 +231,28 @@ export const ProductControlDeck = () => {
   );
 };
 
-// Visual Switcher - Direct rendering (no Suspense needed)
+// Visual Switcher - Lazy loaded with Suspense boundaries
 const DeckVisual = ({ type }: { type: TabType }) => {
-  switch (type) {
-    case "attribution":
-      return <RevenueFlow />;
-    case "journey":
-      return <HeroGlobe />;
-    case "links":
-      return <LinkConstructor />;
-    case "intelligence":
-      return <NeuralMesh />;
-    case "governance":
-      return <SecurityTerminal />;
-    default:
-      return null;
-  }
+  const getVisual = () => {
+    switch (type) {
+      case "attribution":
+        return <LazyRevenueFlow />;
+      case "journey":
+        return <LazyHeroGlobe />;
+      case "links":
+        return <LazyLinkConstructor />;
+      case "intelligence":
+        return <LazyNeuralMesh />;
+      case "governance":
+        return <LazySecurityTerminal />;
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <Suspense fallback={<GlassSkeleton height="300px" className="w-full max-w-md" />}>
+      {getVisual()}
+    </Suspense>
+  );
 };
