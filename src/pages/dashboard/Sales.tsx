@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/useWorkspace";
@@ -14,6 +14,7 @@ import { completeNavigation } from "@/hooks/useNavigationProgress";
 const Sales = () => {
   const { currentWorkspace, isLoading: isWorkspaceLoading } = useWorkspace();
   const { setCreateModalOpen } = useModal();
+  const [loadingTooLong, setLoadingTooLong] = useState(false);
 
   const { data: salesLinks = [], isLoading, refetch, isFetched } = useQuery({
     queryKey: ["sales-links", currentWorkspace?.id],
@@ -35,6 +36,15 @@ const Sales = () => {
     enabled: !!currentWorkspace?.id,
   });
 
+  // Timeout fallback for stuck loading
+  useEffect(() => {
+    if (isWorkspaceLoading || isLoading) {
+      setLoadingTooLong(false);
+      const timer = setTimeout(() => setLoadingTooLong(true), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isWorkspaceLoading, isLoading]);
+
   // Complete navigation progress when data loads
   useEffect(() => {
     if (isFetched && !isWorkspaceLoading) {
@@ -44,7 +54,7 @@ const Sales = () => {
 
   // Show skeleton while workspace or data is loading
   if (isWorkspaceLoading || isLoading) {
-    return <SalesPageSkeleton />;
+    return <SalesPageSkeleton showSlowMessage={loadingTooLong} />;
   }
 
   return (

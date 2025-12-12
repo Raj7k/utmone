@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { QuickCreateTile } from "@/components/dashboard/bento/QuickCreateTile";
 import { QuickStats } from "@/components/dashboard/QuickStats";
 import { ActivityFeed } from "@/components/dashboard/ActivityFeed";
@@ -12,10 +12,18 @@ import { useDemoMode } from "@/hooks/useDemoMode";
 import { useOnboardingProgress } from "@/hooks/useOnboardingProgress";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { useQueryClient } from "@tanstack/react-query";
+import { completeNavigation } from "@/hooks/useNavigationProgress";
 
 const DashboardHome = () => {
   const { showDemoMode } = useDemoMode();
   const { hasLinks, isLoading: isLoadingProgress } = useOnboardingProgress();
+
+  // Complete navigation when data loads
+  useEffect(() => {
+    if (!isLoadingProgress) {
+      completeNavigation();
+    }
+  }, [isLoadingProgress]);
   const [showSuccess, setShowSuccess] = useState(false);
   const [createdLinkUrl, setCreatedLinkUrl] = useState("");
   const queryClient = useQueryClient();

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Plus, Waves, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -23,6 +23,7 @@ import { BoothQRDialog } from "@/components/events/BoothQRDialog";
 import { EventBridgeTab } from "@/components/events/EventBridge/EventBridgeTab";
 import { toast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import { completeNavigation } from "@/hooks/useNavigationProgress";
 
 interface FieldEvent {
   id: string;
@@ -51,7 +52,7 @@ const Events = () => {
   const [qrDialogEvent, setQrDialogEvent] = useState<FieldEvent | null>(null);
   const [scannerEventId, setScannerEventId] = useState<string | null>(null);
   
-  const { data: events, isLoading, refetch } = useFieldEvents(currentWorkspace?.id || '');
+  const { data: events, isLoading, isFetched, refetch } = useFieldEvents(currentWorkspace?.id || '');
   const { data: eventDetails } = useFieldEvent(selectedEvent?.id || '');
   const { data: badgeScans } = useEventBadgeScans(selectedEvent?.id || '');
   const calculateHalo = useCalculateEventHalo();
@@ -60,6 +61,13 @@ const Events = () => {
   const queryClient = useQueryClient();
   
   const haloResult = queryClient.getQueryData<EventHaloResult>(['event-halo-result', selectedEvent?.id]);
+
+  // Complete navigation when data loads
+  useEffect(() => {
+    if (isFetched) {
+      completeNavigation();
+    }
+  }, [isFetched]);
 
   const handleEventSelect = (event: FieldEvent) => {
     setSelectedEvent(event);

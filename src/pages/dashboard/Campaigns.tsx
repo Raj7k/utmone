@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Plus, Megaphone } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
@@ -8,13 +8,14 @@ import { CreateCampaignModal } from "@/components/campaigns/CreateCampaignModal"
 import { CampaignCard } from "@/components/campaigns/CampaignCard";
 import { FeatureGuard } from "@/components/FeatureGuard";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
+import { completeNavigation } from "@/hooks/useNavigationProgress";
 
 export default function Campaigns() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const { currentWorkspace } = useWorkspace();
 
   // Fetch campaigns
-  const { data: campaigns, isLoading } = useQuery({
+  const { data: campaigns, isLoading, isFetched } = useQuery({
     queryKey: ["campaigns", currentWorkspace?.id],
     queryFn: async () => {
       if (!currentWorkspace) return [];
@@ -30,6 +31,13 @@ export default function Campaigns() {
     },
     enabled: !!currentWorkspace,
   });
+
+  // Complete navigation when data loads
+  useEffect(() => {
+    if (isFetched) {
+      completeNavigation();
+    }
+  }, [isFetched]);
 
   // Fetch links and clicks for each campaign
   const { data: campaignStats } = useQuery({

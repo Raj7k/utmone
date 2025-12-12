@@ -1,7 +1,14 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
+import { Button } from "@/components/ui/button";
+import { RefreshCw } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
-export const SalesPageSkeleton = () => {
+interface SalesPageSkeletonProps {
+  showSlowMessage?: boolean;
+}
+
+export const SalesPageSkeleton = ({ showSlowMessage = false }: SalesPageSkeletonProps) => {
   return (
     <PageContentWrapper
       title="sales companion"
@@ -9,6 +16,30 @@ export const SalesPageSkeleton = () => {
       breadcrumbs={[{ label: "sales" }]}
       action={<Skeleton className="h-10 w-36" />}
     >
+      {/* Slow Loading Message */}
+      <AnimatePresence>
+        {showSlowMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className="flex items-center justify-center gap-3 py-3 px-4 bg-muted/50 rounded-lg border border-border"
+          >
+            <div className="h-4 w-4 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+            <span className="text-sm text-muted-foreground">still loading sales data...</span>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => window.location.reload()}
+              className="gap-1.5 h-7 text-xs"
+            >
+              <RefreshCw className="h-3 w-3" />
+              refresh
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Stats Banner Skeleton */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {[1, 2, 3].map((i) => (

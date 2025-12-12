@@ -6,16 +6,17 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, Link2, Plus, ArrowRight } from "lucide-react";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
+import { completeNavigation } from "@/hooks/useNavigationProgress";
 
 export default function Targeting() {
   const { linkId } = useParams<{ linkId?: string }>();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { data: links, isLoading } = useQuery({
+  const { data: links, isLoading, isFetched } = useQuery({
     queryKey: ['links-with-targeting'],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -55,6 +56,13 @@ export default function Targeting() {
       return data;
     }
   });
+
+  // Complete navigation when data loads
+  useEffect(() => {
+    if (isFetched) {
+      completeNavigation();
+    }
+  }, [isFetched]);
 
   // Detect if search query is a full URL and extract slug
   const handleSearchChange = (value: string) => {
