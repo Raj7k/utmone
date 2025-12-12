@@ -1,13 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useModal } from "@/contexts/ModalContext";
 import { preserveAcronyms as p } from "@/utils/textFormatter";
-import { captureEmailLead } from "@/lib/captureEmailLead";
-import { z } from "zod";
-
-const emailSchema = z.string().email();
 import { 
   TrendingUp, 
   Route, 
@@ -85,31 +80,8 @@ const appleEase = "easeOut";
 export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
   const isMobile = useIsMobile();
-  const { openEarlyAccessModal } = useModal();
-
-  const handleEmailSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setEmailError("");
-
-    const result = emailSchema.safeParse(email);
-    if (!result.success) {
-      setEmailError("please enter a valid email");
-      return;
-    }
-
-    // Capture email immediately (fire-and-forget)
-    captureEmailLead({
-      email,
-      source: 'control_deck_hero',
-      referralCode: new URLSearchParams(window.location.search).get('ref'),
-    });
-
-    // Open modal with prefilled email
-    openEarlyAccessModal(email);
-  };
+  const { openEmailCapture } = useModal();
 
   const handleSelect = (index: number) => {
     if (index === activeIndex) return;
@@ -257,31 +229,18 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                       {activeItem.subheadline}
                     </p>
 
-                    {/* Inline Email CTA */}
+                    {/* CTA Button */}
                     <div className="pt-2">
-                      <form onSubmit={handleEmailSubmit} className="max-w-md">
-                        <div className="flex flex-col sm:flex-row gap-3 p-3 bg-muted/30 dark:bg-zinc-900/40 backdrop-blur-xl border border-border dark:border-white/10 rounded-2xl">
-                          <Input
-                            type="email"
-                            placeholder="enter your email..."
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="flex-1 h-12 bg-muted/50 dark:bg-white/5 border-border dark:border-white/10 text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-white/40 rounded-xl"
-                            required
-                          />
-                          <Button 
-                            type="submit"
-                            size="lg"
-                            className="h-12 rounded-full px-8 font-medium font-sans bg-primary text-primary-foreground shadow-[0_0_30px_hsl(0_0%_100%/0.3),0_4px_15px_hsl(0_0%_0%/0.2)]"
-                          >
-                            get early access
-                            <ArrowRight className="w-4 h-4 ml-2" />
-                          </Button>
-                        </div>
-                        {emailError && (
-                          <p className="text-sm mt-2 text-destructive">{emailError}</p>
-                        )}
-                      </form>
+                      <div className="flex flex-col sm:flex-row gap-4 items-start">
+                        <Button 
+                          onClick={openEmailCapture}
+                          size="lg"
+                          className="h-14 rounded-full px-10 font-medium font-sans bg-primary text-primary-foreground shadow-[0_0_30px_hsl(0_0%_100%/0.3),0_4px_15px_hsl(0_0%_0%/0.2)]"
+                        >
+                          get early access
+                          <ArrowRight className="w-4 h-4 ml-2" />
+                        </Button>
+                      </div>
                       
                       {/* Founding spots - Animated urgency counter */}
                       <div className="mt-4">

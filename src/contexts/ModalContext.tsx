@@ -8,6 +8,10 @@ interface ModalContextType {
   setEarlyAccessModalOpen: (open: boolean) => void;
   earlyAccessPrefillEmail: string | null;
   openEarlyAccessModal: (prefillEmail?: string) => void;
+  // Full-screen email capture overlay
+  isEmailCaptureOpen: boolean;
+  setEmailCaptureOpen: (open: boolean) => void;
+  openEmailCapture: () => void;
 }
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
@@ -16,10 +20,15 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
   const [isEarlyAccessModalOpen, setEarlyAccessModalOpen] = useState(false);
   const [earlyAccessPrefillEmail, setEarlyAccessPrefillEmail] = useState<string | null>(null);
+  const [isEmailCaptureOpen, setEmailCaptureOpen] = useState(false);
 
   const openEarlyAccessModal = useCallback((prefillEmail?: string) => {
     setEarlyAccessPrefillEmail(prefillEmail || null);
     setEarlyAccessModalOpen(true);
+  }, []);
+
+  const openEmailCapture = useCallback(() => {
+    setEmailCaptureOpen(true);
   }, []);
 
   return (
@@ -29,7 +38,10 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
       isEarlyAccessModalOpen,
       setEarlyAccessModalOpen,
       earlyAccessPrefillEmail,
-      openEarlyAccessModal
+      openEarlyAccessModal,
+      isEmailCaptureOpen,
+      setEmailCaptureOpen,
+      openEmailCapture
     }}>
       {children}
     </ModalContext.Provider>
