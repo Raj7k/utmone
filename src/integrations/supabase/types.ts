@@ -2012,6 +2012,42 @@ export type Database = {
         }
         Relationships: []
       }
+      email_leads: {
+        Row: {
+          converted: boolean | null
+          converted_at: string | null
+          created_at: string | null
+          email: string
+          id: string
+          metadata: Json | null
+          page_url: string | null
+          referral_code: string | null
+          source: string
+        }
+        Insert: {
+          converted?: boolean | null
+          converted_at?: string | null
+          created_at?: string | null
+          email: string
+          id?: string
+          metadata?: Json | null
+          page_url?: string | null
+          referral_code?: string | null
+          source?: string
+        }
+        Update: {
+          converted?: boolean | null
+          converted_at?: string | null
+          created_at?: string | null
+          email?: string
+          id?: string
+          metadata?: Json | null
+          page_url?: string | null
+          referral_code?: string | null
+          source?: string
+        }
+        Relationships: []
+      }
       email_queue: {
         Row: {
           campaign_id: string | null
