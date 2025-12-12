@@ -394,12 +394,12 @@ export default function Analytics() {
                     <CardDescription>how your audience accesses your links</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    {analytics?.topDevices && analytics.topDevices.length > 0 ? (
+                    {analytics?.devices && analytics.devices.length > 0 ? (
                       <div className="space-y-3">
-                        {analytics.topDevices.map((device, index) => (
+                        {analytics.devices.map((device, index) => (
                           <div key={device.name} className="flex items-center justify-between">
                             <span className="font-medium text-foreground">{device.name}</span>
-                            <span className="text-sm text-muted-foreground">{device.clicks}</span>
+                            <span className="text-sm text-muted-foreground">{device.value}</span>
                           </div>
                         ))}
                       </div>
@@ -413,8 +413,12 @@ export default function Analytics() {
 
             <TabsContent value="forecast" className="space-y-6">
               <div className="grid lg:grid-cols-2 gap-6">
-                <TrafficForecastChart />
-                <ParetoFrontier />
+                <TrafficForecastChart 
+                  historical={[]} 
+                  forecast={[]} 
+                  needsMoreData={true} 
+                />
+                <ParetoFrontier links={[]} />
               </div>
             </TabsContent>
 
