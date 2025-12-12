@@ -7,6 +7,7 @@ import { ScrollToTop } from "./components/ScrollToTop";
 import { WorkspaceProvider } from "./contexts/WorkspaceContext";
 import { AdminSimulationProvider } from "./contexts/AdminSimulationContext";
 import { ModalProvider } from "./contexts/ModalContext";
+import { GlobalEarlyAccessModal } from "./components/early-access/GlobalEarlyAccessModal";
 import { NotificationProvider } from "./contexts/NotificationContext";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { DashboardSkeleton } from "./components/SkeletonLoader";
@@ -1092,6 +1093,7 @@ const App = () => (
             </Routes>
             </AnimatedRoutes>
             </AppWithHelp>
+          <GlobalEarlyAccessModal />
           </ModalProvider>
           </AdminSimulationProvider>
           </WorkspaceProvider>
