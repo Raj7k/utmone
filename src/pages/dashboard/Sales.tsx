@@ -20,21 +20,31 @@ const Sales = () => {
   const { data: salesLinks = [], isLoading, refetch, isFetched } = useQuery({
     queryKey: ["sales-links", currentWorkspace?.id],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user || !currentWorkspace?.id) return [];
+      if (!currentWorkspace?.id) return [];
 
-      const { data, error } = await supabase
-        .from("links")
-        .select("*")
-        .eq("workspace_id", currentWorkspace.id)
-        .eq("created_by", user.id)
-        .eq("link_type", "sales")
-        .order("created_at", { ascending: false });
+      // Parallel execution instead of sequential waterfall
+      const [userResult, linksResult] = await Promise.all([
+        supabase.auth.getUser(),
+        supabase
+          .from("links")
+          .select("*")
+          .eq("workspace_id", currentWorkspace.id)
+          .eq("link_type", "sales")
+          .order("created_at", { ascending: false })
+      ]);
 
-      if (error) throw error;
-      return data || [];
+      const user = userResult.data?.user;
+      if (!user) return [];
+
+      // Filter by user on client side (faster than additional query)
+      const data = linksResult.data?.filter(link => link.created_by === user.id) || [];
+      if (linksResult.error) throw linksResult.error;
+      
+      return data;
     },
     enabled: !!currentWorkspace?.id,
+    staleTime: 30 * 1000, // Stale after 30s
+    refetchOnMount: "always", // Always check for updates
   });
 
   // Complete navigation progress when data loads or times out
