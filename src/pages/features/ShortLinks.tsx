@@ -6,7 +6,15 @@ import { FeatureBeforeAfter } from "@/components/features/FeatureBeforeAfter";
 import { FeatureBentoGrid } from "@/components/features/FeatureBentoGrid";
 import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
 import { FeatureShowcase } from "@/components/features/FeatureShowcase";
+import { FeatureControlDeck } from "@/components/features/FeatureControlDeck";
 import { URLShortenerBasic } from "@/components/url-shortener/URLShortenerBasic";
+import { 
+  CustomDomainVisual, 
+  SecurityShieldVisual, 
+  AnalyticsChartVisual, 
+  QRCodeVisual, 
+  ExpirationClockVisual 
+} from "@/components/features/visuals/FeatureVisuals";
 import { motion } from "framer-motion";
 import { 
   Link2, 
@@ -26,21 +34,58 @@ import {
 
 const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-// Animated visual for carousel cards
+const controlDeckTabs = [
+  {
+    id: "domains",
+    icon: Globe,
+    label: "custom domains",
+    headline: "your brand, your links.",
+    subheadline: "use your own domain for every short link. acme.co/promo builds more trust than generic shorteners.",
+    visual: <CustomDomainVisual />,
+  },
+  {
+    id: "security",
+    icon: Shield,
+    label: "security badges",
+    headline: "scanned & verified.",
+    subheadline: "every link shows its security status—malware scanned, ssl verified, safe to click.",
+    visual: <SecurityShieldVisual />,
+  },
+  {
+    id: "analytics",
+    icon: BarChart3,
+    label: "real-time analytics",
+    headline: "know what's working.",
+    subheadline: "track clicks, devices, locations, and referrers in real-time. no waiting for data.",
+    visual: <AnalyticsChartVisual />,
+  },
+  {
+    id: "qr",
+    icon: QrCode,
+    label: "instant QR codes",
+    headline: "every link gets a QR.",
+    subheadline: "branded QR codes generated automatically. download, share, print—no extra steps.",
+    visual: <QRCodeVisual />,
+  },
+  {
+    id: "expiration",
+    icon: Clock,
+    label: "expiration control",
+    headline: "time-limited campaigns.",
+    subheadline: "set links to expire after a date or click count. perfect for flash sales and promos.",
+    visual: <ExpirationClockVisual />,
+  },
+];
+
+// Carousel visuals (kept for carousel items)
 const LinkPreviewVisual = () => (
   <svg viewBox="0 0 120 60" className="w-full h-full">
     <motion.rect x="10" y="8" width="100" height="44" rx="6" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" strokeWidth="1"
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }} />
     <motion.rect x="18" y="16" width="40" height="6" rx="3" fill="rgba(255,255,255,0.3)"
       initial={{ width: 0 }} animate={{ width: 40 }} transition={{ delay: 0.2, duration: 0.4 }} />
-    <motion.rect x="18" y="26" width="70" height="4" rx="2" fill="rgba(255,255,255,0.15)"
-      initial={{ width: 0 }} animate={{ width: 70 }} transition={{ delay: 0.3, duration: 0.4 }} />
-    <motion.rect x="18" y="34" width="55" height="4" rx="2" fill="rgba(255,255,255,0.15)"
-      initial={{ width: 0 }} animate={{ width: 55 }} transition={{ delay: 0.4, duration: 0.4 }} />
     <motion.circle cx="100" cy="20" r="6" fill="rgba(74,222,128,0.3)" stroke="rgba(74,222,128,0.6)" strokeWidth="1"
       initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.5, type: "spring" }} />
-    <motion.path d="M97,20 L99,22 L103,18" stroke="rgba(74,222,128,0.9)" strokeWidth="1.5" fill="none"
-      initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ delay: 0.6, duration: 0.3 }} />
   </svg>
 );
 
@@ -55,106 +100,7 @@ const SecurityBadgeVisual = () => (
       animate={{ opacity: 1, scale: 1 }} 
       transition={{ duration: 0.5 }}
     />
-    <motion.circle cx="60" cy="32" r="8" fill="rgba(74,222,128,0.2)" stroke="rgba(74,222,128,0.5)" strokeWidth="1"
-      animate={{ scale: [1, 1.1, 1] }}
-      transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
-    />
-    <motion.path d="M56,32 L59,35 L65,29" stroke="rgba(74,222,128,0.9)" strokeWidth="2" fill="none" strokeLinecap="round"
-      initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ delay: 0.3, duration: 0.4 }} />
-  </svg>
-);
-
-const CustomDomainVisual = () => (
-  <svg viewBox="0 0 120 60" className="w-full h-full">
-    <motion.rect x="15" y="20" width="90" height="20" rx="4" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" strokeWidth="1"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} />
-    <motion.text x="22" y="34" fill="rgba(255,255,255,0.6)" fontSize="10" fontFamily="ui-monospace"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
-      acme.co/
-    </motion.text>
-    <motion.text x="58" y="34" fill="rgba(255,255,255,0.9)" fontSize="10" fontFamily="ui-monospace" fontWeight="bold"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
-      summer-sale
-    </motion.text>
-  </svg>
-);
-
-const AnalyticsVisual = () => (
-  <svg viewBox="0 0 120 60" className="w-full h-full">
-    {[0, 1, 2, 3, 4].map((i) => (
-      <motion.rect
-        key={i}
-        x={20 + i * 18}
-        y={50 - (15 + i * 6)}
-        width="12"
-        height={15 + i * 6}
-        rx="2"
-        fill={`rgba(255,255,255,${0.15 + i * 0.12})`}
-        initial={{ height: 0, y: 50 }}
-        animate={{ height: 15 + i * 6, y: 50 - (15 + i * 6) }}
-        transition={{ delay: 0.1 * i, duration: 0.5, ease: appleEase }}
-      />
-    ))}
-    <motion.path 
-      d="M20,42 Q40,35 55,28 T90,15" 
-      fill="none" 
-      stroke="rgba(255,255,255,0.4)" 
-      strokeWidth="2"
-      strokeLinecap="round"
-      initial={{ pathLength: 0 }} 
-      animate={{ pathLength: 1 }} 
-      transition={{ delay: 0.5, duration: 0.8 }}
-    />
-  </svg>
-);
-
-const QRVisual = () => (
-  <svg viewBox="0 0 120 60" className="w-full h-full">
-    <motion.g initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.4 }}>
-      {/* QR pattern */}
-      {[0, 1, 2, 3].map((row) =>
-        [0, 1, 2, 3].map((col) => (
-          <rect
-            key={`${row}-${col}`}
-            x={40 + col * 10}
-            y={12 + row * 10}
-            width="8"
-            height="8"
-            rx="1"
-            fill={Math.random() > 0.3 ? "rgba(255,255,255,0.4)" : "rgba(255,255,255,0.1)"}
-          />
-        ))
-      )}
-    </motion.g>
-    <motion.circle 
-      cx="60" cy="32" r="6" 
-      fill="rgba(255,255,255,0.9)"
-      initial={{ scale: 0 }} 
-      animate={{ scale: 1 }} 
-      transition={{ delay: 0.3, type: "spring" }}
-    />
-  </svg>
-);
-
-const ExpirationVisual = () => (
-  <svg viewBox="0 0 120 60" className="w-full h-full">
-    <motion.circle cx="60" cy="30" r="22" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="3"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} />
-    <motion.circle 
-      cx="60" cy="30" r="22" 
-      fill="none" 
-      stroke="rgba(255,255,255,0.5)" 
-      strokeWidth="3"
-      strokeLinecap="round"
-      strokeDasharray="138"
-      initial={{ strokeDashoffset: 138 }}
-      animate={{ strokeDashoffset: 45 }}
-      transition={{ duration: 1.5, ease: appleEase }}
-    />
-    <motion.line x1="60" y1="30" x2="60" y2="18" stroke="rgba(255,255,255,0.6)" strokeWidth="2" strokeLinecap="round"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} />
-    <motion.line x1="60" y1="30" x2="70" y2="35" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeLinecap="round"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }} />
+    <motion.circle cx="60" cy="32" r="8" fill="rgba(74,222,128,0.2)" stroke="rgba(74,222,128,0.5)" strokeWidth="1" />
   </svg>
 );
 
@@ -181,19 +127,19 @@ const carouselItems = [
     icon: BarChart3,
     title: "real-time analytics",
     description: "track clicks, devices, locations, and referrers. know what's working in real time.",
-    visual: <AnalyticsVisual />,
+    visual: <LinkPreviewVisual />,
   },
   {
     icon: QrCode,
     title: "auto qr generation",
     description: "every short link gets a branded qr code automatically. no extra steps.",
-    visual: <QRVisual />,
+    visual: <SecurityBadgeVisual />,
   },
   {
     icon: Clock,
     title: "expiration control",
     description: "set links to expire after a date or click count. perfect for limited-time campaigns.",
-    visual: <ExpirationVisual />,
+    visual: <LinkPreviewVisual />,
   },
   {
     icon: Edit3,
@@ -286,7 +232,13 @@ const ShortLinks = () => {
         toolComponent={<URLShortenerBasic />}
       />
 
-      {/* Fold 2: Feature Carousel with Subtle Pagination */}
+      {/* Fold 2: Control Deck */}
+      <FeatureControlDeck
+        tabs={controlDeckTabs}
+        badge={{ title: "Enterprise Ready", subtitle: "unlimited custom domains" }}
+      />
+
+      {/* Fold 3: Feature Carousel with Subtle Pagination */}
       <FeatureCarouselSection
         headline="8 ways to make every link count"
         subheadline="each feature designed to increase trust and drive more clicks"

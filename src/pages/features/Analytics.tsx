@@ -5,8 +5,16 @@ import { FeatureBeforeAfter } from "@/components/features/FeatureBeforeAfter";
 import { FeatureBentoGrid } from "@/components/features/FeatureBentoGrid";
 import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
 import { FeatureShowcase } from "@/components/features/FeatureShowcase";
+import { FeatureControlDeck } from "@/components/features/FeatureControlDeck";
 import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
 import { CTAButton } from "@/components/ui/CTAButton";
+import {
+  AttributionFlowVisual,
+  CrossDeviceVisual,
+  PredictionVisual,
+  AICommandVisual,
+  AnomalyRadarVisual,
+} from "@/components/features/visuals/FeatureVisuals";
 import { motion } from "framer-motion";
 import { 
   BarChart3, 
@@ -22,6 +30,49 @@ import {
 } from "lucide-react";
 
 const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
+const controlDeckTabs = [
+  {
+    id: "attribution",
+    icon: GitBranch,
+    label: "multi-touch attribution",
+    headline: "every touchpoint credited.",
+    subheadline: "7 attribution models show each channel's true contribution to revenue—not just last-click.",
+    visual: <AttributionFlowVisual />,
+  },
+  {
+    id: "cross-device",
+    icon: Smartphone,
+    label: "cross-device identity",
+    headline: "unified customer view.",
+    subheadline: "stitch mobile → desktop → app sessions. see the complete journey, not device fragments.",
+    visual: <CrossDeviceVisual />,
+  },
+  {
+    id: "forecasting",
+    icon: TrendingUp,
+    label: "predictive forecasting",
+    headline: "see 7 days ahead.",
+    subheadline: "traffic predictions with 85-92% accuracy. plan campaigns with confidence intervals.",
+    visual: <PredictionVisual />,
+  },
+  {
+    id: "ai",
+    icon: Brain,
+    label: "AI command center",
+    headline: "ask anything.",
+    subheadline: "natural language queries: 'which campaign had best ROI?' get instant, data-backed answers.",
+    visual: <AICommandVisual />,
+  },
+  {
+    id: "anomaly",
+    icon: Bell,
+    label: "anomaly detection",
+    headline: "24/7 pulse monitoring.",
+    subheadline: "get alerts when traffic spikes or drops unexpectedly. never miss a viral moment.",
+    visual: <AnomalyRadarVisual />,
+  },
+];
 
 const Analytics = () => {
   const carouselItems = [
@@ -147,6 +198,12 @@ const Analytics = () => {
           </motion.div>
         </div>
       </section>
+
+      {/* Control Deck */}
+      <FeatureControlDeck
+        tabs={controlDeckTabs}
+        badge={{ title: "Clean Track Intelligence™", subtitle: "MIT & Harvard algorithms" }}
+      />
 
       {/* Carousel Section */}
       <FeatureCarouselSection
