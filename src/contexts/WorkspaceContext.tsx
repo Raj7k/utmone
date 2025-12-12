@@ -17,6 +17,8 @@ interface WorkspaceContextType {
   currentWorkspace: Workspace | null;
   workspaces: Workspace[];
   isLoading: boolean;
+  isWorkspaceLoading: boolean;
+  hasNoWorkspaces: boolean;
   hasTimedOut: boolean;
   error: Error | null;
   switchWorkspace: (workspaceId: string) => void;
@@ -46,6 +48,8 @@ const DEFAULT_CONTEXT: WorkspaceContextType = {
   currentWorkspace: CACHED_WORKSPACE,
   workspaces: CACHED_WORKSPACE ? [CACHED_WORKSPACE] : [],
   isLoading: !CACHED_WORKSPACE, // Not loading if we have cache
+  isWorkspaceLoading: !CACHED_WORKSPACE,
+  hasNoWorkspaces: false,
   hasTimedOut: false,
   error: null,
   switchWorkspace: () => {},
@@ -72,6 +76,10 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
   // Compute loading state - NOT loading if ready (cached) or fully loaded
   const isLoading = !isReady && !isFullyLoaded;
   
+  // More granular loading states for progressive rendering
+  const isWorkspaceLoading = !isFullyLoaded && !currentWorkspace;
+  const hasNoWorkspaces = isFullyLoaded && workspaces.length === 0;
+  
   // hasTimedOut is now managed by AppSession, but we keep the interface
   const hasTimedOut = !isLoading && !currentWorkspace && workspaces.length === 0 && isFullyLoaded;
 
@@ -79,11 +87,13 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
     currentWorkspace,
     workspaces,
     isLoading,
+    isWorkspaceLoading,
+    hasNoWorkspaces,
     hasTimedOut,
     error,
     switchWorkspace,
     retry: refresh,
-  }), [currentWorkspace, workspaces, isLoading, hasTimedOut, error, switchWorkspace, refresh]);
+  }), [currentWorkspace, workspaces, isLoading, isWorkspaceLoading, hasNoWorkspaces, hasTimedOut, error, switchWorkspace, refresh]);
 
   return (
     <WorkspaceContext.Provider value={contextValue}>

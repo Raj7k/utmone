@@ -108,8 +108,8 @@ export const useOnboardingProgress = (): OnboardingProgress => {
 
       return progress;
     },
-    // Enable query even with cached workspace ID
-    enabled: !!workspaceId,
+    // Enable query only with valid non-empty workspace ID
+    enabled: !!workspaceId && workspaceId.length > 0,
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
     // Use cached progress as placeholder for instant render
