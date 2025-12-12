@@ -1,54 +1,93 @@
 import { FeatureLayout } from "@/components/features/FeatureLayout";
 import { FeatureHero } from "@/components/features/FeatureHero";
-import { FeatureSection } from "@/components/features/FeatureSection";
-import { CapabilityCard } from "@/components/features/CapabilityCard";
-import { FeatureComparison } from "@/components/features/FeatureComparison";
-import { WorkflowStep } from "@/components/landing/WorkflowStep";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import { ProductMockup } from "@/components/product/ProductMockup";
-import { Users, Link2, QrCode, MousePointerClick, DollarSign, Activity } from "lucide-react";
+import { FeatureCarouselSection } from "@/components/features/FeatureCarouselSection";
+import { FeatureStatsStrip } from "@/components/features/FeatureStatsStrip";
+import { FeatureBeforeAfter } from "@/components/features/FeatureBeforeAfter";
+import { FeatureBentoGrid } from "@/components/features/FeatureBentoGrid";
+import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
+import { FeatureShowcase } from "@/components/features/FeatureShowcase";
+import { motion } from "framer-motion";
+import { Users, Link2, QrCode, MousePointerClick, DollarSign, Activity, TrendingUp, BarChart3, Award } from "lucide-react";
+
+const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const PartnerProgram = () => {
-  const capabilities = [
+  const carouselItems = [
     {
-      icon: Users,
       title: "Partner Profiles",
-      description: "Dedicated profiles for each partner with performance tracking.",
+      description: "Dedicated profiles for each partner with performance tracking and commission history.",
+      icon: Users,
     },
     {
+      title: "Branded Partner Links",
+      description: "Unique short links for each partner. Full UTM tracking built in automatically.",
       icon: Link2,
-      title: "Partner-Specific Links",
-      description: "Unique branded links for each partner relationship.",
     },
     {
-      icon: QrCode,
       title: "Partner QR Codes",
-      description: "Custom QR codes for offline partner activities.",
+      description: "Custom QR codes for offline events, trade shows, and partner materials.",
+      icon: QrCode,
     },
     {
+      title: "Click-to-Conversion",
+      description: "Track the full funnel: clicks → signups → purchases → revenue attributed.",
       icon: MousePointerClick,
-      title: "Clicks, Signups, Conversions",
-      description: "Complete funnel tracking from click to conversion.",
     },
     {
+      title: "Commission Tracking",
+      description: "Transparent payout history. Partners see exactly what they've earned.",
       icon: DollarSign,
-      title: "Payout History",
-      description: "Transparent commission tracking and payment records.",
     },
     {
+      title: "Real-Time Activity",
+      description: "Live feed of partner performance. See what's working, right now.",
       icon: Activity,
-      title: "Activity Feed",
-      description: "Real-time visibility into partner performance.",
     },
   ];
 
-  const comparisonItems = [
-    { feature: "No dashboards they can't understand", competitors: false, utmOne: true },
-    { feature: "No complex onboarding", competitors: false, utmOne: true },
-    { feature: "No overwhelming analytics", competitors: false, utmOne: true },
-    { feature: "Simple partner experience", competitors: false, utmOne: true },
-    { feature: "Clear attribution path", competitors: true, utmOne: true },
+  const stats = [
+    { value: "2", label: "Min Partner Setup", suffix: "min" },
+    { value: "100", label: "Attribution Accuracy", suffix: "%" },
+    { value: "0", label: "Spreadsheets Needed", suffix: "" },
+    { value: "∞", label: "Partners Supported", suffix: "" },
+  ];
+
+  const beforeAfterItems = [
+    { feature: "Partner Onboarding", before: "Complicated setup process", after: "2-minute self-serve signup" },
+    { feature: "Link Distribution", before: "Manual spreadsheet tracking", after: "Auto-generated unique links" },
+    { feature: "Attribution", before: "Guessing who drove sales", after: "100% accurate tracking" },
+    { feature: "Payouts", before: "Monthly spreadsheet chaos", after: "Automated commission calc" },
+    { feature: "Partner Experience", before: "Confusing dashboards", after: "Simple, clear interface" },
+  ];
+
+  const capabilities = [
+    {
+      icon: Users,
+      title: "Partner Management",
+      features: ["Self-serve signup", "Tiered programs", "Custom commission rates", "Partner groups"],
+    },
+    {
+      icon: Link2,
+      title: "Link & QR Tools",
+      features: ["Branded short links", "Custom QR codes", "UTM auto-tagging", "Deep linking"],
+    },
+    {
+      icon: BarChart3,
+      title: "Performance Analytics",
+      features: ["Real-time clicks", "Conversion tracking", "Revenue attribution", "Leaderboards"],
+    },
+    {
+      icon: DollarSign,
+      title: "Commission System",
+      features: ["Flexible rate structures", "Auto calculations", "Payout reports", "Tax documents"],
+    },
+  ];
+
+  // Sample partner data for mockup
+  const partnerData = [
+    { name: "Partner A", clicks: 2450, conversions: 89, revenue: "$12,340", trend: "+24%" },
+    { name: "Partner B", clicks: 1890, conversions: 67, revenue: "$9,120", trend: "+18%" },
+    { name: "Partner C", clicks: 1340, conversions: 45, revenue: "$6,780", trend: "+12%" },
   ];
 
   return (
@@ -56,7 +95,7 @@ const PartnerProgram = () => {
       title="Partner Program - Attribution Without Spreadsheets - utm.one"
       description="Give each partner clean links, clean QR codes, and clean attribution — powered by clean-track governance."
       canonical="https://utm.one/features/partner-program"
-      keywords={["partner program", "affiliate program", "partner attribution", "referral tracking", "partner analytics"]}
+      keywords={["partner program", "affiliate tracking", "partner attribution", "referral program"]}
       breadcrumbs={[
         { name: "Home", url: "https://utm.one" },
         { name: "Features", url: "https://utm.one/#features" },
@@ -66,156 +105,120 @@ const PartnerProgram = () => {
       <FeatureHero
         headlineLine1="partner attribution"
         headlineLine2="without spreadsheets."
-        subheadline="utm.one gives each partner clean links, clean QR codes, and clean attribution — powered by clean-track."
+        subheadline="Give partners clean links, QR codes, and 100% accurate attribution. They share. You see everything."
       />
 
-      <FeatureSection background="muted">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
-            Simple For Partners, Powerful For You
-          </h2>
-          <div className="max-w-2xl mx-auto space-y-4 text-body-apple text-secondary-label">
-            <p>Partners share</p>
-            <p>You see everything</p>
-          </div>
-        </div>
-      </FeatureSection>
+      <FeatureCarouselSection
+        headline="Everything Partners Need"
+        subheadline="Simple for them. Powerful for you."
+        items={carouselItems}
+      />
 
-      <FeatureSection background="default" maxWidth="wide">
-        <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label">
-            partner performance dashboard
-          </h2>
-          <p className="text-xl text-secondary-label max-w-3xl mx-auto">
-            Everything partners need in one clean view
-          </p>
-        </div>
+      <FeatureStatsStrip stats={stats} />
 
-        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-          <div className="space-y-6">
-            <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl shrink-0 bg-primary/10 text-primary">
-                <MousePointerClick className="w-6 h-6" />
+      <FeatureBeforeAfter
+        headline="End the Spreadsheet Era"
+        subheadline="From manual chaos to automated clarity"
+        items={beforeAfterItems}
+      />
+
+      <FeatureShowcase
+        headline="Partner Dashboard"
+        subheadline="Real-time performance at a glance"
+      >
+        <div className="bg-background/50 rounded-xl border border-border overflow-hidden">
+          {/* Dashboard header */}
+          <div className="p-4 border-b border-border bg-muted/30">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Award className="w-4 h-4 text-primary" />
+                <span className="text-sm font-medium">Partner Leaderboard</span>
               </div>
-              <div>
-                <h3 className="text-xl font-display font-semibold mb-2">click attribution</h3>
-                <p className="text-secondary-label">
-                  Every click from partner links is tracked with full UTM parameters and referrer data
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl shrink-0 bg-primary/10 text-primary">
-                <Activity className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="text-xl font-display font-semibold mb-2">conversion tracking</h3>
-                <p className="text-secondary-label">
-                  See signups, purchases, and other conversions attributed to each partner
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl shrink-0 bg-primary/10 text-primary">
-                <DollarSign className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="text-xl font-display font-semibold mb-2">payout calculations</h3>
-                <p className="text-secondary-label">
-                  Automatic commission calculation based on conversion values and agreed rates
-                </p>
-              </div>
+              <span className="text-xs text-muted-foreground">Last 30 days</span>
             </div>
           </div>
-
-          <div>
-            <ProductMockup type="dashboard" delay={0.2} />
+          
+          {/* Table header */}
+          <div className="grid grid-cols-5 gap-4 p-4 border-b border-border bg-muted/20 text-xs font-medium text-muted-foreground">
+            <div>Partner</div>
+            <div className="text-right">Clicks</div>
+            <div className="text-right">Conversions</div>
+            <div className="text-right">Revenue</div>
+            <div className="text-right">Trend</div>
           </div>
-        </div>
-      </FeatureSection>
-
-      <FeatureSection>
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
-          Built For Predictable Performance
-        </h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {capabilities.map((capability, index) => (
-            <CapabilityCard
-              key={index}
-              icon={capability.icon}
-              title={capability.title}
-              description={capability.description}
-              delay={index * 0.1}
-            />
+          
+          {/* Partner rows */}
+          {partnerData.map((partner, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: -10 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.4, ease: appleEase }}
+              className="grid grid-cols-5 gap-4 p-4 border-b border-border last:border-b-0 hover:bg-muted/10 transition-colors"
+            >
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-medium text-primary">
+                  {partner.name.charAt(0)}
+                </div>
+                <span className="text-sm font-medium">{partner.name}</span>
+              </div>
+              <div className="text-right text-sm">{partner.clicks.toLocaleString()}</div>
+              <div className="text-right text-sm">{partner.conversions}</div>
+              <div className="text-right text-sm font-medium">{partner.revenue}</div>
+              <div className="text-right">
+                <span className="text-xs text-primary font-medium flex items-center justify-end gap-1">
+                  <TrendingUp className="w-3 h-3" />
+                  {partner.trend}
+                </span>
+              </div>
+            </motion.div>
           ))}
         </div>
-        <p className="text-center text-title-2 text-secondary-label mt-12">
-          Everything partners touch becomes measurable.
-        </p>
-      </FeatureSection>
+      </FeatureShowcase>
 
-      <FeatureSection background="muted">
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
-          Partners Shouldn't Need Training
-        </h2>
-        <FeatureComparison
-          title="utm.one vs Complex Partner Systems"
-          items={comparisonItems}
-        />
-        <p className="text-center text-title-2 text-label font-medium mt-12">
-          Clarity invites participation.
-        </p>
-      </FeatureSection>
+      <FeatureBentoGrid
+        headline="Complete Partner Toolkit"
+        subheadline="Everything you need to scale your partner program"
+        capabilities={capabilities}
+      />
 
-      <FeatureSection>
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
-          Invite → Assign Link → Track → Payout
-        </h2>
-        <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
-          <WorkflowStep
-            icon={Users}
-            title="Invite"
-            description="Add new partners"
-          />
-          <WorkflowStep
-            icon={Link2}
-            title="Assign Link"
-            description="Give them unique URLs"
-          />
-          <WorkflowStep
-            icon={Activity}
-            title="Track"
-            description="Monitor their performance"
-          />
-          <WorkflowStep
-            icon={DollarSign}
-            title="Payout"
-            description="Process commissions"
-          />
+      <FeatureShowcase
+        headline="Partner Journey"
+        subheadline="Invite → Share → Track → Pay"
+        background="muted"
+      >
+        <div className="grid grid-cols-4 gap-4">
+          {[
+            { step: "1", title: "Invite", desc: "Partner signs up in 2 min", icon: Users },
+            { step: "2", title: "Share", desc: "Gets unique links & QR codes", icon: Link2 },
+            { step: "3", title: "Track", desc: "Every click attributed", icon: Activity },
+            { step: "4", title: "Pay", desc: "Auto-calculated commissions", icon: DollarSign },
+          ].map((item, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.5, ease: appleEase }}
+              className="text-center"
+            >
+              <div className="w-12 h-12 mx-auto rounded-full bg-primary/10 flex items-center justify-center mb-3">
+                <item.icon className="w-5 h-5 text-primary" />
+              </div>
+              <h3 className="text-sm font-semibold mb-1">{item.title}</h3>
+              <p className="text-xs text-muted-foreground">{item.desc}</p>
+            </motion.div>
+          ))}
         </div>
-        <p className="text-center text-title-2 text-secondary-label mt-12">
-          As simple as it should be.
-        </p>
-      </FeatureSection>
+      </FeatureShowcase>
 
-      <FeatureSection background="muted">
-        <div className="text-center max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
-            Build Your Partner Program
-          </h2>
-          <p className="text-body-apple text-secondary-label mb-8">
-            Start scaling with partners who have the tools they need.
-          </p>
-          <Button
-            variant="marketing"
-            asChild
-            size="lg"
-            className="text-base px-8 py-6 rounded-full hover:scale-105 transition-transform"
-          >
-            <Link to="/book-demo">Book a Demo</Link>
-          </Button>
-        </div>
-      </FeatureSection>
+      <FeatureFinalCTA
+        headline="Ready to Scale Your Partner Program?"
+        subheadline="Give partners the tools they need. Get the attribution you deserve."
+        primaryCTA={{ label: "Get Started Free", href: "/early-access" }}
+        secondaryCTA={{ label: "Book a Demo", href: "/book-demo" }}
+      />
     </FeatureLayout>
   );
 };

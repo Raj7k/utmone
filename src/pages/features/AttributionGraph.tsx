@@ -1,283 +1,301 @@
 import { FeatureLayout } from "@/components/features/FeatureLayout";
-import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
-import { HorrorStorySection } from "@/components/solutions/HorrorStorySection";
-import { PersonaCalloutCards } from "@/components/solutions/PersonaCalloutCards";
-import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
-import { AttributionComparisonChart } from "@/components/features/AttributionComparisonChart";
-import { UseCasesGrid } from "@/components/features/UseCasesGrid";
-import { GitBranch, Users, Briefcase, TrendingUp, Target, DollarSign, BarChart3, Lightbulb } from "lucide-react";
-import { CTAButton } from "@/components/ui/CTAButton";
-import { preserveAcronyms as p } from "@/utils/textFormatter";
+import { FeatureHero } from "@/components/features/FeatureHero";
+import { FeatureCarouselSection } from "@/components/features/FeatureCarouselSection";
+import { FeatureStatsStrip } from "@/components/features/FeatureStatsStrip";
+import { FeatureBeforeAfter } from "@/components/features/FeatureBeforeAfter";
+import { FeatureBentoGrid } from "@/components/features/FeatureBentoGrid";
+import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
+import { FeatureShowcase } from "@/components/features/FeatureShowcase";
+import { motion } from "framer-motion";
+import { GitBranch, Target, BarChart3, Lightbulb, DollarSign, TrendingUp, Layers, Workflow } from "lucide-react";
+
+const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function AttributionGraph() {
-  const useCases = [
+  const carouselItems = [
     {
-      title: "Upper-funnel channels getting zero credit",
-      scenario: "Your LinkedIn campaign drives awareness. Your email nurtures leads. Google Search closes deals. GA4 gives Google 100% credit. You cut LinkedIn budget. Sales tanks.",
-      solution: "Clean Track Intelligence™ shows LinkedIn deserves 40% credit, Email 30%, Google 30%. You triple LinkedIn budget. Pipeline grows 60%."
+      title: "Multi-Touch Attribution",
+      description: "See every touchpoint in the customer journey. Credit distributed by actual contribution.",
+      icon: GitBranch,
     },
     {
-      title: "Budget allocation wars between teams",
-      scenario: "Your social team and paid search team fight over budget. Both claim they 'drive conversions.' You have no data to settle it.",
-      solution: "Attribution graph shows social drives awareness (20% credit), paid search closes deals (45% credit), email nurtures (35%). Everyone gets appropriate budget."
+      title: "Clean Track Intelligence™",
+      description: "Probabilistic credit distribution. Which touchpoints caused the conversion, not just appeared.",
+      icon: Lightbulb,
     },
     {
-      title: "Killing channels that actually work",
-      scenario: "Your podcast sponsorships never show up in GA4. You assume they don't work. You cancel them. Sales drops 25% and you have no idea why.",
-      solution: "Attribution reveals podcast was generating 18% of conversions as first touchpoint. You restore podcast budget. Sales recovers."
+      title: "Journey Visualization",
+      description: "Beautiful flow diagrams showing the path from first touch to conversion.",
+      icon: Workflow,
     },
     {
-      title: "Proving marketing's contribution to revenue",
-      scenario: "Your CFO asks: 'What's the ROI of our marketing spend?' You show last-click attribution. They say 'Google is doing all the work, why do we need you?'",
-      solution: "True attribution shows marketing touchpoints contribute 72% of conversion probability. You present to board. Marketing budget doubles."
-    }
+      title: "Revenue Attribution",
+      description: "Know exactly which channels drive revenue. Prove marketing's contribution to the board.",
+      icon: DollarSign,
+    },
+    {
+      title: "Cross-Device Tracking",
+      description: "Stitch journeys across devices. 80-85% cross-device journey capture.",
+      icon: Layers,
+    },
+    {
+      title: "GA4 Comparison",
+      description: "Side-by-side: see what GA4 hides. Reveal the hidden 30-50% attribution.",
+      icon: BarChart3,
+    },
   ];
 
-  const faqs = [
+  const stats = [
+    { value: "30-50", label: "Hidden Attribution", suffix: "%" },
+    { value: "85", label: "Cross-Device Accuracy", suffix: "%" },
+    { value: "30", label: "Day Lookback", suffix: "days" },
+    { value: "0", label: "Extra Setup", suffix: "" },
+  ];
+
+  const beforeAfterItems = [
+    { feature: "Attribution Model", before: "Last-click only", after: "Multi-touch probabilistic" },
+    { feature: "Upper Funnel Credit", before: "0% (invisible)", after: "True contribution revealed" },
+    { feature: "Cross-Device", before: "Siloed by device", after: "Unified journey view" },
+    { feature: "Budget Decisions", before: "Based on lies", after: "Based on real data" },
+    { feature: "Marketing ROI Proof", before: "Impossible", after: "Board-ready reports" },
+  ];
+
+  const capabilities = [
     {
-      question: "How is this different from Google Analytics attribution?",
-      answer: "GA4 uses rule-based attribution (last-click, first-click, linear). utm.one uses Clean Track Intelligence™ to calculate probabilistic contribution—which touchpoints actually caused the conversion, not just arbitrary credit distribution. It's the difference between 'this touchpoint was present' vs 'this touchpoint made it happen'."
+      icon: GitBranch,
+      title: "Journey Tracking",
+      features: ["Every touchpoint logged", "30-day window", "Cross-device stitching", "Offline + online"],
     },
     {
-      question: "Do I need to change my tracking setup?",
-      answer: "No. If you're already using utm.one for link tracking, attribution modeling happens automatically. No extra setup required. The system analyzes visitor journeys from your existing click data."
+      icon: BarChart3,
+      title: "Attribution Models",
+      features: ["Clean Track Intelligence™", "First-touch", "Last-touch", "Linear comparison"],
     },
     {
-      question: "Can I compare this to my current GA4 attribution?",
-      answer: "Yes. utm.one shows side-by-side comparison of 'Last-Click GA4' vs 'utm.one Clean Track Intelligence™' so you can see exactly how much credit your upper-funnel channels deserve. You'll often find 30-50% revenue attribution was hidden."
+      icon: DollarSign,
+      title: "Revenue Intelligence",
+      features: ["Deal attribution", "Channel ROI", "Campaign contribution", "Pipeline attribution"],
     },
     {
-      question: "What if a customer's journey spans multiple devices?",
-      answer: "utm.one uses probabilistic device fingerprinting + visitor_id cookie to stitch journeys across devices. Not 100% perfect (no solution is), but significantly better than GA4's device-siloed approach. We estimate 80-85% cross-device journey capture."
+      icon: Workflow,
+      title: "Integrations",
+      features: ["CRM push (HubSpot/SF)", "GA4 comparison", "Webhook events", "API access"],
     },
-    {
-      question: "How far back does the journey tracking go?",
-      answer: "Standard: 30 days. Enterprise: 90 days. Most customer journeys complete within 14 days, so 30 days captures 95%+ of conversions. Longer windows help with high-consideration B2B purchases."
-    },
-    {
-      question: "Can I see attribution by campaign, not just channel?",
-      answer: "Yes. Attribution rolls up to any UTM parameter: source, medium, campaign, term, content. You can see: 'Q1 Webinar campaign drove 22% of conversions' or 'LinkedIn paid ads contributed 18% to pipeline'."
-    },
-    {
-      question: "What if I run offline campaigns (events, TV, podcast)?",
-      answer: "Track them with utm.one QR codes or vanity URLs. When someone scans the QR or visits the URL, that touchpoint enters their journey. Attribution works the same: 'Event booth QR contributed 12% to conversions'."
-    },
-    {
-      question: "How does this integrate with my CRM (HubSpot, Salesforce)?",
-      answer: "utm.one can push attribution data to your CRM via webhooks or API. When a deal closes, the full journey attribution flows into the CRM deal record. Your sales team sees exactly which marketing touchpoints influenced the deal."
-    }
+  ];
+
+  // Journey visualization data
+  const journeySteps = [
+    { channel: "LinkedIn", credit: 32, position: "first" },
+    { channel: "Email", credit: 28, position: "middle" },
+    { channel: "Blog", credit: 18, position: "middle" },
+    { channel: "Google", credit: 22, position: "last" },
   ];
 
   return (
     <FeatureLayout
-      title="Attribution Graph - Finally Know Where Revenue Comes From"
-      description="Tired of Google taking 100% credit when your email did the real work? utm.one uses true credit distribution to show which touchpoints actually drive conversions."
+      title="Attribution Graph - Finally Know Where Revenue Comes From - utm.one"
+      description="Tired of Google taking 100% credit? utm.one reveals the true contribution of every marketing touchpoint."
       canonical="https://utm.one/features/attribution-graph"
-      keywords={["attribution modeling", "multi-touch attribution", "customer journey", "bayesian attribution"]}
+      keywords={["attribution modeling", "multi-touch attribution", "customer journey", "marketing attribution"]}
       breadcrumbs={[
-        { name: 'Home', url: 'https://utm.one' },
-        { name: 'Features', url: 'https://utm.one/features' },
-        { name: 'Attribution Graph', url: 'https://utm.one/features/attribution-graph' }
+        { name: "Home", url: "https://utm.one" },
+        { name: "Features", url: "https://utm.one/features" },
+        { name: "Attribution Graph", url: "https://utm.one/features/attribution-graph" },
       ]}
     >
-      {/* Hero */}
-      <section className="relative py-32 overflow-hidden">
-        <RetroGradientMesh />
-        <div className="relative max-w-[980px] mx-auto px-8 z-10 text-center">
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold hero-gradient mb-6">
-            finally know where revenue comes from.
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-            tired of Google taking 100% credit when your email did the real work? utm.one uses true credit distribution to show which touchpoints actually drive conversions.
-          </p>
-          <CTAButton href="/early-access" variant="primary" pulse>get early access</CTAButton>
-        </div>
-      </section>
+      <FeatureHero
+        headlineLine1="finally know where"
+        headlineLine2="revenue comes from."
+        subheadline="Tired of Google taking 100% credit? We reveal the true contribution of every touchpoint in the customer journey."
+      />
 
-      {/* Problem */}
-      <section className="py-24 bg-background">
-        <div className="max-w-6xl mx-auto px-8">
-          <HorrorStorySection
-            title="last-click attribution is lying to you"
-            description="Your customer journey: Email → Facebook → Google Search → Conversion. GA4 gives Google 100% credit. Your email and Facebook ads get zero. You cut email budget. Revenue tanks. You had no idea email was doing the heavy lifting."
-            stats={[
-              { label: "Upper-funnel undervalued", value: "60%" },
-              { label: "Budget misallocated", value: "$50K+" },
-              { label: "Channels killed prematurely", value: "3-5" }
-            ]}
-          />
-        </div>
-      </section>
+      <FeatureCarouselSection
+        headline="True Attribution"
+        subheadline="Every touchpoint gets the credit it deserves"
+        items={carouselItems}
+      />
 
-      {/* Side-by-Side Attribution Comparison */}
-      <section className="py-24 bg-muted/20">
-        <div className="max-w-6xl mx-auto px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">the truth vs the lie</h2>
-            <p className="text-xl text-muted-foreground">see what GA4 hides from you</p>
-          </div>
-          <AttributionComparisonChart />
-        </div>
-      </section>
+      <FeatureStatsStrip stats={stats} />
 
-      {/* How It Works */}
-      <section className="py-24 bg-background">
-        <div className="max-w-6xl mx-auto px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">how attribution should work</h2>
-            <p className="text-xl text-muted-foreground">every touchpoint gets credit based on contribution</p>
+      <FeatureBeforeAfter
+        headline="The Truth vs The Lie"
+        subheadline="See what last-click attribution hides"
+        items={beforeAfterItems}
+      />
+
+      <FeatureShowcase
+        headline="Customer Journey Visualization"
+        subheadline="Every touchpoint. Every contribution. One beautiful flow."
+      >
+        <div className="bg-background/50 rounded-xl border border-border p-8">
+          {/* Journey flow */}
+          <div className="flex items-center justify-between relative">
+            {/* Connection lines */}
+            <svg className="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
+                  <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.8" />
+                </linearGradient>
+              </defs>
+              <motion.path
+                d="M 80 50 Q 200 20, 280 50 Q 400 80, 480 50 Q 600 20, 680 50"
+                fill="none"
+                stroke="url(#lineGradient)"
+                strokeWidth="2"
+                strokeDasharray="8 4"
+                initial={{ pathLength: 0 }}
+                whileInView={{ pathLength: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, ease: appleEase }}
+              />
+            </svg>
+            
+            {journeySteps.map((step, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.15, duration: 0.5, ease: appleEase }}
+                className="relative z-10 text-center"
+              >
+                <div className="w-16 h-16 rounded-full bg-primary/10 border-2 border-primary/30 flex items-center justify-center mb-3 mx-auto">
+                  <span className="text-lg font-bold text-primary">{step.credit}%</span>
+                </div>
+                <h3 className="text-sm font-semibold">{step.channel}</h3>
+                <p className="text-xs text-muted-foreground capitalize">{step.position} touch</p>
+              </motion.div>
+            ))}
+            
+            {/* Conversion */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6, duration: 0.5, ease: appleEase }}
+              className="relative z-10 text-center"
+            >
+              <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center mb-3 mx-auto shadow-lg shadow-primary/30">
+                <DollarSign className="w-8 h-8 text-primary-foreground" />
+              </div>
+              <h3 className="text-sm font-semibold">Conversion</h3>
+              <p className="text-xs text-primary font-medium">$15,000</p>
+            </motion.div>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            <div className="bg-card border border-border rounded-xl p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <Target className="w-8 h-8 text-primary" />
-                <h3 className="text-2xl font-display font-semibold">journey tracking</h3>
-              </div>
-              <p className="text-muted-foreground mb-4">
-                We track every touchpoint in the customer journey—from first awareness to final conversion.
-              </p>
-              <div className="bg-muted/30 rounded-lg p-4 text-sm text-muted-foreground">
-                <span className="font-semibold text-foreground">Example journey:</span> LinkedIn ad → Email click → Blog visit → Demo page → Google search → Conversion
-              </div>
-            </div>
-
-            <div className="bg-card border border-border rounded-xl p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <BarChart3 className="w-8 h-8 text-primary" />
-                <h3 className="text-2xl font-display font-semibold">bayesian inference</h3>
-              </div>
-              <p className="text-muted-foreground mb-4">
-                We calculate the incremental lift each touchpoint contributed to conversion probability.
-              </p>
-              <div className="rounded-lg p-4 text-sm bg-primary/10">
-                <span className="font-semibold text-primary">Credit distribution:</span>
-                <div className="mt-2 text-foreground font-medium">
-                  LinkedIn: 40% • Email: 30% • Google: 30%
+          {/* Comparison table */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.8, duration: 0.5, ease: appleEase }}
+            className="mt-10 grid grid-cols-2 gap-4"
+          >
+            <div className="p-4 bg-destructive/5 border border-destructive/20 rounded-lg">
+              <h4 className="text-sm font-semibold text-destructive/80 mb-2">GA4 Last-Click</h4>
+              <div className="space-y-1 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">LinkedIn</span>
+                  <span className="line-through text-muted-foreground/50">0%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Email</span>
+                  <span className="line-through text-muted-foreground/50">0%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Blog</span>
+                  <span className="line-through text-muted-foreground/50">0%</span>
+                </div>
+                <div className="flex justify-between font-medium">
+                  <span>Google</span>
+                  <span>100%</span>
                 </div>
               </div>
             </div>
-
-            <div className="bg-card border border-border rounded-xl p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <Lightbulb className="w-8 h-8 text-primary" />
-                <h3 className="text-2xl font-display font-semibold">hidden revenue</h3>
-              </div>
-              <p className="text-muted-foreground mb-4">
-                Reveal which channels are driving conversions that GA4 attributes to Google.
-              </p>
-              <div className="bg-muted/30 rounded-lg p-4 text-sm text-muted-foreground">
-                Your podcast drove 18% of conversions. GA4 showed 0%. You were about to cancel it.
-              </div>
-            </div>
-          </div>
-
-          {/* Example Journey Visualization */}
-          <div className="bg-card border border-border rounded-xl p-8 mt-12">
-            <h3 className="text-xl font-semibold mb-6 text-foreground">example journey with credit distribution</h3>
-            <div className="flex items-center justify-center gap-4 flex-wrap">
-              <div className="text-center">
-                <div className="rounded-xl px-6 py-3 mb-2 font-semibold bg-primary/10 text-primary">Email</div>
-                <span className="text-sm font-bold text-primary">22% credit</span>
-                <p className="text-xs text-muted-foreground mt-1">First touchpoint</p>
-              </div>
-              <span className="text-2xl text-muted-foreground">→</span>
-              <div className="text-center">
-                <div className="rounded-xl px-6 py-3 mb-2 font-semibold bg-primary/10 text-primary">Facebook</div>
-                <span className="text-sm font-bold text-primary">35% credit</span>
-                <p className="text-xs text-muted-foreground mt-1">Nurture touchpoint</p>
-              </div>
-              <span className="text-2xl text-muted-foreground">→</span>
-              <div className="text-center">
-                <div className="rounded-xl px-6 py-3 mb-2 font-semibold bg-primary/10 text-primary">Google</div>
-                <span className="text-sm font-bold text-primary">43% credit</span>
-                <p className="text-xs text-muted-foreground mt-1">Final touchpoint</p>
-              </div>
-              <span className="text-2xl text-muted-foreground">→</span>
-              <div className="text-center">
-                <div className="text-white rounded-xl px-6 py-3 mb-2 font-semibold bg-primary">Convert</div>
-                <p className="text-xs text-muted-foreground mt-1">$15,000 revenue</p>
+            
+            <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg">
+              <h4 className="text-sm font-semibold text-primary mb-2">utm.one Attribution</h4>
+              <div className="space-y-1 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">LinkedIn</span>
+                  <span className="text-primary font-medium">32%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Email</span>
+                  <span className="text-primary font-medium">28%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Blog</span>
+                  <span className="text-primary font-medium">18%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Google</span>
+                  <span className="text-primary font-medium">22%</span>
+                </div>
               </div>
             </div>
-            <p className="text-center text-sm text-muted-foreground mt-6">Credit distributed based on incremental lift—not arbitrary rules</p>
+          </motion.div>
+        </div>
+      </FeatureShowcase>
+
+      <FeatureBentoGrid
+        headline="Complete Attribution Stack"
+        subheadline="Everything you need to prove marketing's contribution"
+        capabilities={capabilities}
+      />
+
+      <FeatureShowcase
+        headline="Revenue by Channel"
+        subheadline="See the real ROI of every marketing investment"
+        background="muted"
+      >
+        <div className="bg-background/50 rounded-xl border border-border p-6">
+          <div className="space-y-4">
+            {[
+              { channel: "LinkedIn Ads", revenue: "$48,200", contribution: 32, color: "bg-[#0A66C2]" },
+              { channel: "Email Marketing", revenue: "$42,000", contribution: 28, color: "bg-primary" },
+              { channel: "Content/SEO", revenue: "$27,000", contribution: 18, color: "bg-emerald-500" },
+              { channel: "Google Ads", revenue: "$33,000", contribution: 22, color: "bg-amber-500" },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.5, ease: appleEase }}
+                className="flex items-center gap-4"
+              >
+                <div className={`w-3 h-3 rounded-full ${item.color}`} />
+                <span className="text-sm font-medium w-32">{item.channel}</span>
+                <div className="flex-1 h-3 bg-muted rounded-full overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    whileInView={{ width: `${item.contribution}%` }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 + 0.3, duration: 0.8, ease: appleEase }}
+                    className={`h-full rounded-full ${item.color}`}
+                  />
+                </div>
+                <span className="text-sm font-bold w-20 text-right">{item.revenue}</span>
+                <span className="text-xs text-muted-foreground w-12 text-right">{item.contribution}%</span>
+              </motion.div>
+            ))}
+          </div>
+          
+          <div className="mt-6 pt-4 border-t border-border flex justify-between items-center">
+            <span className="text-sm text-muted-foreground">Total Attributed Revenue</span>
+            <span className="text-xl font-bold text-primary">$150,200</span>
           </div>
         </div>
-      </section>
+      </FeatureShowcase>
 
-      {/* Use Cases */}
-      <section className="py-24 bg-muted/20">
-        <div className="max-w-6xl mx-auto px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">real use cases</h2>
-            <p className="text-xl text-muted-foreground">problems we actually solve</p>
-          </div>
-          <UseCasesGrid useCases={useCases} />
-        </div>
-      </section>
-
-      {/* Integration with Existing Tools */}
-      <section className="py-24 bg-background">
-        <div className="max-w-6xl mx-auto px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">works with your existing stack</h2>
-            <p className="text-xl text-muted-foreground">no migration required</p>
-          </div>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-card border-2 border-border rounded-xl p-8">
-              <div className="flex items-center gap-2 mb-4">
-                <DollarSign className="w-6 h-6 text-primary" />
-                <h3 className="text-xl font-display font-bold">push to CRM</h3>
-              </div>
-              <p className="text-muted-foreground mb-4">Send attribution data to HubSpot, Salesforce, or Pipedrive via webhooks.</p>
-              <div className="bg-muted/30 rounded-lg p-4 text-sm">
-                <p className="font-semibold text-foreground mb-2">Example CRM record:</p>
-                <ul className="space-y-1 text-muted-foreground">
-                  <li>• Deal value: $25,000</li>
-                  <li>• Journey: LinkedIn (32%) → Email (28%) → Demo (40%)</li>
-                  <li>• Marketing contribution: $20,000</li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="bg-card border-2 border-border rounded-xl p-8">
-              <div className="flex items-center gap-2 mb-4">
-                <BarChart3 className="w-6 h-6 text-primary" />
-                <h3 className="text-xl font-display font-bold">use alongside GA4</h3>
-              </div>
-              <p className="text-muted-foreground mb-4">Keep GA4 for site analytics. Use utm.one for campaign attribution.</p>
-              <div className="bg-muted/30 rounded-lg p-4 text-sm">
-                <p className="font-semibold text-foreground mb-2">Best practices:</p>
-                <ul className="space-y-1 text-muted-foreground">
-                  <li>• GA4: Overall traffic, site behavior</li>
-                  <li>• utm.one: Campaign attribution, channel ROI</li>
-                  <li>• Together: Complete picture of performance</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Personas */}
-      <section className="py-24 bg-muted/20">
-        <div className="max-w-6xl mx-auto px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">for your role</h2>
-          </div>
-          <PersonaCalloutCards callouts={[
-            { icon: Users, title: "for marketers", benefit: "Prove your email campaign's contribution—stop fighting for budget with data on your side." },
-            { icon: Briefcase, title: "for ops", benefit: "Stop budget allocation arguments forever—show exactly which channels drive revenue." },
-            { icon: TrendingUp, title: "for enterprise", benefit: "Multi-touch attribution across 20+ touchpoints—see the full customer journey, not just the last click." }
-          ]} />
-        </div>
-      </section>
-
-      {/* FAQs */}
-      <section className="py-24 bg-background">
-        <div className="max-w-4xl mx-auto px-8">
-          <RoleSpecificFAQ role="teams" faqs={faqs} />
-        </div>
-      </section>
+      <FeatureFinalCTA
+        headline="Ready to See the Full Picture?"
+        subheadline="Stop letting last-click steal credit from your best channels."
+        primaryCTA={{ label: "Get Started Free", href: "/early-access" }}
+        secondaryCTA={{ label: "See a Demo", href: "/book-demo" }}
+      />
     </FeatureLayout>
   );
 }
