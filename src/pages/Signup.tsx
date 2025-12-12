@@ -14,6 +14,8 @@ import { PasswordInput } from "@/components/auth/PasswordInput";
 import { useUIFeatureFlags } from "@/hooks/useUIFeatureFlag";
 import { ObsidianMarketingLayout } from "@/components/layout/ObsidianMarketingLayout";
 import { EmailConfirmationScreen } from "@/components/auth/EmailConfirmationScreen";
+import { SmartEmailInput } from "@/components/ui/smart-email-input";
+import { validateEmailSmart } from "@/lib/emailValidator";
 
 // Value proposition badges
 const VALUE_PROPS = [
@@ -31,6 +33,7 @@ const Signup = () => {
   const [isCheckingSession, setIsCheckingSession] = useState(true);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [email, setEmail] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(false);
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [confirmationPending, setConfirmationPending] = useState(false);
@@ -185,6 +188,14 @@ const Signup = () => {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Final validation check
+    const validation = validateEmailSmart(email);
+    if (!validation.isValid) {
+      notify.error(validation.error || "please enter a valid email");
+      return;
+    }
+    
     setIsLoading(true);
 
     try {
@@ -394,17 +405,27 @@ const Signup = () => {
                   <label htmlFor="email" className="text-sm font-medium text-foreground">
                     email
                   </label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="you@company.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="h-14 rounded-xl border-2 text-base bg-muted/30 border-border text-foreground placeholder:text-muted-foreground"
-                    disabled={isLoading || !!invitationContext}
-                    readOnly={!!invitationContext}
-                  />
+                  {invitationContext ? (
+                    <Input
+                      id="email"
+                      type="email"
+                      value={email}
+                      className="h-14 rounded-xl border-2 text-base bg-muted/30 border-border text-foreground"
+                      disabled
+                      readOnly
+                    />
+                  ) : (
+                    <SmartEmailInput
+                      id="email"
+                      value={email}
+                      onChange={setEmail}
+                      onValidChange={(valid) => setIsEmailValid(valid)}
+                      placeholder="you@company.com"
+                      className="h-14 rounded-xl border-2 text-base bg-muted/30"
+                      disabled={isLoading}
+                      required
+                    />
+                  )}
                 </div>
 
                 <div className="space-y-2">
