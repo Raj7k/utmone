@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { ExternalLink, MousePointer, Clock } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
+import { queryKeys } from "@/lib/queryConfig";
 
 interface LinkWithClicks {
   id: string;
@@ -22,7 +23,7 @@ export const ActivityFeed = () => {
   const { currentWorkspace } = useWorkspaceContext();
 
   const { data: recentLinks, isLoading } = useQuery({
-    queryKey: ['activity-feed', currentWorkspace?.id],
+    queryKey: queryKeys.dashboard.activityFeed(currentWorkspace?.id || ''),
     queryFn: async () => {
       if (!currentWorkspace?.id) return [];
       
@@ -43,30 +44,33 @@ export const ActivityFeed = () => {
         .limit(5);
 
       if (error) throw error;
-      if (!links) return [];
+      if (!links || links.length === 0) return [];
       
-      // Get click counts for each link
-      const linksWithClicks: LinkWithClicks[] = await Promise.all(
-        links.map(async (link) => {
-          const today = new Date();
-          today.setHours(0, 0, 0, 0);
-          
-          const { count } = await supabase
-            .from('link_clicks')
-            .select('*', { count: 'exact', head: true })
-            .eq('link_id', link.id)
-            .gte('clicked_at', today.toISOString());
-          
-          return { 
-            ...link, 
-            todayClicks: count || 0 
-          };
-        })
+      // Get all click counts in parallel instead of sequentially
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const todayIso = today.toISOString();
+      
+      const clickCountPromises = links.map(link =>
+        supabase
+          .from('link_clicks')
+          .select('*', { count: 'exact', head: true })
+          .eq('link_id', link.id)
+          .gte('clicked_at', todayIso)
       );
+      
+      const clickResults = await Promise.all(clickCountPromises);
+      
+      const linksWithClicks: LinkWithClicks[] = links.map((link, index) => ({
+        ...link,
+        todayClicks: clickResults[index].count || 0,
+      }));
 
       return linksWithClicks;
     },
     enabled: !!currentWorkspace?.id,
+    staleTime: 60 * 1000, // 1 minute - activity updates more frequently
+    gcTime: 5 * 60 * 1000,
   });
 
   const getExpiryStatus = (expiresAt: string | null) => {
