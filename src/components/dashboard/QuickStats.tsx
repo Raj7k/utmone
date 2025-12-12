@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
+import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { TrendingUp, TrendingDown, Minus, Link2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -11,14 +12,15 @@ import { queryKeys } from "@/lib/queryConfig";
 
 export const QuickStats = () => {
   const { currentWorkspace } = useWorkspaceContext();
+  const effectiveWorkspaceId = currentWorkspace?.id || getCachedWorkspaceId() || "";
   const { id: planId } = useCurrentPlan();
   const planConfig = PLAN_CONFIG[planId] || PLAN_CONFIG.free;
 
   // Get clicks this week - optimized with parallel queries
   const { data: clicksData, isLoading: clicksLoading } = useQuery({
-    queryKey: queryKeys.dashboard.clicksWeek(currentWorkspace?.id || ''),
+    queryKey: queryKeys.dashboard.clicksWeek(effectiveWorkspaceId),
     queryFn: async () => {
-      if (!currentWorkspace?.id) return { current: 0, previous: 0 };
+      if (!effectiveWorkspaceId) return { current: 0, previous: 0 };
       
       const now = new Date();
       const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -28,7 +30,7 @@ export const QuickStats = () => {
       const { data: links } = await supabase
         .from('links')
         .select('id')
-        .eq('workspace_id', currentWorkspace.id);
+        .eq('workspace_id', effectiveWorkspaceId);
 
       const linkIds = links?.map(l => l.id) || [];
       if (linkIds.length === 0) return { current: 0, previous: 0 };
@@ -53,23 +55,23 @@ export const QuickStats = () => {
         previous: previousResult.count || 0 
       };
     },
-    enabled: !!currentWorkspace?.id,
+    enabled: !!effectiveWorkspaceId,
     staleTime: 2 * 60 * 1000, // 2 minutes
     gcTime: 10 * 60 * 1000,
   });
 
   // Get link count for plan usage
   const { data: linksData, isLoading: linksLoading } = useQuery({
-    queryKey: queryKeys.dashboard.linksCount(currentWorkspace?.id || ''),
+    queryKey: queryKeys.dashboard.linksCount(effectiveWorkspaceId),
     queryFn: async () => {
-      if (!currentWorkspace?.id) return 0;
+      if (!effectiveWorkspaceId) return 0;
       const { count } = await supabase
         .from('links')
         .select('*', { count: 'exact', head: true })
-        .eq('workspace_id', currentWorkspace.id);
+        .eq('workspace_id', effectiveWorkspaceId);
       return count || 0;
     },
-    enabled: !!currentWorkspace?.id,
+    enabled: !!effectiveWorkspaceId,
     staleTime: 2 * 60 * 1000, // 2 minutes
     gcTime: 10 * 60 * 1000,
   });

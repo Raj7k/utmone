@@ -15,6 +15,7 @@ import { useActivationTracking } from "@/hooks/useActivationTracking";
 import { useAIAnalyzeUrl } from "@/hooks/useAIAnalyzeUrl";
 import { AISuggestionsPanel } from "./AISuggestionsPanel";
 import { AnimatePresence } from "framer-motion";
+import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 
 export const QuickCreateTile = () => {
   const [url, setUrl] = useState("");
@@ -29,6 +30,7 @@ export const QuickCreateTile = () => {
   }>({});
   
   const { currentWorkspace } = useWorkspace();
+  const effectiveWorkspaceId = currentWorkspace?.id || getCachedWorkspaceId() || "";
   const { id: currentPlanId } = useCurrentPlan();
   const queryClient = useQueryClient();
   const { trackFirstLink } = useActivationTracking();
@@ -189,7 +191,7 @@ export const QuickCreateTile = () => {
     }
   };
 
-  if (!currentWorkspace) {
+  if (!effectiveWorkspaceId) {
     return <BentoTileSkeleton variant="small" />;
   }
 
