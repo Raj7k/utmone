@@ -66,53 +66,245 @@ const PartDivider = ({ part, title, subtitle, icon: Icon }: { part: number; titl
 );
 
 // ============================================
-// REFERRER FUNNEL (982 → 339 → 7 Champions)
+// SEASON PROGRESSION CHART
 // ============================================
-const ReferrerFunnel = () => {
-  const steps = [
-    { label: "Signed Up as Referrers", value: "982", percentage: 100, description: "registered to participate" },
-    { label: "Had 1+ Conversion", value: "339", percentage: 35, description: "successfully referred someone" },
-    { label: "Champions (100+ refs)", value: "7", percentage: 0.7, description: "drove 46% of all conversions" },
+const SeasonProgressionChart = () => {
+  const seasons = [
+    { season: "HR Katalyst 1", registrations: "10K", referrals: 332, percentage: 3.3 },
+    { season: "HR Katalyst 2", registrations: "16K", referrals: 437, percentage: 2.7 },
+    { season: "HR Katalyst 3", registrations: "18K", referrals: 554, percentage: 3.1 },
+    { season: "HR Katalyst 4", registrations: "29K", referrals: 897, percentage: 3.1 },
+    { season: "HR Katalyst 5", registrations: "25K", referrals: 6900, percentage: 27.6 },
+  ];
+
+  const maxPercentage = 27.6;
+
+  return (
+    <Card className="p-6 bg-card border-border">
+      <h4 className="font-semibold text-foreground mb-6 flex items-center gap-2">
+        <TrendingUp className="w-5 h-5 text-primary" />
+        Season Progression: Referral as % of Total Registrations
+      </h4>
+      <div className="space-y-4">
+        {seasons.map((s, i) => (
+          <motion.div 
+            key={s.season}
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ delay: i * 0.1 }}
+            className="flex items-center gap-4"
+          >
+            <div className="w-28 text-sm text-muted-foreground shrink-0 font-medium">{s.season}</div>
+            <div className="w-12 text-sm text-foreground shrink-0">{s.registrations}</div>
+            <div className="flex-1 h-8 bg-muted/30 rounded-full overflow-hidden relative">
+              <motion.div 
+                initial={{ width: 0 }}
+                whileInView={{ width: `${(s.percentage / maxPercentage) * 100}%` }}
+                transition={{ delay: i * 0.1 + 0.2, duration: 0.6 }}
+                className={cn(
+                  "h-full rounded-full flex items-center justify-end pr-3",
+                  i === seasons.length - 1 
+                    ? "bg-gradient-to-r from-primary to-primary/80" 
+                    : "bg-gradient-to-r from-muted-foreground/30 to-muted-foreground/50"
+                )}
+              />
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-foreground">
+                {s.percentage}%
+              </span>
+            </div>
+            <div className="w-20 text-sm text-muted-foreground text-right shrink-0">
+              {s.referrals.toLocaleString()} refs
+            </div>
+          </motion.div>
+        ))}
+      </div>
+      <div className="mt-6 bg-primary/10 border border-primary/20 rounded-lg p-4 text-center">
+        <p className="text-foreground font-medium">
+          Referral went from <span className="text-muted-foreground">~3%</span> to <span className="text-primary font-bold">28%</span> of total registrations
+        </p>
+      </div>
+    </Card>
+  );
+};
+
+// ============================================
+// REFERRER SANKEY DIAGRAM (982 → Split Paths)
+// ============================================
+const ReferrerSankey = () => {
+  const paths = [
+    { label: "Zero conversions", count: 643, percentage: 65, conversions: 0, color: "text-muted-foreground" },
+    { label: "1-9 conversions", count: 304, percentage: 31, conversions: 823, color: "text-blue-500" },
+    { label: "10-99 conversions", count: 28, percentage: 3, conversions: 909, color: "text-amber-500" },
+    { label: "100+ conversions", count: 7, percentage: 0.7, conversions: 3173, color: "text-primary" },
   ];
 
   return (
-    <div className="space-y-0">
-      {steps.map((step, index) => (
-        <motion.div 
-          key={step.label}
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ delay: index * 0.15 }}
-          className="relative"
-        >
-          <div 
-            className="relative h-20 flex items-center justify-between px-6 border-x-2 border-primary/20"
-            style={{ 
-              width: `${Math.max(step.percentage, 15)}%`, 
-              marginLeft: `${(100 - Math.max(step.percentage, 15)) / 2}%`,
-              background: `linear-gradient(135deg, hsl(var(--primary) / ${0.3 - index * 0.08}), hsl(var(--primary) / ${0.15 - index * 0.04}))`,
-              borderRadius: index === 0 ? '12px 12px 0 0' : index === steps.length - 1 ? '0 0 12px 12px' : '0'
-            }}
+    <Card className="p-6 bg-card border-border overflow-hidden">
+      <h4 className="font-semibold text-foreground mb-6 flex items-center gap-2">
+        <Users className="w-5 h-5 text-primary" />
+        The Referrer Journey: What Happened to 982 Referrers
+      </h4>
+      
+      {/* Sankey visualization */}
+      <div className="relative">
+        {/* Source node */}
+        <div className="flex items-center justify-center mb-8">
+          <motion.div 
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
+            className="bg-primary/20 border-2 border-primary rounded-2xl px-8 py-4 text-center"
           >
-            <div>
-              <span className="text-foreground font-medium text-sm md:text-base">{step.label}</span>
-              <span className="text-muted-foreground text-xs block">{step.description}</span>
-            </div>
-            <div className="text-right">
-              <span className="text-foreground font-bold text-xl md:text-2xl">{step.value}</span>
-              {index > 0 && (
-                <span className="text-muted-foreground text-xs block">{step.percentage}%</span>
+            <div className="text-3xl font-bold text-foreground">982</div>
+            <div className="text-sm text-muted-foreground">Signed Up as Referrers</div>
+          </motion.div>
+        </div>
+
+        {/* Flow lines SVG */}
+        <svg className="absolute top-20 left-0 w-full h-24 pointer-events-none" viewBox="0 0 400 60">
+          {paths.map((_, i) => {
+            const startX = 200;
+            const endX = 50 + (i * 100);
+            return (
+              <motion.path
+                key={i}
+                d={`M ${startX} 0 Q ${startX} 30, ${endX} 60`}
+                fill="none"
+                stroke="hsl(var(--primary))"
+                strokeWidth="2"
+                strokeOpacity={0.2 + (i * 0.1)}
+                initial={{ pathLength: 0 }}
+                whileInView={{ pathLength: 1 }}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
+              />
+            );
+          })}
+        </svg>
+
+        {/* Destination nodes */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-16">
+          {paths.map((path, i) => (
+            <motion.div
+              key={path.label}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 + i * 0.1 }}
+              className={cn(
+                "rounded-xl p-4 text-center border",
+                i === 3 ? "bg-primary/10 border-primary/30" : "bg-muted/30 border-border"
               )}
-            </div>
-          </div>
-          {index < steps.length - 1 && (
-            <div className="flex justify-center">
-              <ChevronDown className="w-5 h-5 text-primary/40" />
-            </div>
-          )}
+            >
+              <div className={cn("text-2xl font-bold", path.color)}>{path.count}</div>
+              <div className="text-xs text-muted-foreground mb-2">{path.percentage}%</div>
+              <div className="text-sm text-foreground font-medium">{path.label}</div>
+              {path.conversions > 0 && (
+                <div className="text-xs text-muted-foreground mt-1">
+                  → {path.conversions.toLocaleString()} total refs
+                </div>
+              )}
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Key insight */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+          className="mt-6 bg-amber-500/10 border border-amber-500/20 rounded-lg p-4 text-center"
+        >
+          <p className="text-foreground">
+            <span className="font-bold text-primary">7 people</span> (0.7%) drove <span className="font-bold text-primary">46%</span> of all conversions — that's the power law in action
+          </p>
         </motion.div>
-      ))}
-    </div>
+      </div>
+    </Card>
+  );
+};
+
+// ============================================
+// SHAREABLE INSIGHT CARD
+// ============================================
+const ShareableInsightCard = ({ 
+  title, 
+  value, 
+  subtitle,
+  icon: Icon,
+  shareText
+}: { 
+  title: string; 
+  value: string; 
+  subtitle?: string;
+  icon: React.ElementType;
+  shareText: string;
+}) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleShare = (platform: 'twitter' | 'linkedin' | 'copy') => {
+    const text = `${shareText}\n\nFrom the HR Katalyst Referral Playbook by utm.one`;
+    const url = 'https://utm.one/resources/playbooks/hr-katalyst-referral';
+    
+    if (platform === 'twitter') {
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+    } else if (platform === 'linkedin') {
+      window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
+    } else {
+      navigator.clipboard.writeText(`${text}\n\n${url}`);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      className="group"
+    >
+      <Card className="p-5 bg-card border-border relative overflow-hidden">
+        {/* utm.one watermark */}
+        <div className="absolute top-2 right-2 text-xs text-muted-foreground/50 font-mono">utm.one</div>
+        
+        <div className="flex items-start gap-4">
+          <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+            <Icon className="w-6 h-6 text-primary" />
+          </div>
+          <div className="flex-1">
+            <div className="text-sm text-muted-foreground mb-1">{title}</div>
+            <div className="text-3xl font-bold text-foreground">{value}</div>
+            {subtitle && <div className="text-sm text-muted-foreground mt-1">{subtitle}</div>}
+          </div>
+        </div>
+
+        {/* Share buttons - appear on hover */}
+        <div className="mt-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={() => handleShare('twitter')}
+            className="text-xs h-7"
+          >
+            𝕏 Share
+          </Button>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={() => handleShare('linkedin')}
+            className="text-xs h-7"
+          >
+            in Share
+          </Button>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={() => handleShare('copy')}
+            className="text-xs h-7"
+          >
+            {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+            {copied ? "Copied!" : "Copy"}
+          </Button>
+        </div>
+      </Card>
+    </motion.div>
   );
 };
 
@@ -447,11 +639,11 @@ export default function HRKatalystReferralPlaybook() {
 
   const metrics = [
     { icon: MousePointerClick, label: "Total Clicks", value: "24,044", scrollTo: "visitor-funnel" },
+    { icon: Target, label: "Registrations", value: "6,900+", scrollTo: "visitor-funnel" },
     { icon: TrendingUp, label: "Conversion Rate", value: "28%", scrollTo: "visitor-funnel" },
     { icon: Users, label: "Referrers", value: "982", scrollTo: "referrer-funnel" },
     { icon: Trophy, label: "Champions", value: "7", subtext: "drove 46%", scrollTo: "power-law" },
     { icon: ShieldCheck, label: "Integrity", value: "96.6%", scrollTo: "integrity" },
-    { icon: Target, label: "Growth", value: "10K→25K", scrollTo: "results" },
   ];
 
   const preEventChecklist = [
@@ -895,6 +1087,42 @@ const emailTemplates = {
           <p className="text-xs text-muted-foreground text-center mt-3">Click any metric to jump to details</p>
         </section>
 
+        {/* Shareable Insight Cards */}
+        <section className="mb-16" id="shareable-insights">
+          <h3 className="text-xl font-display font-semibold text-foreground mb-4">Key Insights (Share These)</h3>
+          <p className="text-muted-foreground text-sm mb-6">Hover over any card to share on social media with utm.one branding</p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <ShareableInsightCard
+              title="Power Law Effect"
+              value="7 = 46%"
+              subtitle="0.7% of referrers drove nearly half of all conversions"
+              icon={Trophy}
+              shareText="7 referrers drove 46% of our conversions. The power law is real in referral campaigns."
+            />
+            <ShareableInsightCard
+              title="Conversion Rate"
+              value="28%"
+              subtitle="Visit-to-registration on referral traffic"
+              icon={TrendingUp}
+              shareText="28% conversion rate on referral traffic. 3x the industry average for event landing pages."
+            />
+            <ShareableInsightCard
+              title="Campaign Integrity"
+              value="96.6%"
+              subtitle="Valid referrals after fraud detection"
+              icon={ShieldCheck}
+              shareText="96.6% of referrals passed fraud detection. Clean data without blocking real people."
+            />
+            <ShareableInsightCard
+              title="Channel Winner"
+              value="WhatsApp"
+              subtitle="Outperformed every other sharing channel"
+              icon={MessageSquare}
+              shareText="WhatsApp outperformed every other channel in our referral campaign. Mobile-first sharing wins."
+            />
+          </div>
+        </section>
+
         {/* ================================================ */}
         {/* PART 1: THE STORY */}
         {/* ================================================ */}
@@ -905,48 +1133,53 @@ const emailTemplates = {
           icon={BookOpen}
         />
 
-        {/* 1.1 The Scene - Expanded with Zoom Room Opening */}
+        {/* 1.1 The Scene - Diversifying Distribution */}
         <section className="mb-16" id="the-scene">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
-            The Scene: A Ceiling We Couldn't Break
+            The Scene: Diversifying Distribution
           </h2>
           
           <ProgressiveReveal>
             <div className="bg-muted/30 border border-border rounded-xl p-6 mb-8 italic text-foreground">
               <p className="text-lg leading-relaxed mb-4">
-                It started in a late-night Zoom room, the kind where someone shares their screen and you're staring at last season's numbers like they're going to change if you look hard enough.
+                It started in a late-night Zoom room. But not the kind where you're staring at bad numbers. Our numbers were good — growing every season: 10K → 16K → 18K → 29K.
               </p>
               <p className="text-lg leading-relaxed">
-                The screen showed what we already knew: 10,247 registrations. Same as Season 3. Same as Season 2. The line had flatlined.
+                The problem wasn't growth. The problem was <strong>how</strong> we were growing. Too dependent on paid ads. Too reliant on partners. We wanted to unlock something different: community.
               </p>
             </div>
           </ProgressiveReveal>
 
           <ProgressiveReveal>
             <p className="text-lg text-foreground leading-relaxed mb-6">
-              HR Katalyst was already "successful" by external standards: ~10,000 registrations, packed chat window, decent social buzz. Media partners called it "one of the biggest HR events in India." From the outside it looked big. From the inside it felt… <strong>capped</strong>.
+              HR Katalyst 5 was also our most constrained season: less than 30 days to execute, running alongside a Salary Benchmark Report. We didn't have time for elaborate campaigns. We needed something simple that could compound on its own.
             </p>
           </ProgressiveReveal>
 
           <ProgressiveReveal>
-            <p className="text-lg text-foreground leading-relaxed mb-6">
-              Every season the graphs looked the same: organic list + partners gave a spike, paid ads did their job, then registrations flattened out long before we ran out of time or content. More effort, same shape. The ceiling wasn't budget. It wasn't reach. It was something structural.
+            <p className="text-lg text-foreground leading-relaxed mb-8">
+              The referral system wasn't born from crisis — it was born from opportunity. We asked a simple question: <em>"What if the people who love this event could bring others like them?"</em>
             </p>
           </ProgressiveReveal>
 
+          {/* Season Progression Chart */}
           <ProgressiveReveal>
-            <div className="grid md:grid-cols-3 gap-4 mb-8">
+            <SeasonProgressionChart />
+          </ProgressiveReveal>
+
+          <ProgressiveReveal>
+            <div className="grid md:grid-cols-3 gap-4 mt-8 mb-8">
               <Card className="p-5 bg-card border-border text-center">
-                <div className="text-3xl font-bold text-foreground mb-1">3</div>
-                <div className="text-sm text-muted-foreground">Seasons at 10K ceiling</div>
+                <div className="text-3xl font-bold text-foreground mb-1">5</div>
+                <div className="text-sm text-muted-foreground">Seasons of growth</div>
               </Card>
               <Card className="p-5 bg-card border-border text-center">
-                <div className="text-3xl font-bold text-foreground mb-1">Same</div>
-                <div className="text-sm text-muted-foreground">Graph shape every time</div>
+                <div className="text-3xl font-bold text-foreground mb-1">&lt;30</div>
+                <div className="text-sm text-muted-foreground">Days to execute Season 5</div>
               </Card>
               <Card className="p-5 bg-card border-border text-center">
-                <div className="text-3xl font-bold text-foreground mb-1">Stuck</div>
-                <div className="text-sm text-muted-foreground">Despite more effort</div>
+                <div className="text-3xl font-bold text-foreground mb-1">New</div>
+                <div className="text-sm text-muted-foreground">Channel unlocked: community</div>
               </Card>
             </div>
           </ProgressiveReveal>
@@ -1390,16 +1623,10 @@ const emailTemplates = {
           </ProgressiveReveal>
         </section>
 
-        {/* 1.7 The Dual Funnels */}
+        {/* 1.7 The Referrer Sankey */}
         <section className="mb-16" id="referrer-funnel">
-          <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
-            The Referrer Journey
-          </h2>
-          <p className="text-muted-foreground mb-6">982 people signed up as referrers. Here's what happened to them:</p>
           <ProgressiveReveal>
-            <div className="bg-card border border-border rounded-xl p-8">
-              <ReferrerFunnel />
-            </div>
+            <ReferrerSankey />
           </ProgressiveReveal>
         </section>
 
