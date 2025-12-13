@@ -222,23 +222,41 @@ const ReferrerSankey = () => {
 };
 
 // ============================================
-// SHAREABLE INSIGHT CARD - Compact Horizontal Layout
+// INSIGHTS BENTO CARD - Unified 2x2 Grid
 // ============================================
-const ShareableInsightCard = ({ 
-  title, 
-  value, 
-  subtitle,
-  shareText
-}: { 
-  title: string; 
-  value: string; 
-  subtitle?: string;
-  shareText: string;
-}) => {
-  const [copied, setCopied] = useState(false);
+const InsightsBentoCard = () => {
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
-  const handleShare = (platform: 'twitter' | 'linkedin' | 'copy') => {
-    const text = `${shareText}\n\nFrom the HR Katalyst Referral Playbook by utm.one`;
+  const insights = [
+    {
+      title: "Power Law Effect",
+      value: "7 = 46%",
+      subtitle: "0.7% of referrers drove nearly half of all conversions",
+      shareText: "7 referrers drove 46% of our conversions. The power law is real in referral campaigns."
+    },
+    {
+      title: "Conversion Rate",
+      value: "28%",
+      subtitle: "Visit-to-registration on referral traffic",
+      shareText: "28% conversion rate on referral traffic. 3x the industry average for event landing pages."
+    },
+    {
+      title: "Campaign Integrity",
+      value: "96.6%",
+      subtitle: "Valid referrals after fraud detection",
+      shareText: "96.6% of referrals passed fraud detection. Clean data without blocking real people."
+    },
+    {
+      title: "Channel Winner",
+      value: "WhatsApp",
+      subtitle: "Outperformed every other sharing channel",
+      shareText: "WhatsApp outperformed every other channel in our referral campaign. Mobile-first sharing wins."
+    }
+  ];
+
+  const handleShare = (index: number, platform: 'twitter' | 'linkedin' | 'copy') => {
+    const insight = insights[index];
+    const text = `${insight.shareText}\n\nFrom the HR Katalyst Referral Playbook by utm.one`;
     const url = 'https://utm.one/resources/playbooks/hr-katalyst-referral';
     
     if (platform === 'twitter') {
@@ -247,8 +265,8 @@ const ShareableInsightCard = ({
       window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
     } else {
       navigator.clipboard.writeText(`${text}\n\n${url}`);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      setCopiedIndex(index);
+      setTimeout(() => setCopiedIndex(null), 2000);
     }
   };
 
@@ -256,55 +274,70 @@ const ShareableInsightCard = ({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      className="group h-full"
     >
-      <Card className="p-6 bg-card border-border min-h-[180px] h-full flex flex-col">
-        {/* Header with title + watermark */}
-        <div className="flex justify-between items-start mb-3">
-          <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium">
-            {title}
-          </span>
-          <span className="text-xs text-muted-foreground/40 font-mono">utm.one</span>
+      <Card className="bg-card border-border overflow-hidden">
+        {/* Header */}
+        <div className="flex justify-between items-center p-4 md:p-6 border-b border-border/50">
+          <h4 className="text-sm font-semibold text-foreground uppercase tracking-wider">Key Insights</h4>
+          <span className="text-xs text-muted-foreground/50 font-mono">utm.one</span>
         </div>
         
-        {/* Value - prominent but readable */}
-        <div className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-          {value}
-        </div>
-        
-        {/* Subtitle - natural wrapping */}
-        {subtitle && (
-          <p className="text-sm text-muted-foreground leading-relaxed flex-1">
-            {subtitle}
-          </p>
-        )}
-        
-        {/* Share buttons - always visible at bottom */}
-        <div className="flex gap-2 pt-4 border-t border-border/30 mt-auto">
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={() => handleShare('twitter')}
-            className="text-xs h-8 px-3 text-muted-foreground hover:text-foreground"
-          >
-            𝕏
-          </Button>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={() => handleShare('linkedin')}
-            className="text-xs h-8 px-3 text-muted-foreground hover:text-foreground"
-          >
-            in
-          </Button>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={() => handleShare('copy')}
-            className="text-xs h-8 px-3 text-muted-foreground hover:text-foreground"
-          >
-            {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-          </Button>
+        {/* 2x2 Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2">
+          {insights.map((insight, index) => (
+            <div 
+              key={index}
+              className={cn(
+                "p-4 md:p-6 flex flex-col",
+                // Add borders between cells
+                index % 2 === 0 && "md:border-r border-border/50",
+                index < 2 && "border-b border-border/50"
+              )}
+            >
+              {/* Title */}
+              <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium mb-2">
+                {insight.title}
+              </span>
+              
+              {/* Value */}
+              <span className="text-xl md:text-2xl font-bold text-foreground mb-1">
+                {insight.value}
+              </span>
+              
+              {/* Subtitle */}
+              <p className="text-sm text-muted-foreground leading-relaxed flex-1 mb-3">
+                {insight.subtitle}
+              </p>
+              
+              {/* Share buttons */}
+              <div className="flex gap-1">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => handleShare(index, 'twitter')}
+                  className="text-xs h-7 px-2 text-muted-foreground hover:text-foreground"
+                >
+                  𝕏
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => handleShare(index, 'linkedin')}
+                  className="text-xs h-7 px-2 text-muted-foreground hover:text-foreground"
+                >
+                  in
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => handleShare(index, 'copy')}
+                  className="text-xs h-7 px-2 text-muted-foreground hover:text-foreground"
+                >
+                  {copiedIndex === index ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                </Button>
+              </div>
+            </div>
+          ))}
         </div>
       </Card>
     </motion.div>
@@ -1103,36 +1136,11 @@ const emailTemplates = {
           <p className="text-xs text-muted-foreground text-center mt-3">Click any metric to jump to details</p>
         </section>
 
-        {/* Shareable Insight Cards */}
+        {/* Shareable Insight Cards - Bento Layout */}
         <section className="mb-16" id="shareable-insights">
           <h3 className="text-xl font-display font-semibold text-foreground mb-4">Key Insights (Share These)</h3>
-          <p className="text-muted-foreground text-sm mb-6">Hover over any card to share on social media with utm.one branding</p>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <ShareableInsightCard
-              title="Power Law Effect"
-              value="7 = 46%"
-              subtitle="0.7% of referrers drove nearly half of all conversions"
-              shareText="7 referrers drove 46% of our conversions. The power law is real in referral campaigns."
-            />
-            <ShareableInsightCard
-              title="Conversion Rate"
-              value="28%"
-              subtitle="Visit-to-registration on referral traffic"
-              shareText="28% conversion rate on referral traffic. 3x the industry average for event landing pages."
-            />
-            <ShareableInsightCard
-              title="Campaign Integrity"
-              value="96.6%"
-              subtitle="Valid referrals after fraud detection"
-              shareText="96.6% of referrals passed fraud detection. Clean data without blocking real people."
-            />
-            <ShareableInsightCard
-              title="Channel Winner"
-              value="WhatsApp"
-              subtitle="Outperformed every other sharing channel"
-              shareText="WhatsApp outperformed every other channel in our referral campaign. Mobile-first sharing wins."
-            />
-          </div>
+          <p className="text-muted-foreground text-sm mb-6">Click any share button to post on social media with utm.one branding</p>
+          <InsightsBentoCard />
         </section>
 
         {/* ================================================ */}
