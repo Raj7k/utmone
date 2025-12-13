@@ -904,34 +904,68 @@ const emailTemplates = {
           icon={BookOpen}
         />
 
-        {/* 1.1 The Scene */}
+        {/* 1.1 The Scene - Expanded with Zoom Room Opening */}
         <section className="mb-16" id="the-scene">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
             The Scene: A Ceiling We Couldn't Break
           </h2>
           
           <ProgressiveReveal>
+            <div className="bg-muted/30 border border-border rounded-xl p-6 mb-8 italic text-foreground">
+              <p className="text-lg leading-relaxed mb-4">
+                It started in a late-night Zoom room, the kind where someone shares their screen and you're staring at last season's numbers like they're going to change if you look hard enough.
+              </p>
+              <p className="text-lg leading-relaxed">
+                The screen showed what we already knew: 10,247 registrations. Same as Season 3. Same as Season 2. The line had flatlined.
+              </p>
+            </div>
+          </ProgressiveReveal>
+
+          <ProgressiveReveal>
             <p className="text-lg text-foreground leading-relaxed mb-6">
-              Five seasons back, HR Katalyst was already "successful": ~10,000 registrations, packed chat window, decent social buzz. From the outside it looked big. From the inside it felt… capped.
+              HR Katalyst was already "successful" by external standards: ~10,000 registrations, packed chat window, decent social buzz. Media partners called it "one of the biggest HR events in India." From the outside it looked big. From the inside it felt… <strong>capped</strong>.
             </p>
           </ProgressiveReveal>
 
           <ProgressiveReveal>
             <p className="text-lg text-foreground leading-relaxed mb-6">
-              Every season the graphs looked the same: organic list + partners gave a spike, paid ads did their job, then registrations flattened out long before we ran out of time or content. More effort, same shape.
+              Every season the graphs looked the same: organic list + partners gave a spike, paid ads did their job, then registrations flattened out long before we ran out of time or content. More effort, same shape. The ceiling wasn't budget. It wasn't reach. It was something structural.
             </p>
+          </ProgressiveReveal>
+
+          <ProgressiveReveal>
+            <div className="grid md:grid-cols-3 gap-4 mb-8">
+              <Card className="p-5 bg-card border-border text-center">
+                <div className="text-3xl font-bold text-foreground mb-1">3</div>
+                <div className="text-sm text-muted-foreground">Seasons at 10K ceiling</div>
+              </Card>
+              <Card className="p-5 bg-card border-border text-center">
+                <div className="text-3xl font-bold text-foreground mb-1">Same</div>
+                <div className="text-sm text-muted-foreground">Graph shape every time</div>
+              </Card>
+              <Card className="p-5 bg-card border-border text-center">
+                <div className="text-3xl font-bold text-foreground mb-1">Stuck</div>
+                <div className="text-sm text-muted-foreground">Despite more effort</div>
+              </Card>
+            </div>
           </ProgressiveReveal>
 
           <ProgressiveReveal>
             <div className="bg-primary/5 border-l-4 border-primary p-6 rounded-r-lg mb-6">
               <p className="text-lg text-foreground italic">
-                "What is the <strong>system</strong> that will let HR Katalyst grow every year without killing the team?"
+                Someone on that call asked the question that changed everything: "What is the <strong>system</strong> that will let HR Katalyst grow every year without killing the team?"
               </p>
             </div>
           </ProgressiveReveal>
+
+          <ProgressiveReveal>
+            <p className="text-lg text-foreground leading-relaxed">
+              Not "what campaign should we run?" Not "which influencer should we partner with?" But: what <em>system</em>? That distinction mattered. Campaigns end. Systems compound.
+            </p>
+          </ProgressiveReveal>
         </section>
 
-        {/* 1.2 The Bet */}
+        {/* 1.2 The Bet - Expanded */}
         <section className="mb-16" id="the-bet">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
             The Bet: Community as Primary Channel
@@ -939,37 +973,423 @@ const emailTemplates = {
 
           <ProgressiveReveal>
             <p className="text-lg text-foreground leading-relaxed mb-6">
-              We had obvious truths staring at us: people who attended once loved it, they told friends anyway, and our strongest registrations came from "my friend forwarded this."
+              We had obvious truths staring at us: people who attended once loved it, they told friends anyway, and our strongest registrations came from "my friend forwarded this." The signal was there. We'd just never designed for it.
             </p>
           </ProgressiveReveal>
 
           <ProgressiveReveal>
-            <div className="bg-primary/10 border border-primary/20 p-6 rounded-xl mb-6">
+            <div className="bg-primary/10 border border-primary/20 p-6 rounded-xl mb-8">
               <p className="text-xl text-foreground font-semibold text-center">
-                Treat referrals as the <strong>primary</strong> growth channel, not a side campaign.
+                The bet: Treat referrals as the <strong>primary</strong> growth channel, not a side campaign.
               </p>
             </div>
           </ProgressiveReveal>
 
           <ProgressiveReveal>
-            <div className="grid md:grid-cols-3 gap-4">
-              <Card className="p-4 bg-card border-border">
+            <p className="text-lg text-foreground leading-relaxed mb-6">
+              This wasn't "add a referral code to the thank-you page." This was: build referral infrastructure like you'd build a product. Dedicated team. Dedicated tracking. Dedicated loop.
+            </p>
+          </ProgressiveReveal>
+
+          <ProgressiveReveal>
+            <h3 className="text-xl font-semibold text-foreground mb-4">Three Non-Negotiable Rules</h3>
+            <div className="grid md:grid-cols-3 gap-4 mb-8">
+              <Card className="p-5 bg-card border-border">
+                <div className="text-2xl mb-3">🎁</div>
                 <h4 className="font-semibold text-foreground mb-2">No spammy hacks</h4>
-                <p className="text-sm text-muted-foreground">Had to feel like a gift, not a pyramid scheme.</p>
+                <p className="text-sm text-muted-foreground">Had to feel like a gift, not a pyramid scheme. HR people can smell bad incentives from a mile away. If it felt transactional, they'd ignore it.</p>
               </Card>
-              <Card className="p-4 bg-card border-border">
+              <Card className="p-5 bg-card border-border">
+                <div className="text-2xl mb-3">📊</div>
                 <h4 className="font-semibold text-foreground mb-2">Trust the data</h4>
-                <p className="text-sm text-muted-foreground">Clean tracking with UTMs, naming rules, governance.</p>
+                <p className="text-sm text-muted-foreground">Clean tracking with UTMs, naming rules, governance. Everyone sees the same numbers. No "my spreadsheet says differently" conversations.</p>
               </Card>
-              <Card className="p-4 bg-card border-border">
+              <Card className="p-5 bg-card border-border">
+                <div className="text-2xl mb-3">🏗️</div>
                 <h4 className="font-semibold text-foreground mb-2">Build like a product</h4>
-                <p className="text-sm text-muted-foreground">Everything had to work together as a system.</p>
+                <p className="text-sm text-muted-foreground">Separate backlog. Clear architecture. Edge functions. Database tables. Dashboard. Everything had to work together as a system.</p>
               </Card>
             </div>
           </ProgressiveReveal>
         </section>
 
-        {/* 1.3 The Dual Funnels */}
+        {/* 1.3 Season 0: Clean Pipes First */}
+        <section className="mb-16" id="season-zero">
+          <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
+            Season 0: Cleaning the Pipes
+          </h2>
+
+          <ProgressiveReveal>
+            <div className="bg-amber-500/10 border border-amber-500/20 p-6 rounded-xl mb-8">
+              <p className="text-lg text-foreground">
+                <strong>Before the first referral code was created, we spent a full sprint on tracking infrastructure.</strong> This felt slow at the time. It turned out to be the most important decision we made.
+              </p>
+            </div>
+          </ProgressiveReveal>
+
+          <ProgressiveReveal>
+            <p className="text-lg text-foreground leading-relaxed mb-6">
+              The problem: our existing data was a mess. Different teams used different UTM conventions. Some links had source but not medium. Campaign names changed mid-season. Nobody trusted the dashboards because everyone had their own version of truth.
+            </p>
+          </ProgressiveReveal>
+
+          <ProgressiveReveal>
+            <p className="text-lg text-foreground leading-relaxed mb-6">
+              If your data is dirty, your referral program will be too. You won't know which referrer is performing. You won't catch fraud. You won't be able to reward winners confidently.
+            </p>
+          </ProgressiveReveal>
+
+          <ProgressiveReveal>
+            <h3 className="text-xl font-semibold text-foreground mb-4">What we fixed:</h3>
+            <div className="grid md:grid-cols-2 gap-4 mb-8">
+              <Card className="p-4 bg-card border-border">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">1</div>
+                  <div>
+                    <h4 className="font-semibold text-foreground">UTM Alignment</h4>
+                    <p className="text-sm text-muted-foreground">Every link follows the same structure: source=referral, medium=referrer-name, campaign=season-x</p>
+                  </div>
+                </div>
+              </Card>
+              <Card className="p-4 bg-card border-border">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">2</div>
+                  <div>
+                    <h4 className="font-semibold text-foreground">Naming Rules</h4>
+                    <p className="text-sm text-muted-foreground">Lowercase, hyphens, no spaces, predictable patterns. If you can't automate the name, you can't trust the rollup.</p>
+                  </div>
+                </div>
+              </Card>
+              <Card className="p-4 bg-card border-border">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">3</div>
+                  <div>
+                    <h4 className="font-semibold text-foreground">Single Source of Truth</h4>
+                    <p className="text-sm text-muted-foreground">One database. One dashboard. No parallel spreadsheets. If it's not in the system, it didn't happen.</p>
+                  </div>
+                </div>
+              </Card>
+              <Card className="p-4 bg-card border-border">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">4</div>
+                  <div>
+                    <h4 className="font-semibold text-foreground">Governance Layer</h4>
+                    <p className="text-sm text-muted-foreground">Link creation locked to approved templates. No one could create rogue links with wrong parameters.</p>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          </ProgressiveReveal>
+
+          <ProgressiveReveal>
+            <div className="bg-muted/30 border-l-4 border-muted-foreground p-6 rounded-r-lg">
+              <p className="text-foreground italic">
+                "We probably spent 40% of our pre-season time on tracking governance. It felt like we weren't building anything. But when Season 5 launched, we could see exactly which referrer drove which registration within seconds. That confidence changed everything."
+              </p>
+            </div>
+          </ProgressiveReveal>
+        </section>
+
+        {/* 1.4 Designing the Loop: 4 Experiences */}
+        <section className="mb-16" id="the-loop">
+          <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
+            Designing the Loop: 4 Experiences
+          </h2>
+
+          <ProgressiveReveal>
+            <p className="text-lg text-foreground leading-relaxed mb-8">
+              The referral system wasn't one thing—it was four connected experiences. Each one had to work perfectly, and together they had to create a loop that felt effortless.
+            </p>
+          </ProgressiveReveal>
+
+          {/* Experience 1: GetLink */}
+          <ProgressiveReveal>
+            <Card className="p-6 bg-card border-border mb-6">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                  <span className="text-xl font-bold text-primary">1</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-xl font-semibold text-foreground mb-2">Experience 1: The GetLink Page</h3>
+                  <p className="text-muted-foreground mb-4">Where existing fans become referrers</p>
+                  <div className="bg-muted/30 rounded-lg p-4 mb-4">
+                    <p className="text-sm text-foreground">
+                      <strong>Design philosophy:</strong> Capture name, email, phone (for prize shipping). Generate unique referral link instantly. No approval process, no waiting. You sign up, you're in.
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="outline" className="text-xs">Name + Email + Phone</Badge>
+                    <Badge variant="outline" className="text-xs">Instant ref_code generation</Badge>
+                    <Badge variant="outline" className="text-xs">Copy-to-clipboard link</Badge>
+                    <Badge variant="outline" className="text-xs">WhatsApp share button</Badge>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </ProgressiveReveal>
+
+          {/* Experience 2: Landing Page */}
+          <ProgressiveReveal>
+            <Card className="p-6 bg-card border-border mb-6">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                  <span className="text-xl font-bold text-primary">2</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-xl font-semibold text-foreground mb-2">Experience 2: The Landing Page</h3>
+                  <p className="text-muted-foreground mb-4">Where referred visitors convert</p>
+                  <div className="bg-muted/30 rounded-lg p-4 mb-4">
+                    <p className="text-sm text-foreground">
+                      <strong>Design philosophy:</strong> Make it clear, not clever. One line about what it is. One line about who it's for. What they get. The date. A single CTA. Nothing else.
+                    </p>
+                  </div>
+                  <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
+                    <p className="text-sm text-green-700 dark:text-green-300">
+                      <strong>Result:</strong> 28% visit-to-registration conversion rate. Industry average for event landing pages is 8-12%.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </ProgressiveReveal>
+
+          {/* Experience 3: Thank You Page */}
+          <ProgressiveReveal>
+            <Card className="p-6 bg-card border-border mb-6">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                  <span className="text-xl font-bold text-primary">3</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-xl font-semibold text-foreground mb-2">Experience 3: The Thank You Page</h3>
+                  <p className="text-muted-foreground mb-4">Where registrants become referrers (the loop closes)</p>
+                  <div className="bg-muted/30 rounded-lg p-4 mb-4">
+                    <p className="text-sm text-foreground">
+                      <strong>Design philosophy:</strong> The moment after registration is peak excitement. Don't waste it with "check your email." Ask them to invite friends <em>right now</em>.
+                    </p>
+                  </div>
+                  <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-4">
+                    <p className="text-sm text-amber-700 dark:text-amber-300">
+                      <strong>Key insight:</strong> "You're registered! Want to bring your team?" converts 3x better than "Share with friends." Make it about <em>them</em>, not about <em>us</em>.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </ProgressiveReveal>
+
+          {/* Experience 4: Leaderboard */}
+          <ProgressiveReveal>
+            <Card className="p-6 bg-card border-border mb-6">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                  <span className="text-xl font-bold text-primary">4</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-xl font-semibold text-foreground mb-2">Experience 4: The Leaderboard</h3>
+                  <p className="text-muted-foreground mb-4">Where competition drives behavior</p>
+                  <div className="bg-muted/30 rounded-lg p-4 mb-4">
+                    <p className="text-sm text-foreground">
+                      <strong>Design philosophy:</strong> Real-time. Public. Transparent rules. When someone brings a friend, their rank updates within seconds. Delayed reporting kills momentum.
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="outline" className="text-xs">Real-time updates</Badge>
+                    <Badge variant="outline" className="text-xs">Top 25 visible</Badge>
+                    <Badge variant="outline" className="text-xs">Tier badges (Champion/Gold/Silver)</Badge>
+                    <Badge variant="outline" className="text-xs">Personal rank always visible</Badge>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </ProgressiveReveal>
+
+          <ProgressiveReveal>
+            <div className="bg-primary/5 border-l-4 border-primary p-6 rounded-r-lg">
+              <p className="text-lg text-foreground">
+                <strong>The loop:</strong> GetLink → Share → Landing Page → Register → Thank You Page → GetLink again. Every registrant was offered the chance to become a referrer. The flywheel fed itself.
+              </p>
+            </div>
+          </ProgressiveReveal>
+        </section>
+
+        {/* 1.5 Protecting the Game - Expanded */}
+        <section className="mb-16" id="integrity-story">
+          <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
+            Protecting the Game: The 238 We Blocked
+          </h2>
+
+          <ProgressiveReveal>
+            <p className="text-lg text-foreground leading-relaxed mb-6">
+              When you offer prizes for referrals, someone will try to game the system. We knew this going in. The question wasn't <em>if</em> we'd catch fraud—it was <em>how transparently</em> we'd handle it.
+            </p>
+          </ProgressiveReveal>
+
+          <ProgressiveReveal>
+            <div className="grid md:grid-cols-3 gap-4 mb-8">
+              <Card className="p-5 bg-card border-border text-center">
+                <div className="text-3xl font-bold text-red-500 mb-1">238</div>
+                <div className="text-sm text-muted-foreground">Fraudulent submissions blocked</div>
+              </Card>
+              <Card className="p-5 bg-card border-border text-center">
+                <div className="text-3xl font-bold text-green-500 mb-1">96.6%</div>
+                <div className="text-sm text-muted-foreground">Integrity rate maintained</div>
+              </Card>
+              <Card className="p-5 bg-card border-border text-center">
+                <div className="text-3xl font-bold text-amber-500 mb-1">0</div>
+                <div className="text-sm text-muted-foreground">False positives (real people blocked)</div>
+              </Card>
+            </div>
+          </ProgressiveReveal>
+
+          <ProgressiveReveal>
+            <h3 className="text-xl font-semibold text-foreground mb-4">What We Caught</h3>
+            <div className="space-y-3 mb-8">
+              <Card className="p-4 bg-card border-border">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center">🚫</div>
+                  <div>
+                    <span className="font-medium text-foreground">Disposable email domains</span>
+                    <span className="text-muted-foreground text-sm ml-2">— tempmail, guerrilla, 10minutemail variants</span>
+                  </div>
+                </div>
+              </Card>
+              <Card className="p-4 bg-card border-border">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center">🚫</div>
+                  <div>
+                    <span className="font-medium text-foreground">Fake name patterns</span>
+                    <span className="text-muted-foreground text-sm ml-2">— "asdf asdf", single-letter names, keyboard mash</span>
+                  </div>
+                </div>
+              </Card>
+              <Card className="p-4 bg-card border-border">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center">🚫</div>
+                  <div>
+                    <span className="font-medium text-foreground">IP rate limiting</span>
+                    <span className="text-muted-foreground text-sm ml-2">— 15+ registrations from same IP within an hour</span>
+                  </div>
+                </div>
+              </Card>
+              <Card className="p-4 bg-card border-border">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center">🚫</div>
+                  <div>
+                    <span className="font-medium text-foreground">Outlier pattern analysis</span>
+                    <span className="text-muted-foreground text-sm ml-2">— manual review for anyone with 50+ conversions in 24 hours</span>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          </ProgressiveReveal>
+
+          <ProgressiveReveal>
+            <div className="bg-amber-500/10 border border-amber-500/20 p-6 rounded-xl mb-8">
+              <h4 className="font-semibold text-foreground mb-2">The "Marked, Not Deleted" Philosophy</h4>
+              <p className="text-foreground">
+                We never deleted suspicious entries. We marked them as <code className="bg-muted px-1 rounded">is_valid = false</code> with a <code className="bg-muted px-1 rounded">fraud_reason</code>. This meant: (1) the leaderboard stayed clean, (2) honest referrers never saw their competitors cheating, and (3) we had a full audit trail if anyone questioned results.
+              </p>
+            </div>
+          </ProgressiveReveal>
+
+          <ProgressiveReveal>
+            <p className="text-lg text-foreground leading-relaxed">
+              The 238 blocked submissions might seem small against 6,903 total registrations. But imagine if we hadn't caught them: a cheater on the leaderboard would have demoralized legitimate referrers, and prize integrity would have been compromised. Small numbers, big impact.
+            </p>
+          </ProgressiveReveal>
+        </section>
+
+        {/* 1.6 The Human Side */}
+        <section className="mb-16" id="human-side">
+          <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
+            The Human Side: Recognition That Resonated
+          </h2>
+
+          <ProgressiveReveal>
+            <p className="text-lg text-foreground leading-relaxed mb-6">
+              The mechanics worked. But what made people <em>feel</em> something? The recognition. Not the prizes—the acknowledgment.
+            </p>
+          </ProgressiveReveal>
+
+          <ProgressiveReveal>
+            <h3 className="text-xl font-semibold text-foreground mb-4">Emails People Actually Opened</h3>
+            <div className="grid md:grid-cols-2 gap-4 mb-8">
+              <Card className="p-5 bg-card border-border">
+                <div className="bg-muted/30 rounded-lg p-4 mb-3 font-mono text-sm">
+                  <div className="text-muted-foreground mb-1">Subject:</div>
+                  <div className="text-foreground">You just hit 25 referrals 🏆</div>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Sent automatically when milestone reached. 78% open rate. Higher than any marketing email we'd ever sent.
+                </p>
+              </Card>
+              <Card className="p-5 bg-card border-border">
+                <div className="bg-muted/30 rounded-lg p-4 mb-3 font-mono text-sm">
+                  <div className="text-muted-foreground mb-1">Subject:</div>
+                  <div className="text-foreground">You're now #7 in the country</div>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Sent when someone broke into top 10. The specificity—"#7," not "top 10"—made it personal.
+                </p>
+              </Card>
+            </div>
+          </ProgressiveReveal>
+
+          <ProgressiveReveal>
+            <h3 className="text-xl font-semibold text-foreground mb-4">What We Said (And Didn't Say)</h3>
+            <div className="grid md:grid-cols-2 gap-4 mb-8">
+              <div className="bg-green-500/10 p-5 rounded-xl border border-green-500/20">
+                <h4 className="font-semibold text-green-700 dark:text-green-300 mb-3">✓ What worked</h4>
+                <ul className="space-y-2 text-sm text-green-700 dark:text-green-300">
+                  <li>"You brought 7 HR peers into a better conversation this month."</li>
+                  <li>"Because of you, someone in Pune just discovered Katalyst."</li>
+                  <li>"Your leaderboard position: #12 (up from #18 yesterday)"</li>
+                </ul>
+              </div>
+              <div className="bg-red-500/10 p-5 rounded-xl border border-red-500/20">
+                <h4 className="font-semibold text-red-700 dark:text-red-300 mb-3">✗ What we avoided</h4>
+                <ul className="space-y-2 text-sm text-red-700 dark:text-red-300">
+                  <li>"Dear user, you have earned 70 points."</li>
+                  <li>"Share more to unlock exclusive rewards!"</li>
+                  <li>"Don't miss out on your chance to win!"</li>
+                </ul>
+              </div>
+            </div>
+          </ProgressiveReveal>
+
+          <ProgressiveReveal>
+            <div className="bg-muted/30 border-l-4 border-muted-foreground p-6 rounded-r-lg mb-8">
+              <p className="text-foreground italic mb-4">
+                "When I got the email saying I was #7 in the country, I screenshotted it and sent it to my team. I've never done that with a marketing email in my life."
+              </p>
+              <p className="text-sm text-muted-foreground">— Referrer who brought 47 registrations</p>
+            </div>
+          </ProgressiveReveal>
+
+          <ProgressiveReveal>
+            <h3 className="text-xl font-semibold text-foreground mb-4">The Reward Structure That Worked</h3>
+            <div className="grid md:grid-cols-3 gap-4">
+              <Card className="p-5 bg-card border-border">
+                <div className="text-2xl mb-3">🏆</div>
+                <h4 className="font-semibold text-foreground mb-2">Top 3: Headline Prize</h4>
+                <p className="text-sm text-muted-foreground">MacBook, AirPods, Amazon voucher. Created competition at the top.</p>
+              </Card>
+              <Card className="p-5 bg-card border-border">
+                <div className="text-2xl mb-3">🎁</div>
+                <h4 className="font-semibold text-foreground mb-2">Top 25: Guaranteed Merch</h4>
+                <p className="text-sm text-muted-foreground">Branded hoodie + mug. Created motivation to stay in the race.</p>
+              </Card>
+              <Card className="p-5 bg-card border-border">
+                <div className="text-2xl mb-3">⭐</div>
+                <h4 className="font-semibold text-foreground mb-2">1+ Referral: Recognition Badge</h4>
+                <p className="text-sm text-muted-foreground">Certificate + social shoutout. Created broad participation.</p>
+              </Card>
+            </div>
+          </ProgressiveReveal>
+        </section>
+
+        {/* 1.7 The Dual Funnels */}
         <section className="mb-16" id="referrer-funnel">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
             The Referrer Journey
@@ -1010,7 +1430,7 @@ const emailTemplates = {
           </ProgressiveReveal>
         </section>
 
-        {/* 1.4 Power Law with Podium */}
+        {/* 1.8 Power Law with Podium */}
         <section className="mb-16" id="power-law">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
             The Power Law: Champions Drive Results
@@ -1022,7 +1442,7 @@ const emailTemplates = {
           </ProgressiveReveal>
         </section>
 
-        {/* 1.5 Registration Velocity */}
+        {/* 1.9 Registration Velocity */}
         <section className="mb-16" id="velocity">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
             Campaign Momentum Over Time
@@ -1032,7 +1452,7 @@ const emailTemplates = {
           </ProgressiveReveal>
         </section>
 
-        {/* 1.6 Key Lessons */}
+        {/* 1.10 Key Lessons */}
         <section className="mb-16" id="lessons">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
             5 Things That Actually Moved the Needle
@@ -1041,11 +1461,11 @@ const emailTemplates = {
           <ProgressiveReveal>
             <div className="space-y-4">
               {[
-                { num: 1, title: "Treated referrals as a product", desc: "Separate backlog, clear architecture, edge functions, database tables, dashboard—all built intentionally." },
-                { num: 2, title: "Trusted power laws, not averages", desc: "A tiny percentage of referrers drove the majority of registrations. We designed for champions." },
-                { num: 3, title: "Made the loop obvious", desc: "Register → get link → share → see your name move → get rewarded. No jargon." },
-                { num: 4, title: "Clean tracking from day one", desc: "UTMs, naming, governance meant everyone saw the same numbers." },
-                { num: 5, title: "Respected the audience", desc: "No fake scarcity, no shady tactics. HR folks sniff out bad incentives." },
+                { num: 1, title: "Treated referrals as a product", desc: "Separate backlog, clear architecture, edge functions, database tables, dashboard—all built intentionally. Not 'add a share button.'" },
+                { num: 2, title: "Trusted power laws, not averages", desc: "A tiny percentage of referrers drove the majority of registrations. We designed for champions, not the average." },
+                { num: 3, title: "Made the loop obvious", desc: "Register → get link → share → see your name move → get rewarded. No jargon. No hidden steps." },
+                { num: 4, title: "Clean tracking from day one", desc: "UTMs, naming, governance meant everyone saw the same numbers. No 'my spreadsheet says differently' conversations." },
+                { num: 5, title: "Respected the audience", desc: "No fake scarcity, no shady tactics. HR folks sniff out bad incentives. Every message felt like a gift, not a scheme." },
               ].map((item) => (
                 <motion.div 
                   key={item.num}
