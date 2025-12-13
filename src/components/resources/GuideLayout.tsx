@@ -1,7 +1,7 @@
 import { ReactNode, useState, useEffect } from "react";
 import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
 import { Link } from "react-router-dom";
-import { Twitter, Linkedin, Copy, Check, ArrowLeft } from "lucide-react";
+import { Twitter, Linkedin, Copy, Check, ArrowLeft, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
@@ -9,6 +9,14 @@ interface TOCSection {
   id: string;
   title: string;
   number: string;
+  subtitle?: string;
+}
+
+interface Author {
+  name: string;
+  role: string;
+  company: string;
+  avatarUrl: string;
 }
 
 interface GuideLayoutProps {
@@ -22,6 +30,8 @@ interface GuideLayoutProps {
   tableOfContents?: TOCSection[];
   backLink?: string;
   backLabel?: string;
+  author?: Author;
+  publishedDate?: string;
 }
 
 export const GuideLayout = ({
@@ -34,7 +44,9 @@ export const GuideLayout = ({
   relatedResources,
   tableOfContents,
   backLink,
-  backLabel
+  backLabel,
+  author,
+  publishedDate
 }: GuideLayoutProps) => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [copied, setCopied] = useState(false);
@@ -135,9 +147,30 @@ export const GuideLayout = ({
             {subtitle}
           </p>
 
+          {/* Author Section */}
+          {author && (
+            <div className="flex items-center gap-4 mb-8">
+              <img 
+                src={author.avatarUrl} 
+                alt={author.name}
+                className="w-12 h-12 rounded-full object-cover border-2 border-zinc-200"
+              />
+              <div>
+                <div className="font-semibold text-zinc-900">{author.name}</div>
+                <div className="text-sm text-zinc-500">{author.role}, {author.company}</div>
+              </div>
+            </div>
+          )}
+
           {/* Meta Info */}
           <div className="flex flex-wrap items-center gap-6 text-sm text-zinc-400 mb-8">
             <span>{readTime}</span>
+            {publishedDate && (
+              <span className="flex items-center gap-1.5">
+                <Calendar className="w-4 h-4" />
+                Published {publishedDate}
+              </span>
+            )}
             {lastUpdated && <span>Updated {lastUpdated}</span>}
           </div>
 
@@ -191,25 +224,34 @@ export const GuideLayout = ({
                   <h3 className="text-sm font-bold text-zinc-900 mb-4 uppercase tracking-wide">
                     Table of Contents
                   </h3>
-                  <nav className="space-y-3">
+                  <nav className="space-y-4">
                     {tableOfContents.map((section) => (
                       <button
                         key={section.id}
                         onClick={() => scrollToSection(section.id)}
-                        className={`flex items-start gap-3 w-full text-left text-sm transition-all group ${
+                        className={`flex items-start gap-3 w-full text-left transition-all group ${
                           activeSection === section.id
-                            ? "text-zinc-900 font-semibold"
+                            ? "text-zinc-900"
                             : "text-zinc-500 hover:text-zinc-700"
                         }`}
                       >
                         <span
-                          className={`text-xs font-bold mt-0.5 transition-colors ${
+                          className={`text-xs font-bold mt-0.5 transition-colors shrink-0 ${
                             activeSection === section.id ? "text-zinc-900" : "text-zinc-400 group-hover:text-zinc-600"
                           }`}
                         >
                           {section.number}
                         </span>
-                        <span className="flex-1">{section.title}</span>
+                        <div className="flex-1 min-w-0">
+                          <span className={`block text-sm ${activeSection === section.id ? "font-semibold" : ""}`}>
+                            {section.title}
+                          </span>
+                          {section.subtitle && (
+                            <span className="block text-xs text-zinc-400 mt-0.5 leading-relaxed">
+                              {section.subtitle}
+                            </span>
+                          )}
+                        </div>
                       </button>
                     ))}
                   </nav>
