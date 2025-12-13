@@ -24,6 +24,7 @@ import { ScheduleReportDialog } from "@/components/analytics/ScheduleReportDialo
 import { AttributionTabContent } from "@/components/analytics/AttributionTabContent";
 import { useQueryClient } from "@tanstack/react-query";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
+import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const COLORS = {
@@ -98,6 +99,15 @@ export default function Analytics() {
   // Non-blocking: show content immediately, use isFetching for subtle indicator
   const showLoadingIndicator = isFetching;
 
+  // Show loading state when data is loading
+  if (isLoading && !analytics) {
+    return (
+      <div className="p-6 lg:p-8 max-w-5xl mx-auto">
+        <DashboardContentLoader context="analytics" minHeight="60vh" />
+      </div>
+    );
+  }
+
   // Error state
   if (error) {
     return (
@@ -145,6 +155,7 @@ export default function Analytics() {
   }
 
   return (
+    <div className="animate-fade-in">
     <PageContentWrapper
       title="intelligence hub"
       description="analytics, attribution, and revenue insights in one place"
@@ -438,5 +449,6 @@ export default function Analytics() {
         </div>
       )}
     </PageContentWrapper>
+    </div>
   );
 }
