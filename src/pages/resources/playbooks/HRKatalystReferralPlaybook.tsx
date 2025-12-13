@@ -258,20 +258,20 @@ const ShareableInsightCard = ({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      className="group"
+      className="group h-full"
     >
-      <Card className="p-5 bg-card border-border relative overflow-hidden">
+      <Card className="p-5 bg-card border-border relative overflow-hidden h-full min-h-[180px] flex flex-col">
         {/* utm.one watermark */}
         <div className="absolute top-2 right-2 text-xs text-muted-foreground/50 font-mono">utm.one</div>
         
-        <div className="flex items-start gap-4">
+        <div className="flex items-start gap-4 flex-1">
           <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
             <Icon className="w-6 h-6 text-primary" />
           </div>
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <div className="text-sm text-muted-foreground mb-1">{title}</div>
-            <div className="text-3xl font-bold text-foreground">{value}</div>
-            {subtitle && <div className="text-sm text-muted-foreground mt-1">{subtitle}</div>}
+            <div className="text-3xl font-bold text-foreground whitespace-nowrap">{value}</div>
+            {subtitle && <div className="text-sm text-muted-foreground mt-1 leading-relaxed">{subtitle}</div>}
           </div>
         </div>
 
@@ -1042,15 +1042,18 @@ const emailTemplates = {
       <SpeakableSchema headline="HR Katalyst Referral Playbook" summary="Community-led growth from 10K to 25K" cssSelectors={['.speakable-content']} />
       
       <GuideLayout
-        title="The HR Katalyst Referral Playbook"
-        subtitle="How we went from 10K to 25K registrations in 5 seasons"
+        title="how to run a referral campaign that actually works"
+        subtitle="a step-by-step marketer guide (with real proof from HR Katalyst 5)"
         readTime="25 min read"
         lastUpdated="December 2025"
         breadcrumbs={breadcrumbs}
-        relatedResources={[
-          { title: "Event-Led Growth Playbook", href: "/resources/playbooks/event-led-growth-playbook", description: "Campaign tracking for events" },
-          { title: "UTM Governance Playbook", href: "/resources/playbooks/utm-governance-playbook", description: "Enforce UTM standards" },
-          { title: "Naming Convention Playbook", href: "/resources/playbooks/naming-convention-playbook", description: "Taxonomy design" },
+        tableOfContents={[
+          { id: "results", title: "Results Dashboard", number: "01" },
+          { id: "shareable-insights", title: "Key Insights", number: "02" },
+          { id: "the-scene", title: "Part 1: The Story", number: "03" },
+          { id: "part-2", title: "Part 2: Marketer's Playbook", number: "04" },
+          { id: "part-3", title: "Part 3: Build in Lovable", number: "05" },
+          { id: "faq", title: "FAQ", number: "06" },
         ]}
       >
         {/* Hero Summary */}
@@ -1720,12 +1723,14 @@ const emailTemplates = {
         {/* ================================================ */}
         {/* PART 2: THE MARKETER'S PLAYBOOK */}
         {/* ================================================ */}
-        <PartDivider 
-          part={2} 
-          title="The Marketer's Playbook" 
-          subtitle="Step-by-step guide any marketer can execute"
-          icon={Target}
-        />
+        <div id="part-2">
+          <PartDivider 
+            part={2} 
+            title="The Marketer's Playbook" 
+            subtitle="Step-by-step guide any marketer can execute"
+            icon={Target}
+          />
+        </div>
 
         {/* 2.0 Why This Playbook Exists */}
         <section className="mb-16" id="why-playbook">
@@ -2215,12 +2220,14 @@ const emailTemplates = {
         {/* ================================================ */}
         {/* PART 3: BUILD IN LOVABLE */}
         {/* ================================================ */}
-        <PartDivider 
-          part={3} 
-          title="Build in Lovable" 
-          subtitle="Technical implementation for builders"
-          icon={Wrench}
-        />
+        <div id="part-3">
+          <PartDivider 
+            part={3} 
+            title="Build in Lovable" 
+            subtitle="Technical implementation for builders"
+            icon={Wrench}
+          />
+        </div>
 
         {/* 2.1 Quick Start Checklist */}
         <section className="mb-16" id="copy-this">

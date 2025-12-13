@@ -5,6 +5,12 @@ import { Twitter, Linkedin, Copy, Check, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
+interface TOCSection {
+  id: string;
+  title: string;
+  number: string;
+}
+
 interface GuideLayoutProps {
   title: string;
   subtitle: string;
@@ -13,6 +19,7 @@ interface GuideLayoutProps {
   breadcrumbs: Array<{ label: string; href: string }>;
   children: ReactNode;
   relatedResources?: Array<{ title: string; href: string; description: string }>;
+  tableOfContents?: TOCSection[];
   backLink?: string;
   backLabel?: string;
 }
@@ -25,11 +32,13 @@ export const GuideLayout = ({
   breadcrumbs,
   children,
   relatedResources,
+  tableOfContents,
   backLink,
   backLabel
 }: GuideLayoutProps) => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [copied, setCopied] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>("");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,11 +47,31 @@ export const GuideLayout = ({
       const scrollTop = window.scrollY;
       const progress = (scrollTop / (documentHeight - windowHeight)) * 100;
       setScrollProgress(Math.min(progress, 100));
+
+      // Update active section for TOC
+      if (tableOfContents) {
+        const scrollPosition = window.scrollY + 200;
+        for (let i = tableOfContents.length - 1; i >= 0; i--) {
+          const section = document.getElementById(tableOfContents[i].id);
+          if (section && section.offsetTop <= scrollPosition) {
+            setActiveSection(tableOfContents[i].id);
+            break;
+          }
+        }
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [tableOfContents]);
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -155,8 +184,51 @@ export const GuideLayout = ({
               {children}
             </article>
 
-            {/* Sidebar - Related Resources */}
-            {relatedResources && relatedResources.length > 0 && (
+            {/* Sidebar - Table of Contents or Related Resources */}
+            {tableOfContents && tableOfContents.length > 0 ? (
+              <aside className="lg:col-span-4">
+                <div className="sticky top-24 bg-zinc-50 border border-zinc-200 rounded-2xl p-6">
+                  <h3 className="text-sm font-bold text-zinc-900 mb-4 uppercase tracking-wide">
+                    Table of Contents
+                  </h3>
+                  <nav className="space-y-3">
+                    {tableOfContents.map((section) => (
+                      <button
+                        key={section.id}
+                        onClick={() => scrollToSection(section.id)}
+                        className={`flex items-start gap-3 w-full text-left text-sm transition-all group ${
+                          activeSection === section.id
+                            ? "text-zinc-900 font-semibold"
+                            : "text-zinc-500 hover:text-zinc-700"
+                        }`}
+                      >
+                        <span
+                          className={`text-xs font-bold mt-0.5 transition-colors ${
+                            activeSection === section.id ? "text-zinc-900" : "text-zinc-400 group-hover:text-zinc-600"
+                          }`}
+                        >
+                          {section.number}
+                        </span>
+                        <span className="flex-1">{section.title}</span>
+                      </button>
+                    ))}
+                  </nav>
+
+                  <div className="mt-6 pt-6 border-t border-zinc-200">
+                    <p className="text-xs text-zinc-500 mb-2">Reading Progress</p>
+                    <div className="h-2 bg-zinc-200 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-zinc-900 transition-all duration-300"
+                        style={{ width: `${scrollProgress}%` }}
+                      />
+                    </div>
+                    <p className="text-xs text-zinc-500 mt-2">
+                      {tableOfContents.findIndex((s) => s.id === activeSection) + 1} of {tableOfContents.length} sections
+                    </p>
+                  </div>
+                </div>
+              </aside>
+            ) : relatedResources && relatedResources.length > 0 ? (
               <aside className="lg:col-span-4">
                 <div className="sticky top-24 space-y-6">
                   <h3 className="text-lg font-display font-semibold text-zinc-900">
@@ -180,7 +252,7 @@ export const GuideLayout = ({
                   </div>
                 </div>
               </aside>
-            )}
+            ) : null}
           </div>
         </div>
       </section>
