@@ -3,139 +3,140 @@ import { AppleReveal } from "./AppleReveal";
 
 interface FunnelStep {
   label: string;
-  value: string;
+  value: number;
+  displayValue: string;
   subLabel?: string;
-  color: string;
 }
 
 const funnelSteps: FunnelStep[] = [
   { 
     label: "Total Link Visits", 
-    value: "24,044", 
-    subLabel: "100%",
-    color: "from-blue-500/20 to-blue-600/30" 
+    value: 24044,
+    displayValue: "24,044", 
+    subLabel: "100%"
   },
   { 
     label: "People Participated", 
-    value: "982", 
-    subLabel: "Signed up as referrers",
-    color: "from-purple-500/20 to-purple-600/30" 
+    value: 982,
+    displayValue: "982", 
+    subLabel: "Signed up as referrers"
   },
   { 
     label: "Referrals Generated", 
-    value: "6,903", 
-    subLabel: "28% conversion",
-    color: "from-amber-500/20 to-amber-600/30" 
+    value: 6903,
+    displayValue: "6,903", 
+    subLabel: "28% conversion"
   },
   { 
     label: "After Fraud Check", 
-    value: "6,665", 
-    subLabel: "96.6% integrity",
-    color: "from-emerald-500/20 to-emerald-600/30" 
+    value: 6665,
+    displayValue: "6,665", 
+    subLabel: "96.6% integrity"
   },
 ];
 
 export const FunnelVisualization = () => {
+  // Calculate proportional widths based on the max value (24044)
+  const maxValue = funnelSteps[0].value;
+  
   return (
     <AppleReveal className="w-full">
-      <div className="relative py-8">
-        {/* Funnel container */}
-        <div className="flex flex-col items-center gap-0">
+      <div className="relative py-8 max-w-3xl mx-auto">
+        {/* Funnel container - true funnel shape */}
+        <div className="relative">
           {funnelSteps.map((step, index) => {
-            // Calculate width percentage - decreasing for funnel effect
-            const widthPercent = 100 - (index * 18);
+            // Calculate width as percentage of max, but ensure minimum visibility
+            // Use a logarithmic scale to make the funnel look more dramatic
+            const ratio = step.value / maxValue;
+            const widthPercent = Math.max(30, ratio * 100);
             const isLast = index === funnelSteps.length - 1;
+            
+            // Color gradient from blue to green
+            const colors = [
+              "bg-blue-500/20 border-blue-500/30",
+              "bg-purple-500/20 border-purple-500/30",
+              "bg-amber-500/20 border-amber-500/30",
+              "bg-emerald-500/20 border-emerald-500/30",
+            ];
             
             return (
               <motion.div
                 key={step.label}
-                initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ 
-                  delay: index * 0.15,
-                  duration: 0.6,
+                  delay: index * 0.1,
+                  duration: 0.5,
                   ease: [0.16, 1, 0.3, 1]
                 }}
-                className="relative"
-                style={{ width: `${widthPercent}%` }}
+                className="flex justify-center"
               >
                 {/* Funnel segment */}
                 <div 
                   className={`
                     relative overflow-hidden
-                    bg-gradient-to-r ${step.color}
-                    backdrop-blur-sm
-                    border border-white/10
-                    ${index === 0 ? 'rounded-t-2xl' : ''}
-                    ${isLast ? 'rounded-b-2xl' : ''}
+                    ${colors[index]}
+                    border
+                    ${index === 0 ? 'rounded-t-xl' : ''}
+                    ${isLast ? 'rounded-b-xl' : ''}
+                    transition-all duration-500
                   `}
+                  style={{ 
+                    width: `${widthPercent}%`,
+                    clipPath: index === 0 
+                      ? 'polygon(0 0, 100% 0, 98% 100%, 2% 100%)' 
+                      : isLast 
+                        ? 'polygon(2% 0, 98% 0, 100% 100%, 0 100%)'
+                        : 'polygon(2% 0, 98% 0, 96% 100%, 4% 100%)'
+                  }}
                 >
-                  {/* Animated fill effect */}
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: "100%" }}
-                    viewport={{ once: true }}
-                    transition={{ 
-                      delay: index * 0.15 + 0.3,
-                      duration: 1,
-                      ease: [0.16, 1, 0.3, 1]
-                    }}
-                    className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent"
-                  />
-                  
                   {/* Content */}
-                  <div className="relative z-10 py-6 px-8 flex items-center justify-between">
+                  <div className="relative z-10 py-5 px-6 flex items-center justify-between">
                     <div className="flex flex-col">
-                      <span className="text-sm text-muted-foreground font-medium">
+                      <span className="text-sm text-foreground font-medium">
                         {step.label}
                       </span>
                       {step.subLabel && (
-                        <span className="text-xs text-muted-foreground/70 mt-0.5">
+                        <span className="text-xs text-muted-foreground mt-0.5">
                           {step.subLabel}
                         </span>
                       )}
                     </div>
                     <motion.span 
-                      className="text-3xl md:text-4xl font-bold text-foreground font-mono"
+                      className="text-2xl md:text-3xl font-bold text-foreground font-mono"
                       initial={{ opacity: 0 }}
                       whileInView={{ opacity: 1 }}
                       viewport={{ once: true }}
-                      transition={{ delay: index * 0.15 + 0.5 }}
+                      transition={{ delay: index * 0.1 + 0.3 }}
                     >
-                      {step.value}
+                      {step.displayValue}
                     </motion.span>
                   </div>
                 </div>
-
-                {/* Conversion arrow between steps */}
-                {!isLast && (
-                  <div className="flex justify-center -my-1 relative z-20">
-                    <motion.div
-                      initial={{ opacity: 0, y: -5 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.15 + 0.4 }}
-                      className="text-muted-foreground/50"
-                    >
-                      <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                        <path 
-                          d="M12 0L24 8L12 16L12 10L0 10L0 6L12 6L12 0Z" 
-                          fill="currentColor"
-                          transform="rotate(90 12 8)"
-                        />
-                      </svg>
-                    </motion.div>
-                  </div>
-                )}
               </motion.div>
             );
           })}
         </div>
 
-        {/* Glow effect */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary/10 rounded-full blur-[100px]" />
+        {/* Conversion arrows on the side */}
+        <div className="absolute right-0 top-0 bottom-0 flex flex-col justify-around pr-4 pointer-events-none hidden lg:flex">
+          {[
+            { from: "24K", to: "982", rate: "4.1%" },
+            { from: "982", to: "6.9K", rate: "7x" },
+            { from: "6.9K", to: "6.7K", rate: "96.6%" },
+          ].map((conversion, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: 10 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5 + i * 0.1 }}
+              className="text-xs text-muted-foreground text-right"
+            >
+              <span className="font-mono text-foreground">{conversion.rate}</span>
+            </motion.div>
+          ))}
         </div>
       </div>
     </AppleReveal>
