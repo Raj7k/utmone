@@ -222,19 +222,18 @@ const ReferrerSankey = () => {
 };
 
 // ============================================
-// SHAREABLE INSIGHT CARD
+// SHAREABLE INSIGHT CARD - Vertical Centered Layout
 // ============================================
 const ShareableInsightCard = ({ 
   title, 
   value, 
   subtitle,
-  icon: Icon,
   shareText
 }: { 
   title: string; 
   value: string; 
   subtitle?: string;
-  icon: React.ElementType;
+  icon?: React.ElementType;
   shareText: string;
 }) => {
   const [copied, setCopied] = useState(false);
@@ -260,28 +259,37 @@ const ShareableInsightCard = ({
       whileInView={{ opacity: 1, y: 0 }}
       className="group h-full"
     >
-      <Card className="p-5 bg-card border-border relative overflow-hidden h-full min-h-[180px] flex flex-col">
+      <Card className="p-6 bg-card border-border relative overflow-hidden h-full min-h-[220px] flex flex-col justify-between">
         {/* utm.one watermark */}
-        <div className="absolute top-2 right-2 text-xs text-muted-foreground/50 font-mono">utm.one</div>
+        <div className="absolute top-3 right-3 text-xs text-muted-foreground/40 font-mono">utm.one</div>
         
-        <div className="flex items-start gap-4 flex-1">
-          <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-            <Icon className="w-6 h-6 text-primary" />
+        {/* Content - Centered Vertical Layout */}
+        <div className="flex-1 flex flex-col items-center justify-center text-center py-4">
+          {/* Title */}
+          <div className="text-xs uppercase tracking-wider text-muted-foreground mb-3 font-medium">
+            {title}
           </div>
-          <div className="flex-1 min-w-0">
-            <div className="text-sm text-muted-foreground mb-1">{title}</div>
-            <div className="text-3xl font-bold text-foreground whitespace-nowrap">{value}</div>
-            {subtitle && <div className="text-sm text-muted-foreground mt-1 leading-relaxed">{subtitle}</div>}
+          
+          {/* Value - Hero Element */}
+          <div className="text-4xl md:text-5xl font-bold text-foreground mb-3">
+            {value}
           </div>
+          
+          {/* Subtitle */}
+          {subtitle && (
+            <div className="text-sm text-muted-foreground leading-relaxed max-w-[200px]">
+              {subtitle}
+            </div>
+          )}
         </div>
 
         {/* Share buttons - appear on hover */}
-        <div className="mt-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="flex justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity pt-2 border-t border-border/50">
           <Button 
             variant="ghost" 
             size="sm" 
             onClick={() => handleShare('twitter')}
-            className="text-xs h-7"
+            className="text-xs h-8 px-3"
           >
             𝕏 Share
           </Button>
@@ -289,7 +297,7 @@ const ShareableInsightCard = ({
             variant="ghost" 
             size="sm" 
             onClick={() => handleShare('linkedin')}
-            className="text-xs h-7"
+            className="text-xs h-8 px-3"
           >
             in Share
           </Button>
@@ -297,9 +305,9 @@ const ShareableInsightCard = ({
             variant="ghost" 
             size="sm" 
             onClick={() => handleShare('copy')}
-            className="text-xs h-7"
+            className="text-xs h-8 px-3"
           >
-            {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+            {copied ? <Check className="w-3 h-3 mr-1" /> : <Copy className="w-3 h-3 mr-1" />}
             {copied ? "Copied!" : "Copy"}
           </Button>
         </div>
@@ -307,7 +315,6 @@ const ShareableInsightCard = ({
     </motion.div>
   );
 };
-
 // ============================================
 // VISITOR FUNNEL (24K → 19K → 6.9K → 6.6K)
 // ============================================
@@ -1015,45 +1022,56 @@ const emailTemplates = {
     },
   ];
 
+  // Import author image
+  const authorAvatarUrl = new URL('@/assets/authors/rajnish-kumar.jpeg', import.meta.url).href;
+
   return (
     <>
       <SEO
-        title="HR Katalyst Referral Playbook — 10K to 25K in 5 Seasons | utm.one"
-        description="The behind-the-scenes story of how a nerdy HR conference built a community-led growth engine. Real numbers, system architecture, and a step-by-step guide to copy."
+        title="How to Run a Referral Campaign That Actually Works | utm.one"
+        description="Learn how to run a referral campaign that actually works. Step-by-step marketer guide with real proof from HR Katalyst 5: 6,900+ registrations, 28% conversion rate. By Rajnish Kumar, Director of Marketing at Keka."
         canonical="https://utm.one/resources/playbooks/hr-katalyst-referral"
         ogType="article"
-        publishedTime="2025-12-01"
-        keywords={["referral marketing", "community-led growth", "event marketing", "HR conference", "viral growth", "referral campaign"]}
+        publishedTime="2025-12-13"
+        author="Rajnish Kumar"
+        keywords={["referral marketing", "referral campaign", "community-led growth", "event marketing", "HR conference", "viral growth", "referral program", "growth marketing", "conversion optimization", "event registration"]}
       />
       <ArticleSchema
-        headline="HR Katalyst Referral Playbook: From 10K to 25K Registrations"
-        description="How we went from 10K to 25K registrations in 5 seasons using community-led referral growth"
-        author="utm.one"
-        datePublished="2025-12-01"
+        headline="How to Run a Referral Campaign That Actually Works"
+        description="Step-by-step marketer guide with real proof from HR Katalyst 5: 6,900+ registrations, 28% conversion rate"
+        author="Rajnish Kumar"
+        datePublished="2025-12-13"
         dateModified="2025-12-13"
       />
       <FAQSchema questions={faqItems} />
       <BreadcrumbSchema items={breadcrumbs.map(b => ({ name: b.label, url: b.href ? `https://utm.one${b.href}` : "" }))} />
       <HowToSchema
         name="How to Build a Referral Campaign for Events"
-        description="6-step process for implementing community-led referral growth"
+        description="14-step process for implementing community-led referral growth that drives 28% conversion"
         steps={howToSteps}
       />
-      <SpeakableSchema headline="HR Katalyst Referral Playbook" summary="Community-led growth from 10K to 25K" cssSelectors={['.speakable-content']} />
+      <SpeakableSchema headline="How to Run a Referral Campaign That Actually Works" summary="Step-by-step marketer guide with real proof: 6,900+ registrations, 28% conversion" cssSelectors={['.speakable-content']} />
       
       <GuideLayout
         title="how to run a referral campaign that actually works"
         subtitle="a step-by-step marketer guide (with real proof from HR Katalyst 5)"
         readTime="25 min read"
+        publishedDate="December 13, 2025"
         lastUpdated="December 2025"
         breadcrumbs={breadcrumbs}
+        author={{
+          name: "Rajnish Kumar",
+          role: "Director - Marketing",
+          company: "Keka",
+          avatarUrl: authorAvatarUrl
+        }}
         tableOfContents={[
-          { id: "results", title: "Results Dashboard", number: "01" },
-          { id: "shareable-insights", title: "Key Insights", number: "02" },
-          { id: "the-scene", title: "Part 1: The Story", number: "03" },
-          { id: "part-2", title: "Part 2: Marketer's Playbook", number: "04" },
-          { id: "part-3", title: "Part 3: Build in Lovable", number: "05" },
-          { id: "faq", title: "FAQ", number: "06" },
+          { id: "results", title: "Results Dashboard", number: "01", subtitle: "6,900+ registrations, 28% conversion" },
+          { id: "shareable-insights", title: "Key Insights", number: "02", subtitle: "shareable stats that prove the system works" },
+          { id: "the-scene", title: "Part 1: The Story", number: "03", subtitle: "5 seasons of referral evolution" },
+          { id: "part-2", title: "Part 2: Marketer's Playbook", number: "04", subtitle: "14 steps to launch your own campaign" },
+          { id: "part-3", title: "Part 3: Build in Lovable", number: "05", subtitle: "7-phase technical implementation" },
+          { id: "faq", title: "FAQ", number: "06", subtitle: "common questions answered" },
         ]}
       >
         {/* Hero Summary */}
