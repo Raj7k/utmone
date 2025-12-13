@@ -46,12 +46,12 @@ export const useClickHeatmap = ({
 
       let query = supabase
         .from("link_clicks")
-        .select("clicked_at, click_hour, link_id, links!inner(workspace_id)")
+        .select("clicked_at, click_hour, link_id, workspace_id")
         .gte("clicked_at", startDate.toISOString())
         .lte("clicked_at", endDate.toISOString());
 
       if (workspaceId) {
-        query = query.eq("links.workspace_id", workspaceId);
+        query = query.eq("workspace_id", workspaceId);
       }
 
       if (linkId) {
