@@ -11,7 +11,8 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Users, MousePointerClick, Target, ShieldCheck, TrendingUp, Award, ChevronRight, ChevronDown, Database, Code, Zap, Globe, Trophy, Settings, Mail, Copy, Check, Clock, Sparkles, ArrowRight, BookOpen, Wrench } from "lucide-react";
+import { Users, MousePointerClick, Target, ShieldCheck, TrendingUp, Award, ChevronRight, ChevronDown, Database, Code, Zap, Globe, Trophy, Settings, Mail, Copy, Check, Clock, Sparkles, ArrowRight, BookOpen, Wrench, MessageSquare, Link2, Share2, LayoutDashboard, Gift, Radio, CheckCircle2, Calendar, Megaphone } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
@@ -1490,12 +1491,507 @@ const emailTemplates = {
         </section>
 
         {/* ================================================ */}
-        {/* PART 2: THE PLAYBOOK */}
+        {/* PART 2: THE MARKETER'S PLAYBOOK */}
         {/* ================================================ */}
         <PartDivider 
           part={2} 
-          title="The Playbook" 
-          subtitle="How to build this yourself"
+          title="The Marketer's Playbook" 
+          subtitle="Step-by-step guide any marketer can execute"
+          icon={Target}
+        />
+
+        {/* 2.0 Why This Playbook Exists */}
+        <section className="mb-16" id="why-playbook">
+          <ProgressiveReveal>
+            <div className="bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 rounded-2xl p-8 mb-8">
+              <h2 className="text-3xl font-display font-semibold text-foreground mb-4">
+                Why This Playbook Exists
+              </h2>
+              <p className="text-lg text-foreground leading-relaxed mb-4">
+                Most referral campaigns fail. Not because the idea is wrong, but because the execution is fuzzy.
+              </p>
+              <p className="text-lg text-foreground leading-relaxed mb-6">
+                When we ran HR Katalyst 5, we wanted something very simple:
+              </p>
+              <blockquote className="border-l-4 border-primary pl-6 py-2 mb-6 bg-background/50 rounded-r-lg">
+                <p className="text-lg text-foreground italic">
+                  "If an HR professional enjoys our event, they should have an easy way to invite other HRs. And every invitation should be tracked cleanly."
+                </p>
+              </blockquote>
+              <p className="text-foreground mb-4">That one sentence turned into:</p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                {[
+                  { value: "6,903", label: "Registrations" },
+                  { value: "24,044", label: "Link Clicks" },
+                  { value: "28%", label: "Conversion Rate" },
+                  { value: "982", label: "Referrers" },
+                ].map((stat) => (
+                  <div key={stat.label} className="bg-card border border-border rounded-lg p-4 text-center">
+                    <div className="text-2xl font-bold text-primary">{stat.value}</div>
+                    <div className="text-sm text-muted-foreground">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="bg-amber-500/10 border border-amber-500/20 p-4 rounded-xl">
+                <p className="text-foreground font-medium">
+                  🎯 The goal of this guide: Any marketer should be able to run the same referral engine for their event, product launch, or webinar — <strong>without asking engineering for help.</strong>
+                </p>
+              </div>
+            </div>
+          </ProgressiveReveal>
+        </section>
+
+        {/* 2.1 What is a Referral System - Simple English */}
+        <section className="mb-16" id="referral-simple">
+          <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
+            The Referral System in Simple English
+          </h2>
+          <ProgressiveReveal>
+            <p className="text-lg text-foreground mb-6">It's a simple loop:</p>
+            <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
+              {[
+                { num: 1, text: "Someone signs up" },
+                { num: 2, text: "They get a unique link" },
+                { num: 3, text: "They share it" },
+                { num: 4, text: "People click → register" },
+                { num: 5, text: "The referrer climbs a leaderboard" },
+              ].map((step, i) => (
+                <div key={step.num} className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 bg-card border border-border rounded-full px-4 py-2">
+                    <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">
+                      {step.num}
+                    </div>
+                    <span className="text-foreground text-sm font-medium">{step.text}</span>
+                  </div>
+                  {i < 4 && <ArrowRight className="w-4 h-4 text-muted-foreground hidden md:block" />}
+                </div>
+              ))}
+            </div>
+            <p className="text-center text-muted-foreground">
+              That's it. No complicated tech needed. You just need <strong className="text-foreground">clean tracking</strong> and <strong className="text-foreground">clear messaging</strong>.
+            </p>
+          </ProgressiveReveal>
+        </section>
+
+        {/* 2.2 The 8 Building Blocks */}
+        <section className="mb-16" id="building-blocks">
+          <h2 className="text-3xl font-display font-semibold text-foreground mb-4">
+            The 8 Building Blocks
+          </h2>
+          <p className="text-lg text-muted-foreground mb-8">
+            If you understand these eight components, you can run ANY referral campaign.
+          </p>
+
+          <ProgressiveReveal>
+            <div className="grid md:grid-cols-2 gap-4">
+              {[
+                { 
+                  num: 1, 
+                  title: "Get My Referral Link Page", 
+                  desc: "Where a user enters their name/email and receives their unique referral link.", 
+                  icon: Link2,
+                  color: "from-blue-500/20 to-blue-500/10"
+                },
+                { 
+                  num: 2, 
+                  title: "Share Modal", 
+                  desc: "A simple popup with pre-written messages for WhatsApp, LinkedIn, Email, X, and Copy link.", 
+                  icon: Share2,
+                  tip: "Make sharing effortless.",
+                  color: "from-green-500/20 to-green-500/10"
+                },
+                { 
+                  num: 3, 
+                  title: "High-Converting Landing Page", 
+                  desc: "Where referral traffic lands. It must convert at least 20–30%. (Our event page converted 28%.)", 
+                  icon: LayoutDashboard,
+                  color: "from-purple-500/20 to-purple-500/10"
+                },
+                { 
+                  num: 4, 
+                  title: "Thank-You Page That Extends the Loop", 
+                  desc: "After registering: 'Do you want to invite others like you?' Super simple.", 
+                  icon: CheckCircle2,
+                  color: "from-amber-500/20 to-amber-500/10"
+                },
+                { 
+                  num: 5, 
+                  title: "Leaderboard", 
+                  desc: "Shows top referrers, their ranks, and incentives. (We saw people obsessively refresh this.)", 
+                  icon: Trophy,
+                  color: "from-orange-500/20 to-orange-500/10"
+                },
+                { 
+                  num: 6, 
+                  title: "Rewards & Gamification", 
+                  desc: "People don't share for prizes. They share for recognition, status, identity, and belonging.", 
+                  icon: Gift,
+                  tip: "Rewards simply push them harder.",
+                  color: "from-pink-500/20 to-pink-500/10"
+                },
+                { 
+                  num: 7, 
+                  title: "Communication Engines", 
+                  desc: "Email, WhatsApp, LinkedIn — everything that drives traffic.", 
+                  icon: MessageSquare,
+                  color: "from-cyan-500/20 to-cyan-500/10"
+                },
+                { 
+                  num: 8, 
+                  title: "Clean Tracking (utm.one philosophy)", 
+                  desc: "Every click → every visit → every registration must be counted cleanly. This was our biggest advantage.", 
+                  icon: Target,
+                  color: "from-primary/20 to-primary/10"
+                },
+              ].map((block) => (
+                <motion.div
+                  key={block.num}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: block.num * 0.05 }}
+                >
+                  <Card className={cn("p-5 bg-gradient-to-br border-border h-full", block.color)}>
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-background/80 flex items-center justify-center">
+                        <block.icon className="w-5 h-5 text-foreground" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <Badge variant="outline" className="text-xs">{block.num}</Badge>
+                          <h4 className="font-semibold text-foreground">{block.title}</h4>
+                        </div>
+                        <p className="text-sm text-muted-foreground">{block.desc}</p>
+                        {block.tip && (
+                          <p className="text-xs text-primary mt-2 font-medium">💡 {block.tip}</p>
+                        )}
+                      </div>
+                    </div>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </ProgressiveReveal>
+        </section>
+
+        {/* 2.3 Step-by-Step: 14 Steps Day-by-Day Execution */}
+        <section className="mb-16" id="execution-steps">
+          <h2 className="text-3xl font-display font-semibold text-foreground mb-4">
+            14 Steps: Day-by-Day Execution
+          </h2>
+          <p className="text-lg text-muted-foreground mb-8">
+            This is the section a marketer will LOVE. Clear. Linear. Execute today.
+          </p>
+
+          <ProgressiveReveal>
+            <div className="space-y-4">
+              {[
+                { step: 1, day: "Prep", time: "5 mins", title: "Define the referral goal", desc: 'Write a simple goal statement: "We want to drive X registrations in Y days with a referral conversion rate of Z%."', example: "For HR Katalyst: Goal → 5,000+ referrals, 25K traffic, 28% conversion rate." },
+                { step: 2, day: "Prep", time: "10 mins", title: "Create your reward structure", desc: "Keep it simple. Give more status than stuff.", rewards: ["🥇 Rank 1 → Apple Watch", "🥈 Rank 2 → Amazon Echo", "🥉 Rank 3 → Smartwatch", "🎁 10+ referrals → Merch pack", "⭐ 1 referral → Inner Circle badge"] },
+                { step: 3, day: "Prep", time: "1-2 hrs", title: "Prepare all communication assets", desc: "A referral campaign dies when marketers improvise daily. Before launch, prepare:", items: ["Email templates (launch, rank change, rewards reveal, final 72h)", "WhatsApp templates (group, personal, status)", "LinkedIn posts (launch, leaderboard, reward reveal, final hours)", "In-event CTAs (pinned messages, slides, host shoutouts)"] },
+                { step: 4, day: "Prep", time: "QA", title: "Set up and validate referral pages", desc: "As a marketer, your job is to validate, not build. You check:", checklist: ["The 'Get Link' page works", "The link looks clean with UTMs", "The Share Modal works on mobile", "The landing page converts (above-fold CTA)", "The thank-you page triggers referral flow", "The leaderboard updates with test data"] },
+                { step: 5, day: "Day 1", time: "Launch", title: "Launch the campaign (soft)", desc: "Start small. Launch only to internal team, past attendees, warm communities, friendly speakers.", expected: "150–300 early referrers, 500–800 visits" },
+                { step: 6, day: "Day 2", time: "Launch", title: "Full public launch", desc: "Send major email to full audience. Publish LinkedIn post. Share in WhatsApp groups. Ask influencers/speakers to share. Post in HR communities.", expected: "1,000–2,000 visitors, 200–500 new registrations" },
+                { step: 7, day: "Day 4", time: "Viral", title: "Drop the leaderboard on social", desc: "This is when the real viral loop begins. Post Top 10 names, total referrals, teaser text: 'Ranks shifting fast...'", trigger: "FOMO, Curiosity, Competitiveness → People rush to get their name on that board." },
+                { step: 8, day: "Day 5", time: "Push", title: "Activate WhatsApp at scale", desc: "WhatsApp crushed every other channel. Post in HR groups, ask speakers to share, ask employees to share, ask referrers to post statuses.", result: "This step alone brought 1,000+ visits in 24 hours." },
+                { step: 9, day: "Day 6", time: "Email", title: "Send Rank Change Email", desc: 'Subject: "You climbed the leaderboard 🔥" — This email alone drove the largest referral spike because it shows your rank, your referrals, and how many you need to win.', tip: "Taps into progress psychology." },
+                { step: 10, day: "Day 7", time: "Reveal", title: "Reveal rewards visually", desc: "Post visuals of your prizes. We saw mid-tier referrers wake up, dormant referrers restart, and urgency increase." },
+                { step: 11, day: "Day 8", time: "Network", title: "Activate speakers", desc: "Speakers share → new networks join → more potential referrers. Give them a copy-paste message." },
+                { step: 12, day: "Day 9", time: "Push", title: "Mid-week push", desc: "Updated leaderboard, shoutouts, WhatsApp reminders, mini emails. Keep the loop alive." },
+                { step: 13, day: "Day 11-13", time: "Sprint", title: "Final 72 hours sprint", desc: "This is where 40% of all referrals happen.", actions: ['Send final sprint email: "72 hours left ⏳ win these rewards"', "Publish leaderboard", "Add countdown timers", "Push WhatsApp statuses", "Ask speakers to repost"], result: "We got 1,000+ registrations in the last 3 days alone." },
+                { step: 14, day: "Day 13", time: "Close", title: "Close the campaign", desc: "Freeze leaderboard, clean fraud, announce winners, send claim forms, thank referrers publicly.", tip: "Closing strong ensures next year people come back." },
+              ].map((item) => (
+                <motion.div
+                  key={item.step}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                >
+                  <Card className="p-5 bg-card border-border">
+                    <div className="flex flex-col md:flex-row md:items-start gap-4">
+                      {/* Step indicator */}
+                      <div className="flex items-center gap-3 md:flex-col md:items-center md:w-24 shrink-0">
+                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                          {item.step}
+                        </div>
+                        <div className="flex gap-2 md:flex-col md:items-center">
+                          <Badge variant="secondary" className="text-xs">{item.day}</Badge>
+                          <Badge variant="outline" className="text-xs flex items-center gap-1">
+                            <Clock className="w-3 h-3" /> {item.time}
+                          </Badge>
+                        </div>
+                      </div>
+                      
+                      {/* Content */}
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-foreground mb-2">{item.title}</h4>
+                        <p className="text-muted-foreground text-sm mb-3">{item.desc}</p>
+                        
+                        {item.example && (
+                          <div className="bg-primary/5 p-3 rounded-lg text-sm text-foreground">
+                            <strong>Example:</strong> {item.example}
+                          </div>
+                        )}
+                        
+                        {item.rewards && (
+                          <div className="flex flex-wrap gap-2 mt-2">
+                            {item.rewards.map((r, i) => (
+                              <Badge key={i} variant="outline" className="text-xs">{r}</Badge>
+                            ))}
+                          </div>
+                        )}
+                        
+                        {item.items && (
+                          <ul className="mt-2 space-y-1">
+                            {item.items.map((it, i) => (
+                              <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                                <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                                {it}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                        
+                        {item.checklist && (
+                          <div className="grid sm:grid-cols-2 gap-2 mt-2">
+                            {item.checklist.map((c, i) => (
+                              <div key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
+                                <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0" />
+                                {c}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        
+                        {item.actions && (
+                          <ul className="mt-2 space-y-1">
+                            {item.actions.map((a, i) => (
+                              <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                                <Megaphone className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                                {a}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                        
+                        {item.expected && (
+                          <div className="mt-2 text-sm text-green-600 dark:text-green-400 font-medium">
+                            📈 Expected: {item.expected}
+                          </div>
+                        )}
+                        
+                        {item.result && (
+                          <div className="mt-2 text-sm text-amber-600 dark:text-amber-400 font-medium">
+                            🔥 Result: {item.result}
+                          </div>
+                        )}
+                        
+                        {item.trigger && (
+                          <div className="mt-2 text-sm text-purple-600 dark:text-purple-400 font-medium">
+                            ⚡ {item.trigger}
+                          </div>
+                        )}
+                        
+                        {item.tip && (
+                          <div className="mt-2 text-sm text-primary font-medium">
+                            💡 {item.tip}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </ProgressiveReveal>
+        </section>
+
+        {/* 2.4 The 3 Checklists */}
+        <section className="mb-16" id="marketer-checklists">
+          <h2 className="text-3xl font-display font-semibold text-foreground mb-4">
+            The Simple Marketer Checklist
+          </h2>
+          <p className="text-lg text-muted-foreground mb-8">
+            Copy this. Check it off. Run your campaign.
+          </p>
+
+          <ProgressiveReveal>
+            <Tabs defaultValue="before" className="w-full">
+              <TabsList className="grid w-full grid-cols-3 mb-6">
+                <TabsTrigger value="before" className="flex items-center gap-2">
+                  <Settings className="w-4 h-4" /> Before Launch
+                </TabsTrigger>
+                <TabsTrigger value="during" className="flex items-center gap-2">
+                  <Radio className="w-4 h-4" /> During Campaign
+                </TabsTrigger>
+                <TabsTrigger value="final" className="flex items-center gap-2">
+                  <Zap className="w-4 h-4" /> Final Sprint
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="before">
+                <Card className="p-6 bg-card border-border">
+                  <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
+                    <Settings className="w-5 h-5 text-primary" />
+                    Before Launch Checklist
+                  </h3>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    {[
+                      "Define rewards structure",
+                      "Prepare all email templates",
+                      "Prepare WhatsApp messages",
+                      "Prepare LinkedIn posts",
+                      "Validate get-link page works",
+                      "Validate referral link behavior",
+                      "Validate leaderboard updates",
+                    ].map((item, i) => (
+                      <div key={i} className="flex items-center gap-3 p-3 bg-muted/30 rounded-lg">
+                        <div className="w-5 h-5 rounded border-2 border-muted-foreground/30 flex items-center justify-center">
+                          <Check className="w-3 h-3 text-transparent" />
+                        </div>
+                        <span className="text-sm text-foreground">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+              </TabsContent>
+              
+              <TabsContent value="during">
+                <Card className="p-6 bg-card border-border">
+                  <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
+                    <Radio className="w-5 h-5 text-primary" />
+                    During Campaign Checklist
+                  </h3>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    {[
+                      "Send Rank change emails",
+                      "Post leaderboard updates",
+                      "Activate WhatsApp groups",
+                      "Activate speakers",
+                      "Push daily reminders",
+                      "Keep landing page converting",
+                    ].map((item, i) => (
+                      <div key={i} className="flex items-center gap-3 p-3 bg-muted/30 rounded-lg">
+                        <div className="w-5 h-5 rounded border-2 border-muted-foreground/30 flex items-center justify-center">
+                          <Check className="w-3 h-3 text-transparent" />
+                        </div>
+                        <span className="text-sm text-foreground">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+              </TabsContent>
+              
+              <TabsContent value="final">
+                <Card className="p-6 bg-card border-border">
+                  <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
+                    <Zap className="w-5 h-5 text-amber-500" />
+                    Final Sprint Checklist
+                  </h3>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    {[
+                      "Countdown posts with timer",
+                      'Send "72 hours left" email',
+                      "WhatsApp blast to all groups",
+                      "Freeze leaderboard",
+                      "Clean fraud entries",
+                      "Announce winners publicly",
+                    ].map((item, i) => (
+                      <div key={i} className="flex items-center gap-3 p-3 bg-amber-500/10 rounded-lg border border-amber-500/20">
+                        <div className="w-5 h-5 rounded border-2 border-amber-500/50 flex items-center justify-center">
+                          <Check className="w-3 h-3 text-transparent" />
+                        </div>
+                        <span className="text-sm text-foreground">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+              </TabsContent>
+            </Tabs>
+          </ProgressiveReveal>
+        </section>
+
+        {/* 2.5 The Proof */}
+        <section className="mb-16" id="proof">
+          <h2 className="text-3xl font-display font-semibold text-foreground mb-4">
+            The Proof: HR Katalyst Results
+          </h2>
+          <p className="text-lg text-muted-foreground mb-8">
+            We ran this exact system. Here are the real numbers:
+          </p>
+
+          <ProgressiveReveal>
+            <Card className="p-8 bg-gradient-to-br from-green-500/10 to-emerald-500/5 border-green-500/20">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+                {[
+                  { value: "6,903", label: "Registrations" },
+                  { value: "24,044", label: "Link Clicks" },
+                  { value: "28%", label: "Conversion" },
+                  { value: "982", label: "Referrers" },
+                ].map((stat) => (
+                  <div key={stat.label} className="text-center">
+                    <div className="text-3xl md:text-4xl font-bold text-foreground">{stat.value}</div>
+                    <div className="text-sm text-muted-foreground">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                {[
+                  { value: "238", label: "Fraud Blocked" },
+                  { value: "96.6%", label: "Integrity Rate" },
+                  { value: "7", label: "Champions" },
+                  { value: "55%", label: "From Top 7" },
+                ].map((stat) => (
+                  <div key={stat.label} className="text-center">
+                    <div className="text-2xl font-bold text-foreground">{stat.value}</div>
+                    <div className="text-sm text-muted-foreground">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-8 text-center">
+                <Badge className="bg-green-500/20 text-green-700 dark:text-green-300 border-green-500/30 text-sm px-4 py-2">
+                  ✓ This is not theory. This is battle-tested.
+                </Badge>
+              </div>
+            </Card>
+          </ProgressiveReveal>
+        </section>
+
+        {/* 2.6 The UTM One Hook */}
+        <section className="mb-16" id="utm-hook">
+          <ProgressiveReveal>
+            <Card className="p-8 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
+              <h3 className="text-2xl font-display font-bold text-foreground mb-4">
+                Why This Worked: Clean Tracking
+              </h3>
+              <div className="prose prose-lg dark:prose-invert max-w-none">
+                <p className="text-foreground leading-relaxed mb-4">
+                  <strong>All of this worked because the tracking worked.</strong> Every referral link. Every click. Every registration. 100% tracked cleanly.
+                </p>
+                <p className="text-foreground leading-relaxed mb-4">
+                  Most referral campaigns fail not because of poor marketing, but because of <strong>broken attribution</strong>.
+                </p>
+                <p className="text-foreground leading-relaxed mb-6">
+                  HR Katalyst proved that when tracking is clean, growth is clean.
+                </p>
+                <div className="bg-background/50 p-6 rounded-xl border border-primary/20">
+                  <p className="text-foreground font-medium mb-4">
+                    That is exactly why we built <strong className="text-primary">utm.one</strong> — the simplest way for marketers to create clean, consistent, reliable tracking links that power viral loops like this.
+                  </p>
+                  <Button size="lg" className="gap-2">
+                    Get Early Access <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            </Card>
+          </ProgressiveReveal>
+        </section>
+
+        {/* ================================================ */}
+        {/* PART 3: BUILD IN LOVABLE */}
+        {/* ================================================ */}
+        <PartDivider 
+          part={3} 
+          title="Build in Lovable" 
+          subtitle="Technical implementation for builders"
           icon={Wrench}
         />
 
