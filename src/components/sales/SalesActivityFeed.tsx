@@ -33,33 +33,34 @@ export const SalesActivityFeed = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user || !currentWorkspace?.id) return [];
 
-      const { data, error } = await supabase
+      // Step 1: Get sales link IDs (fast, indexed query)
+      const { data: salesLinks } = await supabase
+        .from("links")
+        .select("id, title, prospect_name, slug")
+        .eq("workspace_id", currentWorkspace.id)
+        .eq("created_by", user.id)
+        .eq("link_type", "sales");
+
+      if (!salesLinks?.length) return [];
+
+      const linkIds = salesLinks.map(l => l.id);
+      const linkMap = new Map(salesLinks.map(l => [l.id, l]));
+
+      // Step 2: Get clicks directly with workspace_id (no JOIN)
+      const { data: clicks, error } = await supabase
         .from("link_clicks")
-        .select(`
-          id,
-          clicked_at,
-          device_type,
-          city,
-          country,
-          link:links!inner(
-            title,
-            prospect_name,
-            slug,
-            created_by,
-            link_type,
-            workspace_id
-          )
-        `)
-        .eq("link.workspace_id", currentWorkspace.id)
-        .eq("link.created_by", user.id)
-        .eq("link.link_type", "sales")
+        .select("id, clicked_at, device_type, city, country, link_id")
+        .eq("workspace_id", currentWorkspace.id)
+        .in("link_id", linkIds)
         .order("clicked_at", { ascending: false })
         .limit(20);
 
       if (error) throw error;
-      return (data || []).map(item => ({
-        ...item,
-        link: Array.isArray(item.link) ? item.link[0] : item.link
+
+      // Step 3: Join client-side
+      return (clicks || []).map(click => ({
+        ...click,
+        link: linkMap.get(click.link_id) || { title: "Unknown", slug: "" }
       })) as ClickEvent[];
     },
     enabled: !!currentWorkspace?.id,
@@ -79,39 +80,33 @@ export const SalesActivityFeed = () => {
           table: "link_clicks",
         },
         async (payload) => {
-          const { data } = await supabase
+          // Get click data directly
+          const { data: clickData } = await supabase
             .from("link_clicks")
-            .select(`
-              id,
-              clicked_at,
-              device_type,
-              city,
-              country,
-              link:links!inner(
-                title,
-                prospect_name,
-                slug,
-                created_by,
-                link_type
-              )
-            `)
+            .select("id, clicked_at, device_type, city, country, link_id")
             .eq("id", payload.new.id)
             .single();
 
-          if (data && data.link) {
-            const linkData = Array.isArray(data.link) ? data.link[0] : data.link;
-            if (linkData.link_type === "sales") {
-              const newEvent = {
-                ...data,
-                link: linkData
-              } as ClickEvent;
-              
-              setNewEventId(newEvent.id);
-              setRealtimeEvents(prev => [newEvent, ...prev.slice(0, 19)]);
-              
-              // Clear highlight after animation
-              setTimeout(() => setNewEventId(null), 3000);
-            }
+          if (!clickData) return;
+
+          // Get link data separately
+          const { data: linkData } = await supabase
+            .from("links")
+            .select("title, prospect_name, slug, link_type")
+            .eq("id", clickData.link_id)
+            .single();
+
+          if (linkData && linkData.link_type === "sales") {
+            const newEvent = {
+              ...clickData,
+              link: linkData
+            } as ClickEvent;
+            
+            setNewEventId(newEvent.id);
+            setRealtimeEvents(prev => [newEvent, ...prev.slice(0, 19)]);
+            
+            // Clear highlight after animation
+            setTimeout(() => setNewEventId(null), 3000);
           }
         }
       )

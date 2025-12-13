@@ -17,34 +17,46 @@ export const GlanceableStats = ({ workspaceId }: GlanceableStatsProps) => {
       const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
       const fourteenDaysAgo = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000);
 
-      // Get all links for workspace
-      const { data: allLinks } = await supabase
-        .from('links')
-        .select('id, total_clicks, created_at')
-        .eq('workspace_id', workspaceId);
+      // Parallel queries for better performance
+      const [linksResult, recentClicksResult, previousClicksResult, qrCodesResult] = await Promise.all([
+        // Get all links for workspace
+        supabase
+          .from('links')
+          .select('id, total_clicks, created_at')
+          .eq('workspace_id', workspaceId),
+        
+        // Get clicks for last 7 days - direct workspace_id filter (no JOIN)
+        supabase
+          .from('link_clicks')
+          .select('clicked_at, link_id')
+          .eq('workspace_id', workspaceId)
+          .gte('clicked_at', sevenDaysAgo.toISOString()),
+        
+        // Get clicks for previous 7 days - direct workspace_id filter (no JOIN)
+        supabase
+          .from('link_clicks')
+          .select('clicked_at')
+          .eq('workspace_id', workspaceId)
+          .gte('clicked_at', fourteenDaysAgo.toISOString())
+          .lt('clicked_at', sevenDaysAgo.toISOString()),
+        
+        // Get QR codes count - using workspace_id via links
+        supabase
+          .from('qr_codes')
+          .select('id, links!inner(workspace_id)')
+          .eq('links.workspace_id', workspaceId)
+      ]);
 
-      const linkIds = allLinks?.map(l => l.id) || [];
-
-      // Get clicks for last 7 days
-      const { data: recentClicks } = await supabase
-        .from('link_clicks')
-        .select('clicked_at, link_id')
-        .in('link_id', linkIds)
-        .gte('clicked_at', sevenDaysAgo.toISOString());
-
-      // Get clicks for previous 7 days
-      const { data: previousClicks } = await supabase
-        .from('link_clicks')
-        .select('clicked_at')
-        .in('link_id', linkIds)
-        .gte('clicked_at', fourteenDaysAgo.toISOString())
-        .lt('clicked_at', sevenDaysAgo.toISOString());
+      const allLinks = linksResult.data || [];
+      const recentClicks = recentClicksResult.data || [];
+      const previousClicks = previousClicksResult.data || [];
+      const qrCodes = qrCodesResult.data || [];
 
       // Calculate totals
-      const totalLinks = allLinks?.length || 0;
-      const totalClicks = allLinks?.reduce((sum, link) => sum + (link.total_clicks || 0), 0) || 0;
-      const recentClickCount = recentClicks?.length || 0;
-      const previousClickCount = previousClicks?.length || 0;
+      const totalLinks = allLinks.length;
+      const totalClicks = allLinks.reduce((sum, link) => sum + (link.total_clicks || 0), 0);
+      const recentClickCount = recentClicks.length;
+      const previousClickCount = previousClicks.length;
 
       // Calculate percentage change
       const calculateChange = (current: number, previous: number) => {
@@ -57,18 +69,12 @@ export const GlanceableStats = ({ workspaceId }: GlanceableStatsProps) => {
       // Generate sparkline data (last 7 days)
       const sparklineData = Array.from({ length: 7 }, (_, i) => {
         const date = new Date(now.getTime() - (6 - i) * 24 * 60 * 60 * 1000);
-        const dayClicks = recentClicks?.filter(c => {
+        const dayClicks = recentClicks.filter(c => {
           const clickDate = new Date(c.clicked_at);
           return clickDate.toDateString() === date.toDateString();
-        }).length || 0;
+        }).length;
         return { value: dayClicks };
       });
-
-      // Get QR codes count
-      const { data: qrCodes } = await supabase
-        .from('qr_codes')
-        .select('id')
-        .in('link_id', linkIds);
 
       return {
         totalLinks,
@@ -76,7 +82,7 @@ export const GlanceableStats = ({ workspaceId }: GlanceableStatsProps) => {
         recentClickCount,
         clicksChange,
         sparklineData,
-        qrCodesCount: qrCodes?.length || 0,
+        qrCodesCount: qrCodes.length,
       };
     },
   });
