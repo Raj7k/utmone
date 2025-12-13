@@ -15,6 +15,13 @@ const Playbooks = () => {
       badge: "FEATURED"
     },
     {
+      slug: "hr-katalyst-referral",
+      title: "HR Katalyst Referral Playbook — 10K to 25K in 5 Seasons",
+      description: "The behind-the-scenes story of how a nerdy HR conference built a community-led growth engine. Real numbers, system architecture, and a step-by-step guide to copy.",
+      readTime: "25 min read",
+      badge: "NEW"
+    },
+    {
       slug: "llm-ranking",
       title: "LLM Ranking Playbook — The Complete Implementation Guide",
       description: "90-day step-by-step roadmap to rank your content in ChatGPT, Claude, Perplexity, and Gemini. Includes 9 interactive tools, 50+ optimization tactics, and real-world case studies.",
