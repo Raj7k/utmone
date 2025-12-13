@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { GuideLayout } from "@/components/resources/GuideLayout";
 import { PlaybookSteps } from "@/components/resources/PlaybookSteps";
 import { ActionChecklist } from "@/components/resources/ActionChecklist";
@@ -10,9 +11,196 @@ import { ArticleSchema, FAQSchema, BreadcrumbSchema, HowToSchema } from "@/compo
 import { SpeakableSchema } from "@/components/seo/SpeakableSchema";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Users, MousePointerClick, Target, ShieldCheck, TrendingUp, Award } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Users, MousePointerClick, Target, ShieldCheck, TrendingUp, Award, ChevronRight, Database, Code, Zap, Globe, Trophy, Settings, Mail, Copy, Check } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+// Sticky Table of Contents Component
+const TableOfContents = ({ activeSection }: { activeSection: string }) => {
+  const sections = [
+    { id: "metrics", label: "Results Dashboard" },
+    { id: "funnel", label: "The Funnel" },
+    { id: "step-1", label: "1. The Scene" },
+    { id: "step-2", label: "2. The Bet" },
+    { id: "step-3", label: "3. The Numbers" },
+    { id: "power-law", label: "Power Law" },
+    { id: "step-4", label: "4. Clean Pipes" },
+    { id: "step-5", label: "5. Design Loop" },
+    { id: "architecture", label: "Architecture" },
+    { id: "step-6", label: "6. Integrity" },
+    { id: "step-7", label: "7. Human Side" },
+    { id: "step-8", label: "8. What Worked" },
+    { id: "step-9", label: "9. Copy This" },
+    { id: "build-lovable", label: "Build in Lovable" },
+    { id: "timeline", label: "Timeline" },
+    { id: "step-10", label: "10. Close Loop" },
+    { id: "faq", label: "FAQ" },
+  ];
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 100;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <nav className="hidden xl:block sticky top-24 max-h-[calc(100vh-6rem)] overflow-y-auto">
+      <div className="space-y-1">
+        <h4 className="text-sm font-semibold text-foreground mb-4">On This Page</h4>
+        {sections.map((section) => (
+          <button
+            key={section.id}
+            onClick={() => scrollToSection(section.id)}
+            className={cn(
+              "block w-full text-left px-3 py-1.5 text-sm rounded-md transition-colors",
+              activeSection === section.id
+                ? "bg-primary/10 text-primary font-medium"
+                : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+            )}
+          >
+            {section.label}
+          </button>
+        ))}
+      </div>
+    </nav>
+  );
+};
+
+// Proportional Funnel Component
+const ReferralsFunnel = () => {
+  const funnelSteps = [
+    { label: "Total Link Clicks", value: "24,044", percentage: 100, color: "bg-primary" },
+    { label: "Unique Sessions", value: "19,689", percentage: 82, color: "bg-blue-500" },
+    { label: "Registrations", value: "6,903", percentage: 28.7, color: "bg-green-500" },
+    { label: "Valid Conversions", value: "6,665", percentage: 27.7, color: "bg-emerald-500" },
+  ];
+
+  return (
+    <div className="space-y-3">
+      {funnelSteps.map((step, index) => (
+        <div key={step.label} className="relative">
+          <div 
+            className={cn(
+              "relative h-16 rounded-lg flex items-center justify-between px-6 transition-all",
+              step.color
+            )}
+            style={{ width: `${Math.max(step.percentage, 30)}%`, marginLeft: `${(100 - Math.max(step.percentage, 30)) / 2}%` }}
+          >
+            <span className="text-white font-semibold text-sm">{step.label}</span>
+            <div className="text-right">
+              <span className="text-white font-bold text-lg">{step.value}</span>
+              {index > 0 && (
+                <span className="text-white/80 text-xs block">{step.percentage.toFixed(1)}%</span>
+              )}
+            </div>
+          </div>
+          {index < funnelSteps.length - 1 && (
+            <div className="flex justify-center py-1">
+              <ChevronRight className="w-5 h-5 text-muted-foreground rotate-90" />
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+// Olympic Podium Component
+const PowerLawPodium = () => {
+  const tiers = [
+    { position: 2, label: "High Performers", count: 28, range: "10-99 refs", conversions: 909, percentage: 13, color: "bg-zinc-400" },
+    { position: 1, label: "Champions", count: 7, range: "100+ refs", conversions: 3173, percentage: 46, color: "bg-amber-500" },
+    { position: 3, label: "Contributors", count: 304, range: "1-9 refs", conversions: 823, percentage: 12, color: "bg-orange-600" },
+  ];
+
+  return (
+    <div className="flex items-end justify-center gap-2 h-64">
+      {tiers.map((tier) => (
+        <div key={tier.position} className="flex flex-col items-center">
+          <div className="text-center mb-2">
+            <div className="text-2xl font-bold text-foreground">{tier.count}</div>
+            <div className="text-xs text-muted-foreground">{tier.range}</div>
+          </div>
+          <div 
+            className={cn(
+              "w-24 rounded-t-lg flex flex-col items-center justify-end pb-4",
+              tier.color
+            )}
+            style={{ height: tier.position === 1 ? "160px" : tier.position === 2 ? "120px" : "80px" }}
+          >
+            <div className="text-white font-bold text-lg">{tier.position}</div>
+            <div className="text-white/90 text-xs text-center px-2">{tier.percentage}%</div>
+          </div>
+          <div className="text-xs text-muted-foreground mt-2 text-center max-w-24">{tier.label}</div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+// Code Block Component
+const CodeBlock = ({ code, language = "typescript" }: { code: string; language?: string }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="relative group">
+      <pre className="bg-zinc-900 text-zinc-100 p-4 rounded-lg overflow-x-auto text-sm font-mono">
+        <code>{code}</code>
+      </pre>
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={handleCopy}
+        className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-zinc-800 hover:bg-zinc-700 text-zinc-300"
+      >
+        {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+      </Button>
+    </div>
+  );
+};
 
 export default function HRKatalystReferralPlaybook() {
+  const [activeSection, setActiveSection] = useState("metrics");
+
+  // Track active section for TOC
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: "-100px 0px -80% 0px" }
+    );
+
+    const sections = document.querySelectorAll("section[id]");
+    sections.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 100;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+    }
+  };
+
   const steps = [
     { number: 1, title: "The Scene" },
     { number: 2, title: "The Bet" },
@@ -93,12 +281,363 @@ export default function HRKatalystReferralPlaybook() {
   ];
 
   const metrics = [
-    { icon: MousePointerClick, label: "Total Clicks", value: "24,044", color: "text-blue-500" },
-    { icon: Users, label: "Unique Sessions", value: "19,689", color: "text-purple-500" },
-    { icon: Target, label: "Conversions", value: "6,903", color: "text-green-500" },
-    { icon: TrendingUp, label: "Conversion Rate", value: "28%", color: "text-amber-500" },
-    { icon: Award, label: "Active Referrers", value: "982", color: "text-pink-500" },
-    { icon: ShieldCheck, label: "Integrity Rate", value: "96.6%", color: "text-cyan-500" },
+    { icon: MousePointerClick, label: "Total Clicks", value: "24,044", scrollTo: "funnel" },
+    { icon: Users, label: "Unique Sessions", value: "19,689", scrollTo: "funnel" },
+    { icon: Target, label: "Conversions", value: "6,903", scrollTo: "funnel" },
+    { icon: TrendingUp, label: "Conversion Rate", value: "28%", scrollTo: "step-5" },
+    { icon: Award, label: "Active Referrers", value: "982", scrollTo: "power-law" },
+    { icon: ShieldCheck, label: "Integrity Rate", value: "96.6%", scrollTo: "step-6" },
+  ];
+
+  // Lovable Build Phases
+  const buildPhases = [
+    {
+      phase: 1,
+      title: "Database Setup",
+      icon: Database,
+      description: "Create the core tables for referrers, visits, and conversions",
+      code: `-- Create referrers table
+CREATE TABLE public.referrers (
+  id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL UNIQUE,
+  phone TEXT,
+  ref_code TEXT NOT NULL UNIQUE,
+  total_visits INTEGER DEFAULT 0,
+  total_conversions INTEGER DEFAULT 0,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
+-- Create referral_visits table
+CREATE TABLE public.referral_visits (
+  id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
+  ref_code TEXT NOT NULL,
+  ip_address TEXT,
+  user_agent TEXT,
+  utm_source TEXT,
+  utm_medium TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
+-- Create referral_conversions table  
+CREATE TABLE public.referral_conversions (
+  id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
+  ref_code TEXT NOT NULL,
+  email TEXT NOT NULL,
+  name TEXT NOT NULL,
+  is_valid BOOLEAN DEFAULT true,
+  fraud_reason TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
+-- Enable RLS
+ALTER TABLE public.referrers ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.referral_visits ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.referral_conversions ENABLE ROW LEVEL SECURITY;`,
+      checklist: [
+        "Create referrers table with ref_code unique constraint",
+        "Create referral_visits table for click tracking",
+        "Create referral_conversions table with is_valid flag",
+        "Enable RLS on all tables",
+        "Add indexes on ref_code columns for fast lookups",
+      ],
+    },
+    {
+      phase: 2,
+      title: "Referral Code Generation",
+      icon: Code,
+      description: "Generate unique, memorable referral codes for each participant",
+      code: `// Generate unique referral code
+const generateRefCode = (name: string): string => {
+  const cleanName = name
+    .toLowerCase()
+    .replace(/[^a-z]/g, '')
+    .slice(0, 6);
+  const randomSuffix = Math.random()
+    .toString(36)
+    .substring(2, 6);
+  return \`\${cleanName}-\${randomSuffix}\`;
+};
+
+// Create referrer with unique code
+const createReferrer = async (name: string, email: string, phone?: string) => {
+  const ref_code = generateRefCode(name);
+  
+  const { data, error } = await supabase
+    .from('referrers')
+    .insert({ name, email, phone, ref_code })
+    .select()
+    .single();
+    
+  if (error) throw error;
+  return data;
+};`,
+      checklist: [
+        "Create ref code generator function",
+        "Ensure codes are URL-safe and memorable",
+        "Handle duplicate code collisions",
+        "Create GetLink page with form validation",
+        "Show instant referral link after signup",
+      ],
+    },
+    {
+      phase: 3,
+      title: "Tracking Edge Functions",
+      icon: Zap,
+      description: "Log every click and conversion with fraud protection",
+      code: `// supabase/functions/track-visit/index.ts
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+}
+
+serve(async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { headers: corsHeaders })
+  }
+
+  const supabase = createClient(
+    Deno.env.get('SUPABASE_URL')!,
+    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+  )
+
+  const { ref_code, utm_source, utm_medium } = await req.json()
+  const ip_address = req.headers.get('x-forwarded-for') || 'unknown'
+  const user_agent = req.headers.get('user-agent') || 'unknown'
+
+  // Log the visit
+  await supabase.from('referral_visits').insert({
+    ref_code,
+    ip_address,
+    user_agent,
+    utm_source,
+    utm_medium,
+  })
+
+  // Increment referrer's visit count
+  await supabase.rpc('increment_referrer_visits', { code: ref_code })
+
+  return new Response(JSON.stringify({ success: true }), {
+    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+  })
+})`,
+      checklist: [
+        "Create track-visit edge function",
+        "Create track-conversion edge function",
+        "Implement IP and user-agent logging",
+        "Add fraud detection checks",
+        "Increment referrer counts atomically",
+      ],
+    },
+    {
+      phase: 4,
+      title: "External Website Integration",
+      icon: Globe,
+      description: "Connect your landing page and thank you page to the tracking system",
+      code: `// Snippet for external landing page
+<script>
+(function() {
+  // Get ref_code from URL
+  const params = new URLSearchParams(window.location.search);
+  const ref_code = params.get('ref');
+  
+  if (ref_code) {
+    // Store in cookie for conversion tracking
+    document.cookie = \`ref_code=\${ref_code};path=/;max-age=2592000\`;
+    
+    // Track the visit
+    fetch('https://YOUR_PROJECT.supabase.co/functions/v1/track-visit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ref_code,
+        utm_source: params.get('utm_source'),
+        utm_medium: params.get('utm_medium'),
+      }),
+    });
+  }
+})();
+</script>
+
+// Snippet for thank you page (after registration)
+<script>
+(function() {
+  const getCookie = (name) => {
+    const value = \`; \${document.cookie}\`;
+    const parts = value.split(\`; \${name}=\`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  };
+  
+  const ref_code = getCookie('ref_code');
+  if (ref_code) {
+    fetch('https://YOUR_PROJECT.supabase.co/functions/v1/track-conversion', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ref_code,
+        email: 'REGISTRANT_EMAIL', // Replace with actual
+        name: 'REGISTRANT_NAME',   // Replace with actual
+      }),
+    });
+  }
+})();
+</script>`,
+      checklist: [
+        "Add landing page snippet to track visits",
+        "Store ref_code in cookie (30 day expiry)",
+        "Add thank you page snippet for conversions",
+        "Pass UTM parameters through the flow",
+        "Test end-to-end tracking",
+      ],
+    },
+    {
+      phase: 5,
+      title: "Leaderboard & Gamification",
+      icon: Trophy,
+      description: "Build a real-time leaderboard with ranks and badges",
+      code: `// Get leaderboard data
+const getLeaderboard = async (limit = 25) => {
+  const { data, error } = await supabase
+    .from('referrers')
+    .select('name, ref_code, total_conversions')
+    .gt('total_conversions', 0)
+    .order('total_conversions', { ascending: false })
+    .limit(limit);
+    
+  if (error) throw error;
+  
+  return data.map((referrer, index) => ({
+    ...referrer,
+    rank: index + 1,
+    tier: getTier(referrer.total_conversions),
+    badge: getBadge(index + 1),
+  }));
+};
+
+const getTier = (conversions: number) => {
+  if (conversions >= 100) return 'champion';
+  if (conversions >= 25) return 'gold';
+  if (conversions >= 10) return 'silver';
+  if (conversions >= 5) return 'bronze';
+  return 'starter';
+};
+
+const getBadge = (rank: number) => {
+  if (rank === 1) return '🥇';
+  if (rank === 2) return '🥈';
+  if (rank === 3) return '🥉';
+  return '';
+};`,
+      checklist: [
+        "Create leaderboard query function",
+        "Implement tier/badge logic",
+        "Build LeaderboardPage component",
+        "Add real-time subscriptions (optional)",
+        "Show user's own rank prominently",
+      ],
+    },
+    {
+      phase: 6,
+      title: "Admin Dashboard",
+      icon: Settings,
+      description: "Monitor campaign health, review fraud, and manage rewards",
+      code: `// Admin KPI query
+const getAdminStats = async () => {
+  const [referrers, visits, conversions, fraud] = await Promise.all([
+    supabase.from('referrers').select('id', { count: 'exact' }),
+    supabase.from('referral_visits').select('id', { count: 'exact' }),
+    supabase.from('referral_conversions').select('id', { count: 'exact' }),
+    supabase
+      .from('referral_conversions')
+      .select('id', { count: 'exact' })
+      .eq('is_valid', false),
+  ]);
+
+  return {
+    totalReferrers: referrers.count || 0,
+    totalVisits: visits.count || 0,
+    totalConversions: conversions.count || 0,
+    fraudBlocked: fraud.count || 0,
+    integrityRate: conversions.count 
+      ? (((conversions.count - (fraud.count || 0)) / conversions.count) * 100).toFixed(1)
+      : '100',
+  };
+};
+
+// Mark conversion as fraud
+const markAsFraud = async (conversionId: string, reason: string) => {
+  await supabase
+    .from('referral_conversions')
+    .update({ is_valid: false, fraud_reason: reason })
+    .eq('id', conversionId);
+    
+  // Decrement referrer's count
+  // ... (atomic decrement)
+};`,
+      checklist: [
+        "Create AdminDashboard page",
+        "Build KPI cards (visits, conversions, integrity)",
+        "Add fraud review queue with approve/reject",
+        "Implement export functionality (CSV)",
+        "Add date range filters",
+      ],
+    },
+    {
+      phase: 7,
+      title: "Email Automation",
+      icon: Mail,
+      description: "Keep referrers engaged with welcome, milestone, and winner emails",
+      code: `// supabase/functions/send-referrer-email/index.ts
+import { Resend } from 'npm:resend'
+
+const resend = new Resend(Deno.env.get('RESEND_API_KEY'))
+
+const emailTemplates = {
+  welcome: (name: string, refCode: string) => ({
+    subject: "You're officially a Katalyst insider 🎉",
+    html: \`
+      <h1>Welcome, \${name}!</h1>
+      <p>Your unique referral link is ready:</p>
+      <p><strong>https://hrkatalyst.com/hr-katalyst-5?ref=\${refCode}</strong></p>
+      <p>Share it and watch your leaderboard rank climb!</p>
+    \`,
+  }),
+  
+  milestone: (name: string, count: number) => ({
+    subject: \`You just hit \${count} referrals! 🏆\`,
+    html: \`
+      <h1>Amazing work, \${name}!</h1>
+      <p>You've brought \${count} HR peers into the conversation.</p>
+      <p>Keep going - the leaderboard is heating up!</p>
+    \`,
+  }),
+  
+  weeklyStats: (name: string, stats: any) => ({
+    subject: "Your weekly referral update",
+    html: \`
+      <h1>Hey \${name}, here's your week:</h1>
+      <ul>
+        <li>New visits: \${stats.newVisits}</li>
+        <li>New referrals: \${stats.newConversions}</li>
+        <li>Current rank: #\${stats.rank}</li>
+      </ul>
+    \`,
+  }),
+};
+
+// Trigger on milestone hits (1, 5, 10, 25, 50, 100)
+const MILESTONES = [1, 5, 10, 25, 50, 100];`,
+      checklist: [
+        "Set up Resend or similar email provider",
+        "Create welcome email template",
+        "Create milestone notification emails",
+        "Create weekly stats digest",
+        "Add winner announcement email",
+      ],
+    },
   ];
 
   return (
@@ -146,69 +685,70 @@ export default function HRKatalystReferralPlaybook() {
           </p>
         </ProgressiveReveal>
 
-        {/* Step Tracker */}
-        <PlaybookSteps steps={steps} currentStep={1} className="mb-16" />
+        {/* Step Tracker - Clickable */}
+        <div className="mb-16">
+          <PlaybookSteps steps={steps} currentStep={1} className="mb-4" />
+          <p className="text-xs text-muted-foreground text-center">Click any step to jump to that section</p>
+        </div>
 
-        {/* Metrics Dashboard */}
-        <section className="mb-16">
+        {/* Metrics Dashboard - Clickable Cards */}
+        <section className="mb-20" id="metrics">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
             Campaign Results at a Glance
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {metrics.map((metric) => (
-              <Card key={metric.label} className="p-4 text-center bg-card border-border">
-                <metric.icon className={`w-6 h-6 mx-auto mb-2 ${metric.color}`} />
+              <Card 
+                key={metric.label} 
+                onClick={() => scrollToSection(metric.scrollTo)}
+                className="p-4 text-center bg-card border-border cursor-pointer hover:bg-muted/50 hover:scale-105 hover:shadow-lg transition-all duration-200 group"
+              >
+                <metric.icon className="w-6 h-6 mx-auto mb-2 text-primary group-hover:scale-110 transition-transform" />
                 <div className="text-2xl font-bold text-foreground">{metric.value}</div>
                 <div className="text-xs text-muted-foreground">{metric.label}</div>
+                <ChevronRight className="w-4 h-4 mx-auto mt-2 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
               </Card>
             ))}
           </div>
+          <p className="text-xs text-muted-foreground text-center mt-4">Click any metric to jump to related section</p>
         </section>
 
-        {/* Referrals Funnel Diagram */}
-        <section className="mb-16">
+        {/* Referrals Funnel - Fixed with proportional widths */}
+        <section className="mb-20" id="funnel">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
             The Referrals Funnel
           </h2>
           <ProgressiveReveal>
             <div className="bg-card border border-border rounded-xl p-8">
-              <div className="text-center space-y-4">
-                <div className="p-4 bg-green-50 dark:bg-green-950/30 rounded-lg border border-green-200 dark:border-green-900">
-                  <div className="text-sm text-muted-foreground">Entry Point</div>
-                  <div className="font-bold text-foreground">~5,000 Landing Page Visitors</div>
-                </div>
-                <div className="text-2xl text-muted-foreground">↓</div>
-                <div className="p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-900">
-                  <div className="text-sm text-muted-foreground">Take Rate</div>
-                  <div className="font-bold text-foreground">982 Signed Up as Referrers (19.6%)</div>
-                </div>
-                <div className="text-2xl text-muted-foreground">↓</div>
-                <div className="p-4 bg-amber-50 dark:bg-amber-950/30 rounded-lg border border-amber-200 dark:border-amber-900">
-                  <div className="text-sm text-muted-foreground">Active Sharers</div>
-                  <div className="font-bold text-foreground">339 Referrers with 1+ Conversion (34.5%)</div>
-                </div>
-                <div className="text-2xl text-muted-foreground">↓</div>
-                <div className="p-4 bg-pink-50 dark:bg-pink-950/30 rounded-lg border border-pink-200 dark:border-pink-900">
-                  <div className="text-sm text-muted-foreground">Link Clicks</div>
-                  <div className="font-bold text-foreground">24,044 Total Referral Link Visits</div>
-                </div>
-                <div className="text-2xl text-muted-foreground">↓</div>
-                <div className="p-4 bg-purple-50 dark:bg-purple-950/30 rounded-lg border border-purple-200 dark:border-purple-900">
-                  <div className="text-sm text-muted-foreground">Registrations</div>
-                  <div className="font-bold text-foreground">6,903 Completed Sign-ups (28.7% conv)</div>
-                </div>
-                <div className="text-2xl text-muted-foreground">↓</div>
-                <div className="p-4 bg-emerald-50 dark:bg-emerald-950/30 rounded-lg border border-emerald-200 dark:border-emerald-900">
-                  <div className="text-sm text-muted-foreground">Valid Conversions</div>
-                  <div className="font-bold text-foreground">6,665 After Fraud Checks (96.5% integrity)</div>
+              <p className="text-muted-foreground mb-6 text-center">
+                From 24K clicks to 6.6K valid conversions — 28% conversion rate
+              </p>
+              <ReferralsFunnel />
+              <div className="mt-6 pt-6 border-t border-border">
+                <div className="flex flex-wrap justify-center gap-6 text-sm">
+                  <div className="text-center">
+                    <div className="font-bold text-foreground">82%</div>
+                    <div className="text-muted-foreground">Unique vs Total</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="font-bold text-foreground">28.7%</div>
+                    <div className="text-muted-foreground">Visit → Register</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="font-bold text-foreground">96.5%</div>
+                    <div className="text-muted-foreground">Data Integrity</div>
+                  </div>
                 </div>
               </div>
             </div>
           </ProgressiveReveal>
         </section>
 
+        {/* Divider */}
+        <hr className="border-border my-16" />
+
         {/* Step 1: The Scene */}
-        <section className="mb-16" id="step-1">
+        <section className="mb-20" id="step-1">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
             1. The Scene: A Zoom Room, a Ceiling, and a Ceiling
           </h2>
@@ -240,8 +780,11 @@ export default function HRKatalystReferralPlaybook() {
           </ProgressiveReveal>
         </section>
 
+        {/* Divider */}
+        <hr className="border-border my-16" />
+
         {/* Step 2: The Bet */}
-        <section className="mb-16" id="step-2">
+        <section className="mb-20" id="step-2">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
             2. The Bet: What If Community Was the Channel
           </h2>
@@ -298,8 +841,11 @@ export default function HRKatalystReferralPlaybook() {
           </ProgressiveReveal>
         </section>
 
+        {/* Divider */}
+        <hr className="border-border my-16" />
+
         {/* Step 3: The Numbers */}
-        <section className="mb-16" id="step-3">
+        <section className="mb-20" id="step-3">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
             3. The Numbers Behind the Story
           </h2>
@@ -346,28 +892,24 @@ export default function HRKatalystReferralPlaybook() {
           </ProgressiveReveal>
         </section>
 
-        {/* Power Law Distribution */}
-        <section className="mb-16">
+        {/* Divider */}
+        <hr className="border-border my-16" />
+
+        {/* Power Law Distribution with Podium */}
+        <section className="mb-20" id="power-law">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
             The Power Law: Champions Drive Results
           </h2>
+          
           <ProgressiveReveal>
-            <div className="bg-card border border-border rounded-xl p-8 mb-6">
-              <h3 className="text-lg font-semibold text-foreground text-center mb-6">Conversion Distribution by Referrer Tier</h3>
-              <div className="flex items-center justify-center gap-2 flex-wrap">
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded bg-amber-500"></div>
-                  <span className="text-sm text-foreground">100+ refs: 3,173 (46%)</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded bg-zinc-400"></div>
-                  <span className="text-sm text-foreground">10-99 refs: 909 (13%)</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded bg-orange-500"></div>
-                  <span className="text-sm text-foreground">1-9 refs: 823 (12%)</span>
-                </div>
-              </div>
+            <p className="text-lg text-muted-foreground mb-8 text-center">
+              7 people drove 46% of all conversions. Design for your champions, not your averages.
+            </p>
+          </ProgressiveReveal>
+          
+          <ProgressiveReveal>
+            <div className="bg-card border border-border rounded-xl p-8 mb-8">
+              <PowerLawPodium />
             </div>
           </ProgressiveReveal>
           
@@ -401,8 +943,11 @@ export default function HRKatalystReferralPlaybook() {
           </ProgressiveReveal>
         </section>
 
+        {/* Divider */}
+        <hr className="border-border my-16" />
+
         {/* Step 4: Clean Pipes */}
-        <section className="mb-16" id="step-4">
+        <section className="mb-20" id="step-4">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
             4. Season 0: Cleaning the Pipes Before Pouring Fuel
           </h2>
@@ -436,8 +981,11 @@ export default function HRKatalystReferralPlaybook() {
           </ProgressiveReveal>
         </section>
 
+        {/* Divider */}
+        <hr className="border-border my-16" />
+
         {/* Step 5: Designing the Loop */}
-        <section className="mb-16" id="step-5">
+        <section className="mb-20" id="step-5">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
             5. Designing the Loop, Not Just the Page
           </h2>
@@ -530,8 +1078,11 @@ export default function HRKatalystReferralPlaybook() {
           </div>
         </section>
 
+        {/* Divider */}
+        <hr className="border-border my-16" />
+
         {/* System Architecture Diagram */}
-        <section className="mb-16">
+        <section className="mb-20" id="architecture">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
             System Architecture
           </h2>
@@ -539,25 +1090,36 @@ export default function HRKatalystReferralPlaybook() {
             <div className="bg-card border border-border rounded-xl p-8">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
                 <div className="p-4 bg-amber-50 dark:bg-amber-950/30 rounded-lg border border-amber-200 dark:border-amber-900">
-                  <div className="text-2xl mb-2">🌐</div>
+                  <Globe className="w-8 h-8 mx-auto mb-2 text-amber-600" />
                   <div className="font-bold text-foreground text-sm">External Website</div>
                   <div className="text-xs text-muted-foreground mt-2">Landing Page → Thank You</div>
                 </div>
                 <div className="p-4 bg-purple-50 dark:bg-purple-950/30 rounded-lg border border-purple-200 dark:border-purple-900">
-                  <div className="text-2xl mb-2">💜</div>
+                  <Code className="w-8 h-8 mx-auto mb-2 text-purple-600" />
                   <div className="font-bold text-foreground text-sm">Referral App</div>
                   <div className="text-xs text-muted-foreground mt-2">GetLink • ShareModal • Leaderboard • Admin</div>
                 </div>
                 <div className="p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-900">
-                  <div className="text-2xl mb-2">⚡</div>
+                  <Zap className="w-8 h-8 mx-auto mb-2 text-blue-600" />
                   <div className="font-bold text-foreground text-sm">Edge Functions</div>
                   <div className="text-xs text-muted-foreground mt-2">track-visit • track-conversion • send-email</div>
                 </div>
                 <div className="p-4 bg-green-50 dark:bg-green-950/30 rounded-lg border border-green-200 dark:border-green-900">
-                  <div className="text-2xl mb-2">🗄️</div>
+                  <Database className="w-8 h-8 mx-auto mb-2 text-green-600" />
                   <div className="font-bold text-foreground text-sm">Database</div>
                   <div className="text-xs text-muted-foreground mt-2">referrers • visits • conversions</div>
                 </div>
+              </div>
+              
+              {/* Flow arrows */}
+              <div className="flex justify-center items-center gap-2 mt-6 text-muted-foreground">
+                <span className="text-sm">User visits landing page</span>
+                <ChevronRight className="w-4 h-4" />
+                <span className="text-sm">Edge function logs visit</span>
+                <ChevronRight className="w-4 h-4" />
+                <span className="text-sm">User registers</span>
+                <ChevronRight className="w-4 h-4" />
+                <span className="text-sm">Conversion tracked</span>
               </div>
             </div>
           </ProgressiveReveal>
@@ -571,8 +1133,11 @@ export default function HRKatalystReferralPlaybook() {
           variant="primary"
         />
 
+        {/* Divider */}
+        <hr className="border-border my-16" />
+
         {/* Step 6: Protecting Integrity */}
-        <section className="mb-16" id="step-6">
+        <section className="mb-20" id="step-6">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
             6. Protecting the Integrity of the Campaign
           </h2>
@@ -598,8 +1163,11 @@ export default function HRKatalystReferralPlaybook() {
           </ProgressiveReveal>
         </section>
 
+        {/* Divider */}
+        <hr className="border-border my-16" />
+
         {/* Step 7: The Human Side */}
-        <section className="mb-16" id="step-7">
+        <section className="mb-20" id="step-7">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
             7. The Human Side: Rewards, Stories, and Recognition
           </h2>
@@ -634,8 +1202,11 @@ export default function HRKatalystReferralPlaybook() {
           </ProgressiveReveal>
         </section>
 
+        {/* Divider */}
+        <hr className="border-border my-16" />
+
         {/* Step 8: What Moved the Needle */}
-        <section className="mb-16" id="step-8">
+        <section className="mb-20" id="step-8">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
             8. What Actually Moved the Needle
           </h2>
@@ -671,8 +1242,11 @@ export default function HRKatalystReferralPlaybook() {
           </ProgressiveReveal>
         </section>
 
+        {/* Divider */}
+        <hr className="border-border my-16" />
+
         {/* Step 9: How to Copy This */}
-        <section className="mb-16" id="step-9">
+        <section className="mb-20" id="step-9">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
             9. How to Copy This for Your Own Event
           </h2>
@@ -704,8 +1278,72 @@ export default function HRKatalystReferralPlaybook() {
           </ProgressiveReveal>
         </section>
 
+        {/* Divider */}
+        <hr className="border-border my-16" />
+
+        {/* NEW: How to Build This in Lovable - 7 Phase Guide */}
+        <section className="mb-20" id="build-lovable">
+          <h2 className="text-3xl font-display font-semibold text-foreground mb-4">
+            How to Build This in Lovable
+          </h2>
+          <p className="text-lg text-muted-foreground mb-8">
+            A step-by-step technical guide to build the entire referral system using Lovable's AI-powered development platform.
+          </p>
+
+          <div className="space-y-8">
+            {buildPhases.map((phase) => (
+              <ProgressiveReveal key={phase.phase}>
+                <Card className="p-6 bg-card border-border overflow-hidden">
+                  <div className="flex items-start gap-4 mb-4">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                      <phase.icon className="w-6 h-6 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Badge variant="outline" className="text-xs">Phase {phase.phase}</Badge>
+                        <h3 className="text-xl font-semibold text-foreground">{phase.title}</h3>
+                      </div>
+                      <p className="text-muted-foreground">{phase.description}</p>
+                    </div>
+                  </div>
+
+                  {/* Code Block */}
+                  <div className="mb-4">
+                    <CodeBlock code={phase.code} />
+                  </div>
+
+                  {/* Checklist */}
+                  <div className="bg-muted/30 rounded-lg p-4">
+                    <h4 className="text-sm font-semibold text-foreground mb-3">✅ Phase {phase.phase} Checklist</h4>
+                    <ul className="space-y-2">
+                      {phase.checklist.map((item, idx) => (
+                        <li key={idx} className="flex items-start gap-2 text-sm text-muted-foreground">
+                          <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </Card>
+              </ProgressiveReveal>
+            ))}
+          </div>
+
+          <ProgressiveReveal>
+            <div className="mt-8 bg-primary/10 border border-primary/20 p-6 rounded-xl">
+              <h4 className="font-semibold text-foreground mb-2">💡 Pro Tip: Build in Order</h4>
+              <p className="text-foreground">
+                Follow the phases sequentially. Each phase builds on the previous one. Start with database setup, then tracking, then UI. You can have a working referral system in 1-2 days with Lovable.
+              </p>
+            </div>
+          </ProgressiveReveal>
+        </section>
+
+        {/* Divider */}
+        <hr className="border-border my-16" />
+
         {/* Campaign Timeline */}
-        <section className="mb-16">
+        <section className="mb-20" id="timeline">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
             Campaign Timeline
           </h2>
@@ -742,8 +1380,11 @@ export default function HRKatalystReferralPlaybook() {
           </ProgressiveReveal>
         </section>
 
+        {/* Divider */}
+        <hr className="border-border my-16" />
+
         {/* Step 10: Closing the Loop */}
-        <section className="mb-16" id="step-10">
+        <section className="mb-20" id="step-10">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
             10. Closing the Loop: From 10K to 25K
           </h2>
@@ -796,8 +1437,11 @@ export default function HRKatalystReferralPlaybook() {
           </ProgressiveReveal>
         </section>
 
+        {/* Divider */}
+        <hr className="border-border my-16" />
+
         {/* FAQ */}
-        <section className="mb-16">
+        <section className="mb-20" id="faq">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-8">
             Common Questions
           </h2>
