@@ -23,7 +23,7 @@ const DashboardHome = () => {
   const { currentWorkspace, isWorkspaceLoading, retry } = useWorkspaceContext();
   
   // Use unified dashboard data
-  const { onboarding, isFetching, isFetched, refetch } = useDashboardUnified();
+  const { onboarding, isFetching, isFetched, isLoading, refetch } = useDashboardUnified();
   const hasLinks = onboarding.hasLinks;
 
   // Workspace timeout fallback - show retry after 3 seconds
@@ -81,6 +81,15 @@ const DashboardHome = () => {
     );
   }
 
+  // Show loading state while data is loading (before any content checks)
+  if (isLoading && !isFetched) {
+    return (
+      <div className="p-6 lg:p-8 max-w-5xl mx-auto">
+        <DashboardContentLoader context="dashboard" minHeight="60vh" />
+      </div>
+    );
+  }
+
   // First-run experience for users without links
   if (!hasLinks && !showSuccess) {
     return (
@@ -103,10 +112,10 @@ const DashboardHome = () => {
     );
   }
 
-  // Regular dashboard - render immediately
+  // Regular dashboard - render with fade-in
   return (
     <ErrorBoundary section="dashboard-home">
-      <div className="p-6 lg:p-8 space-y-8 max-w-5xl mx-auto relative">
+      <div className="p-6 lg:p-8 space-y-8 max-w-5xl mx-auto relative animate-fade-in">
         {/* Subtle loading indicator for background refresh */}
         {isFetching && (
           <div className="absolute top-2 right-2 z-10">
