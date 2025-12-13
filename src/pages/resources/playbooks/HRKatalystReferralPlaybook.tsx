@@ -4,26 +4,29 @@ import { ActionChecklist } from "@/components/resources/ActionChecklist";
 import { CaseStudyCard } from "@/components/resources/CaseStudyCard";
 import { CTABanner } from "@/components/resources/CTABanner";
 import { FAQAccordion } from "@/components/resources/FAQAccordion";
-import { ProgressiveReveal } from "@/components/landing/ProgressiveReveal";
 import { SEO } from "@/components/seo/SEO";
 import { ArticleSchema, FAQSchema, BreadcrumbSchema, HowToSchema } from "@/components/seo/SchemaMarkup";
 import { SpeakableSchema } from "@/components/seo/SpeakableSchema";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Users, MousePointerClick, Target, ShieldCheck, TrendingUp, Award } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Users, MousePointerClick, Target, ShieldCheck, TrendingUp, Award, BookOpen, Code2, Rocket } from "lucide-react";
+
+// New Apple-style components
+import { AppleReveal, StaggeredReveal, StaggeredItem } from "@/components/playbook/AppleReveal";
+import { PlaybookHero } from "@/components/playbook/PlaybookHero";
+import { FunnelVisualization } from "@/components/playbook/FunnelVisualization";
+import { PowerLawPodium } from "@/components/playbook/PowerLawPodium";
+import { ROICalculator } from "@/components/playbook/ROICalculator";
+import { LeaderboardDemo } from "@/components/playbook/LeaderboardDemo";
+import { PhaseTimeline } from "@/components/playbook/PhaseTimeline";
+import { CodeBlock } from "@/components/playbook/CodeBlock";
 
 export default function HRKatalystReferralPlaybook() {
   const steps = [
-    { number: 1, title: "The Scene" },
-    { number: 2, title: "The Bet" },
-    { number: 3, title: "The Numbers" },
-    { number: 4, title: "Clean Pipes" },
-    { number: 5, title: "Design Loop" },
-    { number: 6, title: "Integrity" },
-    { number: 7, title: "Human Side" },
-    { number: 8, title: "What Worked" },
-    { number: 9, title: "Copy This" },
-    { number: 10, title: "Close Loop" },
+    { number: 1, title: "The Story" },
+    { number: 2, title: "Campaign Playbook" },
+    { number: 3, title: "Build in Lovable" },
   ];
 
   const preEventChecklist = [
@@ -92,14 +95,200 @@ export default function HRKatalystReferralPlaybook() {
     { name: "Communicate Like Human", text: "Make emails feel personal: 'you brought 7 HR peers into a better conversation' not 'you earned 70 points'" },
   ];
 
-  const metrics = [
-    { icon: MousePointerClick, label: "Total Clicks", value: "24,044", color: "text-blue-500" },
-    { icon: Users, label: "Unique Sessions", value: "19,689", color: "text-purple-500" },
-    { icon: Target, label: "Conversions", value: "6,903", color: "text-green-500" },
-    { icon: TrendingUp, label: "Conversion Rate", value: "28%", color: "text-amber-500" },
-    { icon: Award, label: "Active Referrers", value: "982", color: "text-pink-500" },
-    { icon: ShieldCheck, label: "Integrity Rate", value: "96.6%", color: "text-cyan-500" },
+  // Campaign Playbook phases (Gustaf style)
+  const campaignPhases = [
+    {
+      id: "phase-0",
+      title: "Phase 0: Define Success & Constraints",
+      icon: "🎯",
+      color: "blue",
+      steps: [
+        { id: "0-1", title: "Pick your north star", description: "Decide what 'win' means: X registrations, Y% conversion, Z% integrity rate" },
+        { id: "0-2", title: "Choose who can be referrers", description: "Existing attendees, customers, partners, employees? Tag each pool for performance tracking" },
+      ]
+    },
+    {
+      id: "phase-1",
+      title: "Phase 1: Design the Referral Loop",
+      icon: "🔄",
+      color: "purple",
+      steps: [
+        { id: "1-1", title: "Define the trigger", description: "When to ask: immediately after registration, email follow-up, during/after sessions" },
+        { id: "1-2", title: "Define the action", description: "Get unique link and share with friends. One form: name + email + optional phone" },
+        { id: "1-3", title: "Define the reward", description: "Status (leaderboard), Tangible (gadgets for top 3, merch for 10+), Access (early access to next event)" },
+        { id: "1-4", title: "Design the investment", description: "Name (public sharing), Reputation (vouching), Time (watching leaderboard)" },
+      ]
+    },
+    {
+      id: "phase-2",
+      title: "Phase 2: Build Comms & Assets",
+      icon: "📝",
+      color: "green",
+      steps: [
+        { id: "2-1", title: "Create referrer landing", description: "Headline: 'become a Katalyst insider', form for name/email/phone, instant referral link generation" },
+        { id: "2-2", title: "Create event landing", description: "Clear promise, for whom, what they get, date + time, single CTA. Target 25-30% conversion" },
+        { id: "2-3", title: "Create thank you page", description: "Confirm registration, invite to become referrer, add-to-calendar buttons" },
+      ]
+    },
+    {
+      id: "phase-3",
+      title: "Phase 3: Leaderboards, Rewards, Fraud",
+      icon: "🛡️",
+      color: "amber",
+      steps: [
+        { id: "3-1", title: "Decide leaderboard rules", description: "Start/end dates, what counts as valid, how ties are broken" },
+        { id: "3-2", title: "Agree fraud rules", description: "Disposable domains blocked, fake names blocked, IP rate limiting, suspicious patterns flagged" },
+        { id: "3-3", title: "Define winner timeline", description: "Leaderboard lock date, winner email date, prize shipping SLA" },
+      ]
+    },
+    {
+      id: "phase-4",
+      title: "Phase 4: Launch, Run, Close",
+      icon: "🚀",
+      color: "pink",
+      steps: [
+        { id: "4-1", title: "Launch to warm base", description: "Email past attendees, customers, employees. All traffic → referrer landing" },
+        { id: "4-2", title: "Run weekly rhythms", description: "Weekly stats, leaderboard updates on LinkedIn, recognition mails to top 50" },
+        { id: "4-3", title: "Final 72-hour sprint", description: "Announce cut-off time, 'last chance' email, shoutouts to top 10" },
+        { id: "4-4", title: "Close & celebrate", description: "Freeze leaderboard, email winners, feature top referrers as case studies" },
+      ]
+    },
   ];
+
+  // Lovable Build phases
+  const lovablePhases = [
+    {
+      id: "lovable-1",
+      title: "Phase 1: Project + Database Setup",
+      icon: "🗄️",
+      color: "blue",
+      steps: [
+        { id: "l1-1", title: "Create Lovable project", description: "New Lovable app with React + Supabase starter template" },
+        { id: "l1-2", title: "Create core tables", description: "referrers, referral_visits, referral_conversions tables in Supabase" },
+        { id: "l1-3", title: "Set Row Level Security", description: "Public can SELECT limited fields, service role can insert/update" },
+      ]
+    },
+    {
+      id: "lovable-2",
+      title: "Phase 2: Referral Code + Onboarding",
+      icon: "🔗",
+      color: "purple",
+      steps: [
+        { id: "l2-1", title: "Add generateRefCode util", description: "Normalize to uppercase, strip special characters, ensure uniqueness" },
+        { id: "l2-2", title: "Build /get-link page", description: "Form: name, email, phone. Check if referrer exists, generate new code if not" },
+        { id: "l2-3", title: "Build ShareModal component", description: "Show referral URL, copy button, share buttons for WhatsApp, LinkedIn, Twitter, Email" },
+      ]
+    },
+    {
+      id: "lovable-3",
+      title: "Phase 3: Tracking Visits & Conversions",
+      icon: "📊",
+      color: "green",
+      steps: [
+        { id: "l3-1", title: "Add track-visit edge function", description: "Validate origin, validate ref_code, rate limit per IP, insert into referral_visits" },
+        { id: "l3-2", title: "Add track-conversion edge function", description: "Validate campaign end date, block disposables, insert into referral_conversions" },
+        { id: "l3-3", title: "Integrate with event website", description: "Read ref from URL, store in cookie, fire POST on visit and conversion" },
+      ]
+    },
+    {
+      id: "lovable-4",
+      title: "Phase 4: Leaderboard + Dashboard",
+      icon: "🏆",
+      color: "amber",
+      steps: [
+        { id: "l4-1", title: "Create get_leaderboard_data SQL", description: "Filter is_valid = true, add bonus_points, order by total_points" },
+        { id: "l4-2", title: "Build /leaderboard page", description: "Call RPC, display table with rank, name, email, registrations, points" },
+        { id: "l4-3", title: "Build admin dashboard", description: "Secure via user_roles, show key stats, top referrers, fraud flags" },
+      ]
+    },
+    {
+      id: "lovable-5",
+      title: "Phase 5: Gamification + Bonus",
+      icon: "⭐",
+      color: "pink",
+      steps: [
+        { id: "l5-1", title: "LinkedIn bonus submissions", description: "Form to submit LinkedIn post URL, admin approves for +15 bonus points" },
+        { id: "l5-2", title: "Compute total points", description: "total_points = valid_conversions + bonus_points" },
+      ]
+    },
+    {
+      id: "lovable-6",
+      title: "Phase 6: Email Automation",
+      icon: "📧",
+      color: "cyan",
+      steps: [
+        { id: "l6-1", title: "Connect Resend", description: "Set RESEND_API_KEY, implement send-referrer-campaign edge function" },
+        { id: "l6-2", title: "Add webhook handler", description: "Update opened_at, clicked_at in email_campaigns table" },
+      ]
+    },
+    {
+      id: "lovable-7",
+      title: "Phase 7: Reward Claims",
+      icon: "🎁",
+      color: "orange",
+      steps: [
+        { id: "l7-1", title: "Use reward_claims table", description: "Insert rows for winners with rank and prize type on campaign close" },
+        { id: "l7-2", title: "Build /claim-reward page", description: "Verify winner, multi-step form for shipping details, update status to claimed" },
+      ]
+    },
+  ];
+
+  const generateRefCodeSnippet = `// src/lib/generateRefCode.ts
+export function generateRefCode(name: string): string {
+  const initials = name
+    .split(' ')
+    .map(word => word[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 3);
+  
+  const random = Math.random()
+    .toString(36)
+    .substring(2, 6)
+    .toUpperCase();
+  
+  return \`\${initials}_\${random}\`;
+}`;
+
+  const trackVisitSnippet = `// supabase/functions/track-visit/index.ts
+import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
+import { createClient } from '@supabase/supabase-js'
+
+serve(async (req) => {
+  const { ref_code, session_id, page, user_agent } = await req.json()
+  
+  // Validate ref_code format
+  if (!/^[A-Z]{2,3}_[A-Z0-9]{4}$/.test(ref_code)) {
+    return new Response('Invalid ref code', { status: 400 })
+  }
+  
+  const supabase = createClient(
+    Deno.env.get('SUPABASE_URL')!,
+    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+  )
+  
+  // Check referrer exists
+  const { data: referrer } = await supabase
+    .from('referrers')
+    .select('id')
+    .eq('ref_code', ref_code)
+    .single()
+  
+  if (!referrer) {
+    return new Response('Referrer not found', { status: 404 })
+  }
+  
+  // Insert visit
+  await supabase.from('referral_visits').insert({
+    ref_code,
+    session_id,
+    page,
+    user_agent,
+    ip_address: req.headers.get('x-forwarded-for')
+  })
+  
+  return new Response('OK', { status: 200 })
+})`;
 
   return (
     <>
@@ -128,8 +317,8 @@ export default function HRKatalystReferralPlaybook() {
       <SpeakableSchema headline="HR Katalyst Referral Playbook" summary="Community-led growth from 10K to 25K" cssSelectors={['.speakable-content']} />
       
       <GuideLayout
-        title="The HR Katalyst Referral Playbook"
-        subtitle="How we went from 10K to 25K registrations in 5 seasons"
+        title=""
+        subtitle=""
         readTime="25 min read"
         lastUpdated="December 2025"
         breadcrumbs={breadcrumbs}
@@ -139,678 +328,377 @@ export default function HRKatalystReferralPlaybook() {
           { title: "Naming Convention Playbook", href: "/resources/playbooks/naming-convention-playbook", description: "Taxonomy design" },
         ]}
       >
-        {/* Summary */}
-        <ProgressiveReveal>
-          <p className="text-xl text-foreground leading-relaxed mb-8 speakable-content">
-            This is the behind-the-scenes story of how a nerdy HR conference turned into a 25K person movement. Real numbers, real architecture, and a step-by-step guide you can copy.
-          </p>
-        </ProgressiveReveal>
+        {/* Hero Section */}
+        <PlaybookHero />
 
-        {/* Step Tracker */}
-        <PlaybookSteps steps={steps} currentStep={1} className="mb-16" />
-
-        {/* Metrics Dashboard */}
+        {/* Tabs for 3 parts */}
         <section className="mb-16">
-          <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
-            Campaign Results at a Glance
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {metrics.map((metric) => (
-              <Card key={metric.label} className="p-4 text-center bg-card border-border">
-                <metric.icon className={`w-6 h-6 mx-auto mb-2 ${metric.color}`} />
-                <div className="text-2xl font-bold text-foreground">{metric.value}</div>
-                <div className="text-xs text-muted-foreground">{metric.label}</div>
-              </Card>
-            ))}
-          </div>
+          <AppleReveal>
+            <Tabs defaultValue="story" className="w-full">
+              <TabsList className="grid w-full grid-cols-3 mb-8">
+                <TabsTrigger value="story" className="flex items-center gap-2">
+                  <BookOpen className="w-4 h-4" />
+                  <span className="hidden md:inline">The Story</span>
+                </TabsTrigger>
+                <TabsTrigger value="campaign" className="flex items-center gap-2">
+                  <Rocket className="w-4 h-4" />
+                  <span className="hidden md:inline">Campaign Playbook</span>
+                </TabsTrigger>
+                <TabsTrigger value="build" className="flex items-center gap-2">
+                  <Code2 className="w-4 h-4" />
+                  <span className="hidden md:inline">Build in Lovable</span>
+                </TabsTrigger>
+              </TabsList>
+
+              {/* Part 1: The Story */}
+              <TabsContent value="story" className="space-y-16">
+                {/* Summary */}
+                <AppleReveal>
+                  <p className="text-xl text-foreground leading-relaxed speakable-content">
+                    This is the behind-the-scenes story of how a nerdy HR conference turned into a 25K person movement. Real numbers, real architecture, and a step-by-step guide you can copy.
+                  </p>
+                </AppleReveal>
+
+                {/* The Visual Funnel */}
+                <section>
+                  <AppleReveal>
+                    <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
+                      The Referral Funnel
+                    </h2>
+                  </AppleReveal>
+                  <FunnelVisualization />
+                </section>
+
+                {/* Power Law Podium */}
+                <section>
+                  <AppleReveal>
+                    <h2 className="text-3xl font-display font-semibold text-foreground mb-4">
+                      The Power Law: Champions Drive Results
+                    </h2>
+                    <p className="text-lg text-muted-foreground mb-8">
+                      7 people (0.7%) drove 46% of all conversions. Design for your champions.
+                    </p>
+                  </AppleReveal>
+                  <PowerLawPodium />
+                </section>
+
+                {/* Interactive Widgets Row */}
+                <section>
+                  <AppleReveal>
+                    <h2 className="text-3xl font-display font-semibold text-foreground mb-8">
+                      Interactive Tools
+                    </h2>
+                  </AppleReveal>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <ROICalculator />
+                    <LeaderboardDemo />
+                  </div>
+                </section>
+
+                {/* The Scene */}
+                <section id="step-1">
+                  <AppleReveal>
+                    <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
+                      The Scene: A Zoom Room and a Ceiling
+                    </h2>
+                  </AppleReveal>
+                  
+                  <AppleReveal delay={0.1}>
+                    <p className="text-lg text-foreground leading-relaxed mb-6">
+                      Five seasons back, HR Katalyst was already "successful": ~10,000 registrations, packed chat window, decent social buzz. From the outside it looked big. From the inside it felt… capped.
+                    </p>
+                  </AppleReveal>
+
+                  <AppleReveal delay={0.2}>
+                    <p className="text-lg text-foreground leading-relaxed mb-6">
+                      Every season the graphs looked the same: organic list + partners gave a spike, paid ads did their job, then registrations flattened out long before we ran out of time or content. We were working harder, adding more speakers, more formats, more creative, yet the curves stayed similar.
+                    </p>
+                  </AppleReveal>
+
+                  <AppleReveal delay={0.3}>
+                    <div className="bg-muted/30 border-l-4 border-primary p-6 rounded-r-lg mb-6">
+                      <p className="text-lg text-foreground italic">
+                        At some point the question shifted from "how do we get more registrations" to "what is the <strong>system</strong> that will let HR Katalyst grow every year without killing the team?"
+                      </p>
+                    </div>
+                  </AppleReveal>
+                </section>
+
+                {/* The Bet */}
+                <section id="step-2">
+                  <AppleReveal>
+                    <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
+                      The Bet: Community as the Channel
+                    </h2>
+                  </AppleReveal>
+
+                  <AppleReveal delay={0.1}>
+                    <p className="text-lg text-foreground leading-relaxed mb-6">
+                      We were already sitting on a community-led growth engine, we just had not built the rails. The bet for season 5 was simple:
+                    </p>
+                  </AppleReveal>
+
+                  <AppleReveal delay={0.2}>
+                    <div className="bg-primary/10 border border-primary/20 p-6 rounded-xl mb-6">
+                      <p className="text-xl text-foreground font-semibold text-center">
+                        Treat referrals as the <strong>primary</strong> growth channel, not a side campaign.
+                      </p>
+                    </div>
+                  </AppleReveal>
+
+                  <StaggeredReveal className="space-y-4">
+                    {[
+                      { title: "No spammy growth hacks", desc: "This had to feel like a gift, not a pyramid scheme." },
+                      { title: "Trust in the data", desc: "Clean tracking with clear syntax, naming rules, and governance." },
+                      { title: "Design it like a product", desc: "Sign up, referral link, leaderboard, fraud checks, rewards—everything working together." },
+                    ].map((item) => (
+                      <StaggeredItem key={item.title}>
+                        <Card className="p-4 bg-card border-border">
+                          <h3 className="font-semibold text-foreground mb-2">{item.title}</h3>
+                          <p className="text-muted-foreground">{item.desc}</p>
+                        </Card>
+                      </StaggeredItem>
+                    ))}
+                  </StaggeredReveal>
+                </section>
+
+                {/* Clean Pipes */}
+                <section id="step-4">
+                  <AppleReveal>
+                    <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
+                      Cleaning the Pipes Before Pouring Fuel
+                    </h2>
+                  </AppleReveal>
+
+                  <AppleReveal delay={0.1}>
+                    <p className="text-lg text-foreground leading-relaxed mb-6">
+                      A lot of referral campaigns fail not because the idea is bad, but because the tracking is chaos. Before we designed the referral loop, we did something very boring and very important:
+                    </p>
+                  </AppleReveal>
+
+                  <AppleReveal delay={0.2}>
+                    <ul className="list-disc list-inside text-lg text-foreground space-y-2 mb-6">
+                      <li>Aligned UTMs, naming, and campaign structure</li>
+                      <li>Agreed on standard values for source, medium, campaign, content</li>
+                      <li>Wired the referral product into the same analytics stack</li>
+                    </ul>
+                  </AppleReveal>
+
+                  <AppleReveal delay={0.3}>
+                    <div className="bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-900 p-6 rounded-xl">
+                      <p className="text-lg text-foreground">
+                        <strong>Pro tip:</strong> When the numbers started coming in, there was no "why does HubSpot say 18K and GA say 12K" fight. The data was boringly consistent.
+                      </p>
+                    </div>
+                  </AppleReveal>
+                </section>
+
+                {/* Protecting Integrity */}
+                <section id="step-6">
+                  <AppleReveal>
+                    <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
+                      Protecting Campaign Integrity
+                    </h2>
+                  </AppleReveal>
+
+                  <AppleReveal delay={0.1}>
+                    <p className="text-lg text-foreground leading-relaxed mb-6">
+                      The dark side of referral campaigns is obvious: fake emails, bots, throwaway domains. We did not want 25,000 "registrations" and 3,000 people showing up.
+                    </p>
+                  </AppleReveal>
+
+                  <ActionChecklist
+                    items={fraudProtectionChecklist}
+                    storageKey="hr-katalyst-fraud-protection"
+                    title="Fraud Protection Checklist"
+                  />
+                </section>
+
+                {/* Before/After */}
+                <CaseStudyCard
+                  title="The Transformation"
+                  before={{
+                    title: "Before: Manual Growth",
+                    items: [
+                      "More effort, same shape curve",
+                      "No systematic referral tracking",
+                      "Relying on paid ads + organic list",
+                    ],
+                    metrics: "10K registrations • Same growth curve every season"
+                  }}
+                  after={{
+                    title: "After: Community-Led Engine",
+                    items: [
+                      "982 active referrers driving growth",
+                      "28% conversion rate on referral landing page",
+                      "96.6% data integrity rate",
+                    ],
+                    metrics: "25K registrations • 2.5x growth • 150% increase"
+                  }}
+                  highlightMetric="+150% registration growth from community-led referrals"
+                />
+
+                {/* FAQ */}
+                <FAQAccordion items={faqItems} />
+              </TabsContent>
+
+              {/* Part 2: Campaign Playbook (Gustaf Style) */}
+              <TabsContent value="campaign" className="space-y-12">
+                <AppleReveal>
+                  <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-4">
+                      Referral Campaign Playbook
+                    </h2>
+                    <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                      A Gustaf-inspired, step-by-step guide you can hand to your marketing team. Non-technical, repeat every season.
+                    </p>
+                  </div>
+                </AppleReveal>
+
+                <PhaseTimeline phases={campaignPhases} />
+
+                {/* Pre-Event Checklist */}
+                <AppleReveal>
+                  <ActionChecklist
+                    items={preEventChecklist}
+                    storageKey="hr-katalyst-pre-event"
+                    title="Pre-Event Setup Checklist"
+                  />
+                </AppleReveal>
+
+                {/* Rewards Checklist */}
+                <AppleReveal>
+                  <ActionChecklist
+                    items={rewardsChecklist}
+                    storageKey="hr-katalyst-rewards"
+                    title="Rewards & Recognition Checklist"
+                  />
+                </AppleReveal>
+
+                {/* Key Insight */}
+                <AppleReveal>
+                  <div className="bg-primary/5 border border-primary/20 rounded-2xl p-8 text-center">
+                    <p className="text-xl text-foreground font-medium mb-4">
+                      "No one wakes up wanting points in someone else's CRM."
+                    </p>
+                    <p className="text-muted-foreground">
+                      People want to feel <strong>seen</strong>, <strong>useful</strong>, and <strong>part of something bigger</strong>. Design your rewards around emotions, not transactions.
+                    </p>
+                  </div>
+                </AppleReveal>
+              </TabsContent>
+
+              {/* Part 3: Build in Lovable */}
+              <TabsContent value="build" className="space-y-12">
+                <AppleReveal>
+                  <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-4">
+                      Build in Lovable
+                    </h2>
+                    <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                      Step-by-step technical guide. Hand this to your product team or build it yourself in a weekend.
+                    </p>
+                  </div>
+                </AppleReveal>
+
+                <PhaseTimeline phases={lovablePhases} />
+
+                {/* Code Examples */}
+                <section>
+                  <AppleReveal>
+                    <h3 className="text-2xl font-display font-semibold text-foreground mb-6">
+                      Code Examples
+                    </h3>
+                  </AppleReveal>
+
+                  <div className="space-y-6">
+                    <AppleReveal delay={0.1}>
+                      <div>
+                        <h4 className="text-lg font-medium text-foreground mb-3">Generate Referral Code</h4>
+                        <CodeBlock code={generateRefCodeSnippet} filename="src/lib/generateRefCode.ts" />
+                      </div>
+                    </AppleReveal>
+
+                    <AppleReveal delay={0.2}>
+                      <div>
+                        <h4 className="text-lg font-medium text-foreground mb-3">Track Visit Edge Function</h4>
+                        <CodeBlock code={trackVisitSnippet} filename="supabase/functions/track-visit/index.ts" />
+                      </div>
+                    </AppleReveal>
+                  </div>
+                </section>
+
+                {/* Database Schema */}
+                <AppleReveal>
+                  <Card className="p-6 bg-card border-border">
+                    <h3 className="text-xl font-semibold text-foreground mb-4">Database Schema</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="p-4 bg-muted/30 rounded-lg">
+                        <h4 className="font-mono text-sm font-bold text-foreground mb-2">referrers</h4>
+                        <ul className="text-sm text-muted-foreground space-y-1">
+                          <li>• id (uuid)</li>
+                          <li>• name, email, phone</li>
+                          <li>• ref_code (unique)</li>
+                          <li>• utm_source, utm_medium</li>
+                          <li>• created_at</li>
+                        </ul>
+                      </div>
+                      <div className="p-4 bg-muted/30 rounded-lg">
+                        <h4 className="font-mono text-sm font-bold text-foreground mb-2">referral_visits</h4>
+                        <ul className="text-sm text-muted-foreground space-y-1">
+                          <li>• id (uuid)</li>
+                          <li>• ref_code (fk)</li>
+                          <li>• session_id</li>
+                          <li>• page, user_agent</li>
+                          <li>• ip_address, visited_at</li>
+                        </ul>
+                      </div>
+                      <div className="p-4 bg-muted/30 rounded-lg">
+                        <h4 className="font-mono text-sm font-bold text-foreground mb-2">referral_conversions</h4>
+                        <ul className="text-sm text-muted-foreground space-y-1">
+                          <li>• id (uuid)</li>
+                          <li>• ref_code (fk)</li>
+                          <li>• email (converted user)</li>
+                          <li>• is_valid (boolean)</li>
+                          <li>• converted_at</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </Card>
+                </AppleReveal>
+
+                {/* Lovable CTA */}
+                <AppleReveal>
+                  <div className="bg-gradient-to-r from-primary/10 to-purple-500/10 border border-primary/20 rounded-2xl p-8 text-center">
+                    <h3 className="text-2xl font-display font-bold text-foreground mb-3">
+                      Ready to Build?
+                    </h3>
+                    <p className="text-muted-foreground mb-6">
+                      Start building your referral system in Lovable. Full-stack, AI-powered, and ready in hours not weeks.
+                    </p>
+                    <a
+                      href="https://lovable.dev"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity font-medium"
+                    >
+                      Open Lovable
+                      <Rocket className="w-4 h-4" />
+                    </a>
+                  </div>
+                </AppleReveal>
+              </TabsContent>
+            </Tabs>
+          </AppleReveal>
         </section>
 
-        {/* Referrals Funnel Diagram */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
-            The Referrals Funnel
-          </h2>
-          <ProgressiveReveal>
-            <div className="bg-card border border-border rounded-xl p-8">
-              <div className="text-center space-y-4">
-                <div className="p-4 bg-green-50 dark:bg-green-950/30 rounded-lg border border-green-200 dark:border-green-900">
-                  <div className="text-sm text-muted-foreground">Entry Point</div>
-                  <div className="font-bold text-foreground">~5,000 Landing Page Visitors</div>
-                </div>
-                <div className="text-2xl text-muted-foreground">↓</div>
-                <div className="p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-900">
-                  <div className="text-sm text-muted-foreground">Take Rate</div>
-                  <div className="font-bold text-foreground">982 Signed Up as Referrers (19.6%)</div>
-                </div>
-                <div className="text-2xl text-muted-foreground">↓</div>
-                <div className="p-4 bg-amber-50 dark:bg-amber-950/30 rounded-lg border border-amber-200 dark:border-amber-900">
-                  <div className="text-sm text-muted-foreground">Active Sharers</div>
-                  <div className="font-bold text-foreground">339 Referrers with 1+ Conversion (34.5%)</div>
-                </div>
-                <div className="text-2xl text-muted-foreground">↓</div>
-                <div className="p-4 bg-pink-50 dark:bg-pink-950/30 rounded-lg border border-pink-200 dark:border-pink-900">
-                  <div className="text-sm text-muted-foreground">Link Clicks</div>
-                  <div className="font-bold text-foreground">24,044 Total Referral Link Visits</div>
-                </div>
-                <div className="text-2xl text-muted-foreground">↓</div>
-                <div className="p-4 bg-purple-50 dark:bg-purple-950/30 rounded-lg border border-purple-200 dark:border-purple-900">
-                  <div className="text-sm text-muted-foreground">Registrations</div>
-                  <div className="font-bold text-foreground">6,903 Completed Sign-ups (28.7% conv)</div>
-                </div>
-                <div className="text-2xl text-muted-foreground">↓</div>
-                <div className="p-4 bg-emerald-50 dark:bg-emerald-950/30 rounded-lg border border-emerald-200 dark:border-emerald-900">
-                  <div className="text-sm text-muted-foreground">Valid Conversions</div>
-                  <div className="font-bold text-foreground">6,665 After Fraud Checks (96.5% integrity)</div>
-                </div>
-              </div>
-            </div>
-          </ProgressiveReveal>
-        </section>
-
-        {/* Step 1: The Scene */}
-        <section className="mb-16" id="step-1">
-          <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
-            1. The Scene: A Zoom Room, a Ceiling, and a Ceiling
-          </h2>
-          
-          <ProgressiveReveal>
-            <p className="text-lg text-foreground leading-relaxed mb-6">
-              Five seasons back, HR Katalyst was already "successful": ~10,000 registrations, packed chat window, decent social buzz. From the outside it looked big. From the inside it felt… capped.
-            </p>
-          </ProgressiveReveal>
-
-          <ProgressiveReveal>
-            <p className="text-lg text-foreground leading-relaxed mb-6">
-              Every season the graphs looked the same: organic list + partners gave a spike, paid ads did their job, then registrations flattened out long before we ran out of time or content. We were working harder, adding more speakers, more formats, more creative, yet the curves stayed similar. More effort, same shape.
-            </p>
-          </ProgressiveReveal>
-
-          <ProgressiveReveal>
-            <div className="bg-muted/30 border-l-4 border-primary p-6 rounded-r-lg mb-6">
-              <p className="text-lg text-foreground italic">
-                At some point the question shifted from "how do we get more registrations" to "what is the <strong>system</strong> that will let HR Katalyst grow every year without killing the team?"
-              </p>
-            </div>
-          </ProgressiveReveal>
-
-          <ProgressiveReveal>
-            <p className="text-lg text-foreground leading-relaxed">
-              That question is how this playbook was born.
-            </p>
-          </ProgressiveReveal>
-        </section>
-
-        {/* Step 2: The Bet */}
-        <section className="mb-16" id="step-2">
-          <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
-            2. The Bet: What If Community Was the Channel
-          </h2>
-
-          <ProgressiveReveal>
-            <p className="text-lg text-foreground leading-relaxed mb-6">
-              Before this season, HR Katalyst had a few obvious truths:
-            </p>
-          </ProgressiveReveal>
-
-          <ProgressiveReveal>
-            <ul className="list-disc list-inside text-lg text-foreground space-y-2 mb-6">
-              <li>People who attended once, loved it</li>
-              <li>They told friends anyway, even with zero incentives</li>
-              <li>Every season, our strongest registrations came from "my friend forwarded this"</li>
-            </ul>
-          </ProgressiveReveal>
-
-          <ProgressiveReveal>
-            <p className="text-lg text-foreground leading-relaxed mb-6">
-              We were already sitting on a community-led growth engine, we just had not built the rails. So the bet for season 5 was simple:
-            </p>
-          </ProgressiveReveal>
-
-          <ProgressiveReveal>
-            <div className="bg-primary/10 border border-primary/20 p-6 rounded-xl mb-6">
-              <p className="text-xl text-foreground font-semibold text-center">
-                Treat referrals as the <strong>primary</strong> growth channel, not a side campaign.
-              </p>
-            </div>
-          </ProgressiveReveal>
-
-          <ProgressiveReveal>
-            <p className="text-lg text-foreground leading-relaxed mb-4">
-              And to make that work, we made three non-negotiable rules:
-            </p>
-          </ProgressiveReveal>
-
-          <ProgressiveReveal>
-            <div className="space-y-4">
-              <Card className="p-4 bg-card border-border">
-                <h3 className="font-semibold text-foreground mb-2">1. No spammy growth hacks</h3>
-                <p className="text-muted-foreground">This had to feel like a gift, not a pyramid scheme.</p>
-              </Card>
-              <Card className="p-4 bg-card border-border">
-                <h3 className="font-semibold text-foreground mb-2">2. Trust in the data</h3>
-                <p className="text-muted-foreground">If we could not track it cleanly, we would not scale it. We used the same clean tracking discipline that powers our campaigns, with a clear syntax, naming rules, governance, and reporting layers.</p>
-              </Card>
-              <Card className="p-4 bg-card border-border">
-                <h3 className="font-semibold text-foreground mb-2">3. Design it like a product, not a one-time landing page</h3>
-                <p className="text-muted-foreground">Sign up, referral link, leaderboard, fraud checks, rewards, emails, ops—everything had to work together.</p>
-              </Card>
-            </div>
-          </ProgressiveReveal>
-        </section>
-
-        {/* Step 3: The Numbers */}
-        <section className="mb-16" id="step-3">
-          <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
-            3. The Numbers Behind the Story
-          </h2>
-
-          <ProgressiveReveal>
-            <p className="text-lg text-foreground leading-relaxed mb-6">
-              Over 4 intense weeks this is what actually happened:
-            </p>
-          </ProgressiveReveal>
-
-          <ProgressiveReveal>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              <Card className="p-6 bg-card border-border">
-                <div className="text-3xl font-bold text-foreground">24,044</div>
-                <div className="text-muted-foreground">total link clicks</div>
-              </Card>
-              <Card className="p-6 bg-card border-border">
-                <div className="text-3xl font-bold text-foreground">19,689</div>
-                <div className="text-muted-foreground">unique sessions</div>
-              </Card>
-              <Card className="p-6 bg-card border-border">
-                <div className="text-3xl font-bold text-foreground">6,903</div>
-                <div className="text-muted-foreground">total conversions</div>
-              </Card>
-              <Card className="p-6 bg-card border-border">
-                <div className="text-3xl font-bold text-foreground">≈28%</div>
-                <div className="text-muted-foreground">visit to registration conversion</div>
-              </Card>
-              <Card className="p-6 bg-card border-border">
-                <div className="text-3xl font-bold text-foreground">982</div>
-                <div className="text-muted-foreground">people signed up as referrers</div>
-              </Card>
-              <Card className="p-6 bg-card border-border">
-                <div className="text-3xl font-bold text-foreground">238</div>
-                <div className="text-muted-foreground">fraudulent submissions blocked</div>
-              </Card>
-            </div>
-          </ProgressiveReveal>
-
-          <ProgressiveReveal>
-            <p className="text-lg text-foreground leading-relaxed">
-              These are not "marketing projected" numbers. These came out of a proper tracking setup where every referral click, visit and registration was written into a database and rolled up into a live dashboard.
-            </p>
-          </ProgressiveReveal>
-        </section>
-
-        {/* Power Law Distribution */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
-            The Power Law: Champions Drive Results
-          </h2>
-          <ProgressiveReveal>
-            <div className="bg-card border border-border rounded-xl p-8 mb-6">
-              <h3 className="text-lg font-semibold text-foreground text-center mb-6">Conversion Distribution by Referrer Tier</h3>
-              <div className="flex items-center justify-center gap-2 flex-wrap">
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded bg-amber-500"></div>
-                  <span className="text-sm text-foreground">100+ refs: 3,173 (46%)</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded bg-zinc-400"></div>
-                  <span className="text-sm text-foreground">10-99 refs: 909 (13%)</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded bg-orange-500"></div>
-                  <span className="text-sm text-foreground">1-9 refs: 823 (12%)</span>
-                </div>
-              </div>
-            </div>
-          </ProgressiveReveal>
-          
-          <ProgressiveReveal>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <Card className="p-4 bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900">
-                <Badge className="bg-amber-500 text-white mb-2">Champions</Badge>
-                <div className="text-2xl font-bold text-foreground">7</div>
-                <div className="text-xs text-muted-foreground">100+ referrals each</div>
-                <div className="text-sm font-semibold text-amber-600 dark:text-amber-400">46% of conversions</div>
-              </Card>
-              <Card className="p-4 bg-zinc-50 dark:bg-zinc-900/30 border-zinc-200 dark:border-zinc-800">
-                <Badge className="bg-zinc-500 text-white mb-2">High Performers</Badge>
-                <div className="text-2xl font-bold text-foreground">28</div>
-                <div className="text-xs text-muted-foreground">10-99 referrals each</div>
-                <div className="text-sm font-semibold text-zinc-600 dark:text-zinc-400">13% of conversions</div>
-              </Card>
-              <Card className="p-4 bg-orange-50 dark:bg-orange-950/30 border-orange-200 dark:border-orange-900">
-                <Badge className="bg-orange-600 text-white mb-2">Contributors</Badge>
-                <div className="text-2xl font-bold text-foreground">304</div>
-                <div className="text-xs text-muted-foreground">1-9 referrals each</div>
-                <div className="text-sm font-semibold text-orange-600 dark:text-orange-400">12% of conversions</div>
-              </Card>
-              <Card className="p-4 bg-zinc-50 dark:bg-zinc-900/30 border-zinc-200 dark:border-zinc-800">
-                <Badge variant="outline" className="mb-2">Inactive</Badge>
-                <div className="text-2xl font-bold text-foreground">643</div>
-                <div className="text-xs text-muted-foreground">0 referrals</div>
-                <div className="text-sm text-muted-foreground">65% of referrers</div>
-              </Card>
-            </div>
-          </ProgressiveReveal>
-        </section>
-
-        {/* Step 4: Clean Pipes */}
-        <section className="mb-16" id="step-4">
-          <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
-            4. Season 0: Cleaning the Pipes Before Pouring Fuel
-          </h2>
-
-          <ProgressiveReveal>
-            <p className="text-lg text-foreground leading-relaxed mb-6">
-              A lot of referral campaigns fail not because the idea is bad, but because the tracking is chaos. Before we designed the referral loop, we did something very boring and very important:
-            </p>
-          </ProgressiveReveal>
-
-          <ProgressiveReveal>
-            <ul className="list-disc list-inside text-lg text-foreground space-y-2 mb-6">
-              <li>Aligned UTMs, naming, and campaign structure</li>
-              <li>Agreed on standard values for source, medium, campaign, content</li>
-              <li>Wired the referral product into the same analytics stack as our paid and owned channels</li>
-            </ul>
-          </ProgressiveReveal>
-
-          <ProgressiveReveal>
-            <p className="text-lg text-foreground leading-relaxed mb-6">
-              That meant <strong>every referral link</strong> carried clean, consistent UTMs, <strong>every visit</strong> was stored with source and medium, and <strong>every registration</strong> could be tied back to a referrer or base campaign.
-            </p>
-          </ProgressiveReveal>
-
-          <ProgressiveReveal>
-            <div className="bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-900 p-6 rounded-xl">
-              <p className="text-lg text-foreground">
-                <strong>Pro tip:</strong> So when the numbers started coming in, there was no "why does HubSpot say 18K and GA say 12K" fight. The data was boringly consistent. If you are copying this playbook, copy this part first. The cool stuff depends on it.
-              </p>
-            </div>
-          </ProgressiveReveal>
-        </section>
-
-        {/* Step 5: Designing the Loop */}
-        <section className="mb-16" id="step-5">
-          <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
-            5. Designing the Loop, Not Just the Page
-          </h2>
-
-          <ProgressiveReveal>
-            <p className="text-lg text-foreground leading-relaxed mb-6">
-              We borrowed a lot of thinking from Gustaf's Airbnb virality work: make the <strong>loop</strong> obvious, reduce friction at each step, reward the right behaviour, protect the system from abuse.
-            </p>
-          </ProgressiveReveal>
-
-          <ProgressiveReveal>
-            <div className="bg-card border border-border p-6 rounded-xl mb-8">
-              <p className="text-lg text-foreground text-center font-medium">
-                The loop: <span className="text-primary">invite</span> → <span className="text-primary">click</span> → <span className="text-primary">register</span> → <span className="text-primary">attend</span> → <span className="text-primary">become a referrer next season</span>
-              </p>
-            </div>
-          </ProgressiveReveal>
-
-          {/* 5.1 Referrer Onboarding */}
-          <div className="mb-8">
-            <h3 className="text-2xl font-display font-semibold text-foreground mb-4">
-              5.1 The Referrer Onboarding
-            </h3>
-            <ProgressiveReveal>
-              <p className="text-lg text-foreground leading-relaxed mb-4">
-                Goal: make it emotionally rewarding to become a "Katalyst insider", not just "someone with a link".
-              </p>
-            </ProgressiveReveal>
-            <ProgressiveReveal>
-              <ul className="list-disc list-inside text-lg text-foreground space-y-2 mb-4">
-                <li>One page where you enter name, email, phone</li>
-                <li>Instant generation of a <strong>unique referral code</strong></li>
-                <li>Redirect into a "share modal" with platform-specific copy</li>
-                <li>Show starting stats (0 visits, 0 registrations, rank "rookie")</li>
-                <li>Clearly show what happens at 1, 5, 10, 25 referrals</li>
-              </ul>
-            </ProgressiveReveal>
-          </div>
-
-          {/* 5.2 Landing Page */}
-          <div className="mb-8">
-            <h3 className="text-2xl font-display font-semibold text-foreground mb-4">
-              5.2 The Landing Page That Converts at 28%
-            </h3>
-            <ProgressiveReveal>
-              <p className="text-lg text-foreground leading-relaxed mb-4">
-                We did not try to make the referral landing page clever. We made it <strong>clear</strong>.
-              </p>
-            </ProgressiveReveal>
-            <ProgressiveReveal>
-              <div className="bg-muted/30 p-6 rounded-xl mb-4">
-                <p className="font-semibold text-foreground mb-2">Above the fold:</p>
-                <ul className="list-disc list-inside text-foreground space-y-1">
-                  <li>What HR Katalyst is in one line</li>
-                  <li>Who it is for</li>
-                  <li>What they get (topics, speakers, certificate, fee)</li>
-                  <li>The date + a single primary CTA</li>
-                </ul>
-              </div>
-            </ProgressiveReveal>
-          </div>
-
-          {/* 5.3 Thank You Page */}
-          <div className="mb-8">
-            <h3 className="text-2xl font-display font-semibold text-foreground mb-4">
-              5.3 The Thank You Page That Closes the Loop
-            </h3>
-            <ProgressiveReveal>
-              <p className="text-lg text-foreground leading-relaxed">
-                The moment someone registered, two things happened: they were counted as a <strong>conversion</strong> for the referrer, and they were invited to <strong>become a referrer</strong> themselves. That meant the loop did not depend only on our email list. Every new attendee had a path to bring others.
-              </p>
-            </ProgressiveReveal>
-          </div>
-
-          {/* 5.4 Leaderboard */}
-          <div className="mb-8">
-            <h3 className="text-2xl font-display font-semibold text-foreground mb-4">
-              5.4 The Live Leaderboard
-            </h3>
-            <ProgressiveReveal>
-              <p className="text-lg text-foreground leading-relaxed mb-4">
-                This is where the fun started. We built a real-time leaderboard that showed top referrers by name and company, refreshed automatically as new registrations came in, and used badges and language that felt like a game, not a sales dashboard.
-              </p>
-            </ProgressiveReveal>
-            <ProgressiveReveal>
-              <p className="text-lg text-foreground leading-relaxed">
-                This did two things: gave the heavy hitters a stage to compete on, and signalled to everyone else that referrals were real, not hand-waving.
-              </p>
-            </ProgressiveReveal>
-          </div>
-        </section>
-
-        {/* System Architecture Diagram */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
-            System Architecture
-          </h2>
-          <ProgressiveReveal>
-            <div className="bg-card border border-border rounded-xl p-8">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
-                <div className="p-4 bg-amber-50 dark:bg-amber-950/30 rounded-lg border border-amber-200 dark:border-amber-900">
-                  <div className="text-2xl mb-2">🌐</div>
-                  <div className="font-bold text-foreground text-sm">External Website</div>
-                  <div className="text-xs text-muted-foreground mt-2">Landing Page → Thank You</div>
-                </div>
-                <div className="p-4 bg-purple-50 dark:bg-purple-950/30 rounded-lg border border-purple-200 dark:border-purple-900">
-                  <div className="text-2xl mb-2">💜</div>
-                  <div className="font-bold text-foreground text-sm">Referral App</div>
-                  <div className="text-xs text-muted-foreground mt-2">GetLink • ShareModal • Leaderboard • Admin</div>
-                </div>
-                <div className="p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-900">
-                  <div className="text-2xl mb-2">⚡</div>
-                  <div className="font-bold text-foreground text-sm">Edge Functions</div>
-                  <div className="text-xs text-muted-foreground mt-2">track-visit • track-conversion • send-email</div>
-                </div>
-                <div className="p-4 bg-green-50 dark:bg-green-950/30 rounded-lg border border-green-200 dark:border-green-900">
-                  <div className="text-2xl mb-2">🗄️</div>
-                  <div className="font-bold text-foreground text-sm">Database</div>
-                  <div className="text-xs text-muted-foreground mt-2">referrers • visits • conversions</div>
-                </div>
-              </div>
-            </div>
-          </ProgressiveReveal>
-        </section>
-
+        {/* Final CTA */}
         <CTABanner
           title="Build your referral system with utm.one"
           description="Clean tracking, real-time attribution, and governance tools to power your community-led growth"
           buttonText="Get Early Access"
           buttonHref="/early-access"
           variant="primary"
-        />
-
-        {/* Step 6: Protecting Integrity */}
-        <section className="mb-16" id="step-6">
-          <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
-            6. Protecting the Integrity of the Campaign
-          </h2>
-
-          <ProgressiveReveal>
-            <p className="text-lg text-foreground leading-relaxed mb-6">
-              The dark side of referral campaigns is obvious: fake emails, bots, throwaway domains. We did not want to be the team that got 25,000 "registrations" and 3,000 people showing up.
-            </p>
-          </ProgressiveReveal>
-
-          <ActionChecklist
-            items={fraudProtectionChecklist}
-            storageKey="hr-katalyst-fraud-protection"
-            title="Fraud Protection Checklist"
-          />
-
-          <ProgressiveReveal>
-            <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900 p-6 rounded-xl mt-6">
-              <p className="text-lg text-foreground">
-                <strong>Pro tip:</strong> Instead of deleting bad entries, we marked them as invalid and kept an audit trail. This let us clean the leaderboard without angering honest referrers, show integrity stats publicly, and learn where abuse was coming from.
-              </p>
-            </div>
-          </ProgressiveReveal>
-        </section>
-
-        {/* Step 7: The Human Side */}
-        <section className="mb-16" id="step-7">
-          <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
-            7. The Human Side: Rewards, Stories, and Recognition
-          </h2>
-
-          <ProgressiveReveal>
-            <p className="text-lg text-foreground leading-relaxed mb-6">
-              No one wakes up wanting "points in someone else's CRM". People wake up wanting to feel: <strong>seen</strong>, <strong>useful</strong>, <strong>part of something bigger</strong>.
-            </p>
-          </ProgressiveReveal>
-
-          <ActionChecklist
-            items={rewardsChecklist}
-            storageKey="hr-katalyst-rewards"
-            title="Rewards & Recognition Checklist"
-          />
-
-          <ProgressiveReveal>
-            <div className="mt-6 space-y-4">
-              <Card className="p-4 bg-card border-border">
-                <h4 className="font-semibold text-foreground mb-2">The Killers</h4>
-                <p className="text-muted-foreground">Top 3 went purely for headline prizes. They drove 46% of conversions.</p>
-              </Card>
-              <Card className="p-4 bg-card border-border">
-                <h4 className="font-semibold text-foreground mb-2">The Grinders</h4>
-                <p className="text-muted-foreground">Pushed to cross the guaranteed merch line. Consistent, motivated sharers.</p>
-              </Card>
-              <Card className="p-4 bg-card border-border">
-                <h4 className="font-semibold text-foreground mb-2">The Casuals</h4>
-                <p className="text-muted-foreground">Made one or two referrals but felt emotionally part of the movement. All three groups matter.</p>
-              </Card>
-            </div>
-          </ProgressiveReveal>
-        </section>
-
-        {/* Step 8: What Moved the Needle */}
-        <section className="mb-16" id="step-8">
-          <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
-            8. What Actually Moved the Needle
-          </h2>
-
-          <ProgressiveReveal>
-            <p className="text-lg text-foreground leading-relaxed mb-6">
-              When we stepped back after the dust settled, five things clearly mattered more than the rest:
-            </p>
-          </ProgressiveReveal>
-
-          <ProgressiveReveal>
-            <div className="space-y-4">
-              {[
-                { num: 1, title: "We treated the referral system as a product", desc: "Separate backlog, clear architecture, edge functions, database tables, dashboard—all built intentionally instead of hacked together." },
-                { num: 2, title: "We trusted power laws, not averages", desc: "A tiny percentage of referrers drove the majority of registrations. Our job was to make those people dangerous (in a good way)." },
-                { num: 3, title: "The loop was obvious to the user", desc: "Register, get link, share, see your name move, get rewarded. No jargon, no confusion." },
-                { num: 4, title: "Tracking was clean from day one", desc: "UTMs, naming, governance, and reporting meant the founder, marketing, and finance saw the same numbers and could agree on what worked." },
-                { num: 5, title: "We respected the audience", desc: "No fake scarcity, no shady tactics. HR folks are literally paid to sniff out bad incentives. Anything misaligned would have backfired." },
-              ].map((item) => (
-                <Card key={item.num} className="p-6 bg-card border-border">
-                  <div className="flex gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
-                      {item.num}
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-foreground mb-1">{item.title}</h4>
-                      <p className="text-muted-foreground">{item.desc}</p>
-                    </div>
-                  </div>
-                </Card>
-              ))}
-            </div>
-          </ProgressiveReveal>
-        </section>
-
-        {/* Step 9: How to Copy This */}
-        <section className="mb-16" id="step-9">
-          <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
-            9. How to Copy This for Your Own Event
-          </h2>
-
-          <ProgressiveReveal>
-            <p className="text-lg text-foreground leading-relaxed mb-6">
-              Here is a stripped-down version you can run, even if you do not have engineers on standby.
-            </p>
-          </ProgressiveReveal>
-
-          <ActionChecklist
-            items={preEventChecklist}
-            storageKey="hr-katalyst-copy-this"
-            title="6-Step Implementation Checklist"
-          />
-
-          <ProgressiveReveal>
-            <div className="mt-8 bg-muted/30 border-l-4 border-primary p-6 rounded-r-lg">
-              <h4 className="font-semibold text-foreground mb-2">Communication tip:</h4>
-              <p className="text-foreground mb-4">Your emails to referrers should sound more like:</p>
-              <div className="bg-green-50 dark:bg-green-950/30 p-4 rounded-lg mb-4">
-                <p className="text-green-800 dark:text-green-200 italic">"You brought 7 HR peers into a better conversation this month. Here's what happens next."</p>
-              </div>
-              <p className="text-foreground mb-2">And less like:</p>
-              <div className="bg-red-50 dark:bg-red-950/30 p-4 rounded-lg">
-                <p className="text-red-800 dark:text-red-200 italic">"Dear user, you have earned 70 points. Click here."</p>
-              </div>
-            </div>
-          </ProgressiveReveal>
-        </section>
-
-        {/* Campaign Timeline */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
-            Campaign Timeline
-          </h2>
-          <ProgressiveReveal>
-            <div className="bg-card border border-border rounded-xl p-8">
-              <div className="space-y-6">
-                <div>
-                  <h4 className="font-semibold text-foreground mb-3">Week 1: Build (7 days)</h4>
-                  <div className="flex gap-2 flex-wrap">
-                    {["Database Setup", "Referral Links", "Tracking Functions", "Integration", "Leaderboard", "Admin Dashboard", "Testing"].map((item) => (
-                      <span key={item} className="px-3 py-1 bg-green-100 dark:bg-green-950/50 text-green-800 dark:text-green-200 rounded-full text-xs">{item}</span>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-foreground mb-3">Weeks 2-5: Run Campaign (28 days)</h4>
-                  <div className="flex gap-2 flex-wrap">
-                    <span className="px-3 py-1 bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-200 rounded-full text-xs">Launch Week: ~150/day</span>
-                    <span className="px-3 py-1 bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-200 rounded-full text-xs">Mid-Campaign: ~200/day</span>
-                    <span className="px-3 py-1 bg-red-100 dark:bg-red-950/50 text-red-800 dark:text-red-200 rounded-full text-xs">Final Week: ~400/day</span>
-                    <span className="px-3 py-1 bg-red-100 dark:bg-red-950/50 text-red-800 dark:text-red-200 rounded-full text-xs">Last 48hrs: ~800/day</span>
-                  </div>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-foreground mb-3">Week 6: Fulfill (7 days)</h4>
-                  <div className="flex gap-2 flex-wrap">
-                    {["Announce Winners", "Collect Addresses", "Ship Rewards"].map((item) => (
-                      <span key={item} className="px-3 py-1 bg-amber-100 dark:bg-amber-950/50 text-amber-800 dark:text-amber-200 rounded-full text-xs">{item}</span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ProgressiveReveal>
-        </section>
-
-        {/* Step 10: Closing the Loop */}
-        <section className="mb-16" id="step-10">
-          <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
-            10. Closing the Loop: From 10K to 25K
-          </h2>
-
-          <CaseStudyCard
-            title="HR Katalyst Season 5 Transformation"
-            before={{
-              title: "Before: Capped Growth",
-              items: [
-                "~10,000 registrations per season",
-                "Organic + paid gave spike, then flattened",
-                "More effort, same shape curve",
-                "No systematic referral tracking",
-              ],
-              metrics: "10K registrations • Same growth curve every season"
-            }}
-            after={{
-              title: "After: Community-Led Engine",
-              items: [
-                "25,000+ registrations in season 5",
-                "982 active referrers driving growth",
-                "28% conversion rate on referral landing page",
-                "96.6% data integrity rate",
-              ],
-              metrics: "25K registrations • 2.5x growth • 150% increase"
-            }}
-            highlightMetric="+150% registration growth from community-led referrals"
-          />
-
-          <ProgressiveReveal>
-            <p className="text-lg text-foreground leading-relaxed mt-8 mb-6">
-              HR Katalyst did not jump from 10K to 25K registrations because we found a magical ad set. It happened because:
-            </p>
-          </ProgressiveReveal>
-
-          <ProgressiveReveal>
-            <ul className="list-disc list-inside text-lg text-foreground space-y-2 mb-6">
-              <li>We treated community as the new gold, not a nice-to-have</li>
-              <li>We turned that belief into a concrete growth system</li>
-              <li>We built the boring plumbing that lets referrals compound year after year</li>
-            </ul>
-          </ProgressiveReveal>
-
-          <ProgressiveReveal>
-            <div className="bg-primary/10 border border-primary/20 p-6 rounded-xl">
-              <p className="text-lg text-foreground">
-                <strong>The real asset:</strong> The next seasons will not start at zero—they will start from a base of hundreds of people who have already proved they are willing to put their name behind the event. That is the real asset you build when you do referrals right.
-              </p>
-            </div>
-          </ProgressiveReveal>
-        </section>
-
-        {/* FAQ */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-display font-semibold text-foreground mb-8">
-            Common Questions
-          </h2>
-          <FAQAccordion items={faqItems} />
-        </section>
-
-        {/* Final CTA */}
-        <CTABanner
-          title="Ready to build your referral engine?"
-          description="utm.one provides the tracking, governance, and analytics to power community-led growth"
-          buttonText="Get Early Access"
-          buttonHref="/early-access"
-          variant="accent"
         />
       </GuideLayout>
     </>
