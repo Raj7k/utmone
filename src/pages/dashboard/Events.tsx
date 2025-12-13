@@ -26,6 +26,7 @@ import { toast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
 
 // Lazy load EventBridgeTab - it's only shown when user clicks the tab
 const EventBridgeTab = lazy(() => import("@/components/events/EventBridge/EventBridgeTab").then(m => ({ default: m.EventBridgeTab })));
@@ -61,7 +62,7 @@ const Events = () => {
   const effectiveWorkspaceId = currentWorkspace?.id || getCachedWorkspaceId() || '';
   
   // Use unified dashboard data for events
-  const { events, isFetching, isFetched, refetch: refetchUnified } = useDashboardUnified();
+  const { events, isFetching, isFetched, isLoading, refetch: refetchUnified } = useDashboardUnified();
   
   // Detail queries (only when viewing a specific event)
   const { data: eventDetails } = useFieldEvent(selectedEvent?.id || '');
@@ -127,10 +128,19 @@ const Events = () => {
   // Cast events to FieldEvent type
   const typedEvents = events as FieldEvent[];
 
-  // Progressive render - show layout immediately
+  // Show loading state when data is loading
+  if (isLoading && !isFetched) {
+    return (
+      <div className="p-6 lg:p-8 max-w-5xl mx-auto">
+        <DashboardContentLoader context="events" minHeight="60vh" />
+      </div>
+    );
+  }
+
+  // Progressive render with fade-in
   return (
     <ErrorBoundary fallback={<div className="p-8 text-center text-muted-foreground">Something went wrong loading events. Please refresh the page.</div>}>
-      <div className="space-y-6 relative">
+      <div className="space-y-6 relative animate-fade-in">
         {/* Subtle loading indicator for background refresh */}
         {isFetching && (
           <div className="absolute top-2 right-2 z-10">

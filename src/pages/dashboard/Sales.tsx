@@ -9,11 +9,12 @@ import { Button } from "@/components/ui/button";
 import { Plus, Zap, Briefcase, Eye } from "lucide-react";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
+import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
 import { motion } from "framer-motion";
 
 const Sales = () => {
   const { hasTimedOut, retry, currentWorkspace } = useWorkspace();
-  const { salesLinks, isFetching, isFetched, refetch } = useDashboardUnified();
+  const { salesLinks, isFetching, isFetched, isLoading, refetch } = useDashboardUnified();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   // Complete navigation progress when data loads or times out
@@ -33,7 +34,17 @@ const Sales = () => {
 
   const totalViews = salesLinks.reduce((sum, l) => sum + (l.total_clicks || 0), 0);
 
+  // Show loading state when data is loading
+  if (isLoading && !isFetched) {
+    return (
+      <div className="p-6 lg:p-8 max-w-5xl mx-auto">
+        <DashboardContentLoader context="sales" minHeight="60vh" />
+      </div>
+    );
+  }
+
   return (
+    <div className="animate-fade-in">
     <PageContentWrapper
       title="sales companion"
       description="track prospect engagement and get instant alerts when they view your links"
@@ -125,6 +136,7 @@ const Sales = () => {
         onOpenChange={setIsCreateModalOpen}
       />
     </PageContentWrapper>
+    </div>
   );
 };
 

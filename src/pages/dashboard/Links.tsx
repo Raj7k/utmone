@@ -14,8 +14,9 @@ import { EnhancedLinksTable } from "@/components/EnhancedLinksTable";
 import { FeatureHint } from "@/components/FeatureHint";
 import { BulkSentinelPanel } from "@/components/sentinel";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
-import { Skeleton } from "@/components/ui/skeleton";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // Skeleton for hero stats
 const HeroStatsSkeleton = () => (
@@ -61,9 +62,19 @@ export default function Links() {
     }
   }, [isFetched, isWorkspaceLoading, hasTimedOut]);
 
-  // Progressive render - always show layout, skeleton for data-dependent sections
+  // Show loading state when data is loading (before any content checks)
+  if (isLoading && !data?.links?.length) {
+    return (
+      <div className="p-6 lg:p-8 max-w-5xl mx-auto">
+        <DashboardContentLoader context="links" minHeight="60vh" />
+      </div>
+    );
+  }
+
+  // Progressive render with fade-in
   return (
     <ErrorBoundary fallback={<div className="p-8 text-center text-muted-foreground">Something went wrong loading links. Please refresh the page.</div>}>
+      <div className="animate-fade-in">
       <PageContentWrapper
         title="links"
         description="decision intelligence dashboard with health scores and AI insights"
@@ -158,6 +169,7 @@ export default function Links() {
           </div>
         )}
       </PageContentWrapper>
+      </div>
     </ErrorBoundary>
   );
 }

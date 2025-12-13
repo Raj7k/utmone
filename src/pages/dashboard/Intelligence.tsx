@@ -27,7 +27,7 @@ import { TopicAttributionView } from "@/components/attribution/TopicAttributionV
 import { SentinelSavesWidget } from "@/components/analytics/SentinelSavesWidget";
 import { useSentinelStats } from "@/hooks/useSentinelSaves";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { IntelligenceOverviewSkeleton } from "@/components/intelligence/IntelligenceOverviewSkeleton";
+import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
 
 // Lazy load heavy visualization components
 const IdentityGraphView = lazy(() => import("@/components/attribution/IdentityGraphView").then(m => ({ default: m.IdentityGraphView })));
@@ -93,7 +93,17 @@ export default function Intelligence() {
     );
   }
 
+  // Show loading state when data is loading
+  if (isLoading && !intelligenceData) {
+    return (
+      <div className="p-6 lg:p-8 max-w-5xl mx-auto">
+        <DashboardContentLoader context="intelligence" minHeight="60vh" />
+      </div>
+    );
+  }
+
   return (
+    <div className="animate-fade-in">
     <PageContentWrapper
       title="intelligence"
       description="your unified analytics command center"
@@ -447,5 +457,6 @@ export default function Intelligence() {
         days={days}
       />
     </PageContentWrapper>
+    </div>
   );
 }
