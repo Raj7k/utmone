@@ -537,7 +537,6 @@ export default function HRKatalystReferralPlaybook() {
           </h2>
           <ProgressiveReveal>
             <div className="bg-card border border-border rounded-xl p-8">
-            <div className="bg-card border border-border rounded-xl p-8">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
                 <div className="p-4 bg-amber-50 dark:bg-amber-950/30 rounded-lg border border-amber-200 dark:border-amber-900">
                   <div className="text-2xl mb-2">🌐</div>
@@ -759,7 +758,7 @@ export default function HRKatalystReferralPlaybook() {
                 "More effort, same shape curve",
                 "No systematic referral tracking",
               ],
-              metrics: ["10K registrations", "Same growth curve every season"]
+              metrics: "10K registrations • Same growth curve every season"
             }}
             after={{
               title: "After: Community-Led Engine",
@@ -769,12 +768,9 @@ export default function HRKatalystReferralPlaybook() {
                 "28% conversion rate on referral landing page",
                 "96.6% data integrity rate",
               ],
-              metrics: ["25K registrations", "2.5x growth", "150% increase"]
+              metrics: "25K registrations • 2.5x growth • 150% increase"
             }}
-            highlightMetric={{
-              value: "+150%",
-              label: "Registration growth from community-led referrals"
-            }}
+            highlightMetric="+150% registration growth from community-led referrals"
           />
 
           <ProgressiveReveal>

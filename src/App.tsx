@@ -228,6 +228,7 @@ const NamingConventionPlaybook = lazy(() => import("./pages/resources/playbooks/
 const SalesMarketingAlignmentPlaybook = lazy(() => import("./pages/resources/playbooks/SalesMarketingAlignmentPlaybook"));
 const AIMarketingPlaybook = lazy(() => import("./pages/resources/playbooks/AIMarketingPlaybook"));
 const B2BArchitectsPlaybook = lazy(() => import("./pages/resources/playbooks/B2BArchitectsPlaybook"));
+const HRKatalystReferralPlaybook = lazy(() => import("./pages/resources/playbooks/HRKatalystReferralPlaybook"));
 
 // Templates
 const Templates = lazy(() => import("./pages/resources/Templates"));
@@ -937,6 +938,7 @@ const App = () => (
               <Route path="/resources/playbooks/sales-marketing-alignment" element={<Suspense fallback={<DashboardSkeleton />}><SalesMarketingAlignmentPlaybook /></Suspense>} />
               <Route path="/resources/playbooks/ai-marketing" element={<Suspense fallback={<DashboardSkeleton />}><AIMarketingPlaybook /></Suspense>} />
               <Route path="/resources/playbooks/b2b-architects-2026" element={<Suspense fallback={<DashboardSkeleton />}><B2BArchitectsPlaybook /></Suspense>} />
+              <Route path="/resources/playbooks/hr-katalyst-referral" element={<Suspense fallback={<DashboardSkeleton />}><HRKatalystReferralPlaybook /></Suspense>} />
               <Route path="/resources/playbooks" element={<Suspense fallback={<DashboardSkeleton />}><Playbooks /></Suspense>} />
               
               {/* Template Routes */}
