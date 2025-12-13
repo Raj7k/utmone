@@ -222,7 +222,7 @@ const ReferrerSankey = () => {
 };
 
 // ============================================
-// SHAREABLE INSIGHT CARD - Vertical Centered Layout
+// SHAREABLE INSIGHT CARD - Redesigned Equal Cards
 // ============================================
 const ShareableInsightCard = ({ 
   title, 
@@ -253,62 +253,73 @@ const ShareableInsightCard = ({
     }
   };
 
+  // Check if value is text (not a number/percentage)
+  const isTextValue = /^[a-zA-Z]+$/.test(value.replace(/\s/g, ''));
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      className="group h-full"
+      className="group"
     >
-      <Card className="p-6 bg-card border-border relative overflow-hidden h-full min-h-[220px] flex flex-col justify-between">
+      <Card className="p-5 bg-card border-border relative overflow-hidden h-[280px] flex flex-col">
         {/* utm.one watermark */}
         <div className="absolute top-3 right-3 text-xs text-muted-foreground/40 font-mono">utm.one</div>
         
-        {/* Content - Centered Vertical Layout */}
-        <div className="flex-1 flex flex-col items-center justify-center text-center py-4">
-          {/* Title */}
-          <div className="text-xs uppercase tracking-wider text-muted-foreground mb-3 font-medium">
-            {title}
+        {/* Content - Fixed height sections */}
+        <div className="flex-1 flex flex-col items-center justify-center text-center">
+          {/* Title - Fixed height */}
+          <div className="h-10 flex items-center justify-center">
+            <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">
+              {title}
+            </span>
           </div>
           
-          {/* Value - Hero Element */}
-          <div className="text-4xl md:text-5xl font-bold text-foreground mb-3">
-            {value}
+          {/* Value - Hero Element with responsive sizing */}
+          <div className="h-20 flex items-center justify-center">
+            <span className={cn(
+              "font-bold text-foreground leading-none",
+              isTextValue ? "text-2xl md:text-3xl" : "text-4xl md:text-5xl"
+            )}>
+              {value}
+            </span>
           </div>
           
-          {/* Subtitle */}
-          {subtitle && (
-            <div className="text-sm text-muted-foreground leading-relaxed max-w-[200px]">
-              {subtitle}
-            </div>
-          )}
+          {/* Subtitle - Fixed height with line clamping */}
+          <div className="h-16 flex items-start justify-center px-2">
+            {subtitle && (
+              <span className="text-sm text-muted-foreground leading-snug line-clamp-3 text-center">
+                {subtitle}
+              </span>
+            )}
+          </div>
         </div>
 
-        {/* Share buttons - appear on hover */}
-        <div className="flex justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity pt-2 border-t border-border/50">
+        {/* Share buttons - always visible at bottom */}
+        <div className="flex justify-center gap-1 pt-3 border-t border-border/30 mt-auto">
           <Button 
             variant="ghost" 
             size="sm" 
             onClick={() => handleShare('twitter')}
-            className="text-xs h-8 px-3"
+            className="text-xs h-7 px-2 text-muted-foreground hover:text-foreground"
           >
-            𝕏 Share
+            𝕏
           </Button>
           <Button 
             variant="ghost" 
             size="sm" 
             onClick={() => handleShare('linkedin')}
-            className="text-xs h-8 px-3"
+            className="text-xs h-7 px-2 text-muted-foreground hover:text-foreground"
           >
-            in Share
+            in
           </Button>
           <Button 
             variant="ghost" 
             size="sm" 
             onClick={() => handleShare('copy')}
-            className="text-xs h-8 px-3"
+            className="text-xs h-7 px-2 text-muted-foreground hover:text-foreground"
           >
-            {copied ? <Check className="w-3 h-3 mr-1" /> : <Copy className="w-3 h-3 mr-1" />}
-            {copied ? "Copied!" : "Copy"}
+            {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
           </Button>
         </div>
       </Card>
