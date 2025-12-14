@@ -150,7 +150,7 @@ function setCache(workspaceId: string, data: DashboardData) {
 export const useDashboardUnified = (range: string = "30d") => {
   const { currentWorkspace } = useWorkspace();
   const queryClient = useQueryClient();
-  const isBackgroundRefresh = useRef(false);
+  const hasTriggeredRefresh = useRef(false);
 
   const workspaceId = currentWorkspace?.id || getCachedWorkspaceId() || "";
   
@@ -159,17 +159,18 @@ export const useDashboardUnified = (range: string = "30d") => {
   const cachedData = cachedResult?.data;
   const isCacheStale = cachedResult?.isStale ?? true;
 
-  // Trigger background refresh if cache is stale
+  // Trigger background refresh ONCE per mount if cache is stale
+  // Empty dependency array prevents re-running on every render
   useEffect(() => {
-    if (cachedData && isCacheStale && !isBackgroundRefresh.current) {
-      isBackgroundRefresh.current = true;
-      // Trigger refetch in background
+    if (cachedData && isCacheStale && !hasTriggeredRefresh.current && workspaceId) {
+      hasTriggeredRefresh.current = true;
       queryClient.invalidateQueries({ 
         queryKey: ["dashboard-direct", workspaceId, range],
         refetchType: 'active'
       });
     }
-  }, [cachedData, isCacheStale, workspaceId, range, queryClient]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const { data, isLoading, isFetching, isFetched, refetch, error } = useQuery({
     queryKey: ["dashboard-direct", workspaceId, range],
@@ -418,12 +419,7 @@ export const useDashboardUnified = (range: string = "30d") => {
     retry: 1,
   });
 
-  // Reset background refresh flag when fetch completes
-  useEffect(() => {
-    if (!isFetching) {
-      isBackgroundRefresh.current = false;
-    }
-  }, [isFetching]);
+  // No need to reset - hasTriggeredRefresh persists for component lifetime
 
   // Invalidate helpers
   const invalidateLinks = () => {

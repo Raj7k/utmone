@@ -1,4 +1,4 @@
-import { useEffect, useState, lazy, Suspense } from "react";
+import { useEffect, useState, lazy, Suspense, useMemo } from "react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { useActivationTracking } from "@/hooks/useActivationTracking";
@@ -71,8 +71,10 @@ export default function Analytics() {
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [scheduleDialogOpen, setScheduleDialogOpen] = useState(false);
 
-  // Use cached workspace ID for immediate query start
-  const effectiveWorkspaceId = currentWorkspace?.id || getCachedWorkspaceId() || '';
+  // Memoize workspace ID to prevent query key instability
+  const effectiveWorkspaceId = useMemo(() => {
+    return currentWorkspace?.id || getCachedWorkspaceId() || '';
+  }, [currentWorkspace?.id]);
   
   // Get active tab from URL params, default to "overview"
   const activeTab = searchParams.get("tab") || "overview";

@@ -72,7 +72,7 @@ export function useMfaStatus() {
         registeredDomain,
       };
     },
-    staleTime: 30000, // 30 seconds
-    refetchOnWindowFocus: true,
+    staleTime: 5 * 60 * 1000, // 5 minutes - prevent excessive refetching
+    refetchOnWindowFocus: false, // Prevent refetch loop on tab switch
   });
 }
