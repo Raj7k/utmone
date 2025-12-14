@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useWorkspace } from "@/hooks/useWorkspace";
+import { useWorkspace } from "@/hooks/workspace";
 import { formatDistanceToNow } from "date-fns";
 import { Activity, Monitor, Smartphone, Tablet, MapPin, Zap } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";

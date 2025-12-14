@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { TrendingUp, TrendingDown, Minus, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { DashboardLink } from "@/hooks/useDashboardUnified";
+import { DashboardLink } from "@/hooks/dashboard";
 
 interface TopCampaignsTableProps {
   workspaceId: string;

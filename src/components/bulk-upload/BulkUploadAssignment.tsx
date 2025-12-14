@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useWorkspaceMembers } from "@/hooks/useWorkspaceMembers";
+import { useWorkspaceMembers } from "@/hooks/workspace";
 import { useBulkUploadSession } from "@/hooks/useBulkUploadSession";
 import { UserPlus } from "lucide-react";
 

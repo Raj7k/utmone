@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, AlertTriangle, XCircle } from "lucide-react";
-import { useLinkHealthScore } from "@/hooks/useLinkHealthScore";
+import { useLinkHealthScore } from "@/hooks/links";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface LinkHealthScoreProps {

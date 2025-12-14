@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ExternalLink, MousePointer, Clock } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
-import { DashboardLink } from "@/hooks/useDashboardUnified";
+import { DashboardLink } from "@/hooks/dashboard";
 
 interface ActivityFeedProps {
   links?: DashboardLink[];

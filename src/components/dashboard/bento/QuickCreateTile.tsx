@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { checkFeatureAccess } from "@/lib/checkFeatureAccess";
 import { UpgradeModal } from "@/components/UpgradeModal";
-import { useWorkspace } from "@/hooks/useWorkspace";
+import { useWorkspace } from "@/hooks/workspace";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { PlanTier } from "@/lib/planConfig";
 import { BentoTileSkeleton } from "./BentoTileSkeleton";

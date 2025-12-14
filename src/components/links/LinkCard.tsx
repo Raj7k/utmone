@@ -1,5 +1,5 @@
 import { memo, useCallback, useState, lazy, Suspense } from "react";
-import { EnhancedLink } from "@/hooks/useEnhancedLinks";
+import { EnhancedLink } from "@/hooks/links";
 import { SentinelBadge } from "@/components/sentinel/SentinelBadge";
 import { Button } from "@/components/ui/button";
 import { Copy, QrCode, BarChart3, ExternalLink, MoreHorizontal, Shield, TrendingUp } from "lucide-react";

@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Progress } from "@/components/ui/progress";
 import { PLAN_CONFIG } from "@/lib/planConfig";
-import { DashboardStats } from "@/hooks/useDashboardUnified";
+import { DashboardStats } from "@/hooks/dashboard";
 
 interface QuickStatsProps {
   stats?: DashboardStats;

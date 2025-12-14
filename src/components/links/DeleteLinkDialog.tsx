@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { useDeleteLink } from "@/hooks/useDeleteLink";
+import { useDeleteLink } from "@/hooks/links";
 import { AlertTriangle, Archive, Trash2 } from "lucide-react";
 
 interface DeleteLinkDialogProps {

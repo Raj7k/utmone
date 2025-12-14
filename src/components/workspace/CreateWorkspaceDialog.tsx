@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useClientWorkspaces } from "@/hooks/useClientWorkspaces";
+import { useClientWorkspaces } from "@/hooks/workspace";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

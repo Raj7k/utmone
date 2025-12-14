@@ -8,7 +8,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import { HeroInlineCTA } from "./HeroInlineCTA";
-import { useTrackCTAClick } from "@/hooks/useLandingPageAnalytics";
+import { useTrackCTAClick } from "@/hooks/analytics";
 
 export type UseCaseType = "attribution" | "journey" | "links";
 

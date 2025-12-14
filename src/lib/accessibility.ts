@@ -1,4 +1,4 @@
-import type { LinkDetail } from "@/hooks/useLinkDetail";
+import type { LinkDetail } from "@/hooks/links";
 
 /**
  * Generate accessible ARIA labels for links

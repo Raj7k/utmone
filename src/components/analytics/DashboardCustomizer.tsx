@@ -12,7 +12,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Settings2, GripVertical } from "lucide-react";
-import { useDashboardPreferences } from "@/hooks/useDashboardPreferences";
+import { useDashboardPreferences } from "@/hooks/dashboard";
 import {
   DndContext,
   closestCenter,

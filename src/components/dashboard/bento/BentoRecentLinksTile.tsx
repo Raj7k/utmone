@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Copy, ExternalLink, Clock } from "lucide-react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import { useWorkspace } from "@/hooks/useWorkspace";
+import { useWorkspace } from "@/hooks/workspace";
 import { formatDistanceToNow } from "date-fns";
 
 export const BentoRecentLinksTile = () => {

@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Sparkles, RefreshCw } from "lucide-react";
 import { LinkSuccessCard } from "@/components/shared/LinkSuccessCard";
 import { SmartUTMCombobox } from "@/components/shared/SmartUTMCombobox";
-import { useWorkspace } from "@/hooks/useWorkspace";
+import { useWorkspace } from "@/hooks/workspace";
 import { useAIAnalyzeUrl } from "@/hooks/useAIAnalyzeUrl";
 import { AIFilledBadge } from "@/components/ai/AIFilledBadge";
 import { LinkQualityScore } from "@/components/ai/LinkQualityScore";

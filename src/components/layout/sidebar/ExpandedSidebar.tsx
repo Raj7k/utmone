@@ -27,7 +27,7 @@ import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { useSidebar } from "./SidebarProvider";
 import { motion } from "framer-motion";
 import { newFeatures } from "@/config/featureHelp";
-import { useDashboardPrefetch } from "@/hooks/useDashboardPrefetch";
+import { useDashboardPrefetch } from "@/hooks/dashboard";
 import { usePendingApprovalsCount } from "@/hooks/usePendingApprovalsCount";
 
 interface NavItem {

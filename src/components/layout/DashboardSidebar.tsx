@@ -39,7 +39,7 @@ import {
   NavItem 
 } from "@/config/navigation";
 import { Badge } from "@/components/ui/badge";
-import { useDashboardPrefetch } from "@/hooks/useDashboardPrefetch";
+import { useDashboardPrefetch } from "@/hooks/dashboard";
 
 interface DashboardSidebarProps {
   onNavigate?: () => void;

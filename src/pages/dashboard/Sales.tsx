@@ -1,6 +1,6 @@
 import { useEffect, useState, lazy, Suspense } from "react";
-import { useDashboardUnified } from "@/hooks/useDashboardUnified";
-import { useWorkspace } from "@/hooks/useWorkspace";
+import { useDashboardUnified } from "@/hooks/dashboard";
+import { useWorkspace } from "@/hooks/workspace";
 import { SalesLinkTable } from "@/components/sales/SalesLinkTable";
 import { SalesStatCard } from "@/components/sales/SalesStatCard";
 import { LazySection } from "@/components/loading/LazySection";

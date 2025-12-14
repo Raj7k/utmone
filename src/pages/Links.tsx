@@ -7,7 +7,7 @@ import { Link as LinkIcon, LogOut, Filter } from "lucide-react";
 import { CreateLinkDialog } from "@/components/CreateLinkDialog";
 import { EnhancedLinksTable } from "@/components/EnhancedLinksTable";
 import { LinkFilters } from "@/components/LinkFilters";
-import { useWorkspace } from "@/hooks/useWorkspace";
+import { useWorkspace } from "@/hooks/workspace";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { KeyboardShortcutsHelp } from "@/components/KeyboardShortcutsHelp";
 import { MobileNav } from "@/components/mobile/MobileNav";

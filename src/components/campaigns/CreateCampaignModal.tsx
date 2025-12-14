@@ -10,7 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
-import { useWorkspace } from "@/hooks/useWorkspace";
+import { useWorkspace } from "@/hooks/workspace";
 import { Loader2, Sparkles, ArrowRight, ArrowLeft } from "lucide-react";
 import { useAppSession } from "@/contexts/AppSessionContext";
 

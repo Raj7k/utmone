@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useWorkspace } from "./useWorkspace";
+import { useWorkspace } from "@/hooks/workspace";
 import { PlanTier } from "@/lib/planConfig";
 
 const STORAGE_KEY = 'SIMULATED_PLAN';

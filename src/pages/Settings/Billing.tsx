@@ -16,7 +16,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useWorkspace } from "@/hooks/useWorkspace";
+import { useWorkspace } from "@/hooks/workspace";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { checkPlanLimits } from "@/lib/planEnforcement";
 import { PLAN_CONFIG, PLAN_HIERARCHY, PlanTier, FEATURE_CATEGORIES } from "@/lib/planConfig";

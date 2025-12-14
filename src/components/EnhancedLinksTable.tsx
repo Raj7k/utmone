@@ -43,7 +43,7 @@ import {
 import { notify } from "@/lib/notify";
 import { formatDistanceToNow } from "date-fns";
 import { QRCodeDialog } from "./QRCodeDialog";
-import { useEnhancedLinks } from "@/hooks/useEnhancedLinks";
+import { useEnhancedLinks } from "@/hooks/links";
 import type { Database } from "@/integrations/supabase/types";
 import { LinkPreviewCard } from "./LinkPreviewCard";
 import { TrustBadge } from "./TrustBadge";

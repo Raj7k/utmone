@@ -11,7 +11,7 @@ import { Search, Link2, Plus, ArrowRight } from "lucide-react";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useWorkspace } from "@/hooks/useWorkspace";
+import { useWorkspace } from "@/hooks/workspace";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 
 // Skeleton for link list

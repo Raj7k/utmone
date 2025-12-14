@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { useWorkspace } from "@/hooks/useWorkspace";
+import { useWorkspace } from "@/hooks/workspace";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useEnhancedLinks } from "@/hooks/useEnhancedLinks";
+import { useEnhancedLinks } from "@/hooks/links";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { LinksHeroStats } from "@/components/links/LinksHeroStats";

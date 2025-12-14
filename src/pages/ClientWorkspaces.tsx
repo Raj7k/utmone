@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useClientWorkspaces } from "@/hooks/useClientWorkspaces";
+import { useClientWorkspaces } from "@/hooks/workspace";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { CreateWorkspaceDialog } from "@/components/workspace/CreateWorkspaceDialog";
 import { Button } from "@/components/ui/button";
