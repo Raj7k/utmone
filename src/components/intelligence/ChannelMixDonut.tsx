@@ -140,8 +140,8 @@ export default function ChannelMixDonut({ workspaceId, days, preloadedData }: Ch
 
             {/* Legend */}
             <div className="flex-1 space-y-2">
-              {channels.map((channel) => (
-                <div key={channel.name} className="flex items-center gap-2 text-sm">
+              {channels.map((channel, index) => (
+                <div key={`${channel.name}-${index}`} className="flex items-center gap-2 text-sm">
                   <div
                     className="w-2.5 h-2.5 rounded-full shrink-0"
                     style={{ backgroundColor: channel.color }}
@@ -185,7 +185,7 @@ function DonutChart({ data }: { data: ChannelData[] }) {
 
         return (
           <motion.circle
-            key={segment.name}
+            key={`${segment.name}-${index}`}
             cx={size / 2}
             cy={size / 2}
             r={radius}
