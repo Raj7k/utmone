@@ -184,7 +184,7 @@ export const useDashboardPrefetch = () => {
         queryFn: async () => {
           const { data } = await supabase
             .from("qr_codes")
-            .select("id, name, link_id, style_config, created_at")
+            .select("id, name, link_id, primary_color, secondary_color, corner_style, created_at")
             .eq("workspace_id", workspaceId)
             .order("created_at", { ascending: false })
             .limit(20);
