@@ -55,23 +55,17 @@ export const Navigation = () => {
   }, []);
 
   useEffect(() => {
-    const checkAnnouncementVisibility = () => {
-      const announcementsToUse = announcements;
-      const selected = AnnouncementScheduler.selectAnnouncement(announcementsToUse, false);
-      
-      if (selected) {
-        const dismissKey = `announcement-dismissed-${selected.id}`;
-        const isDismissed = localStorage.getItem(dismissKey);
-        setAnnouncementVisible(!isDismissed);
-      } else {
-        setAnnouncementVisible(false);
-      }
-    };
+    // Single check on mount - no polling needed
+    const announcementsToUse = announcements;
+    const selected = AnnouncementScheduler.selectAnnouncement(announcementsToUse, false);
     
-    checkAnnouncementVisibility();
-    const interval = setInterval(checkAnnouncementVisibility, 100);
-    
-    return () => clearInterval(interval);
+    if (selected) {
+      const dismissKey = `announcement-dismissed-${selected.id}`;
+      const isDismissed = localStorage.getItem(dismissKey);
+      setAnnouncementVisible(!isDismissed);
+    } else {
+      setAnnouncementVisible(false);
+    }
   }, []);
 
   const scrollToSection = (sectionId: string) => {
