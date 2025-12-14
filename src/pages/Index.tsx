@@ -13,7 +13,7 @@ import {
   useTrackCTAClick, 
   useTrackScrollDepth, 
   useTrackTimeOnPage 
-} from "@/hooks/useLandingPageAnalytics";
+} from "@/hooks/analytics";
 import { SEO } from "@/components/seo/SEO";
 import { LLMSchemaGenerator } from "@/components/seo/LLMSchemaGenerator";
 import { MainLayout } from "@/components/layout/MainLayout";

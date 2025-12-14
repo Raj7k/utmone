@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Activity } from "lucide-react";
 import { useBulkUploadActivity } from "@/hooks/useBulkUploadActivity";
-import { useWorkspaceMembers } from "@/hooks/useWorkspaceMembers";
+import { useWorkspaceMembers } from "@/hooks/workspace";
 import { formatDistanceToNow } from "date-fns";
 import { supabase } from "@/integrations/supabase/client";
 

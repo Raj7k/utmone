@@ -5,7 +5,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useBulkUploadComments } from "@/hooks/useBulkUploadComments";
-import { useWorkspaceMembers } from "@/hooks/useWorkspaceMembers";
+import { useWorkspaceMembers } from "@/hooks/workspace";
 import { MentionInput } from "./MentionInput";
 import { MessageSquare, CheckCircle, Circle, Reply } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
