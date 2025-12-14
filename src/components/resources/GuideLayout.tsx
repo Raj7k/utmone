@@ -1,10 +1,9 @@
 import { ReactNode, useState, useEffect } from "react";
 import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
 import { Link } from "react-router-dom";
-import { Twitter, Linkedin, Copy, Check, ArrowLeft, Calendar, List, ChevronDown } from "lucide-react";
+import { Twitter, Linkedin, Copy, Check, ArrowLeft, Calendar, List } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 interface TOCSection {
   id: string;
@@ -35,8 +34,8 @@ interface GuideLayoutProps {
   publishedDate?: string;
 }
 
-// Inline TOC for mobile/tablet - hidden on desktop where sidebar TOC is visible
-const InlineTableOfContents = ({ 
+// Section Navigation Cards - horizontal card-based TOC matching stats dashboard style
+const SectionNavCards = ({ 
   sections, 
   activeSection, 
   scrollToSection 
@@ -45,59 +44,62 @@ const InlineTableOfContents = ({
   activeSection: string;
   scrollToSection: (id: string) => void;
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <div className="not-prose mb-8 max-w-3xl">
-      <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-        <div className="bg-zinc-50 border border-zinc-200 rounded-xl overflow-hidden">
-          <CollapsibleTrigger className="w-full flex items-center justify-between p-4 hover:bg-zinc-100 transition-colors">
-            <div className="flex items-center gap-3">
-              <List className="w-5 h-5 text-zinc-500" />
-              <span className="font-semibold text-zinc-900">Table of Contents</span>
-              <span className="text-xs text-zinc-400">({sections.length} sections)</span>
-            </div>
-            <ChevronDown className={`w-5 h-5 text-zinc-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
-          </CollapsibleTrigger>
-          
-          <CollapsibleContent>
-            <nav className="p-4 pt-0 space-y-3 border-t border-zinc-200">
-              {sections.map((section) => (
-                <button
-                  key={section.id}
-                  onClick={() => {
-                    scrollToSection(section.id);
-                    setIsOpen(false);
-                  }}
-                  className={`flex items-start gap-3 w-full text-left transition-all group ${
-                    activeSection === section.id
-                      ? "text-zinc-900"
-                      : "text-zinc-500 hover:text-zinc-700"
-                  }`}
-                >
-                  <span
-                    className={`text-xs font-bold mt-0.5 transition-colors shrink-0 ${
-                      activeSection === section.id ? "text-zinc-900" : "text-zinc-400 group-hover:text-zinc-600"
-                    }`}
-                  >
-                    {section.number}
-                  </span>
-                  <div className="flex-1 min-w-0">
-                    <span className={`block text-sm ${activeSection === section.id ? "font-semibold" : ""}`}>
-                      {section.title}
-                    </span>
-                    {section.subtitle && (
-                      <span className="block text-xs text-zinc-400 mt-0.5 leading-relaxed">
-                        {section.subtitle}
-                      </span>
-                    )}
-                  </div>
-                </button>
-              ))}
-            </nav>
-          </CollapsibleContent>
-        </div>
-      </Collapsible>
+    <div className="not-prose mb-12">
+      <div className="flex items-center gap-3 mb-4">
+        <List className="w-5 h-5 text-zinc-400" />
+        <span className="text-sm font-medium text-zinc-500 uppercase tracking-wide">Jump to section</span>
+      </div>
+      
+      {/* Horizontal scroll on mobile, grid on larger screens */}
+      <div className="flex gap-3 overflow-x-auto pb-2 -mx-2 px-2 snap-x snap-mandatory scrollbar-hide md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 md:overflow-visible md:pb-0">
+        {sections.map((section) => {
+          const isActive = activeSection === section.id;
+          return (
+            <button
+              key={section.id}
+              onClick={() => scrollToSection(section.id)}
+              className={`
+                flex-shrink-0 snap-start
+                w-[160px] md:w-auto
+                p-4 rounded-xl border text-left
+                transition-all duration-200
+                group
+                ${isActive 
+                  ? 'bg-zinc-900 border-zinc-900 shadow-lg' 
+                  : 'bg-white border-zinc-200 hover:border-zinc-300 hover:shadow-md'
+                }
+              `}
+            >
+              {/* Section Number */}
+              <span className={`
+                text-xs font-bold block mb-2
+                ${isActive ? 'text-zinc-400' : 'text-zinc-300 group-hover:text-zinc-400'}
+              `}>
+                {section.number}
+              </span>
+              
+              {/* Section Title */}
+              <span className={`
+                text-sm font-semibold block leading-tight
+                ${isActive ? 'text-white' : 'text-zinc-900'}
+              `}>
+                {section.title}
+              </span>
+              
+              {/* Section Subtitle */}
+              {section.subtitle && (
+                <span className={`
+                  text-xs block mt-1.5 leading-relaxed line-clamp-2
+                  ${isActive ? 'text-zinc-400' : 'text-zinc-500'}
+                `}>
+                  {section.subtitle}
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 };
@@ -279,9 +281,9 @@ export const GuideLayout = ({
       {/* Main Content Area */}
       <section className="py-20">
         <div className="max-w-[1200px] mx-auto px-8">
-          {/* Inline TOC for all screen sizes */}
+          {/* Section Navigation Cards */}
           {tableOfContents && tableOfContents.length > 0 && (
-            <InlineTableOfContents 
+            <SectionNavCards 
               sections={tableOfContents} 
               activeSection={activeSection}
               scrollToSection={scrollToSection}
