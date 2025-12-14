@@ -52,6 +52,7 @@ interface IntelligenceData {
 
 // Cache helpers
 const CACHE_KEY = 'intelligence-data-cache';
+const DASHBOARD_CACHE_KEY = 'dashboard-unified-cache';
 const CACHE_TTL = 2 * 60 * 1000; // 2 min full cache
 const STALE_TTL = 30 * 1000; // 30 sec stale threshold
 
@@ -75,7 +76,34 @@ function setCachedIntelligence(workspaceId: string, days: number, data: Intellig
   } catch {}
 }
 
-export function useIntelligenceData(workspaceId: string | undefined, days: number = 7) {
+// Read from dashboard unified cache for shared data
+function getDashboardCacheData(workspaceId: string | undefined): { totalClicks?: number; campaigns?: Array<{ id: string; name: string }> } | undefined {
+  if (!workspaceId) return undefined;
+  try {
+    const cached = localStorage.getItem(`${DASHBOARD_CACHE_KEY}-${workspaceId}`);
+    if (!cached) return undefined;
+    const { data, timestamp } = JSON.parse(cached);
+    const age = Date.now() - timestamp;
+    if (age > CACHE_TTL) return undefined;
+    
+    // Extract clicks total from links
+    const totalClicks = data?.links?.reduce((sum: number, link: any) => sum + (link.total_clicks || 0), 0) || 0;
+    const campaigns = data?.campaigns?.map((c: any) => ({ id: c.id, name: c.name })) || [];
+    
+    return { totalClicks, campaigns };
+  } catch { return undefined; }
+}
+
+interface PreloadedData {
+  totalClicks?: number;
+  campaigns?: Array<{ id: string; name: string }>;
+}
+
+export function useIntelligenceData(
+  workspaceId: string | undefined, 
+  days: number = 7,
+  preloaded?: PreloadedData
+) {
   const startDate = new Date();
   startDate.setDate(startDate.getDate() - days);
   const startDateStr = startDate.toISOString();
@@ -83,6 +111,11 @@ export function useIntelligenceData(workspaceId: string | undefined, days: numbe
   const prevStartDate = new Date(startDate);
   prevStartDate.setDate(prevStartDate.getDate() - days);
   const prevStartDateStr = prevStartDate.toISOString();
+
+  // Check dashboard unified cache for shared data
+  const dashboardCache = getDashboardCacheData(workspaceId);
+  const preloadedClicks = preloaded?.totalClicks ?? dashboardCache?.totalClicks;
+  const preloadedCampaigns = preloaded?.campaigns ?? dashboardCache?.campaigns;
 
   // Get cached data with stale check
   const cachedResult = workspaceId ? getCachedIntelligence(workspaceId, days) : undefined;
