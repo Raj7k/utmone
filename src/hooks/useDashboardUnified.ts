@@ -180,6 +180,10 @@ export const useDashboardUnified = (range: string = "30d") => {
       const daysBack = range === "7d" ? 7 : range === "90d" ? 90 : 30;
       const startDate = subDays(today, daysBack);
 
+      // Get current user for profile query
+      const { data: { user } } = await supabase.auth.getUser();
+      const userId = user?.id;
+
       // PARALLEL: Fetch all data at once from tables directly
       const [
         linksResult,
@@ -190,7 +194,8 @@ export const useDashboardUnified = (range: string = "30d") => {
         qrCodesResult,
         domainsResult,
         pixelsResult,
-        totalLinksResult
+        totalLinksResult,
+        profileResult
       ] = await Promise.all([
         // 1. Regular links
         supabase
@@ -263,7 +268,14 @@ export const useDashboardUnified = (range: string = "30d") => {
           .from("links")
           .select("id", { count: "exact", head: true })
           .eq("workspace_id", workspaceId)
-          .is("deleted_at", null)
+          .is("deleted_at", null),
+
+        // 10. Profile data for onboarding (hasViewedAnalytics, hasInvitedTeam)
+        userId ? supabase
+          .from("profiles")
+          .select("first_analytics_viewed_at, team_members_invited_count")
+          .eq("id", userId)
+          .single() : Promise.resolve({ data: null, error: null })
       ]);
 
       // Process links
@@ -338,8 +350,8 @@ export const useDashboardUnified = (range: string = "30d") => {
       const onboarding: DashboardOnboarding = {
         hasLinks: linkCount > 0,
         hasQrCodes: qrCount > 0,
-        hasViewedAnalytics: false, // Will be set from profile data if needed
-        hasInvitedTeam: false, // Will be set from profile data if needed
+        hasViewedAnalytics: !!profileResult.data?.first_analytics_viewed_at,
+        hasInvitedTeam: (profileResult.data?.team_members_invited_count || 0) > 0,
         hasCustomDomain: domainCount > 0,
         hasInstalledPixel: pixelCount > 0,
         linkCount
