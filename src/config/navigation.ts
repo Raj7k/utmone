@@ -53,7 +53,6 @@ export const appNavigation: NavItem[] = [
   { name: "Links", href: "/dashboard/links", icon: Link2 },
   { name: "Intelligence", href: "/dashboard/intelligence", icon: BarChart3 },
   { name: "Sales", href: "/dashboard/sales", icon: DollarSign },
-  { name: "Events", href: "/dashboard/events", icon: CalendarDays, isNew: true },
   { name: "Approvals", href: "/dashboard/approvals", icon: Clock, badge: true },
 ];
 
@@ -64,7 +63,7 @@ export const toolsNavigation: NavItem[] = [
   { name: "Bulk Create", href: "/dashboard/bulk-create", icon: Layers },
   { name: "Link Validator", href: "/dashboard/onelink-validator", icon: Brain },
   { name: "A/B Testing", href: "/dashboard/experiments", icon: Beaker },
-  { name: "Event Halo", href: "/dashboard/events", icon: Waves, isNew: true },
+  { name: "Event Halo", href: "/dashboard/event-halo", icon: Waves, isNew: true },
   { name: "One-Tap Scanner", href: "/scan", icon: Scan, isNew: true },
 ];
 

@@ -173,7 +173,7 @@ const Events = () => {
               <div className="animate-fade-in">
                 {/* Header */}
                 <div className="mb-6">
-                  <h2 className="font-display text-xl font-semibold text-foreground">field events</h2>
+                  <h2 className="font-display text-xl font-semibold text-foreground">event halo</h2>
                   <p className="text-muted-foreground text-sm">
                     track the invisible lift from conferences, trade shows, and meetups
                   </p>

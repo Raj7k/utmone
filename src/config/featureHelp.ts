@@ -5,7 +5,6 @@ export const featureHelpDescriptions: Record<string, string> = {
   "Links": "Shortened URLs with built-in analytics and tracking",
   "Intelligence": "Deep analytics and performance insights",
   "Sales": "Track revenue attribution from your links",
-  "Events": "Manage field events and track offline impact",
   "Approvals": "Review and approve links before publishing",
   
   // Tools
@@ -14,7 +13,7 @@ export const featureHelpDescriptions: Record<string, string> = {
   "Bulk Create": "Create hundreds of links at once via CSV",
   "Link Validator": "Check link health and UTM consistency",
   "A/B Testing": "Test different destinations to optimize CTR",
-  "Event Halo": "Measure offline event impact on web traffic",
+  "Event Halo": "Track field events and measure offline impact on web traffic",
   "One-Tap Scanner": "Scan badges and instantly capture leads",
   
   // Intelligence
@@ -31,7 +30,6 @@ export const featureHelpDescriptions: Record<string, string> = {
 
 // Features that should show "NEW" badge until user visits them
 export const newFeatures = [
-  "Events",
   "Event Halo", 
   "One-Tap Scanner",
 ];
