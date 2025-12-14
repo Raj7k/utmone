@@ -25,6 +25,7 @@ import { AttributionTabContent } from "@/components/analytics/AttributionTabCont
 import { useQueryClient } from "@tanstack/react-query";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
+import { StaleIndicator } from "@/components/loading/CardSkeleton";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const COLORS = {
@@ -75,6 +76,7 @@ export default function Analytics() {
     executiveMetrics, 
     isLoading, 
     isFetching, 
+    isStale,
     error,
     refetch 
   } = useDashboardUnified("30d");
@@ -188,13 +190,10 @@ export default function Analytics() {
         </>
       )}
 
-      {/* Non-blocking: always show content, with subtle loading indicator */}
-      {showLoadingIndicator && (
-        <div className="flex items-center gap-2 text-xs text-muted-foreground mb-4">
-          <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-          <span>updating...</span>
-        </div>
-      )}
+      {/* Stale data indicator */}
+      <div className="mb-4">
+        <StaleIndicator visible={isStale || showLoadingIndicator} />
+      </div>
       
       {/* Executive Metrics Hero Bar */}
       <ExecutiveMetricsBar

@@ -28,6 +28,7 @@ import { SentinelSavesWidget } from "@/components/analytics/SentinelSavesWidget"
 import { useSentinelStats } from "@/hooks/useSentinelSaves";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
+import { StaleIndicator } from "@/components/loading/CardSkeleton";
 
 // Lazy load heavy visualization components
 const IdentityGraphView = lazy(() => import("@/components/attribution/IdentityGraphView").then(m => ({ default: m.IdentityGraphView })));
@@ -51,7 +52,7 @@ export default function Intelligence() {
     : periodDays[period];
 
   // Use unified data hook for fast loading
-  const { data: intelligenceData, isLoading } = useIntelligenceData(effectiveWorkspaceId, days);
+  const { data: intelligenceData, isLoading, isFetching, isStale } = useIntelligenceData(effectiveWorkspaceId, days);
 
   // Signal navigation complete when data loads or times out
   useEffect(() => {
@@ -103,7 +104,11 @@ export default function Intelligence() {
   }
 
   return (
-    <div className="animate-fade-in">
+    <div className="animate-fade-in relative">
+    {/* Stale data indicator */}
+    <div className="absolute top-0 right-0 z-10">
+      <StaleIndicator visible={isStale || isFetching} />
+    </div>
     <PageContentWrapper
       title="intelligence"
       description="your unified analytics command center"

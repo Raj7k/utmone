@@ -52,14 +52,17 @@ interface IntelligenceData {
 
 // Cache helpers
 const CACHE_KEY = 'intelligence-data-cache';
+const CACHE_TTL = 2 * 60 * 1000; // 2 min full cache
+const STALE_TTL = 30 * 1000; // 30 sec stale threshold
 
-function getCachedIntelligence(workspaceId: string, days: number): IntelligenceData | undefined {
+function getCachedIntelligence(workspaceId: string, days: number): { data: IntelligenceData; isStale: boolean } | undefined {
   try {
     const cached = localStorage.getItem(`${CACHE_KEY}-${workspaceId}-${days}`);
     if (!cached) return undefined;
     const { data, timestamp } = JSON.parse(cached);
-    if (Date.now() - timestamp > 2 * 60 * 1000) return undefined; // 2 min expiry
-    return data;
+    const age = Date.now() - timestamp;
+    if (age > CACHE_TTL) return undefined;
+    return { data, isStale: age > STALE_TTL };
   } catch { return undefined; }
 }
 
@@ -80,6 +83,11 @@ export function useIntelligenceData(workspaceId: string | undefined, days: numbe
   const prevStartDate = new Date(startDate);
   prevStartDate.setDate(prevStartDate.getDate() - days);
   const prevStartDateStr = prevStartDate.toISOString();
+
+  // Get cached data with stale check
+  const cachedResult = workspaceId ? getCachedIntelligence(workspaceId, days) : undefined;
+  const cachedData = cachedResult?.data;
+  const isCacheStale = cachedResult?.isStale ?? true;
 
   // Single optimized query that gets all essential data
   const { data, isLoading, isFetching, error } = useQuery({
@@ -256,17 +264,22 @@ export function useIntelligenceData(workspaceId: string | undefined, days: numbe
       return result;
     },
     enabled: !!workspaceId,
-    staleTime: 2 * 60 * 1000, // 2 minutes
-    gcTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: STALE_TTL,
+    gcTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
-    refetchOnMount: false, // Trust cache
-    initialData: () => workspaceId ? getCachedIntelligence(workspaceId, days) : undefined,
+    refetchOnMount: isCacheStale, // Only refetch if stale
+    initialData: () => cachedData,
   });
 
+  // Use cached data immediately if available
+  const effectiveData = data || cachedData;
+  const hasData = !!effectiveData;
+
   return {
-    data: data || getEmptyData(),
-    isLoading,
+    data: effectiveData || getEmptyData(),
+    isLoading: isLoading && !hasData,
     isFetching,
+    isStale: isCacheStale && hasData,
     error,
   };
 }
