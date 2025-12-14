@@ -61,10 +61,19 @@ export default function Intelligence() {
     : periodDays[period];
 
   // OPTIMIZED: Use shared dashboard cache for instant initial data
-  const { campaigns: cachedCampaigns, isFetched: hasCachedData } = useDashboardUnified();
+  const { campaigns: cachedCampaigns, links, isFetched: hasCachedData } = useDashboardUnified();
 
-  // Use unified data hook for fast loading - leverages shared cache
-  const { data: intelligenceData, isLoading, isFetching, isStale } = useIntelligenceData(effectiveWorkspaceId, days);
+  // Calculate total clicks from cached links
+  const cachedTotalClicks = links?.reduce((sum, link) => sum + (link.total_clicks || 0), 0) || 0;
+
+  // Pass preloaded data to skip redundant queries
+  const preloaded = hasCachedData ? {
+    totalClicks: cachedTotalClicks,
+    campaigns: cachedCampaigns?.map(c => ({ id: c.id, name: c.name })),
+  } : undefined;
+
+  // Use unified data hook for fast loading - leverages shared cache + preloaded data
+  const { data: intelligenceData, isLoading, isFetching, isStale } = useIntelligenceData(effectiveWorkspaceId, days, preloaded);
 
   // Signal navigation complete when data loads or times out
   useEffect(() => {
