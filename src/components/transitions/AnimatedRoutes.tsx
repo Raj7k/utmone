@@ -15,7 +15,7 @@ export function AnimatedRoutes({ children }: AnimatedRoutesProps) {
   const location = useLocation();
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
+    <AnimatePresence mode="sync" initial={false}>
       <PageTransition key={location.pathname}>
         {children}
       </PageTransition>
