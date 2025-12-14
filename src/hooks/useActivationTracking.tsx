@@ -1,14 +1,15 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useAppSession } from "@/contexts/AppSessionContext";
 
 export const useActivationTracking = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { user } = useAppSession();
 
   const trackFirstLinkMutation = useMutation({
     mutationFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
       const { error } = await supabase
@@ -30,7 +31,6 @@ export const useActivationTracking = () => {
 
   const trackFirstQRMutation = useMutation({
     mutationFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
       const { error } = await supabase
@@ -52,7 +52,6 @@ export const useActivationTracking = () => {
 
   const trackFirstAnalyticsViewMutation = useMutation({
     mutationFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
       const { error } = await supabase
@@ -74,7 +73,6 @@ export const useActivationTracking = () => {
 
   const incrementTeamInvitesMutation = useMutation({
     mutationFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
       const { data: profile } = await supabase

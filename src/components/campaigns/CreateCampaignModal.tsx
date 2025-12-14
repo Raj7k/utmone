@@ -12,6 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { Loader2, Sparkles, ArrowRight, ArrowLeft } from "lucide-react";
+import { useAppSession } from "@/contexts/AppSessionContext";
 
 const campaignSchema = z.object({
   name: z.string().min(1, "Campaign name is required").max(100),
@@ -55,6 +56,7 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
   const [selectedChannels, setSelectedChannels] = useState<string[]>([]);
   const { currentWorkspace } = useWorkspace();
   const queryClient = useQueryClient();
+  const { user } = useAppSession();
 
   const form = useForm<CampaignFormData>({
     resolver: zodResolver(campaignSchema),
@@ -68,8 +70,6 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
   const createCampaignMutation = useMutation({
     mutationFn: async (data: CampaignFormData) => {
       if (!currentWorkspace) throw new Error("No workspace selected");
-      
-      const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
       // Step 1: Create campaign

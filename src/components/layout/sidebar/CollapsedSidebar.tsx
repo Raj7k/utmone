@@ -14,6 +14,7 @@ import {
   intelligenceNavigation, 
   settingsNavigation 
 } from "@/config/navigation";
+import { useAppSession } from "@/contexts/AppSessionContext";
 
 // Flatten all navigation items for collapsed sidebar
 const navigation = [
@@ -27,6 +28,8 @@ export const CollapsedSidebar = () => {
   const location = useLocation();
   const { currentWorkspace } = useWorkspaceContext();
   const { toggleSidebar } = useSidebar();
+  const { user } = useAppSession();
+  const userId = user?.id;
 
   const { data: pendingCount } = useQuery({
     queryKey: ['pending-approvals-count', currentWorkspace?.id],
@@ -44,17 +47,17 @@ export const CollapsedSidebar = () => {
   });
 
   const { data: profile } = useQuery({
-    queryKey: ['user-profile'],
+    queryKey: ['user-profile', userId],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+      if (!userId) return null;
       const { data } = await supabase
         .from('profiles')
         .select('full_name, avatar_url')
-        .eq('id', user.id)
+        .eq('id', userId)
         .single();
       return data;
     },
+    enabled: !!userId,
   });
 
   const isActive = (href: string) => {
