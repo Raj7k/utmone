@@ -1,3 +1,4 @@
+import type React from "react";
 import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -5,6 +6,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { AppProvider } from "./contexts/AppProvider";
+import { NotificationProvider } from "./contexts/NotificationContext";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { InlineDashboardSkeleton, MarketingSkeleton, DashboardSkeleton } from "./components/SkeletonLoader";
 import { SkipToContent } from "./components/SkipToContent";
@@ -550,6 +552,12 @@ const PRIVATE_ROUTE_PREFIXES = [
   "/dev/performance",
 ];
 
+const PublicNotificationShell = ({ children }: { children: React.ReactNode }) => (
+  <NotificationProvider>
+    {children}
+  </NotificationProvider>
+);
+
 const AppRoutes = () => {
   const location = useLocation();
   const isPrivateRoute = PRIVATE_ROUTE_PREFIXES.some((prefix) => location.pathname.startsWith(prefix));
@@ -602,7 +610,16 @@ const AppRoutes = () => {
                <Route path="/feedback" element={<Suspense fallback={<MarketingSkeleton />}><PublicBugTracker /></Suspense>} />
                
                {/* Invitation Acceptance */}
-               <Route path="/accept-invite" element={<Suspense fallback={<DashboardSkeleton />}><AcceptInvite /></Suspense>} />
+              <Route
+                path="/accept-invite"
+                element={(
+                  <Suspense fallback={<DashboardSkeleton />}>
+                    <PublicNotificationShell>
+                      <AcceptInvite />
+                    </PublicNotificationShell>
+                  </Suspense>
+                )}
+              />
               
                {/* Dashboard Routes - Protected */}
               <Route path="/dashboard" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardHome /></DashboardLayout></Suspense></ProtectedRoute>} />
@@ -668,7 +685,16 @@ const AppRoutes = () => {
               <Route path="/settings/backup" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Backup /></Suspense></ProtectedRoute>} />
               <Route path="/settings/developer" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DeveloperSettings /></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/approvals" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><ApprovalQueue /></DashboardLayout></Suspense></ProtectedRoute>} />
-              <Route path="/password-protected" element={<Suspense fallback={<DashboardSkeleton />}><PasswordProtected /></Suspense>} />
+              <Route
+                path="/password-protected"
+                element={(
+                  <Suspense fallback={<DashboardSkeleton />}>
+                    <PublicNotificationShell>
+                      <PasswordProtected />
+                    </PublicNotificationShell>
+                  </Suspense>
+                )}
+              />
               <Route path="/accessibility" element={<Suspense fallback={<MarketingSkeleton />}><Accessibility /></Suspense>} />
               <Route path="/permanence" element={<Suspense fallback={<MarketingSkeleton />}><Permanence /></Suspense>} />
               <Route path="/pricing" element={<Suspense fallback={<MarketingSkeleton />}><Pricing /></Suspense>} />
