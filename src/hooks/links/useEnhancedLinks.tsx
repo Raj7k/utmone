@@ -120,7 +120,7 @@ export const useEnhancedLinks = ({
 
       if (error) throw error;
 
-      const enhancedLinks = (links || []).map((link) => ({
+      const enhancedLinks = (links || []).map((link: any) => ({
         ...link,
         owner: null, // Skip JOIN for performance
         clicks_last_30_days: link.total_clicks || 0,
