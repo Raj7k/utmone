@@ -199,8 +199,8 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
               </div>
             </>
           ) : (
-            /* Success State */
-            <div className="text-center space-y-4 animate-fade-in animate-scale-in">
+            /* Success State - single animation only */
+            <div className="text-center space-y-4 animate-fade-in">
               <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mx-auto">
                 <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center">
                   <Check className="w-6 h-6 text-white" strokeWidth={3} />

@@ -29,7 +29,7 @@ export const PageContentWrapper = ({
   compact = false,
 }: PageContentWrapperProps) => {
   return (
-    <div className={cn("space-y-6 max-w-7xl page-enter", className)}>
+    <div className={cn("space-y-6 max-w-7xl", className)}>
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-2 text-sm">
         <Link
