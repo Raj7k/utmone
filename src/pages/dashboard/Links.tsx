@@ -16,25 +16,7 @@ import { BulkSentinelPanel } from "@/components/sentinel";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
-import { Skeleton } from "@/components/ui/skeleton";
-
-// Skeleton for hero stats
-const HeroStatsSkeleton = () => (
-  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-    {[1, 2, 3, 4].map(i => (
-      <Skeleton key={i} className="h-24 rounded-xl" />
-    ))}
-  </div>
-);
-
-// Skeleton for link cards
-const LinkCardGridSkeleton = () => (
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    {[1, 2, 3, 4, 5, 6].map(i => (
-      <Skeleton key={i} className="h-48 rounded-xl" />
-    ))}
-  </div>
-);
+import { StaleIndicator, HeroStatsSkeleton, LinkCardGridSkeleton } from "@/components/loading/CardSkeleton";
 
 export default function Links() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -48,7 +30,7 @@ export default function Links() {
   // Use cached workspace ID as fallback for immediate query start
   const effectiveWorkspaceId = currentWorkspace?.id || getCachedWorkspaceId() || "";
 
-  const { data, isLoading, isFetched } = useEnhancedLinks({
+  const { data, isLoading, isFetched, isFetching } = useEnhancedLinks({
     workspaceId: effectiveWorkspaceId,
     searchQuery,
     statusFilter,
@@ -74,7 +56,11 @@ export default function Links() {
   // Progressive render with fade-in
   return (
     <ErrorBoundary fallback={<div className="p-8 text-center text-muted-foreground">Something went wrong loading links. Please refresh the page.</div>}>
-      <div className="animate-fade-in">
+      <div className="animate-fade-in relative">
+      {/* Stale data indicator */}
+      <div className="absolute top-0 right-0 z-10">
+        <StaleIndicator visible={isFetching && !!data?.links?.length} />
+      </div>
       <PageContentWrapper
         title="links"
         description="decision intelligence dashboard with health scores and AI insights"

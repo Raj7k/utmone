@@ -10,11 +10,12 @@ import { Plus, Zap, Briefcase, Eye } from "lucide-react";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
+import { StaleIndicator } from "@/components/loading/CardSkeleton";
 import { motion } from "framer-motion";
 
 const Sales = () => {
   const { hasTimedOut, retry, currentWorkspace } = useWorkspace();
-  const { salesLinks, isFetching, isFetched, isLoading, refetch } = useDashboardUnified();
+  const { salesLinks, isFetching, isFetched, isLoading, isStale, refetch } = useDashboardUnified();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   // Complete navigation progress when data loads or times out
@@ -59,12 +60,10 @@ const Sales = () => {
         </Button>
       }
     >
-      {/* Subtle loading indicator */}
-      {isFetching && (
-        <div className="absolute top-4 right-4">
-          <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
-        </div>
-      )}
+      {/* Stale data indicator */}
+      <div className="absolute top-4 right-4">
+        <StaleIndicator visible={isStale || isFetching} />
+      </div>
 
       {/* Stats Banner - always render with data */}
       <motion.div 
