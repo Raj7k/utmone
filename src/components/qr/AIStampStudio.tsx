@@ -220,6 +220,13 @@ export function AIStampStudio({ shortUrl, linkId }: AIStampStudioProps) {
         .from("qr-codes")
         .getPublicUrl(filePath);
 
+      // Fetch link to get workspace_id
+      const { data: linkData } = await supabase
+        .from("links")
+        .select("workspace_id")
+        .eq("id", linkId)
+        .single();
+
       // Insert into qr_codes table
       const { error: insertError } = await supabase
         .from("qr_codes")
@@ -229,6 +236,7 @@ export function AIStampStudio({ shortUrl, linkId }: AIStampStudioProps) {
           variant_name: concept || "AI Generated",
           png_url: publicUrl,
           created_by: user.id,
+          workspace_id: linkData?.workspace_id,
         });
 
       if (insertError) throw insertError;

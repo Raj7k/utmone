@@ -159,6 +159,7 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
           has_logo: data.hasLogo,
           png_url: pngUrlData.publicUrl,
           svg_url: svgUrlData.publicUrl,
+          workspace_id: currentWorkspace?.id,
         };
         
 

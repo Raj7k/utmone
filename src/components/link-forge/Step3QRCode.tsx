@@ -33,6 +33,13 @@ export const Step3QRCode = ({ linkId, shortUrl, onBack }: Step3QRCodeProps) => {
 
       setQrImageUrl(qrApiUrl);
 
+      // Fetch link to get workspace_id
+      const { data: linkData } = await supabase
+        .from("links")
+        .select("workspace_id")
+        .eq("id", linkId)
+        .single();
+
       // Save QR code to database
       const { data, error } = await supabase
         .from("qr_codes")
@@ -41,6 +48,7 @@ export const Step3QRCode = ({ linkId, shortUrl, onBack }: Step3QRCodeProps) => {
           created_by: user.id,
           name: `qr-${Date.now()}`,
           image_url: qrApiUrl,
+          workspace_id: linkData?.workspace_id,
           settings: {
             size: parseInt(qrSize),
             color: qrColor,

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { useActivationTracking } from "@/hooks/useActivationTracking";
@@ -21,12 +21,18 @@ import { TopCampaignsTable } from "@/components/analytics/TopCampaignsTable";
 import { QuickActionsPanel } from "@/components/analytics/QuickActionsPanel";
 import { AnalyticsShareDialog } from "@/components/analytics/AnalyticsShareDialog";
 import { ScheduleReportDialog } from "@/components/analytics/ScheduleReportDialog";
-import { AttributionTabContent } from "@/components/analytics/AttributionTabContent";
 import { useQueryClient } from "@tanstack/react-query";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
 import { StaleIndicator } from "@/components/loading/CardSkeleton";
 import { Skeleton } from "@/components/ui/skeleton";
+import { LazySection } from "@/components/loading/LazySection";
+
+// Lazy load heavy Attribution tab (575 lines, 6+ queries)
+const AttributionTabContent = lazy(() => 
+  import("@/components/analytics/AttributionTabContent")
+    .then(mod => ({ default: mod.AttributionTabContent }))
+);
 
 const COLORS = {
   mobile: "hsl(var(--primary))",
@@ -228,11 +234,13 @@ export default function Analytics() {
             </div>
           </div>
 
-          {/* Channel Performance & Top Campaigns */}
-          <div className="grid lg:grid-cols-2 gap-6">
-            <ChannelPerformanceGrid workspaceId={effectiveWorkspaceId} />
-            <TopCampaignsTable workspaceId={effectiveWorkspaceId} />
-          </div>
+          {/* Channel Performance & Top Campaigns - Lazy loaded */}
+          <LazySection fallback={<Skeleton className="h-80 rounded-xl" />}>
+            <div className="grid lg:grid-cols-2 gap-6">
+              <ChannelPerformanceGrid workspaceId={effectiveWorkspaceId} />
+              <TopCampaignsTable workspaceId={effectiveWorkspaceId} />
+            </div>
+          </LazySection>
 
           {/* Main Tabs */}
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
@@ -289,10 +297,12 @@ export default function Analytics() {
                   />
                 </div>
               </div>
-              <div className="grid lg:grid-cols-2 gap-6">
-                <ChannelPerformanceGrid workspaceId={effectiveWorkspaceId} />
-                <TopCampaignsTable workspaceId={effectiveWorkspaceId} />
-              </div>
+              <LazySection fallback={<Skeleton className="h-80 rounded-xl" />}>
+                <div className="grid lg:grid-cols-2 gap-6">
+                  <ChannelPerformanceGrid workspaceId={effectiveWorkspaceId} />
+                  <TopCampaignsTable workspaceId={effectiveWorkspaceId} />
+                </div>
+              </LazySection>
             </TabsContent>
 
             <TabsContent value="timing">
@@ -431,7 +441,17 @@ export default function Analytics() {
             </TabsContent>
 
             <TabsContent value="attribution">
-              <AttributionTabContent workspaceId={currentWorkspace?.id} />
+              <Suspense fallback={
+                <div className="space-y-6">
+                  <Skeleton className="h-40 rounded-xl" />
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-24 rounded-xl" />)}
+                  </div>
+                  <Skeleton className="h-80 rounded-xl" />
+                </div>
+              }>
+                <AttributionTabContent workspaceId={currentWorkspace?.id} />
+              </Suspense>
             </TabsContent>
           </Tabs>
 
