@@ -15,7 +15,11 @@ import TopCampaignsCard from "@/components/intelligence/TopCampaignsCard";
 import EventImpactRow from "@/components/intelligence/EventImpactRow";
 import ChannelMixDonut from "@/components/intelligence/ChannelMixDonut";
 import GeoHeatTiles from "@/components/intelligence/GeoHeatTiles";
-import LiveActivityRail from "@/components/intelligence/LiveActivityRail";
+import { LazySection } from "@/components/loading/LazySection";
+import { Skeleton } from "@/components/ui/skeleton";
+
+// Lazy load LiveActivityRail - only visible on desktop, below fold
+const LiveActivityRail = lazy(() => import("@/components/intelligence/LiveActivityRail"));
 import AttributionSheet from "@/components/intelligence/AttributionSheet";
 import CampaignSheet from "@/components/intelligence/CampaignSheet";
 import MobileActivitySheet from "@/components/intelligence/MobileActivitySheet";
@@ -259,13 +263,20 @@ export default function Intelligence() {
             </div>
           </div>
 
-          {/* Live Activity Rail - Right Sidebar (hidden on mobile) */}
+          {/* Live Activity Rail - Right Sidebar (hidden on mobile, lazy loaded) */}
           <div className="hidden xl:block w-80 shrink-0">
             <div className="sticky top-6">
-              <LiveActivityRail 
-                workspaceId={currentWorkspace?.id}
-                preloadedClicks={intelligenceData.recentClicks}
-              />
+              <LazySection 
+                fallback={<Skeleton className="h-96 rounded-xl" />}
+                rootMargin="100px"
+              >
+                <Suspense fallback={<Skeleton className="h-96 rounded-xl" />}>
+                  <LiveActivityRail 
+                    workspaceId={currentWorkspace?.id}
+                    preloadedClicks={intelligenceData.recentClicks}
+                  />
+                </Suspense>
+              </LazySection>
             </div>
           </div>
         </div>
