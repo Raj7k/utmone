@@ -15,6 +15,7 @@ import {
   settingsNavigation 
 } from "@/config/navigation";
 import { useAppSession } from "@/contexts/AppSessionContext";
+import { usePendingApprovalsCount } from "@/hooks/usePendingApprovalsCount";
 
 // Flatten all navigation items for collapsed sidebar
 const navigation = [
@@ -31,20 +32,7 @@ export const CollapsedSidebar = () => {
   const { user } = useAppSession();
   const userId = user?.id;
 
-  const { data: pendingCount } = useQuery({
-    queryKey: ['pending-approvals-count', currentWorkspace?.id],
-    queryFn: async () => {
-      if (!currentWorkspace?.id) return 0;
-      const { count } = await supabase
-        .from('links')
-        .select('*', { count: 'exact', head: true })
-        .eq('approval_status', 'pending')
-        .eq('workspace_id', currentWorkspace.id);
-      return count || 0;
-    },
-    enabled: !!currentWorkspace?.id,
-    refetchInterval: 30000,
-  });
+  const { data: pendingCount } = usePendingApprovalsCount();
 
   const { data: profile } = useQuery({
     queryKey: ['user-profile', userId],
