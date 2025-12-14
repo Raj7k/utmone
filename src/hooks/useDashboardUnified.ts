@@ -5,6 +5,31 @@ import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { startOfDay, subDays } from "date-fns";
 import { useRef, useEffect } from "react";
 
+// PHASE 21: Type for prefetched data from index.html script
+interface PrefetchedData {
+  linksCount: number;
+  clicksToday: number;
+  workspaceId: string;
+}
+
+// Consume prefetched data promise from head script
+async function consumePrefetchedData(workspaceId: string): Promise<PrefetchedData | null> {
+  try {
+    const prefetched = (window as { __PREFETCHED_DATA__?: Promise<PrefetchedData | null> }).__PREFETCHED_DATA__;
+    if (prefetched) {
+      const data = await prefetched;
+      if (data && data.workspaceId === workspaceId) {
+        // Clear after use
+        delete (window as { __PREFETCHED_DATA__?: Promise<PrefetchedData | null> }).__PREFETCHED_DATA__;
+        return data;
+      }
+    }
+  } catch {
+    // Ignore errors
+  }
+  return null;
+}
+
 const CACHE_KEY = "DASHBOARD_UNIFIED_CACHE";
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 const STALE_TTL = 30 * 1000; // 30 seconds - show cached, refresh in background
@@ -176,6 +201,12 @@ export const useDashboardUnified = (range: string = "30d") => {
     queryKey: ["dashboard-direct", workspaceId, range],
     queryFn: async (): Promise<DashboardData> => {
       console.log("[useDashboardUnified] Fetching directly from tables...");
+      
+      // PHASE 21: Check for prefetched data from head script first
+      const prefetched = await consumePrefetchedData(workspaceId);
+      if (prefetched) {
+        console.log("[useDashboardUnified] Using prefetched stats:", prefetched);
+      }
       
       const today = startOfDay(new Date());
       const daysBack = range === "7d" ? 7 : range === "90d" ? 90 : 30;

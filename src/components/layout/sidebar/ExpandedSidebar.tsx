@@ -25,7 +25,7 @@ import {
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { useSidebar } from "./SidebarProvider";
-import { motion } from "framer-motion";
+// PHASE 18: Removed framer-motion - using CSS transitions instead
 import { newFeatures } from "@/config/featureHelp";
 import { useDashboardPrefetch } from "@/hooks/useDashboardPrefetch";
 import { usePendingApprovalsCount } from "@/hooks/usePendingApprovalsCount";
@@ -177,30 +177,26 @@ export const ExpandedSidebar = () => {
         <Link to="/dashboard" className="flex items-center">
           <UtmOneLogo size="md" />
         </Link>
-        <motion.button
+        <button
           onClick={toggleSidebar}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="w-7 h-7 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          className="w-7 h-7 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-all duration-150 hover:scale-105 active:scale-95"
         >
           <ChevronLeft className="h-4 w-4" />
-        </motion.button>
+        </button>
       </div>
 
       {/* Search */}
       <div className="px-3 py-3">
-        <motion.button
+        <button
           onClick={openSearch}
-          whileHover={{ scale: 1.01 }}
-          whileTap={{ scale: 0.99 }}
-          className="w-full h-9 px-3 rounded-lg border border-border/50 bg-muted/30 flex items-center gap-2 text-sm text-muted-foreground hover:border-border hover:bg-muted/50 transition-colors"
+          className="w-full h-9 px-3 rounded-lg border border-border/50 bg-muted/30 flex items-center gap-2 text-sm text-muted-foreground hover:border-border hover:bg-muted/50 transition-all duration-150 hover:scale-[1.01] active:scale-[0.99]"
         >
           <Search className="h-4 w-4" />
           <span>Search...</span>
           <kbd className="ml-auto inline-flex h-5 items-center gap-1 rounded border border-border/50 bg-muted/50 px-1.5 font-mono text-[10px] text-muted-foreground">
             ⌘F
           </kbd>
-        </motion.button>
+        </button>
       </div>
 
       {/* Navigation */}
