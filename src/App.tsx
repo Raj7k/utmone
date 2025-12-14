@@ -24,16 +24,20 @@ import { lazyWithRetry } from "./utils/lazyWithRetry";
 import { InstallPrompt } from "./components/pwa/InstallPrompt";
 import { UpdateNotification } from "./components/pwa/UpdateNotification";
 
-// Critical pages - not lazy loaded for fast initial load
+// Critical pages - only Index is static for fast landing page load
 import Index from "./pages/Index";
-import Auth from "./pages/Auth";
-import AdminAuth from "./pages/AdminAuth";
-import Signup from "./pages/Signup";
-import ResetPassword from "./pages/ResetPassword";
-import ComingSoonPage from "./pages/ComingSoon";
-import LinkExpired from "./pages/LinkExpired";
-import Blog from "./pages/Blog";
-import Surprise from "./pages/Surprise";
+
+// Auth pages - lazy loaded with preload hints for likely navigation
+const Auth = lazy(() => import("./pages/Auth"));
+const AdminAuth = lazy(() => import("./pages/AdminAuth"));
+const Signup = lazy(() => import("./pages/Signup"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+
+// Low-traffic pages - fully lazy loaded
+const ComingSoonPage = lazy(() => import("./pages/ComingSoon"));
+const LinkExpired = lazy(() => import("./pages/LinkExpired"));
+const Blog = lazy(() => import("./pages/Blog"));
+const Surprise = lazy(() => import("./pages/Surprise"));
 
 // Auth callback gatekeeper and waitlist pages
 const AuthCallback = lazy(() => import("./pages/AuthCallback"));
