@@ -18,11 +18,12 @@ import { InstallPrompt } from "./components/pwa/InstallPrompt";
 import { UpdateNotification } from "./components/pwa/UpdateNotification";
 // PHASE 14: Use centralized queryClient - no duplicate QueryClient creation
 import { queryClient as centralQueryClient } from "@/lib/queryConfig";
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
+import { ModalProvider } from "./contexts/ModalContext";
 const PrivateRoutes = lazy(() => import("./routes/PrivateRoutes"));
 
 // PHASE 14: Deferred providers - only load when needed
 const AdminSimulationProvider = lazy(() => import("./contexts/AdminSimulationContext").then(m => ({ default: m.AdminSimulationProvider })));
-const ModalProvider = lazy(() => import("./contexts/ModalContext").then(m => ({ default: m.ModalProvider })));
 const GlobalEarlyAccessModal = lazy(() => import("./components/early-access/GlobalEarlyAccessModal").then(m => ({ default: m.GlobalEarlyAccessModal })));
 
 // PHASE 17: Lazy load Index page for code splitting
@@ -580,221 +581,221 @@ const AppRoutes = () => {
               <Route path="/docs/troubleshooting" element={<Suspense fallback={<MarketingSkeleton />}><TroubleshootingDocs /></Suspense>} />
               
               {/* Feature Pages */}
-              <Route path="/features" element={<Suspense fallback={<MarketingSkeleton />}><Features /></Suspense>} />
-              <Route path="/how-it-works" element={<Suspense fallback={<MarketingSkeleton />}><HowItWorks /></Suspense>} />
-              <Route path="/features/short-links" element={<Suspense fallback={<MarketingSkeleton />}><ShortLinks /></Suspense>} />
-              <Route path="/features/utm-builder" element={<Suspense fallback={<MarketingSkeleton />}><UTMBuilder /></Suspense>} />
-              <Route path="/features/qr-generator" element={<Suspense fallback={<MarketingSkeleton />}><QRGenerator /></Suspense>} />
-              <Route path="/features/customer-journey" element={<Suspense fallback={<MarketingSkeleton />}><CustomerJourney /></Suspense>} />
-              <Route path="/features/identity-resolution" element={<Suspense fallback={<MarketingSkeleton />}><IdentityResolution /></Suspense>} />
-              <Route path="/features/bayesian-attribution" element={<Suspense fallback={<MarketingSkeleton />}><BayesianAttribution /></Suspense>} />
-              <Route path="/features/journey-valuation" element={<Suspense fallback={<MarketingSkeleton />}><JourneyValuation /></Suspense>} />
-              <Route path="/features/analytics" element={<Suspense fallback={<MarketingSkeleton />}><AnalyticsFeature /></Suspense>} />
-              <Route path="/features/governance" element={<Suspense fallback={<MarketingSkeleton />}><EnterpriseControl /></Suspense>} />
-              <Route path="/features/integrations" element={<Suspense fallback={<MarketingSkeleton />}><Integrations /></Suspense>} />
-              <Route path="/features/clean-track" element={<Suspense fallback={<MarketingSkeleton />}><CleanTrack /></Suspense>} />
-              <Route path="/features/accessibility" element={<Suspense fallback={<MarketingSkeleton />}><AccessibilityFeature /></Suspense>} />
-              <Route path="/features/partner-program" element={<Suspense fallback={<MarketingSkeleton />}><PartnerProgram /></Suspense>} />
-              <Route path="/features/predictive-analytics" element={<Suspense fallback={<MarketingSkeleton />}><PredictiveAnalytics /></Suspense>} />
-              <Route path="/features/attribution-graph" element={<Suspense fallback={<MarketingSkeleton />}><AttributionGraph /></Suspense>} />
-              <Route path="/features/smart-routing" element={<Suspense fallback={<MarketingSkeleton />}><SmartRouting /></Suspense>} />
-              <Route path="/features/link-immunity" element={<Suspense fallback={<MarketingSkeleton />}><LinkImmunity /></Suspense>} />
-              <Route path="/features/workspaces" element={<Suspense fallback={<MarketingSkeleton />}><Workspaces /></Suspense>} />
-              <Route path="/features/reporting" element={<Suspense fallback={<MarketingSkeleton />}><Reporting /></Suspense>} />
-              <Route path="/features/custom-domains" element={<Suspense fallback={<MarketingSkeleton />}><CustomDomains /></Suspense>} />
-              <Route path="/features/automation" element={<Suspense fallback={<MarketingSkeleton />}><Automation /></Suspense>} />
-              <Route path="/features/event-halo" element={<Suspense fallback={<MarketingSkeleton />}><EventHalo /></Suspense>} />
+              <Route path="/features" element={<Features />} />
+              <Route path="/how-it-works" element={<HowItWorks />} />
+              <Route path="/features/short-links" element={<ShortLinks />} />
+              <Route path="/features/utm-builder" element={<UTMBuilder />} />
+              <Route path="/features/qr-generator" element={<QRGenerator />} />
+              <Route path="/features/customer-journey" element={<CustomerJourney />} />
+              <Route path="/features/identity-resolution" element={<IdentityResolution />} />
+              <Route path="/features/bayesian-attribution" element={<BayesianAttribution />} />
+              <Route path="/features/journey-valuation" element={<JourneyValuation />} />
+              <Route path="/features/analytics" element={<AnalyticsFeature />} />
+              <Route path="/features/governance" element={<EnterpriseControl />} />
+              <Route path="/features/integrations" element={<Integrations />} />
+              <Route path="/features/clean-track" element={<CleanTrack />} />
+              <Route path="/features/accessibility" element={<AccessibilityFeature />} />
+              <Route path="/features/partner-program" element={<PartnerProgram />} />
+              <Route path="/features/predictive-analytics" element={<PredictiveAnalytics />} />
+              <Route path="/features/attribution-graph" element={<AttributionGraph />} />
+              <Route path="/features/smart-routing" element={<SmartRouting />} />
+              <Route path="/features/link-immunity" element={<LinkImmunity />} />
+              <Route path="/features/workspaces" element={<Workspaces />} />
+              <Route path="/features/reporting" element={<Reporting />} />
+              <Route path="/features/custom-domains" element={<CustomDomains />} />
+              <Route path="/features/automation" element={<Automation />} />
+              <Route path="/features/event-halo" element={<EventHalo />} />
               <Route path="/features/one-tap" element={<Navigate to="/features/event-halo?tab=scanner" replace />} />
-              <Route path="/intelligence" element={<Suspense fallback={<MarketingSkeleton />}><AIIntelligence /></Suspense>} />
-              <Route path="/features/sentinel" element={<Suspense fallback={<MarketingSkeleton />}><Sentinel /></Suspense>} />
-              <Route path="/features/brick-builder" element={<Suspense fallback={<MarketingSkeleton />}><BrickBuilderFeature /></Suspense>} />
+              <Route path="/intelligence" element={<AIIntelligence />} />
+              <Route path="/features/sentinel" element={<Sentinel />} />
+              <Route path="/features/brick-builder" element={<BrickBuilderFeature />} />
               
 {/* PWA Standalone Scanner */}
-              <Route path="/scan" element={<Suspense fallback={<MarketingSkeleton />}><ScanPage /></Suspense>} />
+              <Route path="/scan" element={<ScanPage />} />
               
               {/* Easter Egg */}
               <Route path="/surprise" element={<Surprise />} />
               
               {/* Product Pages */}
-              <Route path="/product" element={<Suspense fallback={<MarketingSkeleton />}><Product /></Suspense>} />
-              <Route path="/products" element={<Suspense fallback={<MarketingSkeleton />}><Products /></Suspense>} />
-              <Route path="/products/link-orchestration" element={<Suspense fallback={<MarketingSkeleton />}><LinkOrchestration /></Suspense>} />
-              <Route path="/products/journey-intelligence" element={<Suspense fallback={<MarketingSkeleton />}><JourneyIntelligence /></Suspense>} />
-              <Route path="/products/qr-studio" element={<Suspense fallback={<MarketingSkeleton />}><QRStudio /></Suspense>} />
-              <Route path="/products/data-pipeline" element={<Suspense fallback={<MarketingSkeleton />}><DataPipeline /></Suspense>} />
+              <Route path="/product" element={<Product />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/products/link-orchestration" element={<LinkOrchestration />} />
+              <Route path="/products/journey-intelligence" element={<JourneyIntelligence />} />
+              <Route path="/products/qr-studio" element={<QRStudio />} />
+              <Route path="/products/data-pipeline" element={<DataPipeline />} />
               
               {/* Solution Pages */}
-              <Route path="/solutions" element={<Suspense fallback={<MarketingSkeleton />}><SolutionsHub /></Suspense>} />
-              <Route path="/solutions/enterprise" element={<Suspense fallback={<MarketingSkeleton />}><EnterpriseSolution /></Suspense>} />
-              <Route path="/solutions/agencies" element={<Suspense fallback={<MarketingSkeleton />}><AgenciesSolution /></Suspense>} />
-              <Route path="/solutions/startups" element={<Suspense fallback={<MarketingSkeleton />}><Startups /></Suspense>} />
-              <Route path="/solutions/marketers" element={<Suspense fallback={<MarketingSkeleton />}><Marketers /></Suspense>} />
-              <Route path="/solutions/sales" element={<Suspense fallback={<MarketingSkeleton />}><Sales /></Suspense>} />
-              <Route path="/solutions/marketing-ops" element={<Suspense fallback={<MarketingSkeleton />}><MarketingOps /></Suspense>} />
-              <Route path="/solutions/developers" element={<Suspense fallback={<MarketingSkeleton />}><DevelopersSolution /></Suspense>} />
-              <Route path="/solutions/revops" element={<Suspense fallback={<MarketingSkeleton />}><RevOps /></Suspense>} />
-              <Route path="/solutions/reporting-team" element={<Suspense fallback={<MarketingSkeleton />}><ReportingTeam /></Suspense>} />
-              <Route path="/solutions/partner-managers" element={<Suspense fallback={<MarketingSkeleton />}><PartnerManagers /></Suspense>} />
-              <Route path="/solutions/field-marketing" element={<Suspense fallback={<MarketingSkeleton />}><FieldMarketing /></Suspense>} />
+              <Route path="/solutions" element={<SolutionsHub />} />
+              <Route path="/solutions/enterprise" element={<EnterpriseSolution />} />
+              <Route path="/solutions/agencies" element={<AgenciesSolution />} />
+              <Route path="/solutions/startups" element={<Startups />} />
+              <Route path="/solutions/marketers" element={<Marketers />} />
+              <Route path="/solutions/sales" element={<Sales />} />
+              <Route path="/solutions/marketing-ops" element={<MarketingOps />} />
+              <Route path="/solutions/developers" element={<DevelopersSolution />} />
+              <Route path="/solutions/revops" element={<RevOps />} />
+              <Route path="/solutions/reporting-team" element={<ReportingTeam />} />
+              <Route path="/solutions/partner-managers" element={<PartnerManagers />} />
+              <Route path="/solutions/field-marketing" element={<FieldMarketing />} />
               
               {/* Comparison Pages */}
-              <Route path="/compare" element={<Suspense fallback={<MarketingSkeleton />}><CompareHub /></Suspense>} />
-              <Route path="/compare/bitly" element={<Suspense fallback={<MarketingSkeleton />}><UtmOneVsBitly /></Suspense>} />
-              <Route path="/compare/rebrandly" element={<Suspense fallback={<MarketingSkeleton />}><UtmOneVsRebrandly /></Suspense>} />
-              <Route path="/compare/short-io" element={<Suspense fallback={<MarketingSkeleton />}><UtmOneVsShortIo /></Suspense>} />
-              <Route path="/compare/bl-ink" element={<Suspense fallback={<MarketingSkeleton />}><UtmOneVsBlInk /></Suspense>} />
-              <Route path="/compare/rewardful" element={<Suspense fallback={<MarketingSkeleton />}><UtmOneVsRewardful /></Suspense>} />
-              <Route path="/compare/partnerstack" element={<Suspense fallback={<MarketingSkeleton />}><UtmOneVsPartnerstack /></Suspense>} />
-              <Route path="/compare/firstpromoter" element={<Suspense fallback={<MarketingSkeleton />}><UtmOneVsFirstpromoter /></Suspense>} />
-              <Route path="/compare/tolt" element={<Suspense fallback={<MarketingSkeleton />}><UtmOneVsTolt /></Suspense>} />
+              <Route path="/compare" element={<CompareHub />} />
+              <Route path="/compare/bitly" element={<UtmOneVsBitly />} />
+              <Route path="/compare/rebrandly" element={<UtmOneVsRebrandly />} />
+              <Route path="/compare/short-io" element={<UtmOneVsShortIo />} />
+              <Route path="/compare/bl-ink" element={<UtmOneVsBlInk />} />
+              <Route path="/compare/rewardful" element={<UtmOneVsRewardful />} />
+              <Route path="/compare/partnerstack" element={<UtmOneVsPartnerstack />} />
+              <Route path="/compare/firstpromoter" element={<UtmOneVsFirstpromoter />} />
+              <Route path="/compare/tolt" element={<UtmOneVsTolt />} />
               
               {/* Use Case Pages */}
-              <Route path="/use-cases" element={<Suspense fallback={<MarketingSkeleton />}><UseCasesIndex /></Suspense>} />
-              <Route path="/use-cases/ecommerce-tracking" element={<Suspense fallback={<MarketingSkeleton />}><EcommerceTracking /></Suspense>} />
-              <Route path="/use-cases/saas-attribution" element={<Suspense fallback={<MarketingSkeleton />}><SaasAttribution /></Suspense>} />
-              <Route path="/use-cases/event-marketing" element={<Suspense fallback={<MarketingSkeleton />}><EventMarketing /></Suspense>} />
-              <Route path="/use-cases/agency-client-reporting" element={<Suspense fallback={<MarketingSkeleton />}><AgencyClientReporting /></Suspense>} />
-              <Route path="/use-cases/influencer-campaigns" element={<Suspense fallback={<MarketingSkeleton />}><InfluencerCampaigns /></Suspense>} />
+              <Route path="/use-cases" element={<UseCasesIndex />} />
+              <Route path="/use-cases/ecommerce-tracking" element={<EcommerceTracking />} />
+              <Route path="/use-cases/saas-attribution" element={<SaasAttribution />} />
+              <Route path="/use-cases/event-marketing" element={<EventMarketing />} />
+              <Route path="/use-cases/agency-client-reporting" element={<AgencyClientReporting />} />
+              <Route path="/use-cases/influencer-campaigns" element={<InfluencerCampaigns />} />
               
               {/* Help Documentation Pages */}
-              <Route path="/help" element={<Suspense fallback={<MarketingSkeleton />}><HelpIndex /></Suspense>} />
-              <Route path="/help/getting-started" element={<Suspense fallback={<MarketingSkeleton />}><HelpGettingStarted /></Suspense>} />
-              <Route path="/help/links" element={<Suspense fallback={<MarketingSkeleton />}><HelpLinks /></Suspense>} />
-              <Route path="/help/utm" element={<Suspense fallback={<MarketingSkeleton />}><HelpUTM /></Suspense>} />
-              <Route path="/help/qr" element={<Suspense fallback={<MarketingSkeleton />}><HelpQRCodes /></Suspense>} />
-              <Route path="/help/analytics" element={<Suspense fallback={<MarketingSkeleton />}><HelpAnalytics /></Suspense>} />
-              <Route path="/help/attribution" element={<Suspense fallback={<MarketingSkeleton />}><HelpAttribution /></Suspense>} />
-              <Route path="/help/events" element={<Suspense fallback={<MarketingSkeleton />}><HelpEvents /></Suspense>} />
-              <Route path="/help/advanced" element={<Suspense fallback={<MarketingSkeleton />}><HelpAdvanced /></Suspense>} />
-              <Route path="/help/team" element={<Suspense fallback={<MarketingSkeleton />}><HelpTeam /></Suspense>} />
-              <Route path="/help/integrations" element={<Suspense fallback={<MarketingSkeleton />}><HelpIntegrations /></Suspense>} />
-              <Route path="/help/domains" element={<Suspense fallback={<MarketingSkeleton />}><HelpDomains /></Suspense>} />
-              <Route path="/help/billing" element={<Suspense fallback={<MarketingSkeleton />}><HelpBilling /></Suspense>} />
-              <Route path="/help/security" element={<Suspense fallback={<MarketingSkeleton />}><HelpSecurity /></Suspense>} />
-              <Route path="/help/sentinel" element={<Suspense fallback={<MarketingSkeleton />}><HelpSentinel /></Suspense>} />
+              <Route path="/help" element={<HelpIndex />} />
+              <Route path="/help/getting-started" element={<HelpGettingStarted />} />
+              <Route path="/help/links" element={<HelpLinks />} />
+              <Route path="/help/utm" element={<HelpUTM />} />
+              <Route path="/help/qr" element={<HelpQRCodes />} />
+              <Route path="/help/analytics" element={<HelpAnalytics />} />
+              <Route path="/help/attribution" element={<HelpAttribution />} />
+              <Route path="/help/events" element={<HelpEvents />} />
+              <Route path="/help/advanced" element={<HelpAdvanced />} />
+              <Route path="/help/team" element={<HelpTeam />} />
+              <Route path="/help/integrations" element={<HelpIntegrations />} />
+              <Route path="/help/domains" element={<HelpDomains />} />
+              <Route path="/help/billing" element={<HelpBilling />} />
+              <Route path="/help/security" element={<HelpSecurity />} />
+              <Route path="/help/sentinel" element={<HelpSentinel />} />
               
               {/* Help Article Pages - Getting Started */}
-              <Route path="/help/articles/what-is-utm-one" element={<Suspense fallback={<MarketingSkeleton />}><WhatIsUtmOne /></Suspense>} />
-              <Route path="/help/articles/create-account" element={<Suspense fallback={<MarketingSkeleton />}><CreateAccount /></Suspense>} />
-              <Route path="/help/articles/creating-account" element={<Suspense fallback={<MarketingSkeleton />}><CreatingAccount /></Suspense>} />
-              <Route path="/help/articles/first-link" element={<Suspense fallback={<MarketingSkeleton />}><FirstLink /></Suspense>} />
-              <Route path="/help/articles/dashboard-overview" element={<Suspense fallback={<MarketingSkeleton />}><DashboardOverview /></Suspense>} />
-              <Route path="/help/articles/onboarding-checklist" element={<Suspense fallback={<MarketingSkeleton />}><OnboardingChecklist /></Suspense>} />
-              <Route path="/help/articles/account-settings" element={<Suspense fallback={<MarketingSkeleton />}><AccountSettings /></Suspense>} />
-              <Route path="/help/articles/quick-wins" element={<Suspense fallback={<MarketingSkeleton />}><QuickWins /></Suspense>} />
+              <Route path="/help/articles/what-is-utm-one" element={<WhatIsUtmOne />} />
+              <Route path="/help/articles/create-account" element={<CreateAccount />} />
+              <Route path="/help/articles/creating-account" element={<CreatingAccount />} />
+              <Route path="/help/articles/first-link" element={<FirstLink />} />
+              <Route path="/help/articles/dashboard-overview" element={<DashboardOverview />} />
+              <Route path="/help/articles/onboarding-checklist" element={<OnboardingChecklist />} />
+              <Route path="/help/articles/account-settings" element={<AccountSettings />} />
+              <Route path="/help/articles/quick-wins" element={<QuickWins />} />
               
               {/* Help Article Pages - Links */}
-              <Route path="/help/articles/create-link" element={<Suspense fallback={<MarketingSkeleton />}><CreateLink /></Suspense>} />
-              <Route path="/help/articles/creating-links" element={<Suspense fallback={<MarketingSkeleton />}><CreatingLinks /></Suspense>} />
-              <Route path="/help/articles/custom-slugs" element={<Suspense fallback={<MarketingSkeleton />}><CustomSlugs /></Suspense>} />
-              <Route path="/help/articles/editing-links" element={<Suspense fallback={<MarketingSkeleton />}><EditingLinks /></Suspense>} />
-              <Route path="/help/articles/link-status" element={<Suspense fallback={<MarketingSkeleton />}><LinkStatus /></Suspense>} />
-              <Route path="/help/articles/link-expiration" element={<Suspense fallback={<MarketingSkeleton />}><LinkExpiration /></Suspense>} />
-              <Route path="/help/articles/click-limits" element={<Suspense fallback={<MarketingSkeleton />}><ClickLimits /></Suspense>} />
-              <Route path="/help/articles/password-protection" element={<Suspense fallback={<MarketingSkeleton />}><PasswordProtection /></Suspense>} />
-              <Route path="/help/articles/bulk-creation" element={<Suspense fallback={<MarketingSkeleton />}><BulkCreation /></Suspense>} />
-              <Route path="/help/articles/link-health" element={<Suspense fallback={<MarketingSkeleton />}><LinkHealthArticle /></Suspense>} />
-              <Route path="/help/articles/link-immunity" element={<Suspense fallback={<MarketingSkeleton />}><LinkImmunityArticle /></Suspense>} />
-              <Route path="/help/articles/duplicating-links" element={<Suspense fallback={<MarketingSkeleton />}><DuplicatingLinks /></Suspense>} />
-              <Route path="/help/articles/link-preview" element={<Suspense fallback={<MarketingSkeleton />}><LinkPreview /></Suspense>} />
+              <Route path="/help/articles/create-link" element={<CreateLink />} />
+              <Route path="/help/articles/creating-links" element={<CreatingLinks />} />
+              <Route path="/help/articles/custom-slugs" element={<CustomSlugs />} />
+              <Route path="/help/articles/editing-links" element={<EditingLinks />} />
+              <Route path="/help/articles/link-status" element={<LinkStatus />} />
+              <Route path="/help/articles/link-expiration" element={<LinkExpiration />} />
+              <Route path="/help/articles/click-limits" element={<ClickLimits />} />
+              <Route path="/help/articles/password-protection" element={<PasswordProtection />} />
+              <Route path="/help/articles/bulk-creation" element={<BulkCreation />} />
+              <Route path="/help/articles/link-health" element={<LinkHealthArticle />} />
+              <Route path="/help/articles/link-immunity" element={<LinkImmunityArticle />} />
+              <Route path="/help/articles/duplicating-links" element={<DuplicatingLinks />} />
+              <Route path="/help/articles/link-preview" element={<LinkPreview />} />
               
               {/* Help Article Pages - UTM */}
-              <Route path="/help/articles/what-are-utms" element={<Suspense fallback={<MarketingSkeleton />}><WhatAreUTMs /></Suspense>} />
-              <Route path="/help/articles/five-fields" element={<Suspense fallback={<MarketingSkeleton />}><FiveFields /></Suspense>} />
-              <Route path="/help/articles/naming-conventions" element={<Suspense fallback={<MarketingSkeleton />}><NamingConventions /></Suspense>} />
-              <Route path="/help/articles/common-mistakes" element={<Suspense fallback={<MarketingSkeleton />}><CommonMistakes /></Suspense>} />
-              <Route path="/help/articles/utm-templates" element={<Suspense fallback={<MarketingSkeleton />}><UTMTemplates /></Suspense>} />
-              <Route path="/help/articles/clean-track-framework" element={<Suspense fallback={<MarketingSkeleton />}><CleanTrackFrameworkArticle /></Suspense>} />
-              <Route path="/help/articles/utm-validation" element={<Suspense fallback={<MarketingSkeleton />}><UTMValidation /></Suspense>} />
-              <Route path="/help/articles/utm-governance" element={<Suspense fallback={<MarketingSkeleton />}><UTMGovernance /></Suspense>} />
-              <Route path="/help/articles/utm-audit-tools" element={<Suspense fallback={<MarketingSkeleton />}><UTMAuditTools /></Suspense>} />
-              <Route path="/help/articles/ai-utm-suggestions" element={<Suspense fallback={<MarketingSkeleton />}><AIUTMSuggestions /></Suspense>} />
+              <Route path="/help/articles/what-are-utms" element={<WhatAreUTMs />} />
+              <Route path="/help/articles/five-fields" element={<FiveFields />} />
+              <Route path="/help/articles/naming-conventions" element={<NamingConventions />} />
+              <Route path="/help/articles/common-mistakes" element={<CommonMistakes />} />
+              <Route path="/help/articles/utm-templates" element={<UTMTemplates />} />
+              <Route path="/help/articles/clean-track-framework" element={<CleanTrackFrameworkArticle />} />
+              <Route path="/help/articles/utm-validation" element={<UTMValidation />} />
+              <Route path="/help/articles/utm-governance" element={<UTMGovernance />} />
+              <Route path="/help/articles/utm-audit-tools" element={<UTMAuditTools />} />
+              <Route path="/help/articles/ai-utm-suggestions" element={<AIUTMSuggestions />} />
               
               {/* Help Article Pages - QR */}
-              <Route path="/help/articles/qr-basics" element={<Suspense fallback={<MarketingSkeleton />}><QRCodeBasics /></Suspense>} />
-              <Route path="/help/articles/qr-customization" element={<Suspense fallback={<MarketingSkeleton />}><QRCustomization /></Suspense>} />
-              <Route path="/help/articles/qr-logos" element={<Suspense fallback={<MarketingSkeleton />}><QRLogos /></Suspense>} />
-              <Route path="/help/articles/qr-export" element={<Suspense fallback={<MarketingSkeleton />}><QRExport /></Suspense>} />
-              <Route path="/help/articles/qr-reliability" element={<Suspense fallback={<MarketingSkeleton />}><QRReliability /></Suspense>} />
-              <Route path="/help/articles/ai-stamp-studio" element={<Suspense fallback={<MarketingSkeleton />}><AIStampStudio /></Suspense>} />
-              <Route path="/help/articles/bulk-qr" element={<Suspense fallback={<MarketingSkeleton />}><BulkQR /></Suspense>} />
-              <Route path="/help/articles/qr-print-specs" element={<Suspense fallback={<MarketingSkeleton />}><QRPrintSpecs /></Suspense>} />
+              <Route path="/help/articles/qr-basics" element={<QRCodeBasics />} />
+              <Route path="/help/articles/qr-customization" element={<QRCustomization />} />
+              <Route path="/help/articles/qr-logos" element={<QRLogos />} />
+              <Route path="/help/articles/qr-export" element={<QRExport />} />
+              <Route path="/help/articles/qr-reliability" element={<QRReliability />} />
+              <Route path="/help/articles/ai-stamp-studio" element={<AIStampStudio />} />
+              <Route path="/help/articles/bulk-qr" element={<BulkQR />} />
+              <Route path="/help/articles/qr-print-specs" element={<QRPrintSpecs />} />
               
               {/* Help Article Pages - Analytics */}
-              <Route path="/help/articles/analytics-overview" element={<Suspense fallback={<MarketingSkeleton />}><AnalyticsOverview /></Suspense>} />
-              <Route path="/help/articles/click-tracking" element={<Suspense fallback={<MarketingSkeleton />}><ClickTracking /></Suspense>} />
-              <Route path="/help/articles/device-analytics" element={<Suspense fallback={<MarketingSkeleton />}><DeviceAnalytics /></Suspense>} />
-              <Route path="/help/articles/geographic-data" element={<Suspense fallback={<MarketingSkeleton />}><GeographicData /></Suspense>} />
-              <Route path="/help/articles/referrer-tracking" element={<Suspense fallback={<MarketingSkeleton />}><ReferrerTracking /></Suspense>} />
-              <Route path="/help/articles/real-time-analytics" element={<Suspense fallback={<MarketingSkeleton />}><RealTimeAnalytics /></Suspense>} />
-              <Route path="/help/articles/exporting-data" element={<Suspense fallback={<MarketingSkeleton />}><ExportingData /></Suspense>} />
-              <Route path="/help/articles/ai-insights" element={<Suspense fallback={<MarketingSkeleton />}><AIInsights /></Suspense>} />
-              <Route path="/help/articles/anomaly-detection" element={<Suspense fallback={<MarketingSkeleton />}><AnomalyDetection /></Suspense>} />
+              <Route path="/help/articles/analytics-overview" element={<AnalyticsOverview />} />
+              <Route path="/help/articles/click-tracking" element={<ClickTracking />} />
+              <Route path="/help/articles/device-analytics" element={<DeviceAnalytics />} />
+              <Route path="/help/articles/geographic-data" element={<GeographicData />} />
+              <Route path="/help/articles/referrer-tracking" element={<ReferrerTracking />} />
+              <Route path="/help/articles/real-time-analytics" element={<RealTimeAnalytics />} />
+              <Route path="/help/articles/exporting-data" element={<ExportingData />} />
+              <Route path="/help/articles/ai-insights" element={<AIInsights />} />
+              <Route path="/help/articles/anomaly-detection" element={<AnomalyDetection />} />
               
               {/* Help Article Pages - Attribution */}
-              <Route path="/help/articles/attribution-overview" element={<Suspense fallback={<MarketingSkeleton />}><AttributionOverview /></Suspense>} />
-              <Route path="/help/articles/attribution-models" element={<Suspense fallback={<MarketingSkeleton />}><AttributionModels /></Suspense>} />
-              <Route path="/help/articles/tracking-pixel" element={<Suspense fallback={<MarketingSkeleton />}><TrackingPixelArticle /></Suspense>} />
-              <Route path="/help/articles/conversion-tracking" element={<Suspense fallback={<MarketingSkeleton />}><ConversionTracking /></Suspense>} />
-              <Route path="/help/articles/customer-journeys" element={<Suspense fallback={<MarketingSkeleton />}><CustomerJourneys /></Suspense>} />
-              <Route path="/help/articles/identity-graph" element={<Suspense fallback={<MarketingSkeleton />}><IdentityGraph /></Suspense>} />
-              <Route path="/help/articles/revenue-attribution" element={<Suspense fallback={<MarketingSkeleton />}><RevenueAttributionArticle /></Suspense>} />
-              <Route path="/help/articles/lift-analysis" element={<Suspense fallback={<MarketingSkeleton />}><LiftAnalysis /></Suspense>} />
+              <Route path="/help/articles/attribution-overview" element={<AttributionOverview />} />
+              <Route path="/help/articles/attribution-models" element={<AttributionModels />} />
+              <Route path="/help/articles/tracking-pixel" element={<TrackingPixelArticle />} />
+              <Route path="/help/articles/conversion-tracking" element={<ConversionTracking />} />
+              <Route path="/help/articles/customer-journeys" element={<CustomerJourneys />} />
+              <Route path="/help/articles/identity-graph" element={<IdentityGraph />} />
+              <Route path="/help/articles/revenue-attribution" element={<RevenueAttributionArticle />} />
+              <Route path="/help/articles/lift-analysis" element={<LiftAnalysis />} />
               
               {/* Help Article Pages - Events */}
-              <Route path="/help/articles/event-halo" element={<Suspense fallback={<MarketingSkeleton />}><EventHaloArticle /></Suspense>} />
-              <Route path="/help/articles/event-halo-overview" element={<Suspense fallback={<MarketingSkeleton />}><EventHaloOverview /></Suspense>} />
-              <Route path="/help/articles/creating-events" element={<Suspense fallback={<MarketingSkeleton />}><CreatingEvents /></Suspense>} />
-              <Route path="/help/articles/one-tap-scanner" element={<Suspense fallback={<MarketingSkeleton />}><OneTapScanner /></Suspense>} />
-              <Route path="/help/articles/badge-import" element={<Suspense fallback={<MarketingSkeleton />}><BadgeImport /></Suspense>} />
-              <Route path="/help/articles/event-roi" element={<Suspense fallback={<MarketingSkeleton />}><EventROI /></Suspense>} />
+              <Route path="/help/articles/event-halo" element={<EventHaloArticle />} />
+              <Route path="/help/articles/event-halo-overview" element={<EventHaloOverview />} />
+              <Route path="/help/articles/creating-events" element={<CreatingEvents />} />
+              <Route path="/help/articles/one-tap-scanner" element={<OneTapScanner />} />
+              <Route path="/help/articles/badge-import" element={<BadgeImport />} />
+              <Route path="/help/articles/event-roi" element={<EventROI />} />
               
               {/* Help Article Pages - Event Bridge */}
-              <Route path="/help/articles/event-bridge-overview" element={<Suspense fallback={<MarketingSkeleton />}><EventBridgeOverviewArticle /></Suspense>} />
-              <Route path="/help/articles/event-bridge-setup" element={<Suspense fallback={<MarketingSkeleton />}><EventBridgeSetupArticle /></Suspense>} />
-              <Route path="/help/articles/event-bridge-routing" element={<Suspense fallback={<MarketingSkeleton />}><EventBridgeRoutingArticle /></Suspense>} />
-              <Route path="/help/articles/event-bridge-crm" element={<Suspense fallback={<MarketingSkeleton />}><EventBridgeCRMArticle /></Suspense>} />
+              <Route path="/help/articles/event-bridge-overview" element={<EventBridgeOverviewArticle />} />
+              <Route path="/help/articles/event-bridge-setup" element={<EventBridgeSetupArticle />} />
+              <Route path="/help/articles/event-bridge-routing" element={<EventBridgeRoutingArticle />} />
+              <Route path="/help/articles/event-bridge-crm" element={<EventBridgeCRMArticle />} />
               
               {/* Help Article Pages - Advanced */}
-              <Route path="/help/articles/geo-targeting" element={<Suspense fallback={<MarketingSkeleton />}><GeoTargetingArticle /></Suspense>} />
-              <Route path="/help/articles/device-targeting" element={<Suspense fallback={<MarketingSkeleton />}><DeviceTargeting /></Suspense>} />
-              <Route path="/help/articles/link-rotation" element={<Suspense fallback={<MarketingSkeleton />}><LinkRotation /></Suspense>} />
-              <Route path="/help/articles/smart-routing" element={<Suspense fallback={<MarketingSkeleton />}><SmartRoutingArticle /></Suspense>} />
+              <Route path="/help/articles/geo-targeting" element={<GeoTargetingArticle />} />
+              <Route path="/help/articles/device-targeting" element={<DeviceTargeting />} />
+              <Route path="/help/articles/link-rotation" element={<LinkRotation />} />
+              <Route path="/help/articles/smart-routing" element={<SmartRoutingArticle />} />
               
               {/* Help Article Pages - Team */}
-              <Route path="/help/articles/team-roles" element={<Suspense fallback={<MarketingSkeleton />}><TeamRoles /></Suspense>} />
-              <Route path="/help/articles/inviting-members" element={<Suspense fallback={<MarketingSkeleton />}><InvitingMembers /></Suspense>} />
-              <Route path="/help/articles/roles-permissions" element={<Suspense fallback={<MarketingSkeleton />}><RolesPermissions /></Suspense>} />
-              <Route path="/help/articles/workspace-settings" element={<Suspense fallback={<MarketingSkeleton />}><WorkspaceSettings /></Suspense>} />
+              <Route path="/help/articles/team-roles" element={<TeamRoles />} />
+              <Route path="/help/articles/inviting-members" element={<InvitingMembers />} />
+              <Route path="/help/articles/roles-permissions" element={<RolesPermissions />} />
+              <Route path="/help/articles/workspace-settings" element={<WorkspaceSettings />} />
               
               {/* Help Article Pages - Integrations */}
-              <Route path="/help/articles/chrome-extension" element={<Suspense fallback={<MarketingSkeleton />}><ChromeExtension /></Suspense>} />
-              <Route path="/help/articles/api-authentication" element={<Suspense fallback={<MarketingSkeleton />}><ApiAuthentication /></Suspense>} />
-              <Route path="/help/articles/api-endpoints" element={<Suspense fallback={<MarketingSkeleton />}><ApiEndpoints /></Suspense>} />
-              <Route path="/help/articles/webhooks" element={<Suspense fallback={<MarketingSkeleton />}><Webhooks /></Suspense>} />
-              <Route path="/help/articles/ga4-integration" element={<Suspense fallback={<MarketingSkeleton />}><GA4Integration /></Suspense>} />
-              <Route path="/help/articles/hubspot-integration" element={<Suspense fallback={<MarketingSkeleton />}><HubSpotIntegration /></Suspense>} />
-              <Route path="/help/articles/salesforce-integration" element={<Suspense fallback={<MarketingSkeleton />}><SalesforceIntegration /></Suspense>} />
-              <Route path="/help/articles/zapier-integration" element={<Suspense fallback={<MarketingSkeleton />}><ZapierIntegrationArticle /></Suspense>} />
-              <Route path="/help/articles/slack-integration" element={<Suspense fallback={<MarketingSkeleton />}><SlackIntegrationArticle /></Suspense>} />
+              <Route path="/help/articles/chrome-extension" element={<ChromeExtension />} />
+              <Route path="/help/articles/api-authentication" element={<ApiAuthentication />} />
+              <Route path="/help/articles/api-endpoints" element={<ApiEndpoints />} />
+              <Route path="/help/articles/webhooks" element={<Webhooks />} />
+              <Route path="/help/articles/ga4-integration" element={<GA4Integration />} />
+              <Route path="/help/articles/hubspot-integration" element={<HubSpotIntegration />} />
+              <Route path="/help/articles/salesforce-integration" element={<SalesforceIntegration />} />
+              <Route path="/help/articles/zapier-integration" element={<ZapierIntegrationArticle />} />
+              <Route path="/help/articles/slack-integration" element={<SlackIntegrationArticle />} />
               
               {/* Help Article Pages - Domains */}
-              <Route path="/help/articles/custom-domain-setup" element={<Suspense fallback={<MarketingSkeleton />}><CustomDomainSetup /></Suspense>} />
-              <Route path="/help/articles/adding-domains" element={<Suspense fallback={<MarketingSkeleton />}><AddingDomains /></Suspense>} />
-              <Route path="/help/articles/dns-setup" element={<Suspense fallback={<MarketingSkeleton />}><DNSSetup /></Suspense>} />
+              <Route path="/help/articles/custom-domain-setup" element={<CustomDomainSetup />} />
+              <Route path="/help/articles/adding-domains" element={<AddingDomains />} />
+              <Route path="/help/articles/dns-setup" element={<DNSSetup />} />
               
               {/* Help Article Pages - Billing */}
-              <Route path="/help/articles/managing-subscription" element={<Suspense fallback={<MarketingSkeleton />}><ManagingSubscription /></Suspense>} />
-              <Route path="/help/articles/usage-limits" element={<Suspense fallback={<MarketingSkeleton />}><UsageLimits /></Suspense>} />
+              <Route path="/help/articles/managing-subscription" element={<ManagingSubscription />} />
+              <Route path="/help/articles/usage-limits" element={<UsageLimits />} />
               
               {/* Help Article Pages - Security */}
-              <Route path="/help/articles/two-factor-auth" element={<Suspense fallback={<MarketingSkeleton />}><TwoFactorAuth /></Suspense>} />
-              <Route path="/help/articles/security-keys" element={<Suspense fallback={<MarketingSkeleton />}><SecurityKeys /></Suspense>} />
-              <Route path="/help/articles/audit-logs" element={<Suspense fallback={<MarketingSkeleton />}><AuditLogs /></Suspense>} />
-              <Route path="/help/articles/data-privacy" element={<Suspense fallback={<MarketingSkeleton />}><DataPrivacy /></Suspense>} />
+              <Route path="/help/articles/two-factor-auth" element={<TwoFactorAuth />} />
+              <Route path="/help/articles/security-keys" element={<SecurityKeys />} />
+              <Route path="/help/articles/audit-logs" element={<AuditLogs />} />
+              <Route path="/help/articles/data-privacy" element={<DataPrivacy />} />
               
               {/* Help Article Pages - Other */}
-              <Route path="/help/articles/lead-enrichment" element={<Suspense fallback={<MarketingSkeleton />}><LeadEnrichment /></Suspense>} />
+              <Route path="/help/articles/lead-enrichment" element={<LeadEnrichment />} />
               
               {/* Legacy help routes - redirects for backward compatibility */}
               <Route path="/help/getting-started/what-is-utm-one" element={<Navigate to="/help/articles/what-is-utm-one" replace />} />
@@ -808,83 +809,79 @@ const AppRoutes = () => {
               <Route path="/help/team/roles" element={<Navigate to="/help/articles/team-roles" replace />} />
               <Route path="/help/domains/dns-setup" element={<Navigate to="/help/articles/dns-setup" replace />} />
 
-              <Route path="/resources" element={<Suspense fallback={<MarketingSkeleton />}><Resources /></Suspense>} />
-              <Route path="/resources/guides" element={<Suspense fallback={<MarketingSkeleton />}><Guides /></Suspense>} />
-              <Route path="/resources/guides/utm-guide" element={<Suspense fallback={<MarketingSkeleton />}><UTMGuide /></Suspense>} />
-              <Route path="/resources/guides/clean-track-framework" element={<Suspense fallback={<MarketingSkeleton />}><CleanTrackFramework /></Suspense>} />
-              <Route path="/resources/guides/tracking-architecture" element={<Suspense fallback={<MarketingSkeleton />}><TrackingArchitecture /></Suspense>} />
-              <Route path="/resources/guides/simple-analytics" element={<Suspense fallback={<MarketingSkeleton />}><SimpleAnalytics /></Suspense>} />
-              <Route path="/resources/guides/growth-analytics" element={<Suspense fallback={<MarketingSkeleton />}><GrowthAnalytics /></Suspense>} />
-              <Route path="/resources/guides/llm-seo" element={<Suspense fallback={<MarketingSkeleton />}><LLMSeo /></Suspense>} />
-              <Route path="/resources/guides/bayesian-testing" element={<Suspense fallback={<MarketingSkeleton />}><BayesianTesting /></Suspense>} />
+              <Route path="/resources" element={<Resources />} />
+              <Route path="/resources/guides" element={<Guides />} />
+              <Route path="/resources/guides/utm-guide" element={<UTMGuide />} />
+              <Route path="/resources/guides/clean-track-framework" element={<CleanTrackFramework />} />
+              <Route path="/resources/guides/tracking-architecture" element={<TrackingArchitecture />} />
+              <Route path="/resources/guides/simple-analytics" element={<SimpleAnalytics />} />
+              <Route path="/resources/guides/growth-analytics" element={<GrowthAnalytics />} />
+              <Route path="/resources/guides/llm-seo" element={<LLMSeo />} />
+              <Route path="/resources/guides/bayesian-testing" element={<BayesianTesting />} />
               
               {/* Playbook Routes */}
-              <Route path="/resources/playbooks/llm-ranking" element={<Suspense fallback={<MarketingSkeleton />}><LLMRanking /></Suspense>} />
-              <Route path="/resources/playbooks/utm-governance-playbook" element={<Suspense fallback={<MarketingSkeleton />}><UTMGovernancePlaybook /></Suspense>} />
-              <Route path="/resources/playbooks/startup-analytics-playbook" element={<Suspense fallback={<MarketingSkeleton />}><StartupAnalyticsPlaybook /></Suspense>} />
-              <Route path="/resources/playbooks/event-led-growth-playbook" element={<Suspense fallback={<MarketingSkeleton />}><EventLedGrowthPlaybook /></Suspense>} />
-              <Route path="/resources/playbooks/naming-convention-playbook" element={<Suspense fallback={<MarketingSkeleton />}><NamingConventionPlaybook /></Suspense>} />
-              <Route path="/resources/playbooks/sales-marketing-alignment" element={<Suspense fallback={<MarketingSkeleton />}><SalesMarketingAlignmentPlaybook /></Suspense>} />
-              <Route path="/resources/playbooks/ai-marketing" element={<Suspense fallback={<MarketingSkeleton />}><AIMarketingPlaybook /></Suspense>} />
-              <Route path="/resources/playbooks/b2b-architects-2026" element={<Suspense fallback={<MarketingSkeleton />}><B2BArchitectsPlaybook /></Suspense>} />
-              <Route path="/resources/playbooks/hr-katalyst-referral" element={<Suspense fallback={<MarketingSkeleton />}><HRKatalystReferralPlaybook /></Suspense>} />
-              <Route path="/resources/playbooks" element={<Suspense fallback={<MarketingSkeleton />}><Playbooks /></Suspense>} />
+              <Route path="/resources/playbooks/llm-ranking" element={<LLMRanking />} />
+              <Route path="/resources/playbooks/utm-governance-playbook" element={<UTMGovernancePlaybook />} />
+              <Route path="/resources/playbooks/startup-analytics-playbook" element={<StartupAnalyticsPlaybook />} />
+              <Route path="/resources/playbooks/event-led-growth-playbook" element={<EventLedGrowthPlaybook />} />
+              <Route path="/resources/playbooks/naming-convention-playbook" element={<NamingConventionPlaybook />} />
+              <Route path="/resources/playbooks/sales-marketing-alignment" element={<SalesMarketingAlignmentPlaybook />} />
+              <Route path="/resources/playbooks/ai-marketing" element={<AIMarketingPlaybook />} />
+              <Route path="/resources/playbooks/b2b-architects-2026" element={<B2BArchitectsPlaybook />} />
+              <Route path="/resources/playbooks/hr-katalyst-referral" element={<HRKatalystReferralPlaybook />} />
+              <Route path="/resources/playbooks" element={<Playbooks />} />
               
               {/* Template Routes */}
-              <Route path="/resources/templates" element={<Suspense fallback={<MarketingSkeleton />}><Templates /></Suspense>} />
-              <Route path="/resources/templates/utm-template" element={<Suspense fallback={<MarketingSkeleton />}><UTMTemplate /></Suspense>} />
-              <Route path="/resources/templates/audit-checklist-template" element={<Suspense fallback={<MarketingSkeleton />}><AuditChecklistTemplate /></Suspense>} />
-              <Route path="/resources/templates/campaign-brief-template" element={<Suspense fallback={<MarketingSkeleton />}><CampaignBriefTemplate /></Suspense>} />
-              <Route path="/resources/templates/naming-taxonomy-template" element={<Suspense fallback={<MarketingSkeleton />}><NamingTaxonomyTemplate /></Suspense>} />
+              <Route path="/resources/templates" element={<Templates />} />
+              <Route path="/resources/templates/utm-template" element={<UTMTemplate />} />
+              <Route path="/resources/templates/audit-checklist-template" element={<AuditChecklistTemplate />} />
+              <Route path="/resources/templates/campaign-brief-template" element={<CampaignBriefTemplate />} />
+              <Route path="/resources/templates/naming-taxonomy-template" element={<NamingTaxonomyTemplate />} />
               
               {/* Tools Routes */}
-              <Route path="/tools/decision-frameworks" element={<Suspense fallback={<MarketingSkeleton />}><DecisionFrameworks /></Suspense>} />
-              <Route path="/resources/tools" element={<Suspense fallback={<MarketingSkeleton />}><Tools /></Suspense>} />
-              <Route path="/resources/tools/salary-negotiation-coach" element={<Suspense fallback={<MarketingSkeleton />}><SalaryNegotiationCoach /></Suspense>} />
-              <Route path="/resources/tools/market-value-calculator" element={<Suspense fallback={<MarketingSkeleton />}><MarketValueCalculator /></Suspense>} />
-              <Route path="/resources/tools/career-path-optimizer" element={<Suspense fallback={<MarketingSkeleton />}><CareerPathOptimizer /></Suspense>} />
-              <Route path="/resources/tools/job-offer-analyzer" element={<Suspense fallback={<MarketingSkeleton />}><JobOfferAnalyzer /></Suspense>} />
-              <Route path="/resources/tools/team-budget-optimizer" element={<Suspense fallback={<MarketingSkeleton />}><TeamBudgetOptimizer /></Suspense>} />
-              <Route path="/resources/tools/ai-vs-human-roi" element={<Suspense fallback={<MarketingSkeleton />}><AIvsHumanROI /></Suspense>} />
-              <Route path="/resources/tools/compensation-transparency" element={<Suspense fallback={<MarketingSkeleton />}><CompensationTransparency /></Suspense>} />
-              <Route path="/resources/tools/linkedin-reality-check" element={<Suspense fallback={<MarketingSkeleton />}><LinkedInRealityCheck /></Suspense>} />
+              <Route path="/tools/decision-frameworks" element={<DecisionFrameworks />} />
+              <Route path="/resources/tools" element={<Tools />} />
+              <Route path="/resources/tools/salary-negotiation-coach" element={<SalaryNegotiationCoach />} />
+              <Route path="/resources/tools/market-value-calculator" element={<MarketValueCalculator />} />
+              <Route path="/resources/tools/career-path-optimizer" element={<CareerPathOptimizer />} />
+              <Route path="/resources/tools/job-offer-analyzer" element={<JobOfferAnalyzer />} />
+              <Route path="/resources/tools/team-budget-optimizer" element={<TeamBudgetOptimizer />} />
+              <Route path="/resources/tools/ai-vs-human-roi" element={<AIvsHumanROI />} />
+              <Route path="/resources/tools/compensation-transparency" element={<CompensationTransparency />} />
+              <Route path="/resources/tools/linkedin-reality-check" element={<LinkedInRealityCheck />} />
               
               {/* Reports Routes */}
-              <Route path="/resources/reports" element={<Suspense fallback={<MarketingSkeleton />}><Reports /></Suspense>} />
-              <Route 
-                path="/resources/reports/gtm-insights-2026" 
+              <Route path="/resources/reports" element={<Reports />} />
+              <Route
+                path="/resources/reports/gtm-insights-2026"
                 element={
-                  <Suspense fallback={<MarketingSkeleton />}>
-                    <ComingSoonPage 
-                      title="State of GTM Insights 2026"
-                      description="We're putting the finishing touches on this comprehensive report covering 15+ countries, 50+ roles, and 10 interactive tools. Join the waitlist to be notified when it launches."
-                    />
-                  </Suspense>
-                } 
-              />
-              <Route 
-                path="/resources/reports/salary-benchmark-2025" 
+                  <ComingSoonPage
+                    title="State of GTM Insights 2026"
+                    description="We're putting the finishing touches on this comprehensive report covering 15+ countries, 50+ roles, and 10 interactive tools. Join the waitlist to be notified when it launches."
+                 />
+                }
+             />
+              <Route
+                path="/resources/reports/salary-benchmark-2025"
                 element={
-                  <Suspense fallback={<MarketingSkeleton />}>
-                    <ComingSoonPage 
-                      title="2025 Global Salary Benchmark Report"
-                      description="We're putting the finishing touches on this comprehensive report. Join the waitlist to be notified when it launches."
-                    />
-                  </Suspense>
-                } 
-              />
+                  <ComingSoonPage
+                    title="2025 Global Salary Benchmark Report"
+                    description="We're putting the finishing touches on this comprehensive report. Join the waitlist to be notified when it launches."
+                 />
+                }
+             />
               
               {/* Framework Routes */}
-              <Route path="/resources/frameworks/clean-track-model" element={<Suspense fallback={<MarketingSkeleton />}><CleanTrackModel /></Suspense>} />
-              <Route path="/resources/frameworks/minimal-analytics-stack" element={<Suspense fallback={<MarketingSkeleton />}><MinimalAnalyticsStack /></Suspense>} />
-              <Route path="/resources/frameworks/attribution-clarity-model" element={<Suspense fallback={<MarketingSkeleton />}><AttributionClarityModel /></Suspense>} />
-              <Route path="/resources/frameworks/b2b-attribution" element={<Suspense fallback={<MarketingSkeleton />}><B2BAttributionFramework /></Suspense>} />
-              <Route path="/resources/examples/utm-examples" element={<Suspense fallback={<MarketingSkeleton />}><UTMExamples /></Suspense>} />
-              <Route path="/resources/examples/naming-examples" element={<Suspense fallback={<MarketingSkeleton />}><NamingExamples /></Suspense>} />
-              <Route path="/resources/examples/dashboard-examples" element={<Suspense fallback={<MarketingSkeleton />}><DashboardExamples /></Suspense>} />
-              <Route path="/resources/checklists/utm-audit" element={<Suspense fallback={<MarketingSkeleton />}><UTMAudit /></Suspense>} />
-              <Route path="/resources/checklists/analytics-health" element={<Suspense fallback={<MarketingSkeleton />}><AnalyticsHealth /></Suspense>} />
-              <Route path="/resources/checklists/campaign-launch" element={<Suspense fallback={<MarketingSkeleton />}><CampaignLaunch /></Suspense>} />
+              <Route path="/resources/frameworks/clean-track-model" element={<CleanTrackModel />} />
+              <Route path="/resources/frameworks/minimal-analytics-stack" element={<MinimalAnalyticsStack />} />
+              <Route path="/resources/frameworks/attribution-clarity-model" element={<AttributionClarityModel />} />
+              <Route path="/resources/frameworks/b2b-attribution" element={<B2BAttributionFramework />} />
+              <Route path="/resources/examples/utm-examples" element={<UTMExamples />} />
+              <Route path="/resources/examples/naming-examples" element={<NamingExamples />} />
+              <Route path="/resources/examples/dashboard-examples" element={<DashboardExamples />} />
+              <Route path="/resources/checklists/utm-audit" element={<UTMAudit />} />
+              <Route path="/resources/checklists/analytics-health" element={<AnalyticsHealth />} />
+              <Route path="/resources/checklists/campaign-launch" element={<CampaignLaunch />} />
               
               {/* Glossary term pages */}
               <Route path="/resources/glossary/utm" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryUTM /></Suspense>} />
@@ -994,7 +991,7 @@ const AppRoutes = () => {
               <Route path="/analytics/share/:token" element={<Suspense fallback={<MarketingSkeleton />}><AnalyticsShare /></Suspense>} />
               
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<Suspense fallback={<MarketingSkeleton />}><NotFound /></Suspense>} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </AppWithHelp>
           {/* PHASE 14: Lazy-loaded global modals */}
@@ -1004,7 +1001,6 @@ const AppRoutes = () => {
           <InstallPrompt />
           <UpdateNotification />
         </ModalProvider>
-      </Suspense>
   );
 
   return routeTree;
@@ -1015,7 +1011,6 @@ const App = () => (
     <ThemeProvider>
       <NotificationProvider>
         <TooltipProvider>
-          <Toaster />
           <QueryClientProvider client={queryClient}>
             <BrowserRouter>
               <AppRoutes />
