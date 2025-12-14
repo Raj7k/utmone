@@ -23,7 +23,11 @@ const LiveActivityRail = lazy(() => import("@/components/intelligence/LiveActivi
 import AttributionSheet from "@/components/intelligence/AttributionSheet";
 import CampaignSheet from "@/components/intelligence/CampaignSheet";
 import MobileActivitySheet from "@/components/intelligence/MobileActivitySheet";
-import { AttributionTabContent } from "@/components/analytics/AttributionTabContent";
+// Lazy load AttributionTabContent - heavy component with 6+ queries
+const AttributionTabContent = lazy(() => 
+  import("@/components/analytics/AttributionTabContent")
+    .then(mod => ({ default: mod.AttributionTabContent }))
+);
 import { OfflineImporter } from "@/components/attribution/OfflineImporter";
 import { LiftAnalysis } from "@/components/attribution/LiftAnalysis";
 import { VelocityAnalytics } from "@/components/attribution/VelocityAnalytics";

@@ -14,7 +14,11 @@ import { TrafficForecastChart } from "@/components/analytics/TrafficForecastChar
 import { ParetoFrontier } from "@/components/analytics/ParetoFrontier";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { ExecutiveMetricsBar } from "@/components/analytics/ExecutiveMetricsBar";
-import { PerformanceTrendChart } from "@/components/analytics/PerformanceTrendChart";
+// Lazy load PerformanceTrendChart - below fold, heavy chart
+const PerformanceTrendChart = lazy(() => 
+  import("@/components/analytics/PerformanceTrendChart")
+    .then(mod => ({ default: mod.PerformanceTrendChart }))
+);
 import { AICommandCenter } from "@/components/analytics/AICommandCenter";
 import { ChannelPerformanceGrid } from "@/components/analytics/ChannelPerformanceGrid";
 import { TopCampaignsTable } from "@/components/analytics/TopCampaignsTable";
