@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy, Suspense } from "react";
+import { useState, useEffect, lazy, Suspense, useMemo } from "react";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { useIntelligenceData } from "@/hooks/useIntelligenceData";
@@ -44,8 +44,10 @@ const IdentityGraphView = lazy(() => import("@/components/attribution/IdentityGr
 
 export default function Intelligence() {
   const { currentWorkspace, hasTimedOut, retry } = useWorkspaceContext();
-  // Use cached workspace ID for immediate query start
-  const effectiveWorkspaceId = currentWorkspace?.id || getCachedWorkspaceId() || "";
+  // Memoize workspace ID to prevent query key instability on tab switch
+  const effectiveWorkspaceId = useMemo(() => {
+    return currentWorkspace?.id || getCachedWorkspaceId() || "";
+  }, [currentWorkspace?.id]);
   const workspaceId = effectiveWorkspaceId;
   const [period, setPeriod] = useState<PeriodOption>("7d");
   const [customRange, setCustomRange] = useState<{ from: Date; to: Date } | undefined>();
