@@ -610,7 +610,8 @@ const App = () => (
                <Route path="/dashboard/attribution" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Attribution /></DashboardLayout></Suspense></ProtectedRoute>} />
                <Route path="/dashboard/robust-attribution" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><RobustAttribution /></DashboardLayout></Suspense></ProtectedRoute>} />
                <Route path="/dashboard/sales" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardSales /></DashboardLayout></Suspense></ProtectedRoute>} />
-               <Route path="/dashboard/events" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardEvents /></DashboardLayout></Suspense></ProtectedRoute>} />
+               <Route path="/dashboard/event-halo" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardEvents /></DashboardLayout></Suspense></ProtectedRoute>} />
+               <Route path="/dashboard/events" element={<Navigate to="/dashboard/event-halo" replace />} />
                <Route path="/dashboard/intelligence" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Intelligence /></DashboardLayout></Suspense></ProtectedRoute>} />
                
               {/* Onboarding Routes - No ProtectedRoute to prevent redirect loops after signup */}
