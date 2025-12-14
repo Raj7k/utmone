@@ -28,7 +28,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { notify } from "@/lib/notify";
 import { useTheme } from "next-themes";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { 
   appNavigation, 
@@ -39,6 +39,7 @@ import {
   NavItem 
 } from "@/config/navigation";
 import { Badge } from "@/components/ui/badge";
+import { useDashboardPrefetch } from "@/hooks/useDashboardPrefetch";
 
 interface DashboardSidebarProps {
   onNavigate?: () => void;
@@ -49,12 +50,22 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
   const navigate = useNavigate();
   const { setTheme } = useTheme();
   const { currentWorkspace } = useWorkspaceContext();
+  const { prefetchLinks, prefetchIntelligence, prefetchSales, prefetchEvents } = useDashboardPrefetch();
   
   const [toolsOpen, setToolsOpen] = useState(true);
   const [intelligenceOpen, setIntelligenceOpen] = useState(true);
   const [growthOpen, setGrowthOpen] = useState(true);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [, setTextModeUpdate] = useState(0);
+
+  // Prefetch mapping for navigation items
+  const getPrefetchHandler = useCallback((href: string) => {
+    if (href === "/dashboard/links" || href === "/dashboard") return prefetchLinks;
+    if (href === "/dashboard/intelligence" || href === "/dashboard/analytics") return prefetchIntelligence;
+    if (href === "/dashboard/sales") return prefetchSales;
+    if (href === "/dashboard/events") return prefetchEvents;
+    return undefined;
+  }, [prefetchLinks, prefetchIntelligence, prefetchSales, prefetchEvents]);
 
   // Listen for text mode changes
   useEffect(() => {
@@ -134,12 +145,15 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
     const active = isActive(item.href);
     const Icon = item.icon;
     const badgeCount = item.badge && pendingCount && pendingCount > 0 ? pendingCount : 0;
+    const prefetchHandler = getPrefetchHandler(item.href);
 
     return (
       <Link
         key={item.name}
         to={item.href}
         onClick={onNavigate}
+        onMouseEnter={prefetchHandler}
+        onFocus={prefetchHandler}
         className={cn(
           "flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-apple transition-apple",
           active

@@ -3,9 +3,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { startOfDay, subDays } from "date-fns";
+import { useRef, useEffect } from "react";
 
 const CACHE_KEY = "DASHBOARD_UNIFIED_CACHE";
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+const STALE_TTL = 30 * 1000; // 30 seconds - show cached, refresh in background
 
 export interface DashboardLink {
   id: string;
@@ -113,14 +115,16 @@ export interface DashboardData {
   fetchedAt: string;
 }
 
-// Get cached data for INSTANT render
-function getCached(workspaceId: string): DashboardData | undefined {
+// Get cached data for INSTANT render (stale-while-revalidate)
+function getCached(workspaceId: string): { data: DashboardData; isStale: boolean } | undefined {
   try {
     const cached = localStorage.getItem(`${CACHE_KEY}-${workspaceId}`);
     if (!cached) return undefined;
     const { data, timestamp } = JSON.parse(cached);
-    if (Date.now() - timestamp > CACHE_TTL) return undefined;
-    return data as DashboardData;
+    const age = Date.now() - timestamp;
+    // Return stale data up to full TTL, mark as stale after STALE_TTL
+    if (age > CACHE_TTL) return undefined;
+    return { data: data as DashboardData, isStale: age > STALE_TTL };
   } catch {
     return undefined;
   }
@@ -141,8 +145,26 @@ function setCache(workspaceId: string, data: DashboardData) {
 export const useDashboardUnified = (range: string = "30d") => {
   const { currentWorkspace } = useWorkspace();
   const queryClient = useQueryClient();
+  const isBackgroundRefresh = useRef(false);
 
   const workspaceId = currentWorkspace?.id || getCachedWorkspaceId() || "";
+  
+  // Get cached data with stale check
+  const cachedResult = getCached(workspaceId);
+  const cachedData = cachedResult?.data;
+  const isCacheStale = cachedResult?.isStale ?? true;
+
+  // Trigger background refresh if cache is stale
+  useEffect(() => {
+    if (cachedData && isCacheStale && !isBackgroundRefresh.current) {
+      isBackgroundRefresh.current = true;
+      // Trigger refetch in background
+      queryClient.invalidateQueries({ 
+        queryKey: ["dashboard-direct", workspaceId, range],
+        refetchType: 'active'
+      });
+    }
+  }, [cachedData, isCacheStale, workspaceId, range, queryClient]);
 
   const { data, isLoading, isFetching, isFetched, refetch, error } = useQuery({
     queryKey: ["dashboard-direct", workspaceId, range],
@@ -338,14 +360,21 @@ export const useDashboardUnified = (range: string = "30d") => {
       return result;
     },
     enabled: !!workspaceId,
-    initialData: () => getCached(workspaceId),
-    staleTime: CACHE_TTL,
+    initialData: () => cachedData,
+    staleTime: STALE_TTL, // Use shorter stale time for faster revalidation
     gcTime: 10 * 60 * 1000,
-    refetchOnMount: false,
+    refetchOnMount: isCacheStale, // Only refetch on mount if stale
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     retry: 1,
   });
+
+  // Reset background refresh flag when fetch completes
+  useEffect(() => {
+    if (!isFetching) {
+      isBackgroundRefresh.current = false;
+    }
+  }, [isFetching]);
 
   // Invalidate helpers
   const invalidateLinks = () => {
@@ -392,19 +421,24 @@ export const useDashboardUnified = (range: string = "30d") => {
     avgClicksPerDay: 0,
   };
 
+  // Use cached data immediately if available, even if stale
+  const effectiveData = data || cachedData;
+  const hasData = !!effectiveData;
+
   return {
-    links: data?.links || [],
-    salesLinks: data?.salesLinks || [],
-    events: data?.events || [],
-    campaigns: data?.campaigns || [],
-    stats: data?.stats || { clicksToday: 0, totalRevenue: 0, totalLinks: 0 },
-    onboarding: data?.onboarding || { hasLinks: false, linkCount: 0 },
-    analytics: data?.analytics || defaultAnalytics,
-    executiveMetrics: data?.executiveMetrics || defaultExecutiveMetrics,
-    data,
-    isLoading: isLoading && !data,
+    links: effectiveData?.links || [],
+    salesLinks: effectiveData?.salesLinks || [],
+    events: effectiveData?.events || [],
+    campaigns: effectiveData?.campaigns || [],
+    stats: effectiveData?.stats || { clicksToday: 0, totalRevenue: 0, totalLinks: 0 },
+    onboarding: effectiveData?.onboarding || { hasLinks: false, linkCount: 0 },
+    analytics: effectiveData?.analytics || defaultAnalytics,
+    executiveMetrics: effectiveData?.executiveMetrics || defaultExecutiveMetrics,
+    data: effectiveData,
+    isLoading: isLoading && !hasData, // Only show loading if no cached data
     isFetching,
-    isFetched,
+    isFetched: isFetched || hasData, // Consider fetched if we have cached data
+    isStale: isCacheStale && hasData, // New: indicate if showing stale data
     error,
     refetch,
     invalidateLinks,
