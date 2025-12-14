@@ -29,7 +29,7 @@ const Sales = () => {
     }
   }, [isFetched, hasTimedOut]);
 
-  // Calculate stats
+  // Calculate stats - safe even when loading
   const hotLeads = salesLinks.filter(l => {
     const lastClick = l.last_clicked_at;
     if (!lastClick) return false;
@@ -39,14 +39,13 @@ const Sales = () => {
 
   const totalViews = salesLinks.reduce((sum, l) => sum + (l.total_clicks || 0), 0);
 
-  // Show loading state when data is loading
-  if (isLoading && !isFetched) {
-    return (
-      <div className="p-6 lg:p-8 max-w-5xl mx-auto">
-        <DashboardContentLoader context="sales" minHeight="60vh" />
-      </div>
-    );
-  }
+  // Prepare salesLinks data for activity feed (strip to needed fields)
+  const activityFeedLinks = salesLinks.map(l => ({
+    id: l.id,
+    title: l.title || '',
+    prospect_name: l.prospect_name,
+    slug: l.slug || '',
+  }));
 
   return (
     <div className="animate-fade-in">
@@ -69,32 +68,42 @@ const Sales = () => {
         <StaleIndicator visible={isStale || isFetching} />
       </div>
 
-      {/* Stats Banner - always render with data */}
+      {/* Stats Banner - show skeletons when loading, data when ready */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         className="grid grid-cols-1 sm:grid-cols-3 gap-4"
       >
-        <SalesStatCard
-          icon={Zap}
-          label="hot leads (1h)"
-          value={hotLeads}
-          variant="hot"
-          pulse={hotLeads > 0}
-        />
-        <SalesStatCard
-          icon={Briefcase}
-          label="active deals"
-          value={salesLinks.length}
-          variant="primary"
-        />
-        <SalesStatCard
-          icon={Eye}
-          label="total views"
-          value={totalViews}
-          variant="amber"
-        />
+        {isLoading && !isFetched ? (
+          <>
+            <Skeleton className="h-24 rounded-xl" />
+            <Skeleton className="h-24 rounded-xl" />
+            <Skeleton className="h-24 rounded-xl" />
+          </>
+        ) : (
+          <>
+            <SalesStatCard
+              icon={Zap}
+              label="hot leads (1h)"
+              value={hotLeads}
+              variant="hot"
+              pulse={hotLeads > 0}
+            />
+            <SalesStatCard
+              icon={Briefcase}
+              label="active deals"
+              value={salesLinks.length}
+              variant="primary"
+            />
+            <SalesStatCard
+              icon={Eye}
+              label="total views"
+              value={totalViews}
+              variant="amber"
+            />
+          </>
+        )}
       </motion.div>
 
       {/* Main Content - always render */}
@@ -114,14 +123,14 @@ const Sales = () => {
         />
       </div>
 
-        {/* Activity Feed - Lazy loaded */}
+        {/* Activity Feed - Lazy loaded, receives pre-fetched links */}
         <div className="lg:col-span-1">
           <LazySection 
             fallback={<Skeleton className="h-80 rounded-xl" />}
             rootMargin="200px"
           >
             <Suspense fallback={<Skeleton className="h-80 rounded-xl" />}>
-              <SalesActivityFeed />
+              <SalesActivityFeed salesLinks={activityFeedLinks} />
             </Suspense>
           </LazySection>
         </div>
