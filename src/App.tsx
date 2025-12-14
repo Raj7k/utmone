@@ -1,3 +1,4 @@
+import type React from "react";
 import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -5,6 +6,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { AppProvider } from "./contexts/AppProvider";
+import { NotificationProvider } from "./contexts/NotificationContext";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { InlineDashboardSkeleton, MarketingSkeleton, DashboardSkeleton } from "./components/SkeletonLoader";
 import { SkipToContent } from "./components/SkipToContent";
@@ -536,22 +538,41 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 // PHASE 14: Use centralized queryClient from lib/queryConfig.ts
 const queryClient = centralQueryClient;
 
-const App = () => (
-  <ErrorBoundary>
-    <ThemeProvider>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          {/* PHASE C: Merged AppProvider (Session + Workspace + Notification) */}
-          <AppProvider>
-            <Toaster />
-            {/* Deferred providers - only load when needed */}
-            <Suspense fallback={null}>
-                <ModalProvider>
-                    <SkipToContent />
-                    <ScrollToTop />
-                    <NetworkStatus />
-                    <AppWithHelp>
-                    <Routes>
+const PRIVATE_ROUTE_PREFIXES = [
+  "/dashboard",
+  "/links",
+  "/analytics",
+  "/onboarding",
+  "/admin",
+  "/settings",
+  "/client-workspaces",
+  "/partners/dashboard",
+  "/integrations/gtm",
+  "/settings/integrations",
+  "/dev/performance",
+];
+
+const PublicNotificationShell = ({ children }: { children: React.ReactNode }) => (
+  <NotificationProvider>
+    {children}
+  </NotificationProvider>
+);
+
+const AppRoutes = () => {
+  const location = useLocation();
+  const isPrivateRoute = PRIVATE_ROUTE_PREFIXES.some((prefix) => location.pathname.startsWith(prefix));
+
+  const routeTree = (
+    <>
+      <Toaster />
+      {/* Deferred providers - only load when needed */}
+      <Suspense fallback={null}>
+        <ModalProvider>
+          <SkipToContent />
+          <ScrollToTop />
+          <NetworkStatus />
+          <AppWithHelp>
+            <Routes>
               {/* PHASE 17: Lazy load Index page */}
               <Route path="/" element={<Suspense fallback={<MarketingSkeleton />}><Index /></Suspense>} />
               <Route path="/auth" element={<Auth />} />
@@ -589,7 +610,16 @@ const App = () => (
                <Route path="/feedback" element={<Suspense fallback={<MarketingSkeleton />}><PublicBugTracker /></Suspense>} />
                
                {/* Invitation Acceptance */}
-               <Route path="/accept-invite" element={<Suspense fallback={<DashboardSkeleton />}><AcceptInvite /></Suspense>} />
+              <Route
+                path="/accept-invite"
+                element={(
+                  <Suspense fallback={<DashboardSkeleton />}>
+                    <PublicNotificationShell>
+                      <AcceptInvite />
+                    </PublicNotificationShell>
+                  </Suspense>
+                )}
+              />
               
                {/* Dashboard Routes - Protected */}
               <Route path="/dashboard" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardHome /></DashboardLayout></Suspense></ProtectedRoute>} />
@@ -655,7 +685,16 @@ const App = () => (
               <Route path="/settings/backup" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Backup /></Suspense></ProtectedRoute>} />
               <Route path="/settings/developer" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DeveloperSettings /></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/approvals" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><ApprovalQueue /></DashboardLayout></Suspense></ProtectedRoute>} />
-              <Route path="/password-protected" element={<Suspense fallback={<DashboardSkeleton />}><PasswordProtected /></Suspense>} />
+              <Route
+                path="/password-protected"
+                element={(
+                  <Suspense fallback={<DashboardSkeleton />}>
+                    <PublicNotificationShell>
+                      <PasswordProtected />
+                    </PublicNotificationShell>
+                  </Suspense>
+                )}
+              />
               <Route path="/accessibility" element={<Suspense fallback={<MarketingSkeleton />}><Accessibility /></Suspense>} />
               <Route path="/permanence" element={<Suspense fallback={<MarketingSkeleton />}><Permanence /></Suspense>} />
               <Route path="/pricing" element={<Suspense fallback={<MarketingSkeleton />}><Pricing /></Suspense>} />
@@ -1100,20 +1139,31 @@ const App = () => (
               
               {/* Dev Tools - Development Only */}
               <Route path="/dev/performance" element={<Suspense fallback={<DashboardSkeleton />}><PerformanceAudit /></Suspense>} />
-              
+
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<Suspense fallback={<MarketingSkeleton />}><NotFound /></Suspense>} />
             </Routes>
-            </AppWithHelp>
+          </AppWithHelp>
           {/* PHASE 14: Lazy-loaded global modals */}
           <Suspense fallback={null}>
             <GlobalEarlyAccessModal />
           </Suspense>
           <InstallPrompt />
           <UpdateNotification />
-                    </ModalProvider>
-                </Suspense>
-              </AppProvider>
+        </ModalProvider>
+      </Suspense>
+    </>
+  );
+
+  return isPrivateRoute ? <AppProvider>{routeTree}</AppProvider> : routeTree;
+};
+
+const App = () => (
+  <ErrorBoundary>
+    <ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <AppRoutes />
         </BrowserRouter>
       </QueryClientProvider>
     </ThemeProvider>
