@@ -133,8 +133,8 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
   }
 
   return (
-    <section className="relative min-h-[85vh] flex items-center justify-center pb-8 overflow-hidden">
-      {/* The Slab Container */}
+    <section className="relative min-h-[680px] md:min-h-[85vh] flex items-center justify-center pb-8 overflow-hidden">
+      {/* The Slab Container - explicit height to prevent CLS */}
       <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6">
         <div 
           className="relative h-[680px] rounded-[32px] overflow-hidden bg-zinc-900/20 border border-white/10 shadow-[0_25px_50px_-12px_hsl(0_0%_0%/0.5),0_0_0_1px_hsl(0_0%_100%/0.05)_inset]"

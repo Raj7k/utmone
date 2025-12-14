@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { formatText } from "@/utils/textFormatter";
 import { ArrowRight, Code, Database } from "lucide-react";
-import { motion } from "framer-motion";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
 import { HeroInlineCTA } from "@/components/landing/HeroInlineCTA";
@@ -37,9 +36,9 @@ const AIStampStudioShowcase = lazy(() => import("@/components/landing/AIStampStu
 const TrustSection = lazy(() => import("@/components/landing/TrustSection").then(m => ({ default: m.TrustSection })));
 const AnalyticsFeatureCarousel = lazy(() => import("@/components/landing/AnalyticsFeatureCarousel").then(m => ({ default: m.AnalyticsFeatureCarousel })));
 
-// Simple loading placeholder
+// Simple loading placeholder - explicit height to prevent CLS
 const SectionSkeleton = () => (
-  <div className="w-full py-16 flex items-center justify-center">
+  <div className="w-full min-h-[400px] py-16 flex items-center justify-center">
     <div className="w-8 h-8 border-2 border-white/20 border-t-white/60 rounded-full animate-spin" />
   </div>
 );
@@ -80,42 +79,22 @@ const Index = () => {
         </Suspense>
       ) : (
         <>
-          {/* Original Static Hero */}
+          {/* Original Static Hero - CSS animations instead of framer-motion */}
           <HeroVariantManager>
             {(variant) => (
               <section className="relative py-12 md:py-20 lg:py-24 bg-background overflow-hidden">
                 <div className="relative z-10 max-w-[980px] mx-auto px-4 sm:px-6 md:px-8">
-                  <motion.div 
-                    className="text-center space-y-4 md:space-y-6"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.6 }}
-                  >
-                    <motion.h1 
-                      className="hero-gradient text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter text-balance leading-[1.1] md:leading-[1.05]"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.6 }}
-                    >
+                  <div className="text-center space-y-4 md:space-y-6 page-enter">
+                    <h1 className="hero-gradient text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter text-balance leading-[1.1] md:leading-[1.05]">
                       {variant.headlineLine1}<br />
                       {variant.headlineLine2}
-                    </motion.h1>
+                    </h1>
                     
-                    <motion.p 
-                      className="text-base sm:text-lg md:text-xl max-w-[720px] mx-auto text-balance leading-relaxed px-2 text-white/60"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.6 }}
-                    >
+                    <p className="text-base sm:text-lg md:text-xl max-w-[720px] mx-auto text-balance leading-relaxed px-2 text-white/60">
                       {variant.subheadline}
-                    </motion.p>
+                    </p>
                     
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.6 }}
-                      className="space-y-4"
-                    >
+                    <div className="space-y-4">
                       <HeroInlineCTA />
                       
                       <Link 
@@ -126,8 +105,8 @@ const Index = () => {
                         see how it works
                         <ArrowRight className="h-4 w-4" />
                       </Link>
-                    </motion.div>
-                  </motion.div>
+                    </div>
+                  </div>
                 </div>
               </section>
             )}
@@ -203,7 +182,7 @@ const Index = () => {
         </Suspense>
       </LazyOnScroll>
 
-      {/* Developer Experience */}
+      {/* Developer Experience - CSS hover instead of framer-motion */}
       <AnimatedSection className="py-16 md:py-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
           <div className="text-center mb-8 md:mb-12 space-y-3">
@@ -223,11 +202,7 @@ const Index = () => {
             </p>
           </div>
           <div className="grid sm:grid-cols-2 gap-5">
-            <motion.div 
-              className="rounded-xl p-6 transition-all obsidian-glass-60 border border-white/[0.08] border-t-white/[0.12] shadow-[inset_0_1px_0_0_hsl(var(--white-05))]"
-              whileHover={{ y: -4, scale: 1.01 }}
-              transition={{ duration: 0.2 }}
-            >
+            <div className="rounded-xl p-6 transition-all duration-200 hover:-translate-y-1 hover:scale-[1.01] obsidian-glass-60 border border-white/[0.08] border-t-white/[0.12] shadow-[inset_0_1px_0_0_hsl(var(--white-05))]">
               <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3 bg-white/10">
                 <Code className="w-5 h-5 text-white/80" />
               </div>
@@ -242,12 +217,8 @@ const Index = () => {
                 view api docs
                 <ArrowRight className="h-4 w-4" />
               </Link>
-            </motion.div>
-            <motion.div 
-              className="rounded-xl p-6 transition-all obsidian-glass-60 border border-white/[0.08] border-t-white/[0.12] shadow-[inset_0_1px_0_0_hsl(var(--white-05))]"
-              whileHover={{ y: -4, scale: 1.01 }}
-              transition={{ duration: 0.2 }}
-            >
+            </div>
+            <div className="rounded-xl p-6 transition-all duration-200 hover:-translate-y-1 hover:scale-[1.01] obsidian-glass-60 border border-white/[0.08] border-t-white/[0.12] shadow-[inset_0_1px_0_0_hsl(var(--white-05))]">
               <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3 bg-white/10">
                 <Database className="w-5 h-5 text-white/80" />
               </div>
@@ -262,7 +233,7 @@ const Index = () => {
                 view integrations
                 <ArrowRight className="h-4 w-4" />
               </Link>
-            </motion.div>
+            </div>
           </div>
         </div>
       </AnimatedSection>
