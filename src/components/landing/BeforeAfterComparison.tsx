@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { SmartImage } from "@/components/ui/smart-image";
 
 interface BeforeAfterComparisonProps {
   beforeImage: string;
@@ -48,11 +49,11 @@ export const BeforeAfterComparison = ({
             <div className="absolute top-4 left-4 px-3 py-1 rounded-md text-xs font-semibold uppercase tracking-wide z-10 bg-destructive/90 text-white">
               {beforeLabel}
             </div>
-            <img
+            <SmartImage
               src={beforeImage}
               alt="Before: Messy workflow"
-              className="w-full h-auto"
-              loading="lazy"
+              aspectRatio="16/9"
+              className="w-full"
             />
             <div className="absolute inset-0 pointer-events-none bg-destructive/5" />
           </div>
@@ -68,11 +69,11 @@ export const BeforeAfterComparison = ({
             <div className="absolute top-4 left-4 px-3 py-1 rounded-md text-xs font-semibold uppercase tracking-wide z-10 bg-primary/90 text-white">
               {afterLabel}
             </div>
-            <img
+            <SmartImage
               src={afterImage}
               alt="After: Clean utm.one interface"
-              className="w-full h-auto"
-              loading="lazy"
+              aspectRatio="16/9"
+              className="w-full"
             />
             <div className="absolute inset-0 pointer-events-none bg-primary/5" />
           </div>
