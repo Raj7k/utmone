@@ -5,14 +5,14 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
-import { ArrowLeft, Info, Check, Shield, Clock } from "lucide-react";
+import { Info, Check, Shield, Clock } from "lucide-react";
 import { motion } from "framer-motion";
 import { AuthLoadingScreen } from "@/components/loading/AuthLoadingScreen";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { SocialLoginButtons } from "@/components/auth/SocialLoginButtons";
 import { PasswordInput } from "@/components/auth/PasswordInput";
 import { useUIFeatureFlags } from "@/hooks/useUIFeatureFlag";
-import { ObsidianMarketingLayout } from "@/components/layout/ObsidianMarketingLayout";
+import { CleanAuthLayout } from "@/components/layout/CleanAuthLayout";
 import { EmailConfirmationScreen } from "@/components/auth/EmailConfirmationScreen";
 import { SmartEmailInput } from "@/components/ui/smart-email-input";
 import { validateEmailSmart } from "@/lib/emailValidator";
@@ -302,24 +302,15 @@ const Signup = () => {
   }
 
   return (
-    <ObsidianMarketingLayout showFloatingNav={false}>
-      <div className="min-h-[80vh] flex items-center justify-center p-4 relative overflow-hidden">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="w-full max-w-md space-y-8 relative z-10"
-        >
-          <Link 
-            to="/" 
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            back to home
-          </Link>
-
-          <div className="text-center space-y-4">
-            <UtmOneLogo size="xl" className="justify-center mb-2" />
+    <CleanAuthLayout>
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md space-y-8"
+      >
+        <div className="text-center space-y-4">
+          <UtmOneLogo size="xl" className="justify-center mb-2" />
             <h1 className="text-4xl font-display font-bold tracking-tight text-foreground">create your account</h1>
             <p className="text-muted-foreground text-lg">start making smarter links in seconds</p>
             
@@ -464,16 +455,15 @@ const Signup = () => {
             </CardContent>
           </Card>
 
-          {/* Trust footer */}
-          <p className="text-center text-xs text-muted-foreground">
-            by signing up, you agree to our{" "}
-            <Link to="/terms" className="hover:text-foreground underline">terms</Link>
-            {" "}and{" "}
-            <Link to="/privacy" className="hover:text-foreground underline">privacy policy</Link>
-          </p>
-        </motion.div>
-      </div>
-    </ObsidianMarketingLayout>
+        {/* Trust footer */}
+        <p className="text-center text-xs text-muted-foreground">
+          by signing up, you agree to our{" "}
+          <Link to="/terms" className="hover:text-foreground underline">terms</Link>
+          {" "}and{" "}
+          <Link to="/privacy" className="hover:text-foreground underline">privacy policy</Link>
+        </p>
+      </motion.div>
+    </CleanAuthLayout>
   );
 };
 
