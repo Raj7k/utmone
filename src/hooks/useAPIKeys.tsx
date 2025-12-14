@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { notify } from '@/lib/notify';
-import { useWorkspace } from './useWorkspace';
+import { useWorkspace } from '@/hooks/workspace';
 
 export interface APIKey {
   id: string;

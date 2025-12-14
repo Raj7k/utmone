@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { useAdminAuth } from '@/hooks/useAdminAuth';
+import { useAdminAuth } from '@/hooks/auth';
 import { Shield } from 'lucide-react';
 
 interface AdminRouteProps {

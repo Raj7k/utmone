@@ -1,4 +1,4 @@
-import { VariantMetrics } from '@/hooks/useLandingPageAnalytics';
+import { VariantMetrics } from '@/hooks/analytics';
 import { VariantPerformanceCard } from './VariantPerformanceCard';
 import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';

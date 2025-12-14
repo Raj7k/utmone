@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { CheckCircle, XCircle, Clock, AlertCircle } from "lucide-react";
 import { useBulkUploadApprovals } from "@/hooks/useBulkUploadApprovals";
-import { useWorkspaceMembers } from "@/hooks/useWorkspaceMembers";
+import { useWorkspaceMembers } from "@/hooks/workspace";
 import { formatDistanceToNow } from "date-fns";
 import { supabase } from "@/integrations/supabase/client";
 

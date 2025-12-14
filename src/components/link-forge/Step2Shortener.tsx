@@ -16,7 +16,7 @@ import { useLinkWebhooks } from "@/hooks/useLinkWebhooks";
 import { useActivationTracking } from "@/hooks/useActivationTracking";
 import { GeoTargetingModal } from "./GeoTargetingModal";
 import { Badge as BadgeComponent } from "@/components/ui/badge";
-import { useUserWorkspaceRole, requiresApproval } from "@/hooks/useUserWorkspaceRole";
+import { useUserWorkspaceRole, requiresApproval } from "@/hooks/workspace";
 import { DestinationRotator } from "@/components/links/DestinationRotator";
 import { Destination } from "@/hooks/useSmartRotator";
 import { Switch } from "@/components/ui/switch";
