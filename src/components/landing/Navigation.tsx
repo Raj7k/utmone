@@ -1,7 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { MagneticButton } from "@/components/magnetic";
 import { useState, useEffect } from "react";
 import { announcements } from "@/lib/announcementConfig";
 import { AnnouncementScheduler } from "@/lib/announcementScheduler";

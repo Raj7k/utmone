@@ -1,5 +1,4 @@
-import { useEffect, lazy, Suspense, useState } from 'react';
-import { useIntentPrefetch } from '@/hooks/useIntentPrefetch';
+import { lazy, Suspense } from 'react';
 
 // Lazy load dev-only components
 const PerformanceMonitor = lazy(() => 
@@ -17,24 +16,6 @@ interface PerformanceProviderProps {
  * Dev monitoring only loads in development mode.
  */
 export function PerformanceProvider({ children }: PerformanceProviderProps) {
-  const [enablePrefetch, setEnablePrefetch] = useState(false);
-  
-  // Defer enabling prefetch until after idle
-  useEffect(() => {
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(() => setEnablePrefetch(true));
-    } else {
-      setTimeout(() => setEnablePrefetch(true), 100);
-    }
-  }, []);
-
-  // Only initialize prefetching after idle callback
-  useIntentPrefetch(enablePrefetch ? {
-    hoverDelay: 50,
-    maxConcurrent: 3,
-    respectSaveData: true,
-  } : { hoverDelay: 999999 }); // Effectively disabled until enablePrefetch is true
-
   return (
     <>
       {children}

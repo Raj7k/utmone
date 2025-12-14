@@ -38,7 +38,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import {
   useWorkspaceDomains,
   useAddDomain,
@@ -54,8 +54,8 @@ import { DomainHealthDetails } from "@/components/settings/DomainHealthDetails";
 import { DomainSettings } from "@/components/settings/DomainSettings";
 import { DomainUsageStats } from "@/components/settings/DomainUsageStats";
 import { DomainEditDialog } from "@/components/settings/DomainEditDialog";
-import { DomainTestPanel } from "@/components/settings/DomainTestPanel";
-import { Plus, Trash2, FileText, CheckCircle2, Loader2, Star, Settings, Edit, Activity, Zap } from "lucide-react";
+
+import { Plus, Trash2, FileText, CheckCircle2, Loader2, Star, Settings, Edit, Activity } from "lucide-react";
 import { notify } from "@/lib/notify";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -143,21 +143,8 @@ export default function Domains({ workspaceId }: DomainsProps) {
 
   return (
     <div className="space-y-6">
-      {/* Tabs for Domains and Test Tool */}
-      <Tabs defaultValue="domains" className="w-full">
-        <TabsList className="grid w-full max-w-md grid-cols-2">
-          <TabsTrigger value="domains">your domains</TabsTrigger>
-          <TabsTrigger value="test" className="flex items-center gap-2">
-            <Zap className="w-4 h-4" />
-            test domain
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="test" className="mt-6">
-          <DomainTestPanel />
-        </TabsContent>
-
-        <TabsContent value="domains" className="mt-6 space-y-6">
+      {/* Domains Section */}
+      <div className="space-y-6">
           {/* Domain Health Overview */}
           {domains && domains.length > 0 && (
             <DomainHealthOverview 
@@ -486,8 +473,7 @@ export default function Domains({ workspaceId }: DomainsProps) {
           onOpenChange={setIsEditDialogOpen}
         />
       )}
-        </TabsContent>
-      </Tabs>
+      </div>
     </div>
   );
 }
