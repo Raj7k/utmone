@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import { Card } from "@/components/ui/card";
 import { 
-  LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, 
-  ReferenceLine, ReferenceArea, Legend, CartesianGrid
-} from "recharts";
+  LazyLineChart as LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, 
+  ReferenceLine, ReferenceArea, Legend, CartesianGrid, LazyChartContainer
+} from "@/components/charts/LazyCharts";
 import { ComparisonTimeseriesPoint } from "@/hooks/useFieldEvents";
 import { format, parseISO } from "date-fns";
 import { Info } from "lucide-react";
@@ -102,96 +102,98 @@ export const EventControlChart = ({
       </div>
 
       <div className="h-64">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.3} />
-            
-            {/* Event period highlight */}
-            {eventStartIndex >= 0 && (
-              <ReferenceArea
-                x1={chartData[eventStartIndex]?.date}
-                x2={chartData[eventEndIndex > 0 ? eventEndIndex - 1 : chartData.length - 1]?.date}
-                fill="hsl(var(--primary))"
-                fillOpacity={0.1}
+        <LazyChartContainer height={256}>
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.3} />
+              
+              {/* Event period highlight */}
+              {eventStartIndex >= 0 && (
+                <ReferenceArea
+                  x1={chartData[eventStartIndex]?.date}
+                  x2={chartData[eventEndIndex > 0 ? eventEndIndex - 1 : chartData.length - 1]?.date}
+                  fill="hsl(var(--primary))"
+                  fillOpacity={0.1}
+                />
+              )}
+              
+              <XAxis 
+                dataKey="date" 
+                tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }}
+                tickLine={false}
+                axisLine={{ stroke: 'hsl(var(--border))' }}
               />
-            )}
-            
-            <XAxis 
-              dataKey="date" 
-              tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }}
-              tickLine={false}
-              axisLine={{ stroke: 'hsl(var(--border))' }}
-            />
-            <YAxis 
-              tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }}
-              tickLine={false}
-              axisLine={{ stroke: 'hsl(var(--border))' }}
-            />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: 'hsl(var(--card))',
-                border: '1px solid hsl(var(--border))',
-                borderRadius: '8px',
-                fontSize: '12px'
-              }}
-              formatter={(value: number, name: string) => {
-                const labels: Record<string, string> = {
-                  target: `${targetCity} (event)`,
-                  control: `${controlCity || 'control'} (scaled)`,
-                  baseline: '30-day baseline'
-                };
-                return [value, labels[name] || name];
-              }}
-            />
-            <Legend 
-              verticalAlign="top"
-              height={36}
-              formatter={(value) => {
-                const labels: Record<string, string> = {
-                  target: `${targetCity} (event city)`,
-                  control: `${controlCity || 'control'} (control city)`,
-                  baseline: '30-day baseline'
-                };
-                return labels[value] || value;
-              }}
-            />
-            
-            {/* Baseline reference line */}
-            <ReferenceLine 
-              y={baselineDailyAverage} 
-              stroke="hsl(var(--muted-foreground))" 
-              strokeDasharray="5 5"
-              label={{ 
-                value: 'baseline', 
-                position: 'right', 
-                fontSize: 10,
-                fill: 'hsl(var(--muted-foreground))'
-              }}
-            />
-            
-            {/* Control city line (flat for non-event) */}
-            {controlCity && (
+              <YAxis 
+                tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }}
+                tickLine={false}
+                axisLine={{ stroke: 'hsl(var(--border))' }}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: 'hsl(var(--card))',
+                  border: '1px solid hsl(var(--border))',
+                  borderRadius: '8px',
+                  fontSize: '12px'
+                }}
+                formatter={(value: number, name: string) => {
+                  const labels: Record<string, string> = {
+                    target: `${targetCity} (event)`,
+                    control: `${controlCity || 'control'} (scaled)`,
+                    baseline: '30-day baseline'
+                  };
+                  return [value, labels[name] || name];
+                }}
+              />
+              <Legend 
+                verticalAlign="top"
+                height={36}
+                formatter={(value) => {
+                  const labels: Record<string, string> = {
+                    target: `${targetCity} (event city)`,
+                    control: `${controlCity || 'control'} (control city)`,
+                    baseline: '30-day baseline'
+                  };
+                  return labels[value] || value;
+                }}
+              />
+              
+              {/* Baseline reference line */}
+              <ReferenceLine 
+                y={baselineDailyAverage} 
+                stroke="hsl(var(--muted-foreground))" 
+                strokeDasharray="5 5"
+                label={{ 
+                  value: 'baseline', 
+                  position: 'right', 
+                  fontSize: 10,
+                  fill: 'hsl(var(--muted-foreground))'
+                }}
+              />
+              
+              {/* Control city line (flat for non-event) */}
+              {controlCity && (
+                <Line
+                  type="monotone"
+                  dataKey="control"
+                  stroke="hsl(var(--muted-foreground))"
+                  strokeWidth={2}
+                  dot={false}
+                  strokeDasharray="5 5"
+                />
+              )}
+              
+              {/* Target city line (spike during event) */}
               <Line
                 type="monotone"
-                dataKey="control"
-                stroke="hsl(var(--muted-foreground))"
+                dataKey="target"
+                stroke="hsl(var(--primary))"
                 strokeWidth={2}
                 dot={false}
-                strokeDasharray="5 5"
+                activeDot={{ r: 4, fill: 'hsl(var(--primary))' }}
               />
-            )}
-            
-            {/* Target city line (spike during event) */}
-            <Line
-              type="monotone"
-              dataKey="target"
-              stroke="hsl(var(--primary))"
-              strokeWidth={2}
-              dot={false}
-              activeDot={{ r: 4, fill: 'hsl(var(--primary))' }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+            </LineChart>
+          </ResponsiveContainer>
+        </LazyChartContainer>
       </div>
 
       <p className="text-xs text-muted-foreground mt-4 text-center">

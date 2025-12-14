@@ -1,7 +1,6 @@
-import { useState, useCallback, useEffect, startTransition } from "react";
+import { useState, useCallback, useEffect, startTransition, lazy, Suspense } from "react";
 import { QuickCreateTile } from "@/components/dashboard/bento/QuickCreateTile";
 import { QuickStats } from "@/components/dashboard/QuickStats";
-import { ActivityFeed } from "@/components/dashboard/ActivityFeed";
 import { OnboardingChecklist } from "@/components/dashboard/OnboardingChecklist";
 import { DemoModeBanner } from "@/components/dashboard/DemoModeBanner";
 import { WelcomeModal } from "@/components/dashboard/WelcomeModal";
@@ -17,6 +16,11 @@ import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
 import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
+import { LazySection } from "@/components/loading/LazySection";
+import { ActivityFeedSkeleton } from "@/components/loading/CardSkeleton";
+
+// Lazy load ActivityFeed - it's below the fold
+const ActivityFeed = lazy(() => import("@/components/dashboard/ActivityFeed").then(m => ({ default: m.ActivityFeed })));
 
 const DashboardHome = () => {
   const { showDemoMode } = useDemoMode();
@@ -154,11 +158,16 @@ const DashboardHome = () => {
           </div>
         </ErrorBoundary>
 
-        <ErrorBoundary section="activity-feed">
-          <div className="animate-fade-in" style={{ animationDelay: '200ms' }}>
-            <ActivityFeed />
-          </div>
-        </ErrorBoundary>
+        {/* Activity feed - lazy loaded when scrolled into view */}
+        <LazySection fallback={<ActivityFeedSkeleton />}>
+          <ErrorBoundary section="activity-feed">
+            <div className="animate-fade-in" style={{ animationDelay: '200ms' }}>
+              <Suspense fallback={<ActivityFeedSkeleton />}>
+                <ActivityFeed />
+              </Suspense>
+            </div>
+          </ErrorBoundary>
+        </LazySection>
       </div>
     </ErrorBoundary>
   );
