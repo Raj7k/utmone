@@ -1,17 +1,14 @@
 import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { WorkspaceProvider } from "./contexts/WorkspaceContext";
 import { AppSessionProvider } from "./contexts/AppSessionContext";
-import { AdminSimulationProvider } from "./contexts/AdminSimulationContext";
-import { ModalProvider } from "./contexts/ModalContext";
-import { GlobalEarlyAccessModal } from "./components/early-access/GlobalEarlyAccessModal";
 import { NotificationProvider } from "./contexts/NotificationContext";
 import { ErrorBoundary } from "./components/ErrorBoundary";
-import { DashboardSkeleton, MarketingSkeleton, LightweightDashboardShell } from "./components/SkeletonLoader";
+import { InlineDashboardSkeleton, MarketingSkeleton, DashboardSkeleton } from "./components/SkeletonLoader";
 import { SkipToContent } from "./components/SkipToContent";
 import { NetworkStatus } from "./components/ui/network-status";
 import { AppWithHelp } from "./components/AppWithHelp";
@@ -23,9 +20,16 @@ import { LinkIdRedirect } from "./components/redirects/LinkIdRedirect";
 import { lazyWithRetry } from "./utils/lazyWithRetry";
 import { InstallPrompt } from "./components/pwa/InstallPrompt";
 import { UpdateNotification } from "./components/pwa/UpdateNotification";
+// PHASE 14: Use centralized queryClient - no duplicate QueryClient creation
+import { queryClient as centralQueryClient } from "@/lib/queryConfig";
 
-// Critical pages - only Index is static for fast landing page load
-import Index from "./pages/Index";
+// PHASE 14: Deferred providers - only load when needed
+const AdminSimulationProvider = lazy(() => import("./contexts/AdminSimulationContext").then(m => ({ default: m.AdminSimulationProvider })));
+const ModalProvider = lazy(() => import("./contexts/ModalContext").then(m => ({ default: m.ModalProvider })));
+const GlobalEarlyAccessModal = lazy(() => import("./components/early-access/GlobalEarlyAccessModal").then(m => ({ default: m.GlobalEarlyAccessModal })));
+
+// PHASE 17: Lazy load Index page for code splitting
+const Index = lazy(() => import("./pages/Index"));
 
 // Auth pages - lazy loaded with preload hints for likely navigation
 const Auth = lazy(() => import("./pages/Auth"));
@@ -531,22 +535,8 @@ const LeadEnrichment = lazy(() => import("./pages/Help/articles/LeadEnrichment")
 
 const NotFound = lazy(() => import("./pages/NotFound"));
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      // PERFORMANCE: 5 minute stale time - most data rarely changes
-      staleTime: 5 * 60 * 1000,
-      // Keep in cache for 30 minutes
-      gcTime: 30 * 60 * 1000,
-      // Prevent unnecessary refetches
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-      // Fail fast
-      retry: 1,
-      retryDelay: 1000,
-    },
-  },
-});
+// PHASE 14: Use centralized queryClient from lib/queryConfig.ts
+const queryClient = centralQueryClient;
 
 const App = () => (
   <ErrorBoundary>
@@ -559,16 +549,18 @@ const App = () => (
               <BrowserRouter>
               <AppSessionProvider>
               <WorkspaceProvider>
-                <AdminSimulationProvider>
-                  <ModalProvider>
+                {/* PHASE 14: Wrap deferred providers in Suspense */}
+                <Suspense fallback={null}>
+                  <AdminSimulationProvider>
+                    <ModalProvider>
                     <SkipToContent />
                   <ScrollToTop />
                   <NetworkStatus />
                   <AppWithHelp>
                   <AnimatedRoutes>
                     <Routes>
-              {/* Critical pages - not lazy loaded */}
-              <Route path="/" element={<Index />} />
+              {/* PHASE 17: Lazy load Index page */}
+              <Route path="/" element={<Suspense fallback={<MarketingSkeleton />}><Index /></Suspense>} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/mc" element={<AdminAuth />} />
               <Route path="/auth/callback" element={<Suspense fallback={<DashboardSkeleton />}><AuthCallback /></Suspense>} />
@@ -1120,11 +1112,15 @@ const App = () => (
             </Routes>
             </AnimatedRoutes>
             </AppWithHelp>
-          <GlobalEarlyAccessModal />
+          {/* PHASE 14: Lazy-loaded global modals */}
+          <Suspense fallback={null}>
+            <GlobalEarlyAccessModal />
+          </Suspense>
           <InstallPrompt />
           <UpdateNotification />
           </ModalProvider>
           </AdminSimulationProvider>
+                </Suspense>
           </WorkspaceProvider>
           </AppSessionProvider>
         </BrowserRouter>
