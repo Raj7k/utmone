@@ -222,22 +222,51 @@ const ReferrerSankey = () => {
 };
 
 // ============================================
-// KEY INSIGHTS STATS BAR - Horizontal 6-Metric Row
+// INSIGHTS BENTO CARD - Unified 2x2 Grid
 // ============================================
-const KeyInsightsStatsBar = () => {
-  const metrics = [
-    { icon: MousePointerClick, value: "24,044", label: "Total Clicks", scrollTo: "funnel" },
-    { icon: Target, value: "6,900", label: "Registrations", scrollTo: "funnel" },
-    { icon: TrendingUp, value: "28%", label: "Conversion Rate", scrollTo: "funnel" },
-    { icon: Users, value: "982", label: "Referrers", scrollTo: "power-law" },
-    { icon: Trophy, value: "7", label: "Champions", scrollTo: "power-law" },
-    { icon: ShieldCheck, value: "96.6%", label: "Integrity", scrollTo: "integrity" },
+const InsightsBentoCard = () => {
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+
+  const insights = [
+    {
+      title: "Power Law Effect",
+      value: "7 = 46%",
+      subtitle: "0.7% of referrers drove nearly half of all conversions",
+      shareText: "7 referrers drove 46% of our conversions. The power law is real in referral campaigns."
+    },
+    {
+      title: "Conversion Rate",
+      value: "28%",
+      subtitle: "Visit-to-registration on referral traffic",
+      shareText: "28% conversion rate on referral traffic. 3x the industry average for event landing pages."
+    },
+    {
+      title: "Campaign Integrity",
+      value: "96.6%",
+      subtitle: "Valid referrals after fraud detection",
+      shareText: "96.6% of referrals passed fraud detection. Clean data without blocking real people."
+    },
+    {
+      title: "Channel Winner",
+      value: "WhatsApp",
+      subtitle: "Outperformed every other sharing channel",
+      shareText: "WhatsApp outperformed every other channel in our referral campaign. Mobile-first sharing wins."
+    }
   ];
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const handleShare = (index: number, platform: 'twitter' | 'linkedin' | 'copy') => {
+    const insight = insights[index];
+    const text = `${insight.shareText}\n\nFrom the HR Katalyst Referral Playbook by utm.one`;
+    const url = 'https://utm.one/resources/playbooks/hr-katalyst-referral';
+    
+    if (platform === 'twitter') {
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+    } else if (platform === 'linkedin') {
+      window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
+    } else {
+      navigator.clipboard.writeText(`${text}\n\n${url}`);
+      setCopiedIndex(index);
+      setTimeout(() => setCopiedIndex(null), 2000);
     }
   };
 
@@ -245,26 +274,72 @@ const KeyInsightsStatsBar = () => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      className="bg-muted/30 rounded-2xl p-4 md:p-6"
     >
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
-        {metrics.map((metric, index) => (
-          <button
-            key={index}
-            onClick={() => scrollToSection(metric.scrollTo)}
-            className="bg-card rounded-xl p-4 md:p-5 border border-border/50 
-                       hover:border-primary/30 hover:shadow-sm transition-all
-                       flex flex-col items-center text-center cursor-pointer group"
-          >
-            <metric.icon className="w-5 h-5 md:w-6 md:h-6 text-muted-foreground group-hover:text-primary transition-colors mb-2 md:mb-3" />
-            <span className="text-xl md:text-2xl lg:text-3xl font-bold text-foreground">{metric.value}</span>
-            <span className="text-xs md:text-sm text-muted-foreground mt-1">{metric.label}</span>
-          </button>
-        ))}
-      </div>
-      <p className="text-center text-xs md:text-sm text-muted-foreground/70 mt-4">
-        Click any metric to jump to details
-      </p>
+      <Card className="bg-card border-border overflow-hidden">
+        {/* Header */}
+        <div className="flex justify-between items-center p-4 md:p-6 border-b border-border/50">
+          <h4 className="text-sm font-semibold text-foreground uppercase tracking-wider">Key Insights</h4>
+          <span className="text-xs text-muted-foreground/50 font-mono">utm.one</span>
+        </div>
+        
+        {/* 2x2 Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2">
+          {insights.map((insight, index) => (
+            <div 
+              key={index}
+              className={cn(
+                "p-4 md:p-6 flex flex-col",
+                // Add borders between cells
+                index % 2 === 0 && "md:border-r border-border/50",
+                index < 2 && "border-b border-border/50"
+              )}
+            >
+              {/* Title */}
+              <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium mb-2">
+                {insight.title}
+              </span>
+              
+              {/* Value */}
+              <span className="text-xl md:text-2xl font-bold text-foreground mb-1">
+                {insight.value}
+              </span>
+              
+              {/* Subtitle */}
+              <p className="text-sm text-muted-foreground leading-relaxed flex-1 mb-3">
+                {insight.subtitle}
+              </p>
+              
+              {/* Share buttons */}
+              <div className="flex gap-1">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => handleShare(index, 'twitter')}
+                  className="text-xs h-7 px-2 text-muted-foreground hover:text-foreground"
+                >
+                  𝕏
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => handleShare(index, 'linkedin')}
+                  className="text-xs h-7 px-2 text-muted-foreground hover:text-foreground"
+                >
+                  in
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => handleShare(index, 'copy')}
+                  className="text-xs h-7 px-2 text-muted-foreground hover:text-foreground"
+                >
+                  {copiedIndex === index ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Card>
     </motion.div>
   );
 };
@@ -1061,9 +1136,11 @@ const emailTemplates = {
           <p className="text-xs text-muted-foreground text-center mt-3">Click any metric to jump to details</p>
         </section>
 
-        {/* Key Insights Stats Bar */}
+        {/* Shareable Insight Cards - Bento Layout */}
         <section className="mb-16" id="shareable-insights">
-          <KeyInsightsStatsBar />
+          <h3 className="text-xl font-display font-semibold text-foreground mb-4">Key Insights (Share These)</h3>
+          <p className="text-muted-foreground text-sm mb-6">Click any share button to post on social media with utm.one branding</p>
+          <InsightsBentoCard />
         </section>
 
         {/* ================================================ */}
