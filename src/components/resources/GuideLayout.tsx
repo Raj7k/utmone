@@ -48,7 +48,7 @@ const InlineTableOfContents = ({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="lg:hidden not-prose mb-8">
+    <div className="not-prose mb-8 max-w-3xl">
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
         <div className="bg-zinc-50 border border-zinc-200 rounded-xl overflow-hidden">
           <CollapsibleTrigger className="w-full flex items-center justify-between p-4 hover:bg-zinc-100 transition-colors">
@@ -279,99 +279,44 @@ export const GuideLayout = ({
       {/* Main Content Area */}
       <section className="py-20">
         <div className="max-w-[1200px] mx-auto px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            {/* Main Content */}
-            <article className="lg:col-span-8 prose prose-zinc prose-lg max-w-none">
-              {/* Inline TOC for Mobile/Tablet */}
-              {tableOfContents && tableOfContents.length > 0 && (
-                <InlineTableOfContents 
-                  sections={tableOfContents} 
-                  activeSection={activeSection}
-                  scrollToSection={scrollToSection}
-                />
-              )}
-              {children}
-            </article>
+          {/* Inline TOC for all screen sizes */}
+          {tableOfContents && tableOfContents.length > 0 && (
+            <InlineTableOfContents 
+              sections={tableOfContents} 
+              activeSection={activeSection}
+              scrollToSection={scrollToSection}
+            />
+          )}
 
-            {/* Sidebar - Table of Contents or Related Resources */}
-            {tableOfContents && tableOfContents.length > 0 ? (
-              <aside className="lg:col-span-4">
-                <div className="sticky top-24 bg-zinc-50 border border-zinc-200 rounded-2xl p-6">
-                  <h3 className="text-sm font-bold text-zinc-900 mb-4 uppercase tracking-wide">
-                    Table of Contents
-                  </h3>
-                  <nav className="space-y-4">
-                    {tableOfContents.map((section) => (
-                      <button
-                        key={section.id}
-                        onClick={() => scrollToSection(section.id)}
-                        className={`flex items-start gap-3 w-full text-left transition-all group ${
-                          activeSection === section.id
-                            ? "text-zinc-900"
-                            : "text-zinc-500 hover:text-zinc-700"
-                        }`}
-                      >
-                        <span
-                          className={`text-xs font-bold mt-0.5 transition-colors shrink-0 ${
-                            activeSection === section.id ? "text-zinc-900" : "text-zinc-400 group-hover:text-zinc-600"
-                          }`}
-                        >
-                          {section.number}
-                        </span>
-                        <div className="flex-1 min-w-0">
-                          <span className={`block text-sm ${activeSection === section.id ? "font-semibold" : ""}`}>
-                            {section.title}
-                          </span>
-                          {section.subtitle && (
-                            <span className="block text-xs text-zinc-400 mt-0.5 leading-relaxed">
-                              {section.subtitle}
-                            </span>
-                          )}
-                        </div>
-                      </button>
-                    ))}
-                  </nav>
+          {/* Main Content - Full Width */}
+          <article className="prose prose-zinc prose-lg max-w-none">
+            {children}
+          </article>
 
-                  <div className="mt-6 pt-6 border-t border-zinc-200">
-                    <p className="text-xs text-zinc-500 mb-2">Reading Progress</p>
-                    <div className="h-2 bg-zinc-200 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-zinc-900 transition-all duration-300"
-                        style={{ width: `${scrollProgress}%` }}
-                      />
-                    </div>
-                    <p className="text-xs text-zinc-500 mt-2">
-                      {tableOfContents.findIndex((s) => s.id === activeSection) + 1} of {tableOfContents.length} sections
+          {/* Related Resources - shown when no TOC */}
+          {(!tableOfContents || tableOfContents.length === 0) && relatedResources && relatedResources.length > 0 && (
+            <aside className="mt-12 pt-12 border-t border-zinc-200">
+              <h3 className="text-lg font-display font-semibold text-zinc-900 mb-6">
+                Related Resources
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {relatedResources.map((resource) => (
+                  <Link
+                    key={resource.href}
+                    to={resource.href}
+                    className="block p-4 bg-white rounded-xl border border-zinc-200 hover:border-zinc-300 hover:shadow-md transition-all"
+                  >
+                    <h4 className="font-semibold text-zinc-900 mb-2">
+                      {resource.title}
+                    </h4>
+                    <p className="text-sm text-zinc-500">
+                      {resource.description}
                     </p>
-                  </div>
-                </div>
-              </aside>
-            ) : relatedResources && relatedResources.length > 0 ? (
-              <aside className="lg:col-span-4">
-                <div className="sticky top-24 space-y-6">
-                  <h3 className="text-lg font-display font-semibold text-zinc-900">
-                    Related Resources
-                  </h3>
-                  <div className="space-y-4">
-                    {relatedResources.map((resource) => (
-                      <Link
-                        key={resource.href}
-                        to={resource.href}
-                        className="block p-4 bg-white rounded-xl border border-zinc-200 hover:border-zinc-300 hover:shadow-md transition-all"
-                      >
-                        <h4 className="font-semibold text-zinc-900 mb-2">
-                          {resource.title}
-                        </h4>
-                        <p className="text-sm text-zinc-500">
-                          {resource.description}
-                        </p>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </aside>
-            ) : null}
-          </div>
+                  </Link>
+                ))}
+              </div>
+            </aside>
+          )}
         </div>
       </section>
     </ResourcesLayout>
