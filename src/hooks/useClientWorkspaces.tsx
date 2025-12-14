@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
 import { getFriendlyErrorMessage } from "@/lib/errorMessages";
-import { getCachedUserId } from "@/hooks/useAuthSession";
+import { useAppSession } from "@/contexts/AppSessionContext";
 
 // Reduced timeout for faster failure
 const FETCH_TIMEOUT_MS = 5000;
@@ -37,27 +37,19 @@ function cacheWorkspaces(workspaces: any[]): void {
 
 export const useClientWorkspaces = () => {
   const queryClient = useQueryClient();
+  const { user } = useAppSession();
+  const userId = user?.id;
 
   const { data: workspaces, isLoading, error, refetch } = useQuery({
-    queryKey: ["client-workspaces"],
+    queryKey: ["client-workspaces", userId],
     queryFn: async ({ signal }) => {
+      if (!userId) return [];
+
       const timeoutPromise = new Promise<never>((_, reject) => {
         setTimeout(() => reject(new Error("Workspace fetch timed out")), FETCH_TIMEOUT_MS);
       });
 
       const fetchPromise = async () => {
-        // Use cached user ID if available to avoid auth call
-        let userId = getCachedUserId();
-        
-        if (!userId) {
-          const { data: { user }, error: authError } = await supabase.auth.getUser();
-          if (authError) {
-            console.error("[useClientWorkspaces] Auth error:", authError);
-            return [];
-          }
-          if (!user) return [];
-          userId = user.id;
-        }
 
         // Parallel fetch: owned + member workspaces
         const [ownedResult, memberResult] = await Promise.all([
@@ -111,6 +103,7 @@ export const useClientWorkspaces = () => {
     refetchOnReconnect: false,
     refetchOnMount: false,
     networkMode: 'offlineFirst',
+    enabled: !!userId,
   });
 
   const createWorkspaceMutation = useMutation({
@@ -119,8 +112,7 @@ export const useClientWorkspaces = () => {
       isClient?: boolean;
       parentWorkspaceId?: string;
     }) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+      if (!userId) throw new Error("Not authenticated");
 
       const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
       
@@ -129,7 +121,7 @@ export const useClientWorkspaces = () => {
         .insert({
           name,
           slug,
-          owner_id: user.id,
+          owner_id: userId,
           is_client_workspace: isClient || false,
           parent_workspace_id: parentWorkspaceId || null,
         })
