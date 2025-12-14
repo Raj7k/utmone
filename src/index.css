@@ -2,42 +2,44 @@
 /* This eliminates render-blocking font loading */
 
 @tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* Sidebar transitions - Phase 26 */
+/* ============================================
+   PERFORMANCE-OPTIMIZED CSS ANIMATIONS
+   All animations use opacity-only to avoid layout shifts
+   ============================================ */
+
+/* Sidebar transitions - Phase 26 (opacity-only, no transform) */
 .sidebar-enter {
-  animation: sidebar-slide-in 0.2s ease-out forwards;
+  animation: sidebar-fade-in 0.2s ease-out forwards;
 }
 
 .sidebar-backdrop {
-  animation: fade-in 0.15s ease-out forwards;
+  animation: simple-fade-in 0.15s ease-out forwards;
 }
 
-/* Page content enter - Phase 27 */
+/* Page content enter - Phase 27 (opacity-only, no translateY) */
 .page-enter {
-  animation: page-fade-in 0.2s ease-out forwards;
+  animation: simple-fade-in 0.2s ease-out forwards;
 }
 
-@keyframes sidebar-slide-in {
-  from { opacity: 0; transform: translateX(-20px); }
-  to { opacity: 1; transform: translateX(0); }
+@keyframes sidebar-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-@keyframes page-fade-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes simple-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-/* Auth card entrance - Phase 30-33 */
+/* Auth card entrance - Phase 30-33 (opacity-only) */
 .auth-card-enter {
-  animation: auth-slide-up 0.5s ease-out forwards;
+  animation: simple-fade-in 0.4s ease-out forwards;
 }
 
-@keyframes auth-slide-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Envelope bounce animation for email confirmation */
+/* Envelope bounce animation for email confirmation (transform OK for small icons) */
 @keyframes envelope-bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-4px); }
@@ -46,8 +48,6 @@
 .envelope-bounce {
   animation: envelope-bounce 2s ease-in-out infinite;
 }
-@tailwind components;
-@tailwind utilities;
 
 /* Animated border - simple rotating light beam */
 @keyframes rotate-border {
