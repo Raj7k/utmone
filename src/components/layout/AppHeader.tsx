@@ -8,7 +8,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { WorkspaceSwitcher } from "@/components/navigation/WorkspaceSwitcher";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useEffect, useState } from "react";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuthSession } from "@/hooks/useAuthSession";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { ExpandedSidebar } from "./sidebar/ExpandedSidebar";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
@@ -52,7 +52,7 @@ const getBreadcrumbs = (pathname: string) => {
 export const AppHeader = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useAuth();
+  const { user } = useAuthSession();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { setCreateModalOpen } = useModal();
   const [, setTextModeUpdate] = useState(0);

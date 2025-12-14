@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Plus, Eye, Edit, Trash2, TrendingUp, TrendingDown, Megaphone, TestTube } from "lucide-react";
 import { useAnnouncementAdmin } from "@/hooks/useAnnouncementAdmin";
-import { useLandingAnalytics } from "@/hooks/useLandingAnalytics";
+import { useLandingAnalytics } from "@/hooks/useLandingPageAnalytics";
 import { ABTestResults } from "@/components/landing/ABTestResults";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";

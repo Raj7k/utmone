@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { HERO_VARIANTS } from '@/lib/heroVariants';
-import { VariantMetrics } from '@/hooks/useLandingAnalytics';
+import { VariantMetrics } from '@/hooks/useLandingPageAnalytics';
 
 interface VariantPerformanceCardProps {
   metrics: VariantMetrics;

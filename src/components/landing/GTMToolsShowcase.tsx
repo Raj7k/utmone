@@ -9,7 +9,7 @@ import {
   Shield,
   ArrowRight
 } from "lucide-react";
-import { AnimatedSection } from "./AnimatedSection";
+import { AnimatedSection } from "./StaticSection";
 
 const TOOLS = [
   {

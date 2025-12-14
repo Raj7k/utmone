@@ -541,22 +541,21 @@ const queryClient = centralQueryClient;
 const App = () => (
   <ErrorBoundary>
     <ThemeProvider>
-      <PerformanceProvider>
-        <QueryClientProvider client={queryClient}>
-          <NotificationProvider>
-            <TooltipProvider>
-              <Toaster />
-              <BrowserRouter>
-              <AppSessionProvider>
-              <WorkspaceProvider>
-                {/* PHASE 14: Wrap deferred providers in Suspense */}
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <AppSessionProvider>
+            <WorkspaceProvider>
+              <NotificationProvider>
+                <Toaster />
+                {/* PHASE C: Deferred providers - only load when needed */}
                 <Suspense fallback={null}>
                   <AdminSimulationProvider>
                     <ModalProvider>
-                    <SkipToContent />
-                  <ScrollToTop />
-                  <NetworkStatus />
-                  <AppWithHelp>
+                      <TooltipProvider>
+                        <SkipToContent />
+                        <ScrollToTop />
+                        <NetworkStatus />
+                        <AppWithHelp>
                     <Routes>
               {/* PHASE 17: Lazy load Index page */}
               <Route path="/" element={<Suspense fallback={<MarketingSkeleton />}><Index /></Suspense>} />
@@ -1116,16 +1115,15 @@ const App = () => (
           </Suspense>
           <InstallPrompt />
           <UpdateNotification />
-          </ModalProvider>
-          </AdminSimulationProvider>
+                      </TooltipProvider>
+                    </ModalProvider>
+                  </AdminSimulationProvider>
                 </Suspense>
-          </WorkspaceProvider>
+              </NotificationProvider>
+            </WorkspaceProvider>
           </AppSessionProvider>
         </BrowserRouter>
-      </TooltipProvider>
-    </NotificationProvider>
-    </QueryClientProvider>
-    </PerformanceProvider>
+      </QueryClientProvider>
     </ThemeProvider>
   </ErrorBoundary>
 );

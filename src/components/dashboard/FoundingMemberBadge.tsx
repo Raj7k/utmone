@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Sparkles } from "lucide-react";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuthSession } from "@/hooks/useAuthSession";
 
 export const FoundingMemberBadge = () => {
-  const { user } = useAuth();
+  const { user } = useAuthSession();
 
   const { data: earlyAccessData } = useQuery({
     queryKey: ["early-access-badge", user?.email],

@@ -12,7 +12,7 @@ import {
   Clock,
   Keyboard
 } from "lucide-react";
-import { AnimatedSection } from "./AnimatedSection";
+import { AnimatedSection } from "./StaticSection";
 
 export const TrustSection = () => {
   return (

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CleanTrackScoreQuiz } from "@/components/growth/CleanTrackScoreQuiz";
 import { ROICalculator } from "@/components/growth/ROICalculator";
-import { AnimatedSection } from "./AnimatedSection";
+import { AnimatedSection } from "./StaticSection";
 import { Calculator, ClipboardCheck } from "lucide-react";
 import { preserveAcronyms as p } from "@/utils/textFormatter";
 

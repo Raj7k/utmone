@@ -1,5 +1,5 @@
 import { Navigation } from "@/components/landing/Navigation";
-import { AnimatedSection } from "@/components/landing/AnimatedSection";
+import { AnimatedSection } from "@/components/landing/StaticSection";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";

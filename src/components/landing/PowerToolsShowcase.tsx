@@ -11,7 +11,7 @@ import {
   TrendingUp,
   AlertTriangle
 } from "lucide-react";
-import { AnimatedSection } from "./AnimatedSection";
+import { AnimatedSection } from "./StaticSection";
 
 const POWER_TOOLS = [
   {

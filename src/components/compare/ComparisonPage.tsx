@@ -2,7 +2,7 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Check, X, ChevronRight } from "lucide-react";
-import { AnimatedSection } from "@/components/landing/AnimatedSection";
+import { AnimatedSection } from "@/components/landing/StaticSection";
 import { EarlyAccessDialog } from "@/components/early-access/EarlyAccessDialog";
 import { useState } from "react";
 import { Link } from "react-router-dom";

@@ -10,7 +10,7 @@ import {
   TrendingUp,
   AlertCircle
 } from "lucide-react";
-import { AnimatedSection } from "./AnimatedSection";
+import { AnimatedSection } from "./StaticSection";
 
 export const IntelligenceShowcase = () => {
   return (
