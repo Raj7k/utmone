@@ -75,7 +75,8 @@ export {
   ZAxis,
   Label,
   LabelList,
-  ReferenceLine
+  ReferenceLine,
+  ReferenceArea
 } from "recharts";
 
 export { ChartSkeleton };
