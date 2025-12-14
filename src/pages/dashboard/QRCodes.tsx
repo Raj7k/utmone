@@ -55,6 +55,7 @@ export default function QRCodes() {
         .from("qr_codes")
         .select(`
           *,
+          link_id,
           links!inner (
             id,
             title,
@@ -65,7 +66,8 @@ export default function QRCodes() {
           )
         `)
         .eq("links.workspace_id", effectiveWorkspaceId)
-        .order("created_at", { ascending: false });
+        .order("created_at", { ascending: false })
+        .limit(100);
 
       if (error) throw error;
       

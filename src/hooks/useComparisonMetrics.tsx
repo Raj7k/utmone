@@ -50,15 +50,17 @@ export const useComparisonMetrics = ({ workspaceId, period = "month" }: UseCompa
       ] = await Promise.all([
         supabase
           .from("link_clicks")
-          .select("id, is_unique, link_id, links!inner(workspace_id)")
-          .eq("links.workspace_id", workspaceId)
-          .gte("clicked_at", currentStart.toISOString()),
+          .select("id, is_unique, link_id, workspace_id")
+          .eq("workspace_id", workspaceId)
+          .gte("clicked_at", currentStart.toISOString())
+          .limit(5000),
         supabase
           .from("link_clicks")
-          .select("id, is_unique, link_id, links!inner(workspace_id)")
-          .eq("links.workspace_id", workspaceId)
+          .select("id, is_unique, link_id, workspace_id")
+          .eq("workspace_id", workspaceId)
           .gte("clicked_at", previousStart.toISOString())
-          .lt("clicked_at", previousEnd.toISOString()),
+          .lt("clicked_at", previousEnd.toISOString())
+          .limit(5000),
         supabase
           .from("links")
           .select("id")

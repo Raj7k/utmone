@@ -33,12 +33,12 @@ export const useClickTimeSeries = ({
 
       let query = supabase
         .from("link_clicks")
-        .select("clicked_at, is_unique, link_id, links!inner(workspace_id, utm_campaign)")
+        .select("clicked_at, is_unique, link_id, workspace_id, links!inner(utm_campaign)")
         .gte("clicked_at", startDate.toISOString())
         .lte("clicked_at", endDate.toISOString());
 
       if (workspaceId) {
-        query = query.eq("links.workspace_id", workspaceId);
+        query = query.eq("workspace_id", workspaceId);
       }
 
       if (linkId) {

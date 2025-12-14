@@ -66,8 +66,8 @@ export default function ChannelMixDonut({ workspaceId, days, preloadedData }: Ch
 
       const { data: clicks, error } = await supabase
         .from("link_clicks")
-        .select("referrer, links!inner(workspace_id, utm_source)")
-        .eq("links.workspace_id", workspaceId)
+        .select("referrer, workspace_id, links!inner(utm_source)")
+        .eq("workspace_id", workspaceId)
         .gte("clicked_at", startDate.toISOString())
         .limit(500); // Cap for performance
 

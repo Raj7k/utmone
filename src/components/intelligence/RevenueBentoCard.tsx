@@ -44,15 +44,16 @@ export default function RevenueBentoCard({ workspaceId, days, context, preloaded
           event_value,
           attributed_at,
           link_id,
+          workspace_id,
           links!inner(
-            workspace_id,
             utm_source,
             utm_medium,
             campaign_id
           )
         `)
-        .eq("links.workspace_id", workspaceId)
-        .gte("attributed_at", startDate.toISOString());
+        .eq("workspace_id", workspaceId)
+        .gte("attributed_at", startDate.toISOString())
+        .limit(2000);
 
       if (error) throw error;
 
