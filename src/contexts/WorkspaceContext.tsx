@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, ReactNode } from "react";
+import { createContext, useContext, useMemo, useRef, ReactNode } from "react";
 import { useAppSession } from "@/contexts/AppSessionContext";
 
 interface Workspace {

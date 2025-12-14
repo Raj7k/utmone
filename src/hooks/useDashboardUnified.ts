@@ -361,7 +361,7 @@ export const useDashboardUnified = (range: string = "30d") => {
     },
     enabled: !!workspaceId,
     initialData: () => cachedData,
-    staleTime: STALE_TTL, // Use shorter stale time for faster revalidation
+    staleTime: 5 * 60 * 1000, // 5 minutes - prevents refetching on every mount
     gcTime: 10 * 60 * 1000,
     refetchOnMount: isCacheStale, // Only refetch on mount if stale
     refetchOnWindowFocus: false,
