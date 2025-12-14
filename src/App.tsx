@@ -4,9 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
-import { WorkspaceProvider } from "./contexts/WorkspaceContext";
-import { AppSessionProvider } from "./contexts/AppSessionContext";
-import { NotificationProvider } from "./contexts/NotificationContext";
+import { AppProvider } from "./contexts/AppProvider";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { InlineDashboardSkeleton, MarketingSkeleton, DashboardSkeleton } from "./components/SkeletonLoader";
 import { SkipToContent } from "./components/SkipToContent";
@@ -543,19 +541,18 @@ const App = () => (
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <AppSessionProvider>
-            <WorkspaceProvider>
-              <NotificationProvider>
-                <Toaster />
-                {/* PHASE C: Deferred providers - only load when needed */}
-                <Suspense fallback={null}>
-                  <AdminSimulationProvider>
-                    <ModalProvider>
-                      <TooltipProvider>
-                        <SkipToContent />
-                        <ScrollToTop />
-                        <NetworkStatus />
-                        <AppWithHelp>
+          {/* PHASE C: Merged AppProvider (Session + Workspace + Notification) */}
+          <AppProvider>
+            <Toaster />
+            {/* Deferred providers - only load when needed */}
+            <Suspense fallback={null}>
+              <AdminSimulationProvider>
+                <ModalProvider>
+                  <TooltipProvider>
+                    <SkipToContent />
+                    <ScrollToTop />
+                    <NetworkStatus />
+                    <AppWithHelp>
                     <Routes>
               {/* PHASE 17: Lazy load Index page */}
               <Route path="/" element={<Suspense fallback={<MarketingSkeleton />}><Index /></Suspense>} />
@@ -1119,9 +1116,7 @@ const App = () => (
                     </ModalProvider>
                   </AdminSimulationProvider>
                 </Suspense>
-              </NotificationProvider>
-            </WorkspaceProvider>
-          </AppSessionProvider>
+              </AppProvider>
         </BrowserRouter>
       </QueryClientProvider>
     </ThemeProvider>
