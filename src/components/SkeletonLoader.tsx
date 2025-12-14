@@ -92,22 +92,20 @@ export const DashboardSkeleton = () => (
 );
 
 /**
- * Marketing page skeleton - lightweight
+ * Marketing page skeleton - matches obsidian theme for instant visual match
  */
 export const MarketingSkeleton = () => (
-  <div className="min-h-screen bg-background">
-    {/* Header */}
-    <div className="h-16 border-b border-border/50">
-      <div className="max-w-7xl mx-auto px-4 h-full flex items-center">
-        <div className="h-8 w-24 bg-muted/20 rounded animate-pulse" />
-      </div>
+  <div className="dark min-h-screen bg-[#050505]">
+    {/* Nav placeholder - matches obsidian glass nav */}
+    <div className="sticky top-0 z-50 py-4 px-4 md:px-8">
+      <div className="max-w-[1280px] mx-auto h-14 rounded-full bg-white/5 animate-pulse" />
     </div>
-    
-    {/* Hero skeleton */}
-    <div className="max-w-7xl mx-auto px-4 py-16">
-      <div className="text-center space-y-4">
-        <div className="h-12 w-96 mx-auto bg-muted/20 rounded animate-pulse" />
-        <div className="h-6 w-64 mx-auto bg-muted/10 rounded animate-pulse" />
+    {/* Hero placeholder */}
+    <div className="max-w-7xl mx-auto px-4 py-20">
+      <div className="text-center space-y-6">
+        <div className="h-14 w-[28rem] max-w-full mx-auto bg-white/10 rounded animate-pulse" />
+        <div className="h-6 w-72 mx-auto bg-white/5 rounded animate-pulse" />
+        <div className="h-12 w-40 mx-auto bg-white/10 rounded-full animate-pulse mt-8" />
       </div>
     </div>
   </div>

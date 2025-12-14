@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
-import { transitions, springTransition, reducedMotionTransition, TransitionPreset } from "./presets";
+import { useLocation } from "react-router-dom";
+import { transitions, springTransition, fastTransition, reducedMotionTransition, TransitionPreset } from "./presets";
 import { usePageTransition } from "@/hooks/usePageTransition";
 
 interface PageTransitionProps {
@@ -8,24 +9,32 @@ interface PageTransitionProps {
   preset?: TransitionPreset;
 }
 
+// Marketing routes that should use fast transitions
+const MARKETING_ROUTES = ['/features', '/solutions', '/resources', '/compare', '/use-cases', '/help', '/products', '/tools', '/legal', '/pricing', '/product', '/about', '/intelligence'];
+
 /**
  * Wrapper component that provides animated enter/exit transitions for pages
  * Respects prefers-reduced-motion preference
+ * Uses faster transitions for marketing pages
  */
-export function PageTransition({ children, preset = "slideUp" }: PageTransitionProps) {
+export function PageTransition({ children, preset = "fade" }: PageTransitionProps) {
   const { prefersReducedMotion } = usePageTransition();
+  const location = useLocation();
   
-  // Get animation variants based on preset
-  const variants = transitions[preset];
+  // Check if this is a marketing page (use fast transitions)
+  const isMarketingPage = MARKETING_ROUTES.some(route => location.pathname.startsWith(route));
+  
+  // Get animation variants - use simple fade for marketing for speed
+  const variants = isMarketingPage ? transitions.fade : transitions[preset];
   
   // Use fade-only for reduced motion preference
   const motionVariants = prefersReducedMotion 
     ? transitions.fade 
     : variants;
   
-  // Use faster transition for reduced motion
-  const transition = prefersReducedMotion 
-    ? reducedMotionTransition 
+  // Use faster transition for marketing pages and reduced motion
+  const transition = prefersReducedMotion || isMarketingPage
+    ? fastTransition 
     : springTransition;
 
   return (
