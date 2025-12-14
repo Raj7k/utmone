@@ -536,22 +536,35 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 // PHASE 14: Use centralized queryClient from lib/queryConfig.ts
 const queryClient = centralQueryClient;
 
-const App = () => (
-  <ErrorBoundary>
-    <ThemeProvider>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          {/* PHASE C: Merged AppProvider (Session + Workspace + Notification) */}
-          <AppProvider>
-            <Toaster />
-            {/* Deferred providers - only load when needed */}
-            <Suspense fallback={null}>
-                <ModalProvider>
-                    <SkipToContent />
-                    <ScrollToTop />
-                    <NetworkStatus />
-                    <AppWithHelp>
-                    <Routes>
+const PRIVATE_ROUTE_PREFIXES = [
+  "/dashboard",
+  "/links",
+  "/analytics",
+  "/onboarding",
+  "/admin",
+  "/settings",
+  "/client-workspaces",
+  "/partners/dashboard",
+  "/integrations/gtm",
+  "/settings/integrations",
+  "/dev/performance",
+];
+
+const AppRoutes = () => {
+  const location = useLocation();
+  const isPrivateRoute = PRIVATE_ROUTE_PREFIXES.some((prefix) => location.pathname.startsWith(prefix));
+
+  const routeTree = (
+    <>
+      <Toaster />
+      {/* Deferred providers - only load when needed */}
+      <Suspense fallback={null}>
+        <ModalProvider>
+          <SkipToContent />
+          <ScrollToTop />
+          <NetworkStatus />
+          <AppWithHelp>
+            <Routes>
               {/* PHASE 17: Lazy load Index page */}
               <Route path="/" element={<Suspense fallback={<MarketingSkeleton />}><Index /></Suspense>} />
               <Route path="/auth" element={<Auth />} />
@@ -1100,20 +1113,31 @@ const App = () => (
               
               {/* Dev Tools - Development Only */}
               <Route path="/dev/performance" element={<Suspense fallback={<DashboardSkeleton />}><PerformanceAudit /></Suspense>} />
-              
+
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<Suspense fallback={<MarketingSkeleton />}><NotFound /></Suspense>} />
             </Routes>
-            </AppWithHelp>
+          </AppWithHelp>
           {/* PHASE 14: Lazy-loaded global modals */}
           <Suspense fallback={null}>
             <GlobalEarlyAccessModal />
           </Suspense>
           <InstallPrompt />
           <UpdateNotification />
-                    </ModalProvider>
-                </Suspense>
-              </AppProvider>
+        </ModalProvider>
+      </Suspense>
+    </>
+  );
+
+  return isPrivateRoute ? <AppProvider>{routeTree}</AppProvider> : routeTree;
+};
+
+const App = () => (
+  <ErrorBoundary>
+    <ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <AppRoutes />
         </BrowserRouter>
       </QueryClientProvider>
     </ThemeProvider>
