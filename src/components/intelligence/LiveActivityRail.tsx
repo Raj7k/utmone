@@ -96,8 +96,8 @@ export default function LiveActivityRail({ workspaceId, preloadedClicks }: LiveA
 
       const { data, error } = await supabase
         .from("link_clicks")
-        .select("id, city, country, device_type, clicked_at, links!inner(slug, workspace_id)")
-        .eq("links.workspace_id", workspaceId)
+        .select("id, city, country, device_type, clicked_at, workspace_id, links!inner(slug)")
+        .eq("workspace_id", workspaceId)
         .order("clicked_at", { ascending: false })
         .limit(10);
 

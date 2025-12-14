@@ -61,9 +61,10 @@ export const ChannelPerformanceGrid = ({ workspaceId }: ChannelPerformanceGridPr
 
       const { data: clicks, error } = await supabase
         .from("link_clicks")
-        .select("referrer, is_unique, links!inner(workspace_id)")
-        .eq("links.workspace_id", workspaceId)
-        .gte("clicked_at", startDate.toISOString());
+        .select("referrer, is_unique, workspace_id")
+        .eq("workspace_id", workspaceId)
+        .gte("clicked_at", startDate.toISOString())
+        .limit(2000);
 
       if (error) throw error;
 

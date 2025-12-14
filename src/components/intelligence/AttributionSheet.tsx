@@ -39,16 +39,18 @@ export default function AttributionSheet({
       // Fetch clicks with UTM data
       const { data: clicks } = await supabase
         .from("link_clicks")
-        .select("id, links!inner(utm_source, utm_medium, workspace_id)")
-        .eq("links.workspace_id", workspaceId)
-        .gte("clicked_at", startDate.toISOString());
+        .select("id, workspace_id, links!inner(utm_source, utm_medium)")
+        .eq("workspace_id", workspaceId)
+        .gte("clicked_at", startDate.toISOString())
+        .limit(5000);
 
       // Fetch conversions
       const { data: conversions } = await supabase
         .from("conversion_events")
-        .select("event_value, links!inner(utm_source, utm_medium, workspace_id)")
-        .eq("links.workspace_id", workspaceId)
-        .gte("attributed_at", startDate.toISOString());
+        .select("event_value, workspace_id, links!inner(utm_source, utm_medium)")
+        .eq("workspace_id", workspaceId)
+        .gte("attributed_at", startDate.toISOString())
+        .limit(5000);
 
       // Aggregate by source/medium
       const channelMap = new Map<string, { clicks: number; conversions: number; revenue: number }>();
