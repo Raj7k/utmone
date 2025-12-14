@@ -145,7 +145,7 @@ serve(async (req) => {
     const { data: existing } = await supabase
       .from('links')
       .select('id')
-      .eq('short_code', slug)
+      .eq('slug', slug)
       .eq('workspace_id', apiKeyData.workspace_id)
       .single();
     
@@ -178,7 +178,7 @@ serve(async (req) => {
       .insert({
         workspace_id: apiKeyData.workspace_id,
         original_url: destinationUrl,
-        short_code: slug,
+        slug: slug,
         domain: shortDomain,
         title: title || null,
         utm_source: utm_source || null,
