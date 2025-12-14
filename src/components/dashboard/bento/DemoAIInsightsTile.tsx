@@ -2,7 +2,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DEMO_AI_INSIGHTS_DATA, getDemoFeaturesForPlan } from "@/hooks/useDemoMode";
-import { motion } from "framer-motion";
 import { Sparkles, TrendingUp, AlertTriangle, Lightbulb, Zap, Lock, ArrowRight } from "lucide-react";
 import { PlanTier } from "@/lib/planConfig";
 import { Link } from "react-router-dom";
@@ -45,16 +44,14 @@ export const DemoAIInsightsTile = ({ planTier = 'free' }: DemoAIInsightsTileProp
         {visibleInsights.map((insight, index) => {
           const Icon = getInsightIcon(insight.type);
           return (
-            <motion.div
+            <div
               key={index}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className={`p-3 rounded-lg border ${
+              className={`p-3 rounded-lg border animate-fade-in ${
                 insight.severity === "warning"
                   ? "border-yellow-500/30 bg-yellow-500/5"
                   : "border-border bg-muted/30"
               }`}
+              style={{ animationDelay: `${index * 100}ms` }}
             >
               <div className="flex items-start gap-3">
                 <Icon className={`h-4 w-4 mt-0.5 flex-shrink-0 ${
@@ -73,17 +70,15 @@ export const DemoAIInsightsTile = ({ planTier = 'free' }: DemoAIInsightsTileProp
                   </Button>
                 </div>
               </div>
-            </motion.div>
+            </div>
           );
         })}
 
         {/* Locked insights indicator for free tier */}
         {lockedCount > 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="p-3 rounded-lg bg-muted/20 border border-dashed border-border"
+          <div
+            className="p-3 rounded-lg bg-muted/20 border border-dashed border-border animate-fade-in"
+            style={{ animationDelay: '300ms' }}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -94,7 +89,7 @@ export const DemoAIInsightsTile = ({ planTier = 'free' }: DemoAIInsightsTileProp
                 starter+
               </Badge>
             </div>
-          </motion.div>
+          </div>
         )}
 
         <p className="text-xs text-muted-foreground text-center pt-2">
