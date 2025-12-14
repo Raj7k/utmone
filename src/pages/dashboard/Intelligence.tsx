@@ -2,6 +2,7 @@ import { useState, useEffect, lazy, Suspense } from "react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { useIntelligenceData } from "@/hooks/useIntelligenceData";
+import { useDashboardUnified } from "@/hooks/useDashboardUnified";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -59,7 +60,10 @@ export default function Intelligence() {
     ? Math.ceil((customRange.to.getTime() - customRange.from.getTime()) / (1000 * 60 * 60 * 24)) + 1
     : periodDays[period];
 
-  // Use unified data hook for fast loading
+  // OPTIMIZED: Use shared dashboard cache for instant initial data
+  const { campaigns: cachedCampaigns, isFetched: hasCachedData } = useDashboardUnified();
+
+  // Use unified data hook for fast loading - leverages shared cache
   const { data: intelligenceData, isLoading, isFetching, isStale } = useIntelligenceData(effectiveWorkspaceId, days);
 
   // Signal navigation complete when data loads or times out

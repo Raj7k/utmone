@@ -6,7 +6,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { LazyConfetti } from "@/components/lazy/LazyConfetti";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { useNavigate } from "react-router-dom";
-import { useOnboardingProgress } from "@/hooks/useOnboardingProgress";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -20,21 +19,33 @@ interface ChecklistItem {
   isWarning?: boolean;
 }
 
-export const OnboardingChecklist = () => {
+// OPTIMIZED: Accept onboarding data as props instead of separate hook
+interface OnboardingChecklistProps {
+  onboarding?: {
+    hasLinks: boolean;
+    hasQrCodes?: boolean;
+    hasViewedAnalytics?: boolean;
+    hasInvitedTeam?: boolean;
+    hasCustomDomain?: boolean;
+    hasInstalledPixel?: boolean;
+    linkCount?: number;
+  };
+  isLoading?: boolean;
+}
+
+export const OnboardingChecklist = ({ onboarding, isLoading = false }: OnboardingChecklistProps) => {
   const { width, height } = useWindowSize();
   const [showConfetti, setShowConfetti] = useState(false);
   const [hasShownConfetti, setHasShownConfetti] = useState(false);
   const navigate = useNavigate();
   
-  const {
-    hasLinks,
-    hasQrCodes,
-    hasViewedAnalytics,
-    hasInvitedTeam,
-    hasCustomDomain,
-    hasInstalledPixel,
-    isLoading,
-  } = useOnboardingProgress();
+  // Use props or default to false
+  const hasLinks = onboarding?.hasLinks ?? false;
+  const hasQrCodes = onboarding?.hasQrCodes ?? false;
+  const hasViewedAnalytics = onboarding?.hasViewedAnalytics ?? false;
+  const hasInvitedTeam = onboarding?.hasInvitedTeam ?? false;
+  const hasCustomDomain = onboarding?.hasCustomDomain ?? false;
+  const hasInstalledPixel = onboarding?.hasInstalledPixel ?? false;
 
   // Simplified 3-item checklist focused on the core "aha" moments
   const items: ChecklistItem[] = [

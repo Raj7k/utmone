@@ -133,8 +133,9 @@ const DashboardHome = () => {
           </ErrorBoundary>
         )}
 
+        {/* OPTIMIZED: Pass onboarding data from unified hook - no separate query */}
         <ErrorBoundary section="onboarding-checklist">
-          <OnboardingChecklist />
+          <OnboardingChecklist onboarding={onboarding} isLoading={isLoading} />
         </ErrorBoundary>
 
         <ErrorBoundary section="quick-actions">
