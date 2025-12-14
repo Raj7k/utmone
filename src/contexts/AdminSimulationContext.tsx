@@ -53,8 +53,9 @@ export const AdminSimulationProvider = ({ children }: { children: ReactNode }) =
 
 export const useAdminSimulation = () => {
   const context = useContext(AdminSimulationContext);
+  // Return safe defaults when used outside AdminSimulationProvider (e.g., in dashboard)
   if (context === undefined) {
-    throw new Error("useAdminSimulation must be used within an AdminSimulationProvider");
+    return { simulatedPlan: null, setSimulatedPlan: () => {} };
   }
   return context;
 };
