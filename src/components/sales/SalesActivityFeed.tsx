@@ -9,6 +9,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 
+interface SalesLink {
+  id: string;
+  title: string;
+  prospect_name?: string;
+  slug: string;
+}
+
 interface ClickEvent {
   id: string;
   clicked_at: string;
@@ -22,31 +29,25 @@ interface ClickEvent {
   };
 }
 
-export const SalesActivityFeed = () => {
+interface SalesActivityFeedProps {
+  salesLinks?: SalesLink[];
+}
+
+export const SalesActivityFeed = ({ salesLinks = [] }: SalesActivityFeedProps) => {
   const { currentWorkspace } = useWorkspace();
   const [realtimeEvents, setRealtimeEvents] = useState<ClickEvent[]>([]);
   const [newEventId, setNewEventId] = useState<string | null>(null);
 
+  // Build link map from passed props (no duplicate query!)
+  const linkIds = salesLinks.map(l => l.id);
+  const linkMap = new Map(salesLinks.map(l => [l.id, { title: l.title, prospect_name: l.prospect_name, slug: l.slug }]));
+
+  // Only fetch clicks - use passed salesLinks instead of re-fetching
   const { data: initialEvents = [], isLoading } = useQuery({
-    queryKey: ["sales-activity", currentWorkspace?.id],
+    queryKey: ["sales-activity-clicks", currentWorkspace?.id, linkIds.join(",")],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user || !currentWorkspace?.id) return [];
+      if (!currentWorkspace?.id || linkIds.length === 0) return [];
 
-      // Step 1: Get sales link IDs (fast, indexed query)
-      const { data: salesLinks } = await supabase
-        .from("links")
-        .select("id, title, prospect_name, slug")
-        .eq("workspace_id", currentWorkspace.id)
-        .eq("created_by", user.id)
-        .eq("link_type", "sales");
-
-      if (!salesLinks?.length) return [];
-
-      const linkIds = salesLinks.map(l => l.id);
-      const linkMap = new Map(salesLinks.map(l => [l.id, l]));
-
-      // Step 2: Get clicks directly with workspace_id (no JOIN)
       const { data: clicks, error } = await supabase
         .from("link_clicks")
         .select("id, clicked_at, device_type, city, country, link_id")
@@ -57,13 +58,13 @@ export const SalesActivityFeed = () => {
 
       if (error) throw error;
 
-      // Step 3: Join client-side
       return (clicks || []).map(click => ({
         ...click,
         link: linkMap.get(click.link_id) || { title: "Unknown", slug: "" }
       })) as ClickEvent[];
     },
-    enabled: !!currentWorkspace?.id,
+    enabled: !!currentWorkspace?.id && linkIds.length > 0,
+    staleTime: 30000,
   });
 
   // Real-time subscription for new clicks
