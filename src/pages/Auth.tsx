@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
-import { ArrowLeft, Info } from "lucide-react";
+import { Info } from "lucide-react";
 import { motion } from "framer-motion";
 import { AuthLoadingScreen } from "@/components/loading/AuthLoadingScreen";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
@@ -13,7 +13,7 @@ import { SocialLoginButtons } from "@/components/auth/SocialLoginButtons";
 import { MFAChallenge } from "@/components/auth/MFAChallenge";
 import { PasswordInput } from "@/components/auth/PasswordInput";
 import { useUIFeatureFlags } from "@/hooks/useUIFeatureFlag";
-import { ObsidianMarketingLayout } from "@/components/layout/ObsidianMarketingLayout";
+import { CleanAuthLayout } from "@/components/layout/CleanAuthLayout";
 
 const AUTH_PROGRESS_STEPS = [
   "verifying credentials...",
@@ -418,28 +418,18 @@ const Auth = () => {
   }
 
   return (
-    <ObsidianMarketingLayout showFloatingNav={false}>
-      <div className="min-h-[80vh] flex items-center justify-center p-4 relative overflow-hidden">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="w-full max-w-md space-y-8 relative z-10"
-        >
-          {/* Back to home link */}
-          <Link 
-            to="/" 
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            back to home
-          </Link>
-
-          <div className="text-center space-y-4">
-            <UtmOneLogo size="xl" className="justify-center mb-2" />
-            <h1 className="text-4xl font-display font-bold tracking-tight text-foreground">welcome back</h1>
-            <p className="text-muted-foreground text-lg">sign in to your workspace</p>
-          </div>
+    <CleanAuthLayout>
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md space-y-8"
+      >
+        <div className="text-center space-y-4">
+          <UtmOneLogo size="xl" className="justify-center mb-2" />
+          <h1 className="text-4xl font-display font-bold tracking-tight text-foreground">welcome back</h1>
+          <p className="text-muted-foreground text-lg">sign in to your workspace</p>
+        </div>
 
           {invitationContext && (
             <motion.div 
@@ -561,8 +551,7 @@ const Auth = () => {
             </CardContent>
           </Card>
         </motion.div>
-      </div>
-    </ObsidianMarketingLayout>
+      </CleanAuthLayout>
   );
 };
 
