@@ -1,7 +1,7 @@
+// PHASE 22: Removed framer-motion - using pure CSS animations
 import { Home, BarChart3, Menu, QrCode, Plus } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
 import { useState } from "react";
 import {
   Sheet,
@@ -98,28 +98,21 @@ export const MobileNav = () => {
           const isCreateButton = item.action === "create-link";
           
           return (
-            <motion.button
+            <button
               key={item.label}
               onClick={() => handlePrimaryAction(item)}
               className={cn(
-                "flex flex-col items-center justify-center gap-1 flex-1 h-full transition-colors relative",
+                "flex flex-col items-center justify-center gap-1 flex-1 h-full transition-all relative tap-shrink animate-fade-in",
                 isCreateButton 
                   ? "text-primary" 
                   : active 
                     ? "text-primary" 
                     : "text-muted-foreground"
               )}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
+              style={{ animationDelay: `${index * 50}ms` }}
             >
               {active && !isCreateButton && (
-                <motion.div
-                  layoutId="activeTab"
-                  className="absolute inset-0 rounded-lg bg-primary/10"
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                />
+                <div className="absolute inset-0 rounded-lg bg-primary/10 nav-indicator" />
               )}
               {isCreateButton ? (
                 <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center -mt-2">
@@ -134,23 +127,20 @@ export const MobileNav = () => {
               )}>
                 {item.label}
               </span>
-            </motion.button>
+            </button>
           );
         })}
 
         {/* More Menu */}
         <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
           <SheetTrigger asChild>
-            <motion.button
-              className="flex flex-col items-center justify-center gap-1 flex-1 h-full transition-colors text-muted-foreground"
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
+            <button
+              className="flex flex-col items-center justify-center gap-1 flex-1 h-full transition-all text-muted-foreground tap-shrink animate-fade-in"
+              style={{ animationDelay: '200ms' }}
             >
               <Menu className="h-5 w-5 relative z-10" />
               <span className="text-xs font-medium relative z-10">More</span>
-            </motion.button>
+            </button>
           </SheetTrigger>
           <SheetContent side="bottom" className="h-[80vh] rounded-t-3xl">
             <SheetHeader>

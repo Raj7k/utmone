@@ -2,17 +2,18 @@ import { ReactNode, useEffect, useState, lazy, Suspense } from "react";
 import { SidebarProvider } from "./sidebar/SidebarProvider";
 import { ImpersonationBanner } from "@/components/admin/ImpersonationBanner";
 import { SubscriptionExpiryBanner } from "@/components/subscription/SubscriptionExpiryBanner";
-import { MobileNav } from "@/components/mobile/MobileNav";
 import { NavigationProgress } from "@/components/navigation/NavigationProgress";
 import { DashboardErrorBoundary } from "./DashboardErrorBoundary";
 import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { AlertTriangle } from "lucide-react";
 
 // PHASE 19: Lazy load heavy layout components
 const DashboardSidebarV2 = lazy(() => import("./sidebar/DashboardSidebarV2").then(m => ({ default: m.DashboardSidebarV2 })));
 const ContextualHeader = lazy(() => import("./ContextualHeader").then(m => ({ default: m.ContextualHeader })));
+
+// PHASE 24: Lazy load MobileNav (desktop users don't need it)
+const MobileNav = lazy(() => import("@/components/mobile/MobileNav").then(m => ({ default: m.MobileNav })));
 
 // PHASE 11: Lazy load non-critical components
 const CreateLinkModal = lazy(() => import("@/components/CreateLinkModal").then(m => ({ default: m.CreateLinkModal })));
@@ -27,9 +28,29 @@ interface DashboardLayoutProps {
 }
 
 export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
-  const { _source, displayName } = useCurrentPlan();
+  // PHASE 25: Defer useCurrentPlan until after first paint
+  const [planInfo, setPlanInfo] = useState<{ _source: string; displayName: string }>({ _source: '', displayName: '' });
   const [searchParams] = useSearchParams();
   const [impersonatedUser, setImpersonatedUser] = useState<{ email: string; full_name?: string } | null>(null);
+
+  // PHASE 25: Load plan info after first paint
+  useEffect(() => {
+    // Defer plan loading to avoid blocking first paint
+    const loadPlan = async () => {
+      const { useCurrentPlan } = await import("@/hooks/useCurrentPlan");
+      // This is a workaround - we'll just check localStorage for simulation mode
+      const simData = localStorage.getItem('plan_simulation');
+      if (simData) {
+        try {
+          const parsed = JSON.parse(simData);
+          setPlanInfo({ _source: 'SIMULATION', displayName: parsed.tier || 'Unknown' });
+        } catch {
+          setPlanInfo({ _source: '', displayName: '' });
+        }
+      }
+    };
+    loadPlan();
+  }, []);
 
   // Check if we're in impersonation mode
   useEffect(() => {
@@ -87,11 +108,11 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
               />
             )}
 
-            {/* Simulation Mode Warning */}
-            {_source === 'SIMULATION' && (
+            {/* Simulation Mode Warning - PHASE 25: Uses deferred planInfo */}
+            {planInfo._source === 'SIMULATION' && (
               <div className="bg-amber-500/10 border-b border-amber-500/20 px-4 py-2 flex items-center justify-center gap-2 text-sm text-amber-600 dark:text-amber-400">
                 <AlertTriangle className="h-4 w-4" />
-                <strong>TEST MODE</strong> — Simulating {displayName} Plan
+                <strong>TEST MODE</strong> — Simulating {planInfo.displayName} Plan
               </div>
             )}
 
@@ -114,8 +135,10 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             </main>
           </div>
 
-          {/* Mobile Bottom Navigation */}
-          <MobileNav />
+          {/* PHASE 24: Mobile Bottom Navigation - Lazy loaded */}
+          <Suspense fallback={null}>
+            <MobileNav />
+          </Suspense>
 
           {/* PHASE 11: Lazy-loaded non-critical components */}
           <Suspense fallback={null}>

@@ -1,5 +1,5 @@
+// PHASE 23: Removed framer-motion - using pure CSS animations
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { Link2, Sparkles, ArrowRight, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -88,47 +88,34 @@ export const FirstRunExperience = ({ onLinkCreated }: FirstRunExperienceProps) =
 
   return (
     <div className="min-h-[60vh] flex flex-col items-center justify-center px-4">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-xl text-center"
-      >
+      <div className="w-full max-w-xl text-center animate-fade-in">
         {/* Icon */}
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ type: "spring", delay: 0.1, stiffness: 200 }}
-          className="w-20 h-20 rounded-3xl bg-primary/10 flex items-center justify-center mx-auto mb-8"
+        <div
+          className="w-20 h-20 rounded-3xl bg-primary/10 flex items-center justify-center mx-auto mb-8 animate-scale-in"
+          style={{ animationDelay: '100ms' }}
         >
           <Sparkles className="w-10 h-10 text-primary" />
-        </motion.div>
+        </div>
 
         {/* Headline */}
-        <motion.h1
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="text-3xl md:text-4xl font-display font-bold text-foreground mb-3"
+        <h1
+          className="text-3xl md:text-4xl font-display font-bold text-foreground mb-3 animate-fade-in"
+          style={{ animationDelay: '200ms' }}
         >
           create your first link
-        </motion.h1>
+        </h1>
         
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="text-lg text-muted-foreground mb-8"
+        <p
+          className="text-lg text-muted-foreground mb-8 animate-fade-in"
+          style={{ animationDelay: '300ms' }}
         >
           paste any URL and see the magic happen
-        </motion.p>
+        </p>
 
         {/* URL Input */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="space-y-4"
+        <div
+          className="space-y-4 animate-fade-in"
+          style={{ animationDelay: '400ms' }}
         >
           <div className="relative">
             <div className="absolute left-4 top-1/2 -translate-y-1/2">
@@ -147,16 +134,12 @@ export const FirstRunExperience = ({ onLinkCreated }: FirstRunExperienceProps) =
 
           {/* Preview */}
           {previewSlug && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              className="bg-muted/50 rounded-xl p-4 text-left"
-            >
+            <div className="bg-muted/50 rounded-xl p-4 text-left animate-fade-in">
               <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">your short link</p>
               <p className="text-lg font-mono text-foreground">
                 utm.one/<span className="text-primary">{previewSlug}</span>
               </p>
-            </motion.div>
+            </div>
           )}
 
           {/* CTA Button */}
@@ -190,14 +173,12 @@ export const FirstRunExperience = ({ onLinkCreated }: FirstRunExperienceProps) =
             </button>
             {" "}or any URL you like
           </p>
-        </motion.div>
+        </div>
 
         {/* Skip option */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          className="mt-8"
+        <div
+          className="mt-8 animate-fade-in"
+          style={{ animationDelay: '600ms' }}
         >
           <button
             onClick={() => navigate('/dashboard/links')}
@@ -205,8 +186,8 @@ export const FirstRunExperience = ({ onLinkCreated }: FirstRunExperienceProps) =
           >
             or explore the dashboard first →
           </button>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </div>
   );
 };

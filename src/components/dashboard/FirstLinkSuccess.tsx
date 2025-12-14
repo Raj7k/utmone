@@ -1,5 +1,5 @@
+// PHASE 23: Removed framer-motion - using pure CSS animations
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { Check, Copy, ExternalLink, QrCode, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
@@ -50,66 +50,49 @@ export const FirstLinkSuccess = ({ shortUrl, onContinue }: FirstLinkSuccessProps
       />
 
       <div className="min-h-[60vh] flex flex-col items-center justify-center px-4">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4 }}
-          className="w-full max-w-xl text-center"
-        >
+        <div className="w-full max-w-xl text-center animate-fade-in animate-scale-in">
           {/* Success checkmark */}
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: "spring", delay: 0.1, stiffness: 200 }}
-            className="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center mx-auto mb-6"
+          <div
+            className="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center mx-auto mb-6 animate-scale-in"
+            style={{ animationDelay: '100ms' }}
           >
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", delay: 0.3 }}
-              className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center"
+            <div
+              className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center animate-scale-in"
+              style={{ animationDelay: '300ms' }}
             >
               <Check className="w-7 h-7 text-white" strokeWidth={3} />
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
           {/* Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-3xl md:text-4xl font-display font-bold text-foreground mb-2"
+          <h1
+            className="text-3xl md:text-4xl font-display font-bold text-foreground mb-2 animate-fade-in"
+            style={{ animationDelay: '200ms' }}
           >
             link created!
-          </motion.h1>
+          </h1>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="text-lg text-muted-foreground mb-8"
+          <p
+            className="text-lg text-muted-foreground mb-8 animate-fade-in"
+            style={{ animationDelay: '300ms' }}
           >
             your first short link is ready to share
-          </motion.p>
+          </p>
 
           {/* Link display */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="bg-card border border-border rounded-2xl p-6 mb-6"
+          <div
+            className="bg-card border border-border rounded-2xl p-6 mb-6 animate-fade-in"
+            style={{ animationDelay: '400ms' }}
           >
             <p className="text-2xl font-mono text-primary font-medium">
               {shortUrl}
             </p>
-          </motion.div>
+          </div>
 
           {/* Action buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="flex flex-col sm:flex-row gap-3 mb-8"
+          <div
+            className="flex flex-col sm:flex-row gap-3 mb-8 animate-fade-in"
+            style={{ animationDelay: '500ms' }}
           >
             <Button
               onClick={handleCopy}
@@ -137,14 +120,12 @@ export const FirstLinkSuccess = ({ shortUrl, onContinue }: FirstLinkSuccessProps
               <ExternalLink className="w-4 h-4 mr-2" />
               open
             </Button>
-          </motion.div>
+          </div>
 
           {/* Next step suggestion */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="bg-muted/50 rounded-xl p-4"
+          <div
+            className="bg-muted/50 rounded-xl p-4 animate-fade-in"
+            style={{ animationDelay: '600ms' }}
           >
             <p className="text-sm text-muted-foreground mb-3">
               next up: generate a QR code for your link
@@ -158,14 +139,12 @@ export const FirstLinkSuccess = ({ shortUrl, onContinue }: FirstLinkSuccessProps
               create QR code
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
-          </motion.div>
+          </div>
 
           {/* Continue to dashboard */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
-            className="mt-6"
+          <div
+            className="mt-6 animate-fade-in"
+            style={{ animationDelay: '700ms' }}
           >
             <button
               onClick={onContinue}
@@ -173,8 +152,8 @@ export const FirstLinkSuccess = ({ shortUrl, onContinue }: FirstLinkSuccessProps
             >
               continue to dashboard →
             </button>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
     </>
   );
