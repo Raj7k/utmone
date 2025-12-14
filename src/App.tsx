@@ -3,8 +3,9 @@ import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
+import { AppProvider } from "./contexts/AppProvider";
 import { NotificationProvider } from "./contexts/NotificationContext";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { MarketingSkeleton, DashboardSkeleton } from "./components/SkeletonLoader";
@@ -555,29 +556,29 @@ const AppRoutes = () => {
                     </Suspense>
                   )}
                 />
-                <Route path="/accessibility" element={<Suspense fallback={<MarketingSkeleton />}><Accessibility /></Suspense>} />
-                <Route path="/permanence" element={<Suspense fallback={<MarketingSkeleton />}><Permanence /></Suspense>} />
-                <Route path="/pricing" element={<Suspense fallback={<MarketingSkeleton />}><Pricing /></Suspense>} />
-                <Route path="/lifetime-deal" element={<Suspense fallback={<MarketingSkeleton />}><LifetimeDeal /></Suspense>} />
-                <Route path="/about" element={<Suspense fallback={<MarketingSkeleton />}><About /></Suspense>} />
-                <Route path="/docs" element={<Suspense fallback={<MarketingSkeleton />}><Docs /></Suspense>} />
-                <Route path="/faq" element={<Suspense fallback={<MarketingSkeleton />}><FAQ /></Suspense>} />
-                <Route path="/changelog" element={<Suspense fallback={<MarketingSkeleton />}><Changelog /></Suspense>} />
-                <Route path="/support" element={<Suspense fallback={<MarketingSkeleton />}><Support /></Suspense>} />
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/integration" element={<Navigate to="/features/integrations" replace />} />
-                <Route path="/integrations" element={<Navigate to="/features/integrations" replace />} />
-                <Route path="/docs/api" element={<Suspense fallback={<MarketingSkeleton />}><APIDocumentation /></Suspense>} />
-                <Route path="/docs/playground" element={<Suspense fallback={<MarketingSkeleton />}><APIPlayground /></Suspense>} />
-                <Route path="/docs/sdks" element={<Suspense fallback={<MarketingSkeleton />}><SDKs /></Suspense>} />
-                <Route path="/docs/pixel-installation" element={<Suspense fallback={<MarketingSkeleton />}><PixelInstallation /></Suspense>} />
-                <Route path="/docs/revenue-attribution" element={<Suspense fallback={<MarketingSkeleton />}><RevenueAttribution /></Suspense>} />
-                <Route path="/docs/crm-integrations" element={<Suspense fallback={<MarketingSkeleton />}><CRMIntegrations /></Suspense>} />
-                <Route path="/docs/chrome-extension" element={<Suspense fallback={<MarketingSkeleton />}><ChromeExtensionDocs /></Suspense>} />
-                <Route path="/docs/geo-targeting" element={<Suspense fallback={<MarketingSkeleton />}><GeoTargetingDocs /></Suspense>} />
-                <Route path="/docs/identity-graph" element={<Suspense fallback={<MarketingSkeleton />}><IdentityGraphDocs /></Suspense>} />
-                <Route path="/docs/smart-insights" element={<Suspense fallback={<MarketingSkeleton />}><SmartInsightsDocs /></Suspense>} />
-                <Route path="/docs/troubleshooting" element={<Suspense fallback={<MarketingSkeleton />}><TroubleshootingDocs /></Suspense>} />
+              <Route path="/accessibility" element={<Suspense fallback={<MarketingSkeleton />}><Accessibility /></Suspense>} />
+              <Route path="/permanence" element={<Suspense fallback={<MarketingSkeleton />}><Permanence /></Suspense>} />
+              <Route path="/pricing" element={<Suspense fallback={<MarketingSkeleton />}><Pricing /></Suspense>} />
+              <Route path="/lifetime-deal" element={<Suspense fallback={<MarketingSkeleton />}><LifetimeDeal /></Suspense>} />
+              <Route path="/about" element={<Suspense fallback={<MarketingSkeleton />}><About /></Suspense>} />
+              <Route path="/docs" element={<Suspense fallback={<MarketingSkeleton />}><Docs /></Suspense>} />
+              <Route path="/faq" element={<Suspense fallback={<MarketingSkeleton />}><FAQ /></Suspense>} />
+              <Route path="/changelog" element={<Suspense fallback={<MarketingSkeleton />}><Changelog /></Suspense>} />
+              <Route path="/support" element={<Suspense fallback={<MarketingSkeleton />}><Support /></Suspense>} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/integration" element={<Navigate to="/features/integrations" replace />} />
+              <Route path="/integrations" element={<Navigate to="/features/integrations" replace />} />
+              <Route path="/docs/api" element={<Suspense fallback={<MarketingSkeleton />}><APIDocumentation /></Suspense>} />
+              <Route path="/docs/playground" element={<Suspense fallback={<MarketingSkeleton />}><APIPlayground /></Suspense>} />
+              <Route path="/docs/sdks" element={<Suspense fallback={<MarketingSkeleton />}><SDKs /></Suspense>} />
+              <Route path="/docs/pixel-installation" element={<Suspense fallback={<MarketingSkeleton />}><PixelInstallation /></Suspense>} />
+              <Route path="/docs/revenue-attribution" element={<Suspense fallback={<MarketingSkeleton />}><RevenueAttribution /></Suspense>} />
+              <Route path="/docs/crm-integrations" element={<Suspense fallback={<MarketingSkeleton />}><CRMIntegrations /></Suspense>} />
+              <Route path="/docs/chrome-extension" element={<Suspense fallback={<MarketingSkeleton />}><ChromeExtensionDocs /></Suspense>} />
+              <Route path="/docs/geo-targeting" element={<Suspense fallback={<MarketingSkeleton />}><GeoTargetingDocs /></Suspense>} />
+              <Route path="/docs/identity-graph" element={<Suspense fallback={<MarketingSkeleton />}><IdentityGraphDocs /></Suspense>} />
+              <Route path="/docs/smart-insights" element={<Suspense fallback={<MarketingSkeleton />}><SmartInsightsDocs /></Suspense>} />
+              <Route path="/docs/troubleshooting" element={<Suspense fallback={<MarketingSkeleton />}><TroubleshootingDocs /></Suspense>} />
               
               {/* Feature Pages */}
               <Route path="/features" element={<Suspense fallback={<MarketingSkeleton />}><Features /></Suspense>} />
@@ -1015,6 +1016,7 @@ const App = () => (
     <ThemeProvider>
       <NotificationProvider>
         <TooltipProvider>
+          <Toaster />
           <QueryClientProvider client={queryClient}>
             <BrowserRouter>
               <AppRoutes />

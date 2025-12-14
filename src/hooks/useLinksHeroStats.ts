@@ -33,13 +33,13 @@ export const useLinksHeroStats = (workspaceId: string) => {
     refetchOnMount: false, // Trust cache on mount
     initialData: () => getCachedStats(workspaceId),
     queryFn: async () => {
-      const { data, error } = await supabase.rpc("get_links_hero_stats", {
+      const { data, error } = await (supabase.rpc as any)("get_links_hero_stats", {
         p_workspace_id: workspaceId,
       });
 
       if (error) throw error;
 
-      const stats = data?.[0];
+      const stats = data?.[0] as any;
 
       const clickTrend = stats?.click_trend ?? 0;
 
