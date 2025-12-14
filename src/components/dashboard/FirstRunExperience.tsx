@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { notify } from "@/lib/notify";
+import { useAppSession } from "@/contexts/AppSessionContext";
 
 interface FirstRunExperienceProps {
   onLinkCreated: () => void;
@@ -17,7 +17,7 @@ export const FirstRunExperience = ({ onLinkCreated }: FirstRunExperienceProps) =
   const [isCreating, setIsCreating] = useState(false);
   const [previewSlug, setPreviewSlug] = useState("");
   const navigate = useNavigate();
-  const { currentWorkspace } = useWorkspaceContext();
+  const { currentWorkspace, user } = useAppSession();
 
   // Generate preview slug as user types
   const handleUrlChange = (value: string) => {
@@ -50,7 +50,6 @@ export const FirstRunExperience = ({ onLinkCreated }: FirstRunExperienceProps) =
     setIsCreating(true);
 
     try {
-      const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         notify.error("please sign in to create links");
         return;

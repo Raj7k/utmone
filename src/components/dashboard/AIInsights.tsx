@@ -7,52 +7,41 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useDemoMode } from "@/hooks/useDemoMode";
 import { DemoAIInsightsTile } from "./bento/DemoAIInsightsTile";
+import { useAppSession } from "@/contexts/AppSessionContext";
+
 export function AIInsights() {
   const { showDemoMode, activePlan } = useDemoMode();
+  const { currentWorkspace } = useAppSession();
+  
   const { data: insights, isLoading } = useQuery({
-    queryKey: ["ai-insights"],
+    queryKey: ["ai-insights", currentWorkspace?.id],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
-
-      const { data: workspaces } = await supabase
-        .from("workspaces")
-        .select("id")
-        .order("created_at", { ascending: false })
-        .limit(1);
-
-      if (!workspaces?.[0]) return [];
+      if (!currentWorkspace?.id) return [];
 
       const { data, error } = await supabase
         .from("ai_insights")
         .select("*")
-        .eq("workspace_id", workspaces[0].id)
+        .eq("workspace_id", currentWorkspace.id)
         .order("created_at", { ascending: false })
         .limit(3);
 
       if (error) throw error;
       return data || [];
     },
+    enabled: !!currentWorkspace?.id,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const { data: anomalies } = useQuery({
-    queryKey: ["analytics-anomalies"],
+    queryKey: ["analytics-anomalies", currentWorkspace?.id],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
-
-      const { data: workspaces } = await supabase
-        .from("workspaces")
-        .select("id")
-        .order("created_at", { ascending: false })
-        .limit(1);
-
-      if (!workspaces?.[0]) return [];
+      if (!currentWorkspace?.id) return [];
 
       const { data, error } = await supabase
         .from("analytics_anomalies")
         .select("*")
-        .eq("workspace_id", workspaces[0].id)
+        .eq("workspace_id", currentWorkspace.id)
         .eq("is_dismissed", false)
         .order("detected_at", { ascending: false })
         .limit(2);
@@ -60,6 +49,9 @@ export function AIInsights() {
       if (error) throw error;
       return data || [];
     },
+    enabled: !!currentWorkspace?.id,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   if (isLoading) {

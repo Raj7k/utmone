@@ -16,17 +16,18 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useTheme } from "next-themes";
+import { useAppSession } from "@/contexts/AppSessionContext";
 
 export const SidebarUserFooter = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { setTheme } = useTheme();
+  const { user } = useAppSession();
 
   const { data: profile } = useQuery({
-    queryKey: ['user-profile'],
+    queryKey: ['user-profile', user?.id],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+      if (!user) return null;
       const { data } = await supabase
         .from('profiles')
         .select('full_name, email, avatar_url')
@@ -34,6 +35,9 @@ export const SidebarUserFooter = () => {
         .single();
       return data;
     },
+    enabled: !!user,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const handleSignOut = async () => {

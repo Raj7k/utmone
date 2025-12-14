@@ -5,27 +5,21 @@ import { Link2, MousePointerClick, QrCode, Clock } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDistanceToNow } from "date-fns";
 import { Link } from "react-router-dom";
+import { useAppSession } from "@/contexts/AppSessionContext";
 
 export function RecentActivity() {
+  const { currentWorkspace } = useAppSession();
+  
   const { data: activities, isLoading } = useQuery({
-    queryKey: ["recent-activity"],
+    queryKey: ["recent-activity", currentWorkspace?.id],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
-
-      const { data: workspaces } = await supabase
-        .from("workspaces")
-        .select("id")
-        .order("created_at", { ascending: false })
-        .limit(1);
-
-      if (!workspaces?.[0]) return [];
+      if (!currentWorkspace?.id) return [];
 
       // Fetch recent links
       const { data: links } = await supabase
         .from("links")
         .select("id, title, slug, created_at, last_clicked_at, total_clicks")
-        .eq("workspace_id", workspaces[0].id)
+        .eq("workspace_id", currentWorkspace.id)
         .order("created_at", { ascending: false })
         .limit(5);
 
@@ -39,6 +33,9 @@ export function RecentActivity() {
         lastClicked: link.last_clicked_at,
       })) || [];
     },
+    enabled: !!currentWorkspace?.id,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   if (isLoading) {

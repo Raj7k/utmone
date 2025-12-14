@@ -18,6 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useTheme } from "next-themes";
 import { useTour } from "@/components/onboarding/TourContext";
 import { useKeyboardShortcuts } from "@/components/keyboard/KeyboardShortcutsProvider";
+import { useAppSession } from "@/contexts/AppSessionContext";
 
 const getModKey = () => {
   const isMac = typeof window !== 'undefined' && navigator.platform.includes('Mac');
@@ -31,12 +32,12 @@ export const UserAvatarMenu = () => {
   const { startTour } = useTour();
   const { openShortcutsModal } = useKeyboardShortcuts();
   const mod = getModKey();
+  const { user } = useAppSession();
 
   const { data: profile } = useQuery({
-    queryKey: ["user-profile-header"],
+    queryKey: ["user-profile-header", user?.id],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+      if (!user) return null;
       const { data } = await supabase
         .from("profiles")
         .select("full_name, email, avatar_url")
@@ -44,6 +45,9 @@ export const UserAvatarMenu = () => {
         .single();
       return data;
     },
+    enabled: !!user,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const handleSignOut = async () => {
