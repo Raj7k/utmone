@@ -20,6 +20,7 @@ import { UpdateNotification } from "./components/pwa/UpdateNotification";
 import { queryClient as centralQueryClient } from "@/lib/queryConfig";
 import { ModalProvider } from "./contexts/ModalContext";
 const PrivateRoutes = lazy(() => import("./routes/PrivateRoutes"));
+const AppLayout = lazy(() => import("./routes/PrivateRoutes").then(m => ({ default: m.AppLayout })));
 
 // PHASE 14: Deferred providers - only load when needed
 const AdminSimulationProvider = lazy(() => import("./contexts/AdminSimulationContext").then(m => ({ default: m.AdminSimulationProvider })));
@@ -543,7 +544,9 @@ const AppRoutes = () => {
                   )}
                 />
 
-                <PrivateRoutes />
+                <Route element={<Suspense fallback={<DashboardSkeleton />}><AppLayout /></Suspense>}>
+                  <PrivateRoutes />
+                </Route>
 
                 <Route
                   path="/password-protected"
