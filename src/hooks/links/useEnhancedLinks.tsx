@@ -72,7 +72,27 @@ export const useEnhancedLinks = ({
       // Direct query without JOINs for performance
       let query = supabase
         .from("links")
-        .select("*", { count: "exact" })
+        .select(
+          [
+            "id",
+            "title",
+            "destination_url",
+            "short_url",
+            "geo_targets",
+            "utm_source",
+            "utm_medium",
+            "utm_campaign",
+            "security_status",
+            "expires_at",
+            "domain",
+            "created_at",
+            "total_clicks",
+            "status",
+            "rejection_reason",
+            "sentinel_enabled",
+          ].join(","),
+          { count: "exact" }
+        )
         .eq("workspace_id", effectiveWorkspaceId)
         .is("deleted_at", null);
 
