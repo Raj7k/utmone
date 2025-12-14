@@ -19,8 +19,7 @@ import { UpdateNotification } from "./components/pwa/UpdateNotification";
 // PHASE 14: Use centralized queryClient - no duplicate QueryClient creation
 import { queryClient as centralQueryClient } from "@/lib/queryConfig";
 import { ModalProvider } from "./contexts/ModalContext";
-const PrivateRoutes = lazy(() => import("./routes/PrivateRoutes"));
-const AppLayout = lazy(() => import("./routes/PrivateRoutes").then(m => ({ default: m.AppLayout })));
+import { privateRoutes, AppLayout } from "./routes/PrivateRoutes";
 
 // PHASE 14: Deferred providers - only load when needed
 const AdminSimulationProvider = lazy(() => import("./contexts/AdminSimulationContext").then(m => ({ default: m.AdminSimulationProvider })));
@@ -545,7 +544,7 @@ const AppRoutes = () => {
                 />
 
                 <Route element={<Suspense fallback={<DashboardSkeleton />}><AppLayout /></Suspense>}>
-                  <PrivateRoutes />
+                  {privateRoutes}
                 </Route>
 
                 <Route

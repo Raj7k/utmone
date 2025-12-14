@@ -67,424 +67,459 @@ export const AppLayout = () => (
   </AppProvider>
 );
 
-const PrivateRoutes = () => (
-  <>
-    {/* Dashboard Routes */}
-    <Route
-      path="/dashboard"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardLayout>
-            <DashboardHome />
-          </DashboardLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/dashboard/links"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardLayout>
-            <DashboardLinks />
-          </DashboardLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/dashboard/analytics"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardLayout>
-            <DashboardAnalytics />
-          </DashboardLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/dashboard/qr-codes"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardLayout>
-            <DashboardQRCodes />
-          </DashboardLayout>
-        </Suspense>
-      )}
-    />
-    <Route path="/dashboard/brickmatrix" element={<Navigate to="/dashboard/qr-codes?tab=brick-builder" replace />} />
-    <Route
-      path="/dashboard/targeting"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardLayout>
-            <Targeting />
-          </DashboardLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/dashboard/targeting/:linkId"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardLayout>
-            <Targeting />
-          </DashboardLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/dashboard/bulk-create"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardLayout>
-            <BulkCreate />
-          </DashboardLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/dashboard/onelink-validator"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardLayout>
-            <OneLinkValidator />
-          </DashboardLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/dashboard/campaigns"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardLayout>
-            <Campaigns />
-          </DashboardLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/dashboard/campaigns/:id"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardLayout>
-            <CampaignDetails />
-          </DashboardLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/dashboard/cache-monitoring"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardLayout>
-            <CacheMonitoring />
-          </DashboardLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/dashboard/analytics-performance"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardLayout>
-            <AnalyticsPerformance />
-          </DashboardLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/dashboard/link-health"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardLayout>
-            <LinkHealth />
-          </DashboardLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/dashboard/experiments"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardLayout>
-            <Experiments />
-          </DashboardLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/dashboard/attribution"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardLayout>
-            <Attribution />
-          </DashboardLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/dashboard/robust-attribution"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardLayout>
-            <RobustAttribution />
-          </DashboardLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/dashboard/sales"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardLayout>
-            <DashboardSales />
-          </DashboardLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/dashboard/event-halo"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardLayout>
-            <DashboardEvents />
-          </DashboardLayout>
-        </Suspense>
-      )}
-    />
-    <Route path="/dashboard/events" element={<Navigate to="/dashboard/event-halo" replace />} />
-    <Route
-      path="/dashboard/intelligence"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardLayout>
-            <Intelligence />
-          </DashboardLayout>
-        </Suspense>
-      )}
-    />
+// Export routes as an array so React Router sees actual Route elements
+export const privateRoutes = [
+  // Dashboard Routes
+  <Route
+    key="dashboard"
+    path="/dashboard"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <DashboardHome />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="dashboard-links"
+    path="/dashboard/links"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <DashboardLinks />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="dashboard-analytics"
+    path="/dashboard/analytics"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <DashboardAnalytics />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="dashboard-qr-codes"
+    path="/dashboard/qr-codes"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <DashboardQRCodes />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route key="dashboard-brickmatrix" path="/dashboard/brickmatrix" element={<Navigate to="/dashboard/qr-codes?tab=brick-builder" replace />} />,
+  <Route
+    key="dashboard-targeting"
+    path="/dashboard/targeting"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <Targeting />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="dashboard-targeting-linkId"
+    path="/dashboard/targeting/:linkId"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <Targeting />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="dashboard-bulk-create"
+    path="/dashboard/bulk-create"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <BulkCreate />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="dashboard-onelink-validator"
+    path="/dashboard/onelink-validator"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <OneLinkValidator />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="dashboard-campaigns"
+    path="/dashboard/campaigns"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <Campaigns />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="dashboard-campaigns-id"
+    path="/dashboard/campaigns/:id"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <CampaignDetails />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="dashboard-cache-monitoring"
+    path="/dashboard/cache-monitoring"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <CacheMonitoring />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="dashboard-analytics-performance"
+    path="/dashboard/analytics-performance"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <AnalyticsPerformance />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="dashboard-link-health"
+    path="/dashboard/link-health"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <LinkHealth />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="dashboard-experiments"
+    path="/dashboard/experiments"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <Experiments />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="dashboard-attribution"
+    path="/dashboard/attribution"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <Attribution />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="dashboard-robust-attribution"
+    path="/dashboard/robust-attribution"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <RobustAttribution />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="dashboard-sales"
+    path="/dashboard/sales"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <DashboardSales />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="dashboard-event-halo"
+    path="/dashboard/event-halo"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <DashboardEvents />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route key="dashboard-events-redirect" path="/dashboard/events" element={<Navigate to="/dashboard/event-halo" replace />} />,
+  <Route
+    key="dashboard-intelligence"
+    path="/dashboard/intelligence"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <Intelligence />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
 
-    {/* Onboarding Routes - Protected via layout to avoid redirect loops */}
-    <Route path="/onboarding" element={<Suspense fallback={<DashboardSkeleton />}><OnboardingWizard /></Suspense>} />
+  // Onboarding Routes
+  <Route key="onboarding" path="/onboarding" element={<Suspense fallback={<DashboardSkeleton />}><OnboardingWizard /></Suspense>} />,
 
-    <Route path="/links" element={<Navigate to="/dashboard/links" replace />} />
-    <Route path="/links/:linkId" element={<LinkIdRedirect />} />
-    {/* Explicit create route BEFORE dynamic :linkId to prevent "create" being treated as UUID */}
-    <Route path="/dashboard/links/create" element={<Navigate to="/dashboard/links" replace />} />
-    <Route
-      path="/dashboard/links/:linkId"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardLayout>
-            <LinkDetail />
-          </DashboardLayout>
-        </Suspense>
-      )}
-    />
-    <Route path="/analytics" element={<Navigate to="/dashboard/intelligence" replace />} />
+  // Link redirects
+  <Route key="links-redirect" path="/links" element={<Navigate to="/dashboard/links" replace />} />,
+  <Route key="links-linkId" path="/links/:linkId" element={<LinkIdRedirect />} />,
+  <Route key="dashboard-links-create" path="/dashboard/links/create" element={<Navigate to="/dashboard/links" replace />} />,
+  <Route
+    key="dashboard-links-linkId"
+    path="/dashboard/links/:linkId"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <LinkDetail />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route key="analytics-redirect" path="/analytics" element={<Navigate to="/dashboard/intelligence" replace />} />,
 
-    {/* 2FA Verification Route */}
-    <Route path="/auth/verify-2fa" element={<Suspense fallback={<DashboardSkeleton />}><TotpVerification /></Suspense>} />
+  // 2FA Verification Route
+  <Route key="auth-verify-2fa" path="/auth/verify-2fa" element={<Suspense fallback={<DashboardSkeleton />}><TotpVerification /></Suspense>} />,
 
-    {/* Admin Routes - Protected with MFA */}
-    <Route path="/admin/mfa-verify" element={<Suspense fallback={<DashboardSkeleton />}><MFAVerify /></Suspense>} />
-    <Route
-      path="/admin"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <AdminLayout>
-            <AdminDashboard />
-          </AdminLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/admin/waitlist"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <AdminLayout>
-            <WaitlistManagement />
-          </AdminLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/admin/users"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <AdminLayout>
-            <UserManagement />
-          </AdminLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/admin/landing"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <AdminLayout>
-            <LandingManagement />
-          </AdminLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/admin/product"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <AdminLayout>
-            <ProductAnalytics />
-          </AdminLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/admin/system"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <AdminLayout>
-            <SystemMonitoring />
-          </AdminLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/admin/feature-flags"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <AdminLayout>
-            <FeatureFlags />
-          </AdminLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/admin/flags/:flagKey"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <AdminLayout>
-            <FlagDetails />
-          </AdminLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/admin/security"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <AdminLayout>
-            <AdminSecurity />
-          </AdminLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/admin/partners"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <AdminLayout>
-            <PartnersManagement />
-          </AdminLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/admin/tests"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <AdminLayout>
-            <SystemTests />
-          </AdminLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/admin/subscriptions"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <AdminLayout>
-            <SubscriptionManagement />
-          </AdminLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/admin/feedback"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <AdminLayout>
-            <FeedbackManagement />
-          </AdminLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/admin/roadmap"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <AdminLayout>
-            <RoadmapManagement />
-          </AdminLayout>
-        </Suspense>
-      )}
-    />
+  // Admin Routes
+  <Route key="admin-mfa-verify" path="/admin/mfa-verify" element={<Suspense fallback={<DashboardSkeleton />}><MFAVerify /></Suspense>} />,
+  <Route
+    key="admin"
+    path="/admin"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <AdminLayout>
+          <AdminDashboard />
+        </AdminLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="admin-waitlist"
+    path="/admin/waitlist"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <AdminLayout>
+          <WaitlistManagement />
+        </AdminLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="admin-users"
+    path="/admin/users"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <AdminLayout>
+          <UserManagement />
+        </AdminLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="admin-landing"
+    path="/admin/landing"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <AdminLayout>
+          <LandingManagement />
+        </AdminLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="admin-product"
+    path="/admin/product"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <AdminLayout>
+          <ProductAnalytics />
+        </AdminLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="admin-system"
+    path="/admin/system"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <AdminLayout>
+          <SystemMonitoring />
+        </AdminLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="admin-feature-flags"
+    path="/admin/feature-flags"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <AdminLayout>
+          <FeatureFlags />
+        </AdminLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="admin-flags-flagKey"
+    path="/admin/flags/:flagKey"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <AdminLayout>
+          <FlagDetails />
+        </AdminLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="admin-security"
+    path="/admin/security"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <AdminLayout>
+          <AdminSecurity />
+        </AdminLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="admin-partners"
+    path="/admin/partners"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <AdminLayout>
+          <PartnersManagement />
+        </AdminLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="admin-tests"
+    path="/admin/tests"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <AdminLayout>
+          <SystemTests />
+        </AdminLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="admin-subscriptions"
+    path="/admin/subscriptions"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <AdminLayout>
+          <SubscriptionManagement />
+        </AdminLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="admin-feedback"
+    path="/admin/feedback"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <AdminLayout>
+          <FeedbackManagement />
+        </AdminLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="admin-roadmap"
+    path="/admin/roadmap"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <AdminLayout>
+          <RoadmapManagement />
+        </AdminLayout>
+      </Suspense>
+    )}
+  />,
 
-    {/* Settings Routes */}
-    <Route path="/settings" element={<Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense>} />
-    <Route path="/settings/workspace" element={<Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense>} />
-    <Route path="/settings/profile" element={<Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense>} />
-    <Route path="/settings/domains" element={<Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense>} />
-    <Route path="/settings/billing" element={<Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense>} />
-    <Route path="/settings/tracking" element={<Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense>} />
-    <Route path="/settings/backups" element={<Suspense fallback={<DashboardSkeleton />}><Backup /></Suspense>} />
-    <Route path="/settings/backup" element={<Suspense fallback={<DashboardSkeleton />}><Backup /></Suspense>} />
-    <Route path="/settings/developer" element={<Suspense fallback={<DashboardSkeleton />}><DeveloperSettings /></Suspense>} />
-    <Route
-      path="/dashboard/approvals"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardLayout>
-            <ApprovalQueue />
-          </DashboardLayout>
-        </Suspense>
-      )}
-    />
-    <Route path="/settings/integrations" element={<Suspense fallback={<DashboardSkeleton />}><IntegrationsSettings /></Suspense>} />
-    <Route
-      path="/integrations/gtm"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardLayout>
-            <GTMSettings />
-          </DashboardLayout>
-        </Suspense>
-      )}
-    />
-    <Route path="/partners/dashboard" element={<Suspense fallback={<DashboardSkeleton />}><PartnerDashboard /></Suspense>} />
-    <Route
-      path="/client-workspaces"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <DashboardLayout>
-            <ClientWorkspaces />
-          </DashboardLayout>
-        </Suspense>
-      )}
-    />
-    <Route
-      path="/dev/performance"
-      element={(
-        <Suspense fallback={<DashboardSkeleton />}>
-          <PerformanceProvider>
-            <AppWithHelp>
-              <PerformanceAudit />
-            </AppWithHelp>
-          </PerformanceProvider>
-        </Suspense>
-      )}
-    />
-    <Route path="/privacy-policy" element={<Suspense fallback={<DashboardSkeleton />}><PrivacyPolicy /></Suspense>} />
-    <Route path="/legal/privacy" element={<Navigate to="/privacy-policy" replace />} />
-  </>
-);
-
-export default PrivateRoutes;
+  // Settings Routes
+  <Route key="settings" path="/settings" element={<Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense>} />,
+  <Route key="settings-workspace" path="/settings/workspace" element={<Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense>} />,
+  <Route key="settings-profile" path="/settings/profile" element={<Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense>} />,
+  <Route key="settings-domains" path="/settings/domains" element={<Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense>} />,
+  <Route key="settings-billing" path="/settings/billing" element={<Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense>} />,
+  <Route key="settings-tracking" path="/settings/tracking" element={<Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense>} />,
+  <Route key="settings-backups" path="/settings/backups" element={<Suspense fallback={<DashboardSkeleton />}><Backup /></Suspense>} />,
+  <Route key="settings-backup" path="/settings/backup" element={<Suspense fallback={<DashboardSkeleton />}><Backup /></Suspense>} />,
+  <Route key="settings-developer" path="/settings/developer" element={<Suspense fallback={<DashboardSkeleton />}><DeveloperSettings /></Suspense>} />,
+  <Route
+    key="dashboard-approvals"
+    path="/dashboard/approvals"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <ApprovalQueue />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route key="settings-integrations" path="/settings/integrations" element={<Suspense fallback={<DashboardSkeleton />}><IntegrationsSettings /></Suspense>} />,
+  <Route
+    key="integrations-gtm"
+    path="/integrations/gtm"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <GTMSettings />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route key="partners-dashboard" path="/partners/dashboard" element={<Suspense fallback={<DashboardSkeleton />}><PartnerDashboard /></Suspense>} />,
+  <Route
+    key="client-workspaces"
+    path="/client-workspaces"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <ClientWorkspaces />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="dev-performance"
+    path="/dev/performance"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <PerformanceProvider>
+          <AppWithHelp>
+            <PerformanceAudit />
+          </AppWithHelp>
+        </PerformanceProvider>
+      </Suspense>
+    )}
+  />,
+  <Route key="privacy-policy" path="/privacy-policy" element={<Suspense fallback={<DashboardSkeleton />}><PrivacyPolicy /></Suspense>} />,
+  <Route key="legal-privacy" path="/legal/privacy" element={<Navigate to="/privacy-policy" replace />} />,
+];
