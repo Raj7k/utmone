@@ -666,29 +666,29 @@ const App = () => (
               <Route path="/settings/developer" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DeveloperSettings /></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/approvals" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><ApprovalQueue /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/password-protected" element={<Suspense fallback={<DashboardSkeleton />}><PasswordProtected /></Suspense>} />
-              <Route path="/accessibility" element={<Suspense fallback={<DashboardSkeleton />}><Accessibility /></Suspense>} />
-              <Route path="/permanence" element={<Suspense fallback={<DashboardSkeleton />}><Permanence /></Suspense>} />
-              <Route path="/pricing" element={<Suspense fallback={<DashboardSkeleton />}><Pricing /></Suspense>} />
-              <Route path="/lifetime-deal" element={<Suspense fallback={<DashboardSkeleton />}><LifetimeDeal /></Suspense>} />
-              <Route path="/about" element={<Suspense fallback={<DashboardSkeleton />}><About /></Suspense>} />
-              <Route path="/docs" element={<Suspense fallback={<DashboardSkeleton />}><Docs /></Suspense>} />
-              <Route path="/faq" element={<Suspense fallback={<DashboardSkeleton />}><FAQ /></Suspense>} />
-              <Route path="/changelog" element={<Suspense fallback={<DashboardSkeleton />}><Changelog /></Suspense>} />
-              <Route path="/support" element={<Suspense fallback={<DashboardSkeleton />}><Support /></Suspense>} />
+              <Route path="/accessibility" element={<Suspense fallback={<MarketingSkeleton />}><Accessibility /></Suspense>} />
+              <Route path="/permanence" element={<Suspense fallback={<MarketingSkeleton />}><Permanence /></Suspense>} />
+              <Route path="/pricing" element={<Suspense fallback={<MarketingSkeleton />}><Pricing /></Suspense>} />
+              <Route path="/lifetime-deal" element={<Suspense fallback={<MarketingSkeleton />}><LifetimeDeal /></Suspense>} />
+              <Route path="/about" element={<Suspense fallback={<MarketingSkeleton />}><About /></Suspense>} />
+              <Route path="/docs" element={<Suspense fallback={<MarketingSkeleton />}><Docs /></Suspense>} />
+              <Route path="/faq" element={<Suspense fallback={<MarketingSkeleton />}><FAQ /></Suspense>} />
+              <Route path="/changelog" element={<Suspense fallback={<MarketingSkeleton />}><Changelog /></Suspense>} />
+              <Route path="/support" element={<Suspense fallback={<MarketingSkeleton />}><Support /></Suspense>} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/integration" element={<Navigate to="/features/integrations" replace />} />
               <Route path="/integrations" element={<Navigate to="/features/integrations" replace />} />
-              <Route path="/docs/api" element={<Suspense fallback={<DashboardSkeleton />}><APIDocumentation /></Suspense>} />
-              <Route path="/docs/playground" element={<Suspense fallback={<DashboardSkeleton />}><APIPlayground /></Suspense>} />
-              <Route path="/docs/sdks" element={<Suspense fallback={<DashboardSkeleton />}><SDKs /></Suspense>} />
-              <Route path="/docs/pixel-installation" element={<Suspense fallback={<DashboardSkeleton />}><PixelInstallation /></Suspense>} />
-              <Route path="/docs/revenue-attribution" element={<Suspense fallback={<DashboardSkeleton />}><RevenueAttribution /></Suspense>} />
-              <Route path="/docs/crm-integrations" element={<Suspense fallback={<DashboardSkeleton />}><CRMIntegrations /></Suspense>} />
-              <Route path="/docs/chrome-extension" element={<Suspense fallback={<DashboardSkeleton />}><ChromeExtensionDocs /></Suspense>} />
-              <Route path="/docs/geo-targeting" element={<Suspense fallback={<DashboardSkeleton />}><GeoTargetingDocs /></Suspense>} />
-              <Route path="/docs/identity-graph" element={<Suspense fallback={<DashboardSkeleton />}><IdentityGraphDocs /></Suspense>} />
-              <Route path="/docs/smart-insights" element={<Suspense fallback={<DashboardSkeleton />}><SmartInsightsDocs /></Suspense>} />
-              <Route path="/docs/troubleshooting" element={<Suspense fallback={<DashboardSkeleton />}><TroubleshootingDocs /></Suspense>} />
+              <Route path="/docs/api" element={<Suspense fallback={<MarketingSkeleton />}><APIDocumentation /></Suspense>} />
+              <Route path="/docs/playground" element={<Suspense fallback={<MarketingSkeleton />}><APIPlayground /></Suspense>} />
+              <Route path="/docs/sdks" element={<Suspense fallback={<MarketingSkeleton />}><SDKs /></Suspense>} />
+              <Route path="/docs/pixel-installation" element={<Suspense fallback={<MarketingSkeleton />}><PixelInstallation /></Suspense>} />
+              <Route path="/docs/revenue-attribution" element={<Suspense fallback={<MarketingSkeleton />}><RevenueAttribution /></Suspense>} />
+              <Route path="/docs/crm-integrations" element={<Suspense fallback={<MarketingSkeleton />}><CRMIntegrations /></Suspense>} />
+              <Route path="/docs/chrome-extension" element={<Suspense fallback={<MarketingSkeleton />}><ChromeExtensionDocs /></Suspense>} />
+              <Route path="/docs/geo-targeting" element={<Suspense fallback={<MarketingSkeleton />}><GeoTargetingDocs /></Suspense>} />
+              <Route path="/docs/identity-graph" element={<Suspense fallback={<MarketingSkeleton />}><IdentityGraphDocs /></Suspense>} />
+              <Route path="/docs/smart-insights" element={<Suspense fallback={<MarketingSkeleton />}><SmartInsightsDocs /></Suspense>} />
+              <Route path="/docs/troubleshooting" element={<Suspense fallback={<MarketingSkeleton />}><TroubleshootingDocs /></Suspense>} />
               
               {/* Feature Pages */}
               <Route path="/features" element={<Suspense fallback={<MarketingSkeleton />}><Features /></Suspense>} />
@@ -721,7 +721,7 @@ const App = () => (
               <Route path="/features/brick-builder" element={<Suspense fallback={<MarketingSkeleton />}><BrickBuilderFeature /></Suspense>} />
               
 {/* PWA Standalone Scanner */}
-              <Route path="/scan" element={<Suspense fallback={<DashboardSkeleton />}><ScanPage /></Suspense>} />
+              <Route path="/scan" element={<Suspense fallback={<MarketingSkeleton />}><ScanPage /></Suspense>} />
               
               {/* Easter Egg */}
               <Route path="/surprise" element={<Surprise />} />
@@ -785,127 +785,127 @@ const App = () => (
               <Route path="/help/sentinel" element={<Suspense fallback={<MarketingSkeleton />}><HelpSentinel /></Suspense>} />
               
               {/* Help Article Pages - Getting Started */}
-              <Route path="/help/articles/what-is-utm-one" element={<Suspense fallback={<DashboardSkeleton />}><WhatIsUtmOne /></Suspense>} />
-              <Route path="/help/articles/create-account" element={<Suspense fallback={<DashboardSkeleton />}><CreateAccount /></Suspense>} />
-              <Route path="/help/articles/creating-account" element={<Suspense fallback={<DashboardSkeleton />}><CreatingAccount /></Suspense>} />
-              <Route path="/help/articles/first-link" element={<Suspense fallback={<DashboardSkeleton />}><FirstLink /></Suspense>} />
-              <Route path="/help/articles/dashboard-overview" element={<Suspense fallback={<DashboardSkeleton />}><DashboardOverview /></Suspense>} />
-              <Route path="/help/articles/onboarding-checklist" element={<Suspense fallback={<DashboardSkeleton />}><OnboardingChecklist /></Suspense>} />
-              <Route path="/help/articles/account-settings" element={<Suspense fallback={<DashboardSkeleton />}><AccountSettings /></Suspense>} />
-              <Route path="/help/articles/quick-wins" element={<Suspense fallback={<DashboardSkeleton />}><QuickWins /></Suspense>} />
+              <Route path="/help/articles/what-is-utm-one" element={<Suspense fallback={<MarketingSkeleton />}><WhatIsUtmOne /></Suspense>} />
+              <Route path="/help/articles/create-account" element={<Suspense fallback={<MarketingSkeleton />}><CreateAccount /></Suspense>} />
+              <Route path="/help/articles/creating-account" element={<Suspense fallback={<MarketingSkeleton />}><CreatingAccount /></Suspense>} />
+              <Route path="/help/articles/first-link" element={<Suspense fallback={<MarketingSkeleton />}><FirstLink /></Suspense>} />
+              <Route path="/help/articles/dashboard-overview" element={<Suspense fallback={<MarketingSkeleton />}><DashboardOverview /></Suspense>} />
+              <Route path="/help/articles/onboarding-checklist" element={<Suspense fallback={<MarketingSkeleton />}><OnboardingChecklist /></Suspense>} />
+              <Route path="/help/articles/account-settings" element={<Suspense fallback={<MarketingSkeleton />}><AccountSettings /></Suspense>} />
+              <Route path="/help/articles/quick-wins" element={<Suspense fallback={<MarketingSkeleton />}><QuickWins /></Suspense>} />
               
               {/* Help Article Pages - Links */}
-              <Route path="/help/articles/create-link" element={<Suspense fallback={<DashboardSkeleton />}><CreateLink /></Suspense>} />
-              <Route path="/help/articles/creating-links" element={<Suspense fallback={<DashboardSkeleton />}><CreatingLinks /></Suspense>} />
-              <Route path="/help/articles/custom-slugs" element={<Suspense fallback={<DashboardSkeleton />}><CustomSlugs /></Suspense>} />
-              <Route path="/help/articles/editing-links" element={<Suspense fallback={<DashboardSkeleton />}><EditingLinks /></Suspense>} />
-              <Route path="/help/articles/link-status" element={<Suspense fallback={<DashboardSkeleton />}><LinkStatus /></Suspense>} />
-              <Route path="/help/articles/link-expiration" element={<Suspense fallback={<DashboardSkeleton />}><LinkExpiration /></Suspense>} />
-              <Route path="/help/articles/click-limits" element={<Suspense fallback={<DashboardSkeleton />}><ClickLimits /></Suspense>} />
-              <Route path="/help/articles/password-protection" element={<Suspense fallback={<DashboardSkeleton />}><PasswordProtection /></Suspense>} />
-              <Route path="/help/articles/bulk-creation" element={<Suspense fallback={<DashboardSkeleton />}><BulkCreation /></Suspense>} />
-              <Route path="/help/articles/link-health" element={<Suspense fallback={<DashboardSkeleton />}><LinkHealthArticle /></Suspense>} />
-              <Route path="/help/articles/link-immunity" element={<Suspense fallback={<DashboardSkeleton />}><LinkImmunityArticle /></Suspense>} />
-              <Route path="/help/articles/duplicating-links" element={<Suspense fallback={<DashboardSkeleton />}><DuplicatingLinks /></Suspense>} />
-              <Route path="/help/articles/link-preview" element={<Suspense fallback={<DashboardSkeleton />}><LinkPreview /></Suspense>} />
+              <Route path="/help/articles/create-link" element={<Suspense fallback={<MarketingSkeleton />}><CreateLink /></Suspense>} />
+              <Route path="/help/articles/creating-links" element={<Suspense fallback={<MarketingSkeleton />}><CreatingLinks /></Suspense>} />
+              <Route path="/help/articles/custom-slugs" element={<Suspense fallback={<MarketingSkeleton />}><CustomSlugs /></Suspense>} />
+              <Route path="/help/articles/editing-links" element={<Suspense fallback={<MarketingSkeleton />}><EditingLinks /></Suspense>} />
+              <Route path="/help/articles/link-status" element={<Suspense fallback={<MarketingSkeleton />}><LinkStatus /></Suspense>} />
+              <Route path="/help/articles/link-expiration" element={<Suspense fallback={<MarketingSkeleton />}><LinkExpiration /></Suspense>} />
+              <Route path="/help/articles/click-limits" element={<Suspense fallback={<MarketingSkeleton />}><ClickLimits /></Suspense>} />
+              <Route path="/help/articles/password-protection" element={<Suspense fallback={<MarketingSkeleton />}><PasswordProtection /></Suspense>} />
+              <Route path="/help/articles/bulk-creation" element={<Suspense fallback={<MarketingSkeleton />}><BulkCreation /></Suspense>} />
+              <Route path="/help/articles/link-health" element={<Suspense fallback={<MarketingSkeleton />}><LinkHealthArticle /></Suspense>} />
+              <Route path="/help/articles/link-immunity" element={<Suspense fallback={<MarketingSkeleton />}><LinkImmunityArticle /></Suspense>} />
+              <Route path="/help/articles/duplicating-links" element={<Suspense fallback={<MarketingSkeleton />}><DuplicatingLinks /></Suspense>} />
+              <Route path="/help/articles/link-preview" element={<Suspense fallback={<MarketingSkeleton />}><LinkPreview /></Suspense>} />
               
               {/* Help Article Pages - UTM */}
-              <Route path="/help/articles/what-are-utms" element={<Suspense fallback={<DashboardSkeleton />}><WhatAreUTMs /></Suspense>} />
-              <Route path="/help/articles/five-fields" element={<Suspense fallback={<DashboardSkeleton />}><FiveFields /></Suspense>} />
-              <Route path="/help/articles/naming-conventions" element={<Suspense fallback={<DashboardSkeleton />}><NamingConventions /></Suspense>} />
-              <Route path="/help/articles/common-mistakes" element={<Suspense fallback={<DashboardSkeleton />}><CommonMistakes /></Suspense>} />
-              <Route path="/help/articles/utm-templates" element={<Suspense fallback={<DashboardSkeleton />}><UTMTemplates /></Suspense>} />
-              <Route path="/help/articles/clean-track-framework" element={<Suspense fallback={<DashboardSkeleton />}><CleanTrackFrameworkArticle /></Suspense>} />
-              <Route path="/help/articles/utm-validation" element={<Suspense fallback={<DashboardSkeleton />}><UTMValidation /></Suspense>} />
-              <Route path="/help/articles/utm-governance" element={<Suspense fallback={<DashboardSkeleton />}><UTMGovernance /></Suspense>} />
-              <Route path="/help/articles/utm-audit-tools" element={<Suspense fallback={<DashboardSkeleton />}><UTMAuditTools /></Suspense>} />
-              <Route path="/help/articles/ai-utm-suggestions" element={<Suspense fallback={<DashboardSkeleton />}><AIUTMSuggestions /></Suspense>} />
+              <Route path="/help/articles/what-are-utms" element={<Suspense fallback={<MarketingSkeleton />}><WhatAreUTMs /></Suspense>} />
+              <Route path="/help/articles/five-fields" element={<Suspense fallback={<MarketingSkeleton />}><FiveFields /></Suspense>} />
+              <Route path="/help/articles/naming-conventions" element={<Suspense fallback={<MarketingSkeleton />}><NamingConventions /></Suspense>} />
+              <Route path="/help/articles/common-mistakes" element={<Suspense fallback={<MarketingSkeleton />}><CommonMistakes /></Suspense>} />
+              <Route path="/help/articles/utm-templates" element={<Suspense fallback={<MarketingSkeleton />}><UTMTemplates /></Suspense>} />
+              <Route path="/help/articles/clean-track-framework" element={<Suspense fallback={<MarketingSkeleton />}><CleanTrackFrameworkArticle /></Suspense>} />
+              <Route path="/help/articles/utm-validation" element={<Suspense fallback={<MarketingSkeleton />}><UTMValidation /></Suspense>} />
+              <Route path="/help/articles/utm-governance" element={<Suspense fallback={<MarketingSkeleton />}><UTMGovernance /></Suspense>} />
+              <Route path="/help/articles/utm-audit-tools" element={<Suspense fallback={<MarketingSkeleton />}><UTMAuditTools /></Suspense>} />
+              <Route path="/help/articles/ai-utm-suggestions" element={<Suspense fallback={<MarketingSkeleton />}><AIUTMSuggestions /></Suspense>} />
               
               {/* Help Article Pages - QR */}
-              <Route path="/help/articles/qr-basics" element={<Suspense fallback={<DashboardSkeleton />}><QRCodeBasics /></Suspense>} />
-              <Route path="/help/articles/qr-customization" element={<Suspense fallback={<DashboardSkeleton />}><QRCustomization /></Suspense>} />
-              <Route path="/help/articles/qr-logos" element={<Suspense fallback={<DashboardSkeleton />}><QRLogos /></Suspense>} />
-              <Route path="/help/articles/qr-export" element={<Suspense fallback={<DashboardSkeleton />}><QRExport /></Suspense>} />
-              <Route path="/help/articles/qr-reliability" element={<Suspense fallback={<DashboardSkeleton />}><QRReliability /></Suspense>} />
-              <Route path="/help/articles/ai-stamp-studio" element={<Suspense fallback={<DashboardSkeleton />}><AIStampStudio /></Suspense>} />
-              <Route path="/help/articles/bulk-qr" element={<Suspense fallback={<DashboardSkeleton />}><BulkQR /></Suspense>} />
-              <Route path="/help/articles/qr-print-specs" element={<Suspense fallback={<DashboardSkeleton />}><QRPrintSpecs /></Suspense>} />
+              <Route path="/help/articles/qr-basics" element={<Suspense fallback={<MarketingSkeleton />}><QRCodeBasics /></Suspense>} />
+              <Route path="/help/articles/qr-customization" element={<Suspense fallback={<MarketingSkeleton />}><QRCustomization /></Suspense>} />
+              <Route path="/help/articles/qr-logos" element={<Suspense fallback={<MarketingSkeleton />}><QRLogos /></Suspense>} />
+              <Route path="/help/articles/qr-export" element={<Suspense fallback={<MarketingSkeleton />}><QRExport /></Suspense>} />
+              <Route path="/help/articles/qr-reliability" element={<Suspense fallback={<MarketingSkeleton />}><QRReliability /></Suspense>} />
+              <Route path="/help/articles/ai-stamp-studio" element={<Suspense fallback={<MarketingSkeleton />}><AIStampStudio /></Suspense>} />
+              <Route path="/help/articles/bulk-qr" element={<Suspense fallback={<MarketingSkeleton />}><BulkQR /></Suspense>} />
+              <Route path="/help/articles/qr-print-specs" element={<Suspense fallback={<MarketingSkeleton />}><QRPrintSpecs /></Suspense>} />
               
               {/* Help Article Pages - Analytics */}
-              <Route path="/help/articles/analytics-overview" element={<Suspense fallback={<DashboardSkeleton />}><AnalyticsOverview /></Suspense>} />
-              <Route path="/help/articles/click-tracking" element={<Suspense fallback={<DashboardSkeleton />}><ClickTracking /></Suspense>} />
-              <Route path="/help/articles/device-analytics" element={<Suspense fallback={<DashboardSkeleton />}><DeviceAnalytics /></Suspense>} />
-              <Route path="/help/articles/geographic-data" element={<Suspense fallback={<DashboardSkeleton />}><GeographicData /></Suspense>} />
-              <Route path="/help/articles/referrer-tracking" element={<Suspense fallback={<DashboardSkeleton />}><ReferrerTracking /></Suspense>} />
-              <Route path="/help/articles/real-time-analytics" element={<Suspense fallback={<DashboardSkeleton />}><RealTimeAnalytics /></Suspense>} />
-              <Route path="/help/articles/exporting-data" element={<Suspense fallback={<DashboardSkeleton />}><ExportingData /></Suspense>} />
-              <Route path="/help/articles/ai-insights" element={<Suspense fallback={<DashboardSkeleton />}><AIInsights /></Suspense>} />
-              <Route path="/help/articles/anomaly-detection" element={<Suspense fallback={<DashboardSkeleton />}><AnomalyDetection /></Suspense>} />
+              <Route path="/help/articles/analytics-overview" element={<Suspense fallback={<MarketingSkeleton />}><AnalyticsOverview /></Suspense>} />
+              <Route path="/help/articles/click-tracking" element={<Suspense fallback={<MarketingSkeleton />}><ClickTracking /></Suspense>} />
+              <Route path="/help/articles/device-analytics" element={<Suspense fallback={<MarketingSkeleton />}><DeviceAnalytics /></Suspense>} />
+              <Route path="/help/articles/geographic-data" element={<Suspense fallback={<MarketingSkeleton />}><GeographicData /></Suspense>} />
+              <Route path="/help/articles/referrer-tracking" element={<Suspense fallback={<MarketingSkeleton />}><ReferrerTracking /></Suspense>} />
+              <Route path="/help/articles/real-time-analytics" element={<Suspense fallback={<MarketingSkeleton />}><RealTimeAnalytics /></Suspense>} />
+              <Route path="/help/articles/exporting-data" element={<Suspense fallback={<MarketingSkeleton />}><ExportingData /></Suspense>} />
+              <Route path="/help/articles/ai-insights" element={<Suspense fallback={<MarketingSkeleton />}><AIInsights /></Suspense>} />
+              <Route path="/help/articles/anomaly-detection" element={<Suspense fallback={<MarketingSkeleton />}><AnomalyDetection /></Suspense>} />
               
               {/* Help Article Pages - Attribution */}
-              <Route path="/help/articles/attribution-overview" element={<Suspense fallback={<DashboardSkeleton />}><AttributionOverview /></Suspense>} />
-              <Route path="/help/articles/attribution-models" element={<Suspense fallback={<DashboardSkeleton />}><AttributionModels /></Suspense>} />
-              <Route path="/help/articles/tracking-pixel" element={<Suspense fallback={<DashboardSkeleton />}><TrackingPixelArticle /></Suspense>} />
-              <Route path="/help/articles/conversion-tracking" element={<Suspense fallback={<DashboardSkeleton />}><ConversionTracking /></Suspense>} />
-              <Route path="/help/articles/customer-journeys" element={<Suspense fallback={<DashboardSkeleton />}><CustomerJourneys /></Suspense>} />
-              <Route path="/help/articles/identity-graph" element={<Suspense fallback={<DashboardSkeleton />}><IdentityGraph /></Suspense>} />
-              <Route path="/help/articles/revenue-attribution" element={<Suspense fallback={<DashboardSkeleton />}><RevenueAttributionArticle /></Suspense>} />
-              <Route path="/help/articles/lift-analysis" element={<Suspense fallback={<DashboardSkeleton />}><LiftAnalysis /></Suspense>} />
+              <Route path="/help/articles/attribution-overview" element={<Suspense fallback={<MarketingSkeleton />}><AttributionOverview /></Suspense>} />
+              <Route path="/help/articles/attribution-models" element={<Suspense fallback={<MarketingSkeleton />}><AttributionModels /></Suspense>} />
+              <Route path="/help/articles/tracking-pixel" element={<Suspense fallback={<MarketingSkeleton />}><TrackingPixelArticle /></Suspense>} />
+              <Route path="/help/articles/conversion-tracking" element={<Suspense fallback={<MarketingSkeleton />}><ConversionTracking /></Suspense>} />
+              <Route path="/help/articles/customer-journeys" element={<Suspense fallback={<MarketingSkeleton />}><CustomerJourneys /></Suspense>} />
+              <Route path="/help/articles/identity-graph" element={<Suspense fallback={<MarketingSkeleton />}><IdentityGraph /></Suspense>} />
+              <Route path="/help/articles/revenue-attribution" element={<Suspense fallback={<MarketingSkeleton />}><RevenueAttributionArticle /></Suspense>} />
+              <Route path="/help/articles/lift-analysis" element={<Suspense fallback={<MarketingSkeleton />}><LiftAnalysis /></Suspense>} />
               
               {/* Help Article Pages - Events */}
-              <Route path="/help/articles/event-halo" element={<Suspense fallback={<DashboardSkeleton />}><EventHaloArticle /></Suspense>} />
-              <Route path="/help/articles/event-halo-overview" element={<Suspense fallback={<DashboardSkeleton />}><EventHaloOverview /></Suspense>} />
-              <Route path="/help/articles/creating-events" element={<Suspense fallback={<DashboardSkeleton />}><CreatingEvents /></Suspense>} />
-              <Route path="/help/articles/one-tap-scanner" element={<Suspense fallback={<DashboardSkeleton />}><OneTapScanner /></Suspense>} />
-              <Route path="/help/articles/badge-import" element={<Suspense fallback={<DashboardSkeleton />}><BadgeImport /></Suspense>} />
-              <Route path="/help/articles/event-roi" element={<Suspense fallback={<DashboardSkeleton />}><EventROI /></Suspense>} />
+              <Route path="/help/articles/event-halo" element={<Suspense fallback={<MarketingSkeleton />}><EventHaloArticle /></Suspense>} />
+              <Route path="/help/articles/event-halo-overview" element={<Suspense fallback={<MarketingSkeleton />}><EventHaloOverview /></Suspense>} />
+              <Route path="/help/articles/creating-events" element={<Suspense fallback={<MarketingSkeleton />}><CreatingEvents /></Suspense>} />
+              <Route path="/help/articles/one-tap-scanner" element={<Suspense fallback={<MarketingSkeleton />}><OneTapScanner /></Suspense>} />
+              <Route path="/help/articles/badge-import" element={<Suspense fallback={<MarketingSkeleton />}><BadgeImport /></Suspense>} />
+              <Route path="/help/articles/event-roi" element={<Suspense fallback={<MarketingSkeleton />}><EventROI /></Suspense>} />
               
               {/* Help Article Pages - Event Bridge */}
-              <Route path="/help/articles/event-bridge-overview" element={<Suspense fallback={<DashboardSkeleton />}><EventBridgeOverviewArticle /></Suspense>} />
-              <Route path="/help/articles/event-bridge-setup" element={<Suspense fallback={<DashboardSkeleton />}><EventBridgeSetupArticle /></Suspense>} />
-              <Route path="/help/articles/event-bridge-routing" element={<Suspense fallback={<DashboardSkeleton />}><EventBridgeRoutingArticle /></Suspense>} />
-              <Route path="/help/articles/event-bridge-crm" element={<Suspense fallback={<DashboardSkeleton />}><EventBridgeCRMArticle /></Suspense>} />
+              <Route path="/help/articles/event-bridge-overview" element={<Suspense fallback={<MarketingSkeleton />}><EventBridgeOverviewArticle /></Suspense>} />
+              <Route path="/help/articles/event-bridge-setup" element={<Suspense fallback={<MarketingSkeleton />}><EventBridgeSetupArticle /></Suspense>} />
+              <Route path="/help/articles/event-bridge-routing" element={<Suspense fallback={<MarketingSkeleton />}><EventBridgeRoutingArticle /></Suspense>} />
+              <Route path="/help/articles/event-bridge-crm" element={<Suspense fallback={<MarketingSkeleton />}><EventBridgeCRMArticle /></Suspense>} />
               
               {/* Help Article Pages - Advanced */}
-              <Route path="/help/articles/geo-targeting" element={<Suspense fallback={<DashboardSkeleton />}><GeoTargetingArticle /></Suspense>} />
-              <Route path="/help/articles/device-targeting" element={<Suspense fallback={<DashboardSkeleton />}><DeviceTargeting /></Suspense>} />
-              <Route path="/help/articles/link-rotation" element={<Suspense fallback={<DashboardSkeleton />}><LinkRotation /></Suspense>} />
-              <Route path="/help/articles/smart-routing" element={<Suspense fallback={<DashboardSkeleton />}><SmartRoutingArticle /></Suspense>} />
+              <Route path="/help/articles/geo-targeting" element={<Suspense fallback={<MarketingSkeleton />}><GeoTargetingArticle /></Suspense>} />
+              <Route path="/help/articles/device-targeting" element={<Suspense fallback={<MarketingSkeleton />}><DeviceTargeting /></Suspense>} />
+              <Route path="/help/articles/link-rotation" element={<Suspense fallback={<MarketingSkeleton />}><LinkRotation /></Suspense>} />
+              <Route path="/help/articles/smart-routing" element={<Suspense fallback={<MarketingSkeleton />}><SmartRoutingArticle /></Suspense>} />
               
               {/* Help Article Pages - Team */}
-              <Route path="/help/articles/team-roles" element={<Suspense fallback={<DashboardSkeleton />}><TeamRoles /></Suspense>} />
-              <Route path="/help/articles/inviting-members" element={<Suspense fallback={<DashboardSkeleton />}><InvitingMembers /></Suspense>} />
-              <Route path="/help/articles/roles-permissions" element={<Suspense fallback={<DashboardSkeleton />}><RolesPermissions /></Suspense>} />
-              <Route path="/help/articles/workspace-settings" element={<Suspense fallback={<DashboardSkeleton />}><WorkspaceSettings /></Suspense>} />
+              <Route path="/help/articles/team-roles" element={<Suspense fallback={<MarketingSkeleton />}><TeamRoles /></Suspense>} />
+              <Route path="/help/articles/inviting-members" element={<Suspense fallback={<MarketingSkeleton />}><InvitingMembers /></Suspense>} />
+              <Route path="/help/articles/roles-permissions" element={<Suspense fallback={<MarketingSkeleton />}><RolesPermissions /></Suspense>} />
+              <Route path="/help/articles/workspace-settings" element={<Suspense fallback={<MarketingSkeleton />}><WorkspaceSettings /></Suspense>} />
               
               {/* Help Article Pages - Integrations */}
-              <Route path="/help/articles/chrome-extension" element={<Suspense fallback={<DashboardSkeleton />}><ChromeExtension /></Suspense>} />
-              <Route path="/help/articles/api-authentication" element={<Suspense fallback={<DashboardSkeleton />}><ApiAuthentication /></Suspense>} />
-              <Route path="/help/articles/api-endpoints" element={<Suspense fallback={<DashboardSkeleton />}><ApiEndpoints /></Suspense>} />
-              <Route path="/help/articles/webhooks" element={<Suspense fallback={<DashboardSkeleton />}><Webhooks /></Suspense>} />
-              <Route path="/help/articles/ga4-integration" element={<Suspense fallback={<DashboardSkeleton />}><GA4Integration /></Suspense>} />
-              <Route path="/help/articles/hubspot-integration" element={<Suspense fallback={<DashboardSkeleton />}><HubSpotIntegration /></Suspense>} />
-              <Route path="/help/articles/salesforce-integration" element={<Suspense fallback={<DashboardSkeleton />}><SalesforceIntegration /></Suspense>} />
-              <Route path="/help/articles/zapier-integration" element={<Suspense fallback={<DashboardSkeleton />}><ZapierIntegrationArticle /></Suspense>} />
-              <Route path="/help/articles/slack-integration" element={<Suspense fallback={<DashboardSkeleton />}><SlackIntegrationArticle /></Suspense>} />
+              <Route path="/help/articles/chrome-extension" element={<Suspense fallback={<MarketingSkeleton />}><ChromeExtension /></Suspense>} />
+              <Route path="/help/articles/api-authentication" element={<Suspense fallback={<MarketingSkeleton />}><ApiAuthentication /></Suspense>} />
+              <Route path="/help/articles/api-endpoints" element={<Suspense fallback={<MarketingSkeleton />}><ApiEndpoints /></Suspense>} />
+              <Route path="/help/articles/webhooks" element={<Suspense fallback={<MarketingSkeleton />}><Webhooks /></Suspense>} />
+              <Route path="/help/articles/ga4-integration" element={<Suspense fallback={<MarketingSkeleton />}><GA4Integration /></Suspense>} />
+              <Route path="/help/articles/hubspot-integration" element={<Suspense fallback={<MarketingSkeleton />}><HubSpotIntegration /></Suspense>} />
+              <Route path="/help/articles/salesforce-integration" element={<Suspense fallback={<MarketingSkeleton />}><SalesforceIntegration /></Suspense>} />
+              <Route path="/help/articles/zapier-integration" element={<Suspense fallback={<MarketingSkeleton />}><ZapierIntegrationArticle /></Suspense>} />
+              <Route path="/help/articles/slack-integration" element={<Suspense fallback={<MarketingSkeleton />}><SlackIntegrationArticle /></Suspense>} />
               
               {/* Help Article Pages - Domains */}
-              <Route path="/help/articles/custom-domain-setup" element={<Suspense fallback={<DashboardSkeleton />}><CustomDomainSetup /></Suspense>} />
-              <Route path="/help/articles/adding-domains" element={<Suspense fallback={<DashboardSkeleton />}><AddingDomains /></Suspense>} />
-              <Route path="/help/articles/dns-setup" element={<Suspense fallback={<DashboardSkeleton />}><DNSSetup /></Suspense>} />
+              <Route path="/help/articles/custom-domain-setup" element={<Suspense fallback={<MarketingSkeleton />}><CustomDomainSetup /></Suspense>} />
+              <Route path="/help/articles/adding-domains" element={<Suspense fallback={<MarketingSkeleton />}><AddingDomains /></Suspense>} />
+              <Route path="/help/articles/dns-setup" element={<Suspense fallback={<MarketingSkeleton />}><DNSSetup /></Suspense>} />
               
               {/* Help Article Pages - Billing */}
-              <Route path="/help/articles/managing-subscription" element={<Suspense fallback={<DashboardSkeleton />}><ManagingSubscription /></Suspense>} />
-              <Route path="/help/articles/usage-limits" element={<Suspense fallback={<DashboardSkeleton />}><UsageLimits /></Suspense>} />
+              <Route path="/help/articles/managing-subscription" element={<Suspense fallback={<MarketingSkeleton />}><ManagingSubscription /></Suspense>} />
+              <Route path="/help/articles/usage-limits" element={<Suspense fallback={<MarketingSkeleton />}><UsageLimits /></Suspense>} />
               
               {/* Help Article Pages - Security */}
-              <Route path="/help/articles/two-factor-auth" element={<Suspense fallback={<DashboardSkeleton />}><TwoFactorAuth /></Suspense>} />
-              <Route path="/help/articles/security-keys" element={<Suspense fallback={<DashboardSkeleton />}><SecurityKeys /></Suspense>} />
-              <Route path="/help/articles/audit-logs" element={<Suspense fallback={<DashboardSkeleton />}><AuditLogs /></Suspense>} />
-              <Route path="/help/articles/data-privacy" element={<Suspense fallback={<DashboardSkeleton />}><DataPrivacy /></Suspense>} />
+              <Route path="/help/articles/two-factor-auth" element={<Suspense fallback={<MarketingSkeleton />}><TwoFactorAuth /></Suspense>} />
+              <Route path="/help/articles/security-keys" element={<Suspense fallback={<MarketingSkeleton />}><SecurityKeys /></Suspense>} />
+              <Route path="/help/articles/audit-logs" element={<Suspense fallback={<MarketingSkeleton />}><AuditLogs /></Suspense>} />
+              <Route path="/help/articles/data-privacy" element={<Suspense fallback={<MarketingSkeleton />}><DataPrivacy /></Suspense>} />
               
               {/* Help Article Pages - Other */}
-              <Route path="/help/articles/lead-enrichment" element={<Suspense fallback={<DashboardSkeleton />}><LeadEnrichment /></Suspense>} />
+              <Route path="/help/articles/lead-enrichment" element={<Suspense fallback={<MarketingSkeleton />}><LeadEnrichment /></Suspense>} />
               
               {/* Legacy help routes - redirects for backward compatibility */}
               <Route path="/help/getting-started/what-is-utm-one" element={<Navigate to="/help/articles/what-is-utm-one" replace />} />
@@ -998,121 +998,121 @@ const App = () => (
               <Route path="/resources/checklists/campaign-launch" element={<Suspense fallback={<MarketingSkeleton />}><CampaignLaunch /></Suspense>} />
               
               {/* Glossary term pages */}
-              <Route path="/resources/glossary/utm" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryUTM /></Suspense>} />
-              <Route path="/resources/glossary/source" element={<Suspense fallback={<DashboardSkeleton />}><GlossarySource /></Suspense>} />
-              <Route path="/resources/glossary/medium" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryMedium /></Suspense>} />
-              <Route path="/resources/glossary/campaign" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryCampaign /></Suspense>} />
-              <Route path="/resources/glossary/content" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryContent /></Suspense>} />
-              <Route path="/resources/glossary/term" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryTerm /></Suspense>} />
-              <Route path="/resources/glossary/taxonomy" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryTaxonomy /></Suspense>} />
-              <Route path="/resources/glossary/naming-convention" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryNamingConvention /></Suspense>} />
-              <Route path="/resources/glossary/tracking-architecture" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryTrackingArchitecture /></Suspense>} />
-              <Route path="/resources/glossary/first-touch" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryFirstTouch /></Suspense>} />
-              <Route path="/resources/glossary/last-touch" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryLastTouch /></Suspense>} />
-              <Route path="/resources/glossary/multi-touch" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryMultiTouch /></Suspense>} />
-              <Route path="/resources/glossary/linear" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryLinear /></Suspense>} />
-              <Route path="/resources/glossary/time-decay" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryTimeDecay /></Suspense>} />
-              <Route path="/resources/glossary/paid-search" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryPaidSearch /></Suspense>} />
-              <Route path="/resources/glossary/paid-social" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryPaidSocial /></Suspense>} />
-              <Route path="/resources/glossary/organic-social" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryOrganicSocial /></Suspense>} />
-              <Route path="/resources/glossary/email" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryEmail /></Suspense>} />
-              <Route path="/resources/glossary/seo" element={<Suspense fallback={<DashboardSkeleton />}><GlossarySEO /></Suspense>} />
-              <Route path="/resources/glossary/referral" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryReferral /></Suspense>} />
-              <Route path="/resources/glossary/direct" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryDirect /></Suspense>} />
-              <Route path="/resources/glossary/display" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryDisplay /></Suspense>} />
-              <Route path="/resources/glossary/mql" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryMQL /></Suspense>} />
-              <Route path="/resources/glossary/sql" element={<Suspense fallback={<DashboardSkeleton />}><GlossarySQL /></Suspense>} />
-              <Route path="/resources/glossary/sal" element={<Suspense fallback={<DashboardSkeleton />}><GlossarySAL /></Suspense>} />
-              <Route path="/resources/glossary/lead-scoring" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryLeadScoring /></Suspense>} />
-              <Route path="/resources/glossary/conversion-rate" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryConversionRate /></Suspense>} />
-              <Route path="/resources/glossary/pipeline" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryPipeline /></Suspense>} />
-              <Route path="/resources/glossary/cohort" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryCohort /></Suspense>} />
-              <Route path="/resources/glossary/arr" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryARR /></Suspense>} />
-              <Route path="/resources/glossary/mrr" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryMRR /></Suspense>} />
-              <Route path="/resources/glossary/cac" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryCAC /></Suspense>} />
-              <Route path="/resources/glossary/ltv" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryLTV /></Suspense>} />
-              <Route path="/resources/glossary/churn" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryChurn /></Suspense>} />
-              <Route path="/resources/glossary/activation" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryActivation /></Suspense>} />
-              <Route path="/resources/glossary/link-shortener" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryLinkShortener /></Suspense>} />
-              <Route path="/resources/glossary/qr-code" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryQRCode /></Suspense>} />
-              <Route path="/resources/glossary/redirect" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryRedirect /></Suspense>} />
-              <Route path="/resources/glossary/custom-domain" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryCustomDomain /></Suspense>} />
-              <Route path="/resources/glossary/link-expiration" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryLinkExpiration /></Suspense>} />
-              <Route path="/resources/glossary/pql" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryPQL /></Suspense>} />
-              <Route path="/resources/glossary/self-serve-conversion" element={<Suspense fallback={<DashboardSkeleton />}><GlossarySelfServeConversion /></Suspense>} />
-              <Route path="/resources/glossary/usage-threshold" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryUsageThreshold /></Suspense>} />
-              <Route path="/resources/glossary/health-score" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryHealthScore /></Suspense>} />
-              <Route path="/resources/glossary/renewal-motion" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryRenewalMotion /></Suspense>} />
-              <Route path="/resources/glossary/qbr" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryQBR /></Suspense>} />
-              <Route path="/resources/glossary/time-to-value" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryTimeToValue /></Suspense>} />
-              <Route path="/resources/glossary/implementation-plan" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryImplementationPlan /></Suspense>} />
-              <Route path="/resources/glossary/adoption-milestones" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryAdoptionMilestones /></Suspense>} />
-              <Route path="/resources/glossary/early-churn-signals" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryEarlyChurnSignals /></Suspense>} />
-              <Route path="/resources/glossary/reactivation-campaign" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryReactivationCampaign /></Suspense>} />
-              <Route path="/resources/glossary/value-moments" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryValueMoments /></Suspense>} />
-              <Route path="/resources/glossary/funnel-math" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryFunnelMath /></Suspense>} />
-              <Route path="/resources/glossary/lead-velocity-rate" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryLeadVelocityRate /></Suspense>} />
-              <Route path="/resources/glossary/conversion-waterfall" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryConversionWaterfall /></Suspense>} />
-              <Route path="/resources/glossary/commit-forecast" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryCommitForecast /></Suspense>} />
-              <Route path="/resources/glossary/pipeline-coverage-ratio" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryPipelineCoverageRatio /></Suspense>} />
-              <Route path="/resources/glossary/run-rate" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryRunRate /></Suspense>} />
-              <Route path="/resources/glossary/quality-score" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryQualityScore /></Suspense>} />
-              <Route path="/resources/glossary/bid-strategy" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryBidStrategy /></Suspense>} />
-              <Route path="/resources/glossary/creative-fatigue" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryCreativeFatigue /></Suspense>} />
-              <Route path="/resources/glossary/booth-engagement-rate" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryBoothEngagementRate /></Suspense>} />
-              <Route path="/resources/glossary/event-roi-model" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryEventROIModel /></Suspense>} />
-              <Route path="/resources/glossary/pipeline-influence" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryPipelineInfluence /></Suspense>} />
-              <Route path="/resources/glossary/solution-mapping" element={<Suspense fallback={<DashboardSkeleton />}><GlossarySolutionMapping /></Suspense>} />
-              <Route path="/resources/glossary/technical-validation" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryTechnicalValidation /></Suspense>} />
-              <Route path="/resources/glossary/pilot-success-criteria" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryPilotSuccessCriteria /></Suspense>} />
-              <Route path="/resources/glossary/gross-margin" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryGrossMargin /></Suspense>} />
-              <Route path="/resources/glossary/cac-payback-period" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryCACPaybackPeriod /></Suspense>} />
-              <Route path="/resources/glossary/revenue-recognition" element={<Suspense fallback={<DashboardSkeleton />}><GlossaryRevenueRecognition /></Suspense>} />
-              <Route path="/resources/templates" element={<Suspense fallback={<DashboardSkeleton />}><Templates /></Suspense>} />
-              <Route path="/resources/checklists" element={<Suspense fallback={<DashboardSkeleton />}><Checklists /></Suspense>} />
-              <Route path="/resources/frameworks" element={<Suspense fallback={<DashboardSkeleton />}><Frameworks /></Suspense>} />
-              <Route path="/resources/examples" element={<Suspense fallback={<DashboardSkeleton />}><Examples /></Suspense>} />
-              <Route path="/resources/glossary" element={<Suspense fallback={<DashboardSkeleton />}><Glossary /></Suspense>} />
-              <Route path="/resources/academy" element={<Suspense fallback={<DashboardSkeleton />}><Academy /></Suspense>} />
-              <Route path="/solutions/marketers" element={<Suspense fallback={<DashboardSkeleton />}><Marketers /></Suspense>} />
-              <Route path="/solutions/sales" element={<Suspense fallback={<DashboardSkeleton />}><Sales /></Suspense>} />
-              <Route path="/solutions/marketing-ops" element={<Suspense fallback={<DashboardSkeleton />}><MarketingOps /></Suspense>} />
-              <Route path="/solutions/developers" element={<Suspense fallback={<DashboardSkeleton />}><Developers /></Suspense>} />
-              <Route path="/solutions/partner-managers" element={<Suspense fallback={<DashboardSkeleton />}><PartnerManagers /></Suspense>} />
-              <Route path="/early-access" element={<Suspense fallback={<DashboardSkeleton />}><EarlyAccess /></Suspense>} />
-              <Route path="/waitlist-status" element={<Suspense fallback={<DashboardSkeleton />}><WaitlistStatus /></Suspense>} />
-              <Route path="/invite/:code" element={<Suspense fallback={<DashboardSkeleton />}><Invite /></Suspense>} />
-              <Route path="/claim-access" element={<Suspense fallback={<DashboardSkeleton />}><ClaimAccess /></Suspense>} />
-              <Route path="/book-demo" element={<Suspense fallback={<DashboardSkeleton />}><BookDemo /></Suspense>} />
-              <Route path="/contact" element={<Suspense fallback={<DashboardSkeleton />}><BookDemo /></Suspense>} />
-              <Route path="/partners" element={<Suspense fallback={<DashboardSkeleton />}><Partners /></Suspense>} />
-              <Route path="/partners/apply" element={<Suspense fallback={<DashboardSkeleton />}><PartnerApply /></Suspense>} />
+              <Route path="/resources/glossary/utm" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryUTM /></Suspense>} />
+              <Route path="/resources/glossary/source" element={<Suspense fallback={<MarketingSkeleton />}><GlossarySource /></Suspense>} />
+              <Route path="/resources/glossary/medium" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryMedium /></Suspense>} />
+              <Route path="/resources/glossary/campaign" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryCampaign /></Suspense>} />
+              <Route path="/resources/glossary/content" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryContent /></Suspense>} />
+              <Route path="/resources/glossary/term" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryTerm /></Suspense>} />
+              <Route path="/resources/glossary/taxonomy" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryTaxonomy /></Suspense>} />
+              <Route path="/resources/glossary/naming-convention" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryNamingConvention /></Suspense>} />
+              <Route path="/resources/glossary/tracking-architecture" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryTrackingArchitecture /></Suspense>} />
+              <Route path="/resources/glossary/first-touch" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryFirstTouch /></Suspense>} />
+              <Route path="/resources/glossary/last-touch" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryLastTouch /></Suspense>} />
+              <Route path="/resources/glossary/multi-touch" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryMultiTouch /></Suspense>} />
+              <Route path="/resources/glossary/linear" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryLinear /></Suspense>} />
+              <Route path="/resources/glossary/time-decay" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryTimeDecay /></Suspense>} />
+              <Route path="/resources/glossary/paid-search" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryPaidSearch /></Suspense>} />
+              <Route path="/resources/glossary/paid-social" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryPaidSocial /></Suspense>} />
+              <Route path="/resources/glossary/organic-social" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryOrganicSocial /></Suspense>} />
+              <Route path="/resources/glossary/email" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryEmail /></Suspense>} />
+              <Route path="/resources/glossary/seo" element={<Suspense fallback={<MarketingSkeleton />}><GlossarySEO /></Suspense>} />
+              <Route path="/resources/glossary/referral" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryReferral /></Suspense>} />
+              <Route path="/resources/glossary/direct" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryDirect /></Suspense>} />
+              <Route path="/resources/glossary/display" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryDisplay /></Suspense>} />
+              <Route path="/resources/glossary/mql" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryMQL /></Suspense>} />
+              <Route path="/resources/glossary/sql" element={<Suspense fallback={<MarketingSkeleton />}><GlossarySQL /></Suspense>} />
+              <Route path="/resources/glossary/sal" element={<Suspense fallback={<MarketingSkeleton />}><GlossarySAL /></Suspense>} />
+              <Route path="/resources/glossary/lead-scoring" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryLeadScoring /></Suspense>} />
+              <Route path="/resources/glossary/conversion-rate" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryConversionRate /></Suspense>} />
+              <Route path="/resources/glossary/pipeline" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryPipeline /></Suspense>} />
+              <Route path="/resources/glossary/cohort" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryCohort /></Suspense>} />
+              <Route path="/resources/glossary/arr" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryARR /></Suspense>} />
+              <Route path="/resources/glossary/mrr" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryMRR /></Suspense>} />
+              <Route path="/resources/glossary/cac" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryCAC /></Suspense>} />
+              <Route path="/resources/glossary/ltv" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryLTV /></Suspense>} />
+              <Route path="/resources/glossary/churn" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryChurn /></Suspense>} />
+              <Route path="/resources/glossary/activation" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryActivation /></Suspense>} />
+              <Route path="/resources/glossary/link-shortener" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryLinkShortener /></Suspense>} />
+              <Route path="/resources/glossary/qr-code" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryQRCode /></Suspense>} />
+              <Route path="/resources/glossary/redirect" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryRedirect /></Suspense>} />
+              <Route path="/resources/glossary/custom-domain" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryCustomDomain /></Suspense>} />
+              <Route path="/resources/glossary/link-expiration" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryLinkExpiration /></Suspense>} />
+              <Route path="/resources/glossary/pql" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryPQL /></Suspense>} />
+              <Route path="/resources/glossary/self-serve-conversion" element={<Suspense fallback={<MarketingSkeleton />}><GlossarySelfServeConversion /></Suspense>} />
+              <Route path="/resources/glossary/usage-threshold" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryUsageThreshold /></Suspense>} />
+              <Route path="/resources/glossary/health-score" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryHealthScore /></Suspense>} />
+              <Route path="/resources/glossary/renewal-motion" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryRenewalMotion /></Suspense>} />
+              <Route path="/resources/glossary/qbr" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryQBR /></Suspense>} />
+              <Route path="/resources/glossary/time-to-value" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryTimeToValue /></Suspense>} />
+              <Route path="/resources/glossary/implementation-plan" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryImplementationPlan /></Suspense>} />
+              <Route path="/resources/glossary/adoption-milestones" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryAdoptionMilestones /></Suspense>} />
+              <Route path="/resources/glossary/early-churn-signals" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryEarlyChurnSignals /></Suspense>} />
+              <Route path="/resources/glossary/reactivation-campaign" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryReactivationCampaign /></Suspense>} />
+              <Route path="/resources/glossary/value-moments" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryValueMoments /></Suspense>} />
+              <Route path="/resources/glossary/funnel-math" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryFunnelMath /></Suspense>} />
+              <Route path="/resources/glossary/lead-velocity-rate" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryLeadVelocityRate /></Suspense>} />
+              <Route path="/resources/glossary/conversion-waterfall" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryConversionWaterfall /></Suspense>} />
+              <Route path="/resources/glossary/commit-forecast" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryCommitForecast /></Suspense>} />
+              <Route path="/resources/glossary/pipeline-coverage-ratio" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryPipelineCoverageRatio /></Suspense>} />
+              <Route path="/resources/glossary/run-rate" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryRunRate /></Suspense>} />
+              <Route path="/resources/glossary/quality-score" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryQualityScore /></Suspense>} />
+              <Route path="/resources/glossary/bid-strategy" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryBidStrategy /></Suspense>} />
+              <Route path="/resources/glossary/creative-fatigue" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryCreativeFatigue /></Suspense>} />
+              <Route path="/resources/glossary/booth-engagement-rate" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryBoothEngagementRate /></Suspense>} />
+              <Route path="/resources/glossary/event-roi-model" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryEventROIModel /></Suspense>} />
+              <Route path="/resources/glossary/pipeline-influence" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryPipelineInfluence /></Suspense>} />
+              <Route path="/resources/glossary/solution-mapping" element={<Suspense fallback={<MarketingSkeleton />}><GlossarySolutionMapping /></Suspense>} />
+              <Route path="/resources/glossary/technical-validation" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryTechnicalValidation /></Suspense>} />
+              <Route path="/resources/glossary/pilot-success-criteria" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryPilotSuccessCriteria /></Suspense>} />
+              <Route path="/resources/glossary/gross-margin" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryGrossMargin /></Suspense>} />
+              <Route path="/resources/glossary/cac-payback-period" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryCACPaybackPeriod /></Suspense>} />
+              <Route path="/resources/glossary/revenue-recognition" element={<Suspense fallback={<MarketingSkeleton />}><GlossaryRevenueRecognition /></Suspense>} />
+              <Route path="/resources/templates" element={<Suspense fallback={<MarketingSkeleton />}><Templates /></Suspense>} />
+              <Route path="/resources/checklists" element={<Suspense fallback={<MarketingSkeleton />}><Checklists /></Suspense>} />
+              <Route path="/resources/frameworks" element={<Suspense fallback={<MarketingSkeleton />}><Frameworks /></Suspense>} />
+              <Route path="/resources/examples" element={<Suspense fallback={<MarketingSkeleton />}><Examples /></Suspense>} />
+              <Route path="/resources/glossary" element={<Suspense fallback={<MarketingSkeleton />}><Glossary /></Suspense>} />
+              <Route path="/resources/academy" element={<Suspense fallback={<MarketingSkeleton />}><Academy /></Suspense>} />
+              <Route path="/solutions/marketers" element={<Suspense fallback={<MarketingSkeleton />}><Marketers /></Suspense>} />
+              <Route path="/solutions/sales" element={<Suspense fallback={<MarketingSkeleton />}><Sales /></Suspense>} />
+              <Route path="/solutions/marketing-ops" element={<Suspense fallback={<MarketingSkeleton />}><MarketingOps /></Suspense>} />
+              <Route path="/solutions/developers" element={<Suspense fallback={<MarketingSkeleton />}><Developers /></Suspense>} />
+              <Route path="/solutions/partner-managers" element={<Suspense fallback={<MarketingSkeleton />}><PartnerManagers /></Suspense>} />
+              <Route path="/early-access" element={<Suspense fallback={<MarketingSkeleton />}><EarlyAccess /></Suspense>} />
+              <Route path="/waitlist-status" element={<Suspense fallback={<MarketingSkeleton />}><WaitlistStatus /></Suspense>} />
+              <Route path="/invite/:code" element={<Suspense fallback={<MarketingSkeleton />}><Invite /></Suspense>} />
+              <Route path="/claim-access" element={<Suspense fallback={<MarketingSkeleton />}><ClaimAccess /></Suspense>} />
+              <Route path="/book-demo" element={<Suspense fallback={<MarketingSkeleton />}><BookDemo /></Suspense>} />
+              <Route path="/contact" element={<Suspense fallback={<MarketingSkeleton />}><BookDemo /></Suspense>} />
+              <Route path="/partners" element={<Suspense fallback={<MarketingSkeleton />}><Partners /></Suspense>} />
+              <Route path="/partners/apply" element={<Suspense fallback={<MarketingSkeleton />}><PartnerApply /></Suspense>} />
               <Route path="/partners/dashboard" element={<Suspense fallback={<DashboardSkeleton />}><PartnerDashboard /></Suspense>} />
-              <Route path="/partners/terms" element={<Suspense fallback={<DashboardSkeleton />}><PartnerTerms /></Suspense>} />
-              <Route path="/integrations/zapier" element={<Suspense fallback={<DashboardSkeleton />}><ZapierIntegration /></Suspense>} />
-              <Route path="/integrations/slack" element={<Suspense fallback={<DashboardSkeleton />}><SlackIntegration /></Suspense>} />
+              <Route path="/partners/terms" element={<Suspense fallback={<MarketingSkeleton />}><PartnerTerms /></Suspense>} />
+              <Route path="/integrations/zapier" element={<Suspense fallback={<MarketingSkeleton />}><ZapierIntegration /></Suspense>} />
+              <Route path="/integrations/slack" element={<Suspense fallback={<MarketingSkeleton />}><SlackIntegration /></Suspense>} />
               <Route path="/integrations/gtm" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><GTMSettings /></DashboardLayout></Suspense>} />
               <Route path="/settings/integrations" element={<Suspense fallback={<DashboardSkeleton />}><IntegrationsSettings /></Suspense>} />
-              <Route path="/privacy-policy" element={<Suspense fallback={<DashboardSkeleton />}><PrivacyPolicy /></Suspense>} />
+              <Route path="/privacy-policy" element={<Suspense fallback={<MarketingSkeleton />}><PrivacyPolicy /></Suspense>} />
               
               {/* Legal Pages */}
-              <Route path="/legal/privacy" element={<Suspense fallback={<DashboardSkeleton />}><PrivacyLegal /></Suspense>} />
-              <Route path="/legal/terms" element={<Suspense fallback={<DashboardSkeleton />}><TermsLegal /></Suspense>} />
-              <Route path="/legal/permanence-terms" element={<Suspense fallback={<DashboardSkeleton />}><PermanenceTerms /></Suspense>} />
-              <Route path="/legal/data-security" element={<Suspense fallback={<DashboardSkeleton />}><DataSecurity /></Suspense>} />
-              <Route path="/legal/cookies" element={<Suspense fallback={<DashboardSkeleton />}><CookiePolicy /></Suspense>} />
-              <Route path="/legal/acceptable-use" element={<Suspense fallback={<DashboardSkeleton />}><AcceptableUse /></Suspense>} />
-              <Route path="/legal/subprocessors" element={<Suspense fallback={<DashboardSkeleton />}><Subprocessors /></Suspense>} />
-              <Route path="/legal/dpa" element={<Suspense fallback={<DashboardSkeleton />}><DPA /></Suspense>} />
-              <Route path="/legal/support" element={<Suspense fallback={<DashboardSkeleton />}><SupportPolicy /></Suspense>} />
+              <Route path="/legal/privacy" element={<Suspense fallback={<MarketingSkeleton />}><PrivacyLegal /></Suspense>} />
+              <Route path="/legal/terms" element={<Suspense fallback={<MarketingSkeleton />}><TermsLegal /></Suspense>} />
+              <Route path="/legal/permanence-terms" element={<Suspense fallback={<MarketingSkeleton />}><PermanenceTerms /></Suspense>} />
+              <Route path="/legal/data-security" element={<Suspense fallback={<MarketingSkeleton />}><DataSecurity /></Suspense>} />
+              <Route path="/legal/cookies" element={<Suspense fallback={<MarketingSkeleton />}><CookiePolicy /></Suspense>} />
+              <Route path="/legal/acceptable-use" element={<Suspense fallback={<MarketingSkeleton />}><AcceptableUse /></Suspense>} />
+              <Route path="/legal/subprocessors" element={<Suspense fallback={<MarketingSkeleton />}><Subprocessors /></Suspense>} />
+              <Route path="/legal/dpa" element={<Suspense fallback={<MarketingSkeleton />}><DPA /></Suspense>} />
+              <Route path="/legal/support" element={<Suspense fallback={<MarketingSkeleton />}><SupportPolicy /></Suspense>} />
               <Route path="/client-workspaces" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><ClientWorkspaces /></DashboardLayout></Suspense>} />
-              <Route path="/analytics/share/:token" element={<Suspense fallback={<DashboardSkeleton />}><AnalyticsShare /></Suspense>} />
+              <Route path="/analytics/share/:token" element={<Suspense fallback={<MarketingSkeleton />}><AnalyticsShare /></Suspense>} />
               
               {/* Dev Tools - Development Only */}
               <Route path="/dev/performance" element={<Suspense fallback={<DashboardSkeleton />}><PerformanceAudit /></Suspense>} />
               
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<Suspense fallback={<DashboardSkeleton />}><NotFound /></Suspense>} />
+              <Route path="*" element={<Suspense fallback={<MarketingSkeleton />}><NotFound /></Suspense>} />
             </Routes>
             </AnimatedRoutes>
             </AppWithHelp>
