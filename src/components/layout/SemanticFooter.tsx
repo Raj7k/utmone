@@ -23,6 +23,7 @@ const footerSections: FooterSection[] = [
     title: "resources",
     links: [
       { label: "documentation", href: "/docs" },
+      { label: "referral playbook", href: "/resources/playbooks/hr-katalyst-referral" },
       { label: "blog", href: "/blog" },
       { label: "changelog", href: "/changelog" },
       { label: "support", href: "/support" },
