@@ -59,7 +59,7 @@ const ClientWorkspaces = React.lazy(() => import("@/pages/ClientWorkspaces"));
 const PerformanceAudit = React.lazy(() => import("@/pages/dev/PerformanceAudit"));
 const PrivacyPolicy = React.lazy(() => import("@/pages/PrivacyPolicy"));
 
-const AppLayout = () => (
+export const AppLayout = () => (
   <AppProvider>
     <ProtectedRoute>
       <Outlet />
@@ -68,7 +68,7 @@ const AppLayout = () => (
 );
 
 const PrivateRoutes = () => (
-  <Route element={<AppLayout />}>
+  <>
     {/* Dashboard Routes */}
     <Route
       path="/dashboard"
@@ -484,7 +484,7 @@ const PrivateRoutes = () => (
     />
     <Route path="/privacy-policy" element={<Suspense fallback={<DashboardSkeleton />}><PrivacyPolicy /></Suspense>} />
     <Route path="/legal/privacy" element={<Navigate to="/privacy-policy" replace />} />
-  </Route>
+  </>
 );
 
 export default PrivateRoutes;
