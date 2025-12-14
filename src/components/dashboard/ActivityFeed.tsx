@@ -1,59 +1,16 @@
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
-import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
-import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { Link } from "react-router-dom";
 import { ExternalLink, MousePointer, Clock } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
-import { queryKeys } from "@/lib/queryConfig";
+import { DashboardLink } from "@/hooks/useDashboardUnified";
 
-interface LinkWithClicks {
-  id: string;
-  slug: string;
-  short_url: string | null;
-  destination_url: string;
-  title: string | null;
-  created_at: string;
-  expires_at: string | null;
-  status: string | null;
-  todayClicks: number;
+interface ActivityFeedProps {
+  links?: DashboardLink[];
+  isLoading?: boolean;
 }
 
-export const ActivityFeed = () => {
-  const { currentWorkspace } = useWorkspaceContext();
-  const effectiveWorkspaceId = currentWorkspace?.id || getCachedWorkspaceId() || "";
-
-  const { data: recentLinks, isLoading } = useQuery({
-    queryKey: queryKeys.dashboard.activityFeed(effectiveWorkspaceId),
-    queryFn: async () => {
-      if (!effectiveWorkspaceId) return [];
-      
-      // Single optimized query - use total_clicks from links table instead of N+1 queries
-      const { data: links, error } = await supabase
-        .from('links')
-        .select('id, slug, short_url, destination_url, title, created_at, expires_at, status, total_clicks')
-        .eq('workspace_id', effectiveWorkspaceId)
-        .order('created_at', { ascending: false })
-        .range(0, 4);
-
-      if (error) throw error;
-      if (!links || links.length === 0) return [];
-      
-      // Map to expected format - use total_clicks as proxy for activity
-      const linksWithClicks: LinkWithClicks[] = links.map(link => ({
-        ...link,
-        todayClicks: link.total_clicks || 0,
-      }));
-
-      return linksWithClicks;
-    },
-    enabled: !!effectiveWorkspaceId,
-    staleTime: 60 * 1000,
-    gcTime: 5 * 60 * 1000,
-  });
-
-  const getExpiryStatus = (expiresAt: string | null) => {
+export const ActivityFeed = ({ links, isLoading }: ActivityFeedProps) => {
+  const getExpiryStatus = (expiresAt: string | null | undefined) => {
     if (!expiresAt) return null;
     const expiry = new Date(expiresAt);
     const now = new Date();
@@ -77,7 +34,10 @@ export const ActivityFeed = () => {
     );
   }
 
-  if (!recentLinks?.length) {
+  // Use first 5 links as recent activity
+  const recentLinks = links?.slice(0, 5) || [];
+
+  if (!recentLinks.length) {
     return (
       <div className="bg-card rounded-2xl border border-border p-6">
         <h3 className="text-lg font-semibold mb-4">recent activity</h3>
@@ -106,7 +66,7 @@ export const ActivityFeed = () => {
       
       <div className="space-y-2">
         {recentLinks.map((link) => {
-          const expiry = getExpiryStatus(link.expires_at);
+          const expiry = getExpiryStatus(null); // links from unified don't have expires_at
           const isActive = link.status === 'active';
           
           return (
@@ -131,7 +91,7 @@ export const ActivityFeed = () => {
                 {/* Total clicks */}
                 <div className="flex items-center gap-1.5 text-sm">
                   <MousePointer className="h-3.5 w-3.5 text-muted-foreground" />
-                  <span className="font-medium">{link.todayClicks}</span>
+                  <span className="font-medium">{link.total_clicks}</span>
                   <span className="text-muted-foreground">clicks</span>
                 </div>
                 

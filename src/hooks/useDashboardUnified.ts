@@ -69,6 +69,11 @@ export interface DashboardStats {
 
 export interface DashboardOnboarding {
   hasLinks: boolean;
+  hasQrCodes: boolean;
+  hasViewedAnalytics: boolean;
+  hasInvitedTeam: boolean;
+  hasCustomDomain: boolean;
+  hasInstalledPixel: boolean;
   linkCount: number;
 }
 
@@ -182,6 +187,9 @@ export const useDashboardUnified = (range: string = "30d") => {
         eventsResult,
         campaignsResult,
         clicksTodayResult,
+        qrCodesResult,
+        domainsResult,
+        pixelsResult,
         totalLinksResult
       ] = await Promise.all([
         // 1. Regular links
@@ -229,8 +237,28 @@ export const useDashboardUnified = (range: string = "30d") => {
           .select("id", { count: "exact", head: true })
           .eq("workspace_id", workspaceId)
           .gte("clicked_at", today.toISOString()),
+        
+        // 6. QR codes count (for onboarding)
+        supabase
+          .from("qr_codes")
+          .select("id", { count: "exact", head: true })
+          .eq("workspace_id", workspaceId),
+        
+        // 7. Custom domains count (for onboarding)
+        supabase
+          .from("domains")
+          .select("id", { count: "exact", head: true })
+          .eq("workspace_id", workspaceId)
+          .eq("is_verified", true)
+          .not("domain", "in", "(go.utm.one,utm.click)"),
+        
+        // 8. Pixel configs count (for onboarding)
+        supabase
+          .from("pixel_configs")
+          .select("id", { count: "exact", head: true })
+          .eq("workspace_id", workspaceId),
 
-        // 6. Total links count
+        // 9. Total links count
         supabase
           .from("links")
           .select("id", { count: "exact", head: true })
@@ -301,10 +329,19 @@ export const useDashboardUnified = (range: string = "30d") => {
         totalLinks: totalLinksResult.count || 0
       };
 
-      // Onboarding
+      // Onboarding - consolidated from useOnboardingProgress
       const linkCount = totalLinksResult.count || 0;
+      const qrCount = qrCodesResult.count || 0;
+      const domainCount = domainsResult.count || 0;
+      const pixelCount = pixelsResult.count || 0;
+      
       const onboarding: DashboardOnboarding = {
         hasLinks: linkCount > 0,
+        hasQrCodes: qrCount > 0,
+        hasViewedAnalytics: false, // Will be set from profile data if needed
+        hasInvitedTeam: false, // Will be set from profile data if needed
+        hasCustomDomain: domainCount > 0,
+        hasInstalledPixel: pixelCount > 0,
         linkCount
       };
 

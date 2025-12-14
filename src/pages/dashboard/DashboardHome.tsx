@@ -18,16 +18,14 @@ import { RefreshCw } from "lucide-react";
 import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
 import { LazySection } from "@/components/loading/LazySection";
 import { ActivityFeedSkeleton } from "@/components/loading/CardSkeleton";
-
-// Lazy load ActivityFeed - it's below the fold
-const ActivityFeed = lazy(() => import("@/components/dashboard/ActivityFeed").then(m => ({ default: m.ActivityFeed })));
+import { ActivityFeed } from "@/components/dashboard/ActivityFeed";
 
 const DashboardHome = () => {
   const { showDemoMode } = useDemoMode();
   const { currentWorkspace, isWorkspaceLoading, retry } = useWorkspaceContext();
   
-  // Use unified dashboard data with stale-while-revalidate
-  const { onboarding, isFetching, isFetched, isLoading, isStale, refetch } = useDashboardUnified();
+  // CONSOLIDATED: Single unified query - passes data to child components
+  const { links, stats, onboarding, isFetching, isFetched, isLoading, isStale, refetch } = useDashboardUnified();
   const hasLinks = onboarding.hasLinks;
 
   // Workspace timeout fallback - show retry after 3 seconds
@@ -57,8 +55,7 @@ const DashboardHome = () => {
   const handleLinkCreated = useCallback(() => {
     // Use startTransition for non-urgent cache invalidation
     startTransition(() => {
-      queryClient.invalidateQueries({ queryKey: ['dashboard-unified'] });
-      queryClient.invalidateQueries({ queryKey: ['activity-feed'] });
+      queryClient.invalidateQueries({ queryKey: ['dashboard-direct'] });
     });
     
     const slug = Math.random().toString(36).substring(2, 8);
@@ -152,19 +149,18 @@ const DashboardHome = () => {
           </div>
         </ErrorBoundary>
 
+        {/* OPTIMIZED: Pass stats from unified hook - no separate query */}
         <ErrorBoundary section="quick-stats">
           <div className="animate-fade-in" style={{ animationDelay: '100ms' }}>
-            <QuickStats />
+            <QuickStats stats={stats} isLoading={isLoading} />
           </div>
         </ErrorBoundary>
 
-        {/* Activity feed - lazy loaded when scrolled into view */}
+        {/* OPTIMIZED: Pass links from unified hook - no separate query */}
         <LazySection fallback={<ActivityFeedSkeleton />}>
           <ErrorBoundary section="activity-feed">
             <div className="animate-fade-in" style={{ animationDelay: '200ms' }}>
-              <Suspense fallback={<ActivityFeedSkeleton />}>
-                <ActivityFeed />
-              </Suspense>
+              <ActivityFeed links={links} isLoading={isLoading} />
             </div>
           </ErrorBoundary>
         </LazySection>

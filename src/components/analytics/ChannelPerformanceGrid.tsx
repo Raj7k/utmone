@@ -16,10 +16,6 @@ import {
   Link2
 } from "lucide-react";
 
-interface ChannelPerformanceGridProps {
-  workspaceId: string;
-}
-
 interface ChannelData {
   name: string;
   clicks: number;
@@ -27,6 +23,12 @@ interface ChannelData {
   percentage: number;
   icon: React.ReactNode;
   color: string;
+}
+
+interface ChannelPerformanceGridProps {
+  workspaceId: string;
+  /** Pre-fetched channel data - if provided, skips internal query */
+  channels?: ChannelData[];
 }
 
 const getChannelIcon = (channel: string) => {
@@ -53,18 +55,20 @@ const getChannelColor = (channel: string) => {
   return 'bg-muted text-foreground border-border hover:bg-muted/80';
 };
 
-export const ChannelPerformanceGrid = ({ workspaceId }: ChannelPerformanceGridProps) => {
+export const ChannelPerformanceGrid = ({ workspaceId, channels: prefetchedChannels }: ChannelPerformanceGridProps) => {
+  // Only fetch if no pre-fetched data provided
   const { data: channels, isLoading } = useQuery({
     queryKey: ["channel-performance", workspaceId],
     queryFn: async () => {
       const startDate = startOfDay(subDays(new Date(), 30));
 
+      // OPTIMIZED: Reduced limit from 2000 to 500
       const { data: clicks, error } = await supabase
         .from("link_clicks")
-        .select("referrer, is_unique, workspace_id")
+        .select("referrer, is_unique")
         .eq("workspace_id", workspaceId)
         .gte("clicked_at", startDate.toISOString())
-        .limit(2000);
+        .limit(500);
 
       if (error) throw error;
 
@@ -109,11 +113,16 @@ export const ChannelPerformanceGrid = ({ workspaceId }: ChannelPerformanceGridPr
         .sort((a, b) => b.clicks - a.clicks)
         .slice(0, 6);
     },
-    enabled: !!workspaceId,
-    staleTime: 2 * 60 * 1000
+    enabled: !!workspaceId && !prefetchedChannels,
+    staleTime: 5 * 60 * 1000, // 5 min stale time
+    gcTime: 10 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
-  if (isLoading) {
+  const channelData = prefetchedChannels || channels;
+  const showLoading = isLoading && !prefetchedChannels;
+
+  if (showLoading) {
     return (
       <Card className="rounded-2xl">
         <CardHeader>
@@ -130,7 +139,7 @@ export const ChannelPerformanceGrid = ({ workspaceId }: ChannelPerformanceGridPr
     );
   }
 
-  if (!channels?.length) {
+  if (!channelData?.length) {
     return (
       <Card className="rounded-2xl border-border">
         <CardHeader>
@@ -153,7 +162,7 @@ export const ChannelPerformanceGrid = ({ workspaceId }: ChannelPerformanceGridPr
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-          {channels.map((channel) => (
+          {channelData.map((channel) => (
             <div
               key={channel.name}
               className={cn(
