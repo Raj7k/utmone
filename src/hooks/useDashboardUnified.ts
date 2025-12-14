@@ -181,9 +181,13 @@ export const useDashboardUnified = (range: string = "30d") => {
       const daysBack = range === "7d" ? 7 : range === "90d" ? 90 : 30;
       const startDate = subDays(today, daysBack);
 
-      // Get current user for profile query
-      const { data: { user } } = await supabase.auth.getUser();
-      const userId = user?.id;
+      // PHASE 9: Use cached userId first, avoid blocking getUser() call
+      const cachedUser = (window as { __CACHED_USER__?: { id: string } }).__CACHED_USER__;
+      let userId = cachedUser?.id;
+      if (!userId) {
+        const { data: { user } } = await supabase.auth.getUser();
+        userId = user?.id;
+      }
 
       // PARALLEL: Fetch all data at once from tables directly
       const [
