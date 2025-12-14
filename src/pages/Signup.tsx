@@ -311,15 +311,15 @@ const Signup = () => {
       >
         <div className="text-center space-y-4">
           <UtmOneLogo size="xl" className="justify-center mb-2" />
-            <h1 className="text-4xl font-display font-bold tracking-tight text-foreground">create your account</h1>
-            <p className="text-muted-foreground text-lg">start making smarter links in seconds</p>
+            <h1 className="text-4xl font-display font-bold tracking-tight text-white">create your account</h1>
+            <p className="text-zinc-400 text-lg">start making smarter links in seconds</p>
             
             {/* Value proposition badges */}
             <div className="flex flex-wrap justify-center gap-3 pt-2">
               {VALUE_PROPS.map((prop, i) => (
                 <div 
                   key={i}
-                  className="flex items-center gap-1.5 text-xs text-muted-foreground bg-muted/50 px-3 py-1.5 rounded-full"
+                  className="flex items-center gap-1.5 text-xs text-zinc-400 bg-zinc-800/50 px-3 py-1.5 rounded-full"
                 >
                   <prop.icon className="h-3.5 w-3.5 text-emerald-500" />
                   {prop.text}
@@ -332,30 +332,30 @@ const Signup = () => {
             <motion.div 
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-primary/5 border-2 border-primary/20 rounded-2xl p-5 space-y-4"
+              className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-4"
             >
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Info className="h-5 w-5 text-primary" />
+                <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Info className="h-5 w-5 text-white" />
                 </div>
                 <div className="flex-1 space-y-1">
-                  <p className="text-base font-semibold text-foreground">
+                  <p className="text-base font-semibold text-white">
                     workspace invitation
                   </p>
-                  <p className="text-sm text-muted-foreground">
-                    <span className="font-medium text-foreground">{invitationContext.inviterName}</span> invited you to join{" "}
-                    <span className="font-medium text-foreground">{invitationContext.workspaceName}</span> as{" "}
-                    <span className="font-medium text-primary">{invitationContext.role}</span>
+                  <p className="text-sm text-zinc-400">
+                    <span className="font-medium text-white">{invitationContext.inviterName}</span> invited you to join{" "}
+                    <span className="font-medium text-white">{invitationContext.workspaceName}</span> as{" "}
+                    <span className="font-medium text-emerald-400">{invitationContext.role}</span>
                   </p>
                 </div>
               </div>
             </motion.div>
           )}
 
-          <Card className="bg-card border-border shadow-xl rounded-2xl">
+          <Card className="bg-zinc-900/50 border-white/10 shadow-xl rounded-2xl backdrop-blur-sm">
             <CardHeader className="space-y-1 pb-4">
-              <CardTitle className="text-2xl font-display font-bold text-foreground">sign up</CardTitle>
-              <CardDescription className="text-muted-foreground">choose your preferred method to get started</CardDescription>
+              <CardTitle className="text-2xl font-display font-bold text-white">sign up</CardTitle>
+              <CardDescription className="text-zinc-400">choose your preferred method to get started</CardDescription>
             </CardHeader>
             <CardContent className="p-8 pt-6 space-y-6">
               <SocialLoginButtons
@@ -367,17 +367,17 @@ const Signup = () => {
               {showSocialButtons && (
                 <div className="relative">
                   <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t border-border" />
+                    <span className="w-full border-t border-white/10" />
                   </div>
                   <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-card px-2 text-muted-foreground">or</span>
+                    <span className="bg-zinc-900/50 px-2 text-zinc-500">or</span>
                   </div>
                 </div>
               )}
 
               <form onSubmit={handleSignUp} className="space-y-6">
                 <div className="space-y-2">
-                  <label htmlFor="fullname" className="text-sm font-medium text-foreground">
+                  <label htmlFor="fullname" className="text-sm font-medium text-white">
                     full name
                   </label>
                   <Input
@@ -387,13 +387,13 @@ const Signup = () => {
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     required
-                    className="h-14 rounded-xl border-2 text-base bg-muted/30 border-border text-foreground placeholder:text-muted-foreground"
+                    className="h-14 rounded-xl border text-base bg-zinc-800/50 border-white/10 text-white placeholder:text-zinc-500"
                     disabled={isLoading}
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium text-foreground">
+                  <label htmlFor="email" className="text-sm font-medium text-white">
                     email
                   </label>
                   {invitationContext ? (
@@ -401,7 +401,7 @@ const Signup = () => {
                       id="email"
                       type="email"
                       value={email}
-                      className="h-14 rounded-xl border-2 text-base bg-muted/30 border-border text-foreground"
+                      className="h-14 rounded-xl border text-base bg-zinc-800/50 border-white/10 text-white"
                       disabled
                       readOnly
                     />
@@ -412,7 +412,7 @@ const Signup = () => {
                       onChange={setEmail}
                       onValidChange={(valid) => setIsEmailValid(valid)}
                       placeholder="you@company.com"
-                      className="h-14 rounded-xl border-2 text-base bg-muted/30"
+                      className="h-14 rounded-xl border text-base bg-zinc-800/50 border-white/10 text-white placeholder:text-zinc-500"
                       disabled={isLoading}
                       required
                     />
@@ -420,7 +420,7 @@ const Signup = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="password" className="text-sm font-medium text-foreground">
+                  <label htmlFor="password" className="text-sm font-medium text-white">
                     password
                   </label>
                   <PasswordInput
@@ -431,24 +431,25 @@ const Signup = () => {
                     required
                     minLength={8}
                     disabled={isLoading}
+                    className="h-14 rounded-xl border text-base bg-zinc-800/50 border-white/10 text-white placeholder:text-zinc-500"
                   />
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-zinc-500">
                     minimum 8 characters
                   </p>
                 </div>
 
                 <Button 
                   type="submit" 
-                  className="w-full h-14 rounded-xl text-base font-semibold"
+                  className="w-full h-14 rounded-xl text-base font-semibold bg-white text-black hover:bg-zinc-200"
                   disabled={isLoading}
                 >
                   {isLoading ? "creating account..." : "create account"}
                 </Button>
               </form>
 
-              <div className="text-center text-sm text-muted-foreground">
+              <div className="text-center text-sm text-zinc-400">
                 already have an account?{" "}
-                <Link to="/auth" className="text-primary hover:underline font-medium">
+                <Link to="/auth" className="text-white hover:underline font-medium">
                   sign in
                 </Link>
               </div>
@@ -456,11 +457,11 @@ const Signup = () => {
           </Card>
 
         {/* Trust footer */}
-        <p className="text-center text-xs text-muted-foreground">
+        <p className="text-center text-xs text-zinc-500">
           by signing up, you agree to our{" "}
-          <Link to="/terms" className="hover:text-foreground underline">terms</Link>
+          <Link to="/terms" className="hover:text-white underline">terms</Link>
           {" "}and{" "}
-          <Link to="/privacy" className="hover:text-foreground underline">privacy policy</Link>
+          <Link to="/privacy" className="hover:text-white underline">privacy policy</Link>
         </p>
       </motion.div>
     </CleanAuthLayout>

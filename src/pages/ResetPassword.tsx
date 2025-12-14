@@ -80,15 +80,15 @@ export default function ResetPassword() {
       <div className="w-full max-w-md space-y-8">
         <div className="text-center space-y-4">
           <UtmOneLogo size="xl" className="justify-center" />
-          <h1 className="text-3xl font-display font-bold text-foreground">reset password</h1>
-          <p className="text-muted-foreground">enter your new password below</p>
+          <h1 className="text-3xl font-display font-bold text-white">reset password</h1>
+          <p className="text-zinc-400">enter your new password below</p>
         </div>
 
-        <Card className="bg-card border-border shadow-xl rounded-2xl">
+        <Card className="bg-zinc-900/50 border-white/10 shadow-xl rounded-2xl backdrop-blur-sm">
           <CardContent className="p-8 space-y-6">
             <form onSubmit={handleResetPassword} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm font-medium text-foreground">new password</Label>
+                <Label htmlFor="password" className="text-sm font-medium text-white">new password</Label>
                 <Input
                   id="password"
                   type="password"
@@ -96,12 +96,12 @@ export default function ResetPassword() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="minimum 6 characters"
                   required
-                  className="h-14 rounded-xl border-2 text-base bg-muted/30 border-border text-foreground placeholder:text-muted-foreground"
+                  className="h-14 rounded-xl border text-base bg-zinc-800/50 border-white/10 text-white placeholder:text-zinc-500"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword" className="text-sm font-medium text-foreground">confirm password</Label>
+                <Label htmlFor="confirmPassword" className="text-sm font-medium text-white">confirm password</Label>
                 <Input
                   id="confirmPassword"
                   type="password"
@@ -109,11 +109,11 @@ export default function ResetPassword() {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="re-enter password"
                   required
-                  className="h-14 rounded-xl border-2 text-base bg-muted/30 border-border text-foreground placeholder:text-muted-foreground"
+                  className="h-14 rounded-xl border text-base bg-zinc-800/50 border-white/10 text-white placeholder:text-zinc-500"
                 />
               </div>
 
-              <Button type="submit" className="w-full h-14 rounded-xl text-base font-semibold" disabled={loading}>
+              <Button type="submit" className="w-full h-14 rounded-xl text-base font-semibold bg-white text-black hover:bg-zinc-200" disabled={loading}>
                 {loading ? "updating..." : "reset password"}
               </Button>
             </form>

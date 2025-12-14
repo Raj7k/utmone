@@ -427,43 +427,43 @@ const Auth = () => {
       >
         <div className="text-center space-y-4">
           <UtmOneLogo size="xl" className="justify-center mb-2" />
-          <h1 className="text-4xl font-display font-bold tracking-tight text-foreground">welcome back</h1>
-          <p className="text-muted-foreground text-lg">sign in to your workspace</p>
+          <h1 className="text-4xl font-display font-bold tracking-tight text-white">welcome back</h1>
+          <p className="text-zinc-400 text-lg">sign in to your workspace</p>
         </div>
 
           {invitationContext && (
             <motion.div 
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-primary/5 border-2 border-primary/20 rounded-2xl p-5 space-y-4"
+              className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-4"
             >
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Info className="h-5 w-5 text-primary" />
+                <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Info className="h-5 w-5 text-white" />
                 </div>
                 <div className="flex-1 space-y-1">
-                  <p className="text-base font-semibold text-foreground">
+                  <p className="text-base font-semibold text-white">
                     workspace invitation
                   </p>
-                  <p className="text-sm text-muted-foreground">
-                    <span className="font-medium text-foreground">{invitationContext.inviterName}</span> invited you to join{" "}
-                    <span className="font-medium text-foreground">{invitationContext.workspaceName}</span> as{" "}
-                    <span className="font-medium text-primary">{invitationContext.role}</span>
+                  <p className="text-sm text-zinc-400">
+                    <span className="font-medium text-white">{invitationContext.inviterName}</span> invited you to join{" "}
+                    <span className="font-medium text-white">{invitationContext.workspaceName}</span> as{" "}
+                    <span className="font-medium text-emerald-400">{invitationContext.role}</span>
                   </p>
                 </div>
               </div>
               <div className="pl-[52px]">
-                <p className="text-xs text-muted-foreground">
-                  sign in or create an account with <span className="font-medium text-foreground">{invitationContext.email}</span> to accept
+                <p className="text-xs text-zinc-500">
+                  sign in or create an account with <span className="font-medium text-white">{invitationContext.email}</span> to accept
                 </p>
               </div>
             </motion.div>
           )}
 
-          <Card className="bg-card border-border shadow-xl rounded-2xl">
+          <Card className="bg-zinc-900/50 border-white/10 shadow-xl rounded-2xl backdrop-blur-sm">
             <CardHeader className="space-y-1 pb-4">
-              <CardTitle className="text-2xl font-display font-bold text-foreground">sign in</CardTitle>
-              <CardDescription className="text-muted-foreground">team member and workspace access</CardDescription>
+              <CardTitle className="text-2xl font-display font-bold text-white">sign in</CardTitle>
+              <CardDescription className="text-zinc-400">team member and workspace access</CardDescription>
             </CardHeader>
             <CardContent className="p-8 pt-6 space-y-6">
               <SocialLoginButtons
@@ -475,17 +475,17 @@ const Auth = () => {
               {showSocialButtons && (
                 <div className="relative">
                   <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t border-border" />
+                    <span className="w-full border-t border-white/10" />
                   </div>
                   <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-card px-2 text-muted-foreground">or</span>
+                    <span className="bg-zinc-900/50 px-2 text-zinc-500">or</span>
                   </div>
                 </div>
               )}
 
               <form onSubmit={handleSignIn} className="space-y-6">
                 <div className="space-y-2">
-                  <label htmlFor="signin-email" className="text-sm font-medium text-foreground">
+                  <label htmlFor="signin-email" className="text-sm font-medium text-white">
                     email
                   </label>
                   <div className="relative">
@@ -497,14 +497,14 @@ const Auth = () => {
                       onChange={(e) => !invitationContext && setEmail(e.target.value)}
                       required
                       readOnly={!!invitationContext}
-                      className={`h-14 rounded-xl border-2 text-base bg-muted/30 border-border text-foreground placeholder:text-muted-foreground ${
-                        invitationContext ? "pr-12 bg-muted/50" : ""
+                      className={`h-14 rounded-xl border text-base bg-zinc-800/50 border-white/10 text-white placeholder:text-zinc-500 ${
+                        invitationContext ? "pr-12 bg-zinc-800/70" : ""
                       }`}
                     />
                     {invitationContext && (
                       <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                        <div className="w-6 h-6 bg-primary/10 rounded-md flex items-center justify-center" title="email from invitation">
-                          <svg className="w-3.5 h-3.5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div className="w-6 h-6 bg-white/10 rounded-md flex items-center justify-center" title="email from invitation">
+                          <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                           </svg>
                         </div>
@@ -512,13 +512,13 @@ const Auth = () => {
                     )}
                   </div>
                   {invitationContext && (
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-zinc-500">
                       this email was specifically invited to join the workspace
                     </p>
                   )}
                 </div>
                 <div className="space-y-2">
-                  <label htmlFor="signin-password" className="text-sm font-medium text-foreground">
+                  <label htmlFor="signin-password" className="text-sm font-medium text-white">
                     password
                   </label>
                   <PasswordInput
@@ -527,24 +527,25 @@ const Auth = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
+                    className="h-14 rounded-xl border text-base bg-zinc-800/50 border-white/10 text-white placeholder:text-zinc-500"
                   />
                 </div>
-                <Button type="submit" className="w-full h-14 rounded-xl text-base font-semibold" disabled={isLoading}>
+                <Button type="submit" className="w-full h-14 rounded-xl text-base font-semibold bg-white text-black hover:bg-zinc-200" disabled={isLoading}>
                   {isLoading ? "signing in…" : "sign in"}
                 </Button>
                 <Button
                   type="button"
                   variant="ghost"
-                  className="w-full h-14 rounded-xl text-base text-muted-foreground hover:text-foreground"
+                  className="w-full h-14 rounded-xl text-base text-zinc-400 hover:text-white hover:bg-white/5"
                   onClick={handleForgotPassword}
                 >
                   forgot password?
                 </Button>
               </form>
 
-              <div className="text-center text-sm text-muted-foreground">
+              <div className="text-center text-sm text-zinc-400">
                 new user?{" "}
-                <Link to="/signup" className="text-primary hover:underline font-medium">
+                <Link to="/signup" className="text-white hover:underline font-medium">
                   sign up
                 </Link>
               </div>
