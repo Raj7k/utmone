@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { LLMPlaybookShowcaseCard } from "./LLMPlaybookShowcaseCard";
 import { GTMInsightsShowcaseCard } from "./GTMInsightsShowcaseCard";
-import { B2BArchitectsShowcaseCard } from "./B2BArchitectsShowcaseCard";
+import { HRKatalystShowcaseCard } from "./HRKatalystShowcaseCard";
 import { ResourceCategoryGrid } from "./ResourceCategoryGrid";
 import { cn } from "@/lib/utils";
 
@@ -28,9 +28,15 @@ export function ResourcesMegaDropdown({ variant = "dark" }: ResourcesMegaDropdow
       <div className="flex gap-4">
         {/* Left Column - Featured Showcase Cards */}
         <div className="w-[200px] flex flex-col gap-3">
+          <p className={cn(
+            "text-[10px] font-medium uppercase tracking-wider px-1",
+            isLight ? "text-zinc-400" : "text-white/40"
+          )}>
+            Featured
+          </p>
           <LLMPlaybookShowcaseCard variant={variant} />
           <GTMInsightsShowcaseCard variant={variant} />
-          <B2BArchitectsShowcaseCard variant={variant} />
+          <HRKatalystShowcaseCard variant={variant} />
         </div>
 
         {/* Right Column - Category Grid */}
