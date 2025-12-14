@@ -3,9 +3,8 @@ import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
-import { AppProvider } from "./contexts/AppProvider";
 import { NotificationProvider } from "./contexts/NotificationContext";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { MarketingSkeleton, DashboardSkeleton } from "./components/SkeletonLoader";
@@ -27,7 +26,7 @@ const ModalProvider = lazy(() => import("./contexts/ModalContext").then(m => ({ 
 const GlobalEarlyAccessModal = lazy(() => import("./components/early-access/GlobalEarlyAccessModal").then(m => ({ default: m.GlobalEarlyAccessModal })));
 
 // PHASE 17: Lazy load Index page for code splitting
-const Index = lazy(() => import("./pages/Index"));
+const Index = lazy(() => import("./public/routes/Index"));
 
 // Auth pages - lazy loaded with preload hints for likely navigation
 const Auth = lazy(() => import("./pages/Auth"));
@@ -48,10 +47,10 @@ const WaitlistLocked = lazy(() => import("./pages/WaitlistLocked"));
 const PasswordProtected = lazy(() => import("./pages/PasswordProtected"));
 const Accessibility = lazy(() => import("./pages/Accessibility"));
 const Permanence = lazy(() => import("./pages/Permanence"));
-const Pricing = lazy(() => import("./pages/Pricing"));
+const Pricing = lazy(() => import("./public/routes/Pricing"));
 const LifetimeDeal = lazy(() => import("./pages/LifetimeDeal"));
 const About = lazy(() => import("./pages/AboutNew"));
-const Docs = lazy(() => import("./pages/Docs"));
+const Docs = lazy(() => import("./public/routes/Docs"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const Changelog = lazy(() => import("./pages/Changelog"));
 const Support = lazy(() => import("./pages/Support"));
@@ -81,7 +80,7 @@ const PublicRoadmap = lazy(() => import("./pages/PublicRoadmap"));
 const PublicBugTracker = lazy(() => import("./pages/PublicBugTracker"));
 const AcceptInvite = lazy(() => import("./pages/AcceptInvite"));
 // Feature Pages
-const Features = lazy(() => import("./pages/Features"));
+const Features = lazy(() => import("./public/routes/Features"));
 const HowItWorks = lazy(() => import("./pages/HowItWorksNew"));
 const ShortLinks = lazy(() => import("./pages/features/ShortLinks"));
 const UTMBuilder = lazy(() => import("./pages/features/UTMBuilder"));
