@@ -1,5 +1,5 @@
+// PHASE 23: Removed framer-motion - using pure CSS animations
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { Link2, QrCode, BarChart3, Calendar, DollarSign, LucideIcon } from "lucide-react";
 
 interface QuickAction {
@@ -70,11 +70,10 @@ export const DashboardQuickActions = () => {
       className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3"
     >
       {quickActions.map((action, index) => (
-        <motion.div
+        <div
           key={action.id}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: index * 0.05 }}
+          className="animate-fade-in"
+          style={{ animationDelay: `${index * 50}ms` }}
         >
           <Link
             to={action.href}
@@ -89,7 +88,7 @@ export const DashboardQuickActions = () => {
               </kbd>
             )}
           </Link>
-        </motion.div>
+        </div>
       ))}
     </div>
   );

@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import { Sparkles, RefreshCw, Check } from "lucide-react";
+// PHASE 23: Removed framer-motion - using pure CSS animations
+import { Sparkles, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AISuggestions } from "@/hooks/useAIAnalyzeUrl";
 import { SlugCycleInput } from "@/components/ai/SlugCycleInput";
@@ -26,13 +26,7 @@ export const AISuggestionsPanel = ({
   const hasUtm = suggestions.utm_campaign || suggestions.utm_content || suggestions.utm_term;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, height: 0 }}
-      animate={{ opacity: 1, height: "auto" }}
-      exit={{ opacity: 0, height: 0 }}
-      transition={{ duration: 0.2 }}
-      className="overflow-hidden"
-    >
+    <div className="overflow-hidden animate-fade-in">
       <div className="pt-3 space-y-3">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -100,6 +94,6 @@ export const AISuggestionsPanel = ({
           </div>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 };

@@ -1,5 +1,5 @@
+// PHASE 23: Removed framer-motion - using pure CSS animations
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -132,14 +132,9 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
             <>
               {/* Header */}
               <div className="text-center space-y-2">
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: "spring", delay: 0.1 }}
-                  className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto"
-                >
+                <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto animate-scale-in">
                   <Sparkles className="w-8 h-8 text-primary" />
-                </motion.div>
+                </div>
                 <h2 className="text-2xl font-display font-bold text-foreground">
                   welcome, {firstName}!
                 </h2>
@@ -166,15 +161,11 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
                 </div>
 
                 {url && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    className="bg-muted/50 rounded-lg p-3 text-sm"
-                  >
+                  <div className="bg-muted/50 rounded-lg p-3 text-sm animate-fade-in">
                     <span className="text-muted-foreground">preview: </span>
                     <span className="font-mono text-foreground">utm.one/</span>
                     <span className="font-mono text-primary">abc123</span>
-                  </motion.div>
+                  </div>
                 )}
 
                 <Button
@@ -209,11 +200,7 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
             </>
           ) : (
             /* Success State */
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="text-center space-y-4"
-            >
+            <div className="text-center space-y-4 animate-fade-in animate-scale-in">
               <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mx-auto">
                 <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center">
                   <Check className="w-6 h-6 text-white" strokeWidth={3} />
@@ -238,7 +225,7 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
                 </p>
                 <p className="text-xs text-muted-foreground mt-1">click to copy</p>
               </div>
-            </motion.div>
+            </div>
           )}
         </div>
       </DialogContent>
