@@ -25,7 +25,7 @@ const OmniDemo = lazy(() => import("@/components/landing/OmniDemo").then(m => ({
 const AuthorityToolsStrip = lazy(() => import("@/components/landing/AuthorityToolsStrip").then(m => ({ default: m.AuthorityToolsStrip })));
 const TransparencyStrip = lazy(() => import("@/components/landing/TransparencyStrip").then(m => ({ default: m.TransparencyStrip })));
 const DynamicProblemSection = lazy(() => import("@/components/landing/DynamicProblemSection").then(m => ({ default: m.DynamicProblemSection })));
-const DynamicInsightSection = lazy(() => import("@/components/landing/DynamicInsightSection").then(m => ({ default: m.DynamicInsightSection })));
+const DynamicInsightSection = lazy(() => import("@/components/landing/StaticInsightSection").then(m => ({ default: m.DynamicInsightSection })));
 const DynamicProofSection = lazy(() => import("@/components/landing/DynamicProofSection").then(m => ({ default: m.DynamicProofSection })));
 const DynamicFAQ = lazy(() => import("@/components/landing/DynamicFAQ").then(m => ({ default: m.DynamicFAQ })));
 const DynamicCTA = lazy(() => import("@/components/landing/DynamicCTA").then(m => ({ default: m.DynamicCTA })));
