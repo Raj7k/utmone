@@ -1,5 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CampaignSparkline } from "./CampaignSparkline";
 import {
@@ -14,63 +13,70 @@ import { Badge } from "@/components/ui/badge";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { LazyBarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, LazyChartContainer } from "@/components/charts/LazyCharts";
 
-interface UTMCampaignRollupsProps {
-  workspaceId: string;
+interface Link {
+  id: string;
+  utm_campaign?: string | null;
+  utm_source?: string | null;
+  utm_medium?: string | null;
+  utm_term?: string | null;
+  utm_content?: string | null;
+  total_clicks?: number | null;
 }
 
-export const UTMCampaignRollups = ({ workspaceId }: UTMCampaignRollupsProps) => {
-  const { data: campaignData, isLoading } = useQuery({
-    queryKey: ["utm-campaigns", workspaceId],
-    queryFn: async () => {
-      const { data: links } = await supabase
-        .from("links")
-        .select("*")
-        .eq("workspace_id", workspaceId)
-        .not("utm_campaign", "is", null);
+interface UTMCampaignRollupsProps {
+  workspaceId: string;
+  links?: Link[];
+  isLoading?: boolean;
+}
 
-      if (!links) return null;
+export const UTMCampaignRollups = ({ workspaceId, links = [], isLoading }: UTMCampaignRollupsProps) => {
+  // Process links data to get campaign stats
+  const campaignData = useMemo(() => {
+    const linksWithCampaign = links.filter(l => l.utm_campaign);
+    if (linksWithCampaign.length === 0) return null;
 
-      // Aggregate by campaign
-      const campaignStats: Record<string, {
-        campaign: string;
-        source: string;
-        medium: string;
-        term: string;
-        content: string;
-        links: number;
-        clicks: number;
-      }> = {};
+    // Aggregate by campaign
+    const campaignStats: Record<string, {
+      campaign: string;
+      source: string;
+      medium: string;
+      term: string;
+      content: string;
+      links: number;
+      clicks: number;
+    }> = {};
 
-      links.forEach(link => {
-        const key = `${link.utm_campaign}-${link.utm_source}-${link.utm_medium}-${link.utm_term}-${link.utm_content}`;
-        if (!campaignStats[key]) {
-          campaignStats[key] = {
-            campaign: link.utm_campaign || "",
-            source: link.utm_source || "",
-            medium: link.utm_medium || "",
-            term: link.utm_term || "",
-            content: link.utm_content || "",
-            links: 0,
-            clicks: 0,
-          };
-        }
-        campaignStats[key].links += 1;
-        campaignStats[key].clicks += link.total_clicks || 0;
-      });
+    linksWithCampaign.forEach(link => {
+      const key = `${link.utm_campaign}-${link.utm_source}-${link.utm_medium}-${link.utm_term}-${link.utm_content}`;
+      if (!campaignStats[key]) {
+        campaignStats[key] = {
+          campaign: link.utm_campaign || "",
+          source: link.utm_source || "",
+          medium: link.utm_medium || "",
+          term: link.utm_term || "",
+          content: link.utm_content || "",
+          links: 0,
+          clicks: 0,
+        };
+      }
+      campaignStats[key].links += 1;
+      campaignStats[key].clicks += link.total_clicks || 0;
+    });
 
-      const campaigns = Object.values(campaignStats).sort((a, b) => b.clicks - a.clicks);
+    const campaigns = Object.values(campaignStats).sort((a, b) => b.clicks - a.clicks);
 
-      // Top campaigns for chart
-      const topCampaigns = campaigns.slice(0, 5).map(c => ({
-        name: c.campaign,
-        clicks: c.clicks,
-      }));
+    // Top campaigns for chart
+    const topCampaigns = campaigns.slice(0, 5).map(c => ({
+      name: c.campaign,
+      clicks: c.clicks,
+    }));
 
-      return { campaigns, topCampaigns };
-    },
-  });
+    return { campaigns, topCampaigns };
+  }, [links]);
 
+  if (isLoading) {
     return <div className="text-center py-8 text-secondary-label">loading campaign data…</div>;
+  }
 
   if (!campaignData || campaignData.campaigns.length === 0) {
     return (

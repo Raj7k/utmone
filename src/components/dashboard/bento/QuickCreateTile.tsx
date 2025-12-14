@@ -15,7 +15,7 @@ import { useActivationTracking } from "@/hooks/useActivationTracking";
 import { useAIAnalyzeUrl } from "@/hooks/useAIAnalyzeUrl";
 import { AISuggestionsPanel } from "./AISuggestionsPanel";
 import { AnimatePresence } from "framer-motion";
-import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
+import { getCachedWorkspaceId, useAppSession } from "@/contexts/AppSessionContext";
 
 export const QuickCreateTile = () => {
   const [url, setUrl] = useState("");
@@ -83,9 +83,12 @@ export const QuickCreateTile = () => {
     }
   };
 
+  const { user } = useAppSession();
+
   const createLinkMutation = useMutation({
     mutationFn: async (destinationUrl: string) => {
       if (!currentWorkspace?.id) throw new Error("No workspace selected");
+      if (!user) throw new Error("Not authenticated");
 
       const simulatedPlan = localStorage.getItem('SIMULATED_PLAN') as PlanTier | null;
       const accessCheck = await checkFeatureAccess(
@@ -105,9 +108,6 @@ export const QuickCreateTile = () => {
         setShowUpgrade(true);
         throw new Error(accessCheck.reason || "Upgrade required");
       }
-
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
 
       // Use AI-selected slug or generate from URL
       const slug = selectedSlug || 

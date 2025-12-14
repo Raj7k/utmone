@@ -7,15 +7,16 @@ import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useReferralStats } from "@/hooks/useReferralStats";
 import { NetworkRipple } from "@/components/growth/NetworkRipple";
+import { useAppSession } from "@/contexts/AppSessionContext";
 
 export const ReferralTile = () => {
   const [copied, setCopied] = useState(false);
   const [showRipple, setShowRipple] = useState(false);
+  const { user } = useAppSession();
   
   const { data: profile, isLoading: profileLoading } = useQuery({
-    queryKey: ["profile-referral"],
+    queryKey: ["profile-referral", user?.id],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
       if (!user) return null;
 
       const { data, error } = await supabase
@@ -27,6 +28,9 @@ export const ReferralTile = () => {
       if (error) throw error;
       return data;
     },
+    enabled: !!user,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const { data: stats, isLoading: statsLoading } = useReferralStats(profile?.id || "");

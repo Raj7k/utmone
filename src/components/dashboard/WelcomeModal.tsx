@@ -5,10 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link2, Sparkles, ArrowRight, Zap, Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { notify } from "@/lib/notify";
 import { useQuery } from "@tanstack/react-query";
-import { getCachedUserId } from "@/contexts/AppSessionContext";
+import { useAppSession } from "@/contexts/AppSessionContext";
 
 interface WelcomeModalProps {
   userName?: string;
@@ -21,10 +20,8 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
   const [isCreating, setIsCreating] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [createdSlug, setCreatedSlug] = useState("");
-  const { currentWorkspace } = useWorkspaceContext();
-
-  // Use cached user ID and React Query for efficient profile check
-  const userId = getCachedUserId();
+  const { currentWorkspace, user } = useAppSession();
+  const userId = user?.id;
   
   const { data: profile } = useQuery({
     queryKey: ["welcome-modal-check", userId],
@@ -79,7 +76,6 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
     setIsCreating(true);
 
     try {
-      const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         notify.error("please sign in to create links");
         return;

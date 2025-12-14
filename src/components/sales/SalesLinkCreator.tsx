@@ -10,6 +10,7 @@ import { Bell, Loader2, Link as LinkIcon } from "lucide-react";
 import { notify } from "@/lib/notify";
 import { motion } from "framer-motion";
 import { DomainSelectorWithAdd } from "@/components/domains/DomainSelectorWithAdd";
+import { useAppSession } from "@/contexts/AppSessionContext";
 
 interface SalesLinkCreatorProps {
   onSuccess: (linkData: { shortUrl: string; prospectName: string; id: string }) => void;
@@ -19,6 +20,7 @@ interface SalesLinkCreatorProps {
 export const SalesLinkCreator = ({ onSuccess, onCancel }: SalesLinkCreatorProps) => {
   const { currentWorkspace } = useWorkspace();
   const queryClient = useQueryClient();
+  const { user } = useAppSession();
   
   const [destinationUrl, setDestinationUrl] = useState("");
   const [prospectName, setProspectName] = useState("");
@@ -72,7 +74,6 @@ export const SalesLinkCreator = ({ onSuccess, onCancel }: SalesLinkCreatorProps)
 
   const createLinkMutation = useMutation({
     mutationFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
       if (!user || !currentWorkspace) throw new Error("Not authenticated");
 
       // Final slug check before insert
