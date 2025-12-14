@@ -17,7 +17,7 @@
       })();
     </script>
     
-    <!-- Pre-warm Auth Session Cache Check + PHASE 21: Early Data Fetch -->
+    <!-- Pre-warm Auth Session Cache Check -->
     <script>
       (function() {
         try {
@@ -27,32 +27,6 @@
             if (Date.now() - parsed.timestamp < 15 * 60 * 1000) {
               window.__AUTH_READY__ = true;
               window.__CACHED_USER__ = parsed.user;
-              
-              // PHASE 21: Start fetching dashboard data immediately for authenticated users
-              var cachedWorkspace = localStorage.getItem('lastActiveWorkspace');
-              if (cachedWorkspace && parsed.user && window.location.pathname.startsWith('/dashboard')) {
-                var workspaceId = cachedWorkspace;
-                var supabaseUrl = 'https://whgnsmjdubnvbmarnjfx.supabase.co';
-                var supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndoZ25zbWpkdWJudmJtYXJuamZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM0ODQyOTgsImV4cCI6MjA3OTA2MDI5OH0.KUMy4nnJ1VXenU8CbF19ZhdAQrQ416OJOeFSMa47MWY';
-                var token = parsed.access_token || localStorage.getItem('sb-whgnsmjdubnvbmarnjfx-auth-token');
-                
-                if (token) {
-                  try {
-                    var authToken = typeof token === 'string' && token.startsWith('{') ? JSON.parse(token).access_token : token;
-                    // Prefetch minimal stats: links count + clicks today
-                    window.__PREFETCHED_DATA__ = Promise.all([
-                      fetch(supabaseUrl + '/rest/v1/links?workspace_id=eq.' + workspaceId + '&deleted_at=is.null&select=id&limit=1', {
-                        headers: { 'apikey': supabaseKey, 'Authorization': 'Bearer ' + authToken, 'Prefer': 'count=exact' }
-                      }).then(function(r) { return { count: parseInt(r.headers.get('content-range')?.split('/')[1] || '0', 10) }; }),
-                      fetch(supabaseUrl + '/rest/v1/link_clicks?workspace_id=eq.' + workspaceId + '&clicked_at=gte.' + new Date().toISOString().split('T')[0] + '&select=id&limit=1', {
-                        headers: { 'apikey': supabaseKey, 'Authorization': 'Bearer ' + authToken, 'Prefer': 'count=exact' }
-                      }).then(function(r) { return { count: parseInt(r.headers.get('content-range')?.split('/')[1] || '0', 10) }; })
-                    ]).then(function(results) {
-                      return { linksCount: results[0].count, clicksToday: results[1].count, workspaceId: workspaceId };
-                    }).catch(function() { return null; });
-                  } catch (e) {}
-                }
-              }
             }
           }
         } catch (e) {}

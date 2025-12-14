@@ -15,88 +15,40 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  build: {
+build: {
     rollupOptions: {
       output: {
-        manualChunks: (id) => {
-          // PHASE 20: Split marketing vs dashboard bundles
-          
-          // Core vendor chunks (shared)
-          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
-            return 'vendor-react';
-          }
-          if (id.includes('node_modules/react-router-dom/') || id.includes('node_modules/@remix-run/')) {
-            return 'vendor-router';
-          }
-          if (id.includes('node_modules/@tanstack/react-query')) {
-            return 'vendor-query';
-          }
-          if (id.includes('node_modules/@supabase/')) {
-            return 'vendor-supabase';
-          }
-          
-          // Heavy visualization (lazy loaded)
-          if (id.includes('node_modules/recharts/')) {
-            return 'vendor-charts';
-          }
-          if (id.includes('node_modules/framer-motion/')) {
-            return 'vendor-motion';
-          }
-          if (id.includes('node_modules/react-simple-maps/') || id.includes('node_modules/d3-geo/')) {
-            return 'vendor-maps';
-          }
-          if (id.includes('node_modules/@xyflow/') || id.includes('node_modules/reactflow/')) {
-            return 'vendor-flow';
-          }
-          if (id.includes('node_modules/@nivo/')) {
-            return 'vendor-nivo';
-          }
-          
+        manualChunks: {
+          // Core React ecosystem
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          // Data fetching and state
+          'vendor-query': ['@tanstack/react-query'],
+          // Backend client
+          'vendor-supabase': ['@supabase/supabase-js'],
+          // Visualization libraries
+          'vendor-charts': ['recharts'],
+          'vendor-motion': ['framer-motion'],
+          'vendor-maps': ['react-simple-maps', 'd3-geo'],
+          'vendor-flow': ['@xyflow/react', 'reactflow'],
+          'vendor-nivo': ['@nivo/sankey'],
           // Heavy utilities (lazy loaded)
-          if (id.includes('node_modules/xlsx/')) {
-            return 'vendor-xlsx';
-          }
-          if (id.includes('node_modules/qrcode/') || id.includes('node_modules/react-qr-code/') || id.includes('node_modules/html5-qrcode/')) {
-            return 'vendor-qr';
-          }
-          if (id.includes('node_modules/canvas-confetti/') || id.includes('node_modules/react-confetti/')) {
-            return 'vendor-confetti';
-          }
-          
+          'vendor-xlsx': ['xlsx'],
+          'vendor-qr': ['qrcode', 'react-qr-code', 'html5-qrcode'],
+          // Confetti libraries (lazy loaded)
+          'vendor-confetti': ['canvas-confetti', 'react-confetti'],
           // UI primitives
-          if (id.includes('node_modules/@radix-ui/')) {
-            return 'vendor-radix';
-          }
-          
-          // PHASE 20: Route-based splitting
-          // Dashboard pages
-          if (id.includes('/src/pages/Dashboard') || 
-              id.includes('/src/pages/Sales') || 
-              id.includes('/src/pages/Intelligence') ||
-              id.includes('/src/pages/Events') ||
-              id.includes('/src/pages/Analytics') ||
-              id.includes('/src/pages/Links') ||
-              id.includes('/src/pages/Settings') ||
-              id.includes('/src/components/dashboard/')) {
-            return 'app-dashboard';
-          }
-          
-          // Marketing pages
-          if (id.includes('/src/pages/Index') || 
-              id.includes('/src/pages/marketing/') ||
-              id.includes('/src/pages/features/') ||
-              id.includes('/src/pages/solutions/') ||
-              id.includes('/src/pages/resources/') ||
-              id.includes('/src/pages/legal/') ||
-              id.includes('/src/components/marketing/') ||
-              id.includes('/src/components/landing/')) {
-            return 'app-marketing';
-          }
-          
-          // Admin pages
-          if (id.includes('/src/pages/admin/') || id.includes('/src/components/admin/')) {
-            return 'app-admin';
-          }
+          'vendor-radix': [
+            '@radix-ui/react-dialog',
+            '@radix-ui/react-dropdown-menu',
+            '@radix-ui/react-popover',
+            '@radix-ui/react-select',
+            '@radix-ui/react-tabs',
+            '@radix-ui/react-tooltip',
+            '@radix-ui/react-accordion',
+            '@radix-ui/react-checkbox',
+            '@radix-ui/react-switch',
+            '@radix-ui/react-slider',
+          ],
         },
       },
     },
