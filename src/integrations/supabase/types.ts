@@ -7536,6 +7536,19 @@ export type Database = {
           workspace_id: string
         }[]
       }
+      get_links_hero_stats: {
+        Args: { p_workspace_id: string }
+        Returns: {
+          click_trend: number | null
+          last_week_clicks: number | null
+          this_week_clicks: number | null
+          top_link_id: string | null
+          top_link_short_url: string | null
+          top_link_title: string | null
+          top_link_total_clicks: number | null
+          total_active_links: number | null
+        }[]
+      }
       get_next_url_version: {
         Args: { p_destination_url: string; p_workspace_id: string }
         Returns: number
