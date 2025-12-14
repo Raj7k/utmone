@@ -1,9 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import { useDashboardUnified } from "@/hooks/useDashboardUnified";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { SalesLinkTable } from "@/components/sales/SalesLinkTable";
-import { SalesActivityFeed } from "@/components/sales/SalesActivityFeed";
 import { SalesStatCard } from "@/components/sales/SalesStatCard";
+import { LazySection } from "@/components/loading/LazySection";
+import { Skeleton } from "@/components/ui/skeleton";
+
+// Lazy load heavy components
+const SalesActivityFeed = lazy(() => import("@/components/sales/SalesActivityFeed").then(m => ({ default: m.SalesActivityFeed })));
 import { CreateSalesLinkModal } from "@/components/sales/CreateSalesLinkModal";
 import { Button } from "@/components/ui/button";
 import { Plus, Zap, Briefcase, Eye } from "lucide-react";
@@ -110,9 +114,16 @@ const Sales = () => {
         />
       </div>
 
-        {/* Activity Feed */}
+        {/* Activity Feed - Lazy loaded */}
         <div className="lg:col-span-1">
-          <SalesActivityFeed />
+          <LazySection 
+            fallback={<Skeleton className="h-80 rounded-xl" />}
+            rootMargin="200px"
+          >
+            <Suspense fallback={<Skeleton className="h-80 rounded-xl" />}>
+              <SalesActivityFeed />
+            </Suspense>
+          </LazySection>
         </div>
       </motion.div>
 

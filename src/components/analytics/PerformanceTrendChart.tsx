@@ -32,9 +32,10 @@ export const PerformanceTrendChart = ({ workspaceId }: PerformanceTrendChartProp
 
       const { data: clicks, error } = await supabase
         .from("link_clicks")
-        .select("clicked_at, is_unique, links!inner(workspace_id)")
-        .eq("links.workspace_id", workspaceId)
-        .gte("clicked_at", startDate.toISOString());
+        .select("clicked_at, is_unique, workspace_id")
+        .eq("workspace_id", workspaceId)
+        .gte("clicked_at", startDate.toISOString())
+        .limit(5000);
 
       if (error) throw error;
 
