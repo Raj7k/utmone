@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { useAppSession } from "@/contexts/AppSessionContext";
 
 export interface LinkTag {
   id: string;
@@ -13,6 +14,7 @@ export interface LinkTag {
 
 export const useLinkTags = (linkId: string | null) => {
   const queryClient = useQueryClient();
+  const { user } = useAppSession();
 
   const { data: tags = [], isLoading } = useQuery({
     queryKey: ["link-tags", linkId],
@@ -34,8 +36,6 @@ export const useLinkTags = (linkId: string | null) => {
   const addTag = useMutation({
     mutationFn: async ({ tagName, color }: { tagName: string; color?: string }) => {
       if (!linkId) throw new Error("No link ID");
-
-      const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
       const { data, error } = await supabase

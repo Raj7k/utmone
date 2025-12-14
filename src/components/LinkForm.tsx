@@ -34,6 +34,7 @@ import { generateSlugFromTitle } from "@/lib/slugify";
 import { suggestUTMSource, suggestUTMMedium, generateUTMCampaignFromTitle } from "@/lib/utmHelpers";
 import { Turnstile } from "@marsidev/react-turnstile";
 import { useGTM } from "./integrations/GTMProvider";
+import { useAppSession } from "@/contexts/AppSessionContext";
 
 const linkFormSchema = z.object({
   title: z.string().min(1, "Title is required").max(100, "Title must be less than 100 characters"),
@@ -76,6 +77,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
   const queryClient = useQueryClient();
   const { triggerWebhook } = useLinkWebhooks(workspaceId);
   const { pushEvent } = useGTM();
+  const { user } = useAppSession();
   
   const { data: domains, isLoading: domainsLoading } = useWorkspaceDomains(workspaceId);
   const { data: primaryDomain } = usePrimaryDomain(workspaceId);
@@ -289,7 +291,6 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
         }
       }
 
-      const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
       const slug = data.slug || Math.random().toString(36).substring(2, 8);

@@ -18,6 +18,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSidebar } from "./SidebarProvider";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { Separator } from "@/components/ui/separator";
+import { useAppSession } from "@/contexts/AppSessionContext";
 
 // Reduced navigation - 8 items max following Apple HIG
 const primaryNav = [
@@ -37,19 +38,21 @@ const secondaryNav = [
 export const IconRailSidebar = () => {
   const location = useLocation();
   const { openSearch } = useSidebar();
+  const { user } = useAppSession();
+  const userId = user?.id;
 
   const { data: profile } = useQuery({
-    queryKey: ['user-profile'],
+    queryKey: ['user-profile', userId],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+      if (!userId) return null;
       const { data } = await supabase
         .from('profiles')
         .select('full_name, avatar_url')
-        .eq('id', user.id)
+        .eq('id', userId)
         .single();
       return data;
     },
+    enabled: !!userId,
   });
 
   const isActive = (href: string) => {
