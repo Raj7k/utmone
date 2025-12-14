@@ -81,6 +81,33 @@ All colors MUST be HSL.
   100% { background-position: 200% 0; }
 }
 
+/* PHASE 10: Pure CSS animations for DashboardContentLoader */
+@keyframes breathing-pulse {
+  0%, 100% { 
+    opacity: 0.3; 
+    transform: scaleX(1);
+    box-shadow: 0 0 4px hsl(var(--foreground) / 0.1);
+  }
+  50% { 
+    opacity: 1; 
+    transform: scaleX(1.1);
+    box-shadow: 0 0 16px hsl(var(--foreground) / 0.3);
+  }
+}
+
+@keyframes dot-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.animate-breathing-pulse {
+  animation: breathing-pulse 2s ease-in-out infinite;
+}
+
+.animate-dot-pulse {
+  animation: dot-pulse 1s ease-in-out infinite;
+}
+
 .animate-gradient {
   animation: gradient 3s ease infinite;
 }
