@@ -22,8 +22,8 @@ const DashboardHome = () => {
   const { showDemoMode } = useDemoMode();
   const { currentWorkspace, isWorkspaceLoading, retry } = useWorkspaceContext();
   
-  // Use unified dashboard data
-  const { onboarding, isFetching, isFetched, isLoading, refetch } = useDashboardUnified();
+  // Use unified dashboard data with stale-while-revalidate
+  const { onboarding, isFetching, isFetched, isLoading, isStale, refetch } = useDashboardUnified();
   const hasLinks = onboarding.hasLinks;
 
   // Workspace timeout fallback - show retry after 3 seconds
@@ -117,8 +117,11 @@ const DashboardHome = () => {
     <ErrorBoundary section="dashboard-home">
       <div className="p-6 lg:p-8 space-y-8 max-w-5xl mx-auto relative animate-fade-in">
         {/* Subtle loading indicator for background refresh */}
-        {isFetching && (
-          <div className="absolute top-2 right-2 z-10">
+        {(isFetching || isStale) && (
+          <div className="absolute top-2 right-2 z-10 flex items-center gap-2">
+            {isStale && !isFetching && (
+              <span className="text-xs text-muted-foreground">updating...</span>
+            )}
             <div className="h-2 w-2 bg-primary rounded-full animate-pulse" />
           </div>
         )}

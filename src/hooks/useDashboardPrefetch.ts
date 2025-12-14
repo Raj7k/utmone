@@ -1,27 +1,47 @@
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
+import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 
 /**
  * Prefetch dashboard data on hover/intent for instant navigation
  * Uses requestIdleCallback for non-blocking prefetch
+ * Debounces to prevent excessive prefetching
  */
 export const useDashboardPrefetch = () => {
   const queryClient = useQueryClient();
   const { currentWorkspace } = useWorkspaceContext();
+  
+  // Debounce refs to prevent multiple prefetches
+  const lastPrefetch = useRef<Record<string, number>>({});
+  const DEBOUNCE_MS = 2000; // Don't re-prefetch same data within 2s
+
+  const shouldPrefetch = useCallback((key: string) => {
+    const now = Date.now();
+    const last = lastPrefetch.current[key] || 0;
+    if (now - last < DEBOUNCE_MS) return false;
+    lastPrefetch.current[key] = now;
+    return true;
+  }, []);
+
+  const getWorkspaceId = useCallback(() => {
+    return currentWorkspace?.id || getCachedWorkspaceId();
+  }, [currentWorkspace?.id]);
 
   const prefetchLinks = useCallback(() => {
-    if (!currentWorkspace?.id) return;
+    const workspaceId = getWorkspaceId();
+    if (!workspaceId || !shouldPrefetch('links')) return;
     
     const prefetch = () => {
       queryClient.prefetchQuery({
-        queryKey: ["enhanced-links", currentWorkspace.id],
+        queryKey: ["enhanced-links", workspaceId],
         queryFn: async () => {
           const { data } = await supabase
             .from("links")
-            .select("*")
-            .eq("workspace_id", currentWorkspace.id)
+            .select("id, title, slug, short_url, destination_url, status, total_clicks, created_at")
+            .eq("workspace_id", workspaceId)
+            .is("deleted_at", null)
             .order("created_at", { ascending: false })
             .limit(20);
           return data || [];
@@ -31,18 +51,20 @@ export const useDashboardPrefetch = () => {
     };
 
     if ("requestIdleCallback" in window) {
-      (window as any).requestIdleCallback(prefetch);
+      (window as any).requestIdleCallback(prefetch, { timeout: 500 });
     } else {
-      setTimeout(prefetch, 100);
+      setTimeout(prefetch, 50);
     }
-  }, [currentWorkspace?.id, queryClient]);
+  }, [getWorkspaceId, shouldPrefetch, queryClient]);
 
   const prefetchIntelligence = useCallback(() => {
-    if (!currentWorkspace?.id) return;
+    const workspaceId = getWorkspaceId();
+    if (!workspaceId || !shouldPrefetch('intelligence')) return;
     
     const prefetch = () => {
+      // Prefetch basic click stats
       queryClient.prefetchQuery({
-        queryKey: ["intelligence-unified", currentWorkspace.id, 7],
+        queryKey: ["intelligence-unified", workspaceId, 7],
         queryFn: async () => {
           const now = new Date();
           const startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -50,7 +72,7 @@ export const useDashboardPrefetch = () => {
           const { count } = await supabase
             .from("link_clicks")
             .select("*", { count: "exact", head: true })
-            .eq("workspace_id", currentWorkspace.id)
+            .eq("workspace_id", workspaceId)
             .gte("clicked_at", startDate.toISOString());
           
           return { totalClicks: count || 0 };
@@ -60,29 +82,28 @@ export const useDashboardPrefetch = () => {
     };
 
     if ("requestIdleCallback" in window) {
-      (window as any).requestIdleCallback(prefetch);
+      (window as any).requestIdleCallback(prefetch, { timeout: 500 });
     } else {
-      setTimeout(prefetch, 100);
+      setTimeout(prefetch, 50);
     }
-  }, [currentWorkspace?.id, queryClient]);
+  }, [getWorkspaceId, shouldPrefetch, queryClient]);
 
   const prefetchSales = useCallback(() => {
-    if (!currentWorkspace?.id) return;
+    const workspaceId = getWorkspaceId();
+    if (!workspaceId || !shouldPrefetch('sales')) return;
     
     const prefetch = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-
       queryClient.prefetchQuery({
-        queryKey: ["sales-links", currentWorkspace.id],
+        queryKey: ["sales-links", workspaceId],
         queryFn: async () => {
           const { data } = await supabase
             .from("links")
-            .select("*")
-            .eq("workspace_id", currentWorkspace.id)
-            .eq("created_by", user.id)
+            .select("id, title, slug, short_url, destination_url, status, total_clicks, created_at, last_clicked_at, prospect_name, alert_on_click")
+            .eq("workspace_id", workspaceId)
             .eq("link_type", "sales")
-            .order("created_at", { ascending: false });
+            .is("deleted_at", null)
+            .order("created_at", { ascending: false })
+            .limit(50);
           return data || [];
         },
         staleTime: 60 * 1000,
@@ -90,23 +111,24 @@ export const useDashboardPrefetch = () => {
     };
 
     if ("requestIdleCallback" in window) {
-      (window as any).requestIdleCallback(prefetch);
+      (window as any).requestIdleCallback(prefetch, { timeout: 500 });
     } else {
-      setTimeout(prefetch, 100);
+      setTimeout(prefetch, 50);
     }
-  }, [currentWorkspace?.id, queryClient]);
+  }, [getWorkspaceId, shouldPrefetch, queryClient]);
 
   const prefetchEvents = useCallback(() => {
-    if (!currentWorkspace?.id) return;
+    const workspaceId = getWorkspaceId();
+    if (!workspaceId || !shouldPrefetch('events')) return;
     
     const prefetch = () => {
       queryClient.prefetchQuery({
-        queryKey: ["field-events", currentWorkspace.id],
+        queryKey: ["field-events", workspaceId],
         queryFn: async () => {
           const { data } = await supabase
             .from("field_events")
-            .select("*")
-            .eq("workspace_id", currentWorkspace.id)
+            .select("id, name, start_date, end_date, location_city, location_country, status")
+            .eq("workspace_id", workspaceId)
             .order("start_date", { ascending: false })
             .limit(10);
           return data || [];
@@ -116,16 +138,29 @@ export const useDashboardPrefetch = () => {
     };
 
     if ("requestIdleCallback" in window) {
-      (window as any).requestIdleCallback(prefetch);
+      (window as any).requestIdleCallback(prefetch, { timeout: 500 });
     } else {
-      setTimeout(prefetch, 100);
+      setTimeout(prefetch, 50);
     }
-  }, [currentWorkspace?.id, queryClient]);
+  }, [getWorkspaceId, shouldPrefetch, queryClient]);
+
+  // Prefetch dashboard unified data (most important)
+  const prefetchDashboard = useCallback(() => {
+    const workspaceId = getWorkspaceId();
+    if (!workspaceId || !shouldPrefetch('dashboard')) return;
+    
+    // Trigger the main dashboard query prefetch
+    queryClient.prefetchQuery({
+      queryKey: ["dashboard-direct", workspaceId, "30d"],
+      staleTime: 30 * 1000,
+    });
+  }, [getWorkspaceId, shouldPrefetch, queryClient]);
 
   return {
     prefetchLinks,
     prefetchIntelligence,
     prefetchSales,
     prefetchEvents,
+    prefetchDashboard,
   };
 };
