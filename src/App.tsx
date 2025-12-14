@@ -546,9 +546,7 @@ const App = () => (
             <Toaster />
             {/* Deferred providers - only load when needed */}
             <Suspense fallback={null}>
-              <AdminSimulationProvider>
                 <ModalProvider>
-                  <TooltipProvider>
                     <SkipToContent />
                     <ScrollToTop />
                     <NetworkStatus />
@@ -1112,9 +1110,7 @@ const App = () => (
           </Suspense>
           <InstallPrompt />
           <UpdateNotification />
-                      </TooltipProvider>
                     </ModalProvider>
-                  </AdminSimulationProvider>
                 </Suspense>
               </AppProvider>
         </BrowserRouter>
