@@ -1,5 +1,3 @@
-import { motion, useMotionValue, useTransform, animate } from "framer-motion";
-import { useEffect } from "react";
 import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -18,17 +16,6 @@ export const SalesStatCard = ({
   variant = "default",
   pulse = false 
 }: SalesStatCardProps) => {
-  const count = useMotionValue(0);
-  const rounded = useTransform(count, Math.round);
-
-  useEffect(() => {
-    const controls = animate(count, value, { 
-      duration: 0.8,
-      ease: [0.16, 1, 0.3, 1]
-    });
-    return controls.stop;
-  }, [value, count]);
-
   const variantStyles = {
     default: {
       bg: "bg-muted/50",
@@ -51,12 +38,7 @@ export const SalesStatCard = ({
   const styles = variantStyles[variant];
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      className="bg-card border border-border rounded-2xl p-5 hover:shadow-lg hover:shadow-primary/5 transition-shadow duration-300"
-    >
+    <div className="bg-card border border-border rounded-2xl p-5 hover:shadow-lg hover:shadow-primary/5 transition-shadow duration-300 animate-fade-in">
       <div className="flex items-center gap-4">
         <div className={cn(
           "p-3 rounded-xl transition-all duration-300",
@@ -66,12 +48,12 @@ export const SalesStatCard = ({
           <Icon className={cn("h-5 w-5", styles.icon)} />
         </div>
         <div>
-          <motion.p className="text-3xl font-bold text-foreground tabular-nums">
-            {rounded}
-          </motion.p>
+          <p className="text-3xl font-bold text-foreground tabular-nums">
+            {value}
+          </p>
           <p className="text-sm text-muted-foreground mt-0.5">{label}</p>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };

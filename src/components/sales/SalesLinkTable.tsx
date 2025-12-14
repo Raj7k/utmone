@@ -2,7 +2,6 @@ import { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { ExternalLink, Copy, MoreHorizontal, Eye, Check, Flame, Snowflake, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { motion, AnimatePresence } from "framer-motion";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -118,24 +117,15 @@ export const SalesLinkTable = ({ links, isLoading, onRefresh, onCreateLink }: Sa
 
       {/* List */}
       <div className="divide-y divide-border">
-        <AnimatePresence mode="popLayout">
-          {links.map((link, index) => {
-            const status = getStatus(link);
-            const StatusIcon = status.icon;
-            
-            return (
-              <motion.div
-                key={link.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, x: -10 }}
-                transition={{ 
-                  duration: 0.3, 
-                  delay: index * 0.05,
-                  ease: [0.16, 1, 0.3, 1] 
-                }}
-                className="p-4 hover:bg-muted/30 transition-colors duration-200 group"
-              >
+        {links.map((link) => {
+          const status = getStatus(link);
+          const StatusIcon = status.icon;
+          
+          return (
+            <div
+              key={link.id}
+              className="p-4 hover:bg-muted/30 transition-colors duration-200 group"
+            >
                 <div className="flex items-center gap-4">
                   {/* Status Badge */}
                   <div className={cn(
@@ -213,13 +203,12 @@ export const SalesLinkTable = ({ links, isLoading, onRefresh, onCreateLink }: Sa
                           view analytics
                         </DropdownMenuItem>
                       </DropdownMenuContent>
-                    </DropdownMenu>
+                  </DropdownMenu>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
-        </AnimatePresence>
       </div>
     </div>
   );

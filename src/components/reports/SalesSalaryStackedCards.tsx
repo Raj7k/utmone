@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
@@ -41,12 +40,10 @@ export const SalesSalaryStackedCards = () => {
   return (
     <div className="space-y-8">
       {salesRoles.map((role, index) => (
-        <motion.div
+        <div
           key={index}
-          initial={{ opacity: 0, x: 100 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.6, delay: index * 0.1, ease: [0.4, 0, 0.2, 1] }}
+          className="animate-fade-in"
+          style={{ animationDelay: `${index * 100}ms` }}
         >
           <Card className="border-2 hover:shadow-xl transition-shadow duration-300">
             <CardHeader>
@@ -78,7 +75,7 @@ export const SalesSalaryStackedCards = () => {
               </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </div>
       ))}
     </div>
   );
