@@ -504,26 +504,35 @@ export const OmniDemo = () => {
                             transition={{ duration: 1.5, ease: "easeOut" }}
                           />
                           
-                          {/* Radar pulse */}
+                          {/* Radar pulse - CSS animations to avoid offsetDistance error */}
                           <g transform="translate(300, 280)">
-                            {[0, 1, 2].map((i) => (
-                              <motion.circle
-                                key={i}
-                                cx="0"
-                                cy="0"
-                                fill="none"
-                                stroke="rgba(255,255,255,0.2)"
-                                strokeWidth="1"
-                                initial={{ r: 10, opacity: 0.6 }}
-                                animate={{ r: 60, opacity: 0 }}
-                                transition={{
-                                  duration: 2,
-                                  repeat: Infinity,
-                                  delay: i * 0.6,
-                                  ease: "easeOut"
-                                }}
-                              />
-                            ))}
+                            <circle 
+                              cx="0" 
+                              cy="0" 
+                              r="10"
+                              fill="none"
+                              stroke="rgba(255,255,255,0.2)"
+                              strokeWidth="1"
+                              className="animate-[radar-pulse_2s_ease-out_infinite]"
+                            />
+                            <circle 
+                              cx="0" 
+                              cy="0" 
+                              r="10"
+                              fill="none"
+                              stroke="rgba(255,255,255,0.2)"
+                              strokeWidth="1"
+                              className="animate-[radar-pulse_2s_ease-out_infinite_0.6s]"
+                            />
+                            <circle 
+                              cx="0" 
+                              cy="0" 
+                              r="10"
+                              fill="none"
+                              stroke="rgba(255,255,255,0.2)"
+                              strokeWidth="1"
+                              className="animate-[radar-pulse_2s_ease-out_infinite_1.2s]"
+                            />
                             <circle cx="0" cy="0" r="8" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
                             <text x="0" y="35" textAnchor="middle" fill="#a1a1aa" fontSize="11" fontFamily="monospace">
                               📍 Las Vegas Event

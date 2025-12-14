@@ -372,6 +372,10 @@ export default {
   			'glow-pulse': {
   				'0%, 100%': { boxShadow: '0 0 20px rgba(255,255,255,0.2)' },
   				'50%': { boxShadow: '0 0 40px rgba(255,255,255,0.4)' }
+  			},
+  			'radar-pulse': {
+  				'0%': { r: '10', opacity: '0.6' },
+  				'100%': { r: '60', opacity: '0' }
   			}
   		},
   		animation: {
