@@ -7,39 +7,62 @@
 
 /* ============================================
    PERFORMANCE-OPTIMIZED CSS ANIMATIONS
-   All animations use opacity-only to avoid layout shifts
+   Subtle transforms (4-8px) for polish without CLS
    ============================================ */
 
-/* Sidebar transitions - Phase 26 (opacity-only, no transform) */
+/* Simple fade for reduced motion and backdrops */
+@keyframes simple-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Page content enter - subtle 4px translateY (small enough to avoid CLS) */
+@keyframes page-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Sidebar slide - subtle horizontal slide */
+@keyframes sidebar-slide-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Auth card entrance - slightly larger for emphasis */
+@keyframes auth-slide-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Sidebar transitions */
 .sidebar-enter {
-  animation: sidebar-fade-in 0.2s ease-out forwards;
+  animation: sidebar-slide-in 0.2s ease-out forwards;
 }
 
 .sidebar-backdrop {
   animation: simple-fade-in 0.15s ease-out forwards;
 }
 
-/* Page content enter - Phase 27 (opacity-only, no translateY) */
+/* Page content enter */
 .page-enter {
-  animation: simple-fade-in 0.2s ease-out forwards;
+  animation: page-fade-in 0.2s ease-out forwards;
 }
 
-@keyframes sidebar-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes simple-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* Auth card entrance - Phase 30-33 (opacity-only) */
+/* Auth card entrance */
 .auth-card-enter {
-  animation: simple-fade-in 0.4s ease-out forwards;
+  animation: auth-slide-up 0.4s ease-out forwards;
 }
 
-/* Envelope bounce animation for email confirmation (transform OK for small icons) */
+/* Reduced motion preference - opacity only for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .page-enter,
+  .sidebar-enter,
+  .auth-card-enter {
+    animation: simple-fade-in 0.15s ease-out forwards;
+  }
+}
+
+/* Envelope bounce animation for email confirmation */
 @keyframes envelope-bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-4px); }
