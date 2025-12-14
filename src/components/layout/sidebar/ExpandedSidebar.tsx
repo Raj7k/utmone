@@ -23,13 +23,12 @@ import {
   ChevronRight
 } from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { useSidebar } from "./SidebarProvider";
 import { motion } from "framer-motion";
 import { newFeatures } from "@/config/featureHelp";
 import { useDashboardPrefetch } from "@/hooks/useDashboardPrefetch";
+import { usePendingApprovalsCount } from "@/hooks/usePendingApprovalsCount";
 
 interface NavItem {
   name: string;
@@ -137,20 +136,7 @@ export const ExpandedSidebar = () => {
     }
   }, [location.pathname, currentFeature, visitedFeatures]);
 
-  const { data: pendingCount } = useQuery({
-    queryKey: ['pending-approvals-count', currentWorkspace?.id],
-    queryFn: async () => {
-      if (!currentWorkspace?.id) return 0;
-      const { count } = await supabase
-        .from('links')
-        .select('*', { count: 'exact', head: true })
-        .eq('approval_status', 'pending')
-        .eq('workspace_id', currentWorkspace.id);
-      return count || 0;
-    },
-    enabled: !!currentWorkspace?.id,
-    refetchInterval: 30000,
-  });
+  const { data: pendingCount } = usePendingApprovalsCount();
 
   const isActive = useCallback((href: string) => {
     if (href === "/dashboard") return location.pathname === href;
