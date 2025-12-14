@@ -13,7 +13,7 @@ import { SkipToContent } from "./components/SkipToContent";
 import { NetworkStatus } from "./components/ui/network-status";
 import { AppWithHelp } from "./components/AppWithHelp";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
-import { AnimatedRoutes } from "@/components/transitions/AnimatedRoutes";
+// PHASE: AnimatedRoutes removed - causes LCP recalculation
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { PerformanceProvider } from "@/components/performance/PerformanceProvider";
 import { LinkIdRedirect } from "./components/redirects/LinkIdRedirect";
@@ -557,7 +557,6 @@ const App = () => (
                   <ScrollToTop />
                   <NetworkStatus />
                   <AppWithHelp>
-                  <AnimatedRoutes>
                     <Routes>
               {/* PHASE 17: Lazy load Index page */}
               <Route path="/" element={<Suspense fallback={<MarketingSkeleton />}><Index /></Suspense>} />
@@ -1110,7 +1109,6 @@ const App = () => (
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<Suspense fallback={<MarketingSkeleton />}><NotFound /></Suspense>} />
             </Routes>
-            </AnimatedRoutes>
             </AppWithHelp>
           {/* PHASE 14: Lazy-loaded global modals */}
           <Suspense fallback={null}>
