@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { queryKeys } from "@/lib/queryConfig";
-import { getCachedUserId, getCachedWorkspaceId } from "@/hooks/useAuthSession";
+import { useAppSession, getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 
 interface OnboardingProgress {
   hasLinks: boolean;
@@ -45,24 +45,17 @@ function cacheProgress(progress: Partial<OnboardingProgress>): void {
 
 export const useOnboardingProgress = (): OnboardingProgress => {
   const { currentWorkspace } = useWorkspace();
+  const { user } = useAppSession();
   
   // Use cached IDs for instant query start
   const cachedWorkspaceId = getCachedWorkspaceId();
   const workspaceId = currentWorkspace?.id || cachedWorkspaceId;
+  const userId = user?.id;
 
   const { data, isLoading, isFetched } = useQuery({
     queryKey: queryKeys.dashboard.onboarding(workspaceId || ''),
     queryFn: async () => {
-      if (!workspaceId) return null;
-
-      // Use cached user ID to avoid auth call
-      let userId = getCachedUserId();
-      
-      if (!userId) {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return null;
-        userId = user.id;
-      }
+      if (!workspaceId || !userId) return null;
 
       // Parallel queries for faster loading
       const [linksResult, qrResult, profileResult, domainsResult, pixelsResult] = await Promise.all([
@@ -108,8 +101,8 @@ export const useOnboardingProgress = (): OnboardingProgress => {
 
       return progress;
     },
-    // Enable query only with valid non-empty workspace ID
-    enabled: !!workspaceId && workspaceId.length > 0,
+    // Enable query only with valid user and workspace
+    enabled: !!userId && !!workspaceId && workspaceId.length > 0,
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
     // Use cached progress as placeholder for instant render

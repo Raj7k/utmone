@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useAppSession } from "@/contexts/AppSessionContext";
 
 export type WorkspaceCapability =
   | 'can_view_billing'
@@ -28,16 +29,16 @@ export const useCapability = (
   workspaceId: string | undefined,
   capability: WorkspaceCapability
 ) => {
-  return useQuery({
-    queryKey: ['capability', workspaceId, capability],
-    queryFn: async () => {
-      if (!workspaceId) return false;
+  const { user } = useAppSession();
+  const userId = user?.id;
 
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return false;
+  return useQuery({
+    queryKey: ['capability', workspaceId, capability, userId],
+    queryFn: async () => {
+      if (!workspaceId || !userId) return false;
 
       const { data, error } = await supabase.rpc('has_capability', {
-        _user_id: user.id,
+        _user_id: userId,
         _workspace_id: workspaceId,
         _capability: capability,
       });
@@ -49,7 +50,7 @@ export const useCapability = (
 
       return !!data;
     },
-    enabled: !!workspaceId,
+    enabled: !!workspaceId && !!userId,
     staleTime: 5 * 60 * 1000, // Cache for 5 minutes
   });
 };
@@ -61,13 +62,13 @@ export const useCapabilities = (
   workspaceId: string | undefined,
   capabilities: WorkspaceCapability[]
 ) => {
-  return useQuery({
-    queryKey: ['capabilities', workspaceId, capabilities.sort().join(',')],
-    queryFn: async () => {
-      if (!workspaceId) return {};
+  const { user } = useAppSession();
+  const userId = user?.id;
 
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return {};
+  return useQuery({
+    queryKey: ['capabilities', workspaceId, capabilities.sort().join(','), userId],
+    queryFn: async () => {
+      if (!workspaceId || !userId) return {};
 
       const results: Record<WorkspaceCapability, boolean> = {} as any;
 
@@ -75,7 +76,7 @@ export const useCapabilities = (
       const checks = await Promise.all(
         capabilities.map(async (cap) => {
           const { data, error } = await supabase.rpc('has_capability', {
-            _user_id: user.id,
+            _user_id: userId,
             _workspace_id: workspaceId,
             _capability: cap,
           });
@@ -89,7 +90,7 @@ export const useCapabilities = (
 
       return results;
     },
-    enabled: !!workspaceId && capabilities.length > 0,
+    enabled: !!workspaceId && !!userId && capabilities.length > 0,
     staleTime: 5 * 60 * 1000,
   });
 };
