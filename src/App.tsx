@@ -1,25 +1,24 @@
+import type React from "react";
 import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
-import { AppProvider } from "./contexts/AppProvider";
+import { NotificationProvider } from "./contexts/NotificationContext";
 import { ErrorBoundary } from "./components/ErrorBoundary";
-import { InlineDashboardSkeleton, MarketingSkeleton, DashboardSkeleton } from "./components/SkeletonLoader";
+import { MarketingSkeleton, DashboardSkeleton } from "./components/SkeletonLoader";
 import { SkipToContent } from "./components/SkipToContent";
 import { NetworkStatus } from "./components/ui/network-status";
 import { AppWithHelp } from "./components/AppWithHelp";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 // PHASE: AnimatedRoutes removed - causes LCP recalculation
-import { ProtectedRoute } from "./components/auth/ProtectedRoute";
-import { PerformanceProvider } from "@/components/performance/PerformanceProvider";
-import { LinkIdRedirect } from "./components/redirects/LinkIdRedirect";
 import { lazyWithRetry } from "./utils/lazyWithRetry";
 import { InstallPrompt } from "./components/pwa/InstallPrompt";
 import { UpdateNotification } from "./components/pwa/UpdateNotification";
 // PHASE 14: Use centralized queryClient - no duplicate QueryClient creation
 import { queryClient as centralQueryClient } from "@/lib/queryConfig";
+const PrivateRoutes = lazy(() => import("./routes/PrivateRoutes"));
 
 // PHASE 14: Deferred providers - only load when needed
 const AdminSimulationProvider = lazy(() => import("./contexts/AdminSimulationContext").then(m => ({ default: m.AdminSimulationProvider })));
@@ -27,7 +26,7 @@ const ModalProvider = lazy(() => import("./contexts/ModalContext").then(m => ({ 
 const GlobalEarlyAccessModal = lazy(() => import("./components/early-access/GlobalEarlyAccessModal").then(m => ({ default: m.GlobalEarlyAccessModal })));
 
 // PHASE 17: Lazy load Index page for code splitting
-const Index = lazy(() => import("./pages/Index"));
+const Index = lazy(() => import("./public/routes/Index"));
 
 // Auth pages - lazy loaded with preload hints for likely navigation
 const Auth = lazy(() => import("./pages/Auth"));
@@ -45,41 +44,13 @@ const Surprise = lazy(() => import("./pages/Surprise"));
 const AuthCallback = lazy(() => import("./pages/AuthCallback"));
 const WaitlistLocked = lazy(() => import("./pages/WaitlistLocked"));
 
-// Lazy-loaded pages for code splitting
-const DashboardHome = lazy(() => import("./pages/dashboard/DashboardHome"));
-const DashboardLinks = lazy(() => import("./pages/dashboard/Links"));
-const DashboardAnalytics = lazy(() => import("./pages/dashboard/Analytics"));
-const DashboardQRCodes = lazy(() => import("./pages/dashboard/QRCodes"));
-const Targeting = lazy(() => import("./pages/dashboard/Targeting"));
-const BulkCreate = lazy(() => import("./pages/dashboard/BulkCreate"));
-const CacheMonitoring = lazy(() => import("./pages/dashboard/CacheMonitoring"));
-const AnalyticsPerformance = lazy(() => import("./pages/dashboard/AnalyticsPerformance"));
-const LinkHealth = lazy(() => import("./pages/dashboard/LinkHealth"));
-const Experiments = lazy(() => import("./pages/dashboard/Experiments"));
-const Attribution = lazy(() => import("./pages/dashboard/Attribution"));
-const RobustAttribution = lazy(() => import("./pages/RobustAttribution"));
-const DashboardSales = lazy(() => import("./pages/dashboard/Sales"));
-const DashboardEvents = lazy(() => import("./pages/dashboard/Events"));
-const Intelligence = lazy(() => import("./pages/dashboard/Intelligence"));
-
-// Critical layouts - static imports to prevent module loading failures
-import { DashboardLayout } from "./components/layout/DashboardLayout";
-const Links = lazy(() => import("./pages/Links"));
-const LinkDetail = lazy(() => import("./pages/LinkDetail"));
-const Analytics = lazy(() => import("./pages/Analytics"));
-const Settings = lazy(() => import("./pages/Settings"));
-
-const OnboardingWizard = lazy(() => import("./pages/OnboardingWizard"));
-const Backup = lazy(() => import("./pages/Settings/Backup"));
-const DeveloperSettings = lazy(() => import("./pages/DeveloperSettings"));
-const ApprovalQueue = lazy(() => import("./pages/ApprovalQueue"));
 const PasswordProtected = lazy(() => import("./pages/PasswordProtected"));
 const Accessibility = lazy(() => import("./pages/Accessibility"));
 const Permanence = lazy(() => import("./pages/Permanence"));
-const Pricing = lazy(() => import("./pages/Pricing"));
+const Pricing = lazy(() => import("./public/routes/Pricing"));
 const LifetimeDeal = lazy(() => import("./pages/LifetimeDeal"));
 const About = lazy(() => import("./pages/AboutNew"));
-const Docs = lazy(() => import("./pages/Docs"));
+const Docs = lazy(() => import("./public/routes/Docs"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const Changelog = lazy(() => import("./pages/Changelog"));
 const Support = lazy(() => import("./pages/Support"));
@@ -108,32 +79,8 @@ const StatusPage = lazy(() => import("./pages/Status"));
 const PublicRoadmap = lazy(() => import("./pages/PublicRoadmap"));
 const PublicBugTracker = lazy(() => import("./pages/PublicBugTracker"));
 const AcceptInvite = lazy(() => import("./pages/AcceptInvite"));
-const OneLinkValidator = lazy(() => import("./pages/dashboard/OneLinkValidator"));
-const URLShortenerPro = lazy(() => import("./pages/dashboard/URLShortenerPro"));
-const Campaigns = lazy(() => import("./pages/dashboard/Campaigns"));
-const CampaignDetails = lazy(() => import("./pages/dashboard/CampaignDetails"));
-
-// Admin pages - AdminLayout is static, pages use retry wrapper for resilience
-import { AdminLayout } from "./components/admin/AdminLayout";
-const AdminDashboard = lazyWithRetry(() => import("./pages/admin/Dashboard"));
-const WaitlistManagement = lazyWithRetry(() => import("./pages/admin/WaitlistManagement"));
-const UserManagement = lazyWithRetry(() => import("./pages/admin/UserManagement"));
-const LandingManagement = lazyWithRetry(() => import("./pages/admin/LandingManagement"));
-const ProductAnalytics = lazyWithRetry(() => import("./pages/admin/ProductAnalytics"));
-const SystemMonitoring = lazyWithRetry(() => import("./pages/admin/SystemMonitoring"));
-const FeatureFlags = lazyWithRetry(() => import("./pages/admin/FeatureFlags"));
-const FlagDetails = lazyWithRetry(() => import("./pages/admin/FlagDetails"));
-const PartnersManagement = lazyWithRetry(() => import("./pages/admin/PartnersManagement"));
-const SystemTests = lazyWithRetry(() => import("./pages/admin/SystemTests"));
-const MFAVerify = lazyWithRetry(() => import("./pages/admin/MFAVerify"));
-const AdminSecurity = lazyWithRetry(() => import("./pages/admin/AdminSecurity"));
-const SubscriptionManagement = lazyWithRetry(() => import("./pages/admin/SubscriptionManagement"));
-const FeedbackManagement = lazyWithRetry(() => import("./pages/admin/FeedbackManagement"));
-const RoadmapManagement = lazyWithRetry(() => import("./pages/admin/RoadmapManagement"));
-const TotpVerification = lazy(() => import("./pages/auth/TotpVerification"));
-
 // Feature Pages
-const Features = lazy(() => import("./pages/Features"));
+const Features = lazy(() => import("./public/routes/Features"));
 const HowItWorks = lazy(() => import("./pages/HowItWorksNew"));
 const ShortLinks = lazy(() => import("./pages/features/ShortLinks"));
 const UTMBuilder = lazy(() => import("./pages/features/UTMBuilder"));
@@ -536,149 +483,101 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 // PHASE 14: Use centralized queryClient from lib/queryConfig.ts
 const queryClient = centralQueryClient;
 
-const App = () => (
-  <ErrorBoundary>
-    <ThemeProvider>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          {/* PHASE C: Merged AppProvider (Session + Workspace + Notification) */}
-          <AppProvider>
-            <Toaster />
-            {/* Deferred providers - only load when needed */}
-            <Suspense fallback={null}>
-                <ModalProvider>
-                    <SkipToContent />
-                    <ScrollToTop />
-                    <NetworkStatus />
-                    <AppWithHelp>
-                    <Routes>
-              {/* PHASE 17: Lazy load Index page */}
-              <Route path="/" element={<Suspense fallback={<MarketingSkeleton />}><Index /></Suspense>} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/mc" element={<AdminAuth />} />
-              <Route path="/auth/callback" element={<Suspense fallback={<DashboardSkeleton />}><AuthCallback /></Suspense>} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/waitlist-pending" element={<Suspense fallback={<DashboardSkeleton />}><WaitlistPending /></Suspense>} />
-              <Route path="/waitlist-locked" element={<Suspense fallback={<DashboardSkeleton />}><WaitlistLocked /></Suspense>} />
-              <Route path="/link-expired" element={<LinkExpired />} />
-               
-               {/* Public Tools */}
-               <Route path="/tools/qr" element={<Suspense fallback={<MarketingSkeleton />}><PublicQRGenerator /></Suspense>} />
-               <Route path="/tools/shorten" element={<Suspense fallback={<MarketingSkeleton />}><PublicURLShortener /></Suspense>} />
-               <Route path="/tools/utm-builder" element={<Suspense fallback={<MarketingSkeleton />}><PublicUTMBuilder /></Suspense>} />
-               <Route path="/tools/utm-builder-linkedin" element={<Suspense fallback={<MarketingSkeleton />}><UTMBuilderLinkedIn /></Suspense>} />
-               <Route path="/tools/utm-builder-facebook" element={<Suspense fallback={<MarketingSkeleton />}><UTMBuilderFacebook /></Suspense>} />
-               <Route path="/tools/utm-builder-google-ads" element={<Suspense fallback={<MarketingSkeleton />}><UTMBuilderGoogleAds /></Suspense>} />
-               <Route path="/tools/utm-builder-tiktok" element={<Suspense fallback={<MarketingSkeleton />}><UTMBuilderTikTok /></Suspense>} />
-               <Route path="/tools/utm-builder-email" element={<Suspense fallback={<MarketingSkeleton />}><UTMBuilderEmail /></Suspense>} />
-               <Route path="/tools/link-health-checker" element={<Suspense fallback={<MarketingSkeleton />}><PublicLinkHealthChecker /></Suspense>} />
-               
-               {/* Viral Tools Hub */}
-               <Route path="/tools" element={<Suspense fallback={<MarketingSkeleton />}><ToolsHub /></Suspense>} />
-               <Route path="/tools/scanner" element={<Suspense fallback={<MarketingSkeleton />}><Scanner /></Suspense>} />
-               <Route path="/tools/casino" element={<Suspense fallback={<MarketingSkeleton />}><Casino /></Suspense>} />
+const PublicLayout = () => <Outlet />;
+
+const AppRoutes = () => {
+  const routeTree = (
+      // Deferred providers - only load when needed
+      <Suspense fallback={null}>
+        <ModalProvider>
+          <Toaster />
+          <SkipToContent />
+          <ScrollToTop />
+          <NetworkStatus />
+          <AppWithHelp>
+            <Routes>
+              <Route element={<PublicLayout />}>
+                {/* PHASE 17: Lazy load Index page */}
+                <Route path="/" element={<Suspense fallback={<MarketingSkeleton />}><Index /></Suspense>} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/mc" element={<AdminAuth />} />
+                <Route path="/auth/callback" element={<Suspense fallback={<DashboardSkeleton />}><AuthCallback /></Suspense>} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/waitlist-pending" element={<Suspense fallback={<DashboardSkeleton />}><WaitlistPending /></Suspense>} />
+                <Route path="/waitlist-locked" element={<Suspense fallback={<DashboardSkeleton />}><WaitlistLocked /></Suspense>} />
+                <Route path="/link-expired" element={<LinkExpired />} />
+
+                {/* Public Tools */}
+                <Route path="/tools/qr" element={<Suspense fallback={<MarketingSkeleton />}><PublicQRGenerator /></Suspense>} />
+                <Route path="/tools/shorten" element={<Suspense fallback={<MarketingSkeleton />}><PublicURLShortener /></Suspense>} />
+                <Route path="/tools/utm-builder" element={<Suspense fallback={<MarketingSkeleton />}><PublicUTMBuilder /></Suspense>} />
+                <Route path="/tools/utm-builder-linkedin" element={<Suspense fallback={<MarketingSkeleton />}><UTMBuilderLinkedIn /></Suspense>} />
+                <Route path="/tools/utm-builder-facebook" element={<Suspense fallback={<MarketingSkeleton />}><UTMBuilderFacebook /></Suspense>} />
+                <Route path="/tools/utm-builder-google-ads" element={<Suspense fallback={<MarketingSkeleton />}><UTMBuilderGoogleAds /></Suspense>} />
+                <Route path="/tools/utm-builder-tiktok" element={<Suspense fallback={<MarketingSkeleton />}><UTMBuilderTikTok /></Suspense>} />
+                <Route path="/tools/utm-builder-email" element={<Suspense fallback={<MarketingSkeleton />}><UTMBuilderEmail /></Suspense>} />
+                <Route path="/tools/link-health-checker" element={<Suspense fallback={<MarketingSkeleton />}><PublicLinkHealthChecker /></Suspense>} />
+
+                {/* Viral Tools Hub */}
+                <Route path="/tools" element={<Suspense fallback={<MarketingSkeleton />}><ToolsHub /></Suspense>} />
+                <Route path="/tools/scanner" element={<Suspense fallback={<MarketingSkeleton />}><Scanner /></Suspense>} />
+                <Route path="/tools/casino" element={<Suspense fallback={<MarketingSkeleton />}><Casino /></Suspense>} />
                 <Route path="/tools/galaxy" element={<Suspense fallback={<MarketingSkeleton />}><Galaxy /></Suspense>} />
                 <Route path="/tools/qr-test" element={<Suspense fallback={<MarketingSkeleton />}><QRTest /></Suspense>} />
                 <Route path="/loader-demo" element={<Suspense fallback={<MarketingSkeleton />}><LoaderDemo /></Suspense>} />
-               
-               {/* Trust Cluster */}
-               <Route path="/trust" element={<Suspense fallback={<MarketingSkeleton />}><TrustPage /></Suspense>} />
-               <Route path="/status" element={<Suspense fallback={<MarketingSkeleton />}><StatusPage /></Suspense>} />
-               <Route path="/roadmap" element={<Suspense fallback={<MarketingSkeleton />}><PublicRoadmap /></Suspense>} />
-               <Route path="/feedback" element={<Suspense fallback={<MarketingSkeleton />}><PublicBugTracker /></Suspense>} />
-               
-               {/* Invitation Acceptance */}
-               <Route path="/accept-invite" element={<Suspense fallback={<DashboardSkeleton />}><AcceptInvite /></Suspense>} />
-              
-               {/* Dashboard Routes - Protected */}
-              <Route path="/dashboard" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardHome /></DashboardLayout></Suspense></ProtectedRoute>} />
-              <Route path="/dashboard/links" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardLinks /></DashboardLayout></Suspense></ProtectedRoute>} />
-              <Route path="/dashboard/analytics" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardAnalytics /></DashboardLayout></Suspense></ProtectedRoute>} />
-              <Route path="/dashboard/qr-codes" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardQRCodes /></DashboardLayout></Suspense></ProtectedRoute>} />
-              <Route path="/dashboard/brickmatrix" element={<Navigate to="/dashboard/qr-codes?tab=brick-builder" replace />} />
-              <Route path="/dashboard/targeting" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Targeting /></DashboardLayout></Suspense></ProtectedRoute>} />
-              <Route path="/dashboard/targeting/:linkId" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Targeting /></DashboardLayout></Suspense></ProtectedRoute>} />
-              <Route path="/dashboard/bulk-create" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><BulkCreate /></DashboardLayout></Suspense></ProtectedRoute>} />
-              <Route path="/dashboard/onelink-validator" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><OneLinkValidator /></DashboardLayout></Suspense></ProtectedRoute>} />
-              <Route path="/dashboard/campaigns" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Campaigns /></DashboardLayout></Suspense></ProtectedRoute>} />
-              <Route path="/dashboard/campaigns/:id" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><CampaignDetails /></DashboardLayout></Suspense></ProtectedRoute>} />
-              <Route path="/dashboard/cache-monitoring" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><CacheMonitoring /></DashboardLayout></Suspense></ProtectedRoute>} />
-              <Route path="/dashboard/analytics-performance" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><AnalyticsPerformance /></DashboardLayout></Suspense></ProtectedRoute>} />
-               <Route path="/dashboard/link-health" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><LinkHealth /></DashboardLayout></Suspense></ProtectedRoute>} />
-               <Route path="/dashboard/experiments" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Experiments /></DashboardLayout></Suspense></ProtectedRoute>} />
-               <Route path="/dashboard/attribution" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Attribution /></DashboardLayout></Suspense></ProtectedRoute>} />
-               <Route path="/dashboard/robust-attribution" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><RobustAttribution /></DashboardLayout></Suspense></ProtectedRoute>} />
-               <Route path="/dashboard/sales" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardSales /></DashboardLayout></Suspense></ProtectedRoute>} />
-               <Route path="/dashboard/event-halo" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardEvents /></DashboardLayout></Suspense></ProtectedRoute>} />
-               <Route path="/dashboard/events" element={<Navigate to="/dashboard/event-halo" replace />} />
-               <Route path="/dashboard/intelligence" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Intelligence /></DashboardLayout></Suspense></ProtectedRoute>} />
-               
-              {/* Onboarding Routes - No ProtectedRoute to prevent redirect loops after signup */}
-              <Route path="/onboarding" element={<Suspense fallback={<DashboardSkeleton />}><OnboardingWizard /></Suspense>} />
-              
-              <Route path="/links" element={<Navigate to="/dashboard/links" replace />} />
-              <Route path="/links/:linkId" element={<LinkIdRedirect />} />
-              {/* Explicit create route BEFORE dynamic :linkId to prevent "create" being treated as UUID */}
-              <Route path="/dashboard/links/create" element={<Navigate to="/dashboard/links" replace />} />
-              <Route path="/dashboard/links/:linkId" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><LinkDetail /></DashboardLayout></Suspense></ProtectedRoute>} />
-              <Route path="/analytics" element={<Navigate to="/dashboard/intelligence" replace />} />
-              
-              {/* 2FA Verification Route */}
-              <Route path="/auth/verify-2fa" element={<Suspense fallback={<DashboardSkeleton />}><TotpVerification /></Suspense>} />
-              
-              {/* Admin Routes - Protected with MFA */}
-              <Route path="/admin/mfa-verify" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><MFAVerify /></Suspense></ProtectedRoute>} />
-              <Route path="/admin" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><AdminDashboard /></AdminLayout></Suspense></ProtectedRoute>} />
-              <Route path="/admin/waitlist" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><WaitlistManagement /></AdminLayout></Suspense></ProtectedRoute>} />
-              <Route path="/admin/users" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><UserManagement /></AdminLayout></Suspense></ProtectedRoute>} />
-              <Route path="/admin/landing" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><LandingManagement /></AdminLayout></Suspense></ProtectedRoute>} />
-              <Route path="/admin/product" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><ProductAnalytics /></AdminLayout></Suspense></ProtectedRoute>} />
-              <Route path="/admin/system" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><SystemMonitoring /></AdminLayout></Suspense></ProtectedRoute>} />
-              <Route path="/admin/feature-flags" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><FeatureFlags /></AdminLayout></Suspense></ProtectedRoute>} />
-              <Route path="/admin/flags/:flagKey" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><FlagDetails /></AdminLayout></Suspense></ProtectedRoute>} />
-              <Route path="/admin/security" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><AdminSecurity /></AdminLayout></Suspense></ProtectedRoute>} />
-              <Route path="/admin/partners" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><PartnersManagement /></AdminLayout></Suspense></ProtectedRoute>} />
-              <Route path="/admin/tests" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><SystemTests /></AdminLayout></Suspense></ProtectedRoute>} />
-              <Route path="/admin/subscriptions" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><SubscriptionManagement /></AdminLayout></Suspense></ProtectedRoute>} />
-              <Route path="/admin/feedback" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><FeedbackManagement /></AdminLayout></Suspense></ProtectedRoute>} />
-              <Route path="/admin/roadmap" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><RoadmapManagement /></AdminLayout></Suspense></ProtectedRoute>} />
-              
-              {/* Settings Routes - Protected */}
-              <Route path="/settings" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense></ProtectedRoute>} />
-              <Route path="/settings/workspace" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense></ProtectedRoute>} />
-              <Route path="/settings/profile" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense></ProtectedRoute>} />
-              <Route path="/settings/domains" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense></ProtectedRoute>} />
-              <Route path="/settings/billing" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense></ProtectedRoute>} />
-              <Route path="/settings/tracking" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense></ProtectedRoute>} />
-              <Route path="/settings/backups" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Backup /></Suspense></ProtectedRoute>} />
-              <Route path="/settings/backup" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Backup /></Suspense></ProtectedRoute>} />
-              <Route path="/settings/developer" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DeveloperSettings /></Suspense></ProtectedRoute>} />
-              <Route path="/dashboard/approvals" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><ApprovalQueue /></DashboardLayout></Suspense></ProtectedRoute>} />
-              <Route path="/password-protected" element={<Suspense fallback={<DashboardSkeleton />}><PasswordProtected /></Suspense>} />
-              <Route path="/accessibility" element={<Suspense fallback={<MarketingSkeleton />}><Accessibility /></Suspense>} />
-              <Route path="/permanence" element={<Suspense fallback={<MarketingSkeleton />}><Permanence /></Suspense>} />
-              <Route path="/pricing" element={<Suspense fallback={<MarketingSkeleton />}><Pricing /></Suspense>} />
-              <Route path="/lifetime-deal" element={<Suspense fallback={<MarketingSkeleton />}><LifetimeDeal /></Suspense>} />
-              <Route path="/about" element={<Suspense fallback={<MarketingSkeleton />}><About /></Suspense>} />
-              <Route path="/docs" element={<Suspense fallback={<MarketingSkeleton />}><Docs /></Suspense>} />
-              <Route path="/faq" element={<Suspense fallback={<MarketingSkeleton />}><FAQ /></Suspense>} />
-              <Route path="/changelog" element={<Suspense fallback={<MarketingSkeleton />}><Changelog /></Suspense>} />
-              <Route path="/support" element={<Suspense fallback={<MarketingSkeleton />}><Support /></Suspense>} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/integration" element={<Navigate to="/features/integrations" replace />} />
-              <Route path="/integrations" element={<Navigate to="/features/integrations" replace />} />
-              <Route path="/docs/api" element={<Suspense fallback={<MarketingSkeleton />}><APIDocumentation /></Suspense>} />
-              <Route path="/docs/playground" element={<Suspense fallback={<MarketingSkeleton />}><APIPlayground /></Suspense>} />
-              <Route path="/docs/sdks" element={<Suspense fallback={<MarketingSkeleton />}><SDKs /></Suspense>} />
-              <Route path="/docs/pixel-installation" element={<Suspense fallback={<MarketingSkeleton />}><PixelInstallation /></Suspense>} />
-              <Route path="/docs/revenue-attribution" element={<Suspense fallback={<MarketingSkeleton />}><RevenueAttribution /></Suspense>} />
-              <Route path="/docs/crm-integrations" element={<Suspense fallback={<MarketingSkeleton />}><CRMIntegrations /></Suspense>} />
-              <Route path="/docs/chrome-extension" element={<Suspense fallback={<MarketingSkeleton />}><ChromeExtensionDocs /></Suspense>} />
-              <Route path="/docs/geo-targeting" element={<Suspense fallback={<MarketingSkeleton />}><GeoTargetingDocs /></Suspense>} />
-              <Route path="/docs/identity-graph" element={<Suspense fallback={<MarketingSkeleton />}><IdentityGraphDocs /></Suspense>} />
-              <Route path="/docs/smart-insights" element={<Suspense fallback={<MarketingSkeleton />}><SmartInsightsDocs /></Suspense>} />
-              <Route path="/docs/troubleshooting" element={<Suspense fallback={<MarketingSkeleton />}><TroubleshootingDocs /></Suspense>} />
+
+                {/* Trust Cluster */}
+                <Route path="/trust" element={<Suspense fallback={<MarketingSkeleton />}><TrustPage /></Suspense>} />
+                <Route path="/status" element={<Suspense fallback={<MarketingSkeleton />}><StatusPage /></Suspense>} />
+                <Route path="/roadmap" element={<Suspense fallback={<MarketingSkeleton />}><PublicRoadmap /></Suspense>} />
+                <Route path="/feedback" element={<Suspense fallback={<MarketingSkeleton />}><PublicBugTracker /></Suspense>} />
+
+                {/* Invitation Acceptance */}
+                <Route
+                  path="/accept-invite"
+                  element={(
+                    <Suspense fallback={<DashboardSkeleton />}>
+                      <AcceptInvite />
+                    </Suspense>
+                  )}
+                />
+
+                <Suspense fallback={<DashboardSkeleton />}>
+                  <PrivateRoutes />
+                </Suspense>
+
+                <Route
+                  path="/password-protected"
+                  element={(
+                    <Suspense fallback={<DashboardSkeleton />}>
+                      <PasswordProtected />
+                    </Suspense>
+                  )}
+                />
+                <Route path="/accessibility" element={<Suspense fallback={<MarketingSkeleton />}><Accessibility /></Suspense>} />
+                <Route path="/permanence" element={<Suspense fallback={<MarketingSkeleton />}><Permanence /></Suspense>} />
+                <Route path="/pricing" element={<Suspense fallback={<MarketingSkeleton />}><Pricing /></Suspense>} />
+                <Route path="/lifetime-deal" element={<Suspense fallback={<MarketingSkeleton />}><LifetimeDeal /></Suspense>} />
+                <Route path="/about" element={<Suspense fallback={<MarketingSkeleton />}><About /></Suspense>} />
+                <Route path="/docs" element={<Suspense fallback={<MarketingSkeleton />}><Docs /></Suspense>} />
+                <Route path="/faq" element={<Suspense fallback={<MarketingSkeleton />}><FAQ /></Suspense>} />
+                <Route path="/changelog" element={<Suspense fallback={<MarketingSkeleton />}><Changelog /></Suspense>} />
+                <Route path="/support" element={<Suspense fallback={<MarketingSkeleton />}><Support /></Suspense>} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/integration" element={<Navigate to="/features/integrations" replace />} />
+                <Route path="/integrations" element={<Navigate to="/features/integrations" replace />} />
+                <Route path="/docs/api" element={<Suspense fallback={<MarketingSkeleton />}><APIDocumentation /></Suspense>} />
+                <Route path="/docs/playground" element={<Suspense fallback={<MarketingSkeleton />}><APIPlayground /></Suspense>} />
+                <Route path="/docs/sdks" element={<Suspense fallback={<MarketingSkeleton />}><SDKs /></Suspense>} />
+                <Route path="/docs/pixel-installation" element={<Suspense fallback={<MarketingSkeleton />}><PixelInstallation /></Suspense>} />
+                <Route path="/docs/revenue-attribution" element={<Suspense fallback={<MarketingSkeleton />}><RevenueAttribution /></Suspense>} />
+                <Route path="/docs/crm-integrations" element={<Suspense fallback={<MarketingSkeleton />}><CRMIntegrations /></Suspense>} />
+                <Route path="/docs/chrome-extension" element={<Suspense fallback={<MarketingSkeleton />}><ChromeExtensionDocs /></Suspense>} />
+                <Route path="/docs/geo-targeting" element={<Suspense fallback={<MarketingSkeleton />}><GeoTargetingDocs /></Suspense>} />
+                <Route path="/docs/identity-graph" element={<Suspense fallback={<MarketingSkeleton />}><IdentityGraphDocs /></Suspense>} />
+                <Route path="/docs/smart-insights" element={<Suspense fallback={<MarketingSkeleton />}><SmartInsightsDocs /></Suspense>} />
+                <Route path="/docs/troubleshooting" element={<Suspense fallback={<MarketingSkeleton />}><TroubleshootingDocs /></Suspense>} />
               
               {/* Feature Pages */}
               <Route path="/features" element={<Suspense fallback={<MarketingSkeleton />}><Features /></Suspense>} />
@@ -1077,12 +976,9 @@ const App = () => (
               <Route path="/contact" element={<Suspense fallback={<MarketingSkeleton />}><BookDemo /></Suspense>} />
               <Route path="/partners" element={<Suspense fallback={<MarketingSkeleton />}><Partners /></Suspense>} />
               <Route path="/partners/apply" element={<Suspense fallback={<MarketingSkeleton />}><PartnerApply /></Suspense>} />
-              <Route path="/partners/dashboard" element={<Suspense fallback={<DashboardSkeleton />}><PartnerDashboard /></Suspense>} />
               <Route path="/partners/terms" element={<Suspense fallback={<MarketingSkeleton />}><PartnerTerms /></Suspense>} />
               <Route path="/integrations/zapier" element={<Suspense fallback={<MarketingSkeleton />}><ZapierIntegration /></Suspense>} />
               <Route path="/integrations/slack" element={<Suspense fallback={<MarketingSkeleton />}><SlackIntegration /></Suspense>} />
-              <Route path="/integrations/gtm" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><GTMSettings /></DashboardLayout></Suspense>} />
-              <Route path="/settings/integrations" element={<Suspense fallback={<DashboardSkeleton />}><IntegrationsSettings /></Suspense>} />
               <Route path="/privacy-policy" element={<Suspense fallback={<MarketingSkeleton />}><PrivacyPolicy /></Suspense>} />
               
               {/* Legal Pages */}
@@ -1095,27 +991,37 @@ const App = () => (
               <Route path="/legal/subprocessors" element={<Suspense fallback={<MarketingSkeleton />}><Subprocessors /></Suspense>} />
               <Route path="/legal/dpa" element={<Suspense fallback={<MarketingSkeleton />}><DPA /></Suspense>} />
               <Route path="/legal/support" element={<Suspense fallback={<MarketingSkeleton />}><SupportPolicy /></Suspense>} />
-              <Route path="/client-workspaces" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><ClientWorkspaces /></DashboardLayout></Suspense>} />
               <Route path="/analytics/share/:token" element={<Suspense fallback={<MarketingSkeleton />}><AnalyticsShare /></Suspense>} />
-              
-              {/* Dev Tools - Development Only */}
-              <Route path="/dev/performance" element={<Suspense fallback={<DashboardSkeleton />}><PerformanceAudit /></Suspense>} />
               
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<Suspense fallback={<MarketingSkeleton />}><NotFound /></Suspense>} />
             </Routes>
-            </AppWithHelp>
+          </AppWithHelp>
           {/* PHASE 14: Lazy-loaded global modals */}
           <Suspense fallback={null}>
             <GlobalEarlyAccessModal />
           </Suspense>
           <InstallPrompt />
           <UpdateNotification />
-                    </ModalProvider>
-                </Suspense>
-              </AppProvider>
-        </BrowserRouter>
-      </QueryClientProvider>
+        </ModalProvider>
+      </Suspense>
+  );
+
+  return routeTree;
+};
+
+const App = () => (
+  <ErrorBoundary>
+    <ThemeProvider>
+      <NotificationProvider>
+        <TooltipProvider>
+          <QueryClientProvider client={queryClient}>
+            <BrowserRouter>
+              <AppRoutes />
+            </BrowserRouter>
+          </QueryClientProvider>
+        </TooltipProvider>
+      </NotificationProvider>
     </ThemeProvider>
   </ErrorBoundary>
 );
