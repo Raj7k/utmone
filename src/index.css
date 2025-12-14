@@ -1,28 +1,5 @@
-/* Fonts loaded via index.html for Obsidian System: Space Grotesk, Inter, Playfair Display, JetBrains Mono */
-/* Font display optimization for faster text rendering */
-@font-face {
-  font-family: 'Inter';
-  font-display: swap;
-  src: local('Inter');
-}
-
-@font-face {
-  font-family: 'Space Grotesk';
-  font-display: swap;
-  src: local('Space Grotesk');
-}
-
-@font-face {
-  font-family: 'Playfair Display';
-  font-display: swap;
-  src: local('Playfair Display');
-}
-
-@font-face {
-  font-family: 'JetBrains Mono';
-  font-display: swap;
-  src: local('JetBrains Mono');
-}
+/* System fonts render immediately, web fonts swap in when loaded */
+/* This eliminates render-blocking font loading */
 
 @tailwind base;
 @tailwind components;
@@ -322,9 +299,10 @@ All colors MUST be HSL.
     --deep-sea: 184 92% 18%;      /* #075056 - Deep teal-green */
     --wild-sand: 180 25% 93%;     /* #E4EEF0 - Light beige */
     --sidebar: 248 0.3% 98.4%;
-    --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    /* System fonts first for instant text, web fonts swap in */
+    --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-serif: ui-serif, Georgia, Cambria, 'Playfair Display', "Times New Roman", Times, serif;
+    --font-mono: ui-monospace, SFMono-Regular, 'JetBrains Mono', Menlo, Monaco, Consolas, monospace;
     --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
     --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
     --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
