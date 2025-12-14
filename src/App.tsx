@@ -3,7 +3,7 @@ import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { NotificationProvider } from "./contexts/NotificationContext";
 import { ErrorBoundary } from "./components/ErrorBoundary";
@@ -18,7 +18,6 @@ import { InstallPrompt } from "./components/pwa/InstallPrompt";
 import { UpdateNotification } from "./components/pwa/UpdateNotification";
 // PHASE 14: Use centralized queryClient - no duplicate QueryClient creation
 import { queryClient as centralQueryClient } from "@/lib/queryConfig";
-import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { ModalProvider } from "./contexts/ModalContext";
 const PrivateRoutes = lazy(() => import("./routes/PrivateRoutes"));
 
@@ -991,16 +990,18 @@ const AppRoutes = () => {
               <Route path="/analytics/share/:token" element={<Suspense fallback={<MarketingSkeleton />}><AnalyticsShare /></Suspense>} />
               
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </AppWithHelp>
-          {/* PHASE 14: Lazy-loaded global modals */}
-          <Suspense fallback={null}>
-            <GlobalEarlyAccessModal />
-          </Suspense>
-          <InstallPrompt />
-          <UpdateNotification />
-        </ModalProvider>
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AppWithHelp>
+        {/* PHASE 14: Lazy-loaded global modals */}
+        <Suspense fallback={null}>
+          <GlobalEarlyAccessModal />
+        </Suspense>
+        <InstallPrompt />
+        <UpdateNotification />
+      </ModalProvider>
+    </Suspense>
   );
 
   return routeTree;
