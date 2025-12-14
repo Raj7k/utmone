@@ -1,5 +1,7 @@
-// Main hooks barrel file - re-exports from domain-specific folders
-// This provides backward compatibility while organizing hooks by domain
+/**
+ * Main hooks barrel file - re-exports from domain-specific folders
+ * This provides backward compatibility while organizing hooks by domain
+ */
 
 // Core hooks (kept in root for maximum compatibility)
 export { useDashboardUnified } from "./useDashboardUnified";
@@ -12,8 +14,6 @@ export * from "./dashboard";
 export * from "./workspace";
 export * from "./links";
 export * from "./analytics";
-
-// Additional domain folders
 export * from "./campaigns";
 export * from "./attribution";
 export * from "./ai";
