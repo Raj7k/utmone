@@ -543,9 +543,7 @@ const AppRoutes = () => {
                   )}
                 />
 
-                <Suspense fallback={<DashboardSkeleton />}>
-                  <PrivateRoutes />
-                </Suspense>
+                <PrivateRoutes />
 
                 <Route
                   path="/password-protected"
