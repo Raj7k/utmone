@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { SmartImage } from "@/components/ui/smart-image";
 
 interface CardConfig {
   type: "link" | "utm" | "qr";
@@ -52,14 +53,12 @@ export const FloatingCards = ({ cards, caption }: FloatingCardsProps) => {
             }}
           >
             <div className="rounded-xl p-6 transition-shadow obsidian-glass">
-              <div className="aspect-[4/3] rounded-lg overflow-hidden mb-4 bg-white/5">
-                <img
-                  src={card.preview}
-                  alt={card.title}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              </div>
+              <SmartImage
+                src={card.preview}
+                alt={card.title}
+                aspectRatio="4/3"
+                className="w-full h-full rounded-lg overflow-hidden mb-4 bg-white/5"
+              />
               <h3 className="text-lg font-display font-semibold text-center text-white-90">
                 {card.title}
               </h3>
@@ -81,14 +80,12 @@ export const FloatingCards = ({ cards, caption }: FloatingCardsProps) => {
             style={{ transitionDelay: `${index * 150}ms` }}
           >
             <div className="rounded-xl p-6 obsidian-glass">
-              <div className="aspect-[4/3] rounded-lg overflow-hidden mb-4 bg-white/5">
-                <img
-                  src={card.preview}
-                  alt={card.title}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              </div>
+              <SmartImage
+                src={card.preview}
+                alt={card.title}
+                aspectRatio="4/3"
+                className="w-full h-full rounded-lg overflow-hidden mb-4 bg-white/5"
+              />
               <h3 className="text-lg font-display font-semibold text-center text-white-90">
                 {card.title}
               </h3>

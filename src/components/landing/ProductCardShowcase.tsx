@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { SmartImage } from "@/components/ui/smart-image";
 
 interface ProductCardShowcaseProps {
   imageUrl: string;
@@ -53,14 +54,12 @@ export const ProductCardShowcase = ({
         className={`relative rounded-xl overflow-hidden shadow-2xl transition-all duration-700 hover:shadow-3xl hover:scale-[1.02] group border border-white-10 ${animationClass}`}
         style={{ perspective: "1000px" }}
       >
-        <div className={`w-full ${aspectRatioClass} bg-white/5`}>
-          <img
-            src={imageUrl}
-            alt={title}
-            className="w-full h-full object-cover"
-            loading="lazy"
-          />
-        </div>
+        <SmartImage
+          src={imageUrl}
+          alt={title}
+          aspectRatio={aspectRatio}
+          className={`w-full ${aspectRatioClass} bg-white/5`}
+        />
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none bg-gradient-to-t from-obsidian/80 to-transparent" />
       </div>
       <p className="text-sm text-center tracking-wide text-white-50">
