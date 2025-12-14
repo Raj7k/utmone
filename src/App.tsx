@@ -1155,7 +1155,7 @@ const AppRoutes = () => {
     </>
   );
 
-  return isPrivateRoute ? <AppProvider>{routeTree}</AppProvider> : routeTree;
+  return isPrivateRoute ? <AppProvider>{routeTree}</AppProvider> : <NotificationProvider>{routeTree}</NotificationProvider>;
 };
 
 const App = () => (
