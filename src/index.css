@@ -100,6 +100,37 @@ All colors MUST be HSL.
   50% { opacity: 1; transform: scale(1.2); }
 }
 
+/* PHASE: CSS-only page transitions - replaces Framer Motion */
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes page-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-page-enter {
+  animation: page-enter 0.2s ease-out forwards;
+}
+
+.animate-page-fade {
+  animation: page-fade 0.15s ease-out forwards;
+}
+
+/* Staggered animation delays for child elements */
+.stagger-1 { animation-delay: 50ms; }
+.stagger-2 { animation-delay: 100ms; }
+.stagger-3 { animation-delay: 150ms; }
+.stagger-4 { animation-delay: 200ms; }
+
 .animate-breathing-pulse {
   animation: breathing-pulse 2s ease-in-out infinite;
 }
