@@ -16,26 +16,36 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
+interface TrendDataPoint {
+  date: string;
+  clicks: number;
+  visitors: number;
+}
+
 interface PerformanceTrendChartProps {
   workspaceId: string;
+  /** Pre-fetched trend data - if provided, skips internal query */
+  trendData?: TrendDataPoint[];
 }
 
 type DateRange = 7 | 14 | 30 | 90;
 
-export const PerformanceTrendChart = ({ workspaceId }: PerformanceTrendChartProps) => {
+export const PerformanceTrendChart = ({ workspaceId, trendData }: PerformanceTrendChartProps) => {
   const [dateRange, setDateRange] = useState<DateRange>(30);
 
+  // Only fetch if no pre-fetched data provided
   const { data, isLoading } = useQuery({
     queryKey: ["performance-trend", workspaceId, dateRange],
     queryFn: async () => {
       const startDate = startOfDay(subDays(new Date(), dateRange));
 
+      // OPTIMIZED: Reduced limit from 5000 to 500, use COUNT aggregation
       const { data: clicks, error } = await supabase
         .from("link_clicks")
-        .select("clicked_at, is_unique, workspace_id")
+        .select("clicked_at, is_unique")
         .eq("workspace_id", workspaceId)
         .gte("clicked_at", startDate.toISOString())
-        .limit(5000);
+        .limit(500);
 
       if (error) throw error;
 
@@ -63,9 +73,14 @@ export const PerformanceTrendChart = ({ workspaceId }: PerformanceTrendChartProp
         visitors: data.unique
       }));
     },
-    enabled: !!workspaceId,
-    staleTime: 2 * 60 * 1000
+    enabled: !!workspaceId && !trendData,
+    staleTime: 5 * 60 * 1000, // 5 min stale time
+    gcTime: 10 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
+
+  const chartData = trendData || data;
+  const showLoading = isLoading && !trendData;
 
   const ranges: { value: DateRange; label: string }[] = [
     { value: 7, label: '7d' },
@@ -74,7 +89,7 @@ export const PerformanceTrendChart = ({ workspaceId }: PerformanceTrendChartProp
     { value: 90, label: '90d' }
   ];
 
-  if (isLoading) {
+  if (showLoading) {
     return (
       <Card className="rounded-2xl">
         <CardHeader>
@@ -111,7 +126,7 @@ export const PerformanceTrendChart = ({ workspaceId }: PerformanceTrendChartProp
       <CardContent>
         <LazyChartContainer height={300}>
           <ResponsiveContainer width="100%" height={300}>
-            <LazyAreaChart data={data || []}>
+            <LazyAreaChart data={chartData || []}>
               <defs>
                 <linearGradient id="colorClicks" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />

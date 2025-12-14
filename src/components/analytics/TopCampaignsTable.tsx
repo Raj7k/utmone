@@ -7,9 +7,12 @@ import { cn } from "@/lib/utils";
 import { TrendingUp, TrendingDown, Minus, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { DashboardLink } from "@/hooks/useDashboardUnified";
 
 interface TopCampaignsTableProps {
   workspaceId: string;
+  /** Pre-fetched links data - if provided, skips internal query */
+  links?: DashboardLink[];
 }
 
 interface CampaignData {
@@ -53,7 +56,8 @@ const MiniTrendLine = ({ values }: { values: number[] }) => {
   );
 };
 
-export const TopCampaignsTable = ({ workspaceId }: TopCampaignsTableProps) => {
+export const TopCampaignsTable = ({ workspaceId, links: prefetchedLinks }: TopCampaignsTableProps) => {
+  // Only fetch if no pre-fetched data provided
   const { data: campaigns, isLoading } = useQuery({
     queryKey: ["top-campaigns", workspaceId],
     queryFn: async () => {
@@ -92,11 +96,32 @@ export const TopCampaignsTable = ({ workspaceId }: TopCampaignsTableProps) => {
         };
       });
     },
-    enabled: !!workspaceId,
-    staleTime: 2 * 60 * 1000
+    enabled: !!workspaceId && !prefetchedLinks,
+    staleTime: 5 * 60 * 1000, // 5 min stale time
+    gcTime: 10 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
-  if (isLoading) {
+  // Convert prefetched links to campaign format
+  const campaignData: CampaignData[] | undefined = prefetchedLinks 
+    ? prefetchedLinks
+        .filter(l => l.total_clicks > 0)
+        .sort((a, b) => b.total_clicks - a.total_clicks)
+        .slice(0, 10)
+        .map(link => ({
+          id: link.id,
+          title: link.title || 'Untitled Link',
+          shortUrl: link.short_url,
+          totalClicks: link.total_clicks || 0,
+          uniqueClicks: 0,
+          trend: 'neutral' as const,
+          trendPercent: 0
+        }))
+    : campaigns;
+
+  const showLoading = isLoading && !prefetchedLinks;
+
+  if (showLoading) {
     return (
       <Card className="rounded-2xl">
         <CardHeader>
@@ -113,7 +138,7 @@ export const TopCampaignsTable = ({ workspaceId }: TopCampaignsTableProps) => {
     );
   }
 
-  if (!campaigns?.length) {
+  if (!campaignData?.length) {
     return (
       <Card className="rounded-2xl border-border">
         <CardHeader>
@@ -159,7 +184,7 @@ export const TopCampaignsTable = ({ workspaceId }: TopCampaignsTableProps) => {
       </CardHeader>
       <CardContent>
         <div className="space-y-2">
-          {campaigns.map((campaign, index) => (
+          {campaignData.map((campaign, index) => (
             <div
               key={campaign.id}
               className="flex items-center gap-4 p-3 rounded-xl hover:bg-muted/50 transition-colors group"
