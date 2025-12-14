@@ -33,57 +33,25 @@ export const useLinksHeroStats = (workspaceId: string) => {
     refetchOnMount: false, // Trust cache on mount
     initialData: () => getCachedStats(workspaceId),
     queryFn: async () => {
-      const sevenDaysAgo = new Date();
-      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-      
-      const fourteenDaysAgo = new Date();
-      fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
+      const { data, error } = await supabase.rpc("get_links_hero_stats", {
+        p_workspace_id: workspaceId,
+      });
 
-      const [
-        { count: totalActiveLinks },
-        { count: thisWeekClicks },
-        { count: lastWeekClicks },
-        { data: topLink }
-      ] = await Promise.all([
-        supabase
-          .from("links")
-          .select("*", { count: "exact", head: true })
-          .eq("workspace_id", workspaceId)
-          .eq("status", "active"),
-        supabase
-          .from("link_clicks")
-          .select("id", { count: "exact", head: true })
-          .eq("workspace_id", workspaceId)
-          .gte("clicked_at", sevenDaysAgo.toISOString()),
-        supabase
-          .from("link_clicks")
-          .select("id", { count: "exact", head: true })
-          .eq("workspace_id", workspaceId)
-          .gte("clicked_at", fourteenDaysAgo.toISOString())
-          .lt("clicked_at", sevenDaysAgo.toISOString()),
-        supabase
-          .from("links")
-          .select("id, title, short_url, total_clicks")
-          .eq("workspace_id", workspaceId)
-          .eq("status", "active")
-          .order("total_clicks", { ascending: false })
-          .limit(1)
-          .maybeSingle()
-      ]);
+      if (error) throw error;
 
-      const clickTrend = lastWeekClicks && lastWeekClicks > 0 
-        ? Math.round(((thisWeekClicks || 0) - lastWeekClicks) / lastWeekClicks * 100)
-        : 0;
+      const stats = data?.[0];
+
+      const clickTrend = stats?.click_trend ?? 0;
 
       const result = {
-        totalActiveLinks: totalActiveLinks || 0,
-        thisWeekClicks: thisWeekClicks || 0,
+        totalActiveLinks: stats?.total_active_links ?? 0,
+        thisWeekClicks: stats?.this_week_clicks ?? 0,
         clickTrend,
-        topPerformer: topLink ? {
-          id: topLink.id,
-          title: topLink.title,
-          shortUrl: topLink.short_url,
-          totalClicks: topLink.total_clicks || 0,
+        topPerformer: stats?.top_link_id ? {
+          id: stats.top_link_id,
+          title: stats.top_link_title,
+          shortUrl: stats.top_link_short_url,
+          totalClicks: stats.top_link_total_clicks ?? 0,
         } : null,
       };
 
