@@ -24,7 +24,7 @@ export function preloadRoute(routeImport: () => Promise<unknown>) {
 }
 
 /**
- * Common route preloaders
+ * Common route preloaders - expanded for marketing pages
  */
 export const preloaders = {
   dashboard: () => preloadRoute(() => import("@/pages/dashboard/DashboardHome")),
@@ -38,21 +38,29 @@ export const preloaders = {
   utmBuilder: () => preloadRoute(() => import("@/pages/features/UTMBuilder")),
   qrGenerator: () => preloadRoute(() => import("@/pages/features/QRGenerator")),
   attributionGraph: () => preloadRoute(() => import("@/pages/features/AttributionGraph")),
+  analyticsFeature: () => preloadRoute(() => import("@/pages/features/Analytics")),
+  cleanTrack: () => preloadRoute(() => import("@/pages/features/CleanTrack")),
+  eventHalo: () => preloadRoute(() => import("@/pages/features/EventHalo")),
+  sentinel: () => preloadRoute(() => import("@/pages/features/Sentinel")),
   // Product page
   product: () => preloadRoute(() => import("@/pages/Product")),
+  // Solution pages
+  marketers: () => preloadRoute(() => import("@/pages/solutions/Marketers")),
+  sales: () => preloadRoute(() => import("@/pages/solutions/Sales")),
+  developers: () => preloadRoute(() => import("@/pages/solutions/Developers")),
+  // Resource pages
+  resources: () => preloadRoute(() => import("@/pages/Resources")),
+  playbooks: () => preloadRoute(() => import("@/pages/resources/Playbooks")),
+  guides: () => preloadRoute(() => import("@/pages/resources/Guides")),
 };
 
 /**
- * Hook to preload on hover
- * Usage: <Link onMouseEnter={usePreloadOnHover('dashboard')} to="/dashboard">
+ * Hook to preload on hover - instant for fast navigation
+ * Usage: <Link onMouseEnter={createPreloadHandler('dashboard')} to="/dashboard">
  */
 export function createPreloadHandler(routeKey: keyof typeof preloaders) {
   return () => {
-    // Use requestIdleCallback for non-blocking preload
-    if ('requestIdleCallback' in window) {
-      (window as any).requestIdleCallback(() => preloaders[routeKey]?.());
-    } else {
-      setTimeout(() => preloaders[routeKey]?.(), 100);
-    }
+    // Trigger immediately for fastest navigation
+    preloaders[routeKey]?.();
   };
 }

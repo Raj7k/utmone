@@ -42,8 +42,15 @@ export const springTransition = {
   stiffness: 300,
 };
 
+// Fast tween for marketing pages - instant feel
+export const fastTransition = {
+  type: "tween" as const,
+  duration: 0.15,
+  ease: "easeOut" as const,
+};
+
 // Faster spring for reduced motion
 export const reducedMotionTransition = {
   type: "tween" as const,
-  duration: 0.2,
+  duration: 0.15,
 };

@@ -1,9 +1,11 @@
-import { ReactNode } from "react";
+import { ReactNode, lazy, Suspense } from "react";
 import { Navigation } from "@/components/landing/Navigation";
-import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
 import { SEO } from "@/components/seo/SEO";
 import { WebPageSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
+
+// Lazy load FloatingNavigation - it only appears after scrolling 600px
+const FloatingNavigation = lazy(() => import("@/components/landing/FloatingNavigation").then(m => ({ default: m.FloatingNavigation })));
 
 interface FeatureLayoutProps {
   title: string;
@@ -51,7 +53,10 @@ export const FeatureLayout = ({
         />
 
         <Navigation />
-        <FloatingNavigation />
+        {/* Lazy load floating nav - only needed after scroll */}
+        <Suspense fallback={null}>
+          <FloatingNavigation />
+        </Suspense>
         
         <main className="flex-1 relative z-10 pt-16">
           {children}
