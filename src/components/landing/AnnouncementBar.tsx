@@ -37,25 +37,19 @@ export const AnnouncementBar = ({
         setCurrentAnnouncement(selected);
         setIsVisible(true);
         onVisibilityChange?.(true);
-        trackImpression(selected.id, selected.userSegment || 'all');
-      }
-    }
-
-    const interval = setInterval(() => {
-      const newSelected = AnnouncementScheduler.selectAnnouncement(announcementsToUse, isAuthenticated);
-      if (newSelected && newSelected.id !== currentAnnouncement?.id) {
-        const dismissKey = `announcement-dismissed-${newSelected.id}`;
-        const isDismissed = localStorage.getItem(dismissKey);
-        
-        if (!isDismissed) {
-          setCurrentAnnouncement(newSelected);
-          setIsVisible(true);
-          onVisibilityChange?.(true);
+        // Defer tracking to idle time for better performance
+        if ('requestIdleCallback' in window) {
+          (window as any).requestIdleCallback(() => {
+            trackImpression(selected.id, selected.userSegment || 'all');
+          }, { timeout: 2000 });
+        } else {
+          setTimeout(() => {
+            trackImpression(selected.id, selected.userSegment || 'all');
+          }, 1000);
         }
       }
-    }, 60000);
-
-    return () => clearInterval(interval);
+    }
+    // Removed 60s polling interval - announcements don't change that frequently
   }, [customAnnouncements, isAuthenticated]);
 
   const handleDismiss = () => {
