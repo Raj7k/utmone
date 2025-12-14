@@ -5051,6 +5051,7 @@ export type Database = {
           secondary_color: string | null
           svg_url: string | null
           variant_name: string | null
+          workspace_id: string
         }
         Insert: {
           corner_style?: string | null
@@ -5068,6 +5069,7 @@ export type Database = {
           secondary_color?: string | null
           svg_url?: string | null
           variant_name?: string | null
+          workspace_id: string
         }
         Update: {
           corner_style?: string | null
@@ -5085,6 +5087,7 @@ export type Database = {
           secondary_color?: string | null
           svg_url?: string | null
           variant_name?: string | null
+          workspace_id?: string
         }
         Relationships: [
           {
@@ -5114,6 +5117,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "mv_click_time_series"
             referencedColumns: ["link_id"]
+          },
+          {
+            foreignKeyName: "qr_codes_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
           },
         ]
       }

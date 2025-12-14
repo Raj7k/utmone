@@ -40,11 +40,11 @@ export const GlanceableStats = ({ workspaceId }: GlanceableStatsProps) => {
           .gte('clicked_at', fourteenDaysAgo.toISOString())
           .lt('clicked_at', sevenDaysAgo.toISOString()),
         
-        // Get QR codes count - using workspace_id via links (can't avoid JOIN here as qr_codes doesn't have workspace_id)
+        // Get QR codes count - direct workspace_id filter (no JOIN needed)
         supabase
           .from('qr_codes')
-          .select('id, links!inner(workspace_id)')
-          .eq('links.workspace_id', workspaceId)
+          .select('id')
+          .eq('workspace_id', workspaceId)
           .limit(500)
       ]);
 

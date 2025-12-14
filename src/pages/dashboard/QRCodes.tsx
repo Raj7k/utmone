@@ -65,7 +65,7 @@ export default function QRCodes() {
             workspace_id
           )
         `)
-        .eq("links.workspace_id", effectiveWorkspaceId)
+        .eq("workspace_id", effectiveWorkspaceId)
         .order("created_at", { ascending: false })
         .limit(100);
 
