@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useCallback, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuthSession } from "@/hooks/useAuthSession";
 import { useNavigate } from "react-router-dom";
 
 export interface TourStep {
@@ -121,7 +121,7 @@ const DASHBOARD_TOUR_STEPS: TourStep[] = [
 ];
 
 export const TourProvider = ({ children }: { children: ReactNode }) => {
-  const { user } = useAuth();
+  const { user } = useAuthSession();
   const navigate = useNavigate();
   const [isActive, setIsActive] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);

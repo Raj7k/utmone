@@ -26,7 +26,7 @@ import {
   Sparkles
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { AnimatedSection } from "./AnimatedSection";
+import { AnimatedSection } from "./StaticSection";
 import { CleanTrackScoreQuiz } from "@/components/growth/CleanTrackScoreQuiz";
 import { ROICalculator } from "@/components/growth/ROICalculator";
 import { Button } from "@/components/ui/button";

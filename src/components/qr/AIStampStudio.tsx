@@ -19,7 +19,7 @@ import {
   Save
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuthSession } from "@/hooks/useAuthSession";
 
 interface AIStampStudioProps {
   shortUrl: string;
@@ -45,7 +45,7 @@ const phaseMessages: Record<GenerationPhase, string> = {
 
 export function AIStampStudio({ shortUrl, linkId }: AIStampStudioProps) {
   const { toast } = useToast();
-  const { user } = useAuth();
+  const { user } = useAuthSession();
   const stampPreviewRef = useRef<StampPreviewRef>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   

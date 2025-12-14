@@ -10,7 +10,7 @@ import {
   Clock,
   Shield
 } from "lucide-react";
-import { AnimatedSection } from "./AnimatedSection";
+import { AnimatedSection } from "./StaticSection";
 
 export const PermanenceShowcase = () => {
   return (

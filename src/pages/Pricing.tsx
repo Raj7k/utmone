@@ -1,5 +1,5 @@
 import { PricingTable } from "@/components/PricingTable";
-import { AnimatedSection } from "@/components/landing/AnimatedSection";
+import { AnimatedSection } from "@/components/landing/StaticSection";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/seo/SEO";

@@ -12,7 +12,7 @@ import {
   ArrowRight,
   CheckCircle2
 } from "lucide-react";
-import { AnimatedSection } from "./AnimatedSection";
+import { AnimatedSection } from "./StaticSection";
 
 const ENTERPRISE_FEATURES = [
   {

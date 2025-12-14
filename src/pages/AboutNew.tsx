@@ -1,4 +1,4 @@
-import { AnimatedSection } from "@/components/landing/AnimatedSection";
+import { AnimatedSection } from "@/components/landing/StaticSection";
 import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
 import { ProgressiveReveal } from "@/components/landing/ProgressiveReveal";
 import { SEO } from "@/components/seo/SEO";
