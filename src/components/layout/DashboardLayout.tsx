@@ -1,7 +1,5 @@
 import { ReactNode, useEffect, useState, lazy, Suspense } from "react";
 import { SidebarProvider } from "./sidebar/SidebarProvider";
-import { DashboardSidebarV2 } from "./sidebar/DashboardSidebarV2";
-import { ContextualHeader } from "./ContextualHeader";
 import { ImpersonationBanner } from "@/components/admin/ImpersonationBanner";
 import { SubscriptionExpiryBanner } from "@/components/subscription/SubscriptionExpiryBanner";
 import { MobileNav } from "@/components/mobile/MobileNav";
@@ -11,6 +9,10 @@ import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { AlertTriangle } from "lucide-react";
+
+// PHASE 19: Lazy load heavy layout components
+const DashboardSidebarV2 = lazy(() => import("./sidebar/DashboardSidebarV2").then(m => ({ default: m.DashboardSidebarV2 })));
+const ContextualHeader = lazy(() => import("./ContextualHeader").then(m => ({ default: m.ContextualHeader })));
 
 // PHASE 11: Lazy load non-critical components
 const CreateLinkModal = lazy(() => import("@/components/CreateLinkModal").then(m => ({ default: m.CreateLinkModal })));
@@ -54,9 +56,22 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
         <NavigationProgress />
         
         <div className="dashboard-root min-h-screen bg-background flex w-full overflow-hidden">
-          {/* Sidebar - Desktop only */}
+          {/* Sidebar - Desktop only - PHASE 19: Lazy loaded with inline skeleton */}
           <div className="hidden lg:block flex-shrink-0">
-            <DashboardSidebarV2 />
+            <Suspense fallback={
+              <aside className="w-64 h-screen bg-card border-r border-border flex flex-col">
+                <div className="h-14 flex items-center px-4 border-b border-border/50">
+                  <div className="h-6 w-24 bg-muted animate-pulse rounded" />
+                </div>
+                <div className="flex-1 px-3 py-4 space-y-2">
+                  {[1,2,3,4,5].map(i => (
+                    <div key={i} className="h-9 bg-muted/50 animate-pulse rounded-lg" />
+                  ))}
+                </div>
+              </aside>
+            }>
+              <DashboardSidebarV2 />
+            </Suspense>
           </div>
 
           {/* Main Content Area */}
@@ -80,8 +95,16 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
               </div>
             )}
 
-            {/* Contextual Header */}
-            <ContextualHeader />
+            {/* Contextual Header - PHASE 19: Lazy loaded */}
+            <Suspense fallback={
+              <header className="h-14 border-b border-border/50 flex items-center px-4 gap-4">
+                <div className="h-6 w-32 bg-muted animate-pulse rounded" />
+                <div className="flex-1" />
+                <div className="h-8 w-8 bg-muted animate-pulse rounded-full" />
+              </header>
+            }>
+              <ContextualHeader />
+            </Suspense>
 
             {/* Page Content - with proper overflow and mobile bottom padding */}
             <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-4 lg:px-8 lg:py-6 pb-24 md:pb-6">

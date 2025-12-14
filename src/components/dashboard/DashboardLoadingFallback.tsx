@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { RefreshCw } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { motion, AnimatePresence } from "framer-motion";
+// PHASE 18: Removed framer-motion - using pure CSS animations
 
 interface DashboardLoadingFallbackProps {
   /** Context-aware loading message */
@@ -55,81 +55,54 @@ export const DashboardLoadingFallback = ({
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[400px] p-6">
-      {/* Breathing Pulse Animation */}
-      <motion.div
-        className="relative mb-6"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.3 }}
-      >
+      {/* Breathing Pulse Animation - Pure CSS */}
+      <div className="relative mb-6 animate-fade-in">
         <div className="h-12 w-12 rounded-full border-2 border-primary border-t-transparent animate-spin" />
         
-        {/* Pulse ring */}
-        <motion.div
-          className="absolute inset-0 rounded-full border border-primary/30"
-          animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        />
-      </motion.div>
+        {/* Pulse ring - CSS animation */}
+        <div className="absolute inset-0 rounded-full border border-primary/30 animate-ping" />
+      </div>
 
-      {/* Loading Message */}
-      <AnimatePresence mode="wait">
-        <motion.p
-          key={showSlowMessage ? "slow" : messageIndex}
-          initial={{ opacity: 0, y: 5 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -5 }}
-          transition={{ duration: 0.2 }}
-          className="text-sm text-muted-foreground text-center"
-        >
-          {showSlowMessage ? `still loading ${context}...` : LOADING_MESSAGES[messageIndex]}
-        </motion.p>
-      </AnimatePresence>
+      {/* Loading Message - CSS fade */}
+      <p
+        key={showSlowMessage ? "slow" : messageIndex}
+        className="text-sm text-muted-foreground text-center animate-fade-in"
+      >
+        {showSlowMessage ? `still loading ${context}...` : LOADING_MESSAGES[messageIndex]}
+      </p>
 
-      {/* Progress Dots */}
+      {/* Progress Dots - Pure CSS */}
       <div className="flex gap-1 mt-3">
         {[0, 1, 2].map((i) => (
-          <motion.div
+          <div
             key={i}
-            className="w-1.5 h-1.5 rounded-full bg-primary/40"
-            animate={{
-              scale: messageIndex === i ? 1.3 : 1,
-              opacity: messageIndex === i ? 1 : 0.4,
-            }}
-            transition={{ duration: 0.2 }}
+            className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${
+              messageIndex === i 
+                ? "bg-primary scale-125" 
+                : "bg-primary/40"
+            }`}
           />
         ))}
       </div>
 
       {/* Refresh Button - appears after 5 seconds */}
-      <AnimatePresence>
-        {showRefresh && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="mt-6"
+      {showRefresh && (
+        <div className="mt-6 animate-fade-in">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleRefresh}
+            className="gap-2"
           >
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleRefresh}
-              className="gap-2"
-            >
-              <RefreshCw className="h-3 w-3" />
-              refresh page
-            </Button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <RefreshCw className="h-3 w-3" />
+            refresh page
+          </Button>
+        </div>
+      )}
 
       {/* Optional Skeleton Preview - shows layout user will see */}
       {variant !== "default" && showSlowMessage && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.3 }}
-          className="mt-8 w-full max-w-2xl"
-        >
+        <div className="mt-8 w-full max-w-2xl opacity-30 animate-fade-in">
           <div className="space-y-4">
             <Skeleton className="h-8 w-48" />
             <div className="grid grid-cols-3 gap-4">
@@ -139,7 +112,7 @@ export const DashboardLoadingFallback = ({
             </div>
             <Skeleton className="h-40" />
           </div>
-        </motion.div>
+        </div>
       )}
     </div>
   );
