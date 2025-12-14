@@ -8,7 +8,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { WorkspaceSwitcher } from "@/components/navigation/WorkspaceSwitcher";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useEffect, useState } from "react";
-import { useAuthSession } from "@/hooks/useAuthSession";
+import { useAuthSession } from "@/hooks/auth";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { ExpandedSidebar } from "./sidebar/ExpandedSidebar";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";

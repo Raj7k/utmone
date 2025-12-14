@@ -1,5 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
-import { useWorkspace } from "./useWorkspace";
+import { useWorkspace } from "@/hooks/workspace";
 
 interface LogTimelineEventParams {
   eventType: string;

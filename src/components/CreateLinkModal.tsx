@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { useModal } from "@/contexts/ModalContext";
-import { useWorkspace } from "@/hooks/useWorkspace";
+import { useWorkspace } from "@/hooks/workspace";
 import { ToolSelector } from "@/components/tools/ToolSelector";
 import { UTMBuilderTool } from "@/components/tools/UTMBuilderTool";
 import { URLShortenerTool } from "@/components/tools/URLShortenerTool";

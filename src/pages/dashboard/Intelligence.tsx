@@ -2,7 +2,7 @@ import { useState, useEffect, lazy, Suspense, useMemo } from "react";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { useIntelligenceData } from "@/hooks/useIntelligenceData";
-import { useDashboardUnified } from "@/hooks/useDashboardUnified";
+import { useDashboardUnified } from "@/hooks/dashboard";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

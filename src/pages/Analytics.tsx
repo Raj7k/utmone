@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Link as LinkIcon, LogOut, TrendingUp, Share2 } from "lucide-react";
-import { useWorkspace } from "@/hooks/useWorkspace";
+import { useWorkspace } from "@/hooks/workspace";
 import type { User } from "@supabase/supabase-js";
 import { AnalyticsOverview } from "@/components/analytics/AnalyticsOverview";
 import { DeviceBreakdown } from "@/components/analytics/DeviceBreakdown";

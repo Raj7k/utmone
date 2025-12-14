@@ -1,4 +1,4 @@
-import { useLinkInsights, InsightType } from "@/hooks/useLinkInsights";
+import { useLinkInsights, InsightType } from "@/hooks/links";
 import { Badge } from "@/components/ui/badge";
 
 interface LinkInsightBadgeProps {

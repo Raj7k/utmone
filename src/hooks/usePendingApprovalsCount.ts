@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useWorkspace } from "@/hooks/useWorkspace";
+import { useWorkspace } from "@/hooks/workspace";
 import { supabase } from "@/integrations/supabase/client";
 
 const CACHE_KEY_PREFIX = 'pending-approvals-count-';

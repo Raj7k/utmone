@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useWorkspace } from "@/hooks/useWorkspace";
+import { useWorkspace } from "@/hooks/workspace";
 import Domains from "./Settings/Domains";
 import DeveloperSettings from "./Settings/DeveloperSettings";
 import { Tracking } from "./Settings/Tracking";

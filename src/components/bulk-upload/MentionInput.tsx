@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Textarea } from "@/components/ui/textarea";
-import { useWorkspaceMembers } from "@/hooks/useWorkspaceMembers";
+import { useWorkspaceMembers } from "@/hooks/workspace";
 import { Card } from "@/components/ui/card";
 
 interface MentionInputProps {

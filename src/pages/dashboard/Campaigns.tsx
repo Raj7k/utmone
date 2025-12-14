@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Plus, Megaphone } from "lucide-react";
-import { useDashboardUnified } from "@/hooks/useDashboardUnified";
+import { useDashboardUnified } from "@/hooks/dashboard";
 import { CreateCampaignModal } from "@/components/campaigns/CreateCampaignModal";
 import { CampaignCard } from "@/components/campaigns/CampaignCard";
 import { FeatureGuard } from "@/components/FeatureGuard";

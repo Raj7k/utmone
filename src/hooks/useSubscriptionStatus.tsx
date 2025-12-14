@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useWorkspace } from "./useWorkspace";
+import { useWorkspace } from "@/hooks/workspace";
 import { PlanTier } from "@/lib/planConfig";
 
 export interface SubscriptionStatus {

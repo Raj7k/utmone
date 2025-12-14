@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { checkPlanLimits } from "@/lib/planEnforcement";
-import { useWorkspace } from "./useWorkspace";
+import { useWorkspace } from "@/hooks/workspace";
 import { useAdminSimulation } from "@/contexts/AdminSimulationContext";
 
 export interface UsageStat {

@@ -19,7 +19,7 @@ import {
   Save
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useAuthSession } from "@/hooks/useAuthSession";
+import { useAuthSession } from "@/hooks/auth";
 
 interface AIStampStudioProps {
   shortUrl: string;

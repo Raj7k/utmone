@@ -1,5 +1,5 @@
 import { useEffect, useState, lazy, Suspense, useMemo } from "react";
-import { useWorkspace } from "@/hooks/useWorkspace";
+import { useWorkspace } from "@/hooks/workspace";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { useActivationTracking } from "@/hooks/useActivationTracking";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Activity, Link as LinkIcon, BarChart3, Globe, Users, Clock, DollarSign } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
-import { useDashboardUnified } from "@/hooks/useDashboardUnified";
+import { useDashboardUnified } from "@/hooks/dashboard";
 import { LazyPieChart, Pie, Cell, Tooltip as RechartsTooltip, ResponsiveContainer, LazyChartContainer } from "@/components/charts/LazyCharts";
 import { Link } from "react-router-dom";
 import { TrafficForecastChart } from "@/components/analytics/TrafficForecastChart";

@@ -1,4 +1,4 @@
-import { useWorkspace } from "./useWorkspace";
+import { useWorkspace } from "@/hooks/workspace";
 import { useFeatureGates } from "./useFeatureGates";
 import { hasMinPlanTier } from "@/lib/featureGating";
 

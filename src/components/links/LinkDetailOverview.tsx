@@ -11,8 +11,8 @@ import { Copy, ExternalLink, Check, Calendar, Settings, FolderTree, Tag, Refresh
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
 import { useState as useReactState } from "react";
-import { LinkDetail } from "@/hooks/useLinkDetail";
-import { useUpdateLink } from "@/hooks/useUpdateLink";
+import { LinkDetail } from "@/hooks/links";
+import { useUpdateLink } from "@/hooks/links";
 import { format } from "date-fns";
 import { TrustBadge } from "@/components/TrustBadge";
 import { generateFieldAriaLabel } from "@/lib/accessibility";

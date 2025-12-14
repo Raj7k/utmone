@@ -9,7 +9,7 @@ import { Shield, RefreshCw, AlertTriangle, CheckCircle, HelpCircle, ExternalLink
 import { notify } from "@/lib/notify";
 import { formatDistanceToNow } from "date-fns";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
-import { useWorkspace } from "@/hooks/useWorkspace";
+import { useWorkspace } from "@/hooks/workspace";
 
 interface Link {
   id: string;

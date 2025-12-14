@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useWorkspace } from "@/hooks/useWorkspace";
+import { useWorkspace } from "@/hooks/workspace";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { Download, ExternalLink, QrCode, Plus, Boxes } from "lucide-react";
 import { Button } from "@/components/ui/button";

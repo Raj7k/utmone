@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { EnhancedLink } from "@/hooks/useEnhancedLinks";
+import { EnhancedLink } from "@/hooks/links";
 import { LinkCard } from "./LinkCard";
 
 interface LinkCardGridProps {

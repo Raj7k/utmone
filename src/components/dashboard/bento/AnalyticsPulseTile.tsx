@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Activity } from "lucide-react";
-import { useWorkspace } from "@/hooks/useWorkspace";
+import { useWorkspace } from "@/hooks/workspace";
 import { LazyAreaChart, Area, ResponsiveContainer, Tooltip, LazyChartContainer } from "@/components/charts/LazyCharts";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { useNavigate } from "react-router-dom";

@@ -8,7 +8,7 @@ import { DashboardQuickActions } from "@/components/dashboard/DashboardQuickActi
 import { FirstRunExperience } from "@/components/dashboard/FirstRunExperience";
 import { FirstLinkSuccess } from "@/components/dashboard/FirstLinkSuccess";
 import { useDemoMode } from "@/hooks/useDemoMode";
-import { useDashboardUnified } from "@/hooks/useDashboardUnified";
+import { useDashboardUnified } from "@/hooks/dashboard";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { useQueryClient } from "@tanstack/react-query";
 import { completeNavigation } from "@/hooks/useNavigationProgress";

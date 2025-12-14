@@ -4,9 +4,9 @@ import { Plus, Waves, Zap, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useWorkspace } from "@/hooks/useWorkspace";
+import { useWorkspace } from "@/hooks/workspace";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
-import { useDashboardUnified } from "@/hooks/useDashboardUnified";
+import { useDashboardUnified } from "@/hooks/dashboard";
 import { 
   useFieldEvent, 
   useCalculateEventHalo, 

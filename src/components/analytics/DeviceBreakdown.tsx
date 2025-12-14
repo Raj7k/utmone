@@ -1,4 +1,4 @@
-import { useCachedDeviceAnalytics } from "@/hooks/useAnalyticsCache";
+import { useCachedDeviceAnalytics } from "@/hooks/analytics";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { ChartWrapper } from "@/components/charts/ChartWrapper";

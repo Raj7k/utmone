@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAnalyticsShare } from "@/hooks/useAnalyticsShare";
+import { useAnalyticsShare } from "@/hooks/analytics";
 import {
   Dialog,
   DialogContent,
