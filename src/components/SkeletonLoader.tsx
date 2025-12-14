@@ -1,6 +1,14 @@
+import React from 'react';
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { motion } from "framer-motion";
+
+// Type declaration for instant skeleton cleanup
+declare global {
+  interface Window {
+    __hideInstantSkeleton?: () => void;
+  }
+}
 
 export const TableSkeleton = () => (
   <div className="space-y-3">
@@ -42,54 +50,67 @@ export const MetricSkeleton = () => (
 );
 
 /**
- * Dashboard skeleton - shows immediately while JS loads
+ * Lightweight Dashboard Shell - minimal React skeleton for fast Suspense fallback.
+ * Hides the instant HTML skeleton when mounted.
  */
-export const DashboardSkeleton = () => (
-  <div className="min-h-screen bg-background flex">
-    {/* Sidebar skeleton */}
-    <div className="hidden lg:flex w-64 border-r border-border/50 flex-col p-4 gap-3">
-      <div className="h-8 w-32 bg-muted/20 rounded animate-pulse" />
-      <div className="h-px bg-border/50 my-2" />
-      {[1, 2, 3, 4, 5].map((i) => (
-        <div key={i} className="h-9 bg-muted/10 rounded animate-pulse" />
-      ))}
-    </div>
-    
-    {/* Main content skeleton */}
-    <div className="flex-1 flex flex-col">
-      {/* Header skeleton */}
-      <div className="h-14 border-b border-border/50 flex items-center px-4 gap-4">
-        <div className="h-8 w-8 bg-muted/20 rounded animate-pulse lg:hidden" />
-        <div className="h-6 w-48 bg-muted/20 rounded animate-pulse" />
-        <div className="flex-1" />
-        <div className="h-8 w-8 bg-muted/20 rounded-full animate-pulse" />
+export const LightweightDashboardShell = () => {
+  // Hide the instant HTML skeleton when this React component mounts
+  React.useEffect(() => {
+    if (typeof window !== 'undefined' && window.__hideInstantSkeleton) {
+      window.__hideInstantSkeleton();
+    }
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-background flex">
+      {/* Sidebar skeleton */}
+      <div className="hidden lg:flex w-64 border-r border-border/50 flex-col p-4 gap-3">
+        <div className="h-8 w-32 bg-muted/20 rounded animate-pulse" />
+        <div className="h-px bg-border/50 my-2" />
+        {[1, 2, 3, 4, 5].map((i) => (
+          <div key={i} className="h-9 bg-muted/10 rounded animate-pulse" />
+        ))}
       </div>
       
-      {/* Content skeleton */}
-      <div className="flex-1 p-6">
-        <div className="max-w-6xl mx-auto space-y-6">
-          {/* Title */}
-          <div className="h-8 w-64 bg-muted/20 rounded animate-pulse" />
-          
-          {/* Stats cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="h-24 bg-muted/10 rounded-lg border border-border/50 animate-pulse" />
-            ))}
-          </div>
-          
-          {/* Table skeleton */}
-          <div className="bg-muted/5 rounded-lg border border-border/50 overflow-hidden">
-            <div className="h-12 bg-muted/10 border-b border-border/50" />
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="h-16 border-b border-border/50 last:border-0 animate-pulse" />
-            ))}
+      {/* Main content skeleton */}
+      <div className="flex-1 flex flex-col">
+        {/* Header skeleton */}
+        <div className="h-14 border-b border-border/50 flex items-center px-4 gap-4">
+          <div className="h-8 w-8 bg-muted/20 rounded animate-pulse lg:hidden" />
+          <div className="h-6 w-48 bg-muted/20 rounded animate-pulse" />
+          <div className="flex-1" />
+          <div className="h-8 w-8 bg-muted/20 rounded-full animate-pulse" />
+        </div>
+        
+        {/* Content skeleton */}
+        <div className="flex-1 p-6">
+          <div className="max-w-6xl mx-auto space-y-6">
+            {/* Title */}
+            <div className="h-8 w-64 bg-muted/20 rounded animate-pulse" />
+            
+            {/* Stats cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="h-24 bg-muted/10 rounded-lg border border-border/50 animate-pulse" />
+              ))}
+            </div>
+            
+            {/* Table skeleton */}
+            <div className="bg-muted/5 rounded-lg border border-border/50 overflow-hidden">
+              <div className="h-12 bg-muted/10 border-b border-border/50" />
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="h-16 border-b border-border/50 last:border-0 animate-pulse" />
+              ))}
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
+
+// Keep DashboardSkeleton as alias for backwards compatibility
+export const DashboardSkeleton = LightweightDashboardShell;
 
 /**
  * Marketing page skeleton - matches obsidian theme for instant visual match

@@ -11,7 +11,7 @@ import { ModalProvider } from "./contexts/ModalContext";
 import { GlobalEarlyAccessModal } from "./components/early-access/GlobalEarlyAccessModal";
 import { NotificationProvider } from "./contexts/NotificationContext";
 import { ErrorBoundary } from "./components/ErrorBoundary";
-import { DashboardSkeleton, MarketingSkeleton } from "./components/SkeletonLoader";
+import { DashboardSkeleton, MarketingSkeleton, LightweightDashboardShell } from "./components/SkeletonLoader";
 import { SkipToContent } from "./components/SkipToContent";
 import { NetworkStatus } from "./components/ui/network-status";
 import { AppWithHelp } from "./components/AppWithHelp";

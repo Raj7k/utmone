@@ -100,7 +100,119 @@
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PCNWGGQQ"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-    <div id="root"></div>
+    
+    <!-- Instant Skeleton - Shows immediately before ANY JS loads -->
+    <style id="instant-skeleton-styles">
+      .instant-skeleton {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        transition: opacity 0.2s ease-out;
+      }
+      .instant-skeleton.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      /* Light mode colors */
+      .instant-skeleton {
+        background: #fafafa;
+      }
+      .instant-skeleton .sidebar {
+        width: 256px;
+        border-right: 1px solid rgba(0,0,0,0.08);
+        padding: 16px;
+        display: none;
+      }
+      .instant-skeleton .main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      .instant-skeleton .header {
+        height: 56px;
+        border-bottom: 1px solid rgba(0,0,0,0.08);
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+        gap: 16px;
+      }
+      .instant-skeleton .content {
+        flex: 1;
+        padding: 24px;
+        max-width: 1200px;
+      }
+      .instant-skeleton .pulse {
+        background: rgba(0,0,0,0.06);
+        border-radius: 8px;
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+      /* Dark mode */
+      .dark .instant-skeleton {
+        background: #0a0a0a;
+      }
+      .dark .instant-skeleton .sidebar {
+        border-color: rgba(255,255,255,0.08);
+      }
+      .dark .instant-skeleton .header {
+        border-color: rgba(255,255,255,0.08);
+      }
+      .dark .instant-skeleton .pulse {
+        background: rgba(255,255,255,0.06);
+      }
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+      }
+      @media (min-width: 1024px) {
+        .instant-skeleton .sidebar { display: flex; flex-direction: column; gap: 8px; }
+      }
+    </style>
+    
+    <div id="root">
+      <!-- This skeleton shows instantly, hidden when React hydrates -->
+      <div class="instant-skeleton" id="instant-skeleton">
+        <div class="sidebar">
+          <div class="pulse" style="height:32px;width:120px;margin-bottom:16px"></div>
+          <div class="pulse" style="height:36px;width:100%"></div>
+          <div class="pulse" style="height:36px;width:100%"></div>
+          <div class="pulse" style="height:36px;width:100%"></div>
+          <div class="pulse" style="height:36px;width:100%"></div>
+          <div class="pulse" style="height:36px;width:100%"></div>
+        </div>
+        <div class="main">
+          <div class="header">
+            <div class="pulse" style="height:32px;width:32px;border-radius:8px"></div>
+            <div class="pulse" style="height:24px;width:180px"></div>
+            <div style="flex:1"></div>
+            <div class="pulse" style="height:32px;width:32px;border-radius:50%"></div>
+          </div>
+          <div class="content">
+            <div class="pulse" style="height:32px;width:240px;margin-bottom:24px"></div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px">
+              <div class="pulse" style="height:96px"></div>
+              <div class="pulse" style="height:96px"></div>
+              <div class="pulse" style="height:96px"></div>
+            </div>
+            <div class="pulse" style="height:320px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Hide skeleton once React renders -->
+    <script>
+      window.__hideInstantSkeleton = function() {
+        var el = document.getElementById('instant-skeleton');
+        if (el) {
+          el.classList.add('hidden');
+          setTimeout(function() { el.remove(); }, 200);
+        }
+        var styles = document.getElementById('instant-skeleton-styles');
+        if (styles) styles.remove();
+      };
+    </script>
+    
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
