@@ -55,42 +55,60 @@ export const useLinkDetail = (linkId: string) => {
   return useQuery({
     queryKey: ["link-detail", linkId],
     queryFn: async () => {
-      // Fetch link with owner profile and folder
       const { data: link, error: linkError } = await supabase
         .from("links")
-        .select(`
-          *,
+        .select(
+          `
+          id,
+          title,
+          description,
+          destination_url,
+          short_url,
+          final_url,
+          domain,
+          path,
+          slug,
+          status,
+          security_status,
+          utm_source,
+          utm_medium,
+          utm_campaign,
+          utm_term,
+          utm_content,
+          og_title,
+          og_description,
+          og_image,
+          redirect_type,
+          expires_at,
+          max_clicks,
+          custom_expiry_message,
+          fallback_url,
+          total_clicks,
+          unique_clicks,
+          last_clicked_at,
+          created_at,
+          updated_at,
+          created_by,
+          workspace_id,
+          folder_id,
           owner:profiles!links_created_by_fkey(full_name, email),
-          folder:folders(name)
-        `)
+          folder:folders(name),
+          link_tags(tag_name),
+          qr_codes(id)
+        `
+        )
         .eq("id", linkId)
         .single();
 
       if (linkError) throw linkError;
       if (!link) throw new Error("Link not found");
 
-      // Fetch tags
-      const { data: tags, error: tagsError } = await supabase
-        .from("link_tags")
-        .select("tag_name")
-        .eq("link_id", linkId);
-
-      if (tagsError) throw tagsError;
-
-      // Fetch QR code count
-      const { count: qrCount, error: qrError } = await supabase
-        .from("qr_codes")
-        .select("*", { count: "exact", head: true })
-        .eq("link_id", linkId);
-
-      if (qrError) throw qrError;
+      const { link_tags: linkTags, qr_codes: qrCodes, ...rest } = link;
 
       return {
-        ...link,
-        owner: link.owner,
-        folder: link.folder,
-        tags: tags?.map((t) => t.tag_name) || [],
-        qr_code_count: qrCount || 0,
+        ...rest,
+        tags: linkTags?.map((t) => t.tag_name) || [],
+        qr_code_count: qrCodes?.length || 0,
       } as LinkDetail;
     },
     enabled: !!validId,
