@@ -26,6 +26,26 @@
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* Auth card entrance - Phase 30-33 */
+.auth-card-enter {
+  animation: auth-slide-up 0.5s ease-out forwards;
+}
+
+@keyframes auth-slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Envelope bounce animation for email confirmation */
+@keyframes envelope-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.envelope-bounce {
+  animation: envelope-bounce 2s ease-in-out infinite;
+}
 @tailwind components;
 @tailwind utilities;
 
