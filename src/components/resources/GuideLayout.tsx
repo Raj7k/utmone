@@ -1,9 +1,10 @@
 import { ReactNode, useState, useEffect } from "react";
 import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
 import { Link } from "react-router-dom";
-import { Twitter, Linkedin, Copy, Check, ArrowLeft, Calendar } from "lucide-react";
+import { Twitter, Linkedin, Copy, Check, ArrowLeft, Calendar, List, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 interface TOCSection {
   id: string;
@@ -33,6 +34,73 @@ interface GuideLayoutProps {
   author?: Author;
   publishedDate?: string;
 }
+
+// Inline TOC for mobile/tablet - hidden on desktop where sidebar TOC is visible
+const InlineTableOfContents = ({ 
+  sections, 
+  activeSection, 
+  scrollToSection 
+}: { 
+  sections: TOCSection[]; 
+  activeSection: string;
+  scrollToSection: (id: string) => void;
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="lg:hidden not-prose mb-8">
+      <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+        <div className="bg-zinc-50 border border-zinc-200 rounded-xl overflow-hidden">
+          <CollapsibleTrigger className="w-full flex items-center justify-between p-4 hover:bg-zinc-100 transition-colors">
+            <div className="flex items-center gap-3">
+              <List className="w-5 h-5 text-zinc-500" />
+              <span className="font-semibold text-zinc-900">Table of Contents</span>
+              <span className="text-xs text-zinc-400">({sections.length} sections)</span>
+            </div>
+            <ChevronDown className={`w-5 h-5 text-zinc-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+          </CollapsibleTrigger>
+          
+          <CollapsibleContent>
+            <nav className="p-4 pt-0 space-y-3 border-t border-zinc-200">
+              {sections.map((section) => (
+                <button
+                  key={section.id}
+                  onClick={() => {
+                    scrollToSection(section.id);
+                    setIsOpen(false);
+                  }}
+                  className={`flex items-start gap-3 w-full text-left transition-all group ${
+                    activeSection === section.id
+                      ? "text-zinc-900"
+                      : "text-zinc-500 hover:text-zinc-700"
+                  }`}
+                >
+                  <span
+                    className={`text-xs font-bold mt-0.5 transition-colors shrink-0 ${
+                      activeSection === section.id ? "text-zinc-900" : "text-zinc-400 group-hover:text-zinc-600"
+                    }`}
+                  >
+                    {section.number}
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <span className={`block text-sm ${activeSection === section.id ? "font-semibold" : ""}`}>
+                      {section.title}
+                    </span>
+                    {section.subtitle && (
+                      <span className="block text-xs text-zinc-400 mt-0.5 leading-relaxed">
+                        {section.subtitle}
+                      </span>
+                    )}
+                  </div>
+                </button>
+              ))}
+            </nav>
+          </CollapsibleContent>
+        </div>
+      </Collapsible>
+    </div>
+  );
+};
 
 export const GuideLayout = ({
   title,
@@ -214,6 +282,14 @@ export const GuideLayout = ({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             {/* Main Content */}
             <article className="lg:col-span-8 prose prose-zinc prose-lg max-w-none">
+              {/* Inline TOC for Mobile/Tablet */}
+              {tableOfContents && tableOfContents.length > 0 && (
+                <InlineTableOfContents 
+                  sections={tableOfContents} 
+                  activeSection={activeSection}
+                  scrollToSection={scrollToSection}
+                />
+              )}
               {children}
             </article>
 
