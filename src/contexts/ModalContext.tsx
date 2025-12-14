@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, ReactNode, useCallback } from "react";
 
-interface ModalContextType {
+export interface ModalContextType {
   isCreateModalOpen: boolean;
   setCreateModalOpen: (open: boolean) => void;
   // Early Access modal
@@ -14,7 +14,19 @@ interface ModalContextType {
   openEmailCapture: () => void;
 }
 
-const ModalContext = createContext<ModalContextType | undefined>(undefined);
+export const ModalContext = createContext<ModalContextType | undefined>(undefined);
+
+export const noopModalContextValue: ModalContextType = {
+  isCreateModalOpen: false,
+  setCreateModalOpen: () => {},
+  isEarlyAccessModalOpen: false,
+  setEarlyAccessModalOpen: () => {},
+  earlyAccessPrefillEmail: null,
+  openEarlyAccessModal: () => {},
+  isEmailCaptureOpen: false,
+  setEmailCaptureOpen: () => {},
+  openEmailCapture: () => {},
+};
 
 export const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);

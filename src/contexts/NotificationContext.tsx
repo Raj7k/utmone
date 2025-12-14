@@ -22,7 +22,7 @@ export interface Notification {
   createdAt: number;
 }
 
-interface NotificationContextType {
+export interface NotificationContextType {
   notifications: Notification[];
   show: (notification: Omit<Notification, 'id' | 'createdAt'>) => string;
   dismiss: (id: string) => void;
@@ -30,7 +30,15 @@ interface NotificationContextType {
   update: (id: string, updates: Partial<Notification>) => void;
 }
 
-const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
+export const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
+
+export const noopNotificationContextValue: NotificationContextType = {
+  notifications: [],
+  show: () => '',
+  dismiss: () => {},
+  dismissAll: () => {},
+  update: () => {},
+};
 
 let notificationId = 0;
 const generateId = () => `notification-${++notificationId}`;
