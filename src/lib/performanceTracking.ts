@@ -56,20 +56,31 @@ class PerformanceTracker {
   }
 
   private async reportMetric(metric: PerformanceMetric) {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      await supabase.rpc('log_security_event', {
-        p_event_type: 'performance_metric',
-        p_user_id: user?.id || null,
-        p_metadata: {
-          action: metric.action,
-          duration: metric.duration,
-          ...metric.metadata
-        }
-      });
-    } catch (error) {
-      console.error('[Performance Tracking] Failed to report metric:', error);
+    // DEFER: Use requestIdleCallback to avoid blocking critical path
+    const doReport = async () => {
+      try {
+        // Use cached user from localStorage instead of calling getUser()
+        const cachedSession = localStorage.getItem('utm_session_cache');
+        const userId = cachedSession ? JSON.parse(cachedSession)?.user?.id : null;
+        
+        await supabase.rpc('log_security_event', {
+          p_event_type: 'performance_metric',
+          p_user_id: userId,
+          p_metadata: {
+            action: metric.action,
+            duration: metric.duration,
+            ...metric.metadata
+          }
+        });
+      } catch (error) {
+        console.error('[Performance Tracking] Failed to report metric:', error);
+      }
+    };
+
+    if ('requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(doReport, { timeout: 10000 });
+    } else {
+      setTimeout(doReport, 0);
     }
   }
 
@@ -83,20 +94,25 @@ class PerformanceTracker {
 
   // Track error rates
   async trackError(errorType: string, context?: Record<string, any>) {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      await supabase.rpc('log_security_event', {
-        p_event_type: `error_${errorType}`,
-        p_user_id: user?.id || null,
-        p_metadata: {
-          timestamp: new Date().toISOString(),
-          ...context
-        }
-      });
-    } catch (error) {
-      console.error('[Error Tracking] Failed to track error:', error);
-    }
+    // DEFER: Use setTimeout to avoid blocking critical path
+    setTimeout(async () => {
+      try {
+        // Use cached user from localStorage instead of calling getUser()
+        const cachedSession = localStorage.getItem('utm_session_cache');
+        const userId = cachedSession ? JSON.parse(cachedSession)?.user?.id : null;
+        
+        await supabase.rpc('log_security_event', {
+          p_event_type: `error_${errorType}`,
+          p_user_id: userId,
+          p_metadata: {
+            timestamp: new Date().toISOString(),
+            ...context
+          }
+        });
+      } catch (error) {
+        console.error('[Error Tracking] Failed to track error:', error);
+      }
+    }, 0);
   }
 }
 

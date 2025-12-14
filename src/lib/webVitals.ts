@@ -40,33 +40,44 @@ async function reportMetrics() {
   const metricsToReport = [...metricsBuffer];
   metricsBuffer.length = 0;
 
-  try {
-    // Report to Supabase for monitoring
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    // Convert metrics to JSON-safe format
-    const metricsJson = metricsToReport.map(m => ({
-      name: m.name,
-      value: m.value,
-      rating: m.rating,
-      delta: m.delta,
-      id: m.id,
-    }));
-    
-    await supabase.rpc('log_security_event', {
-      p_event_type: 'web_vitals',
-      p_user_id: user?.id || null,
-      p_metadata: {
-        metrics: metricsJson,
-        url: window.location.pathname,
-        timestamp: new Date().toISOString(),
-        connection: (navigator as unknown as { connection?: { effectiveType?: string } }).connection?.effectiveType || 'unknown',
-        deviceMemory: (navigator as unknown as { deviceMemory?: number }).deviceMemory || 'unknown',
-      }
-    });
-  } catch (error) {
-    // Silent fail - don't impact user experience
-    console.debug('[Web Vitals] Failed to report metrics:', error);
+  // DEFER: Use requestIdleCallback to avoid blocking critical path
+  const doReport = async () => {
+    try {
+      // Use cached user from localStorage instead of calling getUser()
+      const cachedSession = localStorage.getItem('utm_session_cache');
+      const userId = cachedSession ? JSON.parse(cachedSession)?.user?.id : null;
+      
+      // Convert metrics to JSON-safe format
+      const metricsJson = metricsToReport.map(m => ({
+        name: m.name,
+        value: m.value,
+        rating: m.rating,
+        delta: m.delta,
+        id: m.id,
+      }));
+      
+      await supabase.rpc('log_security_event', {
+        p_event_type: 'web_vitals',
+        p_user_id: userId,
+        p_metadata: {
+          metrics: metricsJson,
+          url: window.location.pathname,
+          timestamp: new Date().toISOString(),
+          connection: (navigator as unknown as { connection?: { effectiveType?: string } }).connection?.effectiveType || 'unknown',
+          deviceMemory: (navigator as unknown as { deviceMemory?: number }).deviceMemory || 'unknown',
+        }
+      });
+    } catch (error) {
+      // Silent fail - don't impact user experience
+      console.debug('[Web Vitals] Failed to report metrics:', error);
+    }
+  };
+
+  // Use requestIdleCallback if available, otherwise defer with setTimeout
+  if ('requestIdleCallback' in window) {
+    (window as any).requestIdleCallback(doReport, { timeout: 10000 });
+  } else {
+    setTimeout(doReport, 0);
   }
 }
 
