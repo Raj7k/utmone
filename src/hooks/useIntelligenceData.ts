@@ -130,24 +130,15 @@ export function useIntelligenceData(
         return getEmptyData();
       }
 
-      // Execute all queries in parallel with optimized COUNT queries
+      // Execute queries in parallel - skip redundant ones when preloaded
       const [
-        clickCountResult,
         prevClickCountResult,
         revenueResult,
-        campaignsResult,
         channelMixResult,
         geoResult,
         recentClicksResult,
       ] = await Promise.all([
-        // 1. Current period click COUNT (optimized - no data fetch)
-        supabase
-          .from("link_clicks")
-          .select("*", { count: "exact", head: true })
-          .eq("workspace_id", workspaceId)
-          .gte("clicked_at", startDateStr),
-        
-        // 2. Previous period click COUNT (optimized - no data fetch)
+        // 1. Previous period click COUNT (always needed for trend)
         supabase
           .from("link_clicks")
           .select("*", { count: "exact", head: true })
@@ -155,22 +146,14 @@ export function useIntelligenceData(
           .gte("clicked_at", prevStartDateStr)
           .lt("clicked_at", startDateStr),
         
-        // 3. Revenue - direct workspace_id query (no JOIN)
+        // 2. Revenue - direct workspace_id query (no JOIN)
         supabase
           .from("conversion_events")
           .select("event_value, link_id")
           .eq("workspace_id", workspaceId)
           .gte("attributed_at", startDateStr),
         
-        // 4. Campaigns with click counts - limit to top 5
-        supabase
-          .from("campaigns")
-          .select("id, name")
-          .eq("workspace_id", workspaceId)
-          .eq("status", "active")
-          .limit(5),
-        
-        // 5. Channel mix - use links table with total_clicks (database-side aggregation)
+        // 3. Channel mix - use links table with total_clicks
         supabase
           .from("links")
           .select("utm_source, total_clicks")
@@ -179,7 +162,7 @@ export function useIntelligenceData(
           .order("total_clicks", { ascending: false })
           .limit(10),
         
-        // 6. Geo data - limit to top 50 most recent, ordered
+        // 4. Geo data - limit to top 50 most recent
         supabase
           .from("link_clicks")
           .select("city, country")
@@ -189,7 +172,7 @@ export function useIntelligenceData(
           .order("clicked_at", { ascending: false })
           .limit(50),
         
-        // 7. Recent clicks for live feed - only last 10 (direct workspace_id, no JOIN)
+        // 5. Recent clicks for live feed - only last 10
         supabase
           .from("link_clicks")
           .select("id, city, country, device_type, clicked_at, link_id")
@@ -198,8 +181,17 @@ export function useIntelligenceData(
           .limit(10),
       ]);
 
-      // Process click counts
-      const totalClicks = clickCountResult.count || 0;
+      // Use preloaded clicks or fetch if not available
+      let totalClicks = preloadedClicks ?? 0;
+      if (preloadedClicks === undefined) {
+        const clickCountResult = await supabase
+          .from("link_clicks")
+          .select("*", { count: "exact", head: true })
+          .eq("workspace_id", workspaceId)
+          .gte("clicked_at", startDateStr);
+        totalClicks = clickCountResult.count || 0;
+      }
+
       const previousPeriodClicks = prevClickCountResult.count || 0;
       
       let clicksTrend: "up" | "down" | "neutral" = "neutral";
@@ -227,12 +219,23 @@ export function useIntelligenceData(
         percentage: channelTotal > 0 ? ((link.total_clicks || 0) / channelTotal) * 100 : 0,
       }));
 
-      // Process campaigns
-      const topCampaigns = (campaignsResult.data || []).map((c: any) => ({
-        id: c.id,
-        name: c.name,
-        clicks: 0,
-      }));
+      // Use preloaded campaigns or fetch if not available
+      let topCampaigns: Array<{ id: string; name: string; clicks: number }> = [];
+      if (preloadedCampaigns && preloadedCampaigns.length > 0) {
+        topCampaigns = preloadedCampaigns.map(c => ({ ...c, clicks: 0 }));
+      } else {
+        const campaignsResult = await supabase
+          .from("campaigns")
+          .select("id, name")
+          .eq("workspace_id", workspaceId)
+          .eq("status", "active")
+          .limit(5);
+        topCampaigns = (campaignsResult.data || []).map((c: any) => ({
+          id: c.id,
+          name: c.name,
+          clicks: 0,
+        }));
+      }
 
       // Channel mix for donut chart
       const channelMix = channelData
