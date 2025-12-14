@@ -1,5 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from "react";
-import { useWorkspace } from "@/hooks/useWorkspace";
+import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { useIntelligenceData } from "@/hooks/useIntelligenceData";
 import { useDashboardUnified } from "@/hooks/useDashboardUnified";
@@ -43,7 +43,7 @@ import { StaleIndicator } from "@/components/loading/CardSkeleton";
 const IdentityGraphView = lazy(() => import("@/components/attribution/IdentityGraphView").then(m => ({ default: m.IdentityGraphView })));
 
 export default function Intelligence() {
-  const { currentWorkspace, hasTimedOut, retry } = useWorkspace();
+  const { currentWorkspace, hasTimedOut, retry } = useWorkspaceContext();
   // Use cached workspace ID for immediate query start
   const effectiveWorkspaceId = currentWorkspace?.id || getCachedWorkspaceId() || "";
   const workspaceId = effectiveWorkspaceId;

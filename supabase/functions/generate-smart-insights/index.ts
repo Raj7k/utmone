@@ -54,7 +54,7 @@ serve(async (req) => {
     // Fetch clicks for analysis period
     let clicksQuery = supabase
       .from('link_clicks')
-      .select('*, links!inner(workspace_id, short_code, utm_source, utm_medium, utm_campaign)')
+      .select('*, links!inner(workspace_id, slug, utm_source, utm_medium, utm_campaign)')
       .eq('links.workspace_id', workspaceId)
       .gte('clicked_at', analysisStartDate.toISOString());
 
@@ -73,7 +73,7 @@ serve(async (req) => {
       
       let expandedQuery = supabase
         .from('link_clicks')
-        .select('*, links!inner(workspace_id, short_code, utm_source, utm_medium, utm_campaign)')
+        .select('*, links!inner(workspace_id, slug, utm_source, utm_medium, utm_campaign)')
         .eq('links.workspace_id', workspaceId)
         .gte('clicked_at', expandedStartDate.toISOString());
 
@@ -96,7 +96,7 @@ serve(async (req) => {
         
         let expanded90Query = supabase
           .from('link_clicks')
-          .select('*, links!inner(workspace_id, short_code, utm_source, utm_medium, utm_campaign)')
+          .select('*, links!inner(workspace_id, slug, utm_source, utm_medium, utm_campaign)')
           .eq('links.workspace_id', workspaceId)
           .gte('clicked_at', expanded90Date.toISOString());
 
