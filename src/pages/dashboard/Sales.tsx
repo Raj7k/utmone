@@ -15,7 +15,6 @@ import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
 import { StaleIndicator } from "@/components/loading/CardSkeleton";
-import { motion } from "framer-motion";
 
 const Sales = () => {
   const { hasTimedOut, retry, currentWorkspace } = useWorkspace();
@@ -69,12 +68,7 @@ const Sales = () => {
       </div>
 
       {/* Stats Banner - show skeletons when loading, data when ready */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="grid grid-cols-1 sm:grid-cols-3 gap-4"
-      >
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {isLoading && !isFetched ? (
           <>
             <Skeleton className="h-24 rounded-xl" />
@@ -104,15 +98,10 @@ const Sales = () => {
             />
           </>
         )}
-      </motion.div>
+      </div>
 
       {/* Main Content - always render */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-        className="grid grid-cols-1 lg:grid-cols-3 gap-6"
-      >
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       {/* Sales Links Table */}
       <div className="lg:col-span-2">
         <SalesLinkTable 
@@ -134,7 +123,7 @@ const Sales = () => {
             </Suspense>
           </LazySection>
         </div>
-      </motion.div>
+      </div>
 
       {/* Error state with retry */}
       {hasTimedOut && !currentWorkspace && (
