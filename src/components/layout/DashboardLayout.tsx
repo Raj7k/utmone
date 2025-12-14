@@ -12,13 +12,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { AlertTriangle } from "lucide-react";
 import { TourProvider } from "@/components/onboarding";
+import { KeyboardShortcutsProvider } from "@/components/keyboard/KeyboardShortcutsProvider";
 
 // Lazy load non-critical components
 const CreateLinkModal = lazy(() => import("@/components/CreateLinkModal").then(m => ({ default: m.CreateLinkModal })));
 const AdminToolbar = lazy(() => import("@/components/admin/AdminToolbar").then(m => ({ default: m.AdminToolbar })));
 const FeedbackWidget = lazy(() => import("@/components/FeedbackWidget").then(m => ({ default: m.FeedbackWidget })));
 const TourOverlay = lazy(() => import("@/components/onboarding").then(m => ({ default: m.TourOverlay })));
-const KeyboardShortcutsProvider = lazy(() => import("@/components/keyboard/KeyboardShortcutsProvider").then(m => ({ default: m.KeyboardShortcutsProvider })));
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -50,7 +50,8 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   return (
     <DashboardErrorBoundary>
       <TourProvider>
-        <SidebarProvider>
+        <KeyboardShortcutsProvider>
+          <SidebarProvider>
           {/* Navigation Progress Bar */}
           <NavigationProgress />
           
@@ -104,6 +105,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             </Suspense>
           </div>
         </SidebarProvider>
+        </KeyboardShortcutsProvider>
       </TourProvider>
     </DashboardErrorBoundary>
   );
