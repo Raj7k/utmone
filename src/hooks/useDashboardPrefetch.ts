@@ -149,11 +149,56 @@ export const useDashboardPrefetch = () => {
     const workspaceId = getWorkspaceId();
     if (!workspaceId || !shouldPrefetch('dashboard')) return;
     
-    // Trigger the main dashboard query prefetch
-    queryClient.prefetchQuery({
-      queryKey: ["dashboard-direct", workspaceId, "30d"],
-      staleTime: 30 * 1000,
-    });
+    const prefetch = () => {
+      // Prefetch recent links for dashboard
+      queryClient.prefetchQuery({
+        queryKey: ["enhanced-links", workspaceId],
+        queryFn: async () => {
+          const { data } = await supabase
+            .from("links")
+            .select("id, title, slug, short_url, destination_url, status, total_clicks, created_at")
+            .eq("workspace_id", workspaceId)
+            .is("deleted_at", null)
+            .order("created_at", { ascending: false })
+            .limit(10);
+          return data || [];
+        },
+        staleTime: 60 * 1000,
+      });
+    };
+
+    if ("requestIdleCallback" in window) {
+      (window as any).requestIdleCallback(prefetch, { timeout: 500 });
+    } else {
+      setTimeout(prefetch, 50);
+    }
+  }, [getWorkspaceId, shouldPrefetch, queryClient]);
+
+  const prefetchQRCodes = useCallback(() => {
+    const workspaceId = getWorkspaceId();
+    if (!workspaceId || !shouldPrefetch('qr-codes')) return;
+    
+    const prefetch = () => {
+      queryClient.prefetchQuery({
+        queryKey: ["qr-codes", workspaceId],
+        queryFn: async () => {
+          const { data } = await supabase
+            .from("qr_codes")
+            .select("id, name, link_id, style_config, created_at")
+            .eq("workspace_id", workspaceId)
+            .order("created_at", { ascending: false })
+            .limit(20);
+          return data || [];
+        },
+        staleTime: 60 * 1000,
+      });
+    };
+
+    if ("requestIdleCallback" in window) {
+      (window as any).requestIdleCallback(prefetch, { timeout: 500 });
+    } else {
+      setTimeout(prefetch, 50);
+    }
   }, [getWorkspaceId, shouldPrefetch, queryClient]);
 
   return {
@@ -162,5 +207,6 @@ export const useDashboardPrefetch = () => {
     prefetchSales,
     prefetchEvents,
     prefetchDashboard,
+    prefetchQRCodes,
   };
 };
