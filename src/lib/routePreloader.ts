@@ -31,7 +31,7 @@ export const preloaders = {
   links: () => preloadRoute(() => import("@/pages/dashboard/Links")),
   analytics: () => preloadRoute(() => import("@/pages/dashboard/Analytics")),
   settings: () => preloadRoute(() => import("@/pages/Settings")),
-  pricing: () => preloadRoute(() => import("@/public/routes/Pricing")),
+  pricing: () => preloadRoute(() => import("@/pages/Pricing")),
   earlyAccess: () => preloadRoute(() => import("@/pages/EarlyAccess")),
   // Feature pages
   shortLinks: () => preloadRoute(() => import("@/pages/features/ShortLinks")),

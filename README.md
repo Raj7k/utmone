@@ -60,10 +60,6 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
-## Development notes
-
-- Public code in `src/public` must not import from the private app bucket (`src/app`). Run `npm run lint` to check the boundary enforcement rule.
-
 ## How can I deploy this project?
 
 Simply open [Lovable](https://lovable.dev/projects/28313d35-a772-45d5-8b5f-41cdf224a4f8) and click on Share -> Publish.

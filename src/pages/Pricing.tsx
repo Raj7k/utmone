@@ -19,7 +19,7 @@ import {
   getLLMPricingData,
   getMaxAnnualDiscountDisplay
 } from "@/lib/pricingPageConfig";
-import { PromoBanner } from "@/public/components/pricing/PromoBanner";
+import { PromoBanner } from "@/components/pricing/PromoBanner";
 
 const Pricing = () => {
   const navigate = useNavigate();

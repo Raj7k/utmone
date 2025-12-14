@@ -13,13 +13,13 @@ const MarketingSkeleton = () => (
 );
 
 // Critical marketing pages - static imports for instant load
-import Index from "@/public/routes/Index";
+import Index from "@/pages/Index";
 import Auth from "@/pages/Auth";
 import Signup from "@/pages/Signup";
 import ResetPassword from "@/pages/ResetPassword";
 
 // Feature pages - lazy loaded
-const Features = lazy(() => import("@/public/routes/Features"));
+const Features = lazy(() => import("@/pages/Features"));
 const ShortLinks = lazy(() => import("@/pages/features/ShortLinks"));
 const UTMBuilder = lazy(() => import("@/pages/features/UTMBuilder"));
 const QRGenerator = lazy(() => import("@/pages/features/QRGenerator"));
@@ -56,7 +56,7 @@ const Product = lazy(() => import("@/pages/Product"));
 const Products = lazy(() => import("@/pages/Products"));
 
 // Other marketing pages
-const Pricing = lazy(() => import("@/public/routes/Pricing"));
+const Pricing = lazy(() => import("@/pages/Pricing"));
 const About = lazy(() => import("@/pages/AboutNew"));
 const FAQ = lazy(() => import("@/pages/FAQ"));
 const Changelog = lazy(() => import("@/pages/Changelog"));

@@ -23,21 +23,4 @@ export default tseslint.config(
       "@typescript-eslint/no-unused-vars": "off",
     },
   },
-  {
-    files: ["src/public/**/*.{ts,tsx}"],
-    rules: {
-      "no-restricted-imports": [
-        "error",
-        {
-          patterns: [
-            {
-              group: ["@/app/**", "src/app/**", "../app/**", "../../app/**"],
-              message:
-                "Public code cannot import from the private app bucket; use shared components instead.",
-            },
-          ],
-        },
-      ],
-    },
-  },
 );

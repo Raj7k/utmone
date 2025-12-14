@@ -3,7 +3,7 @@ import { Route, Navigate } from "react-router-dom";
 import { MarketingSkeleton } from "@/components/SkeletonLoader";
 
 // Feature Pages
-const Features = lazy(() => import("@/public/routes/Features"));
+const Features = lazy(() => import("@/pages/Features"));
 const HowItWorks = lazy(() => import("@/pages/HowItWorksNew"));
 const ShortLinks = lazy(() => import("@/pages/features/ShortLinks"));
 const UTMBuilder = lazy(() => import("@/pages/features/UTMBuilder"));
@@ -73,10 +73,10 @@ const AgencyClientReporting = lazy(() => import("@/pages/use-cases/AgencyClientR
 const InfluencerCampaigns = lazy(() => import("@/pages/use-cases/InfluencerCampaigns"));
 
 // Static Pages
-const Pricing = lazy(() => import("@/public/routes/Pricing"));
+const Pricing = lazy(() => import("@/pages/Pricing"));
 const LifetimeDeal = lazy(() => import("@/pages/LifetimeDeal"));
 const About = lazy(() => import("@/pages/AboutNew"));
-const Docs = lazy(() => import("@/public/routes/Docs"));
+const Docs = lazy(() => import("@/pages/Docs"));
 const FAQ = lazy(() => import("@/pages/FAQ"));
 const Changelog = lazy(() => import("@/pages/Changelog"));
 const Support = lazy(() => import("@/pages/Support"));
