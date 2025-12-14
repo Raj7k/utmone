@@ -1,4 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Plus, Waves, Zap, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -169,36 +170,42 @@ const Events = () => {
           </div>
 
           <TabsContent value="halo" className="mt-0">
-            {viewState === "overview" && (
-              <div className="animate-fade-in">
-                {/* Header */}
-                <div className="mb-6">
-                  <h2 className="font-display text-xl font-semibold text-foreground">field events</h2>
-                  <p className="text-muted-foreground text-sm">
-                    track the invisible lift from conferences, trade shows, and meetups
-                  </p>
-                </div>
-
-                {/* Content - render immediately with data or empty state */}
-                <EventsOverviewGrid
-                  events={typedEvents}
-                  onEventSelect={handleEventSelect}
-                  onQRClick={handleQRClick}
-                  onScanClick={handleScanClick}
-                />
-
-                {/* Error state */}
-                {hasTimedOut && !currentWorkspace && (
-                  <div className="flex flex-col items-center justify-center py-20 text-center">
-                    <p className="text-muted-foreground mb-4">unable to load workspace data</p>
-                    <Button onClick={retry} variant="outline" size="sm" className="gap-2">
-                      <RefreshCw className="h-4 w-4" />
-                      try again
-                    </Button>
+            <AnimatePresence mode="wait">
+              {viewState === "overview" && (
+                <motion.div
+                  key="overview"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, x: -20 }}
+                >
+                  {/* Header */}
+                  <div className="mb-6">
+                    <h2 className="font-display text-xl font-semibold text-foreground">field events</h2>
+                    <p className="text-muted-foreground text-sm">
+                      track the invisible lift from conferences, trade shows, and meetups
+                    </p>
                   </div>
-                )}
-              </div>
-            )}
+
+                  {/* Content - render immediately with data or empty state */}
+                  <EventsOverviewGrid
+                    events={typedEvents}
+                    onEventSelect={handleEventSelect}
+                    onQRClick={handleQRClick}
+                    onScanClick={handleScanClick}
+                  />
+
+                  {/* Error state */}
+                  {hasTimedOut && !currentWorkspace && (
+                    <div className="flex flex-col items-center justify-center py-20 text-center">
+                      <p className="text-muted-foreground mb-4">unable to load workspace data</p>
+                      <Button onClick={retry} variant="outline" size="sm" className="gap-2">
+                        <RefreshCw className="h-4 w-4" />
+                        try again
+                      </Button>
+                    </div>
+                  )}
+                </motion.div>
+              )}
 
               {viewState === "dashboard" && currentEvent && (
                 <EventDashboardView
@@ -235,6 +242,7 @@ const Events = () => {
                   onRefresh={refetch}
                 />
               )}
+            </AnimatePresence>
           </TabsContent>
 
           <TabsContent value="bridge" className="mt-0">

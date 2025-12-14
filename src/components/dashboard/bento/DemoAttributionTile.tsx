@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DEMO_ATTRIBUTION_DATA, getDemoFeaturesForPlan } from "@/hooks/useDemoMode";
+import { motion } from "framer-motion";
 import { TrendingUp, DollarSign, Users, Lock } from "lucide-react";
 import { PlanTier } from "@/lib/planConfig";
 
@@ -76,19 +77,20 @@ export const DemoAttributionTile = ({ planTier = 'free' }: DemoAttributionTilePr
         <div className="space-y-2">
           <p className="text-xs text-muted-foreground uppercase tracking-wider">by source</p>
           {sources.map((source, index) => (
-            <div
+            <motion.div
               key={source.name}
-              className="flex items-center gap-3 animate-fade-in"
-              style={{ animationDelay: `${index * 100}ms` }}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="flex items-center gap-3"
             >
               <div className="w-20 text-sm font-medium truncate">{source.name}</div>
               <div className="flex-1 h-2 rounded-full bg-muted overflow-hidden">
-                <div
-                  className="h-full bg-primary rounded-full transition-all duration-500"
-                  style={{ 
-                    width: features.attribution ? `${source.percentage}%` : '0%',
-                    transitionDelay: `${index * 100 + 200}ms`
-                  }}
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: features.attribution ? `${source.percentage}%` : '0%' }}
+                  transition={{ delay: index * 0.1 + 0.2, duration: 0.5 }}
+                  className="h-full bg-primary rounded-full"
                 />
               </div>
               <div className="w-16 text-right text-sm text-muted-foreground">
@@ -96,7 +98,7 @@ export const DemoAttributionTile = ({ planTier = 'free' }: DemoAttributionTilePr
                   <Lock className="h-3 w-3 inline-block" />
                 )}
               </div>
-            </div>
+            </motion.div>
           ))}
           {!features.attribution && (
             <p className="text-xs text-muted-foreground text-center pt-2">

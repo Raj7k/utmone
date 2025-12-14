@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DEMO_ANALYTICS_DATA, getDemoFeaturesForPlan } from "@/hooks/useDemoMode";
+import { motion } from "framer-motion";
 import { MousePointer, Users, Globe, Monitor, Smartphone, Tablet, Lock } from "lucide-react";
 import { PlanTier } from "@/lib/planConfig";
 
@@ -70,25 +71,26 @@ export const DemoAnalyticsTile = ({ planTier = 'free' }: DemoAnalyticsTileProps)
           </div>
           {features.countries ? (
             topCountries.slice(0, 3).map((country, index) => (
-              <div
+              <motion.div
                 key={country.country}
-                className="flex items-center gap-3 animate-fade-in"
-                style={{ animationDelay: `${index * 100}ms` }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="flex items-center gap-3"
               >
                 <div className="w-24 text-sm truncate">{country.country}</div>
                 <div className="flex-1 h-1.5 rounded-full bg-muted overflow-hidden">
-                  <div
-                    className="h-full bg-blue-500 rounded-full transition-all duration-500"
-                    style={{ 
-                      width: `${country.percentage}%`,
-                      transitionDelay: `${index * 100 + 200}ms`
-                    }}
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${country.percentage}%` }}
+                    transition={{ delay: index * 0.1 + 0.2, duration: 0.5 }}
+                    className="h-full bg-blue-500 rounded-full"
                   />
                 </div>
                 <div className="w-12 text-right text-xs text-muted-foreground">
                   {country.percentage}%
                 </div>
-              </div>
+              </motion.div>
             ))
           ) : (
             <div className="p-3 rounded-lg bg-muted/30 text-center">

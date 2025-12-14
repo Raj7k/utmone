@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { motion } from "framer-motion";
 import { Mail, RefreshCw, ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
@@ -53,7 +54,12 @@ export const EmailConfirmationScreen = ({ email, onBack }: EmailConfirmationScre
   return (
     <ObsidianMarketingLayout showFloatingNav={false}>
       <div className="min-h-[80vh] flex items-center justify-center p-4">
-        <div className="w-full max-w-md space-y-8 auth-card-enter">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="w-full max-w-md space-y-8"
+        >
           <button
             onClick={onBack}
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -70,15 +76,27 @@ export const EmailConfirmationScreen = ({ email, onBack }: EmailConfirmationScre
             <CardContent className="p-8 space-y-6">
               {/* Animated envelope */}
               <div className="flex justify-center">
-                <div className="relative animate-scale-in">
+                <motion.div
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                  className="relative"
+                >
                   <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center">
-                    <div className="envelope-bounce">
+                    <motion.div
+                      animate={{ y: [0, -4, 0] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    >
                       <Mail className="h-12 w-12 text-primary" />
-                    </div>
+                    </motion.div>
                   </div>
                   {/* Pulse ring */}
-                  <div className="absolute inset-0 rounded-full border-2 border-primary/30 animate-ping" />
-                </div>
+                  <motion.div
+                    className="absolute inset-0 rounded-full border-2 border-primary/30"
+                    animate={{ scale: [1, 1.3], opacity: [0.5, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  />
+                </motion.div>
               </div>
 
               {/* Message */}
@@ -126,7 +144,7 @@ export const EmailConfirmationScreen = ({ email, onBack }: EmailConfirmationScre
               </div>
             </CardContent>
           </Card>
-        </div>
+        </motion.div>
       </div>
     </ObsidianMarketingLayout>
   );

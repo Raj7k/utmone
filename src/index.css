@@ -5,73 +5,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ============================================
-   PERFORMANCE-OPTIMIZED CSS ANIMATIONS
-   Subtle transforms (4-8px) for polish without CLS
-   ============================================ */
-
-/* Simple fade for reduced motion and backdrops */
-@keyframes simple-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* Page content enter - subtle 4px translateY (small enough to avoid CLS) */
-@keyframes page-fade-in {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Sidebar slide - subtle horizontal slide */
-@keyframes sidebar-slide-in {
-  from { opacity: 0; transform: translateX(-8px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-/* Auth card entrance - slightly larger for emphasis */
-@keyframes auth-slide-up {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Sidebar transitions */
-.sidebar-enter {
-  animation: sidebar-slide-in 0.2s ease-out forwards;
-}
-
-.sidebar-backdrop {
-  animation: simple-fade-in 0.15s ease-out forwards;
-}
-
-/* Page content enter */
-.page-enter {
-  animation: page-fade-in 0.2s ease-out forwards;
-}
-
-/* Auth card entrance */
-.auth-card-enter {
-  animation: auth-slide-up 0.4s ease-out forwards;
-}
-
-/* Reduced motion preference - opacity only for accessibility */
-@media (prefers-reduced-motion: reduce) {
-  .page-enter,
-  .sidebar-enter,
-  .auth-card-enter {
-    animation: simple-fade-in 0.15s ease-out forwards;
-  }
-}
-
-/* Envelope bounce animation for email confirmation */
-@keyframes envelope-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-}
-
-.envelope-bounce {
-  animation: envelope-bounce 2s ease-in-out infinite;
-}
-
 /* Animated border - simple rotating light beam */
 @keyframes rotate-border {
   to {
@@ -173,19 +106,6 @@ All colors MUST be HSL.
 
 .animate-dot-pulse {
   animation: dot-pulse 1s ease-in-out infinite;
-}
-
-/* PHASE 22: CSS utilities for mobile nav (replacing framer-motion) */
-.tap-shrink {
-  transition: transform 0.1s ease-out;
-}
-
-.tap-shrink:active {
-  transform: scale(0.95);
-}
-
-.nav-indicator {
-  transition: left 0.2s ease-out, width 0.2s ease-out, opacity 0.2s ease-out;
 }
 
 .animate-gradient {

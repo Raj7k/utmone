@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
 import { ArrowLeft, Info, Check, Shield, Clock } from "lucide-react";
+import { motion } from "framer-motion";
 import { AuthLoadingScreen } from "@/components/loading/AuthLoadingScreen";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { SocialLoginButtons } from "@/components/auth/SocialLoginButtons";
@@ -303,7 +304,12 @@ const Signup = () => {
   return (
     <ObsidianMarketingLayout showFloatingNav={false}>
       <div className="min-h-[80vh] flex items-center justify-center p-4 relative overflow-hidden">
-        <div className="w-full max-w-md space-y-8 relative z-10 auth-card-enter">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="w-full max-w-md space-y-8 relative z-10"
+        >
           <Link 
             to="/" 
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -332,7 +338,11 @@ const Signup = () => {
           </div>
 
           {invitationContext && (
-            <div className="bg-primary/5 border-2 border-primary/20 rounded-2xl p-5 space-y-4 animate-fade-in">
+            <motion.div 
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-primary/5 border-2 border-primary/20 rounded-2xl p-5 space-y-4"
+            >
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
                   <Info className="h-5 w-5 text-primary" />
@@ -348,7 +358,7 @@ const Signup = () => {
                   </p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           )}
 
           <Card className="bg-card border-border shadow-xl rounded-2xl">
@@ -461,7 +471,7 @@ const Signup = () => {
             {" "}and{" "}
             <Link to="/privacy" className="hover:text-foreground underline">privacy policy</Link>
           </p>
-        </div>
+        </motion.div>
       </div>
     </ObsidianMarketingLayout>
   );

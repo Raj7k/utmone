@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Zap, ArrowRight, TrendingUp, DollarSign } from "lucide-react";
@@ -7,7 +8,11 @@ export const CampaignSimulatorCTA = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="animate-fade-in" style={{ animationDelay: '300ms' }}>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.3 }}
+    >
       <Card className="overflow-hidden border-2 border-dashed border-primary/30 bg-gradient-to-br from-primary/5 via-transparent to-primary/5">
         <CardContent className="p-6">
           <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
@@ -16,7 +21,11 @@ export const CampaignSimulatorCTA = () => {
               <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center">
                 <Zap className="h-8 w-8 text-primary" />
               </div>
-              <div className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-green-500 animate-pulse" />
+              <motion.div
+                className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-green-500"
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ repeat: Infinity, duration: 2 }}
+              />
             </div>
 
             {/* Content */}
@@ -53,6 +62,6 @@ export const CampaignSimulatorCTA = () => {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </motion.div>
   );
 };

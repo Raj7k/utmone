@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { useSidebar } from "./SidebarProvider";
+import { motion } from "framer-motion";
 import { 
   appNavigation, 
   toolsNavigation, 
@@ -61,16 +62,18 @@ export const CollapsedSidebar = () => {
     <aside className="w-16 h-screen bg-card flex flex-col items-center py-4 z-40 border-r border-border/50">
       <TooltipProvider delayDuration={0}>
         {/* Logo */}
-        <button 
+        <motion.button 
           onClick={toggleSidebar}
-          className="w-10 h-10 rounded-xl flex items-center justify-center text-foreground/50 hover:text-foreground/80 hover:bg-muted/50 transition-all duration-200 mb-6 tap-shrink hover:scale-105"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="w-10 h-10 rounded-xl flex items-center justify-center text-foreground/50 hover:text-foreground/80 hover:bg-muted/50 transition-all duration-200 mb-6"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-primary">
             <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-        </button>
+        </motion.button>
 
         {/* Navigation Icons */}
         <nav className="flex-1 flex flex-col gap-1 w-full px-2 overflow-y-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
@@ -82,7 +85,10 @@ export const CollapsedSidebar = () => {
             return (
               <Tooltip key={`${item.name}-${item.href}-${index}`}>
                 <TooltipTrigger asChild>
-                  <div className="tap-shrink hover:scale-105 transition-transform duration-200">
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
                     <Link
                       to={item.href}
                       className={cn(
@@ -99,7 +105,7 @@ export const CollapsedSidebar = () => {
                         </span>
                       )}
                     </Link>
-                  </div>
+                  </motion.div>
                 </TooltipTrigger>
                 <TooltipContent 
                   side="right" 
@@ -116,14 +122,14 @@ export const CollapsedSidebar = () => {
         <div className="flex flex-col gap-2 w-full px-2 pt-3 border-t border-border/50 mt-3">
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className="tap-shrink hover:scale-105 transition-transform duration-200">
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Link 
                   to="/settings?tab=notifications"
                   className="w-10 h-10 rounded-xl flex items-center justify-center text-foreground/50 hover:text-foreground/80 hover:bg-muted/50 transition-all duration-200 mx-auto"
                 >
                   <Bell className="h-[18px] w-[18px]" />
                 </Link>
-              </div>
+              </motion.div>
             </TooltipTrigger>
             <TooltipContent 
               side="right"
@@ -135,9 +141,11 @@ export const CollapsedSidebar = () => {
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <button 
+              <motion.button 
                 onClick={toggleSidebar}
-                className="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-muted/50 transition-all duration-200 overflow-hidden mx-auto tap-shrink hover:scale-105"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-muted/50 transition-all duration-200 overflow-hidden mx-auto"
               >
                 <Avatar className="h-8 w-8">
                   <AvatarImage src={profile?.avatar_url || undefined} />
@@ -145,7 +153,7 @@ export const CollapsedSidebar = () => {
                     {getInitials(profile?.full_name || null)}
                   </AvatarFallback>
                 </Avatar>
-              </button>
+              </motion.button>
             </TooltipTrigger>
             <TooltipContent 
               side="right"
@@ -158,14 +166,18 @@ export const CollapsedSidebar = () => {
       </TooltipProvider>
 
       {/* Expand Indicator */}
-      <div className="absolute top-1/2 -right-3 -translate-y-1/2 hover:scale-110 active:scale-90 transition-transform duration-200">
+      <motion.div 
+        className="absolute top-1/2 -right-3 -translate-y-1/2"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+      >
         <button 
           onClick={toggleSidebar}
           className="w-6 h-6 rounded-full bg-card border border-border/50 flex items-center justify-center text-foreground/40 hover:text-foreground/70 hover:border-border transition-all duration-200 shadow-sm"
         >
           <ChevronRight className="h-3 w-3" />
         </button>
-      </div>
+      </motion.div>
     </aside>
   );
 };

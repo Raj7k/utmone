@@ -1,7 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { MagneticButton } from "@/components/magnetic";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { announcements } from "@/lib/announcementConfig";
 import { AnnouncementScheduler } from "@/lib/announcementScheduler";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
@@ -39,20 +40,17 @@ export const Navigation = () => {
   const [hideNav, setHideNav] = useState(false);
   const [announcementVisible, setAnnouncementVisible] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const { scrollYProgress } = useScroll();
   const location = useLocation();
+  
+  const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
       setHideNav(window.scrollY > 600);
-      
-      // Calculate scroll progress using native JS (no framer-motion)
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
-      setScrollProgress(progress);
     };
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -90,10 +88,10 @@ export const Navigation = () => {
           isScrolled ? 'scale-95' : 'scale-100'
         )}
       >
-        {/* Scroll Progress Bar - CSS only, no framer-motion */}
-        <div
-          className="absolute bottom-0 left-0 h-[2px] origin-left rounded-full bg-gradient-to-r from-white/30 via-white/60 to-white/30 transition-transform duration-100"
-          style={{ transform: `scaleX(${scrollProgress / 100})` }}
+        {/* Scroll Progress Bar */}
+        <motion.div
+          className="absolute bottom-0 left-0 h-[2px] origin-left rounded-full bg-gradient-to-r from-white/30 via-white/60 to-white/30"
+          style={{ width: progressWidth }}
         />
         
         {/* Logo */}

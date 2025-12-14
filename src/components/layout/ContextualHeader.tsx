@@ -3,13 +3,11 @@ import { useLocation } from "react-router-dom";
 import { useModal } from "@/contexts/ModalContext";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useState, lazy, Suspense } from "react";
+import { useState } from "react";
+import { ExpandedSidebar } from "./sidebar/ExpandedSidebar";
 import { WorkspaceSwitcher } from "@/components/navigation/WorkspaceSwitcher";
 import { UserAvatarMenu } from "@/components/navigation/UserAvatarMenu";
 import { Button } from "@/components/ui/button";
-
-// Lazy load ExpandedSidebar - only needed on mobile
-const ExpandedSidebar = lazy(() => import("./sidebar/ExpandedSidebar").then(m => ({ default: m.ExpandedSidebar })));
 
 interface PageMeta {
   title: string;
@@ -61,9 +59,7 @@ export const ContextualHeader = () => {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="p-0 w-64">
-            <Suspense fallback={<div className="w-64 h-full bg-card animate-pulse" />}>
-              <ExpandedSidebar />
-            </Suspense>
+            <ExpandedSidebar />
           </SheetContent>
         </Sheet>
 
