@@ -344,10 +344,13 @@ export const OmniDemo = () => {
                       </div>
 
                       {/* URL being typed */}
-                      <div className="bg-zinc-900/80 rounded-lg p-3 font-mono text-sm border border-zinc-700/50">
-                        <span className="text-zinc-500">https://</span>
-                        <span className="text-zinc-300">{typedUrl}</span>
-                        <span className="animate-pulse text-zinc-400">|</span>
+                      <div className="bg-zinc-900/80 rounded-lg p-3 font-mono text-sm border border-zinc-700/50 flex items-center gap-2">
+                        <LinkedInIcon className="w-4 h-4 flex-shrink-0" style={{ color: "#0A66C2" }} />
+                        <div>
+                          <span className="text-zinc-500">https://</span>
+                          <span className="text-zinc-300">{typedUrl}</span>
+                          <span className="animate-pulse text-zinc-400">|</span>
+                        </div>
                       </div>
 
                       {/* Google Analytics badge */}

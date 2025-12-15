@@ -264,7 +264,7 @@ const JourneyContent = () => (
             
             <div className="space-y-4">
               {[
-                { icon: Search, label: "Google Search", device: "Mobile", day: "Day 1", time: "9:34 AM" },
+                { icon: GoogleIcon, label: "Google Search", device: "Mobile", day: "Day 1", time: "9:34 AM", iconColor: "#4285F4" },
                 { icon: FileText, label: "Blog Post", device: "Desktop", day: "Day 3", time: "2:15 PM" },
                 { icon: Mail, label: "Email Nurture", device: "Mobile", day: "Day 7", time: "8:22 AM" },
                 { icon: Monitor, label: "Demo Request", device: "Desktop", day: "Day 12", time: "3:45 PM" },
@@ -286,7 +286,7 @@ const JourneyContent = () => (
                           : 'bg-muted border border-border text-muted-foreground'
                       }`}
                     >
-                      <Icon className="w-5 h-5" />
+                      <Icon className="w-5 h-5" style={(step as any).iconColor ? { color: (step as any).iconColor } : undefined} />
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
