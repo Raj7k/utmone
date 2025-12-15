@@ -48,6 +48,7 @@ const PasswordProtected = lazy(() => import("./pages/PasswordProtected"));
 const Accessibility = lazy(() => import("./pages/Accessibility"));
 const Permanence = lazy(() => import("./pages/Permanence"));
 const Pricing = lazy(() => import("./public/routes/Pricing"));
+const PublicLinkPage = lazy(() => import("./pages/PublicLinkPage"));
 const LifetimeDeal = lazy(() => import("./pages/LifetimeDeal"));
 const About = lazy(() => import("./pages/AboutNew"));
 const Docs = lazy(() => import("./public/routes/Docs"));
@@ -504,6 +505,7 @@ const AppRoutes = () => {
                 <Route path="/auth/callback" element={<Suspense fallback={<DashboardSkeleton />}><AuthCallback /></Suspense>} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/u/:slug" element={<Suspense fallback={<MarketingSkeleton />}><PublicLinkPage /></Suspense>} />
                 <Route path="/waitlist-pending" element={<Suspense fallback={<DashboardSkeleton />}><WaitlistPending /></Suspense>} />
                 <Route path="/waitlist-locked" element={<Suspense fallback={<DashboardSkeleton />}><WaitlistLocked /></Suspense>} />
                 <Route path="/link-expired" element={<LinkExpired />} />
