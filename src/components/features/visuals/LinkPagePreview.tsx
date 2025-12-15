@@ -11,7 +11,7 @@ export function LinkPagePreview() {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-zinc-900 rounded-b-2xl z-10" />
           
           {/* Screen */}
-          <div className="rounded-[2rem] overflow-hidden bg-gradient-to-br from-purple-600 to-pink-500">
+          <div className="rounded-[2rem] overflow-hidden bg-gradient-to-br from-orange-500 via-pink-500 to-rose-500">
             {/* Status bar */}
             <div className="flex items-center justify-between px-6 py-2 text-white/80 text-[10px]">
               <span>9:41</span>
@@ -80,7 +80,7 @@ export function LinkPagePreview() {
       </div>
 
       {/* Glow effect */}
-      <div className="absolute -inset-8 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl -z-10 opacity-60" />
+      <div className="absolute -inset-8 bg-gradient-to-br from-orange-500/20 via-pink-500/20 to-rose-500/20 rounded-full blur-3xl -z-10 opacity-60" />
 
       {/* Animation keyframes */}
       <style>{`
