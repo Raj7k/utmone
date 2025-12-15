@@ -144,15 +144,15 @@ export const useDashboardPrefetch = () => {
     }
   }, [getWorkspaceId, shouldPrefetch, queryClient]);
 
-  // Prefetch dashboard unified data (most important)
+  // Prefetch dashboard unified data (most important) - aligned with actual query key
   const prefetchDashboard = useCallback(() => {
     const workspaceId = getWorkspaceId();
     if (!workspaceId || !shouldPrefetch('dashboard')) return;
     
     const prefetch = () => {
-      // Prefetch recent links for dashboard
+      // Prefetch recent links for dashboard - use correct query key
       queryClient.prefetchQuery({
-        queryKey: ["enhanced-links", workspaceId],
+        queryKey: ["dashboard-direct", workspaceId, "30d"],
         queryFn: async () => {
           const { data } = await supabase
             .from("links")
@@ -161,7 +161,7 @@ export const useDashboardPrefetch = () => {
             .is("deleted_at", null)
             .order("created_at", { ascending: false })
             .limit(10);
-          return data || [];
+          return { links: data || [], fetchedAt: new Date().toISOString() };
         },
         staleTime: 60 * 1000,
       });

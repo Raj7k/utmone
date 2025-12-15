@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useWorkspace } from "@/hooks/workspace";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
-import { useDashboardUnified } from "@/hooks/dashboard";
+import { useEventsData } from "@/hooks/dashboard";
 import { 
   useFieldEvent, 
   useCalculateEventHalo, 
@@ -61,8 +61,9 @@ const Events = () => {
   // Use cached workspace ID for immediate query start
   const effectiveWorkspaceId = currentWorkspace?.id || getCachedWorkspaceId() || '';
   
-  // Use unified dashboard data for events
-  const { events, isFetching, isFetched, isLoading, isStale, refetch: refetchUnified } = useDashboardUnified();
+  // Use lightweight events hook - only fetches events (1 query instead of 10)
+  const { data: events = [], isFetching, isFetched, isLoading, refetch: refetchUnified } = useEventsData();
+  const isStale = false; // Lightweight hook doesn't track staleness
   
   // Detail queries (only when viewing a specific event)
   const { data: eventDetails } = useFieldEvent(selectedEvent?.id || '');

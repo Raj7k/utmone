@@ -15,3 +15,11 @@ export type {
 } from "./useDashboardUnified";
 export { useDashboardPreferences } from "./useDashboardPreferences";
 export { useDashboardPrefetch } from "./useDashboardPrefetch";
+
+// Domain-specific lightweight hooks
+export { useSalesData } from "./useSalesData";
+export type { SalesLink } from "./useSalesData";
+export { useEventsData } from "./useEventsData";
+export type { FieldEvent } from "./useEventsData";
+export { useCampaignsData } from "./useCampaignsData";
+export type { Campaign } from "./useCampaignsData";

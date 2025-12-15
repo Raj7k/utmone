@@ -106,7 +106,7 @@ export default function Analytics() {
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
-    await queryClient.invalidateQueries({ queryKey: ["dashboard-unified"] });
+    await queryClient.invalidateQueries({ queryKey: ["dashboard-direct", effectiveWorkspaceId, "30d"] });
     setIsRefreshing(false);
   };
 

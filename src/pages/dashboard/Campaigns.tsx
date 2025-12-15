@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Plus, Megaphone } from "lucide-react";
-import { useDashboardUnified } from "@/hooks/dashboard";
+import { useCampaignsData } from "@/hooks/dashboard";
 import { CreateCampaignModal } from "@/components/campaigns/CreateCampaignModal";
 import { CampaignCard } from "@/components/campaigns/CampaignCard";
 import { FeatureGuard } from "@/components/FeatureGuard";
@@ -12,8 +12,8 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 export default function Campaigns() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   
-  // Use unified dashboard data for campaigns
-  const { campaigns, isFetching, isFetched } = useDashboardUnified();
+  // Use lightweight campaigns hook - only fetches campaigns (1 query instead of 10)
+  const { campaigns, isFetching, isFetched } = useCampaignsData();
 
   // Complete navigation when data loads
   useEffect(() => {

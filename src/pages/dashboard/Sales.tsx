@@ -1,5 +1,5 @@
 import { useEffect, useState, lazy, Suspense } from "react";
-import { useDashboardUnified } from "@/hooks/dashboard";
+import { useSalesData } from "@/hooks/dashboard";
 import { useWorkspace } from "@/hooks/workspace";
 import { SalesLinkTable } from "@/components/sales/SalesLinkTable";
 import { SalesStatCard } from "@/components/sales/SalesStatCard";
@@ -18,7 +18,9 @@ import { StaleIndicator } from "@/components/loading/CardSkeleton";
 
 const Sales = () => {
   const { hasTimedOut, retry, currentWorkspace } = useWorkspace();
-  const { salesLinks, isFetching, isFetched, isLoading, isStale, refetch } = useDashboardUnified();
+  // Use lightweight sales hook - only fetches sales links (1 query instead of 10)
+  const { data: salesLinks = [], isFetching, isFetched, isLoading, refetch } = useSalesData();
+  const isStale = false; // Lightweight hook doesn't track staleness
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   // Complete navigation progress when data loads or times out
