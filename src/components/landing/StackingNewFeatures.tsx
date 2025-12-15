@@ -61,12 +61,14 @@ interface StackingFeatureCardProps {
 
 const StackingFeatureCard = ({ card, index, totalCards, scrollProgress }: StackingFeatureCardProps) => {
   const cardStart = index / totalCards;
-  
-  // Y position: cards start below (100%), slide up to center (0%) when active
+
+  // Y position: first card should be visible immediately; others slide up when active
   const y = useTransform(
     scrollProgress,
-    [Math.max(0, cardStart - 0.05), cardStart + 0.2],
-    ["100%", "0%"]
+    index === 0
+      ? [0, 0.15]
+      : [Math.max(0, cardStart - 0.05), cardStart + 0.2],
+    index === 0 ? ["0%", "0%"] : ["100%", "0%"]
   );
 
   const Icon = card.badgeIcon;
@@ -191,7 +193,7 @@ export const StackingNewFeatures = () => {
   });
 
   return (
-    <div ref={containerRef} className="relative min-h-[300vh]">
+    <div ref={containerRef} className="relative min-h-[250vh] -mt-16">
       <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
         <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-8 h-[70vh] relative">
           {featureCards.map((card, index) => (
