@@ -1,9 +1,9 @@
 import { FeatureLayout } from "@/components/features/FeatureLayout";
-import { FeatureHero } from "@/components/features/FeatureHero";
-import { FeatureStatsStrip } from "@/components/features/FeatureStatsStrip";
-import { FeatureBentoGrid } from "@/components/features/FeatureBentoGrid";
-import { FeatureBeforeAfter } from "@/components/features/FeatureBeforeAfter";
-import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
+import { FeatureHero } from "@/components/features/StaticFeatureHero";
+import { FeatureStatsStrip } from "@/components/features/StaticFeatureStatsStrip";
+import { FeatureBentoGrid } from "@/components/features/StaticFeatureBentoGrid";
+import { FeatureBeforeAfter } from "@/components/features/StaticFeatureBeforeAfter";
+import { FeatureFinalCTA } from "@/components/features/StaticFeatureFinalCTA";
 import { WorkspaceSwitcherDemo } from "@/components/features/visuals/WorkspaceSwitcherDemo";
 import { Users, Building2, Shield, BarChart3, Lock, GitBranch, ArrowRight, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
