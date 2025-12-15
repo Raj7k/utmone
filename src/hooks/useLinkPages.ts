@@ -1,8 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { isValidLinkPageSlug } from "@/lib/linkPages";
 import { useToast } from "@/components/ui/use-toast";
-
+import type { LinkPageTemplate } from "@/config/linkPageTemplates";
 export interface LinkPage {
   id: string;
   workspace_id: string;
@@ -98,7 +99,7 @@ export const useUpdateLinkPage = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   return useMutation({
-    mutationFn: async (payload: { id: string; title?: string; slug?: string; bio?: string; is_published?: boolean }) => {
+    mutationFn: async (payload: { id: string; title?: string; slug?: string; bio?: string; is_published?: boolean; theme?: string }) => {
       const { id, ...changes } = payload;
       const { data, error } = await supabase
         .from("link_pages")
@@ -214,5 +215,62 @@ export const useLinkPageCount = (workspaceId?: string) => {
       return count ?? 0;
     },
     enabled: !!workspaceId,
+  });
+};
+
+export const useCreateLinkPageFromTemplate = (workspaceId?: string) => {
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+
+  return useMutation({
+    mutationFn: async (payload: { title: string; slug: string; template?: LinkPageTemplate }) => {
+      if (!workspaceId) throw new Error("Missing workspace");
+      if (!isValidLinkPageSlug(payload.slug)) throw new Error("Invalid slug");
+
+      const { data: user } = await supabase.auth.getUser();
+      
+      // Create the page
+      const { data: page, error: pageError } = await supabase
+        .from("link_pages")
+        .insert({
+          workspace_id: workspaceId,
+          title: payload.title,
+          slug: payload.slug,
+          theme: payload.template?.theme || "default",
+          created_by: user.user?.id,
+        })
+        .select()
+        .single();
+      
+      if (pageError) throw pageError;
+
+      // If template provided, create blocks
+      if (payload.template && payload.template.blocks.length > 0) {
+        const blocksToInsert = payload.template.blocks.map((block, index) => ({
+          page_id: page.id,
+          type: block.type,
+          data: JSON.parse(JSON.stringify(block.data)),
+          order_index: index,
+          is_enabled: true,
+        }));
+
+        const { error: blocksError } = await supabase
+          .from("link_page_blocks")
+          .insert(blocksToInsert);
+
+        if (blocksError) {
+          console.error("Failed to create template blocks:", blocksError);
+        }
+      }
+
+      return page as LinkPage;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["link-pages"] });
+      toast({ description: "Link page created" });
+    },
+    onError: (error) => {
+      toast({ variant: "destructive", description: error.message });
+    },
   });
 };

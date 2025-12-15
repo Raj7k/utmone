@@ -30,15 +30,36 @@ const socialIcons: Record<string, typeof Instagram> = {
   email: Mail,
 };
 
+const themeStyles: Record<string, { bg: string; text: string; card: string; border: string }> = {
+  default: {
+    bg: "bg-gradient-to-b from-background to-muted",
+    text: "text-foreground",
+    card: "bg-card/90 hover:bg-card border-border",
+    border: "border-border",
+  },
+  dark: {
+    bg: "bg-gradient-to-b from-zinc-900 to-zinc-950",
+    text: "text-white",
+    card: "bg-white/10 hover:bg-white/15 border-white/10",
+    border: "border-white/10",
+  },
+  gradient: {
+    bg: "bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400",
+    text: "text-white",
+    card: "bg-white/20 hover:bg-white/30 border-white/20 backdrop-blur-sm",
+    border: "border-white/20",
+  },
+  minimal: {
+    bg: "bg-white",
+    text: "text-zinc-900",
+    card: "bg-zinc-100 hover:bg-zinc-200 border-zinc-200",
+    border: "border-zinc-200",
+  },
+};
+
 export function LivePreview({ title, bio, blocks, theme = "default" }: LivePreviewProps) {
   const enabledBlocks = blocks.filter((b) => b.is_enabled);
-
-  const themeStyles: Record<string, string> = {
-    default: "bg-background text-foreground",
-    dark: "bg-zinc-900 text-white",
-    gradient: "bg-gradient-to-br from-purple-600 to-pink-500 text-white",
-    minimal: "bg-white text-zinc-900",
-  };
+  const styles = themeStyles[theme] || themeStyles.default;
 
   const renderBlock = (block: LinkPageBlock) => {
     const data = block.data as Record<string, unknown>;
@@ -50,14 +71,17 @@ export function LivePreview({ title, bio, blocks, theme = "default" }: LivePrevi
             href={data.url as string}
             target="_blank"
             rel="noopener noreferrer"
-            className="block w-full p-4 bg-card/80 hover:bg-card border border-border rounded-xl text-center transition-all hover:scale-[1.02]"
+            className={cn(
+              "block w-full p-3 rounded-xl text-center transition-all hover:scale-[1.02] border",
+              styles.card
+            )}
           >
             <div className="flex items-center justify-center gap-2">
               {data.icon && (
-                <img src={data.icon as string} alt="" className="w-5 h-5 rounded" />
+                <img src={data.icon as string} alt="" className="w-4 h-4 rounded" />
               )}
-              <span className="font-medium">{data.title as string}</span>
-              <ExternalLink className="w-4 h-4 opacity-50" />
+              <span className="font-medium text-sm">{data.title as string}</span>
+              <ExternalLink className="w-3 h-3 opacity-50" />
             </div>
           </a>
         );
@@ -65,9 +89,9 @@ export function LivePreview({ title, bio, blocks, theme = "default" }: LivePrevi
       case "header":
         const HeaderTag = (data.size as string) || "h2";
         const headerSizes: Record<string, string> = {
-          h1: "text-2xl font-bold",
-          h2: "text-xl font-semibold",
-          h3: "text-lg font-medium",
+          h1: "text-xl font-bold",
+          h2: "text-lg font-semibold",
+          h3: "text-base font-medium",
         };
         return (
           <div className={cn("text-center", headerSizes[HeaderTag])}>
@@ -77,7 +101,7 @@ export function LivePreview({ title, bio, blocks, theme = "default" }: LivePrevi
 
       case "text":
         return (
-          <p className="text-sm text-center opacity-80 whitespace-pre-wrap">
+          <p className="text-xs text-center opacity-70 whitespace-pre-wrap px-2">
             {data.content as string}
           </p>
         );
@@ -94,11 +118,12 @@ export function LivePreview({ title, bio, blocks, theme = "default" }: LivePrevi
 
       case "divider":
         const style = data.style as string || "solid";
-        if (style === "space") return <div className="h-4" />;
+        if (style === "space") return <div className="h-3" />;
         return (
           <hr
             className={cn(
-              "border-current opacity-20",
+              "opacity-20",
+              styles.border,
               style === "dashed" && "border-dashed",
               style === "dotted" && "border-dotted"
             )}
@@ -109,7 +134,7 @@ export function LivePreview({ title, bio, blocks, theme = "default" }: LivePrevi
         const platforms = (data.platforms as { platform: string; url: string }[]) || [];
         if (platforms.length === 0) return null;
         return (
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex items-center justify-center gap-3">
             {platforms.map((p, i) => {
               const Icon = socialIcons[p.platform] || ExternalLink;
               return (
@@ -118,9 +143,12 @@ export function LivePreview({ title, bio, blocks, theme = "default" }: LivePrevi
                   href={p.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 bg-card/80 hover:bg-card rounded-full transition-colors"
+                  className={cn(
+                    "p-2 rounded-full transition-colors border",
+                    styles.card
+                  )}
                 >
-                  <Icon className="w-5 h-5" />
+                  <Icon className="w-4 h-4" />
                 </a>
               );
             })}
@@ -133,42 +161,57 @@ export function LivePreview({ title, bio, blocks, theme = "default" }: LivePrevi
   };
 
   return (
-    <div className="border border-border rounded-2xl overflow-hidden bg-muted/50">
+    <div className="border border-border rounded-2xl overflow-hidden bg-muted/50 shadow-lg">
       {/* Phone frame header */}
-      <div className="flex items-center justify-center gap-2 py-2 bg-muted">
-        <div className="w-2 h-2 rounded-full bg-red-500" />
-        <div className="w-2 h-2 rounded-full bg-yellow-500" />
-        <div className="w-2 h-2 rounded-full bg-green-500" />
+      <div className="flex items-center justify-center gap-1.5 py-1.5 bg-muted/80">
+        <div className="w-1.5 h-1.5 rounded-full bg-red-500/70" />
+        <div className="w-1.5 h-1.5 rounded-full bg-yellow-500/70" />
+        <div className="w-1.5 h-1.5 rounded-full bg-green-500/70" />
       </div>
 
       {/* Preview content */}
       <div
         className={cn(
-          "min-h-[400px] p-6 overflow-auto",
-          themeStyles[theme] || themeStyles.default
+          "min-h-[380px] p-5 overflow-auto transition-colors duration-300",
+          styles.bg,
+          styles.text
         )}
       >
-        <div className="max-w-sm mx-auto space-y-4">
+        <div className="max-w-xs mx-auto space-y-4">
           {/* Profile section */}
           <div className="text-center space-y-2">
-            <div className="w-20 h-20 mx-auto rounded-full bg-muted/50" />
-            <h1 className="text-xl font-bold">{title || "Your Name"}</h1>
-            {bio && <p className="text-sm opacity-70">{bio}</p>}
+            <div className={cn(
+              "w-16 h-16 mx-auto rounded-full flex items-center justify-center text-xl font-bold",
+              theme === "minimal" ? "bg-zinc-200" : "bg-white/20"
+            )}>
+              {title ? title.charAt(0).toUpperCase() : "?"}
+            </div>
+            <h1 className="text-lg font-bold">{title || "Your Name"}</h1>
+            {bio && <p className="text-xs opacity-70">{bio}</p>}
           </div>
 
           {/* Blocks */}
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             {enabledBlocks.map((block) => (
               <div key={block.id}>{renderBlock(block)}</div>
             ))}
           </div>
 
           {enabledBlocks.length === 0 && (
-            <p className="text-center text-sm opacity-50 py-8">
-              Add blocks to see them here
-            </p>
+            <div className="text-center py-6">
+              <p className="text-xs opacity-50">
+                Add blocks to see them here
+              </p>
+            </div>
           )}
         </div>
+      </div>
+
+      {/* Footer */}
+      <div className="py-2 text-center bg-muted/80">
+        <span className="text-[10px] text-muted-foreground">
+          Powered by utm.one
+        </span>
       </div>
     </div>
   );
