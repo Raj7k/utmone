@@ -29,21 +29,21 @@ export const useCurrentUser = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: queryKeys.user.current,
     queryFn: async (): Promise<CurrentUserData> => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return { user: null, profile: null };
+      // Use auth context user instead of network call
+      if (!authUser) return { user: null, profile: null };
 
       const { data: profile } = await supabase
         .from('profiles')
         .select('id, email, full_name, avatar_url, timezone')
-        .eq('id', user.id)
+        .eq('id', authUser.id)
         .single();
 
       return {
-        user: { id: user.id, email: user.email },
+        user: { id: authUser.id, email: authUser.email },
         profile: profile as UserProfile | null,
       };
     },
-    enabled: isAuthenticated,
+    enabled: isAuthenticated && !!authUser,
     staleTime: 10 * 60 * 1000, // 10 minutes - profile rarely changes
     gcTime: 30 * 60 * 1000, // Keep in cache for 30 minutes
   });

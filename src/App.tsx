@@ -23,6 +23,7 @@ import { UpdateNotification } from "./components/pwa/UpdateNotification";
 
 // Import shells
 import { MarketingShell } from "./shells/MarketingShell";
+import { AuthShell } from "./shells/AuthShell";
 import { PublicPageShell } from "./shells/PublicPageShell";
 
 // LAZY LOAD entire dashboard shell and routes - this is the key performance win
@@ -69,6 +70,16 @@ const MarketingLayout = () => (
     <InstallPrompt />
     <UpdateNotification />
   </MarketingShell>
+);
+
+// Auth layout - lightweight with QueryClient for feature flags
+const AuthLayout = () => (
+  <AuthShell>
+    <SkipToContent />
+    <ScrollToTop />
+    <NetworkStatus />
+    <Outlet />
+  </AuthShell>
 );
 
 const App = () => (
@@ -150,22 +161,22 @@ const App = () => (
             </Suspense>
           } />
 
-          {/* MARKETING ROUTES - Minimal shell, fast FCP */}
-          <Route element={<MarketingLayout />}>
-            <Route path="/" element={<Suspense fallback={<MarketingSkeleton />}><Index /></Suspense>} />
-            <Route path="/pricing" element={<Suspense fallback={<MarketingSkeleton />}><Pricing /></Suspense>} />
-            
-            {/* Auth pages - in marketing shell, redirect to dashboard on success */}
+          {/* AUTH ROUTES - Lightweight shell with QueryClient for feature flags */}
+          <Route element={<AuthLayout />}>
             <Route path="/auth" element={<Suspense fallback={<MarketingSkeleton />}><Auth /></Suspense>} />
             <Route path="/mc" element={<Suspense fallback={<MarketingSkeleton />}><AdminAuth /></Suspense>} />
             <Route path="/signup" element={<Suspense fallback={<MarketingSkeleton />}><Signup /></Suspense>} />
             <Route path="/reset-password" element={<Suspense fallback={<MarketingSkeleton />}><ResetPassword /></Suspense>} />
             <Route path="/auth/callback" element={<Suspense fallback={<DashboardSkeleton />}><AuthCallback /></Suspense>} />
-            
-            {/* Waitlist pages */}
             <Route path="/waitlist-pending" element={<Suspense fallback={<MarketingSkeleton />}><WaitlistPending /></Suspense>} />
             <Route path="/waitlist-locked" element={<Suspense fallback={<MarketingSkeleton />}><WaitlistLocked /></Suspense>} />
             <Route path="/waitlist-status" element={<Suspense fallback={<MarketingSkeleton />}><WaitlistStatus /></Suspense>} />
+          </Route>
+
+          {/* MARKETING ROUTES - Minimal shell, fast FCP */}
+          <Route element={<MarketingLayout />}>
+            <Route path="/" element={<Suspense fallback={<MarketingSkeleton />}><Index /></Suspense>} />
+            <Route path="/pricing" element={<Suspense fallback={<MarketingSkeleton />}><Pricing /></Suspense>} />
 
             {/* All other marketing routes */}
             <Route path="/*" element={
