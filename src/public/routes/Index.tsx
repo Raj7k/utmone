@@ -35,6 +35,7 @@ const AIIntelligenceHero = lazy(() => import("@/components/landing/AIIntelligenc
 const UnifiedToolsShowcase = lazy(() => import("@/components/landing/UnifiedToolsShowcase").then(m => ({ default: m.UnifiedToolsShowcase })));
 const EventHaloShowcase = lazy(() => import("@/components/landing/EventHaloShowcase").then(m => ({ default: m.EventHaloShowcase })));
 const AIStampStudioShowcase = lazy(() => import("@/components/landing/AIStampStudioShowcase").then(m => ({ default: m.AIStampStudioShowcase })));
+const LinkPagesShowcase = lazy(() => import("@/components/landing/LinkPagesShowcase").then(m => ({ default: m.LinkPagesShowcase })));
 const TrustSection = lazy(() => import("@/components/landing/TrustSection").then(m => ({ default: m.TrustSection })));
 const AnalyticsFeatureCarousel = lazy(() => import("@/components/landing/AnalyticsFeatureCarousel").then(m => ({ default: m.AnalyticsFeatureCarousel })));
 
@@ -169,6 +170,13 @@ const Index = () => {
       <LazyOnScroll height="500px" rootMargin="200px">
         <Suspense fallback={<SectionSkeleton />}>
           <AIStampStudioShowcase />
+        </Suspense>
+      </LazyOnScroll>
+
+      {/* Link Pages Showcase - Link-in-Bio Feature */}
+      <LazyOnScroll height="500px" rootMargin="200px">
+        <Suspense fallback={<SectionSkeleton />}>
+          <LinkPagesShowcase />
         </Suspense>
       </LazyOnScroll>
 
