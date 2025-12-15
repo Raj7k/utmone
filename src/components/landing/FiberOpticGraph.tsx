@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
+import { GoogleIcon, LinkedInIcon, HubSpotIcon } from "@/components/icons/SocialIcons";
+import { Users } from "lucide-react";
 
 interface Particle {
   id: number;
@@ -8,10 +10,10 @@ interface Particle {
 }
 
 const SOURCES = [
-  { id: "paid", label: "PAID ADS", y: 30 },
-  { id: "organic", label: "ORGANIC", y: 70 },
-  { id: "email", label: "EMAIL", y: 110 },
-  { id: "referral", label: "REFERRAL", y: 150 },
+  { id: "paid", label: "Paid", y: 30, icon: GoogleIcon, color: "#4285F4" },
+  { id: "organic", label: "Organic", y: 70, icon: LinkedInIcon, color: "#0A66C2" },
+  { id: "email", label: "Email", y: 110, icon: HubSpotIcon, color: "#FF7A59" },
+  { id: "referral", label: "Referral", y: 150, icon: Users, color: "#8B5CF6" },
 ];
 
 export const FiberOpticGraph = () => {
@@ -173,36 +175,38 @@ export const FiberOpticGraph = () => {
         ))}
 
         {/* Source nodes (left side) */}
-        {SOURCES.map((source, index) => (
-          <g key={source.id}>
-            {/* Terminal dot */}
-            <circle
-              cx={leftX}
-              cy={source.y}
-              r="3"
-              className="fill-white/70"
-            />
-            {/* Outer ring */}
-            <circle
-              cx={leftX}
-              cy={source.y}
-              r="6"
-              fill="none"
-              className="stroke-white/15"
-              strokeWidth="1"
-            />
-            {/* Label */}
-            <text
-              x={leftX - 12}
-              y={source.y + 1}
-              textAnchor="end"
-              dominantBaseline="middle"
-              className="text-[8px] fill-white/35 font-mono tracking-wider"
-            >
-              {source.label}
-            </text>
-          </g>
-        ))}
+        {SOURCES.map((source, index) => {
+          const Icon = source.icon;
+          return (
+            <g key={source.id}>
+              {/* Terminal dot with brand color */}
+              <circle
+                cx={leftX}
+                cy={source.y}
+                r="3"
+                fill={source.color}
+                style={{ opacity: 0.8 }}
+              />
+              {/* Outer ring with brand color */}
+              <circle
+                cx={leftX}
+                cy={source.y}
+                r="6"
+                fill="none"
+                stroke={source.color}
+                strokeWidth="1"
+                style={{ opacity: 0.3 }}
+              />
+              {/* Brand icon + label */}
+              <foreignObject x={leftX - 75} y={source.y - 10} width="60" height="20">
+                <div className="flex items-center gap-1.5 justify-end h-full">
+                  <Icon className="w-3.5 h-3.5" style={{ color: source.color }} />
+                  <span className="text-[9px] text-white/50 font-mono">{source.label}</span>
+                </div>
+              </foreignObject>
+            </g>
+          );
+        })}
 
         {/* Destination node (Revenue) */}
         <g>
@@ -266,24 +270,27 @@ export const FiberOpticGraph = () => {
           
           if (particle.progress > 1.1) return null;
           
-          return (
+            const particleColor = SOURCES[particle.pathIndex]?.color || "white";
+          
+            return (
             <g key={particle.id}>
-              {/* Tail line */}
+              {/* Tail line with brand color */}
               <line
                 x1={prevPoint.x}
                 y1={prevPoint.y}
                 x2={point.x}
                 y2={point.y}
-                className="stroke-white/25"
+                stroke={particleColor}
                 strokeWidth="1"
                 strokeLinecap="round"
+                style={{ opacity: 0.4 }}
               />
-              {/* Particle head */}
+              {/* Particle head with brand color */}
               <circle
                 cx={point.x}
                 cy={point.y}
                 r="2"
-                fill="white"
+                fill={particleColor}
                 filter="url(#particle-glow)"
               />
             </g>
