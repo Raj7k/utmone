@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, startTransition, lazy, Suspense } from "react";
+import { useState, useCallback, useEffect, startTransition } from "react";
 import { QuickCreateTile } from "@/components/dashboard/bento/QuickCreateTile";
 import { QuickStats } from "@/components/dashboard/QuickStats";
 import { OnboardingChecklist } from "@/components/dashboard/OnboardingChecklist";
@@ -8,7 +8,7 @@ import { DashboardQuickActions } from "@/components/dashboard/DashboardQuickActi
 import { FirstRunExperience } from "@/components/dashboard/FirstRunExperience";
 import { FirstLinkSuccess } from "@/components/dashboard/FirstLinkSuccess";
 import { useDemoMode } from "@/hooks/useDemoMode";
-import { useDashboardUnified } from "@/hooks/dashboard";
+import { useDashboardCore } from "@/hooks/dashboard";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { useQueryClient } from "@tanstack/react-query";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
@@ -24,8 +24,8 @@ const DashboardHome = () => {
   const { showDemoMode } = useDemoMode();
   const { currentWorkspace, isWorkspaceLoading, retry } = useWorkspaceContext();
   
-  // CONSOLIDATED: Single unified query - passes data to child components
-  const { links, stats, onboarding, isFetching, isFetched, isLoading, isStale, refetch } = useDashboardUnified();
+  // OPTIMIZED: Single RPC call (1 query instead of 10)
+  const { links, stats, onboarding, isFetching, isFetched, isLoading, isStale, invalidate } = useDashboardCore();
   const hasLinks = onboarding.hasLinks;
 
   // Workspace timeout fallback - show retry after 3 seconds
@@ -55,13 +55,13 @@ const DashboardHome = () => {
   const handleLinkCreated = useCallback(() => {
     // Use startTransition for non-urgent cache invalidation
     startTransition(() => {
-      queryClient.invalidateQueries({ queryKey: ['dashboard-direct'] });
+      invalidate();
     });
     
     const slug = Math.random().toString(36).substring(2, 8);
     setCreatedLinkUrl(`utm.one/${slug}`);
     setShowSuccess(true);
-  }, [queryClient]);
+  }, [invalidate]);
 
   const handleContinue = useCallback(() => {
     setShowSuccess(false);
