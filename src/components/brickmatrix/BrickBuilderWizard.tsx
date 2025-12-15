@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, Download, FileText, Image, FileImage, FileCode, ChevronDown, QrCode } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download, FileText, Image, FileImage, FileCode, ChevronDown, QrCode, Save, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { generateQRMatrix, QRMatrixResult, BrickStyle, BrickColorId, BRICK_COLORS, getBrickColor } from "@/lib/qrMatrix";
 import { ContentTypeSelector } from "./ContentTypeSelector";
@@ -17,6 +17,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { notify } from "@/lib/notify";
 import { toPng, toSvg } from "html-to-image";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useWorkspace } from "@/hooks/workspace/useWorkspace";
+import { useActivationTracking } from "@/hooks/useActivationTracking";
 
 const STEPS = [
   { id: 1, label: "Content", description: "what to encode" },
@@ -39,6 +43,9 @@ export const BrickBuilderWizard = () => {
     warning: "enter content to generate QR code"
   });
   const previewRef = useRef<HTMLDivElement>(null);
+  const queryClient = useQueryClient();
+  const { currentWorkspace } = useWorkspace();
+  const { trackFirstQR } = useActivationTracking();
 
   // Generate QR matrix when content changes
   useEffect(() => {
@@ -49,6 +56,110 @@ export const BrickBuilderWizard = () => {
     const debounce = setTimeout(generate, 300);
     return () => clearTimeout(debounce);
   }, [content]);
+
+  // Save QR mutation
+  const saveQRMutation = useMutation({
+    mutationFn: async () => {
+      if (!previewRef.current) throw new Error("Preview not ready");
+      
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+      if (!currentWorkspace?.id) throw new Error("No workspace selected");
+
+      // Generate PNG
+      const dataUrl = await toPng(previewRef.current, { pixelRatio: 3, backgroundColor: '#1C1C1E' });
+      
+      // Convert data URL to blob
+      const response = await fetch(dataUrl);
+      const blob = await response.blob();
+      
+      // Upload to storage
+      const fileName = `brick-qr-${Date.now()}.png`;
+      const filePath = `${currentWorkspace.id}/${fileName}`;
+      
+      const { error: uploadError } = await supabase.storage
+        .from("qr-codes")
+        .upload(filePath, blob, { contentType: 'image/png' });
+      
+      if (uploadError) throw uploadError;
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from("qr-codes")
+        .getPublicUrl(filePath);
+
+      // Determine destination URL and link title based on content type
+      const isUrl = content.startsWith('http://') || content.startsWith('https://');
+      const destinationUrl = isUrl ? content : `data:text/plain,${encodeURIComponent(content)}`;
+      const linkTitle = isUrl 
+        ? `Brick QR - ${new URL(content).hostname}` 
+        : `Brick QR - ${content.substring(0, 30)}${content.length > 30 ? '...' : ''}`;
+
+      // Check if link exists for this content
+      const { data: existingLink } = await supabase
+        .from("links")
+        .select("id")
+        .eq("workspace_id", currentWorkspace.id)
+        .eq("destination_url", destinationUrl)
+        .maybeSingle();
+
+      let linkId: string;
+
+      if (existingLink) {
+        linkId = existingLink.id;
+      } else {
+        // Create a new link
+        const slug = `brick-${Date.now().toString(36)}`;
+        const shortUrl = `https://utm.one/${slug}`;
+        const { data: newLink, error: linkError } = await supabase
+          .from("links")
+          .insert({
+            workspace_id: currentWorkspace.id,
+            destination_url: destinationUrl,
+            final_url: destinationUrl,
+            short_url: shortUrl,
+            slug,
+            domain: "utm.one",
+            path: "",
+            created_by: user.id,
+            title: linkTitle,
+          })
+          .select("id")
+          .single();
+
+        if (linkError) throw linkError;
+        linkId = newLink.id;
+      }
+
+      // Save QR to database
+      const { data: qrData, error: qrError } = await supabase
+        .from("qr_codes")
+        .insert({
+          link_id: linkId,
+          name: `brick-${style}-${Date.now()}`,
+          created_by: user.id,
+          workspace_id: currentWorkspace.id,
+          primary_color: getBrickColor(foreground),
+          secondary_color: getBrickColor(background),
+          corner_style: style,
+          png_url: publicUrl,
+        })
+        .select()
+        .single();
+
+      if (qrError) throw qrError;
+      return qrData;
+    },
+    onSuccess: () => {
+      trackFirstQR();
+      queryClient.invalidateQueries({ queryKey: ["qr-codes"] });
+      notify.success("Brick QR saved to library!");
+    },
+    onError: (error: Error) => {
+      console.error("Save QR error:", error);
+      notify.error(error.message || "Failed to save QR code");
+    },
+  });
 
   const canProceed = () => {
     if (step === 1) return content.length > 0 && result.isValid;
@@ -275,31 +386,45 @@ export const BrickBuilderWizard = () => {
                   </div>
                 </div>
 
-                {/* Download Button */}
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button className="w-full gap-2" size="default">
-                      <Download className="h-4 w-4" />
-                      download
-                      <ChevronDown className="h-4 w-4 ml-auto" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="center" className="w-56">
-                    <DropdownMenuItem onClick={downloadPDF} className="gap-2">
-                      <FileText className="h-4 w-4" /> PDF instructions
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={downloadPNG} className="gap-2">
-                      <Image className="h-4 w-4" /> PNG image
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={downloadSVG} className="gap-2">
-                      <FileImage className="h-4 w-4" /> SVG vector
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={downloadBrickLinkXML} className="gap-2">
-                      <FileCode className="h-4 w-4" /> BrickLink XML
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                {/* Action Buttons */}
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => saveQRMutation.mutate()}
+                    disabled={!result.isValid || saveQRMutation.isPending}
+                    className="flex-1 gap-2"
+                  >
+                    {saveQRMutation.isPending ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Save className="h-4 w-4" />
+                    )}
+                    save to library
+                  </Button>
+                  
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" className="gap-2">
+                        <Download className="h-4 w-4" />
+                        <ChevronDown className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-56">
+                      <DropdownMenuItem onClick={downloadPDF} className="gap-2">
+                        <FileText className="h-4 w-4" /> PDF instructions
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={downloadPNG} className="gap-2">
+                        <Image className="h-4 w-4" /> PNG image
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={downloadSVG} className="gap-2">
+                        <FileImage className="h-4 w-4" /> SVG vector
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={downloadBrickLinkXML} className="gap-2">
+                        <FileCode className="h-4 w-4" /> BrickLink XML
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
 
                 <p className="text-[10px] text-muted-foreground text-center">not affiliated with The LEGO Group.</p>
               </>
