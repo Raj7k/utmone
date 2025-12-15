@@ -15,7 +15,7 @@ import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
-import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
+// DashboardContentLoader removed - no longer blocking render
 import { LazySection } from "@/components/loading/LazySection";
 import { ActivityFeedSkeleton } from "@/components/loading/CardSkeleton";
 import { ActivityFeed } from "@/components/dashboard/ActivityFeed";
@@ -67,29 +67,21 @@ const DashboardHome = () => {
     setShowSuccess(false);
   }, []);
 
-  // Workspace timeout - show retry option
+  // FIXED: Removed blocking DashboardContentLoader
+  // Show retry option inline instead of blocking page
   if (workspaceTimeout && !currentWorkspace) {
     return (
-      <div className="p-6 lg:p-8 max-w-5xl mx-auto">
-        <DashboardContentLoader context="dashboard" minHeight="50vh" />
-        <div className="flex justify-center mt-4">
-          <Button variant="outline" onClick={retry} className="gap-2">
-            <RefreshCw className="h-4 w-4" />
-            retry
-          </Button>
-        </div>
+      <div className="p-6 lg:p-8 max-w-5xl mx-auto flex flex-col items-center justify-center min-h-[400px]">
+        <p className="text-sm text-muted-foreground mb-4">taking longer than expected...</p>
+        <Button variant="outline" onClick={retry} className="gap-2">
+          <RefreshCw className="h-4 w-4" />
+          retry
+        </Button>
       </div>
     );
   }
 
-  // Show loading state while data is loading (before any content checks)
-  if (isLoading && !isFetched) {
-    return (
-      <div className="p-6 lg:p-8 max-w-5xl mx-auto">
-        <DashboardContentLoader context="dashboard" minHeight="60vh" />
-      </div>
-    );
-  }
+  // FIXED: Removed blocking loading state - render skeleton inline instead
 
   // First-run experience for users without links
   if (!hasLinks && !showSuccess) {

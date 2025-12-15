@@ -15,7 +15,7 @@ import { FeatureHint } from "@/components/FeatureHint";
 import { BulkSentinelPanel } from "@/components/sentinel";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
+// DashboardContentLoader removed - no longer blocking render
 import { StaleIndicator, HeroStatsSkeleton, LinkCardGridSkeleton } from "@/components/loading/CardSkeleton";
 
 export default function Links() {
@@ -44,14 +44,8 @@ export default function Links() {
     }
   }, [isFetched, isWorkspaceLoading, hasTimedOut]);
 
-  // Show loading state when data is loading (before any content checks)
-  if (isLoading && !data?.links?.length) {
-    return (
-      <div className="p-6 lg:p-8 max-w-5xl mx-auto">
-        <DashboardContentLoader context="links" minHeight="60vh" />
-      </div>
-    );
-  }
+  // FIXED: Removed blocking DashboardContentLoader - render content immediately
+  // LinkCardGridSkeleton inline handles loading state
 
   // Progressive render with fade-in
   return (
