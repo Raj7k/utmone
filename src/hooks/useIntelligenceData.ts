@@ -212,12 +212,21 @@ export function useIntelligenceData(
         totalRevenue += conv.event_value || 0;
       });
 
-      // Top channels - use channel mix from links
-      const topChannels = channelData.slice(0, 3).map((link: any) => ({
-        source: link.utm_source || "direct",
-        revenue: 0,
-        percentage: channelTotal > 0 ? ((link.total_clicks || 0) / channelTotal) * 100 : 0,
-      }));
+      // Top channels - aggregate by source first to avoid duplicate keys
+      const channelAggregated = channelData.reduce((acc: Record<string, number>, link: any) => {
+        const source = link.utm_source || "direct";
+        acc[source] = (acc[source] || 0) + (link.total_clicks || 0);
+        return acc;
+      }, {});
+      
+      const topChannels = Object.entries(channelAggregated)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3)
+        .map(([source, clicks]) => ({
+          source,
+          revenue: 0,
+          percentage: channelTotal > 0 ? (clicks / channelTotal) * 100 : 0,
+        }));
 
       // Use preloaded campaigns or fetch if not available
       let topCampaigns: Array<{ id: string; name: string; clicks: number }> = [];
