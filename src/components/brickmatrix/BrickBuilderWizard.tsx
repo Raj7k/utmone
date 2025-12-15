@@ -1,17 +1,26 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, Check } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download, FileText, Image, FileImage, FileCode, ChevronDown, QrCode } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { generateQRMatrix, QRMatrixResult, BrickStyle, BrickColorId } from "@/lib/qrMatrix";
+import { generateQRMatrix, QRMatrixResult, BrickStyle, BrickColorId, BRICK_COLORS, getBrickColor } from "@/lib/qrMatrix";
 import { StepContent } from "./steps/StepContent";
 import { StepStyle } from "./steps/StepStyle";
-import { StepPreview } from "./steps/StepPreview";
+import { BrickPreview } from "./BrickPreview";
+import { BrickStats } from "./BrickStats";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { notify } from "@/lib/notify";
+import { toPng, toSvg } from "html-to-image";
 
 const STEPS = [
   { id: 1, label: "Content", description: "what to encode" },
   { id: 2, label: "Style", description: "how it looks" },
-  { id: 3, label: "Preview", description: "download" },
 ];
 
 export const BrickBuilderWizard = () => {
@@ -29,6 +38,7 @@ export const BrickBuilderWizard = () => {
     isValid: false,
     warning: "enter content to generate QR code"
   });
+  const previewRef = useRef<HTMLDivElement>(null);
 
   // Generate QR matrix when content changes
   useEffect(() => {
@@ -42,113 +52,287 @@ export const BrickBuilderWizard = () => {
 
   const canProceed = () => {
     if (step === 1) return content.length > 0 && result.isValid;
-    if (step === 2) return true;
     return false;
   };
 
   const nextStep = () => {
-    if (step < 3 && canProceed()) setStep(step + 1);
+    if (step < 2 && canProceed()) setStep(step + 1);
   };
 
   const prevStep = () => {
     if (step > 1) setStep(step - 1);
   };
 
-  return (
-    <div className="max-w-2xl mx-auto space-y-6">
-      {/* Step Indicator */}
-      <div className="flex items-center justify-center gap-2">
-        {STEPS.map((s, i) => (
-          <div key={s.id} className="flex items-center">
-            <button
-              onClick={() => s.id < step && setStep(s.id)}
-              disabled={s.id > step}
-              className={cn(
-                "flex items-center gap-2 px-4 py-2 rounded-full transition-all",
-                step === s.id
-                  ? "bg-primary text-primary-foreground"
-                  : step > s.id
-                  ? "bg-primary/10 text-primary cursor-pointer hover:bg-primary/20"
-                  : "bg-muted text-muted-foreground cursor-not-allowed"
-              )}
-            >
-              <span className={cn(
-                "w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium",
-                step > s.id ? "bg-primary text-primary-foreground" : "bg-background/20"
-              )}>
-                {step > s.id ? <Check className="h-3.5 w-3.5" /> : s.id}
-              </span>
-              <span className="text-sm font-medium hidden sm:inline">{s.label}</span>
-            </button>
-            {i < STEPS.length - 1 && (
-              <div className={cn(
-                "w-8 h-0.5 mx-1",
-                step > s.id ? "bg-primary" : "bg-border"
-              )} />
-            )}
+  // Parts calculations
+  const fgName = BRICK_COLORS.find(c => c.id === foreground)?.name || foreground;
+  const bgName = BRICK_COLORS.find(c => c.id === background)?.name || background;
+  const fgCount = style === 'inverse' ? result.partsCounts.background : result.partsCounts.foreground;
+  const bgCount = style === 'inverse' ? result.partsCounts.foreground : result.partsCounts.background;
+
+  // Download functions
+  const downloadPDF = () => {
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) {
+      notify.error("popup blocked");
+      return;
+    }
+
+    const gridHTML = generateGridHTML(result, foreground, background, style);
+    
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>BrickMatrix Build Instructions</title>
+          <style>
+            body { font-family: -apple-system, sans-serif; padding: 40px; max-width: 800px; margin: 0 auto; }
+            h1 { font-size: 24px; margin-bottom: 8px; }
+            .parts-list { display: flex; gap: 24px; margin-bottom: 32px; padding: 16px; background: #f5f5f5; border-radius: 8px; }
+            .part { display: flex; align-items: center; gap: 8px; }
+            .swatch { width: 20px; height: 20px; border-radius: 4px; border: 1px solid #ddd; }
+            .grid { display: grid; gap: 1px; background: #eee; padding: 1px; border-radius: 4px; }
+            .cell { width: 12px; height: 12px; border-radius: 2px; }
+            @media print { body { padding: 20px; } }
+          </style>
+        </head>
+        <body>
+          <h1>BrickMatrix Build Instructions</h1>
+          <div class="parts-list">
+            <div class="part"><div class="swatch" style="background: ${getBrickColor(style === 'inverse' ? background : foreground)}"></div><span><strong>${fgCount}×</strong> ${style === 'inverse' ? bgName : fgName}</span></div>
+            <div class="part"><div class="swatch" style="background: ${getBrickColor(style === 'inverse' ? foreground : background)}"></div><span><strong>${bgCount}×</strong> ${style === 'inverse' ? fgName : bgName}</span></div>
           </div>
-        ))}
-      </div>
+          <p><strong>Size:</strong> ${result.size}×${result.size} studs</p>
+          ${gridHTML}
+          <script>window.print();</script>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+    notify.success("instructions ready");
+  };
 
-      {/* Step Content */}
-      <Card className="p-6">
-        {step === 1 && (
-          <StepContent value={content} onChange={setContent} />
-        )}
-        {step === 2 && (
-          <StepStyle
-            style={style}
-            onStyleChange={setStyle}
-            foreground={foreground}
-            background={background}
-            onForegroundChange={setForeground}
-            onBackgroundChange={setBackground}
-          />
-        )}
-        {step === 3 && (
-          <StepPreview
-            result={result}
-            style={style}
-            foreground={foreground}
-            background={background}
-          />
-        )}
-      </Card>
+  const downloadPNG = async () => {
+    if (!previewRef?.current) return;
+    try {
+      const dataUrl = await toPng(previewRef.current, { pixelRatio: 3, backgroundColor: '#1C1C1E' });
+      const link = document.createElement('a');
+      link.download = 'brickmatrix-qr.png';
+      link.href = dataUrl;
+      link.click();
+      notify.success("PNG downloaded");
+    } catch { notify.error("failed to export PNG"); }
+  };
 
-      {/* Navigation */}
-      <div className="flex justify-between gap-4">
-        <Button
-          variant="outline"
-          onClick={prevStep}
-          disabled={step === 1}
-          className="gap-2"
-        >
-          <ChevronLeft className="h-4 w-4" />
-          back
-        </Button>
-        
-        {step < 3 ? (
-          <Button
-            onClick={nextStep}
-            disabled={!canProceed()}
-            className="gap-2"
-          >
-            next
-            <ChevronRight className="h-4 w-4" />
-          </Button>
-        ) : (
+  const downloadSVG = async () => {
+    if (!previewRef?.current) return;
+    try {
+      const dataUrl = await toSvg(previewRef.current);
+      const link = document.createElement('a');
+      link.download = 'brickmatrix-qr.svg';
+      link.href = dataUrl;
+      link.click();
+      notify.success("SVG downloaded");
+    } catch { notify.error("failed to export SVG"); }
+  };
+
+  const downloadBrickLinkXML = () => {
+    const colorMap: Record<BrickColorId, number> = {
+      'black': 11, 'white': 1, 'red': 5, 'blue': 7, 'yellow': 3, 'green': 6, 'orange': 4,
+      'tan': 2, 'dark-gray': 8, 'light-gray': 9, 'dark-blue': 63, 'dark-green': 80, 'pink': 104, 'lavender': 138,
+    };
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<INVENTORY>
+  <ITEM><ITEMTYPE>P</ITEMTYPE><ITEMID>3024</ITEMID><COLOR>${colorMap[style === 'inverse' ? background : foreground] || 11}</COLOR><MINQTY>${fgCount}</MINQTY></ITEM>
+  <ITEM><ITEMTYPE>P</ITEMTYPE><ITEMID>3024</ITEMID><COLOR>${colorMap[style === 'inverse' ? foreground : background] || 11}</COLOR><MINQTY>${bgCount}</MINQTY></ITEM>
+</INVENTORY>`;
+    const blob = new Blob([xml], { type: 'application/xml' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'brickmatrix-parts.xml';
+    a.click();
+    URL.revokeObjectURL(url);
+    notify.success("BrickLink XML downloaded");
+  };
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Left Panel - Controls */}
+      <div className="space-y-4">
+        {/* Step Indicator */}
+        <div className="flex items-center justify-center gap-2">
+          {STEPS.map((s, i) => (
+            <div key={s.id} className="flex items-center">
+              <button
+                onClick={() => s.id < step && setStep(s.id)}
+                disabled={s.id > step}
+                className={cn(
+                  "flex items-center gap-2 px-4 py-2 rounded-full transition-all text-sm",
+                  step === s.id
+                    ? "bg-primary text-primary-foreground"
+                    : step > s.id
+                    ? "bg-primary/10 text-primary cursor-pointer hover:bg-primary/20"
+                    : "bg-muted text-muted-foreground cursor-not-allowed"
+                )}
+              >
+                <span className={cn(
+                  "w-5 h-5 rounded-full flex items-center justify-center text-xs font-medium",
+                  step > s.id ? "bg-primary text-primary-foreground" : "bg-background/20"
+                )}>
+                  {s.id}
+                </span>
+                <span className="font-medium hidden sm:inline">{s.label}</span>
+              </button>
+              {i < STEPS.length - 1 && (
+                <div className={cn(
+                  "w-8 h-0.5 mx-1",
+                  step > s.id ? "bg-primary" : "bg-border"
+                )} />
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Step Content */}
+        <Card className="p-5">
+          {step === 1 && (
+            <StepContent value={content} onChange={setContent} />
+          )}
+          {step === 2 && (
+            <StepStyle
+              style={style}
+              onStyleChange={setStyle}
+              foreground={foreground}
+              background={background}
+              onForegroundChange={setForeground}
+              onBackgroundChange={setBackground}
+            />
+          )}
+        </Card>
+
+        {/* Navigation */}
+        <div className="flex justify-between gap-4">
           <Button
             variant="outline"
-            onClick={() => {
-              setStep(1);
-              setContent("");
-            }}
+            onClick={prevStep}
+            disabled={step === 1}
             className="gap-2"
           >
-            create another
+            <ChevronLeft className="h-4 w-4" />
+            back
           </Button>
-        )}
+          
+          {step < 2 ? (
+            <Button
+              onClick={nextStep}
+              disabled={!canProceed()}
+              className="gap-2"
+            >
+              next
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          ) : (
+            <Button
+              variant="outline"
+              onClick={() => {
+                setStep(1);
+                setContent("");
+              }}
+              className="gap-2"
+            >
+              create another
+            </Button>
+          )}
+        </div>
+      </div>
+
+      {/* Right Panel - Live Preview */}
+      <div className="space-y-4">
+        <Card className="p-5">
+          {/* Preview */}
+          <div className="space-y-4">
+            {result.isValid ? (
+              <>
+                <div ref={previewRef} className="max-w-[280px] mx-auto">
+                  <BrickPreview result={result} style={style} foreground={foreground} background={background} />
+                </div>
+                
+                {/* Stats */}
+                <BrickStats result={result} />
+
+                {/* Parts Summary */}
+                <div className="p-3 rounded-xl bg-muted/30 border border-border space-y-2">
+                  <h4 className="text-xs font-medium text-muted-foreground">parts needed</h4>
+                  <div className="flex gap-4 flex-wrap">
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 rounded border border-border shadow-sm" style={{ backgroundColor: getBrickColor(style === 'inverse' ? background : foreground) }} />
+                      <span className="text-xs"><strong>{fgCount}×</strong> {style === 'inverse' ? bgName : fgName}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 rounded border border-border shadow-sm" style={{ backgroundColor: getBrickColor(style === 'inverse' ? foreground : background) }} />
+                      <span className="text-xs"><strong>{bgCount}×</strong> {style === 'inverse' ? fgName : bgName}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Download Button */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button className="w-full gap-2" size="default">
+                      <Download className="h-4 w-4" />
+                      download
+                      <ChevronDown className="h-4 w-4 ml-auto" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="center" className="w-56">
+                    <DropdownMenuItem onClick={downloadPDF} className="gap-2">
+                      <FileText className="h-4 w-4" /> PDF instructions
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={downloadPNG} className="gap-2">
+                      <Image className="h-4 w-4" /> PNG image
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={downloadSVG} className="gap-2">
+                      <FileImage className="h-4 w-4" /> SVG vector
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={downloadBrickLinkXML} className="gap-2">
+                      <FileCode className="h-4 w-4" /> BrickLink XML
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                <p className="text-[10px] text-muted-foreground text-center">not affiliated with The LEGO Group.</p>
+              </>
+            ) : (
+              /* Empty/Placeholder State */
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <div className="w-16 h-16 rounded-2xl bg-muted/50 flex items-center justify-center mb-4">
+                  <QrCode className="h-8 w-8 text-muted-foreground/50" />
+                </div>
+                <h4 className="text-sm font-medium text-muted-foreground mb-1">
+                  live preview
+                </h4>
+                <p className="text-xs text-muted-foreground/70 max-w-[200px]">
+                  {result.warning || "select content to see your brick QR code appear here"}
+                </p>
+              </div>
+            )}
+          </div>
+        </Card>
       </div>
     </div>
   );
 };
+
+function generateGridHTML(result: QRMatrixResult, fg: BrickColorId, bg: BrickColorId, style: BrickStyle): string {
+  const fgColor = getBrickColor(style === 'inverse' ? bg : fg);
+  const bgColor = getBrickColor(style === 'inverse' ? fg : bg);
+  let html = `<div class="grid" style="grid-template-columns: repeat(${result.size}, 1fr);">`;
+  for (let row = 0; row < result.size; row++) {
+    for (let col = 0; col < result.size; col++) {
+      const isActive = result.matrix[row]?.[col] ?? false;
+      html += `<div class="cell" style="background: ${isActive ? fgColor : bgColor}"></div>`;
+    }
+  }
+  return html + '</div>';
+}
