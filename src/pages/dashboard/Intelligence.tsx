@@ -5,7 +5,7 @@ import { useIntelligenceData } from "@/hooks/useIntelligenceData";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BarChart3, Network, TrendingUp, Activity, Shield } from "lucide-react";
+import { BarChart3, Network, TrendingUp, Activity, Shield, RefreshCw, AlertCircle } from "lucide-react";
 import PulseHero from "@/components/intelligence/PulseHero";
 import ContextSwitcher, { IntelligenceContext } from "@/components/intelligence/ContextSwitcher";
 import { PeriodSelector, PeriodOption, periodDays } from "@/components/intelligence/PeriodSelector";
@@ -17,6 +17,7 @@ import ChannelMixDonut from "@/components/intelligence/ChannelMixDonut";
 import GeoHeatTiles from "@/components/intelligence/GeoHeatTiles";
 import { LazySection } from "@/components/loading/LazySection";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 
 // Lazy load LiveActivityRail - only visible on desktop, below fold
 const LiveActivityRail = lazy(() => import("@/components/intelligence/LiveActivityRail"));
@@ -62,14 +63,29 @@ export default function Intelligence() {
 
   // FIXED: Removed useCampaignsData dependency that caused waterfall
   // useIntelligenceData now fetches campaigns internally
-  const { data: intelligenceData, isLoading, isFetching, isStale, error } = useIntelligenceData(effectiveWorkspaceId, days);
+  const { data: intelligenceData, isLoading, isFetching, isStale, error, refetch } = useIntelligenceData(effectiveWorkspaceId, days);
+
+  // Loading timeout - show error if loading takes too long
+  const [loadingTimedOut, setLoadingTimedOut] = useState(false);
+  
+  useEffect(() => {
+    if (isLoading && !loadingTimedOut) {
+      const timeout = setTimeout(() => {
+        setLoadingTimedOut(true);
+      }, 10000); // 10 second timeout
+      return () => clearTimeout(timeout);
+    }
+    if (!isLoading) {
+      setLoadingTimedOut(false);
+    }
+  }, [isLoading, loadingTimedOut]);
 
   // Signal navigation complete when data loads or times out
   useEffect(() => {
-    if (!isLoading || hasTimedOut) {
+    if (!isLoading || hasTimedOut || loadingTimedOut) {
       completeNavigation();
     }
-  }, [isLoading, hasTimedOut]);
+  }, [isLoading, hasTimedOut, loadingTimedOut]);
 
   // Show error/timeout state if no workspace
   if (!currentWorkspace && hasTimedOut) {
@@ -98,6 +114,48 @@ export default function Intelligence() {
             >
               refresh page
             </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error state for data loading failure or timeout
+  if ((error || loadingTimedOut) && !intelligenceData?.totalClicks) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="flex flex-col items-center gap-4 text-center max-w-md px-4">
+          <div className="h-12 w-12 rounded-full bg-destructive/10 flex items-center justify-center">
+            <AlertCircle className="h-6 w-6 text-destructive" />
+          </div>
+          <div>
+            <h3 className="font-medium text-foreground mb-1">
+              {loadingTimedOut ? "data took too long to load" : "couldn't load intelligence data"}
+            </h3>
+            <p className="text-sm text-muted-foreground">
+              {loadingTimedOut 
+                ? "the database is taking longer than expected. try again in a moment."
+                : error?.message || "an error occurred while fetching data."
+              }
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <Button 
+              onClick={() => {
+                setLoadingTimedOut(false);
+                refetch();
+              }}
+              className="gap-2"
+            >
+              <RefreshCw className="h-4 w-4" />
+              try again
+            </Button>
+            <Button 
+              variant="outline"
+              onClick={() => window.location.reload()}
+            >
+              refresh page
+            </Button>
           </div>
         </div>
       </div>
