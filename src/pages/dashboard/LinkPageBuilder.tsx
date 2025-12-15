@@ -7,6 +7,7 @@ import {
   useUpdateLinkPage,
 } from "@/hooks/useLinkPages";
 import { useLinkPageBlocks, useCreateBlock } from "@/hooks/useLinkPageBlocks";
+import { useVerificationStatus } from "@/hooks/useVerificationStatus";
 import { isValidLinkPageSlug } from "@/lib/linkPages";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { Button } from "@/components/ui/button";
@@ -52,6 +53,7 @@ export default function LinkPageBuilder() {
   const navigate = useNavigate();
   const { data: pageData, isLoading } = useLinkPage(pageId);
   const { data: blocks = [] } = useLinkPageBlocks(pageId);
+  const { data: verificationData } = useVerificationStatus(pageData?.workspace_id);
   const createBlock = useCreateBlock();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -455,6 +457,7 @@ export default function LinkPageBuilder() {
                   ctaText={meta.cta_text}
                   ctaUrl={meta.cta_url}
                   verified={meta.verified}
+                  verificationApproved={verificationData?.status === "approved"}
                   hideBranding={meta.hide_branding}
                 />
               </div>

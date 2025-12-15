@@ -27,6 +27,7 @@ interface LivePreviewProps {
   ctaText?: string;
   ctaUrl?: string;
   verified?: boolean;
+  verificationApproved?: boolean;
   hideBranding?: boolean;
 }
 
@@ -112,7 +113,7 @@ const themeStyles: Record<string, { bg: string; text: string; card: string; bord
   },
 };
 
-export function LivePreview({ title, bio, blocks, theme = "default", avatarUrl, websiteUrl, location, email, ctaText, ctaUrl, verified, hideBranding }: LivePreviewProps) {
+export function LivePreview({ title, bio, blocks, theme = "default", avatarUrl, websiteUrl, location, email, ctaText, ctaUrl, verified, verificationApproved, hideBranding }: LivePreviewProps) {
   const enabledBlocks = blocks.filter((b) => b.is_enabled);
   const styles = themeStyles[theme] || themeStyles.default;
 
@@ -247,7 +248,7 @@ export function LivePreview({ title, bio, blocks, theme = "default", avatarUrl, 
             </div>
             <div className="flex items-center justify-center gap-1">
               <h1 className="text-lg font-bold">{title || "Your Name"}</h1>
-              {verified && <BadgeCheck className="h-4 w-4 text-primary" />}
+              {verified && verificationApproved && <BadgeCheck className="h-4 w-4 text-primary" />}
             </div>
             {bio && <p className="text-xs opacity-70">{bio}</p>}
             {(location || websiteUrl || email) && (

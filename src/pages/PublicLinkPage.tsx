@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { 
@@ -259,6 +260,22 @@ export default function PublicLinkPage() {
   });
 
   const page = query.data;
+
+  // Fetch verification status from database
+  const verificationQuery = useQuery({
+    queryKey: ["public-verification-status", page?.workspace_id],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("verification_requests")
+        .select("status")
+        .eq("workspace_id", page?.workspace_id)
+        .eq("status", "approved")
+        .limit(1)
+        .maybeSingle();
+      return data?.status === "approved";
+    },
+    enabled: !!page?.workspace_id,
+  });
   const theme = page?.theme || "default";
   const styles = themeStyles[theme] || themeStyles.default;
 
@@ -330,7 +347,8 @@ export default function PublicLinkPage() {
           const email = metadata?.email as string | undefined;
           const ctaText = metadata?.cta_text as string | undefined;
           const ctaUrl = metadata?.cta_url as string | undefined;
-          const verified = metadata?.verified as boolean | undefined;
+          const showVerifiedBadge = metadata?.show_verified_badge as boolean | undefined;
+          const isVerificationApproved = verificationQuery.data;
           const hideBranding = metadata?.hide_branding as boolean | undefined;
 
           return (
@@ -354,7 +372,7 @@ export default function PublicLinkPage() {
                 <div>
                   <h1 className={cn("text-xl font-bold flex items-center justify-center gap-1.5", styles.text)}>
                     {page.title}
-                    {verified && <BadgeCheck className="w-5 h-5 text-blue-400" />}
+                    {showVerifiedBadge && isVerificationApproved && <BadgeCheck className="w-5 h-5 text-blue-400" />}
                   </h1>
                   {page.bio && (
                     <p className={cn("text-sm mt-1 opacity-80", styles.text)}>
