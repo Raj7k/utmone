@@ -40,6 +40,10 @@ const baseFAQs: PricingFAQ[] = [
       answer: `we'll notify you when you're approaching your limits. you can upgrade anytime to increase your capacity. existing links continue working—we never break your links.`,
     },
     {
+      question: 'what are link pages?',
+      answer: `link pages are customizable link-in-bio landing pages. free plan includes ${free.features.linkPages} page with basic themes and utm tagging. growth includes ${growth.features.linkPages} pages with advanced themes, scheduled publish, and full analytics. business has unlimited pages with workspace governance, export, and branded domains (coming soon).`,
+    },
+    {
       question: 'what is one-tap and how does it work?',
       answer: `one-tap is our universal badge scanner that works at any event. it reads qr codes natively, falls back to ai ocr for encrypted badges, and works offline. leads sync automatically when you're back online.`,
     },

@@ -6,6 +6,7 @@ import { hasMinPlanTier } from './featureGating';
 export type Feature = 
   | 'create_link' 
   | 'add_domain' 
+  | 'create_link_page'
   | 'geo_analytics' 
   | 'export_svg' 
   | 'api_access' 
@@ -57,6 +58,19 @@ export async function checkFeatureAccess(
         currentUsage: limits.currentUsage.customDomains,
         limit: limits.limits.customDomains,
         upgradeRequired: limits.canAddDomain ? undefined : 'growth',
+        planLimits: limits,
+      };
+    }
+
+    if (feature === 'create_link_page') {
+      return {
+        allowed: limits.canCreateLinkPage,
+        reason: limits.canCreateLinkPage 
+          ? undefined 
+          : `you've reached your limit of ${limits.limits.linkPages} link pages. upgrade to create more.`,
+        currentUsage: limits.currentUsage.linkPagesCount,
+        limit: limits.limits.linkPages,
+        upgradeRequired: limits.canCreateLinkPage ? undefined : 'growth',
         planLimits: limits,
       };
     }

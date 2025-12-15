@@ -564,6 +564,17 @@ export const FEATURE_CATEGORIES: FeatureCategory[] = [
     ],
   },
   {
+    name: 'link pages',
+    features: [
+      { key: 'linkPages', label: 'link pages', free: 1, starter: 3, growth: 10, business: 'unlimited', enterprise: 'unlimited' },
+      { key: 'linkPagesAdvancedThemes', label: 'advanced themes', free: false, starter: false, growth: true, business: true, enterprise: true },
+      { key: 'linkPagesScheduledPublish', label: 'scheduled publish', free: false, starter: false, growth: true, business: true, enterprise: true },
+      { key: 'linkPagesBrandedDomains', label: 'branded domains (coming soon)', free: false, starter: false, growth: false, business: true, enterprise: true },
+      { key: 'linkPagesExport', label: 'export & backup', free: false, starter: false, growth: false, business: true, enterprise: true },
+      { key: 'linkPagesFullAnalytics', label: 'full analytics', free: false, starter: false, growth: true, business: true, enterprise: true },
+    ],
+  },
+  {
     name: 'field marketing',
     features: [
       { key: 'oneTap', label: 'One-Tap universal reader', free: false, starter: 'basic', growth: 'qr + ocr', business: 'full', enterprise: 'unlimited' },
