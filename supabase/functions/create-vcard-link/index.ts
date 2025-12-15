@@ -109,9 +109,8 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Generate short URL - use the edge function URL directly
-    const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
-    const shortUrl = `${supabaseUrl}/functions/v1/serve-vcard/${slug}`;
+    // Generate short URL using utm.one domain for compact QR codes
+    const shortUrl = `https://utm.one/v/${slug}`;
 
     console.log("Created vCard with slug:", slug);
 
