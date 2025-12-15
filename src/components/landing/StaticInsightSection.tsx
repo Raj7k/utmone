@@ -3,7 +3,7 @@
  * Removes framer-motion dependency for better LCP
  */
 import { useEffect, useRef, useState } from "react";
-import { UseCaseType } from "./SideNavHero";
+import { UseCaseType } from "./ControlDeckHero";
 import { cn } from "@/lib/utils";
 
 interface StaticInsightSectionProps {
@@ -45,6 +45,18 @@ const INSIGHT_CONTENT: Record<UseCaseType, {
     explanation: "if creating a bad link is easier than creating a good one, people will create bad links. governance should be invisible — defaults that guide without blocking.",
     principles: ["Templates as guardrails", "Approval workflows", "Audit trails"],
     caption: "chaos → order",
+  },
+  linkpages: {
+    insight: "one link to rule them all. every click tracked.",
+    explanation: "link-in-bio pages that actually tell you who clicked what. no more dark social. every visitor gets a UTM, every action gets attributed to revenue.",
+    principles: ["UTM-powered links", "Verified badges", "Full analytics"],
+    caption: "one link → all destinations",
+  },
+  eventhalo: {
+    insight: "the booth sees 10%. the halo detects the rest.",
+    explanation: "badge scans capture the obvious visitors. event halo uses proximity detection to identify the walk-bys who never stopped — but still influenced pipeline.",
+    principles: ["Proximity detection", "Lift analysis", "Control groups"],
+    caption: "booth scans + halo visitors",
   },
 };
 
@@ -257,12 +269,121 @@ const GovernanceVisual = () => (
   </div>
 );
 
+// CSS-only Link Pages Visual
+const LinkPagesVisual = () => (
+  <svg className="w-full h-full" viewBox="0 0 640 360" preserveAspectRatio="xMidYMid meet">
+    <defs>
+      <linearGradient id="linkPagesFlow" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stopColor="#F97316" stopOpacity="0.6" />
+        <stop offset="100%" stopColor="#EC4899" stopOpacity="0.2" />
+      </linearGradient>
+    </defs>
+    
+    {/* Source: One link node */}
+    <g className="animate-fade-in">
+      <rect x={60} y={165} width={80} height={30} rx={4} fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" strokeWidth="0.5" />
+      <text x={100} y={184} fill="white" fontSize="10" fontFamily="ui-monospace, monospace" textAnchor="middle" opacity="0.7">utm.one/alex</text>
+    </g>
+    
+    {/* Flow paths to destinations */}
+    {[
+      { y: 100, label: "blog", color: "#F97316" },
+      { y: 160, label: "portfolio", color: "#EC4899" },
+      { y: 220, label: "store", color: "#8B5CF6" },
+      { y: 280, label: "social", color: "#06B6D4" },
+    ].map((dest, i) => (
+      <g key={i} className="animate-fade-in" style={{ animationDelay: `${i * 0.1 + 0.2}s` }}>
+        <path
+          d={`M 140 180 C 280 180, 320 ${dest.y}, 460 ${dest.y}`}
+          fill="none"
+          stroke="url(#linkPagesFlow)"
+          strokeWidth="1"
+          className="animate-draw-line"
+          style={{ animationDelay: `${i * 0.15 + 0.3}s` }}
+        />
+        <rect x={470} y={dest.y - 10} width={70} height={20} rx={3} fill="rgba(255,255,255,0.05)" stroke={dest.color} strokeWidth="0.5" strokeOpacity="0.5" />
+        <text x={505} y={dest.y + 4} fill="white" fontSize="9" fontFamily="ui-monospace, monospace" textAnchor="middle" opacity="0.6">{dest.label}</text>
+      </g>
+    ))}
+    
+    {/* Stats */}
+    <text x={100} y={320} fill="rgba(255,255,255,0.3)" fontSize="9" fontFamily="ui-monospace, monospace" textAnchor="middle" className="animate-fade-in" style={{ animationDelay: '1s' }}>
+      47 links · 12.4K clicks
+    </text>
+  </svg>
+);
+
+// CSS-only Event Halo Visual
+const EventHaloVisual = () => (
+  <svg className="w-full h-full" viewBox="0 0 640 360" preserveAspectRatio="xMidYMid meet">
+    <defs>
+      <linearGradient id="haloFlow" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stopColor="#10B981" stopOpacity="0.5" />
+        <stop offset="100%" stopColor="#06B6D4" stopOpacity="0.2" />
+      </linearGradient>
+    </defs>
+    
+    {/* Booth node */}
+    <g className="animate-fade-in">
+      <rect x={80} y={160} width={60} height={40} rx={4} fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" strokeWidth="0.5" />
+      <text x={110} y={184} fill="white" fontSize="9" fontFamily="ui-monospace, monospace" textAnchor="middle" opacity="0.6">booth</text>
+      <text x={110} y={220} fill="rgba(255,255,255,0.3)" fontSize="8" fontFamily="ui-monospace, monospace" textAnchor="middle">100 scans</text>
+    </g>
+    
+    {/* Flow path */}
+    <path
+      d="M 140 180 C 220 180, 280 180, 360 180"
+      fill="none"
+      stroke="url(#haloFlow)"
+      strokeWidth="1"
+      className="animate-draw-line"
+      style={{ animationDelay: '0.3s' }}
+    />
+    
+    {/* Halo detection center */}
+    <g className="animate-fade-in" style={{ animationDelay: '0.5s' }}>
+      {/* Expanding rings */}
+      <circle cx={460} cy={180} r={80} fill="none" stroke="rgba(16,185,129,0.1)" strokeWidth="0.5" className="animate-pulse" />
+      <circle cx={460} cy={180} r={55} fill="none" stroke="rgba(16,185,129,0.15)" strokeWidth="0.5" className="animate-pulse" style={{ animationDelay: '0.3s' }} />
+      <circle cx={460} cy={180} r={30} fill="none" stroke="rgba(16,185,129,0.2)" strokeWidth="0.5" className="animate-pulse" style={{ animationDelay: '0.6s' }} />
+      
+      {/* Center node */}
+      <circle cx={460} cy={180} r={12} fill="rgba(16,185,129,0.2)" stroke="#10B981" strokeWidth="0.5" />
+      <text x={460} y={184} fill="white" fontSize="8" fontFamily="ui-monospace, monospace" textAnchor="middle">halo</text>
+    </g>
+    
+    {/* Detected visitors dots */}
+    {[
+      { x: 420, y: 140 }, { x: 500, y: 150 }, { x: 430, y: 210 },
+      { x: 490, y: 200 }, { x: 410, y: 175 }, { x: 510, y: 180 },
+    ].map((dot, i) => (
+      <circle 
+        key={i} 
+        cx={dot.x} 
+        cy={dot.y} 
+        r={2} 
+        fill="#10B981" 
+        opacity="0.6"
+        className="animate-fade-in"
+        style={{ animationDelay: `${0.8 + i * 0.1}s` }}
+      />
+    ))}
+    
+    {/* Stats */}
+    <text x={460} y={290} fill="rgba(255,255,255,0.3)" fontSize="9" fontFamily="ui-monospace, monospace" textAnchor="middle" className="animate-fade-in" style={{ animationDelay: '1.2s' }}>
+      +847 halo visitors detected
+    </text>
+  </svg>
+);
+
 const VISUAL_COMPONENTS: Record<UseCaseType, React.FC> = {
   attribution: AttributionVisual,
   journey: JourneyVisual,
   links: LinksVisual,
   intelligence: IntelligenceVisual,
   governance: GovernanceVisual,
+  linkpages: LinkPagesVisual,
+  eventhalo: EventHaloVisual,
 };
 
 // Intersection Observer hook for scroll animations
