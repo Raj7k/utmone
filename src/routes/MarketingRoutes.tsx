@@ -358,7 +358,7 @@ const MarketingRoutes = () => {
       <Route path="/permanence" element={<M><Permanence /></M>} />
       <Route path="/privacy-policy" element={<M><PrivacyPolicy /></M>} />
       <Route path="/link-expired" element={<M><LinkExpired /></M>} />
-      <Route path="/coming-soon" element={<M><ComingSoonPage /></M>} />
+      <Route path="/coming-soon" element={<M><ComingSoonPage title="Coming Soon" description="This feature is currently under development. Check back soon!" /></M>} />
       <Route path="/surprise" element={<M><Surprise /></M>} />
       <Route path="/lifetime" element={<M><LifetimeDeal /></M>} />
       <Route path="/accept-invite" element={<M><AcceptInvite /></M>} />
