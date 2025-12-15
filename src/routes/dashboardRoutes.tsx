@@ -11,6 +11,7 @@ const DashboardAnalytics = lazy(() => import("@/pages/dashboard/Analytics"));
 const DashboardQRCodes = lazy(() => import("@/pages/dashboard/QRCodes"));
 const DashboardLinkPages = lazy(() => import("@/pages/dashboard/LinkPages"));
 const DashboardLinkPageBuilder = lazy(() => import("@/pages/dashboard/LinkPageBuilder"));
+const DashboardLinkPageCreate = lazy(() => import("@/pages/dashboard/LinkPageCreate"));
 const Targeting = lazy(() => import("@/pages/dashboard/Targeting"));
 const BulkCreate = lazy(() => import("@/pages/dashboard/BulkCreate"));
 const CacheMonitoring = lazy(() => import("@/pages/dashboard/CacheMonitoring"));
@@ -41,6 +42,7 @@ const DashboardRoute = ({ children }: { children: React.ReactNode }) => (
 export const dashboardRoutes = [
   <Route key="dashboard" path="/dashboard" element={<DashboardRoute><DashboardHome /></DashboardRoute>} />,
   <Route key="dashboard-link-pages" path="/dashboard/link-pages" element={<DashboardRoute><DashboardLinkPages /></DashboardRoute>} />,
+  <Route key="dashboard-link-pages-create" path="/dashboard/link-pages/new" element={<DashboardRoute><DashboardLinkPageCreate /></DashboardRoute>} />,
   <Route key="dashboard-link-pages-builder" path="/dashboard/link-pages/:pageId" element={<DashboardRoute><DashboardLinkPageBuilder /></DashboardRoute>} />,
   <Route key="dashboard-links" path="/dashboard/links" element={<DashboardRoute><DashboardLinks /></DashboardRoute>} />,
   <Route key="dashboard-analytics" path="/dashboard/analytics" element={<DashboardRoute><DashboardAnalytics /></DashboardRoute>} />,
