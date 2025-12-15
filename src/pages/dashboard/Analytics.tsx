@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Activity, Link as LinkIcon, BarChart3, Globe, Users, Clock, DollarSign } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
-import { useDashboardUnified } from "@/hooks/dashboard";
+import { useAnalyticsData } from "@/hooks/dashboard";
 import { LazyPieChart, Pie, Cell, Tooltip as RechartsTooltip, ResponsiveContainer, LazyChartContainer } from "@/components/charts/LazyCharts";
 import { Link } from "react-router-dom";
 import { TrafficForecastChart } from "@/components/analytics/TrafficForecastChart";
@@ -82,7 +82,7 @@ export default function Analytics() {
     setSearchParams({ tab });
   };
 
-  // CONSOLIDATED: Single unified query replaces 4 separate hooks
+  // OPTIMIZED: Analytics-focused hook (3 queries instead of 10)
   const { 
     analytics, 
     executiveMetrics, 
@@ -91,7 +91,7 @@ export default function Analytics() {
     isStale,
     error,
     refetch 
-  } = useDashboardUnified("30d");
+  } = useAnalyticsData("30d");
 
   useEffect(() => {
     trackFirstAnalyticsView();

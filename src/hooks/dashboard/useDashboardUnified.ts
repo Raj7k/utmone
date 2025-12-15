@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/workspace/useWorkspace";
-import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
+import { getCachedWorkspaceId, getCachedUserId } from "@/contexts/AppSessionContext";
 import { startOfDay, subDays } from "date-fns";
 import { useRef, useEffect } from "react";
 
@@ -181,13 +181,8 @@ export const useDashboardUnified = (range: string = "30d") => {
       const daysBack = range === "7d" ? 7 : range === "90d" ? 90 : 30;
       const startDate = subDays(today, daysBack);
 
-      // PHASE 9: Use cached userId first, avoid blocking getUser() call
-      const cachedUser = (window as { __CACHED_USER__?: { id: string } }).__CACHED_USER__;
-      let userId = cachedUser?.id;
-      if (!userId) {
-        const { data: { user } } = await supabase.auth.getUser();
-        userId = user?.id;
-      }
+      // OPTIMIZED: Use cached userId from context, no network call
+      const userId = getCachedUserId() || "";
 
       // PARALLEL: Fetch all data at once from tables directly
       const [
