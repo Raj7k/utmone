@@ -114,7 +114,7 @@ export const ExpandedSidebar = () => {
   const location = useLocation();
   const { currentWorkspace } = useWorkspaceContext();
   const { toggleSidebar, openSearch } = useSidebar();
-  const { prefetchLinks, prefetchIntelligence, prefetchSales, prefetchEvents, prefetchDashboard, prefetchQRCodes } = useDashboardPrefetch();
+  const { prefetchLinks, prefetchIntelligence, prefetchSales, prefetchEvents, prefetchDashboard, prefetchQRCodes, prefetchAnalytics, prefetchCampaigns, prefetchSettings } = useDashboardPrefetch();
   
   const [visitedFeatures, setVisitedFeatures] = useState<string[]>(() => {
     const stored = localStorage.getItem('visited_features');
@@ -157,10 +157,16 @@ export const ExpandedSidebar = () => {
         return prefetchEvents;
       case "/dashboard/qr-codes":
         return prefetchQRCodes;
+      case "/dashboard/analytics":
+        return prefetchAnalytics;
+      case "/dashboard/campaigns":
+        return prefetchCampaigns;
+      case "/settings":
+        return prefetchSettings;
       default:
         return undefined;
     }
-  }, [prefetchLinks, prefetchIntelligence, prefetchSales, prefetchEvents, prefetchDashboard, prefetchQRCodes]);
+  }, [prefetchLinks, prefetchIntelligence, prefetchSales, prefetchEvents, prefetchDashboard, prefetchQRCodes, prefetchAnalytics, prefetchCampaigns, prefetchSettings]);
 
   const openFeedback = useCallback(() => {
     const feedbackTrigger = document.querySelector('.feedback-widget-trigger') as HTMLButtonElement;
