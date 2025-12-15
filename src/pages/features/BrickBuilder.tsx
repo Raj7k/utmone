@@ -19,6 +19,8 @@ import {
 import { FeatureCarouselSection } from "@/components/features/FeatureCarouselSection";
 import { FeatureStatsStrip } from "@/components/features/FeatureStatsStrip";
 import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
+import { BrickBuilderDemoWidget } from "@/components/features/visuals/BrickBuilderDemoWidget";
+import { BrickDeviceShowcase } from "@/components/features/visuals/BrickDeviceShowcase";
 
 const CAPABILITIES = [
   {
@@ -95,78 +97,50 @@ export default function BrickBuilder() {
           <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent" />
           
           <div className="container mx-auto max-w-6xl relative">
-            <div className="flex flex-col lg:flex-row items-center gap-12">
-              {/* Left: Copy */}
-              <div className="flex-1 text-center lg:text-left">
-                <Badge variant="secondary" className="mb-4 gap-2">
-                  <Boxes className="h-3.5 w-3.5" />
-                  NEW FEATURE
-                </Badge>
-                
-                <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-                  build your QR code.
-                  <br />
-                  <span className="text-primary">brick by brick.</span>
-                </h1>
-                
-                <p className="text-lg text-muted-foreground mb-8 max-w-xl">
-                  Transform any link into a physical masterpiece. Get building instructions, 
-                  parts lists, and export options for creating real brick QR codes.
-                </p>
+            <div className="text-center mb-12">
+              <Badge variant="secondary" className="mb-4 gap-2">
+                <Boxes className="h-3.5 w-3.5" />
+                NEW FEATURE
+              </Badge>
+              
+              <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                build your QR code.
+                <br />
+                <span className="text-primary">brick by brick.</span>
+              </h1>
+              
+              <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+                Transform any link into a physical masterpiece. Get building instructions, 
+                parts lists, and export options for creating real brick QR codes.
+              </p>
 
-                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                  <Button size="lg" asChild className="gap-2">
-                    <Link to="/dashboard/qr?tab=brick-builder">
-                      start building
-                      <ArrowRight className="h-4 w-4" />
-                    </Link>
-                  </Button>
-                  <Button size="lg" variant="outline" asChild>
-                    <Link to="/features/qr-generator">
-                      learn about QR codes
-                    </Link>
-                  </Button>
-                </div>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+                <Button size="lg" asChild className="gap-2">
+                  <Link to="/dashboard/qr?tab=brick-builder">
+                    start building
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+                <Button size="lg" variant="outline" asChild>
+                  <Link to="/features/qr-generator">
+                    learn about QR codes
+                  </Link>
+                </Button>
               </div>
+            </div>
 
-              {/* Right: Preview Mockup */}
-              <div className="flex-1 max-w-md">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5 }}
-                  className="relative"
-                >
-                  <div className="aspect-square bg-gradient-to-br from-muted/50 to-muted/30 rounded-2xl p-6 border border-border shadow-2xl">
-                    <div className="w-full h-full bg-card rounded-xl overflow-hidden grid grid-cols-8 gap-0.5 p-2">
-                      {/* Simulated brick pattern */}
-                      {Array.from({ length: 64 }).map((_, i) => (
-                        <motion.div
-                          key={i}
-                          initial={{ opacity: 0, scale: 0 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: i * 0.01, duration: 0.2 }}
-                          className={`aspect-square rounded-sm ${
-                            Math.random() > 0.5 ? 'bg-foreground' : 'bg-muted'
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  
-                  {/* Decorative corner studs */}
-                  <div className="absolute -top-2 -left-2 w-5 h-5 rounded-full bg-primary/20 border-2 border-background" />
-                  <div className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-primary/20 border-2 border-background" />
-                  <div className="absolute -bottom-2 -left-2 w-5 h-5 rounded-full bg-primary/20 border-2 border-background" />
-                  <div className="absolute -bottom-2 -right-2 w-5 h-5 rounded-full bg-primary/20 border-2 border-background" />
-                </motion.div>
-              </div>
+            {/* Interactive Demo Widget */}
+            <div id="demo">
+              <BrickBuilderDemoWidget />
             </div>
           </div>
         </section>
 
         {/* Stats Strip */}
         <FeatureStatsStrip stats={STATS} />
+
+        {/* Device Showcase */}
+        <BrickDeviceShowcase />
 
         {/* Capabilities Carousel */}
         <FeatureCarouselSection 
