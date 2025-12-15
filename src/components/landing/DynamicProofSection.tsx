@@ -126,7 +126,8 @@ const PROOF_CONTENT: Record<UseCaseType, {
 };
 
 export const DynamicProofSection = ({ selectedUseCase }: DynamicProofSectionProps) => {
-  const content = PROOF_CONTENT[selectedUseCase];
+  // Fallback to 'attribution' if selectedUseCase is not a valid key
+  const content = PROOF_CONTENT[selectedUseCase] || PROOF_CONTENT.attribution;
 
   return (
     <section className="py-16 md:py-24 relative">
