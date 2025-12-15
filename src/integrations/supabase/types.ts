@@ -6135,6 +6135,65 @@ export type Database = {
           },
         ]
       }
+      vcard_entries: {
+        Row: {
+          address: string | null
+          company: string | null
+          created_at: string | null
+          created_by: string | null
+          download_count: number | null
+          email: string | null
+          first_name: string | null
+          id: string
+          last_name: string | null
+          phone: string | null
+          slug: string
+          title: string | null
+          website: string | null
+          workspace_id: string | null
+        }
+        Insert: {
+          address?: string | null
+          company?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          download_count?: number | null
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          phone?: string | null
+          slug: string
+          title?: string | null
+          website?: string | null
+          workspace_id?: string | null
+        }
+        Update: {
+          address?: string | null
+          company?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          download_count?: number | null
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          phone?: string | null
+          slug?: string
+          title?: string | null
+          website?: string | null
+          workspace_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vcard_entries_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       visitor_identities: {
         Row: {
           created_at: string
