@@ -1,263 +1,174 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import { LinkedInIcon } from "@/components/icons/SocialIcons";
-import { Mail, QrCode } from "lucide-react";
+import { Link2, QrCode, Share2, Globe } from "lucide-react";
 
-// Cinematic Links/QR Sankey: Matching Attribution structure exactly
-// Icons OUTSIDE boxes, grey base, single purple accent
+// Cinematic Links/QR Visual with fiber-optic bundles and liquid motion
 export const LinksQRSankeyVisual = () => {
-  const [particles, setParticles] = useState<{ id: number; path: number; delay: number }[]>([]);
   const appleEase = [0.4, 0.0, 0.2, 1] as const;
-  const fiberOffsets = [-1, -0.5, 0, 0.5, 1]; // 5 strands matching Attribution
-  const fontStack = "'SF Mono', SFMono-Regular, ui-monospace, Menlo, monospace";
-  const accentColor = "#8B5CF6"; // Single purple accent
+  const accentColor = "#0A66C2";
 
-  useEffect(() => {
-    setParticles(Array.from({ length: 6 }, (_, i) => ({
-      id: i,
-      path: i % 3,
-      delay: i * 0.3,
-    })));
-  }, []);
+  // Layered fiber bundle
+  const FiberBundle = ({ path, delay = 0 }: { path: string; delay?: number }) => {
+    const layers = [
+      { count: 3, opacity: 0.95, width: 1.5 },
+      { count: 5, opacity: 0.45, width: 0.8 },
+      { count: 10, opacity: 0.15, width: 0.35 },
+    ];
 
-  // Sources with proportional widths like Attribution
-  const sources = [
-    { y: 15, width: 42, icon: LinkedInIcon, isComponent: true },
-    { y: 30, width: 35, icon: Mail, isComponent: false },
-    { y: 45, width: 28, icon: QrCode, isComponent: false },
-  ];
+    return (
+      <g style={{ mixBlendMode: "screen" }}>
+        {layers.flatMap((layer, li) =>
+          Array.from({ length: layer.count }, (_, i) => {
+            const offset = (i - layer.count / 2) * 0.7;
+            return (
+              <motion.path
+                key={`${li}-${i}`}
+                d={path}
+                fill="none"
+                stroke={li === 0 ? "white" : accentColor}
+                strokeWidth={layer.width}
+                strokeLinecap="round"
+                opacity={layer.opacity}
+                transform={`translate(0, ${offset * 0.4})`}
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{ pathLength: 1, opacity: layer.opacity }}
+                transition={{ duration: 1.1, delay: delay + li * 0.07, ease: appleEase }}
+              />
+            );
+          })
+        )}
+      </g>
+    );
+  };
+
+  // 60bpm particle stream
+  const ParticleStream = ({ path, count = 5 }: { path: string; count?: number }) => (
+    <>
+      {Array.from({ length: count }, (_, i) => (
+        <motion.circle
+          key={i}
+          r={1.3}
+          fill="white"
+          filter="url(#lqParticleGlow)"
+          style={{ mixBlendMode: "screen" }}
+          animate={{ opacity: [0, 1, 1, 0] }}
+          transition={{ duration: 1.0, delay: i / count, repeat: Infinity, ease: appleEase }}
+        >
+          <animateMotion dur="1s" repeatCount="indefinite" begin={`${i / count}s`} path={path} />
+        </motion.circle>
+      ))}
+    </>
+  );
+
+  // Frosted glass source node with icon
+  const SourceNode = ({ x, y, icon: Icon, label }: { x: number; y: number; icon: any; label: string }) => (
+    <g>
+      <rect x={x} y={y} width={26} height={12} rx={2} fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.08)" strokeWidth={0.4} />
+      <rect x={x + 0.5} y={y + 0.5} width={25} height={11} rx={1.5} fill="url(#lqInnerGlow)" opacity={0.25} />
+      <motion.circle cx={x + 9} cy={y + 6} r={4} fill="none" stroke={accentColor} strokeWidth={0.4}
+        animate={{ opacity: [0.2, 0.5, 0.2], scale: [1, 1.1, 1] }} transition={{ duration: 1.5, repeat: Infinity }} />
+      <foreignObject x={x + 4} y={y + 1} width={10} height={10}>
+        <div className="flex items-center justify-center w-full h-full">
+          <Icon className="w-2.5 h-2.5 text-[#0A66C2]" strokeWidth={2} />
+        </div>
+      </foreignObject>
+      <text x={x + 18} y={y + 7.5} fill="rgba(255,255,255,0.7)" fontSize={3.5} fontFamily="'SF Mono', monospace" dominantBaseline="middle">{label}</text>
+      <motion.rect x={x} y={y} width={26} height={12} rx={2} fill="none" stroke={accentColor} strokeWidth={0.7}
+        animate={{ opacity: [0.1, 0.35, 0.1] }} transition={{ duration: 1, repeat: Infinity }} />
+    </g>
+  );
 
   return (
-    <svg viewBox="0 0 120 60" className="w-full h-full">
+    <svg viewBox="0 0 160 80" className="w-full h-full">
       <defs>
-        {/* Bloom filter */}
-        <filter id="linksBloom" x="-100%" y="-100%" width="300%" height="300%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur1" />
-          <feGaussianBlur in="SourceGraphic" stdDeviation="0.6" result="blur2" />
-          <feMerge>
-            <feMergeNode in="blur1" />
-            <feMergeNode in="blur2" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
+        <filter id="lqBloom" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="2.2" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
         </filter>
-        
-        {/* Fiber glow */}
-        <filter id="linksFiberGlow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="1" result="glow" />
-          <feComposite in="SourceGraphic" in2="glow" operator="over" />
+        <filter id="lqParticleGlow" x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur stdDeviation="1.8" result="glow" />
+          <feMerge><feMergeNode in="glow" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
-        
-        {/* Flow gradient - grey to white to purple */}
-        <linearGradient id="linksFlow" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#71717A" stopOpacity="0.5" />
-          <stop offset="40%" stopColor="#FFFFFF" stopOpacity="0.9" />
-          <stop offset="100%" stopColor={accentColor} stopOpacity="0.6" />
-        </linearGradient>
-        
-        {/* UTM node gradient */}
-        <radialGradient id="utmGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.9" />
-          <stop offset="40%" stopColor={accentColor} stopOpacity="0.5" />
-          <stop offset="100%" stopColor={accentColor} stopOpacity="0.15" />
+        <radialGradient id="lqInnerGlow">
+          <stop offset="0%" stopColor="white" stopOpacity="0.12" />
+          <stop offset="100%" stopColor="white" stopOpacity="0" />
         </radialGradient>
-        
-        {/* Dot grid */}
-        <pattern id="linksDotGrid" patternUnits="userSpaceOnUse" width="4" height="4">
-          <circle cx="2" cy="2" r="0.12" fill="white" fillOpacity="0.1" />
+        <linearGradient id="lqBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#0A66C2" />
+          <stop offset="50%" stopColor="#38BDF8" />
+          <stop offset="100%" stopColor="#0A66C2" />
+        </linearGradient>
+        <pattern id="lqGrid" width="8" height="8" patternUnits="userSpaceOnUse">
+          <circle cx="4" cy="4" r="0.2" fill="rgba(10,102,194,0.06)" />
         </pattern>
       </defs>
-      
-      {/* Background */}
-      <rect x="0" y="0" width="120" height="60" fill="url(#linksDotGrid)" opacity="0.3" />
-      
-      {/* Source bars with icons OUTSIDE - matching Attribution exactly */}
-      {sources.map((src, i) => {
-        const IconComponent = src.icon;
-        return (
-          <g key={i}>
-            <motion.rect
-              x="16"
-              y={src.y}
-              width={src.width}
-              height="6"
-              rx="2"
-              fill="#52525B"
-              fillOpacity={0.2}
-              stroke="#52525B"
-              strokeOpacity={0.5}
-              strokeWidth="0.4"
-              initial={{ width: 0 }}
-              animate={{ width: src.width }}
-              transition={{ duration: 0.6, delay: i * 0.1, ease: appleEase }}
-            />
-            {/* Pulse glow */}
-            <motion.rect
-              x="16"
-              y={src.y}
-              width={src.width}
-              height="6"
-              rx="2"
-              fill="none"
-              stroke="#71717A"
-              strokeWidth="0.3"
-              animate={{ strokeOpacity: [0.3, 0.6, 0.3] }}
-              transition={{ duration: 1, repeat: Infinity, delay: i * 0.25, ease: appleEase }}
-            />
-            {/* Icon OUTSIDE the bar - matching Attribution */}
-            <foreignObject x="4" y={src.y - 1} width="10" height="8">
-              <div className="flex items-center justify-center w-full h-full">
-                {src.isComponent ? (
-                  <IconComponent className="w-2 h-2" />
-                ) : (
-                  <IconComponent className="w-2 h-2 text-zinc-400" strokeWidth={2} />
-                )}
-              </div>
-            </foreignObject>
-          </g>
-        );
-      })}
-      
-      {/* Multi-strand fiber flows to UTM node - 5 strands */}
-      {sources.map((src, srcIdx) => (
-        fiberOffsets.map((offset, strandIdx) => {
-          const isCenter = strandIdx === 2;
-          const baseY = src.y + 3;
-          return (
-            <motion.path
-              key={`fiber-${srcIdx}-${strandIdx}`}
-              d={`M ${16 + src.width} ${baseY + offset * 0.8} Q 55 ${baseY + offset * 0.4}, 68 30`}
-              fill="none"
-              stroke={isCenter ? "url(#linksFlow)" : "#52525B"}
-              strokeWidth={isCenter ? 1.0 : 0.3}
-              strokeLinecap="round"
-              strokeOpacity={isCenter ? 0.8 : 0.2}
-              filter={isCenter ? "url(#linksFiberGlow)" : undefined}
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 0.7, delay: 0.3 + srcIdx * 0.1, ease: appleEase }}
-            />
-          );
-        })
-      ))}
-      
-      {/* UTM node with glow */}
-      <motion.g initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.6, ease: appleEase }}>
-        <circle cx="78" cy="30" r="10" fill="url(#utmGlow)" />
-        <circle cx="78" cy="30" r="10" fill="none" stroke={accentColor} strokeWidth="0.4" strokeOpacity="0.6" />
-        {/* Pulse ring */}
-        <motion.circle
-          cx="78"
-          cy="30"
-          r="10"
-          fill="none"
-          stroke={accentColor}
-          strokeWidth="0.5"
-          animate={{ 
-            r: [10, 13, 10],
-            opacity: [0.5, 0.1, 0.5],
-          }}
-          transition={{ duration: 1, repeat: Infinity, ease: appleEase }}
-        />
-        {/* Inner core */}
-        <circle cx="78" cy="30" r="5" fill="rgba(139,92,246,0.2)" stroke={accentColor} strokeWidth="0.4" />
-        <text 
-          x="78" 
-          y="32" 
-          fill="white" 
-          fontSize="5" 
-          textAnchor="middle" 
-          fontFamily={fontStack}
-          fontWeight="bold"
-          opacity="0.9"
-        >
-          UTM
-        </text>
-      </motion.g>
-      
-      {/* Output fiber to QR - 5 strands */}
-      {fiberOffsets.map((offset, strandIdx) => {
-        const isCenter = strandIdx === 2;
-        return (
-          <motion.path
-            key={`output-${strandIdx}`}
-            d={`M 88 ${30 + offset * 0.6} L 100 ${30 + offset * 0.6}`}
-            fill="none"
-            stroke={isCenter ? accentColor : "#52525B"}
-            strokeWidth={isCenter ? 1.0 : 0.3}
-            strokeLinecap="round"
-            strokeOpacity={isCenter ? 0.7 : 0.2}
-            filter={isCenter ? "url(#linksFiberGlow)" : undefined}
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ delay: 0.8, ease: appleEase }}
-          />
-        );
-      })}
-      
-      {/* QR output node */}
-      <motion.g
-        initial={{ opacity: 0, x: 5 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.9, ease: appleEase }}
-      >
-        <rect x="100" y="22" width="16" height="16" rx="2" fill="rgba(63,63,70,0.3)" stroke="rgba(255,255,255,0.15)" strokeWidth="0.4" />
-        {/* QR pattern - 4x4 grid */}
-        <g transform="translate(102, 24)">
-          {[0, 1, 2, 3].map((r) =>
-            [0, 1, 2, 3].map((c) => (
-              <rect
-                key={`${r}-${c}`}
-                x={c * 3}
-                y={r * 3}
-                width="2.5"
-                height="2.5"
-                fill="white"
-                fillOpacity={(r + c) % 2 === 0 ? 0.6 : 0.15}
-              />
-            ))
-          )}
+
+      <rect width="160" height="80" fill="url(#lqGrid)" />
+
+      {/* Source nodes */}
+      <SourceNode x={4} y={8} icon={Link2} label="UTM" />
+      <SourceNode x={4} y={26} icon={QrCode} label="QR" />
+      <SourceNode x={4} y={44} icon={Share2} label="Social" />
+      <SourceNode x={4} y={62} icon={Globe} label="Web" />
+
+      {/* Fiber bundles to hub */}
+      <g filter="url(#lqBloom)">
+        <FiberBundle path="M 30 14 Q 52 24, 68 36" delay={0} />
+        <FiberBundle path="M 30 32 Q 52 34, 68 39" delay={0.08} />
+        <FiberBundle path="M 30 50 Q 52 46, 68 42" delay={0.16} />
+        <FiberBundle path="M 30 68 Q 52 56, 68 45" delay={0.24} />
+      </g>
+
+      <ParticleStream path="M 30 14 Q 52 24, 68 36" />
+      <ParticleStream path="M 30 32 Q 52 34, 68 39" />
+      <ParticleStream path="M 30 50 Q 52 46, 68 42" />
+      <ParticleStream path="M 30 68 Q 52 56, 68 45" />
+
+      {/* Central hub - rotating rings */}
+      <g transform="translate(80, 40)">
+        <motion.circle r={16} fill="none" stroke="rgba(10,102,194,0.2)" strokeWidth={0.4} strokeDasharray="4 7"
+          animate={{ rotate: 360 }} transition={{ duration: 18, repeat: Infinity, ease: "linear" }} />
+        <motion.circle r={11} fill="none" stroke="rgba(56,189,248,0.35)" strokeWidth={0.6} strokeDasharray="5 3"
+          animate={{ rotate: -360 }} transition={{ duration: 11, repeat: Infinity, ease: "linear" }} />
+        <motion.circle r={7} fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth={0.8} strokeDasharray="2 4"
+          animate={{ rotate: 360 }} transition={{ duration: 5, repeat: Infinity, ease: "linear" }} />
+        
+        <motion.circle r={4.5} fill="url(#lqBlue)" opacity={0.65}
+          animate={{ scale: [1, 1.12, 1], opacity: [0.65, 0.9, 0.65] }}
+          transition={{ duration: 1.0, repeat: Infinity }} />
+        <circle r={2.2} fill="white" opacity={0.95} />
+        
+        <foreignObject x={-3.5} y={-3.5} width={7} height={7}>
+          <div className="flex items-center justify-center w-full h-full">
+            <QrCode className="w-2 h-2 text-[#0A66C2]" strokeWidth={2.5} />
+          </div>
+        </foreignObject>
+      </g>
+
+      {/* Output fiber bundles */}
+      <g filter="url(#lqBloom)">
+        <FiberBundle path="M 92 36 Q 112 26, 128 16" delay={0.5} />
+        <FiberBundle path="M 92 40 Q 112 40, 128 40" delay={0.55} />
+        <FiberBundle path="M 92 44 Q 112 54, 128 64" delay={0.6} />
+      </g>
+
+      <ParticleStream path="M 92 36 Q 112 26, 128 16" count={4} />
+      <ParticleStream path="M 92 40 Q 112 40, 128 40" count={4} />
+      <ParticleStream path="M 92 44 Q 112 54, 128 64" count={4} />
+
+      {/* Destination nodes */}
+      {[{ y: 10, label: "Mobile" }, { y: 34, label: "Desktop" }, { y: 58, label: "Tablet" }].map((node, i) => (
+        <g key={i}>
+          <rect x={132} y={node.y} width={24} height={12} rx={2} fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.08)" strokeWidth={0.4} />
+          <motion.rect x={132} y={node.y} width={24} height={12} rx={2} fill="none" stroke="#38BDF8" strokeWidth={0.7}
+            animate={{ opacity: [0.15, 0.45, 0.15] }} transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }} />
+          <text x={144} y={node.y + 7.5} textAnchor="middle" fill="rgba(255,255,255,0.8)" fontSize={3.5} fontFamily="'SF Mono', monospace">{node.label}</text>
         </g>
-        {/* Scanline */}
-        <motion.rect
-          x="100"
-          y="22"
-          width="16"
-          height="1.5"
-          fill={accentColor}
-          fillOpacity="0.3"
-          animate={{ y: [22, 36, 22] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-        />
-      </motion.g>
-      
-      {/* Heartbeat particles */}
-      {particles.map((p) => {
-        const src = sources[p.path];
-        return (
-          <motion.circle
-            key={p.id}
-            r="1.5"
-            fill={accentColor}
-            filter="url(#linksFiberGlow)"
-            initial={{ offsetDistance: "0%", opacity: 0 }}
-            animate={{
-              offsetDistance: ["0%", "100%"],
-              opacity: [0, 1, 1, 0],
-              scale: [0.8, 1.2, 0.8],
-            }}
-            transition={{
-              duration: 1,
-              delay: p.delay,
-              repeat: Infinity,
-              repeatDelay: 0.5,
-              ease: appleEase,
-            }}
-            style={{
-              offsetPath: `path("M ${16 + src.width} ${src.y + 3} Q 55 ${src.y + 3}, 68 30")`,
-            }}
-          />
-        );
-      })}
+      ))}
+
+      {/* Labels */}
+      <text x={12} y={5} fill="rgba(255,255,255,0.4)" fontSize={3.5} fontFamily="'SF Mono', monospace">INPUT</text>
+      <text x={72} y={5} fill="rgba(255,255,255,0.4)" fontSize={3.5} fontFamily="'SF Mono', monospace">TRACK</text>
+      <text x={134} y={5} fill="rgba(255,255,255,0.4)" fontSize={3.5} fontFamily="'SF Mono', monospace">DEVICE</text>
     </svg>
   );
 };
