@@ -95,3 +95,34 @@ export async function fetchPublishedPage(slug: string) {
   if (error) throw error;
   return data as PublicLinkPageResponse | undefined;
 }
+
+export interface PublicLinkPageWithBlocks extends PublicLinkPageResponse {
+  blocks: LinkPageBlock[];
+}
+
+export async function fetchPublishedPageWithBlocks(slug: string): Promise<PublicLinkPageWithBlocks | null> {
+  const { data: page, error: pageError } = await supabase
+    .from('link_pages')
+    .select('*')
+    .eq('slug', slug)
+    .eq('is_published', true)
+    .single();
+  
+  if (pageError || !page) return null;
+
+  const { data: blocks, error: blocksError } = await supabase
+    .from('link_page_blocks')
+    .select('*')
+    .eq('page_id', page.id)
+    .eq('is_enabled', true)
+    .order('order_index', { ascending: true });
+
+  if (blocksError) {
+    console.error('Failed to fetch blocks:', blocksError);
+  }
+
+  return {
+    ...page,
+    blocks: (blocks || []) as LinkPageBlock[],
+  } as PublicLinkPageWithBlocks;
+}
