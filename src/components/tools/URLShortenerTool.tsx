@@ -47,6 +47,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
   const [slugAvailable, setSlugAvailable] = useState<boolean | null>(null);
   const [shortURL, setShortURL] = useState<string>("");
   const [createdLinkId, setCreatedLinkId] = useState<string>("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedDomain, setSelectedDomain] = useState<string>("utm.click");
   
   // Feature 4: Smart Link Rotator state
@@ -200,6 +201,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
       return link;
     },
     onSuccess: (link) => {
+      setIsSubmitting(false);
       const url = `https://${link.domain}/${link.slug}`;
       setShortURL(url);
       setCreatedLinkId(link.id);
@@ -207,6 +209,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
       queryClient.invalidateQueries({ queryKey: ["links-count"] });
     },
     onError: (error: Error) => {
+      setIsSubmitting(false);
       toast({
         title: "error",
         description: error.message,
@@ -215,7 +218,10 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
     },
   });
 
-  const onSubmit = (data: ShortenerFormData) => {
+  const onSubmit = async (data: ShortenerFormData) => {
+    // Prevent double-submission - guard entire async operation
+    if (isSubmitting || createLinkMutation.isPending) return;
+    
     if (!slugAvailable) {
       toast({
         title: "slug unavailable",
@@ -224,7 +230,34 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
       });
       return;
     }
-    createLinkMutation.mutate(data);
+    
+    setIsSubmitting(true);
+    
+    try {
+      // Final slug check before submission
+      const { data: existing } = await supabase
+        .from("links")
+        .select("id")
+        .eq("domain", selectedDomain)
+        .eq("path", "")
+        .eq("slug", data.slug)
+        .maybeSingle();
+      
+      if (existing) {
+        setSlugAvailable(false);
+        toast({
+          title: "slug unavailable",
+          description: "this slug was just taken",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+      
+      createLinkMutation.mutate(data);
+    } catch {
+      setIsSubmitting(false);
+    }
   };
 
   const isCustomSlug = values.slug && values.slug.length >= 3 && !/^[a-z0-9]{8}$/.test(values.slug);
@@ -385,9 +418,9 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
           <Button
             type="submit"
             className="w-full"
-            disabled={createLinkMutation.isPending || !slugAvailable}
+            disabled={isSubmitting || createLinkMutation.isPending || !slugAvailable}
           >
-            {createLinkMutation.isPending ? "Creating..." : "Create Short Link"}
+            {isSubmitting || createLinkMutation.isPending ? "Creating..." : "Create Short Link"}
           </Button>
 
           {shortURL && (

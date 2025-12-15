@@ -72,6 +72,9 @@ export const Step2Shortener = ({
   
   // Slug checking state
   const [isCheckingSlug, setIsCheckingSlug] = useState(false);
+  
+  // Prevent race condition during async submit
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Domain selection is now handled by DomainSelectorWithAdd component
 
@@ -187,6 +190,7 @@ export const Step2Shortener = ({
       return link;
     },
     onSuccess: async (link) => {
+      setIsSubmitting(false);
       const shortUrl = `https://${link.domain}/${link.slug}`;
       
       // Track first link for onboarding
@@ -212,6 +216,7 @@ export const Step2Shortener = ({
       onComplete(link.id, shortUrl);
     },
     onError: (error: any) => {
+      setIsSubmitting(false);
       const message = getFriendlyErrorMessage(error);
       notify.error(message);
       // Reset slug check to force re-validation
@@ -220,25 +225,32 @@ export const Step2Shortener = ({
   });
 
   const onSubmit = async (data: ShortenerFormData) => {
-    // Prevent double-submission
-    if (createLinkMutation.isPending) return;
+    // Prevent double-submission - guard entire async operation
+    if (isSubmitting || createLinkMutation.isPending) return;
     
-    // Final synchronous slug check before submission
-    const { data: existing } = await supabase
-      .from("links")
-      .select("id")
-      .eq("domain", selectedDomain)
-      .eq("path", "")
-      .eq("slug", data.slug)
-      .maybeSingle();
+    setIsSubmitting(true);
     
-    if (existing) {
-      setSlugAvailable(false);
-      notify.error("this short link already exists. please try a different slug.");
-      return;
+    try {
+      // Final slug check before submission
+      const { data: existing } = await supabase
+        .from("links")
+        .select("id")
+        .eq("domain", selectedDomain)
+        .eq("path", "")
+        .eq("slug", data.slug)
+        .maybeSingle();
+      
+      if (existing) {
+        setSlugAvailable(false);
+        notify.error("this short link already exists. please try a different slug.");
+        setIsSubmitting(false);
+        return;
+      }
+      
+      createLinkMutation.mutate(data);
+    } catch {
+      setIsSubmitting(false);
     }
-    
-    createLinkMutation.mutate(data);
   };
 
   // Keyboard shortcut for opening geo-targeting modal (G key)
@@ -507,9 +519,9 @@ export const Step2Shortener = ({
           <Button
             type="submit"
             className="flex-1"
-            disabled={createLinkMutation.isPending || isCheckingSlug || slugAvailable === false}
+            disabled={isSubmitting || createLinkMutation.isPending || isCheckingSlug || slugAvailable === false}
           >
-            {createLinkMutation.isPending ? (
+            {isSubmitting || createLinkMutation.isPending ? (
               <>
                 <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                 creating...
