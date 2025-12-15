@@ -14,7 +14,6 @@ import { BentoTileSkeleton } from "./BentoTileSkeleton";
 import { useActivationTracking } from "@/hooks/useActivationTracking";
 import { useAIAnalyzeUrl } from "@/hooks/useAIAnalyzeUrl";
 import { AISuggestionsPanel } from "./AISuggestionsPanel";
-import { AnimatePresence } from "framer-motion";
 import { getCachedWorkspaceId, useAppSession } from "@/contexts/AppSessionContext";
 
 export const QuickCreateTile = () => {
@@ -229,20 +228,18 @@ export const QuickCreateTile = () => {
           </div>
         </form>
 
-        {/* AI Suggestions Panel */}
-        <AnimatePresence>
-          {suggestions && (
-            <AISuggestionsPanel
-              suggestions={suggestions}
-              isAnalyzing={isAnalyzing}
-              onSelectSlug={handleSelectSlug}
-              onApplyUtm={handleApplyUtm}
-              onRegenerate={handleRegenerate}
-              selectedSlug={selectedSlug}
-              utmApplied={utmApplied}
-            />
-          )}
-        </AnimatePresence>
+        {/* AI Suggestions Panel - CSS animated */}
+        {suggestions && (
+          <AISuggestionsPanel
+            suggestions={suggestions}
+            isAnalyzing={isAnalyzing}
+            onSelectSlug={handleSelectSlug}
+            onApplyUtm={handleApplyUtm}
+            onRegenerate={handleRegenerate}
+            selectedSlug={selectedSlug}
+            utmApplied={utmApplied}
+          />
+        )}
 
         {/* Recent Tags - only show when no suggestions */}
         {!suggestions && (
