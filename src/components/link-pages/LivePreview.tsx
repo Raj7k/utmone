@@ -286,9 +286,14 @@ export function LivePreview({ title, bio, blocks, theme = "default", avatarUrl, 
       {/* Footer */}
       {!hideBranding && (
         <div className="py-2 text-center bg-muted/80">
-          <span className="text-[10px] text-muted-foreground">
+          <a 
+            href="https://utm.one/features/link-pages" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-[10px] text-muted-foreground hover:text-foreground transition-colors"
+          >
             Powered by utm.one
-          </span>
+          </a>
         </div>
       )}
     </div>

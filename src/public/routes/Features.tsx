@@ -3,7 +3,7 @@ import { LLMSchemaGenerator } from "@/components/seo/LLMSchemaGenerator";
 import { BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { Link } from "react-router-dom";
-import { Link2, Tags, QrCode, BarChart3, Shield, CheckCircle2, Users } from "lucide-react";
+import { Link2, Tags, QrCode, BarChart3, Shield, CheckCircle2, Users, LayoutGrid } from "lucide-react";
 import { motion } from "framer-motion";
 
 const Features = () => {
@@ -56,6 +56,13 @@ const Features = () => {
       description: "partner attribution without spreadsheets—unique codes, click tracking, and automated payouts",
       icon: Users,
       path: "/features/partner-program"
+    },
+    {
+      name: "link-pages",
+      title: "Link Pages",
+      description: "link-in-bio pages with analytics—10+ themes, drag-and-drop blocks, and full UTM tracking",
+      icon: LayoutGrid,
+      path: "/features/link-pages"
     }
   ];
 

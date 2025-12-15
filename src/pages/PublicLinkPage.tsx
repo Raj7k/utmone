@@ -430,7 +430,7 @@ export default function PublicLinkPage() {
               {!hideBranding && (
                 <div className="text-center pt-8">
                   <a 
-                    href="https://utm.one" 
+                    href="https://utm.one/features/link-pages" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className={cn("text-xs opacity-40 hover:opacity-60 transition-opacity", styles.text)}
