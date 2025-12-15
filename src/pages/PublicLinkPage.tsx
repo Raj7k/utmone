@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 import { 
   fetchPublishedPageWithBlocks, 
   hashVisitorIdentifier, 
@@ -24,7 +25,12 @@ import {
   ExternalLink,
   BadgeCheck,
   MapPin,
-  Mail
+  Mail,
+  AlertCircle,
+  RefreshCw,
+  FileX,
+  Loader2,
+  ArrowRight
 } from "lucide-react";
 
 const socialIcons: Record<string, typeof Instagram> = {
@@ -121,6 +127,20 @@ interface BlockRendererProps {
   block: LinkPageBlock;
   theme: string;
   onBlockClick: (blockId: string) => void;
+}
+
+// Safe block renderer with error boundary
+function SafeBlockRenderer({ block, theme, onBlockClick }: BlockRendererProps) {
+  try {
+    return <BlockRenderer block={block} theme={theme} onBlockClick={onBlockClick} />;
+  } catch (error) {
+    console.error("Block render error:", error);
+    return (
+      <div className="p-4 rounded-xl border border-dashed border-destructive/30 text-center text-sm text-muted-foreground">
+        This block couldn't be displayed
+      </div>
+    );
+  }
 }
 
 function BlockRenderer({ block, theme, onBlockClick }: BlockRendererProps) {
@@ -231,20 +251,102 @@ function BlockRenderer({ block, theme, onBlockClick }: BlockRendererProps) {
   }
 }
 
+// Enhanced loading skeleton with staggered animations
 const PageSkeleton = () => (
   <div className="min-h-screen bg-background flex items-center justify-center p-6">
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-md border-border">
       <CardContent className="p-8 space-y-4">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-20 w-20 rounded-full bg-muted animate-pulse" />
-          <div className="h-5 w-32 bg-muted rounded animate-pulse" />
-          <div className="h-4 w-48 bg-muted rounded animate-pulse" />
+          <div 
+            className="h-20 w-20 rounded-full bg-muted animate-pulse" 
+            style={{ animationDelay: "0ms" }} 
+          />
+          <div 
+            className="h-5 w-32 bg-muted rounded animate-pulse" 
+            style={{ animationDelay: "75ms" }} 
+          />
+          <div 
+            className="h-4 w-48 bg-muted rounded animate-pulse" 
+            style={{ animationDelay: "150ms" }} 
+          />
         </div>
         <div className="space-y-3 pt-4">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="h-14 bg-muted rounded-xl animate-pulse" />
+            <div 
+              key={i} 
+              className="h-14 bg-muted rounded-xl animate-pulse" 
+              style={{ animationDelay: `${225 + i * 75}ms` }} 
+            />
           ))}
         </div>
+      </CardContent>
+    </Card>
+  </div>
+);
+
+// Error state with retry button
+interface PageErrorProps {
+  error: Error;
+  onRetry: () => void;
+  isRetrying: boolean;
+}
+
+const PageError = ({ error, onRetry, isRetrying }: PageErrorProps) => (
+  <div className="min-h-screen flex items-center justify-center p-6 bg-background">
+    <Card className="max-w-md w-full border-border">
+      <CardContent className="p-8 text-center space-y-4">
+        <div className="mx-auto w-12 h-12 rounded-full bg-destructive/10 flex items-center justify-center">
+          <AlertCircle className="h-6 w-6 text-destructive" />
+        </div>
+        <div>
+          <p className="text-lg font-semibold text-foreground">something went wrong</p>
+          <p className="text-sm text-muted-foreground mt-1">
+            We couldn't load this page. Please try again.
+          </p>
+        </div>
+        <Button 
+          onClick={onRetry} 
+          disabled={isRetrying}
+          className="gap-2"
+        >
+          {isRetrying ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <RefreshCw className="h-4 w-4" />
+          )}
+          Try Again
+        </Button>
+        {process.env.NODE_ENV === "development" && error?.message && (
+          <p className="text-xs text-muted-foreground font-mono bg-muted p-2 rounded mt-4 break-all">
+            {error.message}
+          </p>
+        )}
+      </CardContent>
+    </Card>
+  </div>
+);
+
+// 404 Not found state with CTA
+const PageNotFound = () => (
+  <div className="min-h-screen flex items-center justify-center p-6 bg-background">
+    <Card className="max-w-md w-full border-border">
+      <CardContent className="p-8 text-center space-y-4">
+        <div className="mx-auto w-12 h-12 rounded-full bg-muted flex items-center justify-center">
+          <FileX className="h-6 w-6 text-muted-foreground" />
+        </div>
+        <div>
+          <p className="text-lg font-semibold text-foreground">page not found</p>
+          <p className="text-sm text-muted-foreground mt-1">
+            This link page doesn't exist or hasn't been published yet.
+          </p>
+        </div>
+        <Separator className="my-4" />
+        <a 
+          href="https://utm.one/features/link-pages" 
+          className="inline-flex items-center gap-1.5 text-sm text-primary hover:underline"
+        >
+          Create your own link page <ArrowRight className="h-3.5 w-3.5" />
+        </a>
       </CardContent>
     </Card>
   </div>
@@ -312,22 +414,22 @@ export default function PublicLinkPage() {
     });
   };
 
+  // Handle loading state
   if (query.isLoading) return <PageSkeleton />;
   
-  if (!page) {
+  // Handle error state (network/server errors)
+  if (query.isError) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-6 bg-background">
-        <Card className="max-w-md w-full">
-          <CardContent className="p-8 text-center space-y-2">
-            <p className="text-lg font-semibold">Page not found</p>
-            <p className="text-sm text-muted-foreground">
-              This link page is unpublished or does not exist.
-            </p>
-          </CardContent>
-        </Card>
-      </div>
+      <PageError 
+        error={query.error as Error} 
+        onRetry={() => query.refetch()} 
+        isRetrying={query.isFetching} 
+      />
     );
   }
+  
+  // Handle not found state (page doesn't exist or unpublished)
+  if (!page) return <PageNotFound />;
 
   return (
     <div className={cn("min-h-screen py-12 px-4", styles.bg)}>
@@ -430,7 +532,7 @@ export default function PublicLinkPage() {
               <div className="space-y-3">
                 {page.blocks.length > 0 ? (
                   page.blocks.map((block) => (
-                    <BlockRenderer
+                    <SafeBlockRenderer
                       key={block.id}
                       block={block}
                       theme={theme}
