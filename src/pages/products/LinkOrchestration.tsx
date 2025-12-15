@@ -4,13 +4,15 @@ import { ProductHeroSimplified } from "@/components/product/ProductHeroSimplifie
 import { ProductPainStory } from "@/components/product/ProductPainStory";
 import { ContentComparison } from "@/components/solutions/ContentComparison";
 import { ROICalculator } from "@/components/growth/ROICalculator";
-import { motion } from "framer-motion";
 import { Shield, Zap, Lock, AlertCircle, RefreshCw, Users, ArrowRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 export default function LinkOrchestration() {
+  // Single shared IntersectionObserver for all reveal animations
+  useScrollReveal('[data-reveal]');
   const schema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -176,12 +178,11 @@ export default function LinkOrchestration() {
                   description: "forensic time-travel log for soc2 compliance. who changed what, when, and why."
                 }
               ].map((benefit, index) => (
-                <motion.div
+                <div
                   key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  data-reveal
+                  className="opacity-0 scroll-reveal"
+                  style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <Card className="p-6 h-full transition-colors hover:border-white/20">
                     <div className="w-12 h-12 rounded-xl bg-white/5 text-white flex items-center justify-center mb-4">
@@ -194,7 +195,7 @@ export default function LinkOrchestration() {
                       {benefit.description}
                     </p>
                   </Card>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>

@@ -1538,3 +1538,74 @@ All colors MUST be HSL.
 .animate-flow-pulse {
   animation: flow-pulse 2s ease-in-out infinite;
 }
+
+/* ============================================
+   MARKETING PAGE PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+
+/* Noise texture via CSS - avoids inline SVG parsing */
+.marketing-noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.03;
+  contain: strict; /* Isolate paint/layout */
+  will-change: auto;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* Spotlight gradient - deferred loading via class */
+.marketing-spotlight {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1200px;
+  height: 800px;
+  pointer-events: none;
+  z-index: 2;
+  contain: paint; /* Isolate repaint to this layer */
+  background: radial-gradient(
+    ellipse at center top,
+    hsl(0 0% 100% / 0.06) 0%,
+    hsl(220 50% 90% / 0.03) 30%,
+    transparent 70%
+  );
+}
+
+/* ============================================
+   SCROLL REVEAL ANIMATIONS (CSS-only)
+   Replaces framer-motion whileInView
+   ============================================ */
+
+@keyframes scroll-reveal-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Base state for elements waiting to be revealed */
+.scroll-reveal {
+  opacity: 0;
+}
+
+/* Revealed state - triggered by IntersectionObserver adding .revealed class */
+.scroll-reveal.revealed {
+  animation: scroll-reveal-fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Alternative: data-reveal attribute pattern */
+[data-reveal] {
+  opacity: 0;
+}
+
+[data-reveal].revealed {
+  animation: scroll-reveal-fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
