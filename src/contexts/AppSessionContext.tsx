@@ -47,13 +47,16 @@ interface AppSessionState {
 // These execute BEFORE React component mounts
 // ============================================
 
+// Cache TTL constant - 30 minutes (must match across all files)
+const SESSION_CACHE_TTL = 30 * 60 * 1000;
+
 function getCachedSession(): { user: User | null; accessToken: string | null; timestamp: number } | null {
   try {
     const cached = localStorage.getItem(SESSION_CACHE_KEY);
     if (!cached) return null;
     const parsed = JSON.parse(cached);
-    // 15 min expiry
-    if (Date.now() - parsed.timestamp > 15 * 60 * 1000) {
+    // 30 min expiry - aligned across all auth files
+    if (Date.now() - parsed.timestamp > SESSION_CACHE_TTL) {
       localStorage.removeItem(SESSION_CACHE_KEY);
       return null;
     }
@@ -222,9 +225,20 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
       
-      // SLOW PATH: No cache - must wait for auth
+      // SLOW PATH: No cache - must wait for auth with fallback recovery
       try {
-        const { data: { session: freshSession }, error: authError } = await supabase.auth.getSession();
+        // First try getSession (uses stored tokens)
+        let { data: { session: freshSession }, error: authError } = await supabase.auth.getSession();
+        
+        // FALLBACK: If no session from getSession, try refreshing from stored refresh token
+        if (!freshSession && !authError) {
+          console.log("[AppSession] No session from getSession, attempting token refresh...");
+          const refreshResult = await supabase.auth.refreshSession();
+          if (refreshResult.data.session) {
+            freshSession = refreshResult.data.session;
+            console.log("[AppSession] Session recovered via refresh token");
+          }
+        }
         
         if (authError) {
           console.error("[AppSession] Auth error:", authError);

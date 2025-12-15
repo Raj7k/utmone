@@ -13,6 +13,8 @@ import { supabase } from "@/integrations/supabase/client";
 
 // Session cache key - matches AppSessionContext
 const SESSION_CACHE_KEY = 'utm_session_cache';
+// Cache TTL constant - 30 minutes (must match AppSessionContext.tsx)
+const SESSION_CACHE_TTL = 30 * 60 * 1000;
 
 interface CachedSession {
   user: {
@@ -32,8 +34,8 @@ export function getCachedUserId(): string | null {
     if (!cached) return null;
     
     const parsed: CachedSession = JSON.parse(cached);
-    // 30 minute cache validity
-    if (Date.now() - parsed.timestamp > 30 * 60 * 1000) {
+    // 30 min expiry - aligned with AppSessionContext
+    if (Date.now() - parsed.timestamp > SESSION_CACHE_TTL) {
       return null;
     }
     
@@ -53,8 +55,8 @@ export function getCachedUser(): { id: string; email?: string } | null {
     if (!cached) return null;
     
     const parsed: CachedSession = JSON.parse(cached);
-    // 30 minute cache validity
-    if (Date.now() - parsed.timestamp > 30 * 60 * 1000) {
+    // 30 min expiry - aligned with AppSessionContext
+    if (Date.now() - parsed.timestamp > SESSION_CACHE_TTL) {
       return null;
     }
     

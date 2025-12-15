@@ -14,6 +14,9 @@ const loadingMessages = [
   "almost there..."
 ];
 
+// Cache TTL constant - 30 minutes (must match AppSessionContext.tsx)
+const SESSION_CACHE_TTL = 30 * 60 * 1000;
+
 /**
  * PHASE 16: Check localStorage directly for instant decision
  * Trust cached auth for immediate render, validate in background
@@ -29,8 +32,8 @@ function hasCachedAuth(): boolean {
     if (!sessionCache) return false;
     
     const { user, timestamp } = JSON.parse(sessionCache);
-    // 15 min expiry
-    if (Date.now() - timestamp > 15 * 60 * 1000) return false;
+    // 30 min expiry - aligned with AppSessionContext
+    if (Date.now() - timestamp > SESSION_CACHE_TTL) return false;
     
     return !!user;
   } catch {
