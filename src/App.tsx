@@ -108,6 +108,7 @@ const EventHalo = lazy(() => import("./pages/features/EventHalo"));
 const AIIntelligence = lazy(() => import("./pages/features/AIIntelligence"));
 const Sentinel = lazy(() => import("./pages/features/Sentinel"));
 const BrickBuilderFeature = lazy(() => import("./pages/features/BrickBuilder"));
+const LinkPagesFeature = lazy(() => import("./pages/features/LinkPages"));
 
 // Dev Tools
 const PerformanceAudit = lazy(() => import("./pages/dev/PerformanceAudit"));
@@ -610,6 +611,7 @@ const AppRoutes = () => {
               <Route path="/intelligence" element={<AIIntelligence />} />
               <Route path="/features/sentinel" element={<Sentinel />} />
               <Route path="/features/brick-builder" element={<BrickBuilderFeature />} />
+              <Route path="/features/link-pages" element={<LinkPagesFeature />} />
               
 {/* PWA Standalone Scanner */}
               <Route path="/scan" element={<ScanPage />} />
