@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { LinkedInIcon, GoogleIcon, MetaIcon, HubSpotIcon } from "@/components/icons/SocialIcons";
 
-// Continuous Sankey-style attribution flow with particle animation
+// Continuous Sankey-style attribution flow with particle animation and brand icons
 export const AttributionSankeyMini = () => {
   const [particles, setParticles] = useState<{ id: number; path: number; delay: number }[]>([]);
 
@@ -16,19 +17,21 @@ export const AttributionSankeyMini = () => {
   }, []);
 
   const sources = [
-    { y: 12, width: 50 },
-    { y: 24, width: 38 },
-    { y: 36, width: 55 },
-    { y: 48, width: 30 },
+    { y: 12, width: 50, icon: LinkedInIcon, color: "#0A66C2", label: "LinkedIn" },
+    { y: 24, width: 38, icon: GoogleIcon, color: "#4285F4", label: "Google" },
+    { y: 36, width: 55, icon: MetaIcon, color: "#0668E1", label: "Meta" },
+    { y: 48, width: 30, icon: HubSpotIcon, color: "#FF7A59", label: "Email" },
   ];
 
   return (
     <svg viewBox="0 0 120 60" className="w-full h-full">
       <defs>
-        <linearGradient id="sankeyFlow" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="rgba(255,255,255,0.4)" />
-          <stop offset="100%" stopColor="rgba(255,255,255,0.1)" />
-        </linearGradient>
+        {sources.map((source, i) => (
+          <linearGradient key={`gradient-${i}`} id={`sankeyFlow-${i}`} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor={source.color} stopOpacity="0.5" />
+            <stop offset="100%" stopColor={source.color} stopOpacity="0.1" />
+          </linearGradient>
+        ))}
         <filter id="particleGlow" x="-50%" y="-50%" width="200%" height="200%">
           <feGaussianBlur stdDeviation="1" result="blur" />
           <feMerge>
@@ -38,44 +41,55 @@ export const AttributionSankeyMini = () => {
         </filter>
       </defs>
 
-      {/* Source bars with staggered animation */}
+      {/* Source bars with brand colors */}
       {sources.map((source, i) => (
-        <motion.rect
-          key={i}
-          x="8"
-          y={source.y}
-          width={source.width}
-          height="6"
-          rx="2"
-          fill={`rgba(255,255,255,${0.2 + i * 0.1})`}
-          initial={{ width: 0 }}
-          animate={{ width: source.width }}
-          transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
-        />
+        <g key={i}>
+          <motion.rect
+            x="16"
+            y={source.y}
+            width={source.width}
+            height="6"
+            rx="2"
+            fill={source.color}
+            fillOpacity={0.3}
+            stroke={source.color}
+            strokeOpacity={0.5}
+            strokeWidth="0.5"
+            initial={{ width: 0 }}
+            animate={{ width: source.width }}
+            transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
+          />
+          {/* Brand icon using foreignObject */}
+          <foreignObject x="4" y={source.y - 1} width="10" height="8">
+            <div className="flex items-center justify-center w-full h-full">
+              <source.icon className="w-2 h-2" />
+            </div>
+          </foreignObject>
+        </g>
       ))}
 
-      {/* Flow curves to revenue node */}
+      {/* Flow curves to revenue node with brand colors */}
       {sources.map((source, i) => (
         <motion.path
           key={`flow-${i}`}
-          d={`M ${8 + source.width} ${source.y + 3} Q 80 ${source.y + 3}, 100 30`}
+          d={`M ${16 + source.width} ${source.y + 3} Q 80 ${source.y + 3}, 100 30`}
           fill="none"
-          stroke="url(#sankeyFlow)"
-          strokeWidth="1"
+          stroke={`url(#sankeyFlow-${i})`}
+          strokeWidth="1.5"
           initial={{ pathLength: 0, opacity: 0 }}
           animate={{ pathLength: 1, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.3 + i * 0.1 }}
         />
       ))}
 
-      {/* Animated particles flowing to revenue */}
+      {/* Animated particles flowing to revenue with brand colors */}
       {particles.map((particle) => {
         const source = sources[particle.path];
         return (
           <motion.circle
             key={particle.id}
             r="2"
-            fill="white"
+            fill={source.color}
             filter="url(#particleGlow)"
             initial={{ offsetDistance: "0%", opacity: 0 }}
             animate={{ 
@@ -90,7 +104,7 @@ export const AttributionSankeyMini = () => {
               ease: "linear"
             }}
             style={{
-              offsetPath: `path("M ${8 + source.width} ${source.y + 3} Q 80 ${source.y + 3}, 100 30")`,
+              offsetPath: `path("M ${16 + source.width} ${source.y + 3} Q 80 ${source.y + 3}, 100 30")`,
             }}
           />
         );

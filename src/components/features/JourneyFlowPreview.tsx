@@ -1,23 +1,25 @@
 import { motion } from "framer-motion";
+import { LinkedInIcon, GoogleIcon, HubSpotIcon, ZoomIcon } from "@/components/icons/SocialIcons";
+import { DollarSign } from "lucide-react";
 
 export const JourneyFlowPreview = () => {
   const nodes = [
-    { id: "linkedin", label: "LinkedIn", x: 40, y: 30, value: "2,400" },
-    { id: "email", label: "Email", x: 40, y: 70, value: "1,800" },
-    { id: "google", label: "Google Ads", x: 40, y: 110, value: "3,200" },
-    { id: "webinar", label: "Webinar", x: 180, y: 50, value: "1,600" },
-    { id: "demo", label: "Demo", x: 180, y: 90, value: "890" },
-    { id: "revenue", label: "$127K", x: 320, y: 70, value: "" },
+    { id: "linkedin", label: "LinkedIn", x: 40, y: 30, value: "2,400", icon: LinkedInIcon, color: "#0A66C2" },
+    { id: "email", label: "HubSpot", x: 40, y: 70, value: "1,800", icon: HubSpotIcon, color: "#FF7A59" },
+    { id: "google", label: "Google Ads", x: 40, y: 110, value: "3,200", icon: GoogleIcon, color: "#4285F4" },
+    { id: "webinar", label: "Webinar", x: 180, y: 50, value: "1,600", icon: ZoomIcon, color: "#2D8CFF" },
+    { id: "demo", label: "Demo", x: 180, y: 90, value: "890", icon: null, color: "#10B981" },
+    { id: "revenue", label: "$127K", x: 320, y: 70, value: "", icon: null, color: "#FFFFFF" },
   ];
 
   const flows = [
-    { from: "linkedin", to: "webinar", width: 3, delay: 0 },
-    { from: "linkedin", to: "demo", width: 2, delay: 0.2 },
-    { from: "email", to: "webinar", width: 2, delay: 0.4 },
-    { from: "email", to: "demo", width: 3, delay: 0.6 },
-    { from: "google", to: "demo", width: 4, delay: 0.8 },
-    { from: "webinar", to: "revenue", width: 4, delay: 1.0 },
-    { from: "demo", to: "revenue", width: 5, delay: 1.2 },
+    { from: "linkedin", to: "webinar", width: 3, delay: 0, color: "#0A66C2" },
+    { from: "linkedin", to: "demo", width: 2, delay: 0.2, color: "#0A66C2" },
+    { from: "email", to: "webinar", width: 2, delay: 0.4, color: "#FF7A59" },
+    { from: "email", to: "demo", width: 3, delay: 0.6, color: "#FF7A59" },
+    { from: "google", to: "demo", width: 4, delay: 0.8, color: "#4285F4" },
+    { from: "webinar", to: "revenue", width: 4, delay: 1.0, color: "#2D8CFF" },
+    { from: "demo", to: "revenue", width: 5, delay: 1.2, color: "#10B981" },
   ];
 
   const getNodePos = (id: string) => nodes.find(n => n.id === id);
@@ -47,7 +49,7 @@ export const JourneyFlowPreview = () => {
       {/* Sankey-style Flow Diagram */}
       <div className="relative h-48 rounded-xl overflow-hidden bg-white/5 p-4">
         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 150">
-          {/* Flow paths */}
+          {/* Flow paths with brand colors */}
           {flows.map((flow, i) => {
             const from = getNodePos(flow.from);
             const to = getNodePos(flow.to);
@@ -60,7 +62,8 @@ export const JourneyFlowPreview = () => {
                 key={i}
                 d={`M ${from.x + 50} ${from.y} C ${midX} ${from.y}, ${midX} ${to.y}, ${to.x} ${to.y}`}
                 fill="none"
-                stroke="rgba(255,255,255,0.15)"
+                stroke={flow.color}
+                strokeOpacity={0.3}
                 strokeWidth={flow.width}
                 initial={{ pathLength: 0 }}
                 whileInView={{ pathLength: 1 }}
@@ -89,7 +92,7 @@ export const JourneyFlowPreview = () => {
                 </defs>
                 <motion.circle
                   r="3"
-                  fill="white"
+                  fill={flow.color}
                   filter="drop-shadow(0 0 4px white)"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: [0, 1, 1, 0] }}
@@ -112,7 +115,7 @@ export const JourneyFlowPreview = () => {
             );
           })}
 
-          {/* Nodes */}
+          {/* Nodes with brand icons */}
           {nodes.map((node, i) => (
             <g key={node.id}>
               {node.id === "revenue" ? (
@@ -147,21 +150,30 @@ export const JourneyFlowPreview = () => {
                   <motion.rect
                     x={node.x - 5}
                     y={node.y - 12}
-                    width="55"
+                    width="60"
                     height="24"
                     rx="4"
-                    fill="rgba(255,255,255,0.1)"
-                    stroke="rgba(255,255,255,0.2)"
+                    fill={`${node.color}20`}
+                    stroke={node.color}
+                    strokeOpacity={0.4}
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1 }}
                   />
+                  {/* Brand icon using foreignObject */}
+                  {node.icon && (
+                    <foreignObject x={node.x - 2} y={node.y - 9} width="18" height="18">
+                      <div className="flex items-center justify-center w-full h-full">
+                        <node.icon className="w-3.5 h-3.5" />
+                      </div>
+                    </foreignObject>
+                  )}
                   <motion.text
-                    x={node.x + 22}
+                    x={node.icon ? node.x + 32 : node.x + 22}
                     y={node.y + 4}
                     textAnchor="middle"
-                    className="fill-white/80 text-[10px] font-medium"
+                    className="fill-white/80 text-[9px] font-medium"
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
