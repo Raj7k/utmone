@@ -1,12 +1,13 @@
 import { motion } from "framer-motion";
-import { TrendingUp, ArrowUpRight } from "lucide-react";
+import { TrendingUp, ArrowUpRight, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { LinkedInIcon, GoogleIcon } from "@/components/icons/SocialIcons";
 
 const metrics = [
-  { label: "Clicks", value: "12.5K", change: "+18%" },
-  { label: "Leads", value: "8.2K", change: "+24%" },
-  { label: "Sales", value: "$12K", change: "+31%" },
+  { label: "LinkedIn", value: "12.5K", change: "+18%", icon: LinkedInIcon, color: "#0A66C2" },
+  { label: "Google", value: "8.2K", change: "+24%", icon: GoogleIcon, color: null },
+  { label: "Email", value: "$12K", change: "+31%", icon: Mail, color: "#6366F1" },
 ];
 
 // Sparkline path data (normalized 0-100)
@@ -112,22 +113,28 @@ export function AnalyticsShowcaseCard({ variant = "dark" }: AnalyticsShowcaseCar
 
         {/* Metrics Row */}
         <div className="flex justify-between">
-          {metrics.map((metric, i) => (
-            <motion.div
-              key={metric.label}
-              initial={{ opacity: 0, y: 4 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2, delay: 0.4 + i * 0.05 }}
-              className="text-center"
-            >
-              <p className={cn("text-[10px] uppercase tracking-wider mb-0.5", isLight ? "text-zinc-400" : "text-white/40")}>{metric.label}</p>
-              <p className={cn("text-sm font-mono tabular-nums", isLight ? "text-zinc-800" : "text-white/90")}>{metric.value}</p>
-              <div className="flex items-center justify-center gap-0.5 mt-0.5">
-                <TrendingUp className="w-2.5 h-2.5 text-emerald-500" />
-                <span className="text-[10px] font-mono text-emerald-500">{metric.change}</span>
-              </div>
-            </motion.div>
-          ))}
+          {metrics.map((metric, i) => {
+            const Icon = metric.icon;
+            return (
+              <motion.div
+                key={metric.label}
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.2, delay: 0.4 + i * 0.05 }}
+                className="text-center"
+              >
+                <div className="flex items-center justify-center gap-1 mb-0.5">
+                  <Icon className="w-3 h-3" style={metric.color ? { color: metric.color } : undefined} />
+                  <p className={cn("text-[10px] uppercase tracking-wider", isLight ? "text-zinc-400" : "text-white/40")}>{metric.label}</p>
+                </div>
+                <p className={cn("text-sm font-mono tabular-nums", isLight ? "text-zinc-800" : "text-white/90")}>{metric.value}</p>
+                <div className="flex items-center justify-center gap-0.5 mt-0.5">
+                  <TrendingUp className="w-2.5 h-2.5 text-emerald-500" />
+                  <span className="text-[10px] font-mono text-emerald-500">{metric.change}</span>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* Timeline indicator */}
