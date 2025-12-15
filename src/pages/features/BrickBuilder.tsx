@@ -16,9 +16,9 @@ import {
   Check
 } from "lucide-react";
 import { FeatureLayout } from "@/components/features/FeatureLayout";
-import { FeatureCarouselSection } from "@/components/features/StaticFeatureCarouselSection";
-import { FeatureStatsStrip } from "@/components/features/StaticFeatureStatsStrip";
-import { FeatureFinalCTA } from "@/components/features/StaticFeatureFinalCTA";
+import { FeatureCarouselSection } from "@/components/features/FeatureCarouselSection";
+import { FeatureStatsStrip } from "@/components/features/FeatureStatsStrip";
+import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
 import { BrickBuilderDemoWidget } from "@/components/features/visuals/BrickBuilderDemoWidget";
 import { BrickDeviceShowcase } from "@/components/features/visuals/BrickDeviceShowcase";
 

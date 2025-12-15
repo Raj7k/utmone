@@ -19,7 +19,6 @@ export function useScrollReveal(
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('revealed');
-            entry.target.setAttribute('data-revealed', 'true');
             observerRef.current?.unobserve(entry.target);
           }
         });
@@ -37,7 +36,6 @@ export function useScrollReveal(
 
 /**
  * Hook for single element reveal - returns a ref to attach
- * Adds both 'revealed' class and data-revealed attribute for CSS targeting
  */
 export function useElementReveal<T extends HTMLElement = HTMLDivElement>() {
   const ref = useRef<T>(null);
@@ -50,7 +48,6 @@ export function useElementReveal<T extends HTMLElement = HTMLDivElement>() {
       ([entry]) => {
         if (entry.isIntersecting) {
           element.classList.add('revealed');
-          element.setAttribute('data-revealed', 'true');
           observer.disconnect();
         }
       },

@@ -1,10 +1,10 @@
 import { FeatureLayout } from "@/components/features/FeatureLayout";
-import { FeatureHero } from "@/components/features/StaticFeatureHero";
-import { FeatureStatsStrip } from "@/components/features/StaticFeatureStatsStrip";
-import { FeatureBentoGrid } from "@/components/features/StaticFeatureBentoGrid";
-import { FeatureBeforeAfter } from "@/components/features/StaticFeatureBeforeAfter";
-import { FeatureShowcase } from "@/components/features/StaticFeatureShowcase";
-import { FeatureFinalCTA } from "@/components/features/StaticFeatureFinalCTA";
+import { FeatureHero } from "@/components/features/FeatureHero";
+import { FeatureStatsStrip } from "@/components/features/FeatureStatsStrip";
+import { FeatureBentoGrid } from "@/components/features/FeatureBentoGrid";
+import { FeatureBeforeAfter } from "@/components/features/FeatureBeforeAfter";
+import { FeatureShowcase } from "@/components/features/FeatureShowcase";
+import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
 import { Users, Clock, Zap, Link2, Fingerprint, Shield } from "lucide-react";
 
 const IdentityResolution = () => {

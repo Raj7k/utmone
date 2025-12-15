@@ -1,9 +1,9 @@
 import { FeatureLayout } from "@/components/features/FeatureLayout";
-import { FeatureHero } from "@/components/features/StaticFeatureHero";
-import { FeatureStatsStrip } from "@/components/features/StaticFeatureStatsStrip";
-import { FeatureBentoGrid } from "@/components/features/StaticFeatureBentoGrid";
-import { FeatureShowcase } from "@/components/features/StaticFeatureShowcase";
-import { FeatureFinalCTA } from "@/components/features/StaticFeatureFinalCTA";
+import { FeatureHero } from "@/components/features/FeatureHero";
+import { FeatureStatsStrip } from "@/components/features/FeatureStatsStrip";
+import { FeatureBentoGrid } from "@/components/features/FeatureBentoGrid";
+import { FeatureShowcase } from "@/components/features/FeatureShowcase";
+import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
 import { Zap, Webhook, Code, MessageSquare, Mail, BarChart3, Users, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
