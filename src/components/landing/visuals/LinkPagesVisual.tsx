@@ -2,11 +2,14 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { FileText, Briefcase, ShoppingBag, Share2 } from "lucide-react";
 
-// Cinematic Link Pages: Single source → fiber diverge → multi-destination glow
+// Link Pages Visual: Matching Attribution structure exactly
+// Grey base, single orange accent, proper sizing
 export const LinkPagesVisual = () => {
   const [particles, setParticles] = useState<{ id: number; path: number; delay: number }[]>([]);
   const appleEase = [0.4, 0.0, 0.2, 1] as const;
-  const fiberOffsets = [-0.5, 0, 0.5]; // 3 strands per flow
+  const fiberOffsets = [-1, -0.5, 0, 0.5, 1]; // 5 strands matching Attribution
+  const fontStack = "'SF Mono', SFMono-Regular, ui-monospace, Menlo, monospace";
+  const accentColor = "#F97316"; // Single orange accent
 
   useEffect(() => {
     setParticles(Array.from({ length: 8 }, (_, i) => ({
@@ -16,13 +19,12 @@ export const LinkPagesVisual = () => {
     })));
   }, []);
 
-  // Single orange accent - grey base for all destinations
-  const accentColor = "#F97316";
+  // Destinations with proportional widths
   const destinations = [
-    { y: 15, label: "Blog", icon: FileText },
-    { y: 27, label: "Portfolio", icon: Briefcase },
-    { y: 39, label: "Store", icon: ShoppingBag },
-    { y: 51, label: "Social", icon: Share2 },
+    { y: 10, width: 28, icon: FileText },
+    { y: 22, width: 35, icon: Briefcase },
+    { y: 34, width: 42, icon: ShoppingBag },
+    { y: 46, width: 32, icon: Share2 },
   ];
 
   return (
@@ -45,18 +47,18 @@ export const LinkPagesVisual = () => {
           <feComposite in="SourceGraphic" in2="glow" operator="over" />
         </filter>
         
-        {/* Single flow gradient - orange accent throughout */}
-        <linearGradient id="lpFlowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#F97316" stopOpacity="0.8" />
+        {/* Flow gradient - orange to white to grey */}
+        <linearGradient id="lpFlow" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor={accentColor} stopOpacity="0.7" />
           <stop offset="40%" stopColor="#FFFFFF" stopOpacity="0.9" />
           <stop offset="100%" stopColor="#71717A" stopOpacity="0.5" />
         </linearGradient>
         
         {/* Source gradient */}
         <radialGradient id="sourceGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.8" />
-          <stop offset="50%" stopColor="#F97316" stopOpacity="0.4" />
-          <stop offset="100%" stopColor="#F97316" stopOpacity="0.1" />
+          <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.9" />
+          <stop offset="40%" stopColor={accentColor} stopOpacity="0.5" />
+          <stop offset="100%" stopColor={accentColor} stopOpacity="0.15" />
         </radialGradient>
         
         {/* Dot grid */}
@@ -68,40 +70,55 @@ export const LinkPagesVisual = () => {
       {/* Background */}
       <rect x="0" y="0" width="120" height="60" fill="url(#lpDotGrid)" opacity="0.3" />
 
-      {/* Source: Single link with frosted glass and glow */}
+      {/* Source node - single link origin */}
       <motion.g
-        initial={{ opacity: 0, x: -8 }}
-        animate={{ opacity: 1, x: 0 }}
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, ease: appleEase }}
       >
-        <rect x="4" y="24" width="20" height="12" rx="2" fill="url(#sourceGlow)" />
-        <rect x="4" y="24" width="20" height="12" rx="2" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="0.4" />
-        {/* Pulse glow */}
-        <motion.rect
-          x="4"
-          y="24"
-          width="20"
-          height="12"
-          rx="2"
+        <circle cx="18" cy="30" r="10" fill="url(#sourceGlow)" />
+        <circle cx="18" cy="30" r="10" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="0.4" />
+        {/* Pulse ring */}
+        <motion.circle
+          cx="18"
+          cy="30"
+          r="10"
           fill="none"
-          stroke="#F97316"
-          strokeWidth="0.3"
-          animate={{ strokeOpacity: [0.3, 0.7, 0.3] }}
+          stroke={accentColor}
+          strokeWidth="0.5"
+          animate={{ 
+            r: [10, 13, 10],
+            opacity: [0.5, 0.1, 0.5],
+          }}
           transition={{ duration: 1, repeat: Infinity, ease: appleEase }}
         />
-        <text x="14" y="31.5" fill="white" fontSize="2.5" textAnchor="middle" fontFamily="ui-monospace" opacity="0.8">utm.one</text>
+        {/* Inner core */}
+        <circle cx="18" cy="30" r="5" fill="rgba(249,115,22,0.2)" stroke={accentColor} strokeWidth="0.4" />
+        <text 
+          x="18" 
+          y="32" 
+          fill="white" 
+          fontSize="4" 
+          textAnchor="middle" 
+          fontFamily={fontStack}
+          fontWeight="bold"
+          opacity="0.9"
+        >
+          1
+        </text>
       </motion.g>
 
-      {/* Multi-strand fiber flows to destinations - grey base with orange center */}
+      {/* Multi-strand fiber flows to destinations - 5 strands each */}
       {destinations.map((dest, destIdx) => (
         fiberOffsets.map((offset, strandIdx) => {
-          const isCenter = strandIdx === 1;
+          const isCenter = strandIdx === 2;
+          const baseY = dest.y + 3;
           return (
             <motion.path
               key={`fiber-${destIdx}-${strandIdx}`}
-              d={`M 24 ${30 + offset} Q 55 ${30 + offset * 0.5}, 88 ${dest.y + 3 + offset * 0.3}`}
+              d={`M 28 ${30 + offset * 0.6} Q 55 ${30 + (baseY - 30) * 0.3 + offset * 0.4}, ${120 - dest.width - 4} ${baseY + offset * 0.3}`}
               fill="none"
-              stroke={isCenter ? "url(#lpFlowGradient)" : "#52525B"}
+              stroke={isCenter ? "url(#lpFlow)" : "#52525B"}
               strokeWidth={isCenter ? 1.0 : 0.3}
               strokeLinecap="round"
               strokeOpacity={isCenter ? 0.8 : 0.2}
@@ -114,110 +131,79 @@ export const LinkPagesVisual = () => {
         })
       ))}
 
-      {/* Destination bars with icons - grey base, subtle orange pulse */}
+      {/* Destination bars with icons OUTSIDE on right side */}
       {destinations.map((dest, i) => {
         const IconComponent = dest.icon;
+        const barX = 120 - dest.width - 4;
         return (
-          <motion.g key={`dest-${i}`}>
+          <g key={`dest-${i}`}>
             <motion.rect
-              x="90"
+              x={barX}
               y={dest.y}
-              width="24"
+              width={dest.width}
               height="6"
-              rx="1"
-              fill="rgba(63,63,70,0.3)"
-              stroke="rgba(255,255,255,0.15)"
+              rx="2"
+              fill="#52525B"
+              fillOpacity={0.2}
+              stroke="#52525B"
+              strokeOpacity={0.5}
               strokeWidth="0.4"
-              initial={{ scaleX: 0, opacity: 0 }}
-              animate={{ scaleX: 1, opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.5 + i * 0.08, ease: appleEase }}
+              initial={{ width: 0 }}
+              animate={{ width: dest.width }}
+              transition={{ duration: 0.5, delay: 0.5 + i * 0.08, ease: appleEase }}
             />
-            {/* Subtle pulse - grey with hint of orange */}
+            {/* Pulse glow */}
             <motion.rect
-              x="90"
+              x={barX}
               y={dest.y}
-              width="24"
+              width={dest.width}
               height="6"
-              rx="1"
+              rx="2"
               fill="none"
-              stroke={accentColor}
+              stroke="#71717A"
               strokeWidth="0.3"
-              animate={{ 
-                strokeOpacity: [0.1, 0.3, 0.1],
-              }}
-              transition={{ 
-                duration: 1.5,
-                delay: i * 0.25,
-                repeat: Infinity,
-                ease: appleEase,
-              }}
+              animate={{ strokeOpacity: [0.2, 0.5, 0.2] }}
+              transition={{ duration: 1.5, delay: i * 0.2, repeat: Infinity, ease: appleEase }}
             />
-            {/* Icon - grey base */}
-            <foreignObject x="91" y={dest.y + 0.5} width="5" height="5">
+            {/* Icon OUTSIDE bar on right - mirrored from Attribution */}
+            <foreignObject x="110" y={dest.y - 1} width="10" height="8">
               <div className="flex items-center justify-center w-full h-full">
-                <IconComponent className="w-1.5 h-1.5 text-zinc-400" strokeWidth={2} />
+                <IconComponent className="w-2 h-2 text-zinc-400" strokeWidth={2} />
               </div>
             </foreignObject>
-            <motion.text
-              x="105"
-              y={dest.y + 4.2}
-              fill="white"
-              fontSize="2.5"
-              textAnchor="middle"
-              fontFamily="ui-monospace"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.6 }}
-              transition={{ delay: 0.7 + i * 0.08, ease: appleEase }}
-            >
-              {dest.label}
-            </motion.text>
-          </motion.g>
+          </g>
         );
       })}
 
       {/* Heartbeat particles - single orange accent */}
       {particles.map((particle) => {
         const dest = destinations[particle.path];
+        const barX = 120 - dest.width - 4;
         return (
           <motion.circle
             key={particle.id}
-            r="1.2"
+            r="1.5"
             fill={accentColor}
             filter="url(#lpFiberGlow)"
             initial={{ offsetDistance: "0%", opacity: 0 }}
             animate={{
               offsetDistance: ["0%", "100%"],
               opacity: [0, 1, 1, 0],
-              scale: [0.8, 1.3, 0.8],
+              scale: [0.8, 1.2, 0.8],
             }}
             transition={{
               duration: 1,
               delay: particle.delay,
               repeat: Infinity,
-              repeatDelay: 1.5,
+              repeatDelay: 0.5,
               ease: appleEase,
             }}
             style={{
-              offsetPath: `path("M 24 30 Q 55 30, 88 ${dest.y + 3}")`,
+              offsetPath: `path("M 28 30 Q 55 ${30 + (dest.y + 3 - 30) * 0.3}, ${barX} ${dest.y + 3}")`,
             }}
           />
         );
       })}
-
-      {/* Stats */}
-      <motion.text
-        x="15"
-        y="56"
-        fill="white"
-        fontSize="2.5"
-        fontFamily="ui-monospace"
-        fillOpacity="0.4"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, ease: appleEase }}
-      >
-        47 links · 12.4K clicks
-      </motion.text>
     </svg>
   );
 };
