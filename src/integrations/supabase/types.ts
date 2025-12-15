@@ -3966,6 +3966,62 @@ export type Database = {
           },
         ]
       }
+      link_pages: {
+        Row: {
+          bio: string | null
+          created_at: string | null
+          created_by: string | null
+          custom_domain: string | null
+          id: string
+          is_published: boolean | null
+          metadata: Json | null
+          scheduled_publish_at: string | null
+          slug: string
+          theme: string | null
+          title: string
+          updated_at: string | null
+          workspace_id: string
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          custom_domain?: string | null
+          id?: string
+          is_published?: boolean | null
+          metadata?: Json | null
+          scheduled_publish_at?: string | null
+          slug: string
+          theme?: string | null
+          title: string
+          updated_at?: string | null
+          workspace_id: string
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          custom_domain?: string | null
+          id?: string
+          is_published?: boolean | null
+          metadata?: Json | null
+          scheduled_publish_at?: string | null
+          slug?: string
+          theme?: string | null
+          title?: string
+          updated_at?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "link_pages_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       link_previews: {
         Row: {
           cached_at: string | null
@@ -6844,158 +6900,6 @@ export type Database = {
           },
         ]
       }
-      link_page_blocks: {
-        Row: {
-          created_at: string
-          data: Json
-          id: string
-          is_enabled: boolean
-          order_index: number
-          page_id: string
-          type: Database["public"]["Enums"]["link_page_block_type"]
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          data?: Json
-          id?: string
-          is_enabled?: boolean
-          order_index?: number
-          page_id: string
-          type: Database["public"]["Enums"]["link_page_block_type"]
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          data?: Json
-          id?: string
-          is_enabled?: boolean
-          order_index?: number
-          page_id?: string
-          type?: Database["public"]["Enums"]["link_page_block_type"]
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "link_page_blocks_page_id_fkey"
-            columns: ["page_id"]
-            isOneToOne: false
-            referencedRelation: "link_pages"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      link_page_events: {
-        Row: {
-          block_id: string | null
-          country: string | null
-          event_type: Database["public"]["Enums"]["link_page_event_type"]
-          id: string
-          ip_hash: string | null
-          occurred_at: string
-          page_id: string
-          referrer: string | null
-          user_agent_hash: string | null
-        }
-        Insert: {
-          block_id?: string | null
-          country?: string | null
-          event_type: Database["public"]["Enums"]["link_page_event_type"]
-          id?: string
-          ip_hash?: string | null
-          occurred_at?: string
-          page_id: string
-          referrer?: string | null
-          user_agent_hash?: string | null
-        }
-        Update: {
-          block_id?: string | null
-          country?: string | null
-          event_type?: Database["public"]["Enums"]["link_page_event_type"]
-          id?: string
-          ip_hash?: string | null
-          occurred_at?: string
-          page_id?: string
-          referrer?: string | null
-          user_agent_hash?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "link_page_events_block_id_fkey"
-            columns: ["block_id"]
-            isOneToOne: false
-            referencedRelation: "link_page_blocks"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "link_page_events_page_id_fkey"
-            columns: ["page_id"]
-            isOneToOne: false
-            referencedRelation: "link_pages"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      link_pages: {
-        Row: {
-          avatar_url: string | null
-          created_at: string
-          created_by: string | null
-          description: string | null
-          id: string
-          published_at: string | null
-          slug: string
-          status: Database["public"]["Enums"]["link_page_status"]
-          theme: Json
-          title: string
-          updated_at: string
-          workspace_id: string
-        }
-        Insert: {
-          avatar_url?: string | null
-          created_at?: string
-          created_by?: string | null
-          description?: string | null
-          id?: string
-          published_at?: string | null
-          slug: string
-          status?: Database["public"]["Enums"]["link_page_status"]
-          theme?: Json
-          title: string
-          updated_at?: string
-          workspace_id: string
-        }
-        Update: {
-          avatar_url?: string | null
-          created_at?: string
-          created_by?: string | null
-          description?: string | null
-          id?: string
-          published_at?: string | null
-          slug?: string
-          status?: Database["public"]["Enums"]["link_page_status"]
-          theme?: Json
-          title?: string
-          updated_at?: string
-          workspace_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "link_pages_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "link_pages_workspace_id_fkey"
-            columns: ["workspace_id"]
-            isOneToOne: false
-            referencedRelation: "workspaces"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
     }
     Views: {
       audit_statistics: {
@@ -7957,49 +7861,6 @@ export type Database = {
         Args: { p_user_id: string; p_visitor_id: string }
         Returns: number
       }
-      get_link_page_analytics: {
-        Args: {
-          p_workspace_id: string
-          p_page_id?: string | null
-          p_start?: string
-          p_end?: string
-        }
-        Returns: {
-          page_id: string | null
-          block_id: string | null
-          event_type: Database["public"]["Enums"]["link_page_event_type"] | null
-          total_events: number
-          unique_visitors: number
-        }[]
-      }
-      get_published_link_page: {
-        Args: {
-          p_slug: string
-        }
-        Returns: {
-          avatar_url: string | null
-          blocks: Json | null
-          description: string | null
-          id: string | null
-          published_at: string | null
-          slug: string | null
-          theme: Json | null
-          title: string | null
-          workspace_id: string | null
-        }[]
-      }
-      log_link_page_event: {
-        Args: {
-          p_page_id: string
-          p_block_id?: string | null
-          p_event_type: Database["public"]["Enums"]["link_page_event_type"]
-          p_ip_hash?: string | null
-          p_user_agent_hash?: string | null
-          p_referrer?: string | null
-          p_country?: string | null
-        }
-        Returns: Database["public"]["Tables"]["link_page_events"]["Row"] | null
-      }
       update_link_cache_scores: { Args: never; Returns: undefined }
       update_traffic_scores: { Args: never; Returns: undefined }
       update_waitlist_positions: { Args: never; Returns: undefined }
@@ -8024,9 +7885,6 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "user"
-      link_page_block_type: "link" | "header" | "text" | "socials"
-      link_page_event_type: "page_view" | "block_click"
-      link_page_status: "draft" | "published"
       link_status:
         | "active"
         | "paused"
@@ -8200,9 +8058,6 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
-      link_page_block_type: ["link", "header", "text", "socials"],
-      link_page_event_type: ["page_view", "block_click"],
-      link_page_status: ["draft", "published"],
       link_status: [
         "active",
         "paused",

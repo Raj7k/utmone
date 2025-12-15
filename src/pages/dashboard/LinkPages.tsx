@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { Plus, Copy, Trash, ToggleRight } from "lucide-react";
@@ -41,7 +41,7 @@ export default function LinkPages() {
   const [days, setDays] = useState<number>(7);
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
-  const [description, setDescription] = useState("");
+  const [bio, setBio] = useState("");
   const range = buildRange(days);
 
   const { data, isLoading } = useLinkPages(currentWorkspace?.id, range);
@@ -49,22 +49,6 @@ export default function LinkPages() {
   const duplicateMutation = useDuplicateLinkPage(currentWorkspace?.id);
   const deleteMutation = useDeleteLinkPage();
   const publishMutation = usePublishLinkPage();
-
-  const analyticsByPage = useMemo(() => {
-    const map = new Map<string, { views: number; uniques: number; clicks: number }>();
-    data?.analytics?.forEach(row => {
-      const entry = map.get(row.page_id || "") || { views: 0, uniques: 0, clicks: 0 };
-      if (row.event_type === "page_view") {
-        entry.views += row.total_events || 0;
-        entry.uniques += row.unique_visitors || 0;
-      }
-      if (row.event_type === "block_click") {
-        entry.clicks += row.total_events || 0;
-      }
-      map.set(row.page_id || "", entry);
-    });
-    return map;
-  }, [data?.analytics]);
 
   const handleCreate = async () => {
     if (!title || !slug) {
@@ -75,10 +59,10 @@ export default function LinkPages() {
       toast({ variant: "destructive", description: "Slug must be 3-64 characters and lowercase" });
       return;
     }
-    await createMutation.mutateAsync({ title, slug, description });
+    await createMutation.mutateAsync({ title, slug, bio });
     setTitle("");
     setSlug("");
-    setDescription("");
+    setBio("");
   };
 
   const rows = data?.pages || [];
@@ -116,11 +100,11 @@ export default function LinkPages() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="page-description">Description</Label>
+                <Label htmlFor="page-bio">Bio</Label>
                 <Input
-                  id="page-description"
-                  value={description}
-                  onChange={e => setDescription(e.target.value)}
+                  id="page-bio"
+                  value={bio}
+                  onChange={e => setBio(e.target.value)}
                   placeholder="Optional subtitle"
                 />
               </div>
@@ -162,13 +146,11 @@ export default function LinkPages() {
                   <TableHead>Page</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Updated</TableHead>
-                  <TableHead className="text-right">Views ({days}d)</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {rows.map(page => {
-                  const stats = analyticsByPage.get(page.id) || { views: 0, uniques: 0, clicks: 0 };
                   return (
                     <TableRow key={page.id}>
                       <TableCell>
@@ -176,14 +158,12 @@ export default function LinkPages() {
                         <div className="text-xs text-muted-foreground">/u/{page.slug}</div>
                       </TableCell>
                       <TableCell>
-                        <Badge variant={page.status === "published" ? "default" : "secondary"}>{page.status}</Badge>
+                        <Badge variant={page.is_published ? "default" : "secondary"}>
+                          {page.is_published ? "published" : "draft"}
+                        </Badge>
                       </TableCell>
                       <TableCell className="text-muted-foreground text-sm">
                         {page.updated_at ? formatDistanceToNow(new Date(page.updated_at), { addSuffix: true }) : "—"}
-                      </TableCell>
-                      <TableCell className="text-right text-sm">
-                        <div className="font-semibold">{stats.views}</div>
-                        <div className="text-xs text-muted-foreground">{stats.uniques} uniques</div>
                       </TableCell>
                       <TableCell className="flex justify-end gap-2">
                         <Button size="sm" variant="outline" onClick={() => navigate(`/dashboard/link-pages/${page.id}`)}>
@@ -199,11 +179,11 @@ export default function LinkPages() {
                         </Button>
                         <Button
                           size="sm"
-                          variant={page.status === "published" ? "secondary" : "default"}
-                          onClick={() => publishMutation.mutate({ id: page.id, publish: page.status !== "published" })}
+                          variant={page.is_published ? "secondary" : "default"}
+                          onClick={() => publishMutation.mutate({ id: page.id, publish: !page.is_published })}
                         >
                           <ToggleRight className="h-4 w-4 mr-1" />
-                          {page.status === "published" ? "Unpublish" : "Publish"}
+                          {page.is_published ? "Unpublish" : "Publish"}
                         </Button>
                         <Button
                           size="sm"

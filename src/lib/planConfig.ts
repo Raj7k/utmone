@@ -76,6 +76,14 @@ export interface PlanFeatures {
   canBulkGenerateQR: boolean;
   canSaveQRTemplates: boolean;
   qrMaxResolution: number;
+  
+  // Link Pages (link-in-bio)
+  linkPages: number | 'unlimited';
+  linkPagesAdvancedThemes: boolean;
+  linkPagesScheduledPublish: boolean;
+  linkPagesBrandedDomains: boolean;
+  linkPagesExport: boolean;
+  linkPagesFullAnalytics: boolean;
 }
 
 export interface PlanDetails {
@@ -159,6 +167,14 @@ export const PLAN_CONFIG: Record<PlanTier, PlanDetails> = {
       canBulkGenerateQR: false,
       canSaveQRTemplates: false,
       qrMaxResolution: 512,
+      
+      // Link Pages
+      linkPages: 1,
+      linkPagesAdvancedThemes: false,
+      linkPagesScheduledPublish: false,
+      linkPagesBrandedDomains: false,
+      linkPagesExport: false,
+      linkPagesFullAnalytics: false,
     },
     cta: 'get started free',
   },
@@ -230,6 +246,14 @@ export const PLAN_CONFIG: Record<PlanTier, PlanDetails> = {
       canBulkGenerateQR: false,
       canSaveQRTemplates: false,
       qrMaxResolution: 1024,
+      
+      // Link Pages
+      linkPages: 3,
+      linkPagesAdvancedThemes: false,
+      linkPagesScheduledPublish: false,
+      linkPagesBrandedDomains: false,
+      linkPagesExport: false,
+      linkPagesFullAnalytics: false,
     },
     cta: 'start starter',
   },
@@ -301,6 +325,14 @@ export const PLAN_CONFIG: Record<PlanTier, PlanDetails> = {
       canBulkGenerateQR: false,
       canSaveQRTemplates: true,
       qrMaxResolution: 2048,
+      
+      // Link Pages
+      linkPages: 10,
+      linkPagesAdvancedThemes: true,
+      linkPagesScheduledPublish: true,
+      linkPagesBrandedDomains: false,
+      linkPagesExport: false,
+      linkPagesFullAnalytics: true,
     },
     cta: 'start growth',
     popular: true,
@@ -374,6 +406,14 @@ export const PLAN_CONFIG: Record<PlanTier, PlanDetails> = {
       canBulkGenerateQR: true,
       canSaveQRTemplates: true,
       qrMaxResolution: 4096,
+      
+      // Link Pages
+      linkPages: 'unlimited',
+      linkPagesAdvancedThemes: true,
+      linkPagesScheduledPublish: true,
+      linkPagesBrandedDomains: true,
+      linkPagesExport: true,
+      linkPagesFullAnalytics: true,
     },
     cta: 'start business',
   },
@@ -445,6 +485,14 @@ export const PLAN_CONFIG: Record<PlanTier, PlanDetails> = {
       canBulkGenerateQR: true,
       canSaveQRTemplates: true,
       qrMaxResolution: 4096,
+      
+      // Link Pages
+      linkPages: 'unlimited',
+      linkPagesAdvancedThemes: true,
+      linkPagesScheduledPublish: true,
+      linkPagesBrandedDomains: true,
+      linkPagesExport: true,
+      linkPagesFullAnalytics: true,
     },
     cta: 'contact sales',
   },
