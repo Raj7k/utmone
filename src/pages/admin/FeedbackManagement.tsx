@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { requireUserId } from "@/lib/getCachedUser";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -222,15 +223,14 @@ export default function FeedbackManagement() {
 
   const submitResponseMutation = useMutation({
     mutationFn: async ({ id, response }: { id: string; response: string }) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+      const userId = requireUserId();
       
       const { error } = await supabase
         .from("feedback")
         .update({ 
           admin_response: response,
           responded_at: new Date().toISOString(),
-          responded_by: user.id
+          responded_by: userId
         })
         .eq("id", id);
       if (error) throw error;

@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { calculateWinProbability, shouldStopTest } from "@/lib/bayesianOptimization";
+import { requireUserId } from "@/lib/getCachedUser";
 
 export interface ABTest {
   id: string;
@@ -53,15 +54,14 @@ export const useABTests = (workspaceId: string) => {
 
   const createTest = useMutation({
     mutationFn: async (test: Omit<ABTest, "id" | "created_at" | "updated_at" | "created_by">) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+      const userId = requireUserId();
 
       const { data, error } = await supabase
         .from("ab_tests")
         .insert({
           ...test,
           workspace_id: workspaceId,
-          created_by: user.id,
+          created_by: userId,
         })
         .select()
         .single();

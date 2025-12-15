@@ -1,4 +1,3 @@
-import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 
 const processingSteps = [
@@ -42,40 +41,36 @@ export const BreathingMonolith = ({ onComplete, duration = 3000 }: BreathingMono
         }}
       />
 
-      {/* The Breathing Pulse */}
-      <motion.div
-        className="w-24 h-1 rounded-full bg-white shadow-[0_0_4px_hsl(0_0%_100%_/_0.2)]"
-        animate={{
-          opacity: [0.2, 1, 0.2],
-          scaleX: [1, 1.1, 1],
-          boxShadow: [
-            "0 0 4px hsl(0 0% 100% / 0.2)",
-            "0 0 12px hsl(0 0% 100% / 0.6)",
-            "0 0 4px hsl(0 0% 100% / 0.2)"
-          ]
-        }}
-        transition={{
-          duration: 3,
-          ease: "easeInOut",
-          repeat: Infinity,
-        }}
-      />
+      {/* The Breathing Pulse - CSS Animation */}
+      <div className="w-24 h-1 rounded-full bg-white animate-breathing-pulse" />
 
-      {/* Typewriter Micro-Copy */}
+      {/* Typewriter Micro-Copy - CSS Animation */}
       <div className="mt-8 h-5">
-        <AnimatePresence mode="wait">
-          <motion.p
-            key={stepIndex}
-            initial={{ opacity: 0, y: 4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.2 }}
-            className="text-zinc-500 text-xs font-mono tracking-wide"
-          >
-            {processingSteps[stepIndex]}
-          </motion.p>
-        </AnimatePresence>
+        <p
+          key={stepIndex}
+          className="text-zinc-500 text-xs font-mono tracking-wide animate-fade-in"
+        >
+          {processingSteps[stepIndex]}
+        </p>
       </div>
+
+      <style>{`
+        @keyframes breathing-pulse {
+          0%, 100% {
+            opacity: 0.2;
+            transform: scaleX(1);
+            box-shadow: 0 0 4px hsl(0 0% 100% / 0.2);
+          }
+          50% {
+            opacity: 1;
+            transform: scaleX(1.1);
+            box-shadow: 0 0 12px hsl(0 0% 100% / 0.6);
+          }
+        }
+        .animate-breathing-pulse {
+          animation: breathing-pulse 3s ease-in-out infinite;
+        }
+      `}</style>
     </div>
   );
 };

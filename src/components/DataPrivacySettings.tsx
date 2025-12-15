@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { getCachedUserId, requireUserId } from "@/lib/getCachedUser";
 import { toast } from "sonner";
 import { Download, Shield, Eye, EyeOff } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -26,13 +27,13 @@ export function DataPrivacySettings() {
   const { data: profile, isLoading } = useQuery({
     queryKey: ['profile-privacy'],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
+      const userId = getCachedUserId();
+      if (!userId) throw new Error('Not authenticated');
 
       const { data, error } = await supabase
         .from('profiles')
         .select('tracking_consent, data_retention_days')
-        .eq('id', user.id)
+        .eq('id', userId)
         .single();
 
       if (error) throw error;
@@ -42,13 +43,12 @@ export function DataPrivacySettings() {
 
   const updatePrivacyMutation = useMutation({
     mutationFn: async (updates: Partial<{ tracking_consent: boolean; data_retention_days: number }>) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
+      const userId = requireUserId();
 
       const { error } = await supabase
         .from('profiles')
         .update(updates)
-        .eq('id', user.id);
+        .eq('id', userId);
 
       if (error) throw error;
     },

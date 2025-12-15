@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { getCachedUserId } from "@/lib/getCachedUser";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -90,7 +91,7 @@ export const WebhookManager = ({ workspaceId }: WebhookManagerProps) => {
       webhook_url: endpointUrl,
       event_type: selectedEvent,
       secret: secretKey,
-      created_by: (await supabase.auth.getUser()).data.user?.id,
+      created_by: getCachedUserId(),
     });
 
     if (error) {

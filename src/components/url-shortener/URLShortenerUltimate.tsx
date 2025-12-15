@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { requireUserId } from '@/lib/getCachedUser';
 import { notify } from '@/lib/notify';
 import { useWorkspaceContext } from '@/contexts/WorkspaceContext';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -164,9 +165,7 @@ export const URLShortenerUltimate = () => {
     mutationFn: async (data: UltimateURLFormData) => {
       if (!workspaceId) throw new Error('no workspace found');
 
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('not authenticated');
-
+      const userId = requireUserId();
       // Check for duplicates
       const duplicates = await checkForDuplicates(data.url);
       
@@ -194,7 +193,7 @@ export const URLShortenerUltimate = () => {
         .from('links')
         .insert({
           workspace_id: workspaceId,
-          created_by: user.id,
+          created_by: userId,
           title: data.title,
           slug: data.slug,
           destination_url: data.url,

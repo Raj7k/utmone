@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link2, ArrowLeft, Shuffle, CheckCircle2, AlertCircle, Globe, AlertTriangle, Route, Briefcase, Bell, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { requireUserId } from "@/lib/getCachedUser";
 import { notify } from "@/lib/notify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { generateSlugFromTitle } from "@/lib/slugify";
@@ -136,8 +137,7 @@ export const Step2Shortener = ({
 
   const createLinkMutation = useMutation({
     mutationFn: async (data: ShortenerFormData) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("not authenticated");
+      const userId = requireUserId();
 
       // Prepare destinations data for storage
       const hasMultipleDestinations = destinations.length > 1;
@@ -147,7 +147,7 @@ export const Step2Shortener = ({
         .from("links")
         .insert({
           workspace_id: workspaceId,
-          created_by: user.id,
+          created_by: userId,
           title: data.title,
           slug: data.slug,
           destination_url: destinations[0]?.url || utmUrl,

@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { getCachedUserId } from "@/lib/getCachedUser";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { Shield, AlertTriangle } from "lucide-react";
 
@@ -39,8 +40,8 @@ export const AdminMFAGuard = ({ children }: AdminMFAGuardProps) => {
   const { data: mfaStatus, isLoading: isMfaLoading, refetch } = useQuery({
     queryKey: ['admin-mfa-status-secure', location.pathname],
     queryFn: async (): Promise<MFACheckResult> => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
+      const userId = getCachedUserId();
+      if (!userId) {
         return { requiresMFA: false, hasKeys: false, mfaVerified: false, domainMismatch: false };
       }
 
@@ -48,7 +49,7 @@ export const AdminMFAGuard = ({ children }: AdminMFAGuardProps) => {
       const { data: authenticators, error: authError } = await supabase
         .from('user_authenticators')
         .select('id, registered_domain')
-        .eq('user_id', user.id);
+        .eq('user_id', userId);
 
       if (authError || !authenticators || authenticators.length === 0) {
         // No security keys registered - MFA not required
@@ -79,7 +80,7 @@ export const AdminMFAGuard = ({ children }: AdminMFAGuardProps) => {
       // 1. No session verification exists
       // 2. Session verification is for a different user
       // 3. Session verification expired (15 minutes for admin security)
-      if (!sessionMFAVerified || sessionUserId !== user.id) {
+      if (!sessionMFAVerified || sessionUserId !== userId) {
         return { requiresMFA: true, hasKeys: true, mfaVerified: false, domainMismatch: false };
       }
 
