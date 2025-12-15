@@ -20,6 +20,10 @@ export { useDashboardPrefetch } from "./useDashboardPrefetch";
 export { useDashboardCore } from "./useDashboardCore";
 export type { DashboardCoreLink, DashboardCoreStats, DashboardCoreOnboarding } from "./useDashboardCore";
 
+// Analytics-focused hook (3 queries instead of 10)
+export { useAnalyticsData } from "./useAnalyticsData";
+export type { AnalyticsData, ExecutiveMetrics, AnalyticsHeatmapCell } from "./useAnalyticsData";
+
 // Domain-specific lightweight hooks
 export { useSalesData } from "./useSalesData";
 export type { SalesLink } from "./useSalesData";

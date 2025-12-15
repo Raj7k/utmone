@@ -2,7 +2,7 @@ import { useState, useEffect, lazy, Suspense, useMemo } from "react";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { useIntelligenceData } from "@/hooks/useIntelligenceData";
-import { useDashboardUnified } from "@/hooks/dashboard";
+import { useCampaignsData } from "@/hooks/dashboard";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -62,16 +62,13 @@ export default function Intelligence() {
     ? Math.ceil((customRange.to.getTime() - customRange.from.getTime()) / (1000 * 60 * 60 * 24)) + 1
     : periodDays[period];
 
-  // OPTIMIZED: Use shared dashboard cache for instant initial data
-  const { campaigns: cachedCampaigns, links, isFetched: hasCachedData } = useDashboardUnified();
+  // OPTIMIZED: Use lightweight campaign hook (1 query instead of 10)
+  const { campaigns: cachedCampaigns, isLoading: campaignsLoading } = useCampaignsData();
 
-  // Calculate total clicks from cached links
-  const cachedTotalClicks = links?.reduce((sum, link) => sum + (link.total_clicks || 0), 0) || 0;
-
-  // Pass preloaded data to skip redundant queries
-  const preloaded = hasCachedData ? {
-    totalClicks: cachedTotalClicks,
-    campaigns: cachedCampaigns?.map(c => ({ id: c.id, name: c.name })),
+  // Pass preloaded campaigns to intelligence hook
+  const preloaded = !campaignsLoading && cachedCampaigns ? {
+    totalClicks: 0, // Let intelligence hook fetch this
+    campaigns: cachedCampaigns.map(c => ({ id: c.id, name: c.name })),
   } : undefined;
 
   // Use unified data hook for fast loading - leverages shared cache + preloaded data
