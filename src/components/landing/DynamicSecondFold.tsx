@@ -24,6 +24,7 @@ import {
   Zap
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { LinkedInIcon, GoogleIcon } from "@/components/icons/SocialIcons";
 import { ParallaxSection } from "./ParallaxSection";
 
 interface DynamicSecondFoldProps {
@@ -81,27 +82,33 @@ const AttributionContent = () => (
           {/* Attribution Bars */}
           <div className="space-y-3">
             {[
-              { channel: "Nike Organic Content", credit: 35, opacity: 1 },
-              { channel: "Tesla Podcast Mentions", credit: 25, opacity: 0.8 },
-              { channel: "Apple LinkedIn Organic", credit: 20, opacity: 0.6 },
-              { channel: "Google Ads", credit: 20, opacity: 0.4 }
-            ].map((item, i) => (
-              <div key={item.channel} className="space-y-1.5">
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">{item.channel}</span>
-                  <span className="font-semibold text-foreground">{item.credit}%</span>
+              { channel: "Nike Organic Content", credit: 35, opacity: 1, icon: null },
+              { channel: "Tesla Podcast Mentions", credit: 25, opacity: 0.8, icon: null },
+              { channel: "Organic", credit: 20, opacity: 0.6, icon: LinkedInIcon, iconColor: "#0A66C2" },
+              { channel: "Ads", credit: 20, opacity: 0.4, icon: GoogleIcon, iconColor: null }
+            ].map((item, i) => {
+              const Icon = item.icon;
+              return (
+                <div key={item.channel} className="space-y-1.5">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground inline-flex items-center gap-1.5">
+                      {Icon && <Icon className="w-4 h-4" style={item.iconColor ? { color: item.iconColor } : undefined} />}
+                      {item.channel}
+                    </span>
+                    <span className="font-semibold text-foreground">{item.credit}%</span>
+                  </div>
+                  <div className="h-2.5 rounded-full overflow-hidden bg-muted/30">
+                    <motion.div 
+                      className="h-full rounded-full bg-primary"
+                      style={{ opacity: item.opacity }}
+                      initial={{ width: 0 }}
+                      animate={{ width: `${item.credit}%` }}
+                      transition={{ duration: 0.8, delay: 0.4 + i * 0.1 }}
+                    />
+                  </div>
                 </div>
-                <div className="h-2.5 rounded-full overflow-hidden bg-muted/30">
-                  <motion.div 
-                    className="h-full rounded-full bg-primary"
-                    style={{ opacity: item.opacity }}
-                    initial={{ width: 0 }}
-                    animate={{ width: `${item.credit}%` }}
-                    transition={{ duration: 0.8, delay: 0.4 + i * 0.1 }}
-                  />
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
           
           {/* Comparison Badge */}

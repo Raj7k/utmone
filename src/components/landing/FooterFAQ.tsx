@@ -4,6 +4,7 @@ import { EarlyAccessInlineCTA } from "./EarlyAccessInlineCTA";
 import { formatText } from "@/utils/textFormatter";
 import { Sparkles, TrendingUp, Shield } from "lucide-react";
 import { useRef } from "react";
+import { GoogleIcon, MetaIcon, LinkedInIcon } from "@/components/icons/SocialIcons";
 
 interface FAQItem {
   question: string;
@@ -30,7 +31,12 @@ const faqs: FAQItem[] = [
         <ul className="mt-3 space-y-2 ml-4">
           <li className="flex items-start gap-2">
             <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
-            <span>Paid campaigns — consistent UTMs across Google, Meta, LinkedIn</span>
+            <span className="inline-flex items-center gap-1 flex-wrap">
+              Paid campaigns — consistent UTMs across 
+              <GoogleIcon className="w-4 h-4 inline" style={{ color: "#4285F4" }} />
+              <MetaIcon className="w-4 h-4 inline" style={{ color: "#0668E1" }} />
+              <LinkedInIcon className="w-4 h-4 inline" style={{ color: "#0A66C2" }} />
+            </span>
           </li>
           <li className="flex items-start gap-2">
             <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />

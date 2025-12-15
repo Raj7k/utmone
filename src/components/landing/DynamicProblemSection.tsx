@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { UseCaseType } from "./SideNavHero";
 import { AlertTriangle, TrendingDown, Shuffle, Clock, FileWarning } from "lucide-react";
+import { LinkedInIcon, GoogleIcon, SpotifyIcon } from "@/components/icons/SocialIcons";
 
 interface DynamicProblemSectionProps {
   selectedUseCase: UseCaseType;
@@ -23,21 +24,30 @@ const PROBLEM_CONTENT: Record<UseCaseType, {
     visual: (
       <div className="space-y-3">
         <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
-          <span className="text-sm text-white/50">LinkedIn Post</span>
+          <span className="text-sm text-white/50 inline-flex items-center gap-1.5">
+            <LinkedInIcon className="w-4 h-4" style={{ color: "#0A66C2" }} />
+            Post
+          </span>
           <div className="flex-1 h-2 rounded-full bg-white/10">
             <div className="h-full w-0 rounded-full bg-destructive/50" />
           </div>
           <span className="text-sm text-destructive">0%</span>
         </div>
         <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
-          <span className="text-sm text-white/50">Podcast Mention</span>
+          <span className="text-sm text-white/50 inline-flex items-center gap-1.5">
+            <SpotifyIcon className="w-4 h-4" style={{ color: "#1DB954" }} />
+            Podcast
+          </span>
           <div className="flex-1 h-2 rounded-full bg-white/10">
             <div className="h-full w-0 rounded-full bg-destructive/50" />
           </div>
           <span className="text-sm text-destructive">0%</span>
         </div>
         <div className="flex items-center gap-3 p-3 rounded-lg bg-primary/10 border border-primary/20">
-          <span className="text-sm text-white/80">Google Ads (last click)</span>
+          <span className="text-sm text-white/80 inline-flex items-center gap-1.5">
+            <GoogleIcon className="w-4 h-4" />
+            Ads (last click)
+          </span>
           <div className="flex-1 h-2 rounded-full bg-white/10">
             <div className="h-full w-full rounded-full bg-primary" />
           </div>
