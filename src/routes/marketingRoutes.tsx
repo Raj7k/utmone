@@ -30,6 +30,7 @@ const EventHalo = lazy(() => import("@/pages/features/EventHalo"));
 const AIIntelligence = lazy(() => import("@/pages/features/AIIntelligence"));
 const Sentinel = lazy(() => import("@/pages/features/Sentinel"));
 const BrickBuilderFeature = lazy(() => import("@/pages/features/BrickBuilder"));
+const LinkPagesFeature = lazy(() => import("@/pages/features/LinkPages"));
 
 // Product Pages
 const Products = lazy(() => import("@/pages/Products"));
@@ -162,6 +163,7 @@ export const marketingRoutes = [
   <Route key="intelligence" path="/intelligence" element={<M><AIIntelligence /></M>} />,
   <Route key="sentinel" path="/features/sentinel" element={<M><Sentinel /></M>} />,
   <Route key="brick-builder" path="/features/brick-builder" element={<M><BrickBuilderFeature /></M>} />,
+  <Route key="link-pages" path="/features/link-pages" element={<M><LinkPagesFeature /></M>} />,
   
   // Product Pages
   <Route key="product" path="/product" element={<M><Product /></M>} />,

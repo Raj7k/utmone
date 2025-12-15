@@ -103,5 +103,13 @@ export const features: Feature[] = [
     icon: 'Plug',
     route: '/features/integrations',
     category: 'enterprise'
+  },
+  {
+    slug: 'link-pages',
+    title: 'Link Pages',
+    description: 'Link-in-bio pages with analytics, themes, and full UTM tracking.',
+    icon: 'LayoutGrid',
+    route: '/features/link-pages',
+    category: 'core'
   }
 ];
