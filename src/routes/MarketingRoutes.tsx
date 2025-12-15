@@ -54,7 +54,7 @@ const Developers = React.lazy(() => import("@/pages/solutions/Developers"));
 const PartnerManagers = React.lazy(() => import("@/pages/solutions/PartnerManagers"));
 const FieldMarketing = React.lazy(() => import("@/pages/solutions/FieldMarketing"));
 
-// Resources
+// Resources - List Pages
 const Resources = React.lazy(() => import("@/pages/Resources"));
 const Guides = React.lazy(() => import("@/pages/resources/Guides"));
 const Playbooks = React.lazy(() => import("@/pages/resources/Playbooks"));
@@ -65,7 +65,134 @@ const Examples = React.lazy(() => import("@/pages/resources/Examples"));
 const Glossary = React.lazy(() => import("@/pages/resources/Glossary"));
 const Academy = React.lazy(() => import("@/pages/resources/Academy"));
 const Reports = React.lazy(() => import("@/pages/resources/Reports"));
-const Tools = React.lazy(() => import("@/pages/resources/Tools"));
+const ResourceTools = React.lazy(() => import("@/pages/resources/Tools"));
+
+// Resources - Guides (7)
+const UTMGuide = React.lazy(() => import("@/pages/resources/guides/UTMGuide"));
+const CleanTrackFramework = React.lazy(() => import("@/pages/resources/guides/CleanTrackFramework"));
+const TrackingArchitecture = React.lazy(() => import("@/pages/resources/guides/TrackingArchitecture"));
+const SimpleAnalytics = React.lazy(() => import("@/pages/resources/guides/SimpleAnalytics"));
+const GrowthAnalytics = React.lazy(() => import("@/pages/resources/guides/GrowthAnalytics"));
+const LLMSeo = React.lazy(() => import("@/pages/resources/guides/LLMSeo"));
+const BayesianTesting = React.lazy(() => import("@/pages/resources/guides/BayesianTesting"));
+
+// Resources - Playbooks (9)
+const LLMRanking = React.lazy(() => import("@/pages/resources/playbooks/LLMRanking"));
+const UTMGovernancePlaybook = React.lazy(() => import("@/pages/resources/playbooks/UTMGovernancePlaybook"));
+const AIMarketingPlaybook = React.lazy(() => import("@/pages/resources/playbooks/AIMarketingPlaybook"));
+const B2BArchitectsPlaybook = React.lazy(() => import("@/pages/resources/playbooks/B2BArchitectsPlaybook"));
+const EventLedGrowthPlaybook = React.lazy(() => import("@/pages/resources/playbooks/EventLedGrowthPlaybook"));
+const HRKatalystReferralPlaybook = React.lazy(() => import("@/pages/resources/playbooks/HRKatalystReferralPlaybook"));
+const NamingConventionPlaybook = React.lazy(() => import("@/pages/resources/playbooks/NamingConventionPlaybook"));
+const SalesMarketingAlignmentPlaybook = React.lazy(() => import("@/pages/resources/playbooks/SalesMarketingAlignmentPlaybook"));
+const StartupAnalyticsPlaybook = React.lazy(() => import("@/pages/resources/playbooks/StartupAnalyticsPlaybook"));
+
+// Resources - Templates (4)
+const UTMTemplate = React.lazy(() => import("@/pages/resources/templates/UTMTemplate"));
+const CampaignBriefTemplate = React.lazy(() => import("@/pages/resources/templates/CampaignBriefTemplate"));
+const NamingTaxonomyTemplate = React.lazy(() => import("@/pages/resources/templates/NamingTaxonomyTemplate"));
+const AuditChecklistTemplate = React.lazy(() => import("@/pages/resources/templates/AuditChecklistTemplate"));
+
+// Resources - Checklists (3)
+const UTMAudit = React.lazy(() => import("@/pages/resources/checklists/UTMAudit"));
+const CampaignLaunch = React.lazy(() => import("@/pages/resources/checklists/CampaignLaunch"));
+const AnalyticsHealth = React.lazy(() => import("@/pages/resources/checklists/AnalyticsHealth"));
+
+// Resources - Examples (3)
+const UTMExamples = React.lazy(() => import("@/pages/resources/examples/UTMExamples"));
+const NamingExamples = React.lazy(() => import("@/pages/resources/examples/NamingExamples"));
+const DashboardExamples = React.lazy(() => import("@/pages/resources/examples/DashboardExamples"));
+
+// Resources - Frameworks (4)
+const B2BAttributionFramework = React.lazy(() => import("@/pages/resources/frameworks/B2BAttributionFramework"));
+const CleanTrackModel = React.lazy(() => import("@/pages/resources/frameworks/CleanTrackModel"));
+const MinimalAnalyticsStack = React.lazy(() => import("@/pages/resources/frameworks/MinimalAnalyticsStack"));
+const AttributionClarityModel = React.lazy(() => import("@/pages/resources/frameworks/AttributionClarityModel"));
+
+// Resources - Reports (1)
+const GTMInsights2026 = React.lazy(() => import("@/pages/resources/reports/GTMInsights2026"));
+
+// Resources - Tools (8)
+const SalaryNegotiationCoach = React.lazy(() => import("@/pages/resources/tools/SalaryNegotiationCoach"));
+const MarketValueCalculator = React.lazy(() => import("@/pages/resources/tools/MarketValueCalculator"));
+const CareerPathOptimizer = React.lazy(() => import("@/pages/resources/tools/CareerPathOptimizer"));
+const JobOfferAnalyzer = React.lazy(() => import("@/pages/resources/tools/JobOfferAnalyzer"));
+const TeamBudgetOptimizer = React.lazy(() => import("@/pages/resources/tools/TeamBudgetOptimizer"));
+const AIvsHumanROI = React.lazy(() => import("@/pages/resources/tools/AIvsHumanROI"));
+const CompensationTransparency = React.lazy(() => import("@/pages/resources/tools/CompensationTransparency"));
+const LinkedInRealityCheck = React.lazy(() => import("@/pages/resources/tools/LinkedInRealityCheck"));
+
+// Resources - Glossary (70 terms)
+const GlossaryActivation = React.lazy(() => import("@/pages/resources/glossary/activation"));
+const GlossaryAdoptionMilestones = React.lazy(() => import("@/pages/resources/glossary/adoption-milestones"));
+const GlossaryArr = React.lazy(() => import("@/pages/resources/glossary/arr"));
+const GlossaryBidStrategy = React.lazy(() => import("@/pages/resources/glossary/bid-strategy"));
+const GlossaryBoothEngagementRate = React.lazy(() => import("@/pages/resources/glossary/booth-engagement-rate"));
+const GlossaryCacPaybackPeriod = React.lazy(() => import("@/pages/resources/glossary/cac-payback-period"));
+const GlossaryCac = React.lazy(() => import("@/pages/resources/glossary/cac"));
+const GlossaryCampaign = React.lazy(() => import("@/pages/resources/glossary/campaign"));
+const GlossaryChurn = React.lazy(() => import("@/pages/resources/glossary/churn"));
+const GlossaryCohort = React.lazy(() => import("@/pages/resources/glossary/cohort"));
+const GlossaryCommitForecast = React.lazy(() => import("@/pages/resources/glossary/commit-forecast"));
+const GlossaryContent = React.lazy(() => import("@/pages/resources/glossary/content"));
+const GlossaryConversionRate = React.lazy(() => import("@/pages/resources/glossary/conversion-rate"));
+const GlossaryConversionWaterfall = React.lazy(() => import("@/pages/resources/glossary/conversion-waterfall"));
+const GlossaryCreativeFatigue = React.lazy(() => import("@/pages/resources/glossary/creative-fatigue"));
+const GlossaryCustomDomain = React.lazy(() => import("@/pages/resources/glossary/custom-domain"));
+const GlossaryDirect = React.lazy(() => import("@/pages/resources/glossary/direct"));
+const GlossaryDisplay = React.lazy(() => import("@/pages/resources/glossary/display"));
+const GlossaryEarlyChurnSignals = React.lazy(() => import("@/pages/resources/glossary/early-churn-signals"));
+const GlossaryEmail = React.lazy(() => import("@/pages/resources/glossary/email"));
+const GlossaryEventRoiModel = React.lazy(() => import("@/pages/resources/glossary/event-roi-model"));
+const GlossaryFirstTouch = React.lazy(() => import("@/pages/resources/glossary/first-touch"));
+const GlossaryFunnelMath = React.lazy(() => import("@/pages/resources/glossary/funnel-math"));
+const GlossaryGrossMargin = React.lazy(() => import("@/pages/resources/glossary/gross-margin"));
+const GlossaryHealthScore = React.lazy(() => import("@/pages/resources/glossary/health-score"));
+const GlossaryImplementationPlan = React.lazy(() => import("@/pages/resources/glossary/implementation-plan"));
+const GlossaryLastTouch = React.lazy(() => import("@/pages/resources/glossary/last-touch"));
+const GlossaryLeadScoring = React.lazy(() => import("@/pages/resources/glossary/lead-scoring"));
+const GlossaryLeadVelocityRate = React.lazy(() => import("@/pages/resources/glossary/lead-velocity-rate"));
+const GlossaryLinear = React.lazy(() => import("@/pages/resources/glossary/linear"));
+const GlossaryLinkExpiration = React.lazy(() => import("@/pages/resources/glossary/link-expiration"));
+const GlossaryLinkShortener = React.lazy(() => import("@/pages/resources/glossary/link-shortener"));
+const GlossaryLtv = React.lazy(() => import("@/pages/resources/glossary/ltv"));
+const GlossaryMedium = React.lazy(() => import("@/pages/resources/glossary/medium"));
+const GlossaryMql = React.lazy(() => import("@/pages/resources/glossary/mql"));
+const GlossaryMrr = React.lazy(() => import("@/pages/resources/glossary/mrr"));
+const GlossaryMultiTouch = React.lazy(() => import("@/pages/resources/glossary/multi-touch"));
+const GlossaryNamingConvention = React.lazy(() => import("@/pages/resources/glossary/naming-convention"));
+const GlossaryOrganicSocial = React.lazy(() => import("@/pages/resources/glossary/organic-social"));
+const GlossaryPaidSearch = React.lazy(() => import("@/pages/resources/glossary/paid-search"));
+const GlossaryPaidSocial = React.lazy(() => import("@/pages/resources/glossary/paid-social"));
+const GlossaryPilotSuccessCriteria = React.lazy(() => import("@/pages/resources/glossary/pilot-success-criteria"));
+const GlossaryPipelineCoverageRatio = React.lazy(() => import("@/pages/resources/glossary/pipeline-coverage-ratio"));
+const GlossaryPipelineInfluence = React.lazy(() => import("@/pages/resources/glossary/pipeline-influence"));
+const GlossaryPipeline = React.lazy(() => import("@/pages/resources/glossary/pipeline"));
+const GlossaryPql = React.lazy(() => import("@/pages/resources/glossary/pql"));
+const GlossaryQbr = React.lazy(() => import("@/pages/resources/glossary/qbr"));
+const GlossaryQrCode = React.lazy(() => import("@/pages/resources/glossary/qr-code"));
+const GlossaryQualityScore = React.lazy(() => import("@/pages/resources/glossary/quality-score"));
+const GlossaryReactivationCampaign = React.lazy(() => import("@/pages/resources/glossary/reactivation-campaign"));
+const GlossaryRedirect = React.lazy(() => import("@/pages/resources/glossary/redirect"));
+const GlossaryReferral = React.lazy(() => import("@/pages/resources/glossary/referral"));
+const GlossaryRenewalMotion = React.lazy(() => import("@/pages/resources/glossary/renewal-motion"));
+const GlossaryRevenueRecognition = React.lazy(() => import("@/pages/resources/glossary/revenue-recognition"));
+const GlossaryRunRate = React.lazy(() => import("@/pages/resources/glossary/run-rate"));
+const GlossarySal = React.lazy(() => import("@/pages/resources/glossary/sal"));
+const GlossarySelfServeConversion = React.lazy(() => import("@/pages/resources/glossary/self-serve-conversion"));
+const GlossarySeo = React.lazy(() => import("@/pages/resources/glossary/seo"));
+const GlossarySolutionMapping = React.lazy(() => import("@/pages/resources/glossary/solution-mapping"));
+const GlossarySource = React.lazy(() => import("@/pages/resources/glossary/source"));
+const GlossarySql = React.lazy(() => import("@/pages/resources/glossary/sql"));
+const GlossaryTaxonomy = React.lazy(() => import("@/pages/resources/glossary/taxonomy"));
+const GlossaryTechnicalValidation = React.lazy(() => import("@/pages/resources/glossary/technical-validation"));
+const GlossaryTerm = React.lazy(() => import("@/pages/resources/glossary/term"));
+const GlossaryTimeDecay = React.lazy(() => import("@/pages/resources/glossary/time-decay"));
+const GlossaryTimeToValue = React.lazy(() => import("@/pages/resources/glossary/time-to-value"));
+const GlossaryTrackingArchitecture = React.lazy(() => import("@/pages/resources/glossary/tracking-architecture"));
+const GlossaryUsageThreshold = React.lazy(() => import("@/pages/resources/glossary/usage-threshold"));
+const GlossaryUtm = React.lazy(() => import("@/pages/resources/glossary/utm"));
+const GlossaryValueMoments = React.lazy(() => import("@/pages/resources/glossary/value-moments"));
 
 // Help
 const HelpIndex = React.lazy(() => import("@/pages/Help/index"));
@@ -98,7 +225,7 @@ const IdentityGraphDocs = React.lazy(() => import("@/pages/Docs/IdentityGraph"))
 const SmartInsightsDocs = React.lazy(() => import("@/pages/Docs/SmartInsights"));
 const TroubleshootingDocs = React.lazy(() => import("@/pages/Docs/Troubleshooting"));
 
-// Tools
+// Tools (public)
 const ToolsHub = React.lazy(() => import("@/pages/tools/ToolsHub"));
 const PublicQRGenerator = React.lazy(() => import("@/pages/tools/QRGenerator"));
 const PublicURLShortener = React.lazy(() => import("@/pages/tools/URLShortener"));
@@ -109,6 +236,7 @@ const UTMBuilderGoogleAds = React.lazy(() => import("@/pages/tools/UTMBuilderGoo
 const UTMBuilderTikTok = React.lazy(() => import("@/pages/tools/UTMBuilderTikTok"));
 const UTMBuilderEmail = React.lazy(() => import("@/pages/tools/UTMBuilderEmail"));
 const PublicLinkHealthChecker = React.lazy(() => import("@/pages/tools/LinkHealthChecker"));
+const DecisionFrameworks = React.lazy(() => import("@/pages/tools/DecisionFrameworks"));
 const Scanner = React.lazy(() => import("@/pages/tools/Scanner"));
 const Casino = React.lazy(() => import("@/pages/tools/Casino"));
 const Galaxy = React.lazy(() => import("@/pages/tools/Galaxy"));
@@ -236,27 +364,147 @@ const MarketingRoutes = () => {
       <Route path="/solutions/partner-managers" element={<M><PartnerManagers /></M>} />
       <Route path="/solutions/field-marketing" element={<M><FieldMarketing /></M>} />
 
-      {/* Resources */}
+      {/* Resources - SPECIFIC ROUTES FIRST, then list pages */}
+      
+      {/* Guides - Specific (7) */}
+      <Route path="/resources/guides/utm-guide" element={<M><UTMGuide /></M>} />
+      <Route path="/resources/guides/clean-track-framework" element={<M><CleanTrackFramework /></M>} />
+      <Route path="/resources/guides/tracking-architecture" element={<M><TrackingArchitecture /></M>} />
+      <Route path="/resources/guides/simple-analytics" element={<M><SimpleAnalytics /></M>} />
+      <Route path="/resources/guides/growth-analytics" element={<M><GrowthAnalytics /></M>} />
+      <Route path="/resources/guides/llm-seo" element={<M><LLMSeo /></M>} />
+      <Route path="/resources/guides/bayesian-testing" element={<M><BayesianTesting /></M>} />
+      
+      {/* Playbooks - Specific (9) */}
+      <Route path="/resources/playbooks/llm-ranking" element={<M><LLMRanking /></M>} />
+      <Route path="/resources/playbooks/utm-governance" element={<M><UTMGovernancePlaybook /></M>} />
+      <Route path="/resources/playbooks/ai-marketing" element={<M><AIMarketingPlaybook /></M>} />
+      <Route path="/resources/playbooks/b2b-architects" element={<M><B2BArchitectsPlaybook /></M>} />
+      <Route path="/resources/playbooks/event-led-growth" element={<M><EventLedGrowthPlaybook /></M>} />
+      <Route path="/resources/playbooks/hr-katalyst-referral" element={<M><HRKatalystReferralPlaybook /></M>} />
+      <Route path="/resources/playbooks/naming-convention" element={<M><NamingConventionPlaybook /></M>} />
+      <Route path="/resources/playbooks/sales-marketing-alignment" element={<M><SalesMarketingAlignmentPlaybook /></M>} />
+      <Route path="/resources/playbooks/startup-analytics" element={<M><StartupAnalyticsPlaybook /></M>} />
+      
+      {/* Templates - Specific (4) */}
+      <Route path="/resources/templates/utm-template" element={<M><UTMTemplate /></M>} />
+      <Route path="/resources/templates/campaign-brief" element={<M><CampaignBriefTemplate /></M>} />
+      <Route path="/resources/templates/naming-taxonomy" element={<M><NamingTaxonomyTemplate /></M>} />
+      <Route path="/resources/templates/audit-checklist" element={<M><AuditChecklistTemplate /></M>} />
+      
+      {/* Checklists - Specific (3) */}
+      <Route path="/resources/checklists/utm-audit" element={<M><UTMAudit /></M>} />
+      <Route path="/resources/checklists/campaign-launch" element={<M><CampaignLaunch /></M>} />
+      <Route path="/resources/checklists/analytics-health" element={<M><AnalyticsHealth /></M>} />
+      
+      {/* Examples - Specific (3) */}
+      <Route path="/resources/examples/utm-examples" element={<M><UTMExamples /></M>} />
+      <Route path="/resources/examples/naming-examples" element={<M><NamingExamples /></M>} />
+      <Route path="/resources/examples/dashboard-examples" element={<M><DashboardExamples /></M>} />
+      
+      {/* Frameworks - Specific (4) */}
+      <Route path="/resources/frameworks/b2b-attribution" element={<M><B2BAttributionFramework /></M>} />
+      <Route path="/resources/frameworks/clean-track-model" element={<M><CleanTrackModel /></M>} />
+      <Route path="/resources/frameworks/minimal-analytics-stack" element={<M><MinimalAnalyticsStack /></M>} />
+      <Route path="/resources/frameworks/attribution-clarity-model" element={<M><AttributionClarityModel /></M>} />
+      
+      {/* Reports - Specific (1) */}
+      <Route path="/resources/reports/gtm-insights-2026" element={<M><GTMInsights2026 /></M>} />
+      
+      {/* Resource Tools - Specific (8) */}
+      <Route path="/resources/tools/salary-negotiation-coach" element={<M><SalaryNegotiationCoach /></M>} />
+      <Route path="/resources/tools/market-value-calculator" element={<M><MarketValueCalculator /></M>} />
+      <Route path="/resources/tools/career-path-optimizer" element={<M><CareerPathOptimizer /></M>} />
+      <Route path="/resources/tools/job-offer-analyzer" element={<M><JobOfferAnalyzer /></M>} />
+      <Route path="/resources/tools/team-budget-optimizer" element={<M><TeamBudgetOptimizer /></M>} />
+      <Route path="/resources/tools/ai-vs-human-roi" element={<M><AIvsHumanROI /></M>} />
+      <Route path="/resources/tools/compensation-transparency" element={<M><CompensationTransparency /></M>} />
+      <Route path="/resources/tools/linkedin-reality-check" element={<M><LinkedInRealityCheck /></M>} />
+      
+      {/* Glossary - Specific (70 terms) */}
+      <Route path="/resources/glossary/activation" element={<M><GlossaryActivation /></M>} />
+      <Route path="/resources/glossary/adoption-milestones" element={<M><GlossaryAdoptionMilestones /></M>} />
+      <Route path="/resources/glossary/arr" element={<M><GlossaryArr /></M>} />
+      <Route path="/resources/glossary/bid-strategy" element={<M><GlossaryBidStrategy /></M>} />
+      <Route path="/resources/glossary/booth-engagement-rate" element={<M><GlossaryBoothEngagementRate /></M>} />
+      <Route path="/resources/glossary/cac-payback-period" element={<M><GlossaryCacPaybackPeriod /></M>} />
+      <Route path="/resources/glossary/cac" element={<M><GlossaryCac /></M>} />
+      <Route path="/resources/glossary/campaign" element={<M><GlossaryCampaign /></M>} />
+      <Route path="/resources/glossary/churn" element={<M><GlossaryChurn /></M>} />
+      <Route path="/resources/glossary/cohort" element={<M><GlossaryCohort /></M>} />
+      <Route path="/resources/glossary/commit-forecast" element={<M><GlossaryCommitForecast /></M>} />
+      <Route path="/resources/glossary/content" element={<M><GlossaryContent /></M>} />
+      <Route path="/resources/glossary/conversion-rate" element={<M><GlossaryConversionRate /></M>} />
+      <Route path="/resources/glossary/conversion-waterfall" element={<M><GlossaryConversionWaterfall /></M>} />
+      <Route path="/resources/glossary/creative-fatigue" element={<M><GlossaryCreativeFatigue /></M>} />
+      <Route path="/resources/glossary/custom-domain" element={<M><GlossaryCustomDomain /></M>} />
+      <Route path="/resources/glossary/direct" element={<M><GlossaryDirect /></M>} />
+      <Route path="/resources/glossary/display" element={<M><GlossaryDisplay /></M>} />
+      <Route path="/resources/glossary/early-churn-signals" element={<M><GlossaryEarlyChurnSignals /></M>} />
+      <Route path="/resources/glossary/email" element={<M><GlossaryEmail /></M>} />
+      <Route path="/resources/glossary/event-roi-model" element={<M><GlossaryEventRoiModel /></M>} />
+      <Route path="/resources/glossary/first-touch" element={<M><GlossaryFirstTouch /></M>} />
+      <Route path="/resources/glossary/funnel-math" element={<M><GlossaryFunnelMath /></M>} />
+      <Route path="/resources/glossary/gross-margin" element={<M><GlossaryGrossMargin /></M>} />
+      <Route path="/resources/glossary/health-score" element={<M><GlossaryHealthScore /></M>} />
+      <Route path="/resources/glossary/implementation-plan" element={<M><GlossaryImplementationPlan /></M>} />
+      <Route path="/resources/glossary/last-touch" element={<M><GlossaryLastTouch /></M>} />
+      <Route path="/resources/glossary/lead-scoring" element={<M><GlossaryLeadScoring /></M>} />
+      <Route path="/resources/glossary/lead-velocity-rate" element={<M><GlossaryLeadVelocityRate /></M>} />
+      <Route path="/resources/glossary/linear" element={<M><GlossaryLinear /></M>} />
+      <Route path="/resources/glossary/link-expiration" element={<M><GlossaryLinkExpiration /></M>} />
+      <Route path="/resources/glossary/link-shortener" element={<M><GlossaryLinkShortener /></M>} />
+      <Route path="/resources/glossary/ltv" element={<M><GlossaryLtv /></M>} />
+      <Route path="/resources/glossary/medium" element={<M><GlossaryMedium /></M>} />
+      <Route path="/resources/glossary/mql" element={<M><GlossaryMql /></M>} />
+      <Route path="/resources/glossary/mrr" element={<M><GlossaryMrr /></M>} />
+      <Route path="/resources/glossary/multi-touch" element={<M><GlossaryMultiTouch /></M>} />
+      <Route path="/resources/glossary/naming-convention" element={<M><GlossaryNamingConvention /></M>} />
+      <Route path="/resources/glossary/organic-social" element={<M><GlossaryOrganicSocial /></M>} />
+      <Route path="/resources/glossary/paid-search" element={<M><GlossaryPaidSearch /></M>} />
+      <Route path="/resources/glossary/paid-social" element={<M><GlossaryPaidSocial /></M>} />
+      <Route path="/resources/glossary/pilot-success-criteria" element={<M><GlossaryPilotSuccessCriteria /></M>} />
+      <Route path="/resources/glossary/pipeline-coverage-ratio" element={<M><GlossaryPipelineCoverageRatio /></M>} />
+      <Route path="/resources/glossary/pipeline-influence" element={<M><GlossaryPipelineInfluence /></M>} />
+      <Route path="/resources/glossary/pipeline" element={<M><GlossaryPipeline /></M>} />
+      <Route path="/resources/glossary/pql" element={<M><GlossaryPql /></M>} />
+      <Route path="/resources/glossary/qbr" element={<M><GlossaryQbr /></M>} />
+      <Route path="/resources/glossary/qr-code" element={<M><GlossaryQrCode /></M>} />
+      <Route path="/resources/glossary/quality-score" element={<M><GlossaryQualityScore /></M>} />
+      <Route path="/resources/glossary/reactivation-campaign" element={<M><GlossaryReactivationCampaign /></M>} />
+      <Route path="/resources/glossary/redirect" element={<M><GlossaryRedirect /></M>} />
+      <Route path="/resources/glossary/referral" element={<M><GlossaryReferral /></M>} />
+      <Route path="/resources/glossary/renewal-motion" element={<M><GlossaryRenewalMotion /></M>} />
+      <Route path="/resources/glossary/revenue-recognition" element={<M><GlossaryRevenueRecognition /></M>} />
+      <Route path="/resources/glossary/run-rate" element={<M><GlossaryRunRate /></M>} />
+      <Route path="/resources/glossary/sal" element={<M><GlossarySal /></M>} />
+      <Route path="/resources/glossary/self-serve-conversion" element={<M><GlossarySelfServeConversion /></M>} />
+      <Route path="/resources/glossary/seo" element={<M><GlossarySeo /></M>} />
+      <Route path="/resources/glossary/solution-mapping" element={<M><GlossarySolutionMapping /></M>} />
+      <Route path="/resources/glossary/source" element={<M><GlossarySource /></M>} />
+      <Route path="/resources/glossary/sql" element={<M><GlossarySql /></M>} />
+      <Route path="/resources/glossary/taxonomy" element={<M><GlossaryTaxonomy /></M>} />
+      <Route path="/resources/glossary/technical-validation" element={<M><GlossaryTechnicalValidation /></M>} />
+      <Route path="/resources/glossary/term" element={<M><GlossaryTerm /></M>} />
+      <Route path="/resources/glossary/time-decay" element={<M><GlossaryTimeDecay /></M>} />
+      <Route path="/resources/glossary/time-to-value" element={<M><GlossaryTimeToValue /></M>} />
+      <Route path="/resources/glossary/tracking-architecture" element={<M><GlossaryTrackingArchitecture /></M>} />
+      <Route path="/resources/glossary/usage-threshold" element={<M><GlossaryUsageThreshold /></M>} />
+      <Route path="/resources/glossary/utm" element={<M><GlossaryUtm /></M>} />
+      <Route path="/resources/glossary/value-moments" element={<M><GlossaryValueMoments /></M>} />
+
+      {/* Resources - List pages (AFTER specific routes) */}
       <Route path="/resources" element={<M><Resources /></M>} />
       <Route path="/resources/guides" element={<M><Guides /></M>} />
-      <Route path="/resources/guides/*" element={<M><Guides /></M>} />
       <Route path="/resources/playbooks" element={<M><Playbooks /></M>} />
-      <Route path="/resources/playbooks/*" element={<M><Playbooks /></M>} />
       <Route path="/resources/templates" element={<M><Templates /></M>} />
-      <Route path="/resources/templates/*" element={<M><Templates /></M>} />
       <Route path="/resources/checklists" element={<M><Checklists /></M>} />
-      <Route path="/resources/checklists/*" element={<M><Checklists /></M>} />
       <Route path="/resources/frameworks" element={<M><Frameworks /></M>} />
-      <Route path="/resources/frameworks/*" element={<M><Frameworks /></M>} />
       <Route path="/resources/examples" element={<M><Examples /></M>} />
-      <Route path="/resources/examples/*" element={<M><Examples /></M>} />
       <Route path="/resources/glossary" element={<M><Glossary /></M>} />
-      <Route path="/resources/glossary/*" element={<M><Glossary /></M>} />
       <Route path="/resources/academy" element={<M><Academy /></M>} />
       <Route path="/resources/reports" element={<M><Reports /></M>} />
-      <Route path="/resources/reports/*" element={<M><Reports /></M>} />
-      <Route path="/resources/tools" element={<M><Tools /></M>} />
-      <Route path="/resources/tools/*" element={<M><Tools /></M>} />
+      <Route path="/resources/tools" element={<M><ResourceTools /></M>} />
 
       {/* Help */}
       <Route path="/help" element={<M><HelpIndex /></M>} />
@@ -293,14 +541,22 @@ const MarketingRoutes = () => {
       {/* Tools */}
       <Route path="/tools" element={<M><ToolsHub /></M>} />
       <Route path="/tools/qr" element={<M><PublicQRGenerator /></M>} />
+      <Route path="/tools/qr-generator" element={<M><PublicQRGenerator /></M>} />
       <Route path="/tools/shorten" element={<M><PublicURLShortener /></M>} />
+      <Route path="/tools/url-shortener" element={<M><PublicURLShortener /></M>} />
       <Route path="/tools/utm-builder" element={<M><PublicUTMBuilder /></M>} />
+      <Route path="/tools/utm-builder/linkedin" element={<M><UTMBuilderLinkedIn /></M>} />
+      <Route path="/tools/utm-builder/facebook" element={<M><UTMBuilderFacebook /></M>} />
+      <Route path="/tools/utm-builder/google-ads" element={<M><UTMBuilderGoogleAds /></M>} />
+      <Route path="/tools/utm-builder/tiktok" element={<M><UTMBuilderTikTok /></M>} />
+      <Route path="/tools/utm-builder/email" element={<M><UTMBuilderEmail /></M>} />
       <Route path="/tools/utm-builder-linkedin" element={<M><UTMBuilderLinkedIn /></M>} />
       <Route path="/tools/utm-builder-facebook" element={<M><UTMBuilderFacebook /></M>} />
       <Route path="/tools/utm-builder-google-ads" element={<M><UTMBuilderGoogleAds /></M>} />
       <Route path="/tools/utm-builder-tiktok" element={<M><UTMBuilderTikTok /></M>} />
       <Route path="/tools/utm-builder-email" element={<M><UTMBuilderEmail /></M>} />
       <Route path="/tools/link-health-checker" element={<M><PublicLinkHealthChecker /></M>} />
+      <Route path="/tools/decision-frameworks" element={<M><DecisionFrameworks /></M>} />
       <Route path="/tools/scanner" element={<M><Scanner /></M>} />
       <Route path="/tools/casino" element={<M><Casino /></M>} />
       <Route path="/tools/galaxy" element={<M><Galaxy /></M>} />
