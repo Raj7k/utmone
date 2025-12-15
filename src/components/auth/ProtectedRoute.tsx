@@ -76,7 +76,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
   // Rotate loading messages only when actually loading
   useEffect(() => {
-    if (cachedAuth || (isReady && isAuthenticated)) return;
+    if ((cachedAuth && isReady) || (isReady && isAuthenticated)) return;
 
     const interval = setInterval(() => {
       setMessageIndex((prev) => (prev + 1) % loadingMessages.length);
@@ -85,13 +85,13 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     return () => clearInterval(interval);
   }, [cachedAuth, isReady, isAuthenticated]);
 
-  // Timeout - 5 seconds max wait (only if no full cache)
+  // Timeout - 5 seconds max wait
   useEffect(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
 
-    if (!isReady && !hasTimedOut && !cachedAuth) {
+    if (!isReady && !hasTimedOut) {
       timeoutRef.current = setTimeout(() => {
         console.warn("[ProtectedRoute] Timeout - showing retry");
         setHasTimedOut(true);
@@ -103,22 +103,41 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [isReady, hasTimedOut, cachedAuth]);
+  }, [isReady, hasTimedOut]);
 
   // ============================================
   // CONDITIONAL RETURNS - AFTER ALL HOOKS
   // ============================================
 
-  // PHASE 16: INSTANT RENDER only if we have session + workspace cached
-  if (cachedAuth) {
+  // INSTANT RENDER only if we have session + workspace cached AND context is ready
+  if (cachedAuth && isReady) {
     return <>{children}</>;
+  }
+
+  // Partial cache (session+workspace cached but context not ready yet): wait for context
+  if (cachedAuth && !isReady && !hasTimedOut && !error) {
+    return (
+      <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center">
+        <div
+          className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          }}
+        />
+
+        <div className="w-24 h-1 rounded-full bg-primary animate-breathing-pulse" />
+        <p className="mt-4 text-muted-foreground text-sm font-medium animate-fade-in">
+          loading workspace...
+        </p>
+      </div>
+    );
   }
 
   // Partial cache (session exists but workspace not ready): show brief "loading workspace"
   if (cachedSessionOnly && !isReady && !hasTimedOut && !error) {
     return (
       <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center">
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.03] pointer-events-none"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
@@ -136,11 +155,11 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     return <>{children}</>;
   }
 
-  // Show loading only if no cache and still initializing - PURE CSS
+  // Show loading only if still initializing - PURE CSS
   if (!isReady && !hasTimedOut && !error) {
     return (
       <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center">
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.03] pointer-events-none"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
@@ -151,10 +170,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
         <div className="w-24 h-1 rounded-full bg-primary animate-breathing-pulse" />
 
         <div className="mt-6 h-5">
-          <p
-            key={messageIndex}
-            className="text-muted-foreground text-sm font-medium animate-fade-in"
-          >
+          <p key={messageIndex} className="text-muted-foreground text-sm font-medium animate-fade-in">
             {loadingMessages[messageIndex]}
           </p>
         </div>
@@ -166,22 +182,17 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   if (hasTimedOut || error) {
     return (
       <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center gap-4">
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.03] pointer-events-none"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
           }}
         />
-        
+
         <p className="text-muted-foreground text-sm">taking longer than expected...</p>
-        
+
         <div className="flex gap-3">
-          <Button 
-            variant="outline" 
-            size="sm"
-            onClick={() => refresh()}
-            className="gap-2"
-          >
+          <Button variant="outline" size="sm" onClick={() => refresh()} className="gap-2">
             <RefreshCw className="h-4 w-4" />
             try again
           </Button>

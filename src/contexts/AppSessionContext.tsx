@@ -163,21 +163,24 @@ function cacheWorkspaces(workspaces: Workspace[]): void {
 }
 
 export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
-  // Initialize state from MODULE-LEVEL constants (synchronous)
+  // Initialize state from cache at MOUNT time (fresh read), with module-level fallback
   const [user, setUser] = useState<User | null>(INITIAL_SESSION?.user ?? null);
   const [session, setSession] = useState<Session | null>(null);
-  const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(INITIAL_WORKSPACE);
+  const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(() => getCachedWorkspace() ?? INITIAL_WORKSPACE);
   const [workspaces, setWorkspaces] = useState<Workspace[]>(INITIAL_WORKSPACES ?? []);
   const [isFullyLoaded, setIsFullyLoaded] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  
+
   // ============================================
   // DYNAMIC isReady CALCULATION
   // Ready = we have enough state to render authenticated app UI
   // IMPORTANT: For dashboard routes, "ready" must include workspace.
   // ============================================
   const isAuthenticated = !!user;
-  const isReady = (!!user && !!currentWorkspace) || isFullyLoaded;
+  const isReady =
+    (!!user && !!currentWorkspace) ||
+    (!!INITIAL_SESSION?.user && !!INITIAL_WORKSPACE) ||
+    isFullyLoaded;
 
   // Fetch workspaces for a user
   const fetchWorkspaces = useCallback(async (userId: string): Promise<Workspace[]> => {
