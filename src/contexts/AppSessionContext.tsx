@@ -175,12 +175,14 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
   // DYNAMIC isReady CALCULATION
   // Ready = we have enough state to render authenticated app UI
   // IMPORTANT: For dashboard routes, "ready" must include workspace.
+  // FIX: Only set isReady=true when we have BOTH user AND workspace,
+  // OR when isFullyLoaded AND user is not authenticated (to allow redirect)
   // ============================================
   const isAuthenticated = !!user;
   const isReady =
     (!!user && !!currentWorkspace) ||
     (!!INITIAL_SESSION?.user && !!INITIAL_WORKSPACE) ||
-    isFullyLoaded;
+    (isFullyLoaded && !user); // Only ready without workspace if user is NOT authenticated
 
   // Fetch workspaces for a user
   const fetchWorkspaces = useCallback(async (userId: string): Promise<Workspace[]> => {

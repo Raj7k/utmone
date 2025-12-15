@@ -87,7 +87,17 @@ export default function Intelligence() {
     }
   }, [isLoading, hasTimedOut, loadingTimedOut]);
 
-  // Show error/timeout state if no workspace
+  // GUARD: Wait for workspace before rendering any content
+  // This prevents blank screen when workspace is still loading
+  if (!currentWorkspace && !hasTimedOut) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="w-24 h-1 rounded-full bg-primary animate-breathing-pulse" />
+      </div>
+    );
+  }
+
+  // Show error/timeout state if no workspace after timeout
   if (!currentWorkspace && hasTimedOut) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
