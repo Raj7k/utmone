@@ -1,6 +1,6 @@
 import { LucideIcon } from "lucide-react";
-import { motion } from "framer-motion";
 import { formatText } from "@/utils/textFormatter";
+import { useEffect, useRef, useState } from "react";
 
 interface ProblemCardProps {
   icon: LucideIcon;
@@ -10,13 +10,33 @@ interface ProblemCardProps {
 }
 
 export const ProblemCard = ({ icon: Icon, title, description, delay = 0 }: ProblemCardProps) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => setIsVisible(true), delay * 1000);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2, rootMargin: "-50px" }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [delay]);
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, delay, ease: [0.25, 0.1, 0.25, 1] }}
-      className="rounded-xl md:rounded-2xl p-5 sm:p-6 md:p-8 hover:shadow-lg transition-all group bg-zinc-900/40 backdrop-blur-[40px] border border-white/8"
+    <div
+      ref={cardRef}
+      className={`rounded-xl md:rounded-2xl p-5 sm:p-6 md:p-8 hover:shadow-lg transition-all duration-500 ease-out group bg-zinc-900/40 backdrop-blur-[40px] border border-white/8 ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+      }`}
     >
       <div className="p-2.5 md:p-3 rounded-lg md:rounded-xl inline-flex mb-3 md:mb-4 transition-colors bg-white/10 text-white-80">
         <Icon className="w-5 h-5 md:w-6 md:h-6" />
@@ -27,6 +47,6 @@ export const ProblemCard = ({ icon: Icon, title, description, delay = 0 }: Probl
       <p className="text-sm md:text-base leading-relaxed text-white-50">
         {description}
       </p>
-    </motion.div>
+    </div>
   );
 };
