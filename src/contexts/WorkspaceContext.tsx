@@ -77,9 +77,9 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
   const isLoading = !isReady && !isFullyLoaded;
   
   // More granular loading states for progressive rendering
-  const isWorkspaceLoading = !isFullyLoaded && !currentWorkspace;
+  const isWorkspaceLoading = !currentWorkspace && !isFullyLoaded;
   const hasNoWorkspaces = isFullyLoaded && workspaces.length === 0;
-  
+
   // hasTimedOut is now managed by AppSession, but we keep the interface
   const hasTimedOut = !isLoading && !currentWorkspace && workspaces.length === 0 && isFullyLoaded;
 

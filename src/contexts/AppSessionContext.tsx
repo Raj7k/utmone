@@ -173,12 +173,11 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
   
   // ============================================
   // DYNAMIC isReady CALCULATION
-  // Ready = we have user (cached or fresh) - workspace loads progressively
-  // This allows UI to render immediately while workspace data loads
+  // Ready = we have enough state to render authenticated app UI
+  // IMPORTANT: For dashboard routes, "ready" must include workspace.
   // ============================================
-  // Ready immediately if we have cached user AND workspace (no blocking)
-  const isReady = !!(INITIAL_SESSION?.user && INITIAL_WORKSPACE) || !!user || isFullyLoaded;
   const isAuthenticated = !!user;
+  const isReady = (!!user && !!currentWorkspace) || isFullyLoaded;
 
   // Fetch workspaces for a user
   const fetchWorkspaces = useCallback(async (userId: string): Promise<Workspace[]> => {
@@ -205,52 +204,63 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
       // FAST PATH: If we have valid cached session AND workspace, render immediately
       // Background validation with timeout to prevent stale sessions from causing issues
       if (INITIAL_SESSION?.user && INITIAL_WORKSPACE) {
-        if (isMounted) {
-          setIsFullyLoaded(true);
-        }
-        
-        // FIXED: Add timeout for background validation to catch expired sessions
+        // IMPORTANT: Do NOT mark fully loaded yet; validate in background (or timeout)
         const validationTimeout = setTimeout(() => {
-          // Timeout means we trust cached data - no action needed
-          console.log("[AppSession] Background validation timed out, using cached session");
-        }, 3000);
-        
-        // Background refresh - non-blocking but handles session expiry
-        supabase.auth.getSession().then(async ({ data: { session } }) => {
-          clearTimeout(validationTimeout);
           if (!isMounted) return;
-          
-          if (session?.user) {
-            setSession(session);
-            cacheSession(session);
-            // Refresh workspaces in background
-            const freshWorkspaces = await fetchWorkspaces(session.user.id);
-            if (isMounted && freshWorkspaces.length > 0) {
-              setWorkspaces(freshWorkspaces);
-              cacheWorkspaces(freshWorkspaces);
-            }
-          } else {
-            // FIXED: Session expired - clear cache and force re-auth
-            console.log("[AppSession] Cached session expired, clearing");
-            if (isMounted) {
-              setUser(null);
-              setSession(null);
-              setCurrentWorkspace(null);
-              setWorkspaces([]);
+          // Timeout means we trust cached data
+          setIsFullyLoaded(true);
+        }, 3000);
+
+        // Background refresh - non-blocking but handles session expiry
+        supabase.auth
+          .getSession()
+          .then(async ({ data: { session } }) => {
+            clearTimeout(validationTimeout);
+            if (!isMounted) return;
+
+            if (session?.user) {
+              setSession(session);
+              cacheSession(session);
+
+              // Refresh workspaces in background
+              const freshWorkspaces = await fetchWorkspaces(session.user.id);
+              if (isMounted && freshWorkspaces.length > 0) {
+                setWorkspaces(freshWorkspaces);
+                cacheWorkspaces(freshWorkspaces);
+
+                // Ensure current workspace stays valid
+                const savedId = localStorage.getItem("currentWorkspaceId");
+                const existing = savedId ? freshWorkspaces.find((w) => w.id === savedId) : null;
+                const selected = existing || freshWorkspaces[0];
+                setCurrentWorkspace(selected);
+                cacheWorkspace(selected);
+              }
+
               setIsFullyLoaded(true);
-              localStorage.removeItem(SESSION_CACHE_KEY);
-              localStorage.removeItem(WORKSPACE_CACHE_KEY);
-              localStorage.removeItem('currentWorkspaceId');
+            } else {
+              // Session expired - clear cache and force re-auth
+              if (isMounted) {
+                setUser(null);
+                setSession(null);
+                setCurrentWorkspace(null);
+                setWorkspaces([]);
+                setIsFullyLoaded(true);
+                localStorage.removeItem(SESSION_CACHE_KEY);
+                localStorage.removeItem(WORKSPACE_CACHE_KEY);
+                localStorage.removeItem("currentWorkspaceId");
+              }
             }
-          }
-        }).catch((err) => {
-          clearTimeout(validationTimeout);
-          console.error("[AppSession] Background validation error:", err);
-          // On error, trust cached data
-        });
+          })
+          .catch((err) => {
+            clearTimeout(validationTimeout);
+            console.error("[AppSession] Background validation error:", err);
+            // On error, trust cached data
+            if (isMounted) setIsFullyLoaded(true);
+          });
+
         return;
       }
-      
+
       // SLOW PATH: No cache - must wait for auth with fallback recovery
       try {
         // First try getSession (uses stored tokens)
