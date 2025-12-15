@@ -1,11 +1,11 @@
 import { FeatureLayout } from "@/components/features/FeatureLayout";
-import { FeatureHero } from "@/components/features/FeatureHero";
-import { FeatureCarouselSection } from "@/components/features/FeatureCarouselSection";
-import { FeatureStatsStrip } from "@/components/features/FeatureStatsStrip";
-import { FeatureBeforeAfter } from "@/components/features/FeatureBeforeAfter";
-import { FeatureBentoGrid } from "@/components/features/FeatureBentoGrid";
-import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
-import { FeatureShowcase } from "@/components/features/FeatureShowcase";
+import { FeatureHero } from "@/components/features/StaticFeatureHero";
+import { FeatureCarouselSection } from "@/components/features/StaticFeatureCarouselSection";
+import { FeatureStatsStrip } from "@/components/features/StaticFeatureStatsStrip";
+import { FeatureBeforeAfter } from "@/components/features/StaticFeatureBeforeAfter";
+import { FeatureBentoGrid } from "@/components/features/StaticFeatureBentoGrid";
+import { FeatureFinalCTA } from "@/components/features/StaticFeatureFinalCTA";
+import { FeatureShowcase } from "@/components/features/StaticFeatureShowcase";
 import { motion } from "framer-motion";
 import { Users, Link2, QrCode, MousePointerClick, DollarSign, Activity, TrendingUp, BarChart3, Award } from "lucide-react";
 

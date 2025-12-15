@@ -1,9 +1,9 @@
 import { FeatureLayout } from "@/components/features/FeatureLayout";
 import { FeatureHeroWithTool } from "@/components/features/FeatureHeroWithTool";
-import { FeatureStatsStrip } from "@/components/features/FeatureStatsStrip";
-import { FeatureBeforeAfter } from "@/components/features/FeatureBeforeAfter";
-import { FeatureBentoGrid } from "@/components/features/FeatureBentoGrid";
-import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
+import { FeatureStatsStrip } from "@/components/features/StaticFeatureStatsStrip";
+import { FeatureBeforeAfter } from "@/components/features/StaticFeatureBeforeAfter";
+import { FeatureBentoGrid } from "@/components/features/StaticFeatureBentoGrid";
+import { FeatureFinalCTA } from "@/components/features/StaticFeatureFinalCTA";
 import { LinkPagePreview } from "@/components/features/visuals/LinkPagePreview";
 import { DeviceShowcase } from "@/components/features/visuals/DeviceShowcase";
 import { LinkPageDemoBuilder } from "@/components/features/visuals/LinkPageDemoBuilder";

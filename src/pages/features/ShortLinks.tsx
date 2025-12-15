@@ -1,12 +1,12 @@
 import { FeatureLayout } from "@/components/features/FeatureLayout";
 import { FeatureHeroWithTool } from "@/components/features/FeatureHeroWithTool";
-import { FeatureCarouselSection } from "@/components/features/FeatureCarouselSection";
-import { FeatureStatsStrip } from "@/components/features/FeatureStatsStrip";
-import { FeatureBeforeAfter } from "@/components/features/FeatureBeforeAfter";
-import { FeatureBentoGrid } from "@/components/features/FeatureBentoGrid";
-import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
-import { FeatureShowcase } from "@/components/features/FeatureShowcase";
-import { FeatureControlDeck } from "@/components/features/FeatureControlDeck";
+import { FeatureCarouselSection } from "@/components/features/StaticFeatureCarouselSection";
+import { FeatureStatsStrip } from "@/components/features/StaticFeatureStatsStrip";
+import { FeatureBeforeAfter } from "@/components/features/StaticFeatureBeforeAfter";
+import { FeatureBentoGrid } from "@/components/features/StaticFeatureBentoGrid";
+import { FeatureFinalCTA } from "@/components/features/StaticFeatureFinalCTA";
+import { FeatureShowcase } from "@/components/features/StaticFeatureShowcase";
+import { FeatureControlDeck } from "@/components/features/StaticFeatureControlDeck";
 import { URLShortenerBasic } from "@/components/url-shortener/URLShortenerBasic";
 import { 
   CustomDomainVisual, 
