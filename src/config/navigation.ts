@@ -59,6 +59,7 @@ export const appNavigation: NavItem[] = [
 // TOOLS - Link creation and management tools
 export const toolsNavigation: NavItem[] = [
   { name: "QR Codes", href: "/dashboard/qr-codes", icon: QrCode },
+  { name: "Link Pages", href: "/dashboard/link-pages", icon: Boxes },
   { name: "Geo Targeting", href: "/dashboard/targeting", icon: Target },
   { name: "Bulk Create", href: "/dashboard/bulk-create", icon: Layers },
   { name: "Link Validator", href: "/dashboard/onelink-validator", icon: Brain },

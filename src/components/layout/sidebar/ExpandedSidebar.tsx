@@ -20,7 +20,8 @@ import {
   Scan,
   Settings,
   Bug,
-  ChevronRight
+  ChevronRight,
+  Boxes
 } from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
@@ -48,6 +49,7 @@ const coreNavigation: NavItem[] = [
 ];
 
 const toolsNavigation: NavItem[] = [
+  { name: "Link Pages", href: "/dashboard/link-pages", icon: Boxes },
   { name: "QR Codes", href: "/dashboard/qr-codes", icon: QrCode, tourId: "nav-qr-codes" },
   { name: "Geo Targeting", href: "/dashboard/targeting", icon: Target },
   { name: "Bulk Create", href: "/dashboard/bulk-create", icon: Layers },

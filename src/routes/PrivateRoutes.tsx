@@ -14,6 +14,8 @@ const DashboardHome = React.lazy(() => import("@/pages/dashboard/DashboardHome")
 const DashboardLinks = React.lazy(() => import("@/pages/dashboard/Links"));
 const DashboardAnalytics = React.lazy(() => import("@/pages/dashboard/Analytics"));
 const DashboardQRCodes = React.lazy(() => import("@/pages/dashboard/QRCodes"));
+const DashboardLinkPages = React.lazy(() => import("@/pages/dashboard/LinkPages"));
+const DashboardLinkPageBuilder = React.lazy(() => import("@/pages/dashboard/LinkPageBuilder"));
 const Targeting = React.lazy(() => import("@/pages/dashboard/Targeting"));
 const BulkCreate = React.lazy(() => import("@/pages/dashboard/BulkCreate"));
 const CacheMonitoring = React.lazy(() => import("@/pages/dashboard/CacheMonitoring"));
@@ -77,6 +79,28 @@ export const privateRoutes = [
       <Suspense fallback={<DashboardSkeleton />}>
         <DashboardLayout>
           <DashboardHome />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="dashboard-link-pages"
+    path="/dashboard/link-pages"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <DashboardLinkPages />
+        </DashboardLayout>
+      </Suspense>
+    )}
+  />,
+  <Route
+    key="dashboard-link-pages-builder"
+    path="/dashboard/link-pages/:pageId"
+    element={(
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardLayout>
+          <DashboardLinkPageBuilder />
         </DashboardLayout>
       </Suspense>
     )}

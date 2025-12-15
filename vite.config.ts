@@ -55,4 +55,9 @@ build: {
     // Increase chunk size warning limit
     chunkSizeWarningLimit: 1000,
   },
+  test: {
+    globals: true,
+    environment: "node",
+    include: ["src/**/*.test.ts"],
+  }
 }));
