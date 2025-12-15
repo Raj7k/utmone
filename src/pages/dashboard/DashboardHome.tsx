@@ -23,9 +23,24 @@ import { ActivityFeed } from "@/components/dashboard/ActivityFeed";
 const DashboardHome = () => {
   const { showDemoMode } = useDemoMode();
   const { currentWorkspace, isWorkspaceLoading, retry } = useWorkspaceContext();
-  
+
   // OPTIMIZED: Single RPC call (1 query instead of 10)
   const { links, stats, onboarding, isFetching, isFetched, isLoading, isStale, invalidate } = useDashboardCore();
+
+  // NEW: If core data isn't ready yet, show a minimal inline skeleton
+  // (prevents falling into FirstRunExperience while workspace is still resolving)
+  if (isLoading && !isFetched) {
+    return (
+      <div className="p-6 lg:p-8 max-w-5xl mx-auto">
+        <div className="animate-pulse space-y-4">
+          <div className="h-7 w-48 rounded-md bg-muted" />
+          <div className="h-28 rounded-md bg-muted" />
+          <div className="h-28 rounded-md bg-muted" />
+        </div>
+      </div>
+    );
+  }
+
   const hasLinks = onboarding.hasLinks;
 
   // Workspace timeout fallback - show retry after 3 seconds

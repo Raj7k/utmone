@@ -77,10 +77,35 @@ export const useDashboardCore = () => {
   const queryClient = useQueryClient();
 
   const workspaceId = currentWorkspace?.id || getCachedWorkspaceId() || "";
-  
+
   // Get userId from context cache - NO network call
   const userId = getCachedUserId() || "";
-  
+
+  // If workspace isn't available yet, return a safe loading shape.
+  // IMPORTANT: default hasLinks=true to avoid showing FirstRunExperience prematurely.
+  if (!workspaceId) {
+    return {
+      links: [],
+      stats: { clicksToday: 0, totalLinks: 0, totalRevenue: 0 },
+      onboarding: {
+        hasLinks: true,
+        hasQrCodes: false,
+        hasViewedAnalytics: false,
+        hasInvitedTeam: false,
+        hasCustomDomain: false,
+        hasInstalledPixel: false,
+        linkCount: 0,
+      },
+      isLoading: true,
+      isFetching: false,
+      isFetched: false,
+      isStale: false,
+      error: null,
+      refetch: () => Promise.resolve({ data: undefined } as any),
+      invalidate: () => {},
+    };
+  }
+
   // Get cached data
   const cachedResult = getCached(workspaceId);
   const cachedData = cachedResult?.data;
