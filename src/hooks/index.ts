@@ -3,8 +3,8 @@
  * This provides backward compatibility while organizing hooks by domain
  */
 
-// Core hooks (kept in root for maximum compatibility)
-export { useDashboardUnified } from "./useDashboardUnified";
+// Core hooks - re-export from dashboard folder (removed duplicate root file)
+export { useDashboardUnified } from "./dashboard/useDashboardUnified";
 export { useToast } from "./use-toast";
 export { useIsMobile } from "./use-mobile";
 
