@@ -17,8 +17,8 @@ import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { Skeleton } from "@/components/ui/skeleton";
 
-// Lazy load BrickBuilderContent
-const BrickBuilderContent = lazy(() => import("@/components/brickmatrix/BrickBuilderContent").then(m => ({ default: m.BrickBuilderContent })));
+// Lazy load BrickBuilderWizard (3-step wizard)
+const BrickBuilderWizard = lazy(() => import("@/components/brickmatrix/BrickBuilderWizard").then(m => ({ default: m.BrickBuilderWizard })));
 
 // Skeleton for progressive loading
 const QRGridSkeleton = () => (
@@ -282,7 +282,7 @@ export default function QRCodes() {
               </div>
             </div>
           }>
-            <BrickBuilderContent />
+            <BrickBuilderWizard />
           </Suspense>
         </TabsContent>
       </Tabs>
