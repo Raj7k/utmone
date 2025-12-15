@@ -3,6 +3,7 @@ import { AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
+import { getCachedUserId } from "@/lib/getCachedUser";
 
 interface Props {
   children: ReactNode;
@@ -33,10 +34,10 @@ export class ErrorBoundary extends Component<Props, State> {
 
     // Log to admin audit logs
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const userId = getCachedUserId();
       const { error: logError } = await supabase.rpc('log_security_event', {
         p_event_type: 'error_boundary',
-        p_user_id: user?.id || null,
+        p_user_id: userId || null,
         p_metadata: {
           section: this.props.section || 'unknown',
           error: error.message,

@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { getCachedUserId } from "@/lib/getCachedUser";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Flame, AlertTriangle, Lightbulb, TrendingUp, X } from "lucide-react";
@@ -58,7 +59,7 @@ export const AIRecommendationsWidget = ({ workspaceId }: AIRecommendationsWidget
         .update({ 
           dismissed: true, 
           dismissed_at: new Date().toISOString(),
-          dismissed_by: (await supabase.auth.getUser()).data.user?.id 
+          dismissed_by: getCachedUserId()
         })
         .eq('id', recommendationId);
 

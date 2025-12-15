@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { getCachedUserId } from "@/lib/getCachedUser";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -45,7 +46,7 @@ export function ManualTierAdjust({ workspace, open, onOpenChange }: ManualTierAd
     mutationFn: async () => {
       if (!workspace || !newTier) return;
 
-      const { data: { user } } = await supabase.auth.getUser();
+      const userId = getCachedUserId();
       const expiryDate = new Date(Date.now() + parseInt(expiryDays) * 24 * 60 * 60 * 1000);
 
       // Update workspace tier
@@ -65,7 +66,7 @@ export function ManualTierAdjust({ workspace, open, onOpenChange }: ManualTierAd
 
       // Log admin action
       await supabase.rpc("log_admin_action", {
-        p_admin_user_id: user?.id,
+        p_admin_user_id: userId,
         p_action: "tier_adjustment",
         p_resource_type: "workspace",
         p_resource_id: workspace.id,

@@ -15,6 +15,7 @@ import { testRedirectEdgeFunction, testLinkPreviewFunction, testBulkCreateLinks,
 import { Loader2, Play, Download, History, FileText } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
+import { getCachedUserId } from "@/lib/getCachedUser";
 import { TestCategory, saveTestHistory, getTestHistory, exportTestResults } from "@/lib/testRunner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -32,13 +33,13 @@ export default function SystemTests() {
   const { data: workspace } = useQuery({
     queryKey: ["user-workspace"],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+      const userId = getCachedUserId();
+      if (!userId) throw new Error("Not authenticated");
 
       const { data, error } = await supabase
         .from("workspaces")
         .select("id")
-        .eq("owner_id", user.id)
+        .eq("owner_id", userId)
         .single();
 
       if (error) throw error;

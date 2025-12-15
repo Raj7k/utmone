@@ -9,6 +9,7 @@ import { NavigationProgress } from "@/components/navigation/NavigationProgress";
 import { DashboardErrorBoundary } from "./DashboardErrorBoundary";
 import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { getCachedUser } from "@/lib/getCachedUser";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { AlertTriangle } from "lucide-react";
 import { TourProvider } from "@/components/onboarding";
@@ -34,14 +35,13 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     const isImpersonating = searchParams.get('impersonating') === 'true';
     
     if (isImpersonating) {
-      supabase.auth.getUser().then(({ data: { user } }) => {
-        if (user) {
-          setImpersonatedUser({
-            email: user.email || '',
-            full_name: user.user_metadata?.full_name,
-          });
-        }
-      });
+      const user = getCachedUser();
+      if (user) {
+        setImpersonatedUser({
+          email: user.email || '',
+          full_name: undefined, // metadata not available in cache
+        });
+      }
     } else {
       setImpersonatedUser(null);
     }

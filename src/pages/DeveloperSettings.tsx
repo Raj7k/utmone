@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { getCachedUserId } from "@/lib/getCachedUser";
 import { Navigation } from "@/components/landing/Navigation";
 import { Footer } from "@/components/landing/Footer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -18,13 +19,13 @@ export default function DeveloperSettings() {
   }, []);
 
   const fetchWorkspace = async () => {
-    const { data: user } = await supabase.auth.getUser();
-    if (!user.user) return;
+    const userId = getCachedUserId();
+    if (!userId) return;
 
     const { data: workspaces } = await supabase
       .from("workspaces")
       .select("id")
-      .eq("owner_id", user.user.id)
+      .eq("owner_id", userId)
       .limit(1)
       .single();
 
