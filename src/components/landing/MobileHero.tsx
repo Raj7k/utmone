@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -122,25 +121,19 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
 
   return (
     <section className="min-h-[85vh] flex flex-col justify-center py-8 px-4">
-      {/* Main Content - Always Visible */}
+      {/* Main Content - CSS transitions instead of framer-motion */}
       <div className="space-y-6 mb-8">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeUseCase}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="space-y-4"
-          >
-            <h1 className="text-3xl font-display font-bold leading-tight hero-gradient">
-              {content.headline}
-            </h1>
-            <p className="text-base leading-relaxed text-white-60">
-              {content.subheadline}
-            </p>
-          </motion.div>
-        </AnimatePresence>
+        <div
+          key={activeUseCase}
+          className="space-y-4 animate-fade-in"
+        >
+          <h1 className="text-3xl font-display font-bold leading-tight hero-gradient">
+            {content.headline}
+          </h1>
+          <p className="text-base leading-relaxed text-white-60">
+            {content.subheadline}
+          </p>
+        </div>
 
         {/* Inline Email CTA */}
         <form onSubmit={handleEmailSubmit} className="space-y-3">
@@ -153,19 +146,11 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
               className="h-14 px-5 pr-12 rounded-xl bg-white/5 border-white/10 text-foreground placeholder:text-muted-foreground focus:border-primary/50"
               required
             />
-            <AnimatePresence>
-              {isEmailValid && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.5 }}
-                  transition={{ duration: 0.2, ease: "easeOut" }}
-                  className="absolute right-4 top-1/2 -translate-y-1/2"
-                >
-                  <CheckCircle2 className="w-5 h-5 text-green-500" />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {isEmailValid && (
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 animate-scale-in">
+                <CheckCircle2 className="w-5 h-5 text-green-500" />
+              </div>
+            )}
           </div>
           <Button 
             type="submit"
@@ -206,11 +191,10 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
             const isActive = activeUseCase === useCase.id;
             
             return (
-              <motion.button
+              <button
                 key={useCase.id}
                 onClick={() => handleUseCaseChange(useCase.id)}
-                whileTap={{ scale: 0.95 }}
-                className={`relative p-4 rounded-xl transition-all duration-200 min-h-[90px] ${
+                className={`relative p-4 rounded-xl transition-all duration-200 min-h-[90px] active:scale-95 ${
                   isActive 
                     ? 'bg-gradient-to-br from-white/12 to-white/4 border border-white/20 shadow-glass'
                     : 'bg-zinc-900/40 border border-white/8'
@@ -233,16 +217,15 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
                     </span>
                   </div>
                 </div>
-              </motion.button>
+              </button>
             );
           })}
         </div>
 
         {/* Enterprise Control - Full Width */}
-        <motion.button
+        <button
           onClick={() => handleUseCaseChange("governance")}
-          whileTap={{ scale: 0.98 }}
-          className={`w-full p-4 rounded-xl transition-all duration-200 flex items-center gap-3 ${
+          className={`w-full p-4 rounded-xl transition-all duration-200 flex items-center gap-3 active:scale-[0.98] ${
             activeUseCase === "governance"
               ? 'bg-gradient-to-br from-white/12 to-white/4 border border-white/20 shadow-glass'
               : 'bg-zinc-900/40 border border-white/8'
@@ -264,7 +247,7 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
             </p>
           </div>
           <ChevronRight className={`w-5 h-5 ${activeUseCase === "governance" ? 'text-white-70' : 'text-white-40'}`} />
-        </motion.button>
+        </button>
       </div>
     </section>
   );

@@ -17,7 +17,9 @@ import {
 import { SEO } from "@/components/seo/SEO";
 import { LLMSchemaGenerator } from "@/components/seo/LLMSchemaGenerator";
 import { MainLayout } from "@/components/layout/MainLayout";
-import { ScrollProgressBar } from "@/components/landing/ScrollProgressBar";
+
+// Lazy load ScrollProgressBar - not needed on initial render
+const ScrollProgressBar = lazy(() => import("@/components/landing/ScrollProgressBar").then(m => ({ default: m.ScrollProgressBar })));
 
 // Lazy load heavy landing components
 const ControlDeckHero = lazy(() => import("@/components/landing/ControlDeckHero").then(m => ({ default: m.ControlDeckHero })));
@@ -63,7 +65,9 @@ const Index = () => {
 
   return (
     <MainLayout>
-      <ScrollProgressBar />
+      <Suspense fallback={null}>
+        <ScrollProgressBar />
+      </Suspense>
       <SEO 
         title="utm.one - Attribution, Customer Journey & UTM Management for Growth Teams"
         description="Finally know where revenue comes from. utm.one provides Clean-Track attribution, customer journey analytics, and enterprise-grade UTM governance — so your data, dashboards, and decisions are always right."
