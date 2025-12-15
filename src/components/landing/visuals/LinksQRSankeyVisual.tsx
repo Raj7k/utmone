@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { LinkedInIcon } from "@/components/icons/SocialIcons";
+import { Mail, QrCode } from "lucide-react";
 
 // Cinematic Links/QR Sankey: Fiber converge → UTM pulse → QR scanline
 export const LinksQRSankeyVisual = () => {
@@ -16,9 +18,9 @@ export const LinksQRSankeyVisual = () => {
   }, []);
   
   const sources = [
-    { y: 15, color: "#0A66C2", label: "linkedin" },
-    { y: 30, color: "#EA4335", label: "email" },
-    { y: 45, color: "#FFFFFF", label: "qr" },
+    { y: 15, color: "#0A66C2", label: "LinkedIn", icon: LinkedInIcon, isComponent: true },
+    { y: 30, color: "#EA4335", label: "Email", icon: Mail, isComponent: false },
+    { y: 45, color: "#8B5CF6", label: "QR", icon: QrCode, isComponent: false },
   ];
 
   return (
@@ -66,41 +68,53 @@ export const LinksQRSankeyVisual = () => {
       {/* Background */}
       <rect x="0" y="0" width="120" height="60" fill="url(#linksDotGrid)" opacity="0.3" />
       
-      {/* Source nodes with glow */}
-      {sources.map((src, i) => (
-        <motion.g
-          key={i}
-          initial={{ opacity: 0, x: -5 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4, delay: i * 0.1, ease: appleEase }}
-        >
-          <rect
-            x="6"
-            y={src.y}
-            width="16"
-            height="6"
-            rx="1"
-            fill={`${src.color}15`}
-            stroke={src.color}
-            strokeOpacity="0.5"
-            strokeWidth="0.4"
-          />
-          {/* Pulse glow */}
-          <motion.rect
-            x="6"
-            y={src.y}
-            width="16"
-            height="6"
-            rx="1"
-            fill="none"
-            stroke={src.color}
-            strokeWidth="0.3"
-            animate={{ strokeOpacity: [0.2, 0.6, 0.2] }}
-            transition={{ duration: 1, repeat: Infinity, delay: i * 0.3, ease: appleEase }}
-          />
-          <text x="14" y={src.y + 4.2} fill="white" fontSize="2" fontFamily="ui-monospace" opacity="0.6">{src.label}</text>
-        </motion.g>
-      ))}
+      {/* Source nodes with icons */}
+      {sources.map((src, i) => {
+        const IconComponent = src.icon;
+        return (
+          <motion.g
+            key={i}
+            initial={{ opacity: 0, x: -5 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, delay: i * 0.1, ease: appleEase }}
+          >
+            <rect
+              x="6"
+              y={src.y}
+              width="16"
+              height="6"
+              rx="1"
+              fill="rgba(63,63,70,0.3)"
+              stroke="rgba(255,255,255,0.15)"
+              strokeWidth="0.4"
+            />
+            {/* Pulse glow */}
+            <motion.rect
+              x="6"
+              y={src.y}
+              width="16"
+              height="6"
+              rx="1"
+              fill="none"
+              stroke={src.color}
+              strokeWidth="0.3"
+              animate={{ strokeOpacity: [0.2, 0.6, 0.2] }}
+              transition={{ duration: 1, repeat: Infinity, delay: i * 0.3, ease: appleEase }}
+            />
+            {/* Icon */}
+            <foreignObject x="7" y={src.y + 0.5} width="5" height="5">
+              <div className="flex items-center justify-center w-full h-full">
+                {src.isComponent ? (
+                  <IconComponent className="w-1.5 h-1.5" style={{ color: src.color }} />
+                ) : (
+                  <IconComponent className="w-1.5 h-1.5" style={{ color: src.color }} strokeWidth={2} />
+                )}
+              </div>
+            </foreignObject>
+            <text x="17" y={src.y + 4.2} fill="white" fontSize="2.5" fontFamily="ui-monospace" opacity="0.7">{src.label}</text>
+          </motion.g>
+        );
+      })}
       
       {/* Multi-strand fiber flows converging to UTM */}
       {sources.map((src, srcIdx) => (
@@ -112,7 +126,7 @@ export const LinksQRSankeyVisual = () => {
               d={`M 22 ${src.y + 3 + offset} Q 45 ${src.y + 3 + offset * 0.5}, 62 ${30 + offset * 0.2}`}
               fill="none"
               stroke={isCenter ? `url(#linksFiber-${srcIdx})` : src.color}
-              strokeWidth={isCenter ? 0.8 : 0.3}
+              strokeWidth={isCenter ? 1.0 : 0.3}
               strokeLinecap="round"
               strokeOpacity={isCenter ? 0.8 : 0.2}
               filter={isCenter ? "url(#linksFiberGlow)" : undefined}
@@ -145,7 +159,7 @@ export const LinksQRSankeyVisual = () => {
           transition={{ duration: 1, repeat: Infinity, ease: appleEase }}
           style={{ transformOrigin: "70px 30px" }}
         />
-        <text x="70" y="32" fill="white" fontSize="3" textAnchor="middle" fontFamily="ui-monospace" fontWeight="bold" opacity="0.9">UTM</text>
+        <text x="70" y="32" fill="white" fontSize="5" textAnchor="middle" fontFamily="ui-monospace" fontWeight="bold" opacity="0.9">UTM</text>
       </motion.g>
       
       {/* Output fiber to QR */}
@@ -156,8 +170,8 @@ export const LinksQRSankeyVisual = () => {
             key={`output-${strandIdx}`}
             d={`M 80 ${30 + offset} L 96 ${30 + offset}`}
             fill="none"
-            stroke={isCenter ? "#8B5CF6" : "#8B5CF6"}
-            strokeWidth={isCenter ? 0.8 : 0.3}
+            stroke="#8B5CF6"
+            strokeWidth={isCenter ? 1.0 : 0.3}
             strokeLinecap="round"
             strokeOpacity={isCenter ? 0.7 : 0.25}
             filter={isCenter ? "url(#linksFiberGlow)" : undefined}
@@ -174,7 +188,7 @@ export const LinksQRSankeyVisual = () => {
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.9, ease: appleEase }}
       >
-        <rect x="96" y="22" width="18" height="16" rx="2" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.3)" strokeWidth="0.3" />
+        <rect x="96" y="22" width="18" height="16" rx="2" fill="rgba(63,63,70,0.3)" stroke="rgba(255,255,255,0.15)" strokeWidth="0.4" />
         {/* QR pattern */}
         <g transform="translate(99, 24)">
           {[0, 1, 2, 3].map((r) =>

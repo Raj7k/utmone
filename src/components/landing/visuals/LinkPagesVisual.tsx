@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { FileText, Briefcase, ShoppingBag, Share2 } from "lucide-react";
 
 // Cinematic Link Pages: Single source → fiber diverge → multi-destination glow
 export const LinkPagesVisual = () => {
@@ -16,10 +17,10 @@ export const LinkPagesVisual = () => {
   }, []);
 
   const destinations = [
-    { y: 15, label: "Blog", color: "#F97316" },
-    { y: 27, label: "Portfolio", color: "#EC4899" },
-    { y: 39, label: "Store", color: "#8B5CF6" },
-    { y: 51, label: "Social", color: "#06B6D4" },
+    { y: 15, label: "Blog", color: "#F97316", icon: FileText },
+    { y: 27, label: "Portfolio", color: "#EC4899", icon: Briefcase },
+    { y: 39, label: "Store", color: "#8B5CF6", icon: ShoppingBag },
+    { y: 51, label: "Social", color: "#06B6D4", icon: Share2 },
   ];
 
   return (
@@ -88,7 +89,7 @@ export const LinkPagesVisual = () => {
           animate={{ strokeOpacity: [0.3, 0.7, 0.3] }}
           transition={{ duration: 1, repeat: Infinity, ease: appleEase }}
         />
-        <text x="14" y="31.5" fill="white" fontSize="3" textAnchor="middle" fontFamily="ui-monospace" opacity="0.8">utm.one</text>
+        <text x="14" y="31.5" fill="white" fontSize="2.5" textAnchor="middle" fontFamily="ui-monospace" opacity="0.8">utm.one</text>
       </motion.g>
 
       {/* Multi-strand fiber flows to destinations */}
@@ -101,7 +102,7 @@ export const LinkPagesVisual = () => {
               d={`M 24 ${30 + offset} Q 55 ${30 + offset * 0.5}, 88 ${dest.y + 3 + offset * 0.3}`}
               fill="none"
               stroke={isCenter ? `url(#lpFlow-${destIdx})` : dest.color}
-              strokeWidth={isCenter ? 0.8 : 0.25}
+              strokeWidth={isCenter ? 1.0 : 0.3}
               strokeLinecap="round"
               strokeOpacity={isCenter ? 0.8 : 0.2}
               filter={isCenter ? "url(#lpFiberGlow)" : undefined}
@@ -113,59 +114,66 @@ export const LinkPagesVisual = () => {
         })
       ))}
 
-      {/* Destination bars with glow on arrival */}
-      {destinations.map((dest, i) => (
-        <motion.g key={`dest-${i}`}>
-          <motion.rect
-            x="90"
-            y={dest.y}
-            width="24"
-            height="6"
-            rx="1"
-            fill={`${dest.color}15`}
-            stroke={dest.color}
-            strokeOpacity="0.5"
-            strokeWidth="0.4"
-            initial={{ scaleX: 0, opacity: 0 }}
-            animate={{ scaleX: 1, opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.5 + i * 0.08, ease: appleEase }}
-          />
-          {/* Glow pulse on particle arrival */}
-          <motion.rect
-            x="90"
-            y={dest.y}
-            width="24"
-            height="6"
-            rx="1"
-            fill="none"
-            stroke={dest.color}
-            strokeWidth="0.3"
-            animate={{ 
-              strokeOpacity: [0.2, 0.7, 0.2],
-              filter: ["none", "url(#lpBloom)", "none"],
-            }}
-            transition={{ 
-              duration: 1,
-              delay: i * 0.25,
-              repeat: Infinity,
-              ease: appleEase,
-            }}
-          />
-          <motion.text
-            x="102"
-            y={dest.y + 4.2}
-            fill="white"
-            fontSize="2.5"
-            textAnchor="middle"
-            fontFamily="ui-monospace"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.7 }}
-            transition={{ delay: 0.7 + i * 0.08, ease: appleEase }}
-          >
-            {dest.label}
-          </motion.text>
-        </motion.g>
-      ))}
+      {/* Destination bars with icons */}
+      {destinations.map((dest, i) => {
+        const IconComponent = dest.icon;
+        return (
+          <motion.g key={`dest-${i}`}>
+            <motion.rect
+              x="90"
+              y={dest.y}
+              width="24"
+              height="6"
+              rx="1"
+              fill="rgba(63,63,70,0.3)"
+              stroke="rgba(255,255,255,0.15)"
+              strokeWidth="0.4"
+              initial={{ scaleX: 0, opacity: 0 }}
+              animate={{ scaleX: 1, opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.5 + i * 0.08, ease: appleEase }}
+            />
+            {/* Glow pulse on particle arrival */}
+            <motion.rect
+              x="90"
+              y={dest.y}
+              width="24"
+              height="6"
+              rx="1"
+              fill="none"
+              stroke={dest.color}
+              strokeWidth="0.3"
+              animate={{ 
+                strokeOpacity: [0.2, 0.7, 0.2],
+              }}
+              transition={{ 
+                duration: 1,
+                delay: i * 0.25,
+                repeat: Infinity,
+                ease: appleEase,
+              }}
+            />
+            {/* Icon */}
+            <foreignObject x="91" y={dest.y + 0.5} width="5" height="5">
+              <div className="flex items-center justify-center w-full h-full">
+                <IconComponent className="w-1.5 h-1.5" style={{ color: dest.color }} strokeWidth={2} />
+              </div>
+            </foreignObject>
+            <motion.text
+              x="105"
+              y={dest.y + 4.2}
+              fill="white"
+              fontSize="2.5"
+              textAnchor="middle"
+              fontFamily="ui-monospace"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.7 }}
+              transition={{ delay: 0.7 + i * 0.08, ease: appleEase }}
+            >
+              {dest.label}
+            </motion.text>
+          </motion.g>
+        );
+      })}
 
       {/* Heartbeat particles */}
       {particles.map((particle) => {
