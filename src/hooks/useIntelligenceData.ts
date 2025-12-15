@@ -123,7 +123,7 @@ export function useIntelligenceData(
   const isCacheStale = cachedResult?.isStale ?? true;
 
   // Single optimized query that gets all essential data
-  const { data, isLoading, isFetching, error } = useQuery({
+  const { data, isLoading, isFetching, error, refetch } = useQuery({
     queryKey: ["intelligence-unified", workspaceId, days],
     queryFn: async (): Promise<IntelligenceData> => {
       if (!workspaceId) {
@@ -314,6 +314,8 @@ export function useIntelligenceData(
     refetchOnWindowFocus: false,
     refetchOnMount: isCacheStale, // Only refetch if stale
     initialData: () => cachedData,
+    retry: 1, // Prevent infinite retries on timeout
+    retryDelay: 1000,
   });
 
   // Use cached data immediately if available
@@ -326,6 +328,7 @@ export function useIntelligenceData(
     isFetching,
     isStale: isCacheStale && hasData,
     error,
+    refetch,
   };
 }
 
