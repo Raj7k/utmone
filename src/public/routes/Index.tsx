@@ -34,9 +34,7 @@ const DynamicCTA = lazy(() => import("@/components/landing/DynamicCTA").then(m =
 const AIIntelligenceHero = lazy(() => import("@/components/landing/AIIntelligenceHero").then(m => ({ default: m.AIIntelligenceHero })));
 const UnifiedToolsShowcase = lazy(() => import("@/components/landing/UnifiedToolsShowcase").then(m => ({ default: m.UnifiedToolsShowcase })));
 const EventHaloShowcase = lazy(() => import("@/components/landing/EventHaloShowcase").then(m => ({ default: m.EventHaloShowcase })));
-const AIStampStudioShowcase = lazy(() => import("@/components/landing/AIStampStudioShowcase").then(m => ({ default: m.AIStampStudioShowcase })));
-const LinkPagesShowcase = lazy(() => import("@/components/landing/LinkPagesShowcase").then(m => ({ default: m.LinkPagesShowcase })));
-const BrickBuilderShowcase = lazy(() => import("@/components/landing/BrickBuilderShowcase").then(m => ({ default: m.BrickBuilderShowcase })));
+const StackingNewFeatures = lazy(() => import("@/components/landing/StackingNewFeatures").then(m => ({ default: m.StackingNewFeatures })));
 const TrustSection = lazy(() => import("@/components/landing/TrustSection").then(m => ({ default: m.TrustSection })));
 const AnalyticsFeatureCarousel = lazy(() => import("@/components/landing/AnalyticsFeatureCarousel").then(m => ({ default: m.AnalyticsFeatureCarousel })));
 
@@ -167,24 +165,10 @@ const Index = () => {
         </Suspense>
       </LazyOnScroll>
 
-      {/* AI Stamp Studio Showcase - AI-Generated QR Codes */}
-      <LazyOnScroll height="500px" rootMargin="200px">
+      {/* Stacking New Features - AI Stamp, Link Pages, Brick Builder */}
+      <LazyOnScroll height="600px" rootMargin="300px">
         <Suspense fallback={<SectionSkeleton />}>
-          <AIStampStudioShowcase />
-        </Suspense>
-      </LazyOnScroll>
-
-      {/* Link Pages Showcase - Link-in-Bio Feature */}
-      <LazyOnScroll height="500px" rootMargin="200px">
-        <Suspense fallback={<SectionSkeleton />}>
-          <LinkPagesShowcase />
-        </Suspense>
-      </LazyOnScroll>
-
-      {/* Brick Builder Showcase - Physical QR Art */}
-      <LazyOnScroll height="500px" rootMargin="200px">
-        <Suspense fallback={<SectionSkeleton />}>
-          <BrickBuilderShowcase />
+          <StackingNewFeatures />
         </Suspense>
       </LazyOnScroll>
 
