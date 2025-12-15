@@ -200,6 +200,86 @@ export const useDashboardPrefetch = () => {
       setTimeout(prefetch, 50);
     }
   }, [getWorkspaceId, shouldPrefetch, queryClient]);
+  const prefetchAnalytics = useCallback(() => {
+    const workspaceId = getWorkspaceId();
+    if (!workspaceId || !shouldPrefetch('analytics')) return;
+    
+    const prefetch = () => {
+      queryClient.prefetchQuery({
+        queryKey: ["analytics-data", workspaceId],
+        queryFn: async () => {
+          const { count } = await supabase
+            .from("link_clicks")
+            .select("*", { count: "exact", head: true })
+            .eq("workspace_id", workspaceId);
+          return { totalClicks: count || 0 };
+        },
+        staleTime: 2 * 60 * 1000,
+      });
+    };
+
+    if ("requestIdleCallback" in window) {
+      (window as any).requestIdleCallback(prefetch, { timeout: 500 });
+    } else {
+      setTimeout(prefetch, 50);
+    }
+  }, [getWorkspaceId, shouldPrefetch, queryClient]);
+
+  const prefetchCampaigns = useCallback(() => {
+    const workspaceId = getWorkspaceId();
+    if (!workspaceId || !shouldPrefetch('campaigns')) return;
+    
+    const prefetch = () => {
+      queryClient.prefetchQuery({
+        queryKey: ["campaigns", workspaceId],
+        queryFn: async () => {
+          const { data } = await supabase
+            .from("campaigns")
+            .select("id, name, status, color, created_at")
+            .eq("workspace_id", workspaceId)
+            .order("created_at", { ascending: false })
+            .limit(20);
+          return data || [];
+        },
+        staleTime: 60 * 1000,
+      });
+    };
+
+    if ("requestIdleCallback" in window) {
+      (window as any).requestIdleCallback(prefetch, { timeout: 500 });
+    } else {
+      setTimeout(prefetch, 50);
+    }
+  }, [getWorkspaceId, shouldPrefetch, queryClient]);
+
+  const prefetchSettings = useCallback(() => {
+    const userId = supabase.auth.getUser().then(({ data }) => data.user?.id);
+    if (!shouldPrefetch('settings')) return;
+    
+    const prefetch = async () => {
+      const id = await userId;
+      if (!id) return;
+      
+      queryClient.prefetchQuery({
+        queryKey: ["user-profile", id],
+        queryFn: async () => {
+          const { data } = await supabase
+            .from("profiles")
+            .select("id, full_name, email, avatar_url, timezone, language")
+            .eq("id", id)
+            .single();
+          return data;
+        },
+        staleTime: 5 * 60 * 1000,
+      });
+    };
+
+    if ("requestIdleCallback" in window) {
+      (window as any).requestIdleCallback(prefetch, { timeout: 500 });
+    } else {
+      setTimeout(prefetch, 50);
+    }
+  }, [shouldPrefetch, queryClient]);
 
   return {
     prefetchLinks,
@@ -208,5 +288,8 @@ export const useDashboardPrefetch = () => {
     prefetchEvents,
     prefetchDashboard,
     prefetchQRCodes,
+    prefetchAnalytics,
+    prefetchCampaigns,
+    prefetchSettings,
   };
 };

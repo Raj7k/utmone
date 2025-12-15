@@ -15,6 +15,8 @@ import {
 } from "@/config/navigation";
 import { useAppSession } from "@/contexts/AppSessionContext";
 import { usePendingApprovalsCount } from "@/hooks/usePendingApprovalsCount";
+import { useDashboardPrefetch } from "@/hooks/dashboard";
+import { useCallback } from "react";
 
 // Flatten all navigation items for collapsed sidebar
 const navigation = [
@@ -30,6 +32,17 @@ export const CollapsedSidebar = () => {
   const { toggleSidebar } = useSidebar();
   const { user } = useAppSession();
   const userId = user?.id;
+  const { 
+    prefetchLinks, 
+    prefetchIntelligence, 
+    prefetchSales, 
+    prefetchEvents, 
+    prefetchDashboard, 
+    prefetchQRCodes,
+    prefetchAnalytics,
+    prefetchCampaigns,
+    prefetchSettings 
+  } = useDashboardPrefetch();
 
   const { data: pendingCount } = usePendingApprovalsCount();
 
@@ -51,6 +64,32 @@ export const CollapsedSidebar = () => {
     if (href === "/dashboard") return location.pathname === href;
     return location.pathname.startsWith(href);
   };
+
+  // Create prefetch handler map for routes
+  const getPrefetchHandler = useCallback((href: string) => {
+    switch (href) {
+      case "/dashboard":
+        return prefetchDashboard;
+      case "/dashboard/links":
+        return prefetchLinks;
+      case "/dashboard/intelligence":
+        return prefetchIntelligence;
+      case "/dashboard/sales":
+        return prefetchSales;
+      case "/dashboard/events":
+        return prefetchEvents;
+      case "/dashboard/qr-codes":
+        return prefetchQRCodes;
+      case "/dashboard/analytics":
+        return prefetchAnalytics;
+      case "/dashboard/campaigns":
+        return prefetchCampaigns;
+      case "/settings":
+        return prefetchSettings;
+      default:
+        return undefined;
+    }
+  }, [prefetchLinks, prefetchIntelligence, prefetchSales, prefetchEvents, prefetchDashboard, prefetchQRCodes, prefetchAnalytics, prefetchCampaigns, prefetchSettings]);
 
   const getInitials = (name: string | null) => {
     if (!name) return "U";
@@ -84,6 +123,7 @@ export const CollapsedSidebar = () => {
                 <TooltipTrigger asChild>
                   <Link
                     to={item.href}
+                    onMouseEnter={getPrefetchHandler(item.href)}
                     className={cn(
                       "relative w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 mx-auto hover:scale-105 active:scale-95",
                       active
