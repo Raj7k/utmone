@@ -32,7 +32,7 @@ const useAnimatedCounter = (end: number, duration: number = 2000, startOnView: b
 
 export const EventHaloShowcase = () => {
   return (
-    <section className="py-24 md:py-32 relative overflow-hidden">
+    <section className="py-12 md:py-16 relative overflow-hidden">
       {/* Subtle gradient background */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent" />
       

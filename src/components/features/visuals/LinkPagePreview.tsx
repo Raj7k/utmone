@@ -80,7 +80,7 @@ export function LinkPagePreview() {
       </div>
 
       {/* Glow effect */}
-      <div className="absolute -inset-8 bg-gradient-to-br from-orange-500/20 via-pink-500/20 to-rose-500/20 rounded-full blur-3xl -z-10 opacity-60" />
+      <div className="absolute -inset-2 bg-gradient-to-br from-orange-500/20 via-pink-500/20 to-rose-500/20 rounded-full blur-2xl -z-10 opacity-50" />
 
       {/* Animation keyframes */}
       <style>{`
