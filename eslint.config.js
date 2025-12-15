@@ -68,4 +68,47 @@ export default tseslint.config(
       ],
     },
   },
+  {
+    files: [
+      "src/public/**/*.{ts,tsx}",
+      "src/routes/MarketingRoutes.tsx",
+      "src/shells/MarketingShell.tsx",
+      "src/components/landing/**/*.{ts,tsx}",
+      "src/pages/**/*.{ts,tsx}",
+    ],
+    ignores: [
+      "src/pages/dashboard/**/*",
+      "src/pages/admin/**/*",
+      "src/pages/Settings/**/*",
+    ],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: [
+                "@/pages/dashboard/**",
+                "../pages/dashboard/**",
+                "@/components/dashboard/**",
+                "../components/dashboard/**",
+                "@/components/layout/DashboardLayout",
+                "../components/layout/DashboardLayout",
+                "@/routes/AppRoutes",
+                "../routes/AppRoutes",
+                "@/shells/DashboardShell",
+                "../shells/DashboardShell",
+                "@/contexts/AppProvider",
+                "@/contexts/NotificationContext",
+                "@/contexts/WorkspaceContext",
+                "@/hooks/useDashboardUnified",
+                "@/hooks/dashboard/**",
+              ],
+              message: "Marketing and public surfaces cannot import dashboard code; use shared-core or marketing components instead.",
+            },
+          ],
+        },
+      ],
+    },
+  },
 );
