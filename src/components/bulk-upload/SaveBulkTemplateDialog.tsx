@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { requireUserId } from "@/lib/getCachedUser";
 import { useToast } from "@/hooks/use-toast";
 import {
   Dialog,
@@ -62,55 +63,54 @@ export const SaveBulkTemplateDialog = ({
 
     setSaving(true);
 
-    const { data: user } = await supabase.auth.getUser();
-    if (!user.user) {
+    try {
+      const userId = requireUserId();
+
+      // If setting as default, unset other defaults first
+      if (isDefault) {
+        await supabase
+          .from("bulk_upload_templates")
+          .update({ is_default: false })
+          .eq("workspace_id", workspaceId);
+      }
+
+      const { error } = await supabase.from("bulk_upload_templates").insert({
+        workspace_id: workspaceId,
+        name: name.trim(),
+        description: description.trim() || null,
+        domain,
+        utm_defaults: utmDefaults,
+        smart_options: smartOptions,
+        is_default: isDefault,
+        created_by: userId,
+      });
+
+      if (error) {
+        toast({
+          variant: "destructive",
+          title: "failed to save template",
+          description: error.message,
+        });
+      } else {
+        toast({
+          title: "template saved",
+          description: `"${name}" has been saved successfully`,
+        });
+        setOpen(false);
+        setName("");
+        setDescription("");
+        setIsDefault(false);
+        onTemplateSaved();
+      }
+    } catch (err: any) {
       toast({
         variant: "destructive",
         title: "authentication required",
-        description: "please sign in to save templates",
+        description: err.message || "please sign in to save templates",
       });
+    } finally {
       setSaving(false);
-      return;
     }
-
-    // If setting as default, unset other defaults first
-    if (isDefault) {
-      await supabase
-        .from("bulk_upload_templates")
-        .update({ is_default: false })
-        .eq("workspace_id", workspaceId);
-    }
-
-    const { error } = await supabase.from("bulk_upload_templates").insert({
-      workspace_id: workspaceId,
-      name: name.trim(),
-      description: description.trim() || null,
-      domain,
-      utm_defaults: utmDefaults,
-      smart_options: smartOptions,
-      is_default: isDefault,
-      created_by: user.user.id,
-    });
-
-    if (error) {
-      toast({
-        variant: "destructive",
-        title: "failed to save template",
-        description: error.message,
-      });
-    } else {
-      toast({
-        title: "template saved",
-        description: `"${name}" has been saved successfully`,
-      });
-      setOpen(false);
-      setName("");
-      setDescription("");
-      setIsDefault(false);
-      onTemplateSaved();
-    }
-
-    setSaving(false);
   };
 
   return (

@@ -215,6 +215,7 @@ export default function OnboardingWizard() {
 
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("No user found");
+      const userId = user.id;
 
       // Update profile
       await supabase

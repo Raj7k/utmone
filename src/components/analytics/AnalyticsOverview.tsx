@@ -9,6 +9,7 @@ import { useComparisonMetrics } from "@/hooks/useComparisonMetrics";
 import { ComparisonCard } from "./ComparisonCard";
 import { MyLinksToggle } from "./MyLinksToggle";
 import { OwnerFilter } from "./OwnerFilter";
+import { getCachedUserId } from "@/lib/getCachedUser";
 
 interface AnalyticsOverviewProps {
   workspaceId: string;
@@ -24,8 +25,7 @@ export const AnalyticsOverview = ({ workspaceId }: AnalyticsOverviewProps) => {
     queryKey: ["analytics-overview", workspaceId, viewMode, ownerFilter],
     queryFn: async () => {
       // Get current user for "my links" mode
-      const { data: { user } } = await supabase.auth.getUser();
-      const currentUserId = user?.id;
+      const currentUserId = getCachedUserId();
       
       // Build base filter for links
       const buildLinkFilter = (query: any) => {

@@ -21,6 +21,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/workspace/useWorkspace";
 import { useActivationTracking } from "@/hooks/useActivationTracking";
+import { requireUserId } from "@/lib/getCachedUser";
 
 const STEPS = [
   { id: 1, label: "Content", description: "what to encode" },
@@ -62,8 +63,7 @@ export const BrickBuilderWizard = () => {
     mutationFn: async () => {
       if (!previewRef.current) throw new Error("Preview not ready");
       
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+      const userId = requireUserId();
       if (!currentWorkspace?.id) throw new Error("No workspace selected");
 
       // Generate PNG
@@ -121,7 +121,7 @@ export const BrickBuilderWizard = () => {
             slug,
             domain: "utm.one",
             path: "",
-            created_by: user.id,
+            created_by: userId,
             title: linkTitle,
           })
           .select("id")
@@ -137,7 +137,7 @@ export const BrickBuilderWizard = () => {
         .insert({
           link_id: linkId,
           name: `brick-${style}-${Date.now()}`,
-          created_by: user.id,
+          created_by: userId,
           workspace_id: currentWorkspace.id,
           primary_color: getBrickColor(foreground),
           secondary_color: getBrickColor(background),

@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { startRegistration, startAuthentication } from "@simplewebauthn/browser";
 import { toast } from "sonner";
+import { requireUserId, getCachedUserId } from "@/lib/getCachedUser";
 
 interface WebAuthnOptions {
   onSuccess?: () => void;
@@ -30,13 +31,12 @@ export function useWebAuthn(options: WebAuthnOptions = {}) {
     const currentDomain = getCurrentDomain();
 
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
+      const userId = requireUserId();
 
       // Get registration options from edge function
       const { data: regOptions, error: optionsError } = await supabase.functions.invoke(
         'webauthn-register-options',
-        { body: { userId: user.id, keyName, domain: currentDomain } }
+        { body: { userId, keyName, domain: currentDomain } }
       );
 
       if (optionsError) throw optionsError;
@@ -51,7 +51,7 @@ export function useWebAuthn(options: WebAuthnOptions = {}) {
         'webauthn-register-verify',
         { 
           body: { 
-            userId: user.id, 
+            userId, 
             credential, 
             challenge: regOptions.challenge,
             keyName,
@@ -95,14 +95,13 @@ export function useWebAuthn(options: WebAuthnOptions = {}) {
     const currentDomain = getCurrentDomain();
 
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
+      const userId = requireUserId();
 
       // Check for domain mismatch before attempting authentication
       const { data: authenticators } = await supabase
         .from('user_authenticators')
         .select('registered_domain')
-        .eq('user_id', user.id)
+        .eq('user_id', userId)
         .limit(1)
         .single();
 
@@ -114,7 +113,7 @@ export function useWebAuthn(options: WebAuthnOptions = {}) {
       // Get authentication options
       const { data: authOptions, error: optionsError } = await supabase.functions.invoke(
         'webauthn-authenticate-options',
-        { body: { userId: user.id, domain: currentDomain } }
+        { body: { userId, domain: currentDomain } }
       );
 
       if (optionsError) throw optionsError;
@@ -129,7 +128,7 @@ export function useWebAuthn(options: WebAuthnOptions = {}) {
         'webauthn-authenticate-verify',
         { 
           body: { 
-            userId: user.id, 
+            userId, 
             credential, 
             challenge: authOptions.challenge,
             domain: currentDomain
@@ -141,7 +140,7 @@ export function useWebAuthn(options: WebAuthnOptions = {}) {
 
       // Store MFA verification in session
       sessionStorage.setItem('admin_mfa_verified', new Date().toISOString());
-      sessionStorage.setItem('admin_mfa_user_id', user.id);
+      sessionStorage.setItem('admin_mfa_user_id', userId);
 
       // Log successful authentication
       await logMfaEvent('verify_success');
@@ -176,14 +175,13 @@ export function useWebAuthn(options: WebAuthnOptions = {}) {
    */
   const removeSecurityKey = useCallback(async (authenticatorId: string) => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
+      const userId = requireUserId();
 
       const { error } = await supabase
         .from('user_authenticators')
         .delete()
         .eq('id', authenticatorId)
-        .eq('user_id', user.id);
+        .eq('user_id', userId);
 
       if (error) throw error;
 
@@ -216,11 +214,11 @@ export function useWebAuthn(options: WebAuthnOptions = {}) {
  */
 async function logMfaEvent(action: string, details?: string) {
   try {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+    const userId = getCachedUserId();
+    if (!userId) return;
 
     await supabase.rpc('log_mfa_event', {
-      p_user_id: user.id,
+      p_user_id: userId,
       p_action: action,
       p_domain: typeof window !== 'undefined' ? window.location.origin : null,
       p_user_agent: typeof navigator !== 'undefined' ? navigator.userAgent : null,
