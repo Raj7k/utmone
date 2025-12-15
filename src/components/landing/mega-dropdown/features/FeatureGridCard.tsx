@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Link2, Tags, QrCode, TrendingUp, Sparkles, GitBranch, Route, Shield, LayoutGrid } from "lucide-react";
+import { Link2, Tags, QrCode, TrendingUp, Sparkles, GitBranch, Route, Shield, LayoutGrid, Boxes } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const coreFeatures = [
+  { icon: Boxes, label: "Brick Builder", path: "/features/brick-builder", desc: "physical QR art" },
   { icon: Link2, label: "Short Links", path: "/features/short-links", desc: "branded urls" },
   { icon: Tags, label: "UTM Builder", path: "/features/utm-builder", desc: "consistent tracking" },
   { icon: QrCode, label: "QR Generator", path: "/features/qr-generator", desc: "trackable codes" },

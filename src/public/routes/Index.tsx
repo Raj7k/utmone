@@ -36,6 +36,7 @@ const UnifiedToolsShowcase = lazy(() => import("@/components/landing/UnifiedTool
 const EventHaloShowcase = lazy(() => import("@/components/landing/EventHaloShowcase").then(m => ({ default: m.EventHaloShowcase })));
 const AIStampStudioShowcase = lazy(() => import("@/components/landing/AIStampStudioShowcase").then(m => ({ default: m.AIStampStudioShowcase })));
 const LinkPagesShowcase = lazy(() => import("@/components/landing/LinkPagesShowcase").then(m => ({ default: m.LinkPagesShowcase })));
+const BrickBuilderShowcase = lazy(() => import("@/components/landing/BrickBuilderShowcase").then(m => ({ default: m.BrickBuilderShowcase })));
 const TrustSection = lazy(() => import("@/components/landing/TrustSection").then(m => ({ default: m.TrustSection })));
 const AnalyticsFeatureCarousel = lazy(() => import("@/components/landing/AnalyticsFeatureCarousel").then(m => ({ default: m.AnalyticsFeatureCarousel })));
 
@@ -177,6 +178,13 @@ const Index = () => {
       <LazyOnScroll height="500px" rootMargin="200px">
         <Suspense fallback={<SectionSkeleton />}>
           <LinkPagesShowcase />
+        </Suspense>
+      </LazyOnScroll>
+
+      {/* Brick Builder Showcase - Physical QR Art */}
+      <LazyOnScroll height="500px" rootMargin="200px">
+        <Suspense fallback={<SectionSkeleton />}>
+          <BrickBuilderShowcase />
         </Suspense>
       </LazyOnScroll>
 
