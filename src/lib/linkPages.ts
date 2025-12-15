@@ -1,9 +1,13 @@
 import { supabase } from "@/integrations/supabase/client";
-import { Database } from "@/integrations/supabase/types";
 
-export type LinkPageStatus = Database["public"]["Enums"]["link_page_status"];
-export type LinkPageBlockType = Database["public"]["Enums"]["link_page_block_type"];
-export type LinkPageEventType = Database["public"]["Enums"]["link_page_event_type"];
+// Link page status type - simple string until we add database enum
+export type LinkPageStatus = 'draft' | 'published';
+
+// Link page block type - simple string until we add database enum
+export type LinkPageBlockType = 'link' | 'header' | 'text' | 'image' | 'divider' | 'social';
+
+// Link page event type - simple string until we add database enum
+export type LinkPageEventType = 'page_view' | 'block_click';
 
 export const LINK_PAGE_SLUG_REGEX = /^[a-z0-9](?:[a-z0-9-]{1,62}[a-z0-9])?$/i;
 
@@ -28,11 +32,10 @@ export interface PublicLinkPageResponse {
   workspace_id: string;
   slug: string;
   title: string;
-  description: string | null;
-  avatar_url: string | null;
-  theme: Record<string, unknown>;
-  published_at: string | null;
-  blocks: LinkPageBlock[];
+  bio: string | null;
+  theme: string;
+  is_published: boolean;
+  metadata: Record<string, unknown>;
 }
 
 export function filterEnabledBlocks(blocks: LinkPageBlock[]): LinkPageBlock[] {
@@ -42,10 +45,10 @@ export function filterEnabledBlocks(blocks: LinkPageBlock[]): LinkPageBlock[] {
 }
 
 export async function hashVisitorIdentifier(value: string): Promise<string> {
-  if (typeof globalThis !== "undefined" && (globalThis as Crypto).crypto?.subtle) {
+  if (typeof globalThis !== "undefined" && (globalThis as unknown as { crypto?: Crypto }).crypto?.subtle) {
     const encoder = new TextEncoder();
     const data = encoder.encode(value);
-    const hashBuffer = await (globalThis as Crypto).crypto.subtle.digest("SHA-256", data);
+    const hashBuffer = await (globalThis as unknown as { crypto: Crypto }).crypto.subtle.digest("SHA-256", data);
     return Array.from(new Uint8Array(hashBuffer))
       .map(b => b.toString(16).padStart(2, "0"))
       .join("");
@@ -66,38 +69,18 @@ export interface LinkPageEventPayload {
 }
 
 export async function sendLinkPageEvent(payload: LinkPageEventPayload): Promise<void> {
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-  const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
-
-  if (!supabaseUrl || !supabaseKey) return;
-
-  const body = {
-    p_page_id: payload.pageId,
-    p_block_id: payload.blockId ?? null,
-    p_event_type: payload.eventType,
-    p_ip_hash: payload.ipHash ?? null,
-    p_user_agent_hash: payload.userAgentHash ?? null,
-    p_referrer: payload.referrer ?? null,
-    p_country: payload.country ?? null,
-  };
-
-  const endpoint = `${supabaseUrl}/rest/v1/rpc/log_link_page_event`;
-  await fetch(endpoint, {
-    method: "POST",
-    headers: {
-      apikey: supabaseKey,
-      Authorization: `Bearer ${supabaseKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-    keepalive: true,
-  }).catch(() => {
-    // Swallow logging errors to keep navigation snappy
-  });
+  // Placeholder - will implement when analytics tracking is needed
+  console.log('Link page event:', payload);
 }
 
 export async function fetchPublishedPage(slug: string) {
-  const { data, error } = await supabase.rpc("get_published_link_page", { p_slug: slug });
+  const { data, error } = await supabase
+    .from('link_pages')
+    .select('*')
+    .eq('slug', slug)
+    .eq('is_published', true)
+    .single();
+  
   if (error) throw error;
-  return data?.[0] as PublicLinkPageResponse | undefined;
+  return data as PublicLinkPageResponse | undefined;
 }
