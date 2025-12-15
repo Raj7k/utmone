@@ -1,4 +1,9 @@
 import type { Config } from "tailwindcss";
+
+// Note: New CSS keyframes for static feature components are added in keyframes section:
+// - slide-up-fade: vertical fade-in animation
+// - slide-left-fade: horizontal slide animation  
+// - scale-up-fade: scale + fade animation
 import colors from "tailwindcss/colors";
 
 export default {
@@ -384,6 +389,19 @@ export default {
   			'draw-path': {
   				'0%': { strokeDashoffset: '400' },
   				'100%': { strokeDashoffset: '0' }
+  			},
+  			// Static feature component animations
+  			'slide-up-fade': {
+  				'0%': { opacity: '0', transform: 'translateY(30px)' },
+  				'100%': { opacity: '1', transform: 'translateY(0)' }
+  			},
+  			'slide-left-fade': {
+  				'0%': { opacity: '0', transform: 'translateX(-20px)' },
+  				'100%': { opacity: '1', transform: 'translateX(0)' }
+  			},
+  			'scale-up-fade': {
+  				'0%': { opacity: '0', transform: 'scale(0.98)' },
+  				'100%': { opacity: '1', transform: 'scale(1)' }
   			}
   		},
   		animation: {
@@ -392,7 +410,11 @@ export default {
   			'fade-in-up': 'fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
   			'glow-pulse': 'glow-pulse 4s ease-in-out infinite',
   			'content-switch': 'content-switch 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
-  			'draw-path': 'draw-path 1.5s ease-out forwards'
+  			'draw-path': 'draw-path 1.5s ease-out forwards',
+  			// Static feature component animations
+  			'slide-up-fade': 'slide-up-fade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+  			'slide-left-fade': 'slide-left-fade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+  			'scale-up-fade': 'scale-up-fade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards'
   		},
   		transitionDuration: {
   			apple: '200ms',
