@@ -20,6 +20,7 @@ import { NetworkStatus } from "./components/ui/network-status";
 import { MarketingSkeleton, DashboardSkeleton } from "./components/SkeletonLoader";
 import { InstallPrompt } from "./components/pwa/InstallPrompt";
 import { UpdateNotification } from "./components/pwa/UpdateNotification";
+import { lazyWithChunkLogging } from "./utils/chunkLogger";
 
 // Import shells
 import { MarketingShell } from "./shells/MarketingShell";
@@ -27,15 +28,21 @@ import { AuthShell } from "./shells/AuthShell";
 import { PublicPageShell } from "./shells/PublicPageShell";
 
 // LAZY LOAD entire dashboard shell and routes - this is the key performance win
-const DashboardShell = lazy(() => import("./shells/DashboardShell").then(m => ({ default: m.DashboardShell })));
-const AppRoutes = lazy(() => import("./routes/AppRoutes"));
+const DashboardShell = lazyWithChunkLogging(
+  "dashboard-shell",
+  () => import("./shells/DashboardShell").then(m => ({ default: m.DashboardShell })),
+);
+const AppRoutes = lazyWithChunkLogging("dashboard-routes", () => import("./routes/AppRoutes"));
 
 // Global modals - lazy loaded
-const GlobalEarlyAccessModal = lazy(() => import("./components/early-access/GlobalEarlyAccessModal").then(m => ({ default: m.GlobalEarlyAccessModal })));
+const GlobalEarlyAccessModal = lazyWithChunkLogging(
+  "marketing-early-access-modal",
+  () => import("./components/early-access/GlobalEarlyAccessModal").then(m => ({ default: m.GlobalEarlyAccessModal })),
+);
 
 // Marketing pages - lazy loaded but in marketing bundle
-const Index = lazy(() => import("./public/routes/Index"));
-const Pricing = lazy(() => import("./public/routes/Pricing"));
+const Index = lazyWithChunkLogging("marketing-index", () => import("./public/routes/Index"));
+const Pricing = lazyWithChunkLogging("marketing-pricing", () => import("./public/routes/Pricing"));
 
 // Auth pages (part of marketing shell - no dashboard providers needed)
 const Auth = lazy(() => import("./pages/Auth"));
@@ -53,7 +60,7 @@ const WaitlistLocked = lazy(() => import("./pages/WaitlistLocked"));
 const WaitlistStatus = lazy(() => import("./pages/WaitlistStatus"));
 
 // Import all marketing routes
-const MarketingRoutes = lazy(() => import("./routes/MarketingRoutes"));
+const MarketingRoutes = lazyWithChunkLogging("marketing-routes", () => import("./routes/MarketingRoutes"));
 
 const NotFound = lazy(() => import("./pages/NotFound"));
 

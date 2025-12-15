@@ -1,7 +1,8 @@
 import { ReactNode, useState, useEffect, lazy, Suspense } from "react";
 import { Navigation } from "@/components/landing/Navigation";
 import { AnnouncementBar } from "@/components/landing/AnnouncementBar";
-import { Footer } from "@/components/landing/Footer";
+
+const Footer = lazy(() => import("@/components/landing/Footer").then(m => ({ default: m.Footer })));
 
 // Lazy load FloatingNavigation - only imported after scroll
 const FloatingNavigation = lazy(() => 
@@ -61,7 +62,9 @@ export const MainLayout = ({ children, showAnnouncement = true }: MainLayoutProp
         {children}
       </main>
 
-      <Footer />
+      <Suspense fallback={null}>
+        <Footer />
+      </Suspense>
     </div>
   );
 };
