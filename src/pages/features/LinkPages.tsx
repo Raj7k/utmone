@@ -6,6 +6,7 @@ import { FeatureBentoGrid } from "@/components/features/FeatureBentoGrid";
 import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
 import { FeatureShowcase } from "@/components/features/FeatureShowcase";
 import { LinkPagePreview } from "@/components/features/visuals/LinkPagePreview";
+import { DeviceShowcase } from "@/components/features/visuals/DeviceShowcase";
 import { 
   Palette, 
   LayoutGrid, 
@@ -13,8 +14,6 @@ import {
   Clock, 
   Tags, 
   BadgeCheck,
-  Smartphone,
-  GripVertical,
 } from "lucide-react";
 
 const LinkPages = () => {
@@ -116,43 +115,13 @@ const LinkPages = () => {
         items={beforeAfter}
       />
 
-      {/* Fold 4: Showcase - Mobile Preview */}
+      {/* Fold 4: Showcase - Device Mockups */}
       <FeatureShowcase
         headline="looks great on every device"
         subheadline="responsive design that adapts to any screen size"
         background="muted"
       >
-        <div className="flex items-center justify-center gap-8">
-          <div className="flex items-end gap-4">
-            <div className="flex flex-col items-center gap-2">
-              <Smartphone className="w-5 h-5 text-muted-foreground" />
-              <div className="w-[180px] h-[320px] rounded-2xl bg-gradient-to-br from-purple-600 to-pink-500 p-4 flex flex-col items-center justify-start pt-8">
-                <div className="w-10 h-10 rounded-full bg-white/20" />
-                <div className="mt-2 h-3 w-16 bg-white/30 rounded" />
-                <div className="mt-1 h-2 w-24 bg-white/20 rounded" />
-                <div className="mt-4 space-y-2 w-full">
-                  <div className="h-8 w-full bg-white/20 rounded-lg" />
-                  <div className="h-8 w-full bg-white/20 rounded-lg" />
-                  <div className="h-8 w-full bg-white/20 rounded-lg" />
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <GripVertical className="w-5 h-5 text-muted-foreground" />
-              <div className="w-[280px] h-[380px] rounded-2xl bg-gradient-to-br from-purple-600 to-pink-500 p-6 flex flex-col items-center justify-start pt-10">
-                <div className="w-14 h-14 rounded-full bg-white/20" />
-                <div className="mt-3 h-4 w-20 bg-white/30 rounded" />
-                <div className="mt-1 h-2.5 w-32 bg-white/20 rounded" />
-                <div className="mt-5 space-y-2.5 w-full">
-                  <div className="h-10 w-full bg-white/20 rounded-xl" />
-                  <div className="h-10 w-full bg-white/20 rounded-xl" />
-                  <div className="h-10 w-full bg-white/20 rounded-xl" />
-                  <div className="h-10 w-full bg-white/20 rounded-xl" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <DeviceShowcase />
       </FeatureShowcase>
 
       {/* Fold 5: Capabilities Bento Grid */}

@@ -201,6 +201,7 @@ const Casino = lazy(() => import("./pages/tools/Casino"));
 const Galaxy = lazy(() => import("./pages/tools/Galaxy"));
 const LoaderDemo = lazy(() => import("./pages/LoaderDemo"));
 const QRTest = lazy(() => import("./pages/tools/QRTest"));
+const LinkPageBuilderTool = lazy(() => import("./pages/tools/LinkPageBuilder"));
 const SalaryNegotiationCoach = lazy(() => import("./pages/resources/tools/SalaryNegotiationCoach"));
 const MarketValueCalculator = lazy(() => import("./pages/resources/tools/MarketValueCalculator"));
 const CareerPathOptimizer = lazy(() => import("./pages/resources/tools/CareerPathOptimizer"));
@@ -528,6 +529,7 @@ const AppRoutes = () => {
                 <Route path="/tools/casino" element={<Suspense fallback={<MarketingSkeleton />}><Casino /></Suspense>} />
                 <Route path="/tools/galaxy" element={<Suspense fallback={<MarketingSkeleton />}><Galaxy /></Suspense>} />
                 <Route path="/tools/qr-test" element={<Suspense fallback={<MarketingSkeleton />}><QRTest /></Suspense>} />
+                <Route path="/tools/link-page-builder" element={<Suspense fallback={<MarketingSkeleton />}><LinkPageBuilderTool /></Suspense>} />
                 <Route path="/loader-demo" element={<Suspense fallback={<MarketingSkeleton />}><LoaderDemo /></Suspense>} />
 
                 {/* Trust Cluster */}
