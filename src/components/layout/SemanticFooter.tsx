@@ -11,12 +11,20 @@ interface FooterSection {
 
 const footerSections: FooterSection[] = [
   {
-    title: "product",
+    title: "features",
     links: [
       { label: "short links", href: "/features/short-links" },
-      { label: "utm builder", href: "/features/utm-builder" },
-      { label: "qr codes", href: "/features/qr-generator" },
-      { label: "pricing", href: "/pricing" },
+      { label: "UTM builder", href: "/features/utm-builder" },
+      { label: "QR generator", href: "/features/qr-generator" },
+      { label: "link pages", href: "/features/link-pages" },
+      { label: "brick builder", href: "/features/brick-builder" },
+      { label: "analytics", href: "/features/analytics" },
+      { label: "custom domains", href: "/features/custom-domains" },
+      { label: "workspaces", href: "/features/workspaces" },
+      { label: "sentinel mode", href: "/features/sentinel" },
+      { label: "event halo", href: "/features/event-halo" },
+      { label: "clean track", href: "/features/clean-track" },
+      { label: "smart routing", href: "/features/smart-routing" },
     ],
   },
   {
@@ -35,6 +43,7 @@ const footerSections: FooterSection[] = [
       { label: "about", href: "/about" },
       { label: "contact", href: "/contact" },
       { label: "careers", href: "/careers" },
+      { label: "pricing", href: "/pricing" },
     ],
   },
   {

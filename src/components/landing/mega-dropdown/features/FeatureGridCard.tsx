@@ -1,9 +1,17 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Link2, Tags, QrCode, TrendingUp, Sparkles, GitBranch, Route, Shield, LayoutGrid, Boxes } from "lucide-react";
+import { Link2, Tags, QrCode, TrendingUp, Sparkles, GitBranch, Route, Shield, LayoutGrid, Boxes, Radio, Fingerprint } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const coreFeatures = [
+interface FeatureItem {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  path: string;
+  desc: string;
+  isNew?: boolean;
+}
+
+const coreFeatures: FeatureItem[] = [
   { icon: Boxes, label: "Brick Builder", path: "/features/brick-builder", desc: "physical QR art" },
   { icon: Link2, label: "Short Links", path: "/features/short-links", desc: "branded urls" },
   { icon: Tags, label: "UTM Builder", path: "/features/utm-builder", desc: "consistent tracking" },
@@ -12,11 +20,13 @@ const coreFeatures = [
   { icon: TrendingUp, label: "Analytics", path: "/features/analytics", desc: "real-time insights" },
 ];
 
-const aiFeatures = [
+const aiFeatures: FeatureItem[] = [
   { icon: Sparkles, label: "Predictive", path: "/features/predictive-analytics", desc: "forecast performance" },
   { icon: GitBranch, label: "Attribution", path: "/features/attribution-graph", desc: "revenue mapping" },
   { icon: Route, label: "Smart Routing", path: "/features/smart-routing", desc: "geo-targeting" },
   { icon: Shield, label: "Sentinel Mode", path: "/features/sentinel", desc: "link protection" },
+  { icon: Radio, label: "Event Halo", path: "/features/event-halo", desc: "offline attribution", isNew: true },
+  { icon: Fingerprint, label: "Identity", path: "/features/identity-resolution", desc: "cross-device", isNew: true },
 ];
 
 interface FeatureGridCardProps {
@@ -100,12 +110,21 @@ export function FeatureGridCard({ variant = "dark" }: FeatureGridCardProps) {
                   isLight ? "text-zinc-500 group-hover:text-zinc-700" : "text-white/60 group-hover:text-white/80"
                 )} />
               </div>
-              <div>
-                <span className={cn(
-                  "text-[11px] font-medium transition-colors",
-                  isLight ? "text-zinc-700 group-hover:text-zinc-900" : "text-white/80 group-hover:text-white"
-                )}>{feature.label}</span>
-                <p className={cn("text-[9px]", isLight ? "text-zinc-400" : "text-white/40")}>{feature.desc}</p>
+              <div className="flex items-center gap-1.5">
+                <div>
+                  <div className="flex items-center gap-1">
+                    <span className={cn(
+                      "text-[11px] font-medium transition-colors",
+                      isLight ? "text-zinc-700 group-hover:text-zinc-900" : "text-white/80 group-hover:text-white"
+                    )}>{feature.label}</span>
+                    {feature.isNew && (
+                      <span className="text-[8px] font-bold uppercase px-1 py-0.5 rounded bg-emerald-500/20 text-emerald-400">
+                        new
+                      </span>
+                    )}
+                  </div>
+                  <p className={cn("text-[9px]", isLight ? "text-zinc-400" : "text-white/40")}>{feature.desc}</p>
+                </div>
               </div>
             </Link>
           ))}
