@@ -273,9 +273,20 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                   transition={{ duration: 0.5, ease: appleEase }}
                   className="absolute inset-0 p-8 flex flex-col"
                 >
-                  {/* Dynamic Visual Based on Selection */}
+                  {/* Dynamic Visual Based on Selection - Glass Container */}
                   <div className="flex-1 flex items-center justify-center mb-4 max-h-[240px]">
-                    <DeckVisual type={activeItem.id} />
+                    <div className="relative w-full h-full rounded-2xl overflow-hidden bg-zinc-900/30 border border-white/10">
+                      {/* Corner glass light reflections */}
+                      <div className="absolute top-0 left-0 w-12 h-12 bg-gradient-to-br from-white/15 via-white/5 to-transparent rounded-tl-2xl pointer-events-none" />
+                      <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-bl from-white/10 via-white/3 to-transparent rounded-tr-2xl pointer-events-none" />
+                      <div className="absolute bottom-0 left-0 w-12 h-12 bg-gradient-to-tr from-white/5 via-transparent to-transparent rounded-bl-2xl pointer-events-none" />
+                      <div className="absolute bottom-0 right-0 w-12 h-12 bg-gradient-to-tl from-white/8 via-transparent to-transparent rounded-br-2xl pointer-events-none" />
+                      
+                      {/* Inner content */}
+                      <div className="flex items-center justify-center w-full h-full p-4">
+                        <DeckVisual type={activeItem.id} />
+                      </div>
+                    </div>
                   </div>
 
                   {/* Content - Apple-style spacious */}

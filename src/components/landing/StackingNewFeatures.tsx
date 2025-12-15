@@ -143,8 +143,8 @@ const StackingFeatureCard = ({ card, index, totalCards, scrollProgress }: Stacki
             </motion.div>
           )}
           {index === 1 && (
-            <div className="relative">
-              <div className="absolute inset-0 blur-3xl opacity-30 bg-gradient-to-br from-primary via-purple-500 to-pink-500 rounded-full scale-75" />
+            <div className="relative scale-90 origin-center">
+              <div className="absolute inset-0 blur-3xl opacity-30 bg-gradient-to-br from-primary via-purple-500 to-pink-500 rounded-full scale-50" />
               <LinkPagePreview />
             </div>
           )}
