@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Download, FileText, Image, FileImage, FileCode, ChevronDown, QrCode } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { generateQRMatrix, QRMatrixResult, BrickStyle, BrickColorId, BRICK_COLORS, getBrickColor } from "@/lib/qrMatrix";
-import { StepContent } from "./steps/StepContent";
+import { ContentTypeSelector } from "./ContentTypeSelector";
 import { StepStyle } from "./steps/StepStyle";
 import { BrickPreview } from "./BrickPreview";
 import { BrickStats } from "./BrickStats";
@@ -196,7 +196,7 @@ export const BrickBuilderWizard = () => {
         {/* Step Content */}
         <Card className="p-5">
           {step === 1 && (
-            <StepContent value={content} onChange={setContent} />
+            <ContentTypeSelector value={content} onChange={setContent} />
           )}
           {step === 2 && (
             <StepStyle
