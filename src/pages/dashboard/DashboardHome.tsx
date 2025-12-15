@@ -27,34 +27,29 @@ const DashboardHome = () => {
   // OPTIMIZED: Single RPC call (1 query instead of 10)
   const { links, stats, onboarding, isFetching, isFetched, isLoading, isStale, invalidate } = useDashboardCore();
 
-  // NEW: If core data isn't ready yet, show a minimal inline skeleton
-  // (prevents falling into FirstRunExperience while workspace is still resolving)
-  if (isLoading && !isFetched) {
-    return (
-      <div className="p-6 lg:p-8 max-w-5xl mx-auto">
-        <div className="animate-pulse space-y-4">
-          <div className="h-7 w-48 rounded-md bg-muted" />
-          <div className="h-28 rounded-md bg-muted" />
-          <div className="h-28 rounded-md bg-muted" />
-        </div>
-      </div>
-    );
-  }
-
-  const hasLinks = onboarding.hasLinks;
+  const [workspaceTimeout, setWorkspaceTimeout] = useState(false);
+  const [dataTimeout, setDataTimeout] = useState(false);
 
   // Workspace timeout fallback - show retry after 3 seconds
-  const [workspaceTimeout, setWorkspaceTimeout] = useState(false);
-
-  // Workspace timeout logic - only reset when workspace actually loads
   useEffect(() => {
     if (isWorkspaceLoading && !currentWorkspace) {
       const timer = setTimeout(() => setWorkspaceTimeout(true), 3000);
       return () => clearTimeout(timer);
-    } else if (currentWorkspace) {
-      setWorkspaceTimeout(false);
     }
+
+    setWorkspaceTimeout(false);
   }, [isWorkspaceLoading, currentWorkspace]);
+
+  // Dashboard data timeout recovery - show refresh after 5 seconds
+  useEffect(() => {
+    if (isLoading && !isFetched) {
+      setDataTimeout(false);
+      const timer = setTimeout(() => setDataTimeout(true), 5000);
+      return () => clearTimeout(timer);
+    }
+
+    setDataTimeout(false);
+  }, [isLoading, isFetched]);
 
   // Complete navigation as soon as we have any data (cached or fresh)
   useEffect(() => {
@@ -62,7 +57,7 @@ const DashboardHome = () => {
       completeNavigation();
     }
   }, [isFetched]);
-  
+
   const [showSuccess, setShowSuccess] = useState(false);
   const [createdLinkUrl, setCreatedLinkUrl] = useState("");
   const queryClient = useQueryClient();
@@ -72,7 +67,7 @@ const DashboardHome = () => {
     startTransition(() => {
       invalidate();
     });
-    
+
     const slug = Math.random().toString(36).substring(2, 8);
     setCreatedLinkUrl(`utm.one/${slug}`);
     setShowSuccess(true);
@@ -96,7 +91,34 @@ const DashboardHome = () => {
     );
   }
 
-  // FIXED: Removed blocking loading state - render skeleton inline instead
+  // NEW: Recovery state if dashboard data never resolves
+  if (isLoading && !isFetched && dataTimeout) {
+    return (
+      <div className="p-6 lg:p-8 max-w-5xl mx-auto flex flex-col items-center justify-center min-h-[400px]">
+        <p className="text-sm text-muted-foreground mb-4">couldn't load dashboard data</p>
+        <Button variant="outline" onClick={() => window.location.reload()} className="gap-2">
+          <RefreshCw className="h-4 w-4" />
+          refresh page
+        </Button>
+      </div>
+    );
+  }
+
+  // NEW: If core data isn't ready yet, show a minimal inline skeleton
+  // (prevents falling into FirstRunExperience while workspace is still resolving)
+  if (isLoading && !isFetched) {
+    return (
+      <div className="p-6 lg:p-8 max-w-5xl mx-auto">
+        <div className="animate-pulse space-y-4">
+          <div className="h-7 w-48 rounded-md bg-muted" />
+          <div className="h-28 rounded-md bg-muted" />
+          <div className="h-28 rounded-md bg-muted" />
+        </div>
+      </div>
+    );
+  }
+
+  const hasLinks = onboarding.hasLinks;
 
   // First-run experience for users without links
   if (!hasLinks && !showSuccess) {

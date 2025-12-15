@@ -21,21 +21,38 @@ const SESSION_CACHE_TTL = 30 * 60 * 1000;
  * PHASE 16: Check localStorage directly for instant decision
  * Trust cached auth for immediate render, validate in background
  */
-function hasCachedAuth(): boolean {
+function hasCachedSession(): boolean {
   try {
     // Check window cache first (set by index.html script)
     if ((window as { __CACHED_USER__?: { id: string } }).__CACHED_USER__?.id) {
       return true;
     }
-    
+
     const sessionCache = localStorage.getItem('utm_session_cache');
     if (!sessionCache) return false;
-    
+
     const { user, timestamp } = JSON.parse(sessionCache);
     // 30 min expiry - aligned with AppSessionContext
     if (Date.now() - timestamp > SESSION_CACHE_TTL) return false;
-    
+
     return !!user;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * PHASE 16: Check localStorage directly for instant decision
+ * Trust cached auth for immediate render, validate in background
+ */
+function hasCachedAuth(): boolean {
+  try {
+    const hasSession = hasCachedSession();
+    if (!hasSession) return false;
+
+    // Dashboard requires a workspace context too
+    const workspaceId = localStorage.getItem('currentWorkspaceId');
+    return !!workspaceId;
   } catch {
     return false;
   }
@@ -51,6 +68,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
   // PHASE 16: Check cache synchronously - trust for instant render
   const cachedAuth = hasCachedAuth();
+  const cachedSessionOnly = hasCachedSession();
 
   // ============================================
   // ALL HOOKS MUST BE CALLED BEFORE ANY RETURNS
@@ -59,15 +77,15 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   // Rotate loading messages only when actually loading
   useEffect(() => {
     if (cachedAuth || (isReady && isAuthenticated)) return;
-    
+
     const interval = setInterval(() => {
       setMessageIndex((prev) => (prev + 1) % loadingMessages.length);
     }, 1500);
-    
+
     return () => clearInterval(interval);
   }, [cachedAuth, isReady, isAuthenticated]);
 
-  // Timeout - 5 seconds max wait (only if no cache)
+  // Timeout - 5 seconds max wait (only if no full cache)
   useEffect(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -91,9 +109,26 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   // CONDITIONAL RETURNS - AFTER ALL HOOKS
   // ============================================
 
-  // PHASE 16: INSTANT RENDER if any cache exists - validate in background
+  // PHASE 16: INSTANT RENDER only if we have session + workspace cached
   if (cachedAuth) {
     return <>{children}</>;
+  }
+
+  // Partial cache (session exists but workspace not ready): show brief "loading workspace"
+  if (cachedSessionOnly && !isReady && !hasTimedOut && !error) {
+    return (
+      <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center">
+        <div 
+          className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          }}
+        />
+
+        <div className="w-24 h-1 rounded-full bg-primary animate-breathing-pulse" />
+        <p className="mt-4 text-muted-foreground text-sm font-medium animate-fade-in">loading workspace...</p>
+      </div>
+    );
   }
 
   // Also render if context says ready and authenticated
