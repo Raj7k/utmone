@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { notify } from '@/lib/notify';
+import { getCachedUserId } from '@/lib/getCachedUser';
 
 export interface FeatureFlag {
   id: string;
@@ -34,7 +35,7 @@ export const useFeatureFlags = () => {
 
   const toggleFlag = useMutation({
     mutationFn: async ({ flagKey, enabled }: { flagKey: string; enabled: boolean }) => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const userId = getCachedUserId();
       
       // Capture metrics before the change
       const beforeMetrics = {
@@ -47,7 +48,7 @@ export const useFeatureFlags = () => {
         .from('feature_flags')
         .update({ 
           is_enabled: enabled,
-          last_modified_by: user?.id,
+          last_modified_by: userId,
           last_modified_at: new Date().toISOString()
         })
         .eq('flag_key', flagKey);
@@ -66,7 +67,7 @@ export const useFeatureFlags = () => {
         .insert({
           flag_key: flagKey,
           flag_enabled: enabled,
-          changed_by: user?.id,
+          changed_by: userId,
           latency_p95_before: beforeMetrics.latency_p95,
           error_rate_before: beforeMetrics.error_rate,
           cache_hit_rate_before: beforeMetrics.cache_hit_rate,

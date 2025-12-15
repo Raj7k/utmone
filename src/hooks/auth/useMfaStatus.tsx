@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { getCachedUserId } from "@/lib/getCachedUser";
 
 export interface MfaStatus {
   isEnabled: boolean;
@@ -20,9 +21,9 @@ export function useMfaStatus() {
   return useQuery({
     queryKey: ['mfa-status-secure'],
     queryFn: async (): Promise<MfaStatus> => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const userId = getCachedUserId();
       
-      if (!user) {
+      if (!userId) {
         return {
           isEnabled: false,
           hasBackupCodes: false,
@@ -39,14 +40,14 @@ export function useMfaStatus() {
       const { data: mfaData, error: mfaError } = await supabase
         .from('mfa_settings')
         .select('is_enabled, recovery_codes_hashed, backup_codes_downloaded, last_verified_at, mfa_enforced')
-        .eq('user_id', user.id)
+        .eq('user_id', userId)
         .maybeSingle();
 
       // Fetch security keys (WebAuthn authenticators)
       const { data: authenticators, error: authError } = await supabase
         .from('user_authenticators')
         .select('id, registered_domain')
-        .eq('user_id', user.id);
+        .eq('user_id', userId);
 
       if (mfaError) {
         console.error('Error fetching MFA status:', mfaError);

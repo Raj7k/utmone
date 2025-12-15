@@ -37,12 +37,13 @@ const GlobalEarlyAccessModal = lazy(() => import("./components/early-access/Glob
 const Index = lazy(() => import("./public/routes/Index"));
 const Pricing = lazy(() => import("./public/routes/Pricing"));
 
-// Auth pages (part of marketing shell - no dashboard providers needed)
+// Auth pages (part of auth shell - lightweight with QueryClient)
 const Auth = lazy(() => import("./pages/Auth"));
 const AdminAuth = lazy(() => import("./pages/AdminAuth"));
 const Signup = lazy(() => import("./pages/Signup"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const AuthCallback = lazy(() => import("./pages/AuthCallback"));
+const TotpVerification = lazy(() => import("./pages/auth/TotpVerification"));
 
 // Public link page - uses PublicPageShell
 const PublicLinkPage = lazy(() => import("./pages/PublicLinkPage"));
@@ -139,13 +140,6 @@ const App = () => (
               </DashboardShell>
             </Suspense>
           } />
-          <Route path="/auth/verify-2fa" element={
-            <Suspense fallback={<DashboardSkeleton />}>
-              <DashboardShell>
-                <AppRoutes />
-              </DashboardShell>
-            </Suspense>
-          } />
           <Route path="/approval-queue" element={
             <Suspense fallback={<DashboardSkeleton />}>
               <DashboardShell>
@@ -164,6 +158,7 @@ const App = () => (
           {/* AUTH ROUTES - Lightweight shell with QueryClient for feature flags */}
           <Route element={<AuthLayout />}>
             <Route path="/auth" element={<Suspense fallback={<MarketingSkeleton />}><Auth /></Suspense>} />
+            <Route path="/auth/verify-2fa" element={<Suspense fallback={<MarketingSkeleton />}><TotpVerification /></Suspense>} />
             <Route path="/mc" element={<Suspense fallback={<MarketingSkeleton />}><AdminAuth /></Suspense>} />
             <Route path="/signup" element={<Suspense fallback={<MarketingSkeleton />}><Signup /></Suspense>} />
             <Route path="/reset-password" element={<Suspense fallback={<MarketingSkeleton />}><ResetPassword /></Suspense>} />

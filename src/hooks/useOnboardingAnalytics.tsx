@@ -1,5 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 import { useMutation } from "@tanstack/react-query";
+import { requireUserId } from "@/lib/getCachedUser";
 
 interface TrackStepParams {
   workspaceId: string;
@@ -12,14 +13,13 @@ interface TrackStepParams {
 export const useOnboardingAnalytics = () => {
   const trackStep = useMutation({
     mutationFn: async ({ workspaceId, stepName, completed, skipped, metadata }: TrackStepParams) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+      const userId = requireUserId();
 
       // Check if step already exists
       const { data: existing } = await supabase
         .from("onboarding_analytics")
         .select("id")
-        .eq("user_id", user.id)
+        .eq("user_id", userId)
         .eq("workspace_id", workspaceId)
         .eq("step_name", stepName)
         .maybeSingle();
@@ -48,7 +48,7 @@ export const useOnboardingAnalytics = () => {
         const { error } = await supabase
           .from("onboarding_analytics")
           .insert({
-            user_id: user.id,
+            user_id: userId,
             workspace_id: workspaceId,
             step_name: stepName,
             completed_at: completed ? new Date().toISOString() : null,
