@@ -167,7 +167,7 @@ export default function RevenueBentoCard({ workspaceId, days, context, preloaded
             </div>
             {channels.length > 0 ? (
               channels.map((channel, index) => (
-                <div key={channel.source} className="space-y-1">
+                <div key={`${channel.source}-${index}`} className="space-y-1">
                   <div className="flex items-center justify-between text-sm">
                     <span className="font-medium text-foreground capitalize">
                       {channel.source}
