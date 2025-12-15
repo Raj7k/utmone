@@ -69,8 +69,19 @@ export interface LinkPageEventPayload {
 }
 
 export async function sendLinkPageEvent(payload: LinkPageEventPayload): Promise<void> {
-  // Placeholder - will implement when analytics tracking is needed
-  console.log('Link page event:', payload);
+  try {
+    await supabase.from('link_page_events').insert({
+      page_id: payload.pageId,
+      block_id: payload.blockId || null,
+      event_type: payload.eventType,
+      visitor_hash: payload.ipHash,
+      user_agent_hash: payload.userAgentHash,
+      referrer: payload.referrer,
+      country: payload.country,
+    });
+  } catch (error) {
+    console.error('Failed to track link page event:', error);
+  }
 }
 
 export async function fetchPublishedPage(slug: string) {

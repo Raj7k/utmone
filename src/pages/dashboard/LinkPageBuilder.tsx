@@ -5,6 +5,7 @@ import {
   usePublishLinkPage,
   useUpdateLinkPage,
 } from "@/hooks/useLinkPages";
+import { useLinkPageBlocks } from "@/hooks/useLinkPageBlocks";
 import { isValidLinkPageSlug } from "@/lib/linkPages";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { Button } from "@/components/ui/button";
@@ -12,16 +13,22 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ExternalLink, Settings, Layers, BarChart3 } from "lucide-react";
+import { BlockEditor } from "@/components/link-pages/BlockEditor";
+import { LivePreview } from "@/components/link-pages/LivePreview";
+import { LinkPageAnalytics } from "@/components/link-pages/LinkPageAnalytics";
 
 export default function LinkPageBuilder() {
   const { pageId } = useParams();
   const { toast } = useToast();
   const navigate = useNavigate();
   const { data: pageData, isLoading } = useLinkPage(pageId);
+  const { data: blocks = [] } = useLinkPageBlocks(pageId);
 
   const [meta, setMeta] = useState({ title: "", slug: "", bio: "" });
+  const [activeTab, setActiveTab] = useState("blocks");
 
   useEffect(() => {
     if (pageData) {
@@ -55,6 +62,8 @@ export default function LinkPageBuilder() {
     publishMutation.mutate({ id: pageData.id, publish });
   };
 
+  const publicUrl = `${window.location.origin}/u/${meta.slug}`;
+
   if (isLoading) {
     return (
       <PageContentWrapper
@@ -72,7 +81,7 @@ export default function LinkPageBuilder() {
   return (
     <PageContentWrapper
       title="link page builder"
-      description="Update metadata and publish status"
+      description="Build and customize your link page"
       breadcrumbs={[{ label: "dashboard" }, { label: "link pages", href: "/dashboard/link-pages" }, { label: "builder" }]}
       action={
         <div className="flex gap-2">
@@ -80,81 +89,133 @@ export default function LinkPageBuilder() {
             <ArrowLeft className="h-4 w-4 mr-1" />
             Back
           </Button>
+          {pageData?.is_published && (
+            <Button variant="outline" size="sm" asChild>
+              <a href={publicUrl} target="_blank" rel="noopener noreferrer">
+                <ExternalLink className="h-4 w-4 mr-1" />
+                View Live
+              </a>
+            </Button>
+          )}
           <Button size="sm" onClick={() => handlePublishToggle(!pageData?.is_published)}>
             {pageData?.is_published ? "Unpublish" : "Publish"}
           </Button>
         </div>
       }
     >
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-        <Card>
-          <CardHeader>
-            <CardTitle>Page settings</CardTitle>
-            <CardDescription>Update the metadata for your link page</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="title">Title</Label>
-                <Input
-                  id="title"
-                  value={meta.title}
-                  onChange={e => setMeta({ ...meta, title: e.target.value })}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="slug">Slug</Label>
-                <Input
-                  id="slug"
-                  value={meta.slug}
-                  onChange={e => setMeta({ ...meta, slug: e.target.value.toLowerCase() })}
-                />
-              </div>
-              <div className="space-y-2 md:col-span-2">
-                <Label htmlFor="bio">Bio</Label>
-                <Input
-                  id="bio"
-                  value={meta.bio}
-                  onChange={e => setMeta({ ...meta, bio: e.target.value })}
-                />
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <Badge variant={pageData?.is_published ? "default" : "secondary"}>
-                {pageData?.is_published ? "published" : "draft"}
-              </Badge>
-              <div className="ml-auto flex gap-2">
-                <Button variant="outline" size="sm" onClick={() => navigator.clipboard.writeText(`${window.location.origin}/u/${meta.slug}`)}>
-                  Copy URL
-                </Button>
-                <Button size="sm" onClick={handleMetaSave} disabled={updatePageMutation.isPending}>
-                  Save
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        {/* Editor Panel */}
+        <div className="space-y-6">
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="blocks" className="gap-2">
+                <Layers className="h-4 w-4" />
+                Blocks
+              </TabsTrigger>
+              <TabsTrigger value="settings" className="gap-2">
+                <Settings className="h-4 w-4" />
+                Settings
+              </TabsTrigger>
+              <TabsTrigger value="analytics" className="gap-2">
+                <BarChart3 className="h-4 w-4" />
+                Analytics
+              </TabsTrigger>
+            </TabsList>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Preview</CardTitle>
-            <CardDescription>Public rendering at /u/{meta.slug}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="max-w-sm mx-auto border rounded-2xl p-4 space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="h-12 w-12 rounded-full bg-muted" />
-                <div>
-                  <div className="font-semibold leading-tight">{meta.title}</div>
-                  <div className="text-xs text-muted-foreground">{meta.bio}</div>
-                </div>
-              </div>
-              <div className="text-sm text-muted-foreground text-center py-4">
-                Block editor coming soon
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            <TabsContent value="blocks" className="mt-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Content Blocks</CardTitle>
+                  <CardDescription>Drag to reorder, click to edit</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {pageId && <BlockEditor pageId={pageId} />}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="settings" className="mt-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Page Settings</CardTitle>
+                  <CardDescription>Configure your link page metadata</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="title">Title</Label>
+                      <Input
+                        id="title"
+                        value={meta.title}
+                        onChange={e => setMeta({ ...meta, title: e.target.value })}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="slug">Slug</Label>
+                      <Input
+                        id="slug"
+                        value={meta.slug}
+                        onChange={e => setMeta({ ...meta, slug: e.target.value.toLowerCase() })}
+                      />
+                    </div>
+                    <div className="space-y-2 md:col-span-2">
+                      <Label htmlFor="bio">Bio</Label>
+                      <Input
+                        id="bio"
+                        value={meta.bio}
+                        onChange={e => setMeta({ ...meta, bio: e.target.value })}
+                        placeholder="A short description about you"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Badge variant={pageData?.is_published ? "default" : "secondary"}>
+                      {pageData?.is_published ? "published" : "draft"}
+                    </Badge>
+                    <div className="ml-auto flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => navigator.clipboard.writeText(publicUrl)}
+                      >
+                        Copy URL
+                      </Button>
+                      <Button
+                        size="sm"
+                        onClick={handleMetaSave}
+                        disabled={updatePageMutation.isPending}
+                      >
+                        Save
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="analytics" className="mt-4">
+              {pageId && <LinkPageAnalytics pageId={pageId} />}
+            </TabsContent>
+          </Tabs>
+        </div>
+
+        {/* Preview Panel */}
+        <div className="xl:sticky xl:top-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Live Preview</CardTitle>
+              <CardDescription>/u/{meta.slug}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <LivePreview
+                title={meta.title}
+                bio={meta.bio}
+                blocks={blocks}
+                theme={pageData?.theme || "default"}
+              />
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </PageContentWrapper>
   );

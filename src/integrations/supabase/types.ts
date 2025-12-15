@@ -3966,6 +3966,101 @@ export type Database = {
           },
         ]
       }
+      link_page_blocks: {
+        Row: {
+          created_at: string | null
+          data: Json
+          id: string
+          is_enabled: boolean | null
+          order_index: number
+          page_id: string
+          type: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          data?: Json
+          id?: string
+          is_enabled?: boolean | null
+          order_index?: number
+          page_id: string
+          type: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          data?: Json
+          id?: string
+          is_enabled?: boolean | null
+          order_index?: number
+          page_id?: string
+          type?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "link_page_blocks_page_id_fkey"
+            columns: ["page_id"]
+            isOneToOne: false
+            referencedRelation: "link_pages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      link_page_events: {
+        Row: {
+          block_id: string | null
+          country: string | null
+          created_at: string | null
+          device_type: string | null
+          event_type: string
+          id: string
+          page_id: string
+          referrer: string | null
+          user_agent_hash: string | null
+          visitor_hash: string | null
+        }
+        Insert: {
+          block_id?: string | null
+          country?: string | null
+          created_at?: string | null
+          device_type?: string | null
+          event_type: string
+          id?: string
+          page_id: string
+          referrer?: string | null
+          user_agent_hash?: string | null
+          visitor_hash?: string | null
+        }
+        Update: {
+          block_id?: string | null
+          country?: string | null
+          created_at?: string | null
+          device_type?: string | null
+          event_type?: string
+          id?: string
+          page_id?: string
+          referrer?: string | null
+          user_agent_hash?: string | null
+          visitor_hash?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "link_page_events_block_id_fkey"
+            columns: ["block_id"]
+            isOneToOne: false
+            referencedRelation: "link_page_blocks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "link_page_events_page_id_fkey"
+            columns: ["page_id"]
+            isOneToOne: false
+            referencedRelation: "link_pages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       link_pages: {
         Row: {
           bio: string | null
