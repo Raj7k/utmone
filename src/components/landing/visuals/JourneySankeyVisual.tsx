@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { GoogleIcon } from "@/components/icons/SocialIcons";
+import { FileText, Users } from "lucide-react";
 
 // Cinematic Journey Sankey: Golden fiber path → bloom → revenue convergence
 export const JourneySankeyVisual = () => {
@@ -21,9 +23,9 @@ export const JourneySankeyVisual = () => {
   }, []);
   
   const touchpoints = [
-    { y: 12, label: "Ad", isGolden: true },
-    { y: 27, label: "Blog" },
-    { y: 42, label: "Referral" },
+    { y: 12, label: "Ad", isGolden: true, icon: GoogleIcon, isComponent: true },
+    { y: 27, label: "Blog", icon: FileText, isComponent: false },
+    { y: 42, label: "Referral", icon: Users, isComponent: false },
   ];
 
   return (
@@ -76,52 +78,65 @@ export const JourneySankeyVisual = () => {
       <rect x="0" y="0" width="120" height="60" fill="url(#journeyDotGrid)" opacity="0.3" />
       
       {/* Touchpoint nodes */}
-      {touchpoints.map((tp, i) => (
-        <motion.g
-          key={i}
-          initial={{ opacity: 0, x: -5 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4, delay: i * 0.1, ease: appleEase }}
-        >
-          <rect
-            x="6"
-            y={tp.y}
-            width="14"
-            height="6"
-            rx="1"
-            fill={tp.isGolden ? "rgba(245,158,11,0.15)" : "rgba(255,255,255,0.06)"}
-            stroke={tp.isGolden ? "#F59E0B" : "#FFFFFF"}
-            strokeOpacity={tp.isGolden ? 0.6 : 0.25}
-            strokeWidth="0.4"
-          />
-          {/* Glow pulse for golden */}
-          {tp.isGolden && (
-            <motion.rect
+      {touchpoints.map((tp, i) => {
+        const IconComponent = tp.icon;
+        return (
+          <motion.g
+            key={i}
+            initial={{ opacity: 0, x: -5 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, delay: i * 0.1, ease: appleEase }}
+          >
+            <rect
               x="6"
               y={tp.y}
               width="14"
               height="6"
               rx="1"
-              fill="none"
-              stroke="#F59E0B"
-              strokeWidth="0.3"
-              animate={{ strokeOpacity: [0.3, 0.8, 0.3] }}
-              transition={{ duration: 1, repeat: Infinity, ease: appleEase }}
+              fill={tp.isGolden ? "rgba(245,158,11,0.15)" : "rgba(63,63,70,0.3)"}
+              stroke={tp.isGolden ? "#F59E0B" : "rgba(255,255,255,0.15)"}
+              strokeOpacity={tp.isGolden ? 0.6 : 1}
+              strokeWidth="0.4"
             />
-          )}
-          <text
-            x="13"
-            y={tp.y + 4.2}
-            fill="white"
-            fontSize="2.5"
-            textAnchor="middle"
-            fontFamily="ui-monospace"
-            opacity={tp.isGolden ? 0.9 : 0.5}
-          >
-            {tp.label}
-          </text>
-        </motion.g>
-      ))}
+            {/* Glow pulse for golden */}
+            {tp.isGolden && (
+              <motion.rect
+                x="6"
+                y={tp.y}
+                width="14"
+                height="6"
+                rx="1"
+                fill="none"
+                stroke="#F59E0B"
+                strokeWidth="0.3"
+                animate={{ strokeOpacity: [0.3, 0.8, 0.3] }}
+                transition={{ duration: 1, repeat: Infinity, ease: appleEase }}
+              />
+            )}
+            {/* Icon */}
+            <foreignObject x="7" y={tp.y + 0.5} width="5" height="5">
+              <div className="flex items-center justify-center w-full h-full">
+                {tp.isComponent ? (
+                  <IconComponent className="w-1.5 h-1.5" style={{ color: tp.isGolden ? "#F59E0B" : "#FFFFFF" }} />
+                ) : (
+                  <IconComponent className="w-1.5 h-1.5" style={{ color: tp.isGolden ? "#F59E0B" : "#FFFFFF" }} strokeWidth={2} />
+                )}
+              </div>
+            </foreignObject>
+            <text
+              x="16"
+              y={tp.y + 4.2}
+              fill="white"
+              fontSize="2.5"
+              textAnchor="middle"
+              fontFamily="ui-monospace"
+              opacity={tp.isGolden ? 0.9 : 0.7}
+            >
+              {tp.label}
+            </text>
+          </motion.g>
+        );
+      })}
       
       {/* Normal paths - 3 fiber strands each */}
       {[1, 2].map((pathIdx) => {
@@ -138,7 +153,7 @@ export const JourneySankeyVisual = () => {
               d={d}
               fill="none"
               stroke="url(#normalFiber)"
-              strokeWidth={isCenter ? 0.6 : 0.25}
+              strokeWidth={isCenter ? 1.0 : 0.3}
               strokeLinecap="round"
               strokeOpacity={isCenter ? 0.5 : 0.2}
               initial={{ pathLength: 0 }}
@@ -158,7 +173,7 @@ export const JourneySankeyVisual = () => {
             d={`M 20 ${15 + offset * 0.6} Q 45 ${15 + offset * 0.4}, 55 ${22 + offset * 0.2} Q 75 ${30 + offset * 0.1}, 90 30`}
             fill="none"
             stroke={isCenter ? "url(#goldenFiber)" : "#F59E0B"}
-            strokeWidth={isCenter ? 1.2 : 0.35}
+            strokeWidth={isCenter ? 1.0 : 0.3}
             strokeLinecap="round"
             strokeOpacity={isCenter ? 1 : 0.3}
             filter={isCenter ? "url(#journeyGlow)" : undefined}
@@ -227,7 +242,7 @@ export const JourneySankeyVisual = () => {
           transition={{ duration: 1, repeat: Infinity, ease: appleEase }}
         />
         <circle cx="100" cy="30" r="6" fill="rgba(34,197,94,0.3)" stroke="#22C55E" strokeWidth="0.5" />
-        <text x="100" y="28" fill="white" fontSize="4" textAnchor="middle" fontFamily="ui-monospace" opacity="0.9">$</text>
+        <text x="100" y="28" fill="white" fontSize="5" textAnchor="middle" fontFamily="ui-monospace" fontWeight="bold" opacity="0.9">$</text>
         <text x="100" y="33" fill="white" fontSize="2" textAnchor="middle" fontFamily="ui-monospace" opacity="0.5">revenue</text>
       </motion.g>
       
