@@ -108,6 +108,7 @@ export const useUpdateLinkPage = () => {
       is_published?: boolean; 
       theme?: string;
       metadata?: Json;
+      scheduled_publish_at?: string | null;
     }) => {
       const { id, ...changes } = payload;
       const { data, error } = await supabase
