@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 interface Particle {
   id: number;
@@ -21,6 +20,8 @@ export const FiberOpticGraph = () => {
   const [revenueGlow, setRevenueGlow] = useState(false);
   const particleIdRef = useRef(0);
   const [mounted, setMounted] = useState(false);
+  const animationRef = useRef<number | null>(null);
+  const lastTimeRef = useRef<number>(0);
 
   // Dimensions - compact for first fold
   const width = 460;
@@ -29,31 +30,27 @@ export const FiberOpticGraph = () => {
   const rightX = width - 50;
   const rightY = height / 2;
 
-  // Generate bezier path for each source
-  const getPaths = () => {
-    return SOURCES.map((source) => {
-      const startX = leftX;
-      const startY = source.y;
-      const endX = rightX;
-      const endY = rightY;
-      
-      // Control points for elegant curves
-      const cp1x = startX + (endX - startX) * 0.5;
-      const cp1y = startY;
-      const cp2x = startX + (endX - startX) * 0.5;
-      const cp2y = endY;
-      
-      return `M ${startX} ${startY} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}`;
-    });
-  };
-
-  const paths = getPaths();
+  // Generate bezier path for each source - memoized
+  const paths = SOURCES.map((source) => {
+    const startX = leftX;
+    const startY = source.y;
+    const endX = rightX;
+    const endY = rightY;
+    const cp1x = startX + (endX - startX) * 0.5;
+    const cp1y = startY;
+    const cp2x = startX + (endX - startX) * 0.5;
+    const cp2y = endY;
+    return `M ${startX} ${startY} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}`;
+  });
 
   useEffect(() => {
     setMounted(true);
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    };
   }, []);
 
-  // Spawn particles at random intervals
+  // Spawn particles at intervals - reduced frequency
   useEffect(() => {
     if (!mounted) return;
     
@@ -63,33 +60,37 @@ export const FiberOpticGraph = () => {
         id: particleIdRef.current++,
         pathIndex,
         progress: 0,
-        speed: 0.005 + Math.random() * 0.003,
+        speed: 0.008 + Math.random() * 0.004, // Slightly faster
       };
-      setParticles(prev => [...prev.slice(-20), newParticle]); // Keep max 20 particles
+      setParticles(prev => [...prev.slice(-12), newParticle]); // Reduced max to 12
     };
 
-    // Initial spawn
-    for (let i = 0; i < 4; i++) {
-      setTimeout(() => spawnParticle(), i * 200);
+    // Initial spawn - fewer particles
+    for (let i = 0; i < 3; i++) {
+      setTimeout(() => spawnParticle(), i * 300);
     }
 
-    const interval = setInterval(spawnParticle, 900);
+    const interval = setInterval(spawnParticle, 1200); // Less frequent spawning
     return () => clearInterval(interval);
   }, [mounted]);
 
-  // Animate particles
+  // Throttled animation loop - 30fps instead of 60fps
   useEffect(() => {
     if (!mounted) return;
     
-    let animationFrame: number;
-    
-    const animate = () => {
+    const animate = (timestamp: number) => {
+      // Throttle to ~30fps
+      if (timestamp - lastTimeRef.current < 33) {
+        animationRef.current = requestAnimationFrame(animate);
+        return;
+      }
+      lastTimeRef.current = timestamp;
+
       setParticles(prev => {
         const updated = prev
           .map(p => ({ ...p, progress: p.progress + p.speed }))
-          .filter(p => p.progress <= 1.15);
+          .filter(p => p.progress <= 1.1);
 
-        // Check if any particle just hit the destination
         const hitting = prev.some(p => p.progress < 1 && p.progress + p.speed >= 1);
         if (hitting) {
           setRevenueGlow(true);
@@ -99,11 +100,13 @@ export const FiberOpticGraph = () => {
         return updated;
       });
 
-      animationFrame = requestAnimationFrame(animate);
+      animationRef.current = requestAnimationFrame(animate);
     };
 
-    animationFrame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationFrame);
+    animationRef.current = requestAnimationFrame(animate);
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    };
   }, [mounted]);
 
   // Get point on path at given progress
@@ -203,17 +206,19 @@ export const FiberOpticGraph = () => {
 
         {/* Destination node (Revenue) */}
         <g>
-          {/* Outer ring with glow */}
-          <motion.circle
+          {/* Outer ring with glow - CSS transition instead of framer-motion */}
+          <circle
             cx={rightX}
             cy={rightY}
             r="18"
             fill="none"
-            className={revenueGlow ? "stroke-white/95" : "stroke-white/25"}
+            className={`transition-all duration-100 ${revenueGlow ? "stroke-white/95" : "stroke-white/25"}`}
             strokeWidth="1.5"
             filter={revenueGlow ? "url(#revenue-glow)" : undefined}
-            animate={{ scale: revenueGlow ? 1.15 : 1 }}
-            transition={{ duration: 0.1 }}
+            style={{ 
+              transform: `scale(${revenueGlow ? 1.15 : 1})`,
+              transformOrigin: `${rightX}px ${rightY}px`
+            }}
           />
           {/* Inner ring */}
           <circle
