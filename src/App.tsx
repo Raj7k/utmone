@@ -548,6 +548,8 @@ const PRIVATE_ROUTE_PREFIXES = [
   "/integrations/gtm",
   "/settings/integrations",
   "/dev/performance",
+  "/accept-invite",
+  "/password-protected",
 ];
 
 const AppRoutes = () => {
