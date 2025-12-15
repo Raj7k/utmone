@@ -20,7 +20,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { useToast } from "@/components/ui/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ArrowLeft, ExternalLink, Settings, Layers, BarChart3, Copy, Check, Upload, X, CalendarIcon, Globe, MapPin, Mail, MousePointer, BadgeCheck, EyeOff } from "lucide-react";
+import { ArrowLeft, ExternalLink, Settings, Layers, BarChart3, Copy, Check, Upload, X, CalendarIcon, Globe, MapPin, Mail, MousePointer, EyeOff } from "lucide-react";
+import { VerificationBadgeStatus } from "@/components/link-pages/VerificationBadgeStatus";
 import { BlockEditor } from "@/components/link-pages/BlockEditor";
 import { LivePreview } from "@/components/link-pages/LivePreview";
 import { LinkPageAnalytics } from "@/components/link-pages/LinkPageAnalytics";
@@ -360,13 +361,20 @@ export default function LinkPageBuilder() {
                     </div>
                   </div>
 
-                  {/* Advanced */}
+                  {/* Verification Badge */}
+                  <div className="pt-4 border-t border-border">
+                    {pageData?.workspace_id && (
+                      <VerificationBadgeStatus
+                        workspaceId={pageData.workspace_id}
+                        showBadge={meta.verified || false}
+                        onShowBadgeChange={(checked) => setMeta({ ...meta, verified: checked })}
+                      />
+                    )}
+                  </div>
+
+                  {/* Branding */}
                   <div className="pt-4 border-t border-border space-y-3">
-                    <h4 className="text-sm font-medium">Advanced</h4>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2"><BadgeCheck className="h-4 w-4 text-primary" /><Label className="text-sm cursor-pointer">Verified Badge</Label></div>
-                      <Switch checked={meta.verified || false} onCheckedChange={(checked) => setMeta({ ...meta, verified: checked })} />
-                    </div>
+                    <h4 className="text-sm font-medium">Branding</h4>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2"><EyeOff className="h-4 w-4 text-muted-foreground" /><Label className="text-sm cursor-pointer">Hide Branding</Label></div>
                       <Switch checked={meta.hide_branding || false} onCheckedChange={(checked) => setMeta({ ...meta, hide_branding: checked })} />

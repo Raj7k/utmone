@@ -21,7 +21,7 @@ const AdminSecurity = lazyWithRetry(() => import("@/pages/admin/AdminSecurity"))
 const SubscriptionManagement = lazyWithRetry(() => import("@/pages/admin/SubscriptionManagement"));
 const FeedbackManagement = lazyWithRetry(() => import("@/pages/admin/FeedbackManagement"));
 const RoadmapManagement = lazyWithRetry(() => import("@/pages/admin/RoadmapManagement"));
-
+const VerificationRequests = lazyWithRetry(() => import("@/pages/admin/VerificationRequests"));
 // Admin route wrapper
 const AdminRoute = ({ children }: { children: React.ReactNode }) => (
   <ProtectedRoute>
@@ -47,4 +47,5 @@ export const adminRoutes = [
   <Route key="admin-subscriptions" path="/admin/subscriptions" element={<AdminRoute><SubscriptionManagement /></AdminRoute>} />,
   <Route key="admin-feedback" path="/admin/feedback" element={<AdminRoute><FeedbackManagement /></AdminRoute>} />,
   <Route key="admin-roadmap" path="/admin/roadmap" element={<AdminRoute><RoadmapManagement /></AdminRoute>} />,
+  <Route key="admin-verification" path="/admin/verification" element={<AdminRoute><VerificationRequests /></AdminRoute>} />,
 ];
