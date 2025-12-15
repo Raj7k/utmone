@@ -4,9 +4,9 @@ import { FeatureStatsStrip } from "@/components/features/FeatureStatsStrip";
 import { FeatureBeforeAfter } from "@/components/features/FeatureBeforeAfter";
 import { FeatureBentoGrid } from "@/components/features/FeatureBentoGrid";
 import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
-import { FeatureShowcase } from "@/components/features/FeatureShowcase";
 import { LinkPagePreview } from "@/components/features/visuals/LinkPagePreview";
 import { DeviceShowcase } from "@/components/features/visuals/DeviceShowcase";
+import { LinkPageDemoBuilder } from "@/components/features/visuals/LinkPageDemoBuilder";
 import { 
   Palette, 
   LayoutGrid, 
@@ -115,16 +115,25 @@ const LinkPages = () => {
         items={beforeAfter}
       />
 
-      {/* Fold 4: Showcase - Device Mockups */}
-      <FeatureShowcase
-        headline="looks great on every device"
-        subheadline="responsive design that adapts to any screen size"
-        background="muted"
-      >
-        <DeviceShowcase />
-      </FeatureShowcase>
+      {/* Fold 4: Interactive Builder Demo */}
+      <LinkPageDemoBuilder />
 
-      {/* Fold 5: Capabilities Bento Grid */}
+      {/* Fold 5: Showcase - Device Mockups */}
+      <div className="py-16 bg-muted/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+              looks great on every device
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              responsive design that adapts to any screen size
+            </p>
+          </div>
+          <DeviceShowcase />
+        </div>
+      </div>
+
+      {/* Fold 6: Capabilities Bento Grid */}
       <FeatureBentoGrid
         headline="everything you need"
         subheadline="powerful features, simple interface"
