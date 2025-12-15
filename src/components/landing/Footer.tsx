@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
-import { ArrowRight, Waves, ChevronRight } from "lucide-react";
+import { ArrowRight, Boxes, LayoutGrid, ChevronRight } from "lucide-react";
 import { FooterRevealText } from "./FooterRevealText";
 import { Button } from "@/components/ui/button";
 
@@ -130,24 +130,48 @@ export const Footer = () => {
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
       
       <div className="max-w-[1400px] mx-auto px-6 md:px-8 py-16 md:py-20 relative z-10">
-        {/* New Feature Highlight - Event Halo */}
-        <div className="mb-12 p-5 md:p-6 rounded-2xl border border-white/20 bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-sm">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
-              <Waves className="w-6 h-6 text-white/80" />
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-1">
-                <h3 className="text-lg font-semibold text-white/90">event halo</h3>
-                <span className="px-2 py-0.5 text-[10px] font-medium rounded-full bg-white/20 text-white animate-pulse">NEW</span>
+        {/* New Features Spotlight - Brick Builder & Link Pages */}
+        <div className="mb-12 grid md:grid-cols-2 gap-4">
+          {/* Brick Builder */}
+          <div className="p-5 rounded-2xl border border-white/20 bg-gradient-to-br from-orange-500/10 to-white/5 backdrop-blur-sm">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center shrink-0">
+                <Boxes className="w-5 h-5 text-orange-400" />
               </div>
-              <p className="text-sm text-white/50">track the invisible 90% from every offline event — measure booth traffic, calculate halo lift, prove event ROI</p>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <h3 className="text-base font-semibold text-white/90">brick builder</h3>
+                  <span className="px-2 py-0.5 text-[10px] font-medium rounded-full bg-orange-500/20 text-orange-300">NEW</span>
+                </div>
+                <p className="text-xs text-white/50">turn QR codes into physical brick masterpieces with instructions</p>
+              </div>
+              <Link to="/features/brick-builder" className="shrink-0">
+                <Button variant="ghost" size="sm" className="text-white/70 hover:text-white hover:bg-white/10 text-xs">
+                  learn more <ChevronRight className="w-3 h-3 ml-1" />
+                </Button>
+              </Link>
             </div>
-            <Link to="/features/event-halo" className="shrink-0">
-              <Button variant="ghost" size="sm" className="text-white/70 hover:text-white hover:bg-white/10">
-                learn more <ChevronRight className="w-4 h-4 ml-1" />
-              </Button>
-            </Link>
+          </div>
+
+          {/* Link Pages */}
+          <div className="p-5 rounded-2xl border border-white/20 bg-gradient-to-br from-purple-500/10 to-white/5 backdrop-blur-sm">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center shrink-0">
+                <LayoutGrid className="w-5 h-5 text-purple-400" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <h3 className="text-base font-semibold text-white/90">link pages</h3>
+                  <span className="px-2 py-0.5 text-[10px] font-medium rounded-full bg-purple-500/20 text-purple-300">NEW</span>
+                </div>
+                <p className="text-xs text-white/50">beautiful link-in-bio pages with built-in UTM tracking</p>
+              </div>
+              <Link to="/features/link-pages" className="shrink-0">
+                <Button variant="ghost" size="sm" className="text-white/70 hover:text-white hover:bg-white/10 text-xs">
+                  learn more <ChevronRight className="w-3 h-3 ml-1" />
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
 
