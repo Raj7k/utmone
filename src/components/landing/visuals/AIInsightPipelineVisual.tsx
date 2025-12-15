@@ -1,22 +1,35 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { BarChart2, Link2, Users } from "lucide-react";
 
-// Refined AI Intelligence: Grey/black base → glowing orb core → single prediction output
-// Matches Attribution line weights and visual story: Data → AI → Insight
+// AI Intelligence Visual: Matching Attribution structure exactly
+// Icons OUTSIDE boxes, grey base, single emerald accent
 export const AIInsightPipelineVisual = () => {
+  const [particles, setParticles] = useState<{ id: number; path: number; delay: number }[]>([]);
   const appleEase = [0.4, 0.0, 0.2, 1] as const;
-  const fiberOffsets = [-1.2, -0.6, 0, 0.6, 1.2]; // 5 strands matching Attribution
-  
+  const fiberOffsets = [-1, -0.5, 0, 0.5, 1]; // 5 strands matching Attribution
+  const fontStack = "'SF Mono', SFMono-Regular, ui-monospace, Menlo, monospace";
+  const accentColor = "#10B981"; // Single emerald accent
+
+  useEffect(() => {
+    setParticles(Array.from({ length: 6 }, (_, i) => ({
+      id: i,
+      path: i % 3,
+      delay: i * 0.3,
+    })));
+  }, []);
+
+  // Inputs with proportional widths like Attribution
   const inputs = [
-    { y: 12, icon: BarChart2, label: "Metrics" },
-    { y: 28, icon: Link2, label: "Links" },
-    { y: 44, icon: Users, label: "Audience" },
+    { y: 12, width: 38, icon: BarChart2 },
+    { y: 27, width: 45, icon: Link2 },
+    { y: 42, width: 32, icon: Users },
   ];
 
   return (
     <svg viewBox="0 0 120 60" className="w-full h-full">
       <defs>
-        {/* Bloom filter for core glow */}
+        {/* Bloom filter */}
         <filter id="aiBloom" x="-100%" y="-100%" width="300%" height="300%">
           <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur1" />
           <feGaussianBlur in="SourceGraphic" stdDeviation="0.8" result="blur2" />
@@ -27,27 +40,26 @@ export const AIInsightPipelineVisual = () => {
           </feMerge>
         </filter>
         
-        {/* Fiber glow - subtle */}
+        {/* Fiber glow */}
         <filter id="aiFiberGlow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="0.6" result="glow" />
+          <feGaussianBlur stdDeviation="1" result="glow" />
           <feComposite in="SourceGraphic" in2="glow" operator="over" />
         </filter>
         
-        {/* Single flow gradient - grey to white to emerald */}
-        <linearGradient id="aiFlowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#71717A" stopOpacity="0.4" />
+        {/* Flow gradient - grey to white to emerald */}
+        <linearGradient id="aiFlow" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#71717A" stopOpacity="0.5" />
           <stop offset="40%" stopColor="#FFFFFF" stopOpacity="0.9" />
-          <stop offset="70%" stopColor="#10B981" stopOpacity="0.7" />
-          <stop offset="100%" stopColor="#10B981" stopOpacity="0.4" />
+          <stop offset="100%" stopColor={accentColor} stopOpacity="0.6" />
         </linearGradient>
         
-        {/* Output beam gradient */}
-        <linearGradient id="aiOutputBeam" x1="0%" y1="0%" x2="100%" y2="0%">
+        {/* Output gradient */}
+        <linearGradient id="aiOutput" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.8" />
-          <stop offset="100%" stopColor="#10B981" stopOpacity="0.6" />
+          <stop offset="100%" stopColor={accentColor} stopOpacity="0.6" />
         </linearGradient>
         
-        {/* Core orb gradient - grey/slate base with subtle glow */}
+        {/* AI core gradient */}
         <radialGradient id="aiCoreGlow" cx="50%" cy="50%" r="50%">
           <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
           <stop offset="30%" stopColor="#A1A1AA" stopOpacity="0.6" />
@@ -55,97 +67,88 @@ export const AIInsightPipelineVisual = () => {
           <stop offset="100%" stopColor="#27272A" stopOpacity="0.1" />
         </radialGradient>
         
-        {/* Dot grid pattern */}
+        {/* Dot grid */}
         <pattern id="aiDotGrid" patternUnits="userSpaceOnUse" width="4" height="4">
-          <circle cx="2" cy="2" r="0.15" fill="white" fillOpacity="0.08" />
+          <circle cx="2" cy="2" r="0.12" fill="white" fillOpacity="0.1" />
         </pattern>
       </defs>
       
-      {/* Background dot grid */}
-      <rect x="0" y="0" width="120" height="60" fill="url(#aiDotGrid)" opacity="0.5" />
+      {/* Background */}
+      <rect x="0" y="0" width="120" height="60" fill="url(#aiDotGrid)" opacity="0.3" />
       
-      {/* Input nodes - grey frosted glass */}
-      {inputs.map((input, i) => (
-        <motion.g
-          key={i}
-          initial={{ opacity: 0, x: -5 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: i * 0.1, ease: appleEase }}
-        >
-          <rect
-            x="4"
-            y={input.y}
-            width="18"
-            height="8"
-            rx="1.5"
-            fill="rgba(63,63,70,0.3)"
-            stroke="rgba(255,255,255,0.15)"
-            strokeWidth="0.4"
-          />
-          <foreignObject x="6" y={input.y + 1.5} width="5" height="5">
-            <input.icon className="w-full h-full text-zinc-400" style={{ opacity: 0.7 }} />
-          </foreignObject>
-          <text x="12" y={input.y + 5.5} fill="white" fontSize="2.5" fontFamily="ui-monospace" opacity="0.5">{input.label}</text>
-        </motion.g>
-      ))}
+      {/* Input bars with icons OUTSIDE - matching Attribution exactly */}
+      {inputs.map((input, i) => {
+        const IconComponent = input.icon;
+        return (
+          <g key={i}>
+            <motion.rect
+              x="16"
+              y={input.y}
+              width={input.width}
+              height="6"
+              rx="2"
+              fill="#52525B"
+              fillOpacity={0.2}
+              stroke="#52525B"
+              strokeOpacity={0.5}
+              strokeWidth="0.4"
+              initial={{ width: 0 }}
+              animate={{ width: input.width }}
+              transition={{ duration: 0.6, delay: i * 0.1, ease: appleEase }}
+            />
+            {/* Pulse glow */}
+            <motion.rect
+              x="16"
+              y={input.y}
+              width={input.width}
+              height="6"
+              rx="2"
+              fill="none"
+              stroke="#71717A"
+              strokeWidth="0.3"
+              animate={{ strokeOpacity: [0.3, 0.6, 0.3] }}
+              transition={{ duration: 1, repeat: Infinity, delay: i * 0.25, ease: appleEase }}
+            />
+            {/* Icon OUTSIDE the bar - matching Attribution */}
+            <foreignObject x="4" y={input.y - 1} width="10" height="8">
+              <div className="flex items-center justify-center w-full h-full">
+                <IconComponent className="w-2 h-2 text-zinc-400" strokeWidth={2} />
+              </div>
+            </foreignObject>
+          </g>
+        );
+      })}
       
-      {/* Multi-strand fiber bundles to AI core - 5 strands like Attribution */}
-      {inputs.map((input, inputIdx) => (
+      {/* Multi-strand fiber flows to AI core - 5 strands */}
+      {inputs.map((input, srcIdx) => (
         fiberOffsets.map((offset, strandIdx) => {
-          const isCenter = strandIdx === 2; // Middle strand is brightest
-          const isInner = strandIdx === 1 || strandIdx === 3;
-          const opacity = isCenter ? 0.85 : isInner ? 0.35 : 0.15;
-          const strokeWidth = isCenter ? 1.0 : isInner ? 0.5 : 0.3;
-          
+          const isCenter = strandIdx === 2;
+          const baseY = input.y + 3;
           return (
             <motion.path
-              key={`fiber-${inputIdx}-${strandIdx}`}
-              d={`M 22 ${input.y + 4 + offset * 0.4} Q 38 ${input.y + 4 + offset * 0.2}, 48 ${30 + offset * 0.15}`}
+              key={`fiber-${srcIdx}-${strandIdx}`}
+              d={`M ${16 + input.width} ${baseY + offset * 0.8} Q 55 ${baseY + offset * 0.4}, 68 30`}
               fill="none"
-              stroke={isCenter ? "url(#aiFlowGradient)" : "#52525B"}
-              strokeWidth={strokeWidth}
+              stroke={isCenter ? "url(#aiFlow)" : "#52525B"}
+              strokeWidth={isCenter ? 1.0 : 0.3}
               strokeLinecap="round"
-              strokeOpacity={opacity}
+              strokeOpacity={isCenter ? 0.8 : 0.2}
               filter={isCenter ? "url(#aiFiberGlow)" : undefined}
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 0.7, delay: 0.3 + inputIdx * 0.12, ease: appleEase }}
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={{ pathLength: 1, opacity: 1 }}
+              transition={{ duration: 0.7, delay: 0.3 + srcIdx * 0.1, ease: appleEase }}
             />
           );
         })
       ))}
       
-      {/* Heartbeat pulse particles on center fibers */}
-      {inputs.map((input, i) => (
-        <motion.circle
-          key={`pulse-${i}`}
-          r="1.2"
-          fill="#10B981"
-          filter="url(#aiFiberGlow)"
-          initial={{ offsetDistance: "0%", opacity: 0 }}
-          animate={{
-            offsetDistance: ["0%", "100%"],
-            opacity: [0, 0.9, 0.9, 0],
-          }}
-          transition={{
-            duration: 1, // 60bpm heartbeat
-            delay: i * 0.33,
-            repeat: Infinity,
-            ease: appleEase,
-          }}
-          style={{
-            offsetPath: `path("M 22 ${input.y + 4} Q 38 ${input.y + 4}, 48 30")`,
-          }}
-        />
-      ))}
-      
-      {/* Central AI Core - Simplified Glowing Orb */}
+      {/* Central AI Core */}
       <g>
-        {/* Outer rotating ring - subtle */}
+        {/* Outer rotating ring */}
         <motion.circle
-          cx="58"
+          cx="68"
           cy="30"
-          r="14"
+          r="12"
           fill="none"
           stroke="#52525B"
           strokeWidth="0.3"
@@ -153,56 +156,31 @@ export const AIInsightPipelineVisual = () => {
           strokeOpacity="0.3"
           animate={{ rotate: 360 }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          style={{ transformOrigin: "58px 30px" }}
+          style={{ transformOrigin: "68px 30px" }}
         />
         
-        {/* Middle rotating ring - opposite direction */}
+        {/* Core glow */}
         <motion.circle
-          cx="58"
+          cx="68"
           cy="30"
-          r="10"
-          fill="none"
-          stroke="#71717A"
-          strokeWidth="0.25"
-          strokeDasharray="1.5 2"
-          strokeOpacity="0.25"
-          animate={{ rotate: -360 }}
-          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-          style={{ transformOrigin: "58px 30px" }}
-        />
-        
-        {/* Pulsing core glow - the main orb */}
-        <motion.circle
-          cx="58"
-          cy="30"
-          r="7"
+          r="8"
           fill="url(#aiCoreGlow)"
           filter="url(#aiBloom)"
-          animate={{
-            r: [6.5, 7.5, 6.5],
-            opacity: [0.8, 1, 0.8],
-          }}
+          animate={{ r: [7.5, 8.5, 7.5], opacity: [0.8, 1, 0.8] }}
           transition={{ duration: 1, repeat: Infinity, ease: appleEase }}
         />
         
         {/* Inner core ring */}
-        <circle 
-          cx="58" 
-          cy="30" 
-          r="4" 
-          fill="rgba(39,39,42,0.6)" 
-          stroke="rgba(255,255,255,0.2)" 
-          strokeWidth="0.4" 
-        />
+        <circle cx="68" cy="30" r="5" fill="rgba(39,39,42,0.6)" stroke="rgba(255,255,255,0.2)" strokeWidth="0.4" />
         
         {/* AI label */}
         <text 
-          x="58" 
+          x="68" 
           y="32" 
           fill="white" 
           fontSize="5" 
           textAnchor="middle" 
-          fontFamily="ui-monospace" 
+          fontFamily={fontStack}
           fontWeight="bold"
           opacity="0.9"
         >
@@ -210,22 +188,18 @@ export const AIInsightPipelineVisual = () => {
         </text>
       </g>
       
-      {/* Output fiber bundle to prediction - 5 strands */}
+      {/* Output fiber bundle - 5 strands */}
       {fiberOffsets.map((offset, strandIdx) => {
         const isCenter = strandIdx === 2;
-        const isInner = strandIdx === 1 || strandIdx === 3;
-        const opacity = isCenter ? 0.9 : isInner ? 0.4 : 0.18;
-        const strokeWidth = isCenter ? 1.0 : isInner ? 0.5 : 0.3;
-        
         return (
           <motion.path
             key={`output-${strandIdx}`}
-            d={`M 68 ${30 + offset * 0.3} Q 78 ${30 + offset * 0.2}, 88 ${28 + offset * 0.15}`}
+            d={`M 80 ${30 + offset * 0.6} Q 90 ${30 + offset * 0.4}, 100 ${26 + offset * 0.3}`}
             fill="none"
-            stroke={isCenter ? "url(#aiOutputBeam)" : "#52525B"}
-            strokeWidth={strokeWidth}
+            stroke={isCenter ? "url(#aiOutput)" : "#52525B"}
+            strokeWidth={isCenter ? 1.0 : 0.3}
             strokeLinecap="round"
-            strokeOpacity={opacity}
+            strokeOpacity={isCenter ? 0.8 : 0.2}
             filter={isCenter ? "url(#aiFiberGlow)" : undefined}
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
@@ -234,121 +208,89 @@ export const AIInsightPipelineVisual = () => {
         );
       })}
       
-      {/* Prediction graph - upward trending dashed line */}
-      <motion.path
-        d="M 88 28 L 93 26 L 98 23 L 103 18 L 108 14"
-        fill="none"
-        stroke="#10B981"
-        strokeWidth="0.7"
-        strokeDasharray="1.5 1"
-        strokeLinecap="round"
-        strokeOpacity="0.8"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 0.8, delay: 1.4, ease: appleEase }}
-      />
-      
-      {/* Graph axis lines - subtle grey */}
+      {/* Prediction graph - upward trending */}
       <motion.g
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.4 }}
       >
-        <line x1="86" y1="32" x2="86" y2="12" stroke="#52525B" strokeWidth="0.25" strokeOpacity="0.4" />
-        <line x1="86" y1="32" x2="112" y2="32" stroke="#52525B" strokeWidth="0.25" strokeOpacity="0.4" />
+        {/* Axis lines */}
+        <line x1="98" y1="32" x2="98" y2="14" stroke="#52525B" strokeWidth="0.3" strokeOpacity="0.4" />
+        <line x1="98" y1="32" x2="116" y2="32" stroke="#52525B" strokeWidth="0.3" strokeOpacity="0.4" />
+        
+        {/* Trend line */}
+        <motion.path
+          d="M 100 28 L 104 25 L 108 21 L 112 16"
+          fill="none"
+          stroke={accentColor}
+          strokeWidth="0.8"
+          strokeDasharray="1.5 1"
+          strokeLinecap="round"
+          strokeOpacity="0.8"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 0.8, delay: 1.4, ease: appleEase }}
+        />
       </motion.g>
       
-      {/* Prediction badge - emerald accent */}
+      {/* Prediction badge */}
       <motion.g
         initial={{ opacity: 0, y: 3 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.9, duration: 0.4, ease: appleEase }}
+        transition={{ delay: 1.8, duration: 0.4, ease: appleEase }}
       >
         <rect 
-          x="100" 
-          y="9" 
-          width="14" 
+          x="104" 
+          y="8" 
+          width="12" 
           height="6" 
           rx="1.5" 
           fill="rgba(16,185,129,0.15)" 
-          stroke="#10B981" 
+          stroke={accentColor}
           strokeWidth="0.4" 
           strokeOpacity="0.7" 
         />
         <text 
-          x="107" 
-          y="13.2" 
-          fill="#10B981" 
-          fontSize="2.5" 
+          x="110" 
+          y="12.5" 
+          fill={accentColor}
+          fontSize="3" 
           textAnchor="middle" 
-          fontFamily="ui-monospace" 
+          fontFamily={fontStack}
           fontWeight="500"
         >
           +24%
         </text>
       </motion.g>
       
-      {/* Output pulse particle */}
-      <motion.circle
-        r="1.3"
-        fill="#10B981"
-        filter="url(#aiFiberGlow)"
-        initial={{ offsetDistance: "0%", opacity: 0 }}
-        animate={{
-          offsetDistance: ["0%", "100%"],
-          opacity: [0, 1, 1, 0],
-        }}
-        transition={{
-          duration: 1.2,
-          delay: 1.5,
-          repeat: Infinity,
-          repeatDelay: 0.8,
-          ease: appleEase,
-        }}
-        style={{
-          offsetPath: `path("M 68 30 Q 78 30, 88 28 L 108 14")`,
-        }}
-      />
-      
-      {/* Subtle energy particles around orb */}
-      {[...Array(6)].map((_, i) => {
-        const angle = (i / 6) * Math.PI * 2;
+      {/* Heartbeat particles */}
+      {particles.map((p) => {
+        const input = inputs[p.path];
         return (
           <motion.circle
-            key={`energy-${i}`}
-            cx={58 + Math.cos(angle) * 11}
-            cy={30 + Math.sin(angle) * 11}
-            r="0.5"
-            fill="#71717A"
+            key={p.id}
+            r="1.5"
+            fill={accentColor}
+            filter="url(#aiFiberGlow)"
+            initial={{ offsetDistance: "0%", opacity: 0 }}
             animate={{
-              opacity: [0, 0.5, 0],
-              scale: [0.6, 1, 0.6],
+              offsetDistance: ["0%", "100%"],
+              opacity: [0, 1, 1, 0],
+              scale: [0.8, 1.2, 0.8],
             }}
             transition={{
-              duration: 2,
-              delay: i * 0.25,
+              duration: 1,
+              delay: p.delay,
               repeat: Infinity,
+              repeatDelay: 0.5,
               ease: appleEase,
+            }}
+            style={{
+              offsetPath: `path("M ${16 + input.width} ${input.y + 3} Q 55 ${input.y + 3}, 68 30")`,
             }}
           />
         );
       })}
-      
-      {/* Footer label */}
-      <motion.text
-        x="58"
-        y="56"
-        fill="white"
-        fontSize="2.5"
-        fontFamily="ui-monospace"
-        textAnchor="middle"
-        fillOpacity="0.4"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2.2 }}
-      >
-        Predict · Attribute · Optimize
-      </motion.text>
     </svg>
   );
 };
