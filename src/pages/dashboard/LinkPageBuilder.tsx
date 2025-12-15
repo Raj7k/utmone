@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   useLinkPage,
@@ -15,7 +15,8 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
-import { ArrowLeft, ExternalLink, Settings, Layers, BarChart3, Copy, Check } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ArrowLeft, ExternalLink, Settings, Layers, BarChart3, Copy, Check, Upload, X } from "lucide-react";
 import { BlockEditor } from "@/components/link-pages/BlockEditor";
 import { LivePreview } from "@/components/link-pages/LivePreview";
 import { LinkPageAnalytics } from "@/components/link-pages/LinkPageAnalytics";
@@ -24,6 +25,7 @@ import { ThemePicker } from "@/components/link-pages/ThemePicker";
 import { DeviceToggle } from "@/components/link-pages/DeviceToggle";
 import type { LinkPageBlockType } from "@/lib/linkPages";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function LinkPageBuilder() {
   const { pageId } = useParams();
@@ -32,8 +34,11 @@ export default function LinkPageBuilder() {
   const { data: pageData, isLoading } = useLinkPage(pageId);
   const { data: blocks = [] } = useLinkPageBlocks(pageId);
   const createBlock = useCreateBlock();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [meta, setMeta] = useState({ title: "", slug: "", bio: "" });
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [activeTab, setActiveTab] = useState("blocks");
   const [previewDevice, setPreviewDevice] = useState<"mobile" | "desktop">("mobile");
   const [copied, setCopied] = useState(false);
@@ -45,6 +50,9 @@ export default function LinkPageBuilder() {
         slug: pageData.slug,
         bio: pageData.bio || "",
       });
+      // Load avatar from metadata
+      const metadata = pageData.metadata as Record<string, unknown> | null;
+      setAvatarUrl((metadata?.avatar_url as string) || null);
     }
   }, [pageData]);
 
@@ -57,12 +65,50 @@ export default function LinkPageBuilder() {
       toast({ variant: "destructive", description: "Slug must be 3-64 lowercase characters" });
       return;
     }
+    // Merge existing metadata with avatar_url
+    const existingMetadata = (pageData.metadata as Record<string, unknown>) || {};
     updatePageMutation.mutate({
       id: pageData.id,
       title: meta.title,
       slug: meta.slug,
       bio: meta.bio,
+      metadata: { ...existingMetadata, avatar_url: avatarUrl },
     });
+  };
+
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !pageId) return;
+
+    setUploadingAvatar(true);
+    try {
+      const fileExt = file.name.split(".").pop();
+      const filePath = `${pageId}/${Date.now()}.${fileExt}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("link-page-avatars")
+        .upload(filePath, file, { upsert: true });
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from("link-page-avatars")
+        .getPublicUrl(filePath);
+
+      setAvatarUrl(publicUrl);
+      toast({ description: "Avatar uploaded! Click Save to apply." });
+    } catch (error) {
+      console.error("Avatar upload error:", error);
+      toast({ variant: "destructive", description: "Failed to upload avatar" });
+    } finally {
+      setUploadingAvatar(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
+  const handleRemoveAvatar = () => {
+    setAvatarUrl(null);
+    toast({ description: "Avatar removed. Click Save to apply." });
   };
 
   const handleThemeChange = (theme: string) => {
@@ -171,7 +217,52 @@ export default function LinkPageBuilder() {
                   <CardTitle className="text-base">Page Settings</CardTitle>
                   <CardDescription>Configure your link page metadata</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-6">
+                  {/* Avatar Upload Section */}
+                  <div className="space-y-2">
+                    <Label>Avatar</Label>
+                    <div className="flex items-center gap-4">
+                      <Avatar className="h-16 w-16 border-2 border-border">
+                        {avatarUrl ? (
+                          <AvatarImage src={avatarUrl} alt={meta.title} />
+                        ) : (
+                          <AvatarFallback className="text-lg">
+                            {meta.title?.charAt(0)?.toUpperCase() || "?"}
+                          </AvatarFallback>
+                        )}
+                      </Avatar>
+                      <div className="flex flex-col gap-2">
+                        <input
+                          ref={fileInputRef}
+                          type="file"
+                          accept="image/*"
+                          onChange={handleAvatarUpload}
+                          className="hidden"
+                        />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => fileInputRef.current?.click()}
+                          disabled={uploadingAvatar}
+                        >
+                          <Upload className="h-4 w-4 mr-1" />
+                          {uploadingAvatar ? "Uploading..." : "Upload"}
+                        </Button>
+                        {avatarUrl && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={handleRemoveAvatar}
+                            className="text-destructive hover:text-destructive"
+                          >
+                            <X className="h-4 w-4 mr-1" />
+                            Remove
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="title">Title</Label>
@@ -259,6 +350,7 @@ export default function LinkPageBuilder() {
                   bio={meta.bio}
                   blocks={blocks}
                   theme={pageData?.theme || "default"}
+                  avatarUrl={avatarUrl}
                 />
               </div>
             </CardContent>

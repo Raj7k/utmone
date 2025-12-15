@@ -1,5 +1,11 @@
 import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface ThemePickerProps {
   value: string;
@@ -27,29 +33,36 @@ export function ThemePicker({ value, onChange }: ThemePickerProps) {
   return (
     <div className="flex flex-col gap-2">
       <span className="text-xs text-muted-foreground">Theme:</span>
-      <div className="flex flex-wrap gap-2">
-        {THEMES.map((theme) => (
-          <button
-            key={theme.id}
-            onClick={() => onChange(theme.id)}
-            className={cn(
-              "relative w-7 h-7 rounded-full border-2 transition-all",
-              theme.colors,
-              value === theme.id && "ring-2 ring-primary ring-offset-2 ring-offset-background"
-            )}
-            title={theme.label}
-          >
-            {value === theme.id && (
-              <Check className={cn(
-                "absolute inset-0 m-auto h-3.5 w-3.5",
-                theme.id.startsWith("gradient") || theme.id === "dark" 
-                  ? "text-white" 
-                  : "text-primary"
-              )} />
-            )}
-          </button>
-        ))}
-      </div>
+      <TooltipProvider delayDuration={0}>
+        <div className="flex flex-wrap gap-2">
+          {THEMES.map((theme) => (
+            <Tooltip key={theme.id}>
+              <TooltipTrigger asChild>
+                <button
+                  onClick={() => onChange(theme.id)}
+                  className={cn(
+                    "relative w-7 h-7 rounded-full border-2 transition-all duration-200 hover:scale-110",
+                    theme.colors,
+                    value === theme.id && "ring-2 ring-primary ring-offset-2 ring-offset-background"
+                  )}
+                >
+                  {value === theme.id && (
+                    <Check className={cn(
+                      "absolute inset-0 m-auto h-3.5 w-3.5",
+                      theme.id.startsWith("gradient") || theme.id === "dark" 
+                        ? "text-white" 
+                        : "text-primary"
+                    )} />
+                  )}
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="text-xs">
+                {theme.label}
+              </TooltipContent>
+            </Tooltip>
+          ))}
+        </div>
+      </TooltipProvider>
     </div>
   );
 }

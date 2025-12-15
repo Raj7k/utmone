@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { isValidLinkPageSlug } from "@/lib/linkPages";
 import { useToast } from "@/components/ui/use-toast";
 import type { LinkPageTemplate } from "@/config/linkPageTemplates";
+import type { Json } from "@/integrations/supabase/types";
 export interface LinkPage {
   id: string;
   workspace_id: string;
@@ -14,6 +14,7 @@ export interface LinkPage {
   is_published: boolean;
   scheduled_publish_at: string | null;
   custom_domain: string | null;
+  metadata: Json | null;
   created_by: string | null;
   created_at: string;
   updated_at: string;
@@ -99,7 +100,15 @@ export const useUpdateLinkPage = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   return useMutation({
-    mutationFn: async (payload: { id: string; title?: string; slug?: string; bio?: string; is_published?: boolean; theme?: string }) => {
+    mutationFn: async (payload: { 
+      id: string; 
+      title?: string; 
+      slug?: string; 
+      bio?: string; 
+      is_published?: boolean; 
+      theme?: string;
+      metadata?: Json;
+    }) => {
       const { id, ...changes } = payload;
       const { data, error } = await supabase
         .from("link_pages")

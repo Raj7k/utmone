@@ -17,6 +17,7 @@ interface LivePreviewProps {
   bio?: string;
   blocks: LinkPageBlock[];
   theme?: string;
+  avatarUrl?: string | null;
 }
 
 const socialIcons: Record<string, typeof Instagram> = {
@@ -101,7 +102,7 @@ const themeStyles: Record<string, { bg: string; text: string; card: string; bord
   },
 };
 
-export function LivePreview({ title, bio, blocks, theme = "default" }: LivePreviewProps) {
+export function LivePreview({ title, bio, blocks, theme = "default", avatarUrl }: LivePreviewProps) {
   const enabledBlocks = blocks.filter((b) => b.is_enabled);
   const styles = themeStyles[theme] || themeStyles.default;
 
@@ -225,10 +226,14 @@ export function LivePreview({ title, bio, blocks, theme = "default" }: LivePrevi
           {/* Profile section */}
           <div className="text-center space-y-2">
             <div className={cn(
-              "w-16 h-16 mx-auto rounded-full flex items-center justify-center text-xl font-bold",
+              "w-16 h-16 mx-auto rounded-full flex items-center justify-center text-xl font-bold overflow-hidden",
               theme === "minimal" ? "bg-zinc-200" : "bg-white/20"
             )}>
-              {title ? title.charAt(0).toUpperCase() : "?"}
+              {avatarUrl ? (
+                <img src={avatarUrl} alt={title} className="w-full h-full object-cover" />
+              ) : (
+                title ? title.charAt(0).toUpperCase() : "?"
+              )}
             </div>
             <h1 className="text-lg font-bold">{title || "Your Name"}</h1>
             {bio && <p className="text-xs opacity-70">{bio}</p>}
