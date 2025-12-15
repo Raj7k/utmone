@@ -27,100 +27,290 @@ const STATS = [
   { value: "~25cm", label: "size" },
 ];
 
-// Generate a fixed brick pattern for showcase
-const generateShowcasePattern = (): boolean[][] => {
-  const size = 12;
-  const pattern: boolean[][] = [];
+// Authentic LEGO colors
+const LEGO_COLORS = {
+  red: { base: "#B40000", light: "#E52320", dark: "#8A0000" },
+  blue: { base: "#0055BF", light: "#0077E6", dark: "#003D8A" },
+  yellow: { base: "#FAC80A", light: "#FFD83D", dark: "#C9A008" },
+  green: { base: "#237841", light: "#2D9653", dark: "#1A5930" },
+  white: { base: "#F4F4F4", light: "#FFFFFF", dark: "#D4D4D4" },
+};
+
+const FOREGROUND_COLORS = [LEGO_COLORS.red, LEGO_COLORS.blue, LEGO_COLORS.yellow, LEGO_COLORS.green];
+
+// Generate a 16x16 QR-like brick pattern with color assignments
+const generateShowcasePattern = (): { filled: boolean; color: typeof LEGO_COLORS.red }[][] => {
+  const size = 16;
+  const pattern: { filled: boolean; color: typeof LEGO_COLORS.red }[][] = [];
   
   for (let row = 0; row < size; row++) {
     pattern[row] = [];
     for (let col = 0; col < size; col++) {
-      // Finder patterns
-      if (row < 3 && col < 3) {
-        pattern[row][col] = row === 0 || row === 2 || col === 0 || col === 2 || (row === 1 && col === 1);
-      } else if (row < 3 && col >= size - 3) {
-        pattern[row][col] = row === 0 || row === 2 || col === size - 1 || col === size - 3 || (row === 1 && col === size - 2);
-      } else if (row >= size - 3 && col < 3) {
-        pattern[row][col] = row === size - 1 || row === size - 3 || col === 0 || col === 2 || (row === size - 2 && col === 1);
+      let filled = false;
+      
+      // Finder patterns (top-left, top-right, bottom-left)
+      const inTopLeft = row < 4 && col < 4;
+      const inTopRight = row < 4 && col >= size - 4;
+      const inBottomLeft = row >= size - 4 && col < 4;
+      
+      if (inTopLeft || inTopRight || inBottomLeft) {
+        const localRow = inTopLeft ? row : inTopRight ? row : row - (size - 4);
+        const localCol = inTopLeft ? col : inTopRight ? col - (size - 4) : col;
+        filled = localRow === 0 || localRow === 3 || localCol === 0 || localCol === 3 || 
+                (localRow >= 1 && localRow <= 2 && localCol >= 1 && localCol <= 2);
       } else {
-        // Data pattern
-        pattern[row][col] = ((row * 7 + col * 11 + 42) % 10) < 4;
+        // Data modules - deterministic pattern
+        filled = ((row * 7 + col * 13 + 37) % 10) < 4;
       }
+      
+      // Assign color based on position for visual variety
+      const colorIndex = (row + col) % FOREGROUND_COLORS.length;
+      pattern[row][col] = { 
+        filled, 
+        color: filled ? FOREGROUND_COLORS[colorIndex] : LEGO_COLORS.white 
+      };
     }
   }
   return pattern;
 };
 
-const AnimatedBrickGrid = () => {
+// 3D Isometric Brick Component
+const IsometricBrick = ({ 
+  x, y, color, delay, filled 
+}: { 
+  x: number; 
+  y: number; 
+  color: typeof LEGO_COLORS.red; 
+  delay: number;
+  filled: boolean;
+}) => {
+  const brickSize = 22;
+  const studRadius = 4;
+  const brickHeight = filled ? 8 : 3;
+  
+  // Isometric projection
+  const isoX = (x - y) * (brickSize * 0.5);
+  const isoY = (x + y) * (brickSize * 0.25) - (filled ? brickHeight : 0);
+  
+  return (
+    <motion.g
+      initial={{ opacity: 0, y: -30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ 
+        delay: delay,
+        duration: 0.4,
+        type: "spring",
+        stiffness: 200,
+        damping: 15
+      }}
+      style={{ transformOrigin: `${isoX}px ${isoY}px` }}
+    >
+      {/* Drop shadow */}
+      <ellipse
+        cx={isoX}
+        cy={isoY + brickHeight + 4}
+        rx={brickSize * 0.4}
+        ry={brickSize * 0.15}
+        fill="rgba(0,0,0,0.15)"
+      />
+      
+      {/* Right face (darkest) */}
+      <path
+        d={`
+          M ${isoX} ${isoY + brickSize * 0.25}
+          L ${isoX + brickSize * 0.5} ${isoY}
+          L ${isoX + brickSize * 0.5} ${isoY + brickHeight}
+          L ${isoX} ${isoY + brickSize * 0.25 + brickHeight}
+          Z
+        `}
+        fill={color.dark}
+      />
+      
+      {/* Left face (medium) */}
+      <path
+        d={`
+          M ${isoX} ${isoY + brickSize * 0.25}
+          L ${isoX - brickSize * 0.5} ${isoY}
+          L ${isoX - brickSize * 0.5} ${isoY + brickHeight}
+          L ${isoX} ${isoY + brickSize * 0.25 + brickHeight}
+          Z
+        `}
+        fill={color.base}
+      />
+      
+      {/* Top face (lightest) */}
+      <path
+        d={`
+          M ${isoX} ${isoY - brickSize * 0.25}
+          L ${isoX + brickSize * 0.5} ${isoY}
+          L ${isoX} ${isoY + brickSize * 0.25}
+          L ${isoX - brickSize * 0.5} ${isoY}
+          Z
+        `}
+        fill={color.light}
+      />
+      
+      {/* Stud (cylindrical effect) */}
+      <ellipse
+        cx={isoX}
+        cy={isoY - brickSize * 0.08}
+        rx={studRadius}
+        ry={studRadius * 0.5}
+        fill={color.base}
+      />
+      <ellipse
+        cx={isoX}
+        cy={isoY - brickSize * 0.08 - 2}
+        rx={studRadius}
+        ry={studRadius * 0.5}
+        fill={color.light}
+      />
+      {/* Stud highlight */}
+      <ellipse
+        cx={isoX - 1}
+        cy={isoY - brickSize * 0.08 - 2.5}
+        rx={studRadius * 0.3}
+        ry={studRadius * 0.15}
+        fill="rgba(255,255,255,0.6)"
+      />
+    </motion.g>
+  );
+};
+
+const Brick3DShowcase = () => {
   const pattern = generateShowcasePattern();
+  const size = 16;
+  const brickSize = 22;
+  
+  // SVG dimensions for isometric view
+  const svgWidth = size * brickSize + 40;
+  const svgHeight = size * brickSize * 0.6 + 60;
 
   return (
-    <div className="relative">
-      {/* Glow effect */}
-      <div className="absolute -inset-4 bg-gradient-to-r from-orange-500/20 via-rose-500/20 to-pink-500/20 rounded-3xl blur-2xl" />
+    <div className="relative w-full max-w-lg">
+      {/* Ambient glow */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#B40000]/20 via-[#0055BF]/20 to-[#237841]/20 rounded-3xl blur-3xl scale-110" />
       
-      {/* Brick frame */}
-      <div className="relative bg-gradient-to-br from-orange-500 via-rose-500 to-pink-500 rounded-2xl p-4 shadow-2xl">
-        <div className="bg-white rounded-xl p-3 shadow-inner">
-          <div 
-            className="grid gap-[2px]"
-            style={{ gridTemplateColumns: `repeat(12, 1fr)` }}
-          >
-            {pattern.map((row, rowIdx) =>
-              row.map((cell, colIdx) => (
-                <motion.div
-                  key={`${rowIdx}-${colIdx}`}
-                  initial={{ scale: 0, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ 
-                    delay: (rowIdx + colIdx) * 0.02 + 0.3, 
-                    duration: 0.2,
-                    type: "spring",
-                    stiffness: 300
-                  }}
-                  className="aspect-square relative"
-                  style={{ backgroundColor: cell ? "#1B1B1B" : "#F4F4F4" }}
-                >
-                  {/* 3D stud effect */}
-                  <div 
-                    className="absolute inset-[12%] rounded-full"
-                    style={{ 
-                      backgroundColor: cell ? "#1B1B1B" : "#F4F4F4",
-                      boxShadow: `inset 0 -1px 2px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.2)`
-                    }}
-                  />
-                </motion.div>
-              ))
-            )}
-          </div>
-        </div>
-      </div>
-      
-      {/* Floating elements */}
+      {/* Floating badge - top left */}
       <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        whileInView={{ opacity: 1, x: 0 }}
+        initial={{ opacity: 0, x: -20, y: -10 }}
+        whileInView={{ opacity: 1, x: 0, y: 0 }}
         viewport={{ once: true }}
-        transition={{ delay: 0.8 }}
-        className="absolute -left-4 top-1/4 bg-card border border-border rounded-lg px-3 py-2 shadow-lg"
+        transition={{ delay: 1.5, duration: 0.5 }}
+        className="absolute -left-2 top-8 z-10 bg-card/95 backdrop-blur border border-border rounded-xl px-4 py-3 shadow-2xl"
       >
-        <div className="flex items-center gap-2 text-xs">
-          <div className="w-3 h-3 rounded-sm bg-[#B40000]" />
-          <span className="text-muted-foreground">Red bricks: 128</span>
+        <div className="flex items-center gap-3">
+          <div className="flex gap-1">
+            <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: LEGO_COLORS.red.base }} />
+            <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: LEGO_COLORS.blue.base }} />
+            <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: LEGO_COLORS.yellow.base }} />
+            <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: LEGO_COLORS.green.base }} />
+          </div>
+          <span className="text-xs font-medium text-foreground">4 Colors</span>
         </div>
       </motion.div>
       
+      {/* Floating badge - bottom right */}
       <motion.div
-        initial={{ opacity: 0, x: 20 }}
-        whileInView={{ opacity: 1, x: 0 }}
+        initial={{ opacity: 0, x: 20, y: 10 }}
+        whileInView={{ opacity: 1, x: 0, y: 0 }}
         viewport={{ once: true }}
-        transition={{ delay: 1 }}
-        className="absolute -right-4 bottom-1/4 bg-card border border-border rounded-lg px-3 py-2 shadow-lg"
+        transition={{ delay: 1.8, duration: 0.5 }}
+        className="absolute -right-2 bottom-16 z-10 bg-card/95 backdrop-blur border border-border rounded-xl px-4 py-3 shadow-2xl"
       >
         <div className="flex items-center gap-2 text-xs">
-          <FileText className="h-3 w-3 text-primary" />
-          <span className="text-muted-foreground">PDF ready</span>
+          <Boxes className="h-4 w-4 text-primary" />
+          <div>
+            <div className="font-semibold text-foreground">256 Bricks</div>
+            <div className="text-muted-foreground">BrickLink Ready</div>
+          </div>
+        </div>
+      </motion.div>
+      
+      {/* Floating badge - top right */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 2, duration: 0.5 }}
+        className="absolute right-4 top-4 z-10 bg-gradient-to-r from-[#B40000] to-[#0055BF] text-white rounded-lg px-3 py-1.5 shadow-xl"
+      >
+        <div className="flex items-center gap-1.5 text-xs font-bold">
+          <FileText className="h-3 w-3" />
+          PDF Instructions
+        </div>
+      </motion.div>
+      
+      {/* Main 3D Brick Canvas */}
+      <div className="relative bg-gradient-to-br from-zinc-900/90 via-zinc-800/90 to-zinc-900/90 rounded-2xl p-6 shadow-2xl border border-white/10 backdrop-blur">
+        {/* Baseplate styling */}
+        <div className="absolute inset-6 bg-[#595D60] rounded-lg opacity-20" />
+        
+        <svg
+          viewBox={`${-svgWidth/2 - 20} -30 ${svgWidth + 40} ${svgHeight + 20}`}
+          className="w-full h-auto"
+          style={{ minHeight: '320px' }}
+        >
+          {/* Definitions for effects */}
+          <defs>
+            <filter id="brick-shadow" x="-50%" y="-50%" width="200%" height="200%">
+              <feDropShadow dx="2" dy="4" stdDeviation="3" floodOpacity="0.3" />
+            </filter>
+            <linearGradient id="baseplate-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#6B6B6B" />
+              <stop offset="100%" stopColor="#4A4A4A" />
+            </linearGradient>
+          </defs>
+          
+          {/* Baseplate */}
+          <path
+            d={`
+              M 0 ${-size * brickSize * 0.125}
+              L ${size * brickSize * 0.5 + 10} ${size * brickSize * 0.125}
+              L 0 ${size * brickSize * 0.375 + 10}
+              L ${-size * brickSize * 0.5 - 10} ${size * brickSize * 0.125}
+              Z
+            `}
+            fill="url(#baseplate-grad)"
+            opacity="0.3"
+          />
+          
+          {/* Render bricks from back to front for proper layering */}
+          {pattern.map((row, rowIdx) =>
+            row.map((cell, colIdx) => {
+              // Calculate delay based on distance from top-left corner
+              const delay = (rowIdx + colIdx) * 0.015 + 0.5;
+              return (
+                <IsometricBrick
+                  key={`${rowIdx}-${colIdx}`}
+                  x={colIdx}
+                  y={rowIdx}
+                  color={cell.color}
+                  delay={delay}
+                  filled={cell.filled}
+                />
+              );
+            })
+          )}
+        </svg>
+      </div>
+      
+      {/* Bottom stats bar */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 2.2, duration: 0.5 }}
+        className="mt-4 flex justify-center gap-6"
+      >
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+          Scannable QR
+        </div>
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          <Download className="h-3 w-3" />
+          Export Ready
         </div>
       </motion.div>
     </div>
@@ -210,7 +400,7 @@ export function BrickBuilderShowcase() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="flex justify-center"
           >
-            <AnimatedBrickGrid />
+            <Brick3DShowcase />
           </motion.div>
         </div>
       </div>
