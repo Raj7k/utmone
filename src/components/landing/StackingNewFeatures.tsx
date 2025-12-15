@@ -77,10 +77,19 @@ const StackingFeatureCard = ({ card, index, totalCards, scrollProgress }: Stacki
         y,
         zIndex: index + 1, // Higher index = on top (card 3 covers card 2 covers card 1)
       }}
-      className="absolute inset-0 rounded-3xl shadow-2xl border border-border overflow-hidden bg-background"
+      className="absolute inset-0 rounded-3xl shadow-2xl overflow-hidden"
     >
+      {/* Glass Background */}
+      <div className="absolute inset-0 bg-zinc-900/70 backdrop-blur-xl border border-white/10 rounded-3xl" />
+      
+      {/* LEFT Side Light Shadow */}
+      <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white/[0.08] via-white/[0.03] to-transparent pointer-events-none rounded-l-3xl" />
+      
+      {/* RIGHT Side Light Shadow */}
+      <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white/[0.06] via-white/[0.02] to-transparent pointer-events-none rounded-r-3xl" />
+      
       {/* Card content */}
-      <div className="h-full flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 p-6 md:p-10 lg:p-16">
+      <div className="relative h-full flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 p-6 md:p-10 lg:p-16">
         {/* Content */}
         <div className="flex-1 text-center lg:text-left space-y-6 max-w-lg">
           {/* Badge */}
@@ -126,7 +135,7 @@ const StackingFeatureCard = ({ card, index, totalCards, scrollProgress }: Stacki
         </div>
         
         {/* Visual */}
-        <div className="flex-1 flex items-center justify-center max-w-sm lg:max-w-md">
+        <div className="flex-1 flex items-center justify-center max-w-xs lg:max-w-sm overflow-visible">
           {index === 0 && (
             <motion.div
               className="relative"
@@ -137,14 +146,14 @@ const StackingFeatureCard = ({ card, index, totalCards, scrollProgress }: Stacki
               <img 
                 src={stampMandala} 
                 alt="AI-generated stamp QR code"
-                className="w-48 h-48 md:w-64 md:h-64 lg:w-72 lg:h-72 object-cover rounded-lg relative"
+                className="w-40 h-40 md:w-56 md:h-56 lg:w-64 lg:h-64 object-cover rounded-lg relative"
                 style={{ filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.4))" }}
               />
             </motion.div>
           )}
           {index === 1 && (
-            <div className="relative scale-90 origin-center">
-              <div className="absolute inset-0 blur-3xl opacity-30 bg-gradient-to-br from-primary via-purple-500 to-pink-500 rounded-full scale-50" />
+            <div className="relative scale-[0.75] origin-center">
+              <div className="absolute -inset-4 blur-3xl opacity-20 bg-gradient-to-br from-primary via-purple-500 to-pink-500 rounded-full" />
               <LinkPagePreview />
             </div>
           )}
@@ -163,7 +172,7 @@ const StackingFeatureCard = ({ card, index, totalCards, scrollProgress }: Stacki
               <img 
                 src={brickQRImage} 
                 alt="3D Brick QR Code"
-                className="w-48 md:w-64 lg:w-80 relative"
+                className="w-40 md:w-56 lg:w-64 relative"
                 style={{ filter: "drop-shadow(0 25px 50px rgba(0,0,0,0.5))" }}
               />
             </motion.div>
@@ -182,7 +191,7 @@ export const StackingNewFeatures = () => {
   });
 
   return (
-    <div ref={containerRef} className="relative min-h-[300vh] py-20">
+    <div ref={containerRef} className="relative min-h-[300vh] py-8">
       <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
         <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-8 h-[70vh] relative">
           {featureCards.map((card, index) => (

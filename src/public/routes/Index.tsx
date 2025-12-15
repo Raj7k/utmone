@@ -166,7 +166,7 @@ const Index = () => {
       </LazyOnScroll>
 
       {/* Stacking New Features - AI Stamp, Link Pages, Brick Builder */}
-      <LazyOnScroll height="600px" rootMargin="300px">
+      <LazyOnScroll height="400px" rootMargin="200px">
         <Suspense fallback={<SectionSkeleton />}>
           <StackingNewFeatures />
         </Suspense>
