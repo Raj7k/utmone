@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
+import { Monitor, FileText, Boxes, ArrowRight } from "lucide-react";
 
-// Generate brick pattern for device mockups
+// Generate brick pattern for visualizations
 const generatePattern = (seed: number, size: number = 8): boolean[][] => {
   const pattern: boolean[][] = [];
   for (let row = 0; row < size; row++) {
@@ -42,7 +43,7 @@ const BrickGrid = ({
             key={`${rowIdx}-${colIdx}`}
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: (rowIdx + colIdx) * 0.02, duration: 0.2 }}
+            transition={{ delay: (rowIdx + colIdx) * 0.015, duration: 0.2 }}
             className="aspect-square relative"
             style={{ backgroundColor: cell ? fgColor : bgColor }}
           >
@@ -62,112 +63,212 @@ const BrickGrid = ({
   );
 };
 
+const WorkflowStep = ({ 
+  step, 
+  icon: Icon, 
+  title, 
+  description, 
+  children,
+  delay 
+}: { 
+  step: number;
+  icon: typeof Monitor;
+  title: string;
+  description: string;
+  children: React.ReactNode;
+  delay: number;
+}) => (
+  <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.5, delay }}
+    className="flex flex-col items-center text-center"
+  >
+    {/* Step Number */}
+    <div className="w-8 h-8 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center mb-4">
+      <span className="text-sm font-bold text-primary">{step}</span>
+    </div>
+    
+    {/* Visual */}
+    <div className="mb-6">
+      {children}
+    </div>
+    
+    {/* Icon + Title */}
+    <div className="flex items-center gap-2 mb-2">
+      <Icon className="w-5 h-5 text-primary" />
+      <h3 className="font-semibold text-white">{title}</h3>
+    </div>
+    
+    {/* Description */}
+    <p className="text-sm text-white/50 max-w-[200px]">{description}</p>
+  </motion.div>
+);
+
 export function BrickDeviceShowcase() {
-  const mobilePattern = generatePattern(42, 8);
-  const tabletPattern = generatePattern(73, 10);
-  const desktopPattern = generatePattern(99, 12);
+  const designPattern = generatePattern(42, 10);
+  const physicalPattern = generatePattern(42, 10); // Same pattern for consistency
 
   return (
     <section className="py-16 md:py-24 px-4 overflow-hidden">
-      <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-12">
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-            looks great on every device
+      <div className="container mx-auto max-w-5xl">
+        <div className="text-center mb-16">
+          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 text-white">
+            from screen to studs
           </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto">
-            Create once, share everywhere. Your brick QR codes work perfectly across all platforms.
+          <p className="text-white/50 max-w-xl mx-auto">
+            Design on any device, then build with real bricks
           </p>
         </div>
 
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-8">
-          {/* Mobile */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="relative"
+        <div className="grid md:grid-cols-3 gap-8 md:gap-4 items-start">
+          {/* Step 1: Design */}
+          <WorkflowStep
+            step={1}
+            icon={Monitor}
+            title="design"
+            description="Create your QR code with our visual builder"
+            delay={0}
           >
-            <div className="w-[180px] h-[360px] bg-zinc-900 rounded-[32px] p-2 shadow-2xl border-4 border-zinc-800">
-              {/* Notch */}
-              <div className="absolute top-3 left-1/2 -translate-x-1/2 w-16 h-5 bg-zinc-900 rounded-full z-10" />
+            <div className="w-[200px] bg-zinc-900 rounded-xl shadow-2xl overflow-hidden border border-white/10">
+              {/* Browser Chrome */}
+              <div className="h-6 bg-zinc-800 flex items-center px-2 gap-1.5">
+                <div className="flex gap-1">
+                  <div className="w-2 h-2 rounded-full bg-red-500/80" />
+                  <div className="w-2 h-2 rounded-full bg-yellow-500/80" />
+                  <div className="w-2 h-2 rounded-full bg-green-500/80" />
+                </div>
+                <div className="flex-1 ml-2">
+                  <div className="bg-zinc-700 rounded px-2 py-0.5 text-[8px] text-zinc-400 truncate">
+                    utm.one/builder
+                  </div>
+                </div>
+              </div>
               
               {/* Screen */}
-              <div className="w-full h-full bg-gradient-to-br from-orange-500 via-rose-500 to-pink-500 rounded-[24px] overflow-hidden flex items-center justify-center p-6">
-                <div className="bg-white rounded-lg p-2 shadow-xl">
+              <div className="h-[140px] bg-zinc-950 flex items-center justify-center p-4">
+                <div className="bg-white rounded-lg p-2 shadow-xl w-[80px] h-[80px]">
                   <BrickGrid 
-                    pattern={mobilePattern} 
+                    pattern={designPattern} 
                     fgColor="#1B1B1B" 
                     bgColor="#F4F4F4"
                   />
                 </div>
               </div>
             </div>
-            <p className="text-center text-sm text-muted-foreground mt-4">Mobile</p>
-          </motion.div>
+          </WorkflowStep>
 
-          {/* Tablet */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="relative hidden md:block"
+          {/* Arrow 1 */}
+          <div className="hidden md:flex items-center justify-center pt-24">
+            <motion.div
+              initial={{ opacity: 0, x: -10 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+            >
+              <ArrowRight className="w-8 h-8 text-white/20" />
+            </motion.div>
+          </div>
+
+          {/* Step 2: Export */}
+          <WorkflowStep
+            step={2}
+            icon={FileText}
+            title="export"
+            description="Get PDF instructions and parts list"
+            delay={0.2}
           >
-            <div className="w-[280px] h-[380px] bg-zinc-900 rounded-[24px] p-3 shadow-2xl border-4 border-zinc-800">
-              {/* Camera */}
-              <div className="absolute top-4 left-1/2 -translate-x-1/2 w-2 h-2 bg-zinc-700 rounded-full" />
-              
-              {/* Screen */}
-              <div className="w-full h-full bg-gradient-to-br from-teal-500 via-cyan-500 to-blue-500 rounded-[16px] overflow-hidden flex items-center justify-center p-8">
-                <div className="bg-white rounded-lg p-3 shadow-xl">
-                  <BrickGrid 
-                    pattern={tabletPattern} 
-                    fgColor="#0055BF" 
-                    bgColor="#FAC80A"
-                  />
+            <div className="w-[160px] space-y-2">
+              {/* PDF Document */}
+              <div className="bg-white rounded-lg p-3 shadow-xl">
+                <div className="flex items-center gap-2 mb-2 pb-2 border-b border-zinc-200">
+                  <div className="w-4 h-5 bg-red-500 rounded-sm flex items-center justify-center">
+                    <span className="text-[6px] text-white font-bold">PDF</span>
+                  </div>
+                  <span className="text-[10px] text-zinc-600 font-medium">build-instructions.pdf</span>
+                </div>
+                <div className="space-y-1.5">
+                  <div className="h-2 bg-zinc-200 rounded w-full" />
+                  <div className="h-2 bg-zinc-200 rounded w-3/4" />
+                  <div className="h-2 bg-zinc-200 rounded w-1/2" />
                 </div>
               </div>
-            </div>
-            <p className="text-center text-sm text-muted-foreground mt-4">Tablet</p>
-          </motion.div>
-
-          {/* Desktop */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="relative hidden lg:block"
-          >
-            <div className="w-[400px] bg-zinc-900 rounded-xl shadow-2xl overflow-hidden border-4 border-zinc-800">
-              {/* Browser Chrome */}
-              <div className="h-8 bg-zinc-800 flex items-center px-3 gap-2">
+              
+              {/* Parts List */}
+              <div className="bg-zinc-800 rounded-lg p-2 border border-white/10">
+                <div className="text-[9px] text-white/60 mb-1.5">Parts needed:</div>
                 <div className="flex gap-1.5">
-                  <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
-                </div>
-                <div className="flex-1 ml-3">
-                  <div className="bg-zinc-700 rounded-md px-3 py-1 text-[10px] text-zinc-400 truncate max-w-[200px]">
-                    utm.one/dashboard/qr
+                  <div className="flex items-center gap-1">
+                    <div className="w-3 h-3 rounded-sm bg-zinc-900 border border-white/20" />
+                    <span className="text-[8px] text-white/50">×512</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-3 h-3 rounded-sm bg-white border border-white/20" />
+                    <span className="text-[8px] text-white/50">×512</span>
                   </div>
                 </div>
               </div>
-              
-              {/* Screen */}
-              <div className="h-[260px] bg-gradient-to-br from-emerald-500 via-green-500 to-teal-500 flex items-center justify-center p-8">
-                <div className="bg-white rounded-xl p-4 shadow-xl">
+            </div>
+          </WorkflowStep>
+
+          {/* Arrow 2 */}
+          <div className="hidden md:flex items-center justify-center pt-24 -ml-4">
+            <motion.div
+              initial={{ opacity: 0, x: -10 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5 }}
+            >
+              <ArrowRight className="w-8 h-8 text-white/20" />
+            </motion.div>
+          </div>
+
+          {/* Step 3: Build */}
+          <WorkflowStep
+            step={3}
+            icon={Boxes}
+            title="build"
+            description="Assemble your physical QR masterpiece"
+            delay={0.4}
+          >
+            {/* 3D Perspective Brick Display */}
+            <div 
+              className="relative"
+              style={{ 
+                perspective: "500px",
+                perspectiveOrigin: "center center"
+              }}
+            >
+              <motion.div
+                initial={{ rotateX: 0, rotateY: 0 }}
+                animate={{ rotateX: 15, rotateY: -15 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="w-[120px] h-[120px] relative"
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                {/* Base plate */}
+                <div 
+                  className="absolute inset-0 bg-zinc-700 rounded"
+                  style={{ transform: "translateZ(-4px)" }}
+                />
+                
+                {/* Brick surface */}
+                <div className="absolute inset-0 bg-zinc-300 rounded overflow-hidden p-1">
                   <BrickGrid 
-                    pattern={desktopPattern} 
-                    fgColor="#00852B" 
-                    bgColor="#F4F4F4"
+                    pattern={physicalPattern} 
+                    fgColor="#1B1B1B" 
+                    bgColor="#E8E8E8"
                   />
                 </div>
-              </div>
+                
+                {/* Shadow */}
+                <div 
+                  className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-[100px] h-4 bg-black/30 blur-md rounded-full"
+                />
+              </motion.div>
             </div>
-            <p className="text-center text-sm text-muted-foreground mt-4">Desktop</p>
-          </motion.div>
+          </WorkflowStep>
         </div>
       </div>
     </section>
