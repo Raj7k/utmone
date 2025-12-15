@@ -135,7 +135,7 @@ const StackingFeatureCard = ({ card, index, totalCards, scrollProgress }: Stacki
         </div>
         
         {/* Visual */}
-        <div className="flex-1 flex items-center justify-center max-w-xs lg:max-w-sm overflow-visible">
+        <div className="flex-1 flex items-center justify-center max-w-xs lg:max-w-sm overflow-hidden">
           {index === 0 && (
             <motion.div
               className="relative"
@@ -151,12 +151,12 @@ const StackingFeatureCard = ({ card, index, totalCards, scrollProgress }: Stacki
               />
             </motion.div>
           )}
-          {index === 1 && (
-            <div className="relative scale-[0.75] origin-center">
-              <div className="absolute -inset-4 blur-3xl opacity-20 bg-gradient-to-br from-primary via-purple-500 to-pink-500 rounded-full" />
-              <LinkPagePreview />
-            </div>
-          )}
+              {index === 1 && (
+                <div className="relative scale-[0.65] origin-center">
+                  <div className="absolute -inset-2 blur-2xl opacity-15 bg-gradient-to-br from-primary via-purple-500 to-pink-500 rounded-full" />
+                  <LinkPagePreview />
+                </div>
+              )}
           {index === 2 && (
             <motion.div
               className="relative"
@@ -191,7 +191,7 @@ export const StackingNewFeatures = () => {
   });
 
   return (
-    <div ref={containerRef} className="relative min-h-[300vh] py-8">
+    <div ref={containerRef} className="relative min-h-[300vh]">
       <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
         <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-8 h-[70vh] relative">
           {featureCards.map((card, index) => (

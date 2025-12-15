@@ -40,7 +40,7 @@ const AnalyticsFeatureCarousel = lazy(() => import("@/components/landing/Analyti
 
 // Simple loading placeholder
 const SectionSkeleton = () => (
-  <div className="w-full py-16 flex items-center justify-center">
+  <div className="w-full py-8 flex items-center justify-center">
     <div className="w-8 h-8 border-2 border-white/20 border-t-white/60 rounded-full animate-spin" />
   </div>
 );
@@ -159,14 +159,14 @@ const Index = () => {
       </LazyOnScroll>
 
       {/* Event Halo Showcase - New Feature Highlight */}
-      <LazyOnScroll height="500px" rootMargin="200px">
-        <Suspense fallback={<SectionSkeleton />}>
-          <EventHaloShowcase />
-        </Suspense>
-      </LazyOnScroll>
-
-      {/* Stacking New Features - AI Stamp, Link Pages, Brick Builder */}
-      <LazyOnScroll height="400px" rootMargin="200px">
+          <LazyOnScroll height="300px" rootMargin="200px">
+            <Suspense fallback={<SectionSkeleton />}>
+              <EventHaloShowcase />
+            </Suspense>
+          </LazyOnScroll>
+          
+          {/* Stacking New Features - AI Stamp, Link Pages, Brick Builder */}
+          <LazyOnScroll height="200px" rootMargin="200px">
         <Suspense fallback={<SectionSkeleton />}>
           <StackingNewFeatures />
         </Suspense>
