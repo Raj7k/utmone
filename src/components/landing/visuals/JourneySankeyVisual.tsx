@@ -4,10 +4,10 @@ export const JourneySankeyVisual = () => {
   const fiberOffsets = [-1, -0.5, 0, 0.5, 1];
 
   const sources = [
-    { y: 12, icon: Search, color: "#F59E0B", label: "Paid" },
-    { y: 24, icon: Users, color: "#22C55E", label: "Organic" },
-    { y: 36, icon: Mail, color: "#8B5CF6", label: "Email" },
-    { y: 48, icon: MousePointer, color: "#EC4899", label: "Referral" },
+    { y: 40, icon: Search, color: "#F59E0B", label: "Paid" },
+    { y: 80, icon: Users, color: "#22C55E", label: "Organic" },
+    { y: 120, icon: Mail, color: "#8B5CF6", label: "Email" },
+    { y: 160, icon: MousePointer, color: "#EC4899", label: "Referral" },
   ];
 
   const particles = Array.from({ length: 8 }, (_, i) => ({
@@ -17,10 +17,10 @@ export const JourneySankeyVisual = () => {
   }));
 
   return (
-    <svg viewBox="0 0 120 60" className="w-full h-full">
+    <svg viewBox="0 0 460 200" className="w-full h-full">
       <defs>
         <filter id="journeyGlow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="1" result="glow" />
+          <feGaussianBlur stdDeviation="3" result="glow" />
           <feComposite in="SourceGraphic" in2="glow" operator="over" />
         </filter>
         
@@ -30,8 +30,8 @@ export const JourneySankeyVisual = () => {
           <stop offset="100%" stopColor="#22C55E" stopOpacity="0.2" />
         </radialGradient>
         
-        <pattern id="journeyDotGrid" patternUnits="userSpaceOnUse" width="4" height="4">
-          <circle cx="2" cy="2" r="0.12" fill="white" fillOpacity="0.1" />
+        <pattern id="journeyDotGrid" patternUnits="userSpaceOnUse" width="16" height="16">
+          <circle cx="8" cy="8" r="0.5" fill="white" fillOpacity="0.1" />
         </pattern>
 
         {/* Define paths for particles */}
@@ -39,13 +39,13 @@ export const JourneySankeyVisual = () => {
           <path
             key={`path-${i}`}
             id={`journeyPath${i}`}
-            d={`M 30 ${source.y + 2} Q 70 ${source.y + 2}, 98 30`}
+            d={`M 115 ${source.y + 7} Q 270 ${source.y + 7}, 376 100`}
             fill="none"
           />
         ))}
       </defs>
       
-      <rect x="0" y="0" width="120" height="60" fill="url(#journeyDotGrid)" opacity="0.3" />
+      <rect x="0" y="0" width="460" height="200" fill="url(#journeyDotGrid)" opacity="0.3" />
 
       <style>{`
         @keyframes journeyCircleScale {
@@ -53,12 +53,12 @@ export const JourneySankeyVisual = () => {
           to { transform: scale(1); }
         }
         @keyframes journeyPathDraw {
-          from { stroke-dashoffset: 100; }
+          from { stroke-dashoffset: 400; }
           to { stroke-dashoffset: 0; }
         }
         @keyframes journeyPulse {
-          0%, 100% { r: 8; opacity: 0.5; }
-          50% { r: 11; opacity: 0.1; }
+          0%, 100% { r: 30; opacity: 0.5; }
+          50% { r: 40; opacity: 0.1; }
         }
         @keyframes journeyFadeIn {
           from { opacity: 0; }
@@ -69,7 +69,7 @@ export const JourneySankeyVisual = () => {
           transform-origin: center;
         }
         .journey-fiber-path {
-          stroke-dasharray: 100;
+          stroke-dasharray: 400;
           animation: journeyPathDraw 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
         .journey-dest-circle {
@@ -89,18 +89,18 @@ export const JourneySankeyVisual = () => {
       {sources.map((source, i) => (
         <g key={i}>
           {/* Icon outside */}
-          <foreignObject x="2" y={source.y - 1} width="6" height="6">
+          <foreignObject x="8" y={source.y - 4} width="24" height="24">
             <div className="flex items-center justify-center w-full h-full">
-              <source.icon className="w-1.5 h-1.5 text-zinc-400" />
+              <source.icon className="w-5 h-5 text-zinc-400" />
             </div>
           </foreignObject>
           
           {/* Label text */}
           <text
-            x="9"
-            y={source.y + 3}
+            x="38"
+            y={source.y + 10}
             fill="rgba(161,161,170,0.8)"
-            fontSize="3"
+            fontSize="12"
             fontFamily="'SF Mono', ui-monospace, monospace"
           >
             {source.label}
@@ -108,12 +108,12 @@ export const JourneySankeyVisual = () => {
           
           {/* Small hollow circle connector */}
           <circle
-            cx="28"
-            cy={source.y + 2}
-            r="2"
+            cx="107"
+            cy={source.y + 7}
+            r="8"
             fill="none"
             stroke="rgba(113,113,122,0.4)"
-            strokeWidth="0.4"
+            strokeWidth="1.5"
             className="journey-source-circle"
             style={{ animationDelay: `${i * 0.1}s` }}
           />
@@ -124,14 +124,14 @@ export const JourneySankeyVisual = () => {
       {sources.map((source, srcIdx) => (
         fiberOffsets.map((offset, strandIdx) => {
           const isCenter = strandIdx === 2;
-          const baseY = source.y + 2;
+          const baseY = source.y + 7;
           return (
             <path
               key={`fiber-${srcIdx}-${strandIdx}`}
-              d={`M 30 ${baseY + offset * 0.6} Q 70 ${baseY + offset * 0.3}, 98 30`}
+              d={`M 115 ${baseY + offset * 2} Q 270 ${baseY + offset}, 376 100`}
               fill="none"
               stroke={isCenter ? source.color : "rgba(113,113,122,0.3)"}
-              strokeWidth={isCenter ? 0.8 : 0.25}
+              strokeWidth={isCenter ? 3 : 1}
               strokeLinecap="round"
               strokeOpacity={isCenter ? 0.5 : 0.15}
               filter={isCenter ? "url(#journeyGlow)" : undefined}
@@ -148,7 +148,7 @@ export const JourneySankeyVisual = () => {
         return (
           <circle
             key={particle.id}
-            r="1"
+            r="4"
             fill={source.color}
             filter="url(#journeyGlow)"
           >
@@ -174,29 +174,29 @@ export const JourneySankeyVisual = () => {
 
       {/* Destination node */}
       <circle
-        cx="106"
-        cy="30"
-        r="8"
+        cx="406"
+        cy="100"
+        r="30"
         fill="url(#journeyRevenue)"
         filter="url(#journeyGlow)"
         className="journey-dest-circle"
       />
       
       <circle
-        cx="106"
-        cy="30"
-        r="8"
+        cx="406"
+        cy="100"
+        r="30"
         fill="none"
         stroke="#22C55E"
-        strokeWidth="0.4"
+        strokeWidth="1.5"
         className="journey-pulse-ring"
       />
       
       <text
-        x="106"
-        y="32"
+        x="406"
+        y="108"
         fill="white"
-        fontSize="4"
+        fontSize="16"
         textAnchor="middle"
         fontFamily="'SF Mono', ui-monospace"
         fontWeight="bold"

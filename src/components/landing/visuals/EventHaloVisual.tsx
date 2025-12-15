@@ -1,21 +1,18 @@
-import { motion } from "framer-motion";
 import { QrCode } from "lucide-react";
 
 // Cinematic Event Halo: Booth scanner → Halo core → ambient detection story
 // Clear story: 100 scanned → 847 detected (9x more)
 export const EventHaloVisual = () => {
-  const appleEase = [0.4, 0.0, 0.2, 1] as const;
-  
   // Generate fiber strand offsets for multi-strand effect
   const fiberOffsets = [-1, -0.5, 0, 0.5, 1];
   
   return (
-    <svg viewBox="0 0 120 60" className="w-full h-full">
+    <svg viewBox="0 0 460 200" className="w-full h-full">
       <defs>
         {/* Bloom effect filter */}
         <filter id="haloBloom" x="-100%" y="-100%" width="300%" height="300%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur1" />
-          <feGaussianBlur in="SourceGraphic" stdDeviation="0.8" result="blur2" />
+          <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur1" />
+          <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur2" />
           <feMerge>
             <feMergeNode in="blur1" />
             <feMergeNode in="blur2" />
@@ -25,7 +22,7 @@ export const EventHaloVisual = () => {
         
         {/* Fiber glow */}
         <filter id="haloFiberGlow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="1.2" result="glow" />
+          <feGaussianBlur stdDeviation="4" result="glow" />
           <feComposite in="SourceGraphic" in2="glow" operator="over" />
         </filter>
         
@@ -44,224 +41,275 @@ export const EventHaloVisual = () => {
         </linearGradient>
         
         {/* Dot grid pattern */}
-        <pattern id="haloDotGrid" patternUnits="userSpaceOnUse" width="4" height="4">
-          <circle cx="2" cy="2" r="0.12" fill="white" fillOpacity="0.1" />
+        <pattern id="haloDotGrid" patternUnits="userSpaceOnUse" width="16" height="16">
+          <circle cx="8" cy="8" r="0.5" fill="white" fillOpacity="0.1" />
         </pattern>
+
+        {/* Path for fiber particles */}
+        <path
+          id="haloFiberPath"
+          d="M 85 100 C 154 100, 211 100, 268 100"
+          fill="none"
+        />
       </defs>
+
+      <style>{`
+        @keyframes haloFadeSlideIn {
+          from { opacity: 0; transform: translateX(-30px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes haloEdgePulse {
+          0%, 100% { stroke-opacity: 0.2; }
+          50% { stroke-opacity: 0.6; }
+        }
+        @keyframes haloPathDraw {
+          from { stroke-dashoffset: 250; }
+          to { stroke-dashoffset: 0; }
+        }
+        @keyframes haloParticleFlow {
+          from { offset-distance: 0%; opacity: 0.8; }
+          to { offset-distance: 100%; opacity: 0; }
+        }
+        @keyframes haloRingRotateSlow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes haloRingRotateMed {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(-360deg); }
+        }
+        @keyframes haloRingRotateFast {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes haloSonarPulse {
+          from { r: 15; opacity: 0.6; }
+          to { r: 85; opacity: 0; }
+        }
+        @keyframes haloCorePulse {
+          0%, 100% { r: 19; fill-opacity: 0.25; }
+          50% { r: 23; fill-opacity: 0.4; }
+        }
+        @keyframes haloDetectDot {
+          0% { transform: scale(0); opacity: 0; }
+          50% { transform: scale(1); opacity: 0.8; }
+          100% { transform: scale(1); opacity: 0.4; }
+        }
+        @keyframes haloTextFadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        .halo-booth {
+          animation: haloFadeSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .halo-booth-edge {
+          animation: haloEdgePulse 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+        .halo-fiber {
+          stroke-dasharray: 250;
+          animation: haloPathDraw 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .halo-particle {
+          offset-path: path("M 85 100 C 154 100, 211 100, 268 100");
+          animation: haloParticleFlow 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+        .halo-ring-outer {
+          transform-origin: 326px 100px;
+          animation: haloRingRotateSlow 20s linear infinite;
+        }
+        .halo-ring-mid {
+          transform-origin: 326px 100px;
+          animation: haloRingRotateMed 12s linear infinite;
+        }
+        .halo-ring-inner {
+          transform-origin: 326px 100px;
+          animation: haloRingRotateFast 6s linear infinite;
+        }
+        .halo-sonar {
+          transform-origin: 326px 100px;
+          animation: haloSonarPulse 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+        .halo-core-glow {
+          animation: haloCorePulse 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+        .halo-detect-dot {
+          animation: haloDetectDot 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .halo-footer-text {
+          animation: haloTextFadeIn 0.3s ease-out 1.5s forwards;
+          opacity: 0;
+        }
+      `}</style>
       
       {/* Background dot grid */}
-      <rect x="0" y="0" width="120" height="60" fill="url(#haloDotGrid)" opacity="0.3" />
+      <rect x="0" y="0" width="460" height="200" fill="url(#haloDotGrid)" opacity="0.3" />
       
       {/* Source: Booth node with QR icon */}
-      <motion.g
-        initial={{ opacity: 0, x: -8 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5, ease: appleEase }}
-      >
+      <g className="halo-booth">
         <rect
-          x="4"
-          y="22"
-          width="18"
-          height="16"
-          rx="2"
+          x="15"
+          y="73"
+          width="69"
+          height="54"
+          rx="8"
           fill="rgba(63,63,70,0.3)"
           stroke="rgba(255,255,255,0.15)"
-          strokeWidth="0.4"
+          strokeWidth="1.5"
         />
         {/* Glowing edge when active */}
-        <motion.rect
-          x="4"
-          y="22"
-          width="18"
-          height="16"
-          rx="2"
+        <rect
+          x="15"
+          y="73"
+          width="69"
+          height="54"
+          rx="8"
           fill="none"
           stroke="#10B981"
-          strokeWidth="0.3"
-          animate={{ strokeOpacity: [0.2, 0.6, 0.2] }}
-          transition={{ duration: 1, repeat: Infinity, ease: appleEase }}
+          strokeWidth="1"
+          className="halo-booth-edge"
         />
         {/* QR Icon */}
-        <foreignObject x="8" y="24" width="10" height="10">
+        <foreignObject x="31" y="80" width="38" height="38">
           <div className="flex items-center justify-center w-full h-full">
-            <QrCode className="w-3 h-3" style={{ color: "#10B981" }} strokeWidth={1.5} />
+            <QrCode className="w-7 h-7" style={{ color: "#10B981" }} strokeWidth={1.5} />
           </div>
         </foreignObject>
-        <text x="13" y="36" fill="white" fontSize="2.5" textAnchor="middle" fontFamily="ui-monospace" opacity="0.7">100</text>
-      </motion.g>
+        <text x="50" y="120" fill="white" fontSize="10" textAnchor="middle" fontFamily="ui-monospace" opacity="0.7">100</text>
+      </g>
       
       {/* Multi-strand fiber-optic flow - 5 parallel strands */}
       {fiberOffsets.map((offset, i) => {
         const isCenter = i === 2;
         const opacity = isCenter ? 1 : 0.25 - Math.abs(offset) * 0.08;
-        const strokeWidth = isCenter ? 1.0 : 0.3;
+        const strokeWidth = isCenter ? 3.5 : 1;
         
         return (
-          <motion.path
+          <path
             key={`fiber-${i}`}
-            d={`M 22 ${30 + offset} C 40 ${30 + offset}, 55 ${30 + offset * 0.5}, 70 30`}
+            d={`M 85 ${100 + offset * 3.3} C 154 ${100 + offset * 3.3}, 211 ${100 + offset * 1.7}, 268 100`}
             fill="none"
             stroke={isCenter ? "url(#haloFiberCore)" : "#10B981"}
             strokeWidth={strokeWidth}
             strokeLinecap="round"
             strokeOpacity={opacity}
             filter={isCenter ? "url(#haloFiberGlow)" : undefined}
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 + i * 0.05, ease: appleEase }}
+            className="halo-fiber"
+            style={{ animationDelay: `${0.2 + i * 0.05}s` }}
           />
         );
       })}
       
-      {/* Heartbeat pulse on fibers */}
-      <motion.ellipse
-        cx="45"
-        cy="30"
-        rx="3"
-        ry="1.5"
+      {/* Heartbeat pulse on fibers - using native SVG animation */}
+      <ellipse
+        cx="85"
+        cy="100"
+        rx="12"
+        ry="5"
         fill="#FFFFFF"
         filter="url(#haloFiberGlow)"
-        animate={{
-          cx: [22, 70],
-          opacity: [0.8, 0],
-          scale: [0.8, 1.2],
-        }}
-        transition={{
-          duration: 1,
-          repeat: Infinity,
-          ease: appleEase,
-        }}
+        className="halo-particle"
       />
       
       {/* The Halo Core - rotating rings */}
-      <g transform="translate(85, 30)">
+      <g transform="translate(326, 100)">
         {/* Outer detection ring - slow rotation */}
-        <motion.circle
+        <circle
           cx="0"
           cy="0"
-          r="18"
+          r="69"
           fill="none"
           stroke="url(#haloRingGrad)"
-          strokeWidth="0.3"
-          strokeDasharray="3 6"
+          strokeWidth="1"
+          strokeDasharray="12 23"
           strokeOpacity="0.3"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          style={{ transformOrigin: "0 0" }}
+          className="halo-ring-outer"
         />
         
         {/* Middle ring - medium rotation */}
-        <motion.circle
+        <circle
           cx="0"
           cy="0"
-          r="14"
+          r="54"
           fill="none"
           stroke="#10B981"
-          strokeWidth="0.4"
-          strokeDasharray="2 4"
+          strokeWidth="1.5"
+          strokeDasharray="8 15"
           strokeOpacity="0.4"
-          animate={{ rotate: -360 }}
-          transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-          style={{ transformOrigin: "0 0" }}
+          className="halo-ring-mid"
         />
         
         {/* Inner ring - fast rotation */}
-        <motion.circle
+        <circle
           cx="0"
           cy="0"
-          r="10"
+          r="38"
           fill="none"
           stroke="#06B6D4"
-          strokeWidth="0.5"
-          strokeDasharray="1.5 3"
+          strokeWidth="2"
+          strokeDasharray="6 12"
           strokeOpacity="0.6"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-          style={{ transformOrigin: "0 0" }}
+          className="halo-ring-inner"
         />
         
         {/* Sonar pulse rings - expanding outward */}
         {[0, 1, 2].map((ring) => (
-          <motion.circle
+          <circle
             key={`sonar-${ring}`}
             cx="0"
             cy="0"
-            r="4"
+            r="15"
             fill="none"
             stroke="#10B981"
-            strokeWidth="0.5"
-            initial={{ r: 4, opacity: 0.6 }}
-            animate={{ 
-              r: [4, 22],
-              opacity: [0.6, 0],
-            }}
-            transition={{
-              duration: 2.5,
-              delay: ring * 0.8,
-              repeat: Infinity,
-              ease: appleEase,
-            }}
+            strokeWidth="2"
+            className="halo-sonar"
+            style={{ animationDelay: `${ring * 0.8}s` }}
           />
         ))}
         
         {/* Core glow */}
-        <motion.circle
+        <circle
           cx="0"
           cy="0"
-          r="5"
+          r="19"
           fill="rgba(16,185,129,0.25)"
           filter="url(#haloBloom)"
-          animate={{
-            r: [5, 6, 5],
-            fillOpacity: [0.25, 0.4, 0.25],
-          }}
-          transition={{ duration: 1, repeat: Infinity, ease: appleEase }}
+          className="halo-core-glow"
         />
         
         {/* Core center */}
-        <circle cx="0" cy="0" r="4" fill="rgba(16,185,129,0.3)" stroke="#10B981" strokeWidth="0.5" />
-        <text x="0" y="2" fill="white" fontSize="5" textAnchor="middle" fontFamily="ui-monospace" fontWeight="bold" opacity="0.9">847</text>
+        <circle cx="0" cy="0" r="15" fill="rgba(16,185,129,0.3)" stroke="#10B981" strokeWidth="2" />
+        <text x="0" y="6" fill="white" fontSize="18" textAnchor="middle" fontFamily="ui-monospace" fontWeight="bold" opacity="0.9">847</text>
       </g>
       
       {/* Detection dots - representing walk-by visitors */}
       {[
-        { x: 75, y: 16 }, { x: 95, y: 14 }, { x: 105, y: 20 },
-        { x: 72, y: 44 }, { x: 98, y: 46 }, { x: 108, y: 40 },
+        { x: 288, y: 53 }, { x: 365, y: 47 }, { x: 403, y: 67 },
+        { x: 276, y: 147 }, { x: 376, y: 153 }, { x: 415, y: 133 },
       ].map((dot, i) => (
-        <motion.circle
+        <circle
           key={`detect-${i}`}
           cx={dot.x}
           cy={dot.y}
-          r="1.2"
+          r="4.5"
           fill="#10B981"
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ 
-            scale: [0, 1, 1],
-            opacity: [0, 0.8, 0.4],
-          }}
-          transition={{ 
-            delay: 1.2 + i * 0.15,
-            duration: 0.8,
-            ease: appleEase,
-          }}
+          className="halo-detect-dot"
+          style={{ animationDelay: `${1.2 + i * 0.15}s` }}
         />
       ))}
       
       {/* Stats footer - clear story */}
-      <motion.text
-        x="60"
-        y="56"
+      <text
+        x="230"
+        y="187"
         fill="white"
-        fontSize="2.5"
+        fontSize="10"
         fontFamily="ui-monospace"
         textAnchor="middle"
         fillOpacity="0.4"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, ease: appleEase }}
+        className="halo-footer-text"
       >
         100 scanned · 847 detected
-      </motion.text>
+      </text>
     </svg>
   );
 };
