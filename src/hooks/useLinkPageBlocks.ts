@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
 import type { LinkPageBlockType } from "@/lib/linkPages";
+import type { Json } from "@/integrations/supabase/types";
 
 export interface LinkPageBlock {
   id: string;
@@ -70,7 +71,7 @@ export function useCreateBlock() {
         .insert([{
           page_id: input.page_id,
           type: input.type,
-          data: input.data || getDefaultBlockData(input.type),
+          data: (input.data || getDefaultBlockData(input.type)) as Json,
           order_index: input.order_index ?? maxOrder + 1,
         }])
         .select()
@@ -94,8 +95,8 @@ export function useUpdateBlock() {
 
   return useMutation({
     mutationFn: async (input: UpdateBlockInput) => {
-      const updateData: Record<string, unknown> = {};
-      if (input.data !== undefined) updateData.data = input.data;
+      const updateData: { data?: Json; is_enabled?: boolean } = {};
+      if (input.data !== undefined) updateData.data = input.data as Json;
       if (input.is_enabled !== undefined) updateData.is_enabled = input.is_enabled;
 
       const { data, error } = await supabase
