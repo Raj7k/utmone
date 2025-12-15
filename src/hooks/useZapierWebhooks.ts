@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { requireUserId } from "@/lib/getCachedUser";
 
 export interface ZapierWebhook {
   id: string;
@@ -36,15 +37,14 @@ export const useZapierWebhooks = (workspaceId: string) => {
 
   const createWebhook = useMutation({
     mutationFn: async (webhook: Omit<ZapierWebhook, "id" | "created_at" | "created_by" | "last_triggered_at" | "total_triggers">) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+      const userId = requireUserId();
 
       const { data, error } = await supabase
         .from("zapier_webhooks")
         .insert({
           ...webhook,
           workspace_id: workspaceId,
-          created_by: user.id,
+          created_by: userId,
         })
         .select()
         .single();

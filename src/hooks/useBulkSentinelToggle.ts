@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import type { SentinelConfig } from "./useSentinelConfig";
 import type { Json } from "@/integrations/supabase/types";
+import { requireUserId } from "@/lib/getCachedUser";
 
 export interface BulkSentinelStats {
   total_links: number;
@@ -48,8 +49,7 @@ export function useBulkSentinelToggle(workspaceId: string) {
 
   return useMutation({
     mutationFn: async ({ enabled, defaultConfig }: BulkSentinelOptions) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+      const userId = requireUserId();
 
       // Get all active links in workspace
       const { data: links, error: fetchError } = await supabase
@@ -71,7 +71,7 @@ export function useBulkSentinelToggle(workspaceId: string) {
           operation_type: "toggle_sentinel",
           link_ids: linkIds,
           parameters: { enabled, defaultConfig } as unknown as Json,
-          created_by: user.id,
+          created_by: userId,
           status: "processing",
         }])
         .select()
