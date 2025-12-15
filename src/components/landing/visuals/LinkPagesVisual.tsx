@@ -1,19 +1,7 @@
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
 import { Instagram, Twitter, Youtube, LinkIcon } from "lucide-react";
 
 export const LinkPagesVisual = () => {
-  const [particles, setParticles] = useState<{ id: number; path: number; delay: number }[]>([]);
-  const appleEase = [0.4, 0.0, 0.2, 1] as const;
   const fiberOffsets = [-0.8, -0.4, 0, 0.4, 0.8];
-
-  useEffect(() => {
-    setParticles(Array.from({ length: 8 }, (_, i) => ({
-      id: i,
-      path: i % 4,
-      delay: i * 0.2,
-    })));
-  }, []);
 
   const destinations = [
     { y: 12, icon: Instagram, color: "#E1306C", label: "Instagram" },
@@ -21,6 +9,12 @@ export const LinkPagesVisual = () => {
     { y: 36, icon: Youtube, color: "#FF0000", label: "YouTube" },
     { y: 48, icon: LinkIcon, color: "#F97316", label: "Website" },
   ];
+
+  const particles = Array.from({ length: 8 }, (_, i) => ({
+    id: i,
+    path: i % 4,
+    delay: i * 0.2,
+  }));
 
   return (
     <svg viewBox="0 0 120 60" className="w-full h-full">
@@ -39,12 +33,69 @@ export const LinkPagesVisual = () => {
         <pattern id="lpDotGrid" patternUnits="userSpaceOnUse" width="4" height="4">
           <circle cx="2" cy="2" r="0.12" fill="white" fillOpacity="0.1" />
         </pattern>
+
+        {/* Define paths for particles */}
+        {destinations.map((dest, i) => (
+          <path
+            key={`path-${i}`}
+            id={`lpPath${i}`}
+            d={`M 28 30 Q 55 ${(30 + dest.y + 2) / 2}, 82 ${dest.y + 2}`}
+            fill="none"
+          />
+        ))}
       </defs>
       
       <rect x="0" y="0" width="120" height="60" fill="url(#lpDotGrid)" opacity="0.3" />
 
+      <style>{`
+        @keyframes lpCircleScale {
+          from { transform: scale(0); }
+          to { transform: scale(1); }
+        }
+        @keyframes lpPathDraw {
+          from { stroke-dashoffset: 100; }
+          to { stroke-dashoffset: 0; }
+        }
+        @keyframes lpRotate {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes lpPulse {
+          0%, 100% { r: 5; opacity: 0.5; }
+          50% { r: 7; opacity: 0.1; }
+        }
+        @keyframes lpFadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        .lp-rotating-ring {
+          transform-origin: 20px 30px;
+          animation: lpRotate 12s linear infinite;
+        }
+        .lp-portal-circle {
+          animation: lpCircleScale 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
+          transform: scale(0);
+          transform-origin: 20px 30px;
+        }
+        .lp-pulse-ring {
+          animation: lpPulse 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+        .lp-text-fade {
+          animation: lpFadeIn 0.3s ease-out 0.5s forwards;
+          opacity: 0;
+        }
+        .lp-fiber-path {
+          stroke-dasharray: 100;
+          animation: lpPathDraw 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .lp-dest-circle {
+          animation: lpCircleScale 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          transform: scale(0);
+        }
+      `}</style>
+
       {/* Central link portal with rotating ring */}
-      <motion.circle
+      <circle
         cx="20"
         cy="30"
         r="8"
@@ -52,34 +103,29 @@ export const LinkPagesVisual = () => {
         stroke="#F97316"
         strokeWidth="0.4"
         strokeDasharray="2,3"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-        style={{ transformOrigin: "20px 30px" }}
+        className="lp-rotating-ring"
       />
       
-      <motion.circle
+      <circle
         cx="20"
         cy="30"
         r="5"
         fill="url(#lpPortal)"
         filter="url(#lpGlow)"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+        className="lp-portal-circle"
       />
       
-      <motion.circle
+      <circle
         cx="20"
         cy="30"
         r="5"
         fill="none"
         stroke="#F97316"
         strokeWidth="0.4"
-        animate={{ r: [5, 7, 5], opacity: [0.5, 0.1, 0.5] }}
-        transition={{ duration: 1.5, repeat: Infinity, ease: appleEase }}
+        className="lp-pulse-ring"
       />
       
-      <motion.text
+      <text
         x="20"
         y="32"
         fill="white"
@@ -87,12 +133,10 @@ export const LinkPagesVisual = () => {
         textAnchor="middle"
         fontFamily="'SF Mono', ui-monospace"
         fontWeight="bold"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
+        className="lp-text-fade"
       >
         1
-      </motion.text>
+      </text>
 
       {/* Super thin grey fiber lines to destinations */}
       {destinations.map((dest, destIdx) => (
@@ -100,7 +144,7 @@ export const LinkPagesVisual = () => {
           const isCenter = strandIdx === 2;
           const destY = dest.y + 2;
           return (
-            <motion.path
+            <path
               key={`fiber-${destIdx}-${strandIdx}`}
               d={`M 28 ${30 + offset * 2} Q 55 ${(30 + destY) / 2 + offset}, 82 ${destY + offset * 0.5}`}
               fill="none"
@@ -109,9 +153,8 @@ export const LinkPagesVisual = () => {
               strokeLinecap="round"
               strokeOpacity={isCenter ? 0.5 : 0.15}
               filter={isCenter ? "url(#lpGlow)" : undefined}
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 + destIdx * 0.1, ease: appleEase }}
+              className="lp-fiber-path"
+              style={{ animationDelay: `${0.4 + destIdx * 0.1}s` }}
             />
           );
         })
@@ -121,16 +164,15 @@ export const LinkPagesVisual = () => {
       {destinations.map((dest, i) => (
         <g key={i}>
           {/* Small hollow circle connector */}
-          <motion.circle
+          <circle
             cx="86"
             cy={dest.y + 2}
             r="2"
             fill="none"
             stroke="rgba(113,113,122,0.4)"
             strokeWidth="0.4"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.8 + i * 0.1, ease: appleEase }}
+            className="lp-dest-circle"
+            style={{ animationDelay: `${0.8 + i * 0.1}s` }}
           />
           
           {/* Label text */}
@@ -157,27 +199,29 @@ export const LinkPagesVisual = () => {
       {particles.map((particle) => {
         const dest = destinations[particle.path];
         return (
-          <motion.circle
+          <circle
             key={particle.id}
             r="1"
             fill={dest.color}
             filter="url(#lpGlow)"
-            initial={{ offsetDistance: "0%", opacity: 0 }}
-            animate={{ 
-              offsetDistance: ["0%", "100%"],
-              opacity: [0, 1, 1, 0],
-            }}
-            transition={{
-              duration: 1,
-              delay: particle.delay,
-              repeat: Infinity,
-              repeatDelay: 0.5,
-              ease: appleEase,
-            }}
-            style={{
-              offsetPath: `path("M 28 30 Q 55 ${(30 + dest.y + 2) / 2}, 82 ${dest.y + 2}")`,
-            }}
-          />
+          >
+            <animateMotion
+              dur="1s"
+              repeatCount="indefinite"
+              begin={`${particle.delay}s`}
+              calcMode="spline"
+              keySplines="0.4 0 0.2 1"
+            >
+              <mpath href={`#lpPath${particle.path}`} />
+            </animateMotion>
+            <animate
+              attributeName="opacity"
+              values="0;1;1;0"
+              dur="1s"
+              repeatCount="indefinite"
+              begin={`${particle.delay}s`}
+            />
+          </circle>
         );
       })}
     </svg>

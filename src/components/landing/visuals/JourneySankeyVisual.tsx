@@ -1,19 +1,7 @@
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
 import { Search, Mail, MousePointer, Users } from "lucide-react";
 
 export const JourneySankeyVisual = () => {
-  const [particles, setParticles] = useState<{ id: number; path: number; delay: number }[]>([]);
-  const appleEase = [0.4, 0.0, 0.2, 1] as const;
   const fiberOffsets = [-1, -0.5, 0, 0.5, 1];
-
-  useEffect(() => {
-    setParticles(Array.from({ length: 8 }, (_, i) => ({
-      id: i,
-      path: i % 4,
-      delay: i * 0.25,
-    })));
-  }, []);
 
   const sources = [
     { y: 12, icon: Search, color: "#F59E0B", label: "Paid" },
@@ -21,6 +9,12 @@ export const JourneySankeyVisual = () => {
     { y: 36, icon: Mail, color: "#8B5CF6", label: "Email" },
     { y: 48, icon: MousePointer, color: "#EC4899", label: "Referral" },
   ];
+
+  const particles = Array.from({ length: 8 }, (_, i) => ({
+    id: i,
+    path: i % 4,
+    delay: i * 0.25,
+  }));
 
   return (
     <svg viewBox="0 0 120 60" className="w-full h-full">
@@ -39,9 +33,57 @@ export const JourneySankeyVisual = () => {
         <pattern id="journeyDotGrid" patternUnits="userSpaceOnUse" width="4" height="4">
           <circle cx="2" cy="2" r="0.12" fill="white" fillOpacity="0.1" />
         </pattern>
+
+        {/* Define paths for particles */}
+        {sources.map((source, i) => (
+          <path
+            key={`path-${i}`}
+            id={`journeyPath${i}`}
+            d={`M 30 ${source.y + 2} Q 70 ${source.y + 2}, 98 30`}
+            fill="none"
+          />
+        ))}
       </defs>
       
       <rect x="0" y="0" width="120" height="60" fill="url(#journeyDotGrid)" opacity="0.3" />
+
+      <style>{`
+        @keyframes journeyCircleScale {
+          from { transform: scale(0); }
+          to { transform: scale(1); }
+        }
+        @keyframes journeyPathDraw {
+          from { stroke-dashoffset: 100; }
+          to { stroke-dashoffset: 0; }
+        }
+        @keyframes journeyPulse {
+          0%, 100% { r: 8; opacity: 0.5; }
+          50% { r: 11; opacity: 0.1; }
+        }
+        @keyframes journeyFadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        .journey-source-circle {
+          animation: journeyCircleScale 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          transform-origin: center;
+        }
+        .journey-fiber-path {
+          stroke-dasharray: 100;
+          animation: journeyPathDraw 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .journey-dest-circle {
+          animation: journeyCircleScale 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards;
+          transform: scale(0);
+        }
+        .journey-pulse-ring {
+          animation: journeyPulse 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+        .journey-text-fade {
+          animation: journeyFadeIn 0.3s ease-out 1s forwards;
+          opacity: 0;
+        }
+      `}</style>
 
       {/* Source icons + labels OUTSIDE, small hollow circles */}
       {sources.map((source, i) => (
@@ -65,16 +107,15 @@ export const JourneySankeyVisual = () => {
           </text>
           
           {/* Small hollow circle connector */}
-          <motion.circle
+          <circle
             cx="28"
             cy={source.y + 2}
             r="2"
             fill="none"
             stroke="rgba(113,113,122,0.4)"
             strokeWidth="0.4"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: i * 0.1, ease: appleEase }}
+            className="journey-source-circle"
+            style={{ animationDelay: `${i * 0.1}s` }}
           />
         </g>
       ))}
@@ -85,7 +126,7 @@ export const JourneySankeyVisual = () => {
           const isCenter = strandIdx === 2;
           const baseY = source.y + 2;
           return (
-            <motion.path
+            <path
               key={`fiber-${srcIdx}-${strandIdx}`}
               d={`M 30 ${baseY + offset * 0.6} Q 70 ${baseY + offset * 0.3}, 98 30`}
               fill="none"
@@ -94,66 +135,64 @@ export const JourneySankeyVisual = () => {
               strokeLinecap="round"
               strokeOpacity={isCenter ? 0.5 : 0.15}
               filter={isCenter ? "url(#journeyGlow)" : undefined}
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.3 + srcIdx * 0.1, ease: appleEase }}
+              className="journey-fiber-path"
+              style={{ animationDelay: `${0.3 + srcIdx * 0.1}s` }}
             />
           );
         })
       ))}
 
-      {/* Small particles */}
+      {/* Particles using native SVG animateMotion */}
       {particles.map((particle) => {
         const source = sources[particle.path];
         return (
-          <motion.circle
+          <circle
             key={particle.id}
             r="1"
             fill={source.color}
             filter="url(#journeyGlow)"
-            initial={{ offsetDistance: "0%", opacity: 0 }}
-            animate={{ 
-              offsetDistance: ["0%", "100%"],
-              opacity: [0, 1, 1, 0],
-            }}
-            transition={{
-              duration: 1,
-              delay: particle.delay,
-              repeat: Infinity,
-              repeatDelay: 0.5,
-              ease: appleEase,
-            }}
-            style={{
-              offsetPath: `path("M 30 ${source.y + 2} Q 70 ${source.y + 2}, 98 30")`,
-            }}
-          />
+          >
+            <animateMotion
+              dur="1s"
+              repeatCount="indefinite"
+              begin={`${particle.delay}s`}
+              calcMode="spline"
+              keySplines="0.4 0 0.2 1"
+            >
+              <mpath href={`#journeyPath${particle.path}`} />
+            </animateMotion>
+            <animate
+              attributeName="opacity"
+              values="0;1;1;0"
+              dur="1s"
+              repeatCount="indefinite"
+              begin={`${particle.delay}s`}
+            />
+          </circle>
         );
       })}
 
       {/* Destination node */}
-      <motion.circle
+      <circle
         cx="106"
         cy="30"
         r="8"
         fill="url(#journeyRevenue)"
         filter="url(#journeyGlow)"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 0.8, type: "spring", stiffness: 200 }}
+        className="journey-dest-circle"
       />
       
-      <motion.circle
+      <circle
         cx="106"
         cy="30"
         r="8"
         fill="none"
         stroke="#22C55E"
         strokeWidth="0.4"
-        animate={{ r: [8, 11, 8], opacity: [0.5, 0.1, 0.5] }}
-        transition={{ duration: 1.5, repeat: Infinity, ease: appleEase }}
+        className="journey-pulse-ring"
       />
       
-      <motion.text
+      <text
         x="106"
         y="32"
         fill="white"
@@ -161,12 +200,10 @@ export const JourneySankeyVisual = () => {
         textAnchor="middle"
         fontFamily="'SF Mono', ui-monospace"
         fontWeight="bold"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
+        className="journey-text-fade"
       >
         $
-      </motion.text>
+      </text>
     </svg>
   );
 };
