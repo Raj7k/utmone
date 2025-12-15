@@ -109,8 +109,8 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Generate short URL using utm.one domain for compact QR codes
-    const shortUrl = `https://utm.one/v/${slug}`;
+    // Generate short URL using go.utm.one domain (routed via Cloudflare Worker)
+    const shortUrl = `https://go.utm.one/v/${slug}`;
 
     console.log("Created vCard with slug:", slug);
 
