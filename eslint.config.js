@@ -40,4 +40,32 @@ export default tseslint.config(
       ],
     },
   },
+  {
+    files: ["src/routes/MarketingRoutes.tsx", "src/shells/MarketingShell.tsx", "src/components/landing/**/*.{ts,tsx}", "src/pages/marketing/**/*.{ts,tsx}"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["@/contexts/AppProvider", "@/contexts/AppProvider/**"],
+              message: "Marketing shell cannot import AppProvider - use MarketingShell instead.",
+            },
+            {
+              group: ["@/contexts/NotificationContext", "@/contexts/NotificationContext/**"],
+              message: "Marketing shell cannot import NotificationContext - use sonner toast directly.",
+            },
+            {
+              group: ["@/lib/queryConfig"],
+              message: "Marketing shell cannot import queryConfig - marketing pages should not use React Query.",
+            },
+            {
+              group: ["@/contexts/WorkspaceContext", "@/contexts/WorkspaceContext/**"],
+              message: "Marketing shell cannot import WorkspaceContext - only dashboard pages need workspace context.",
+            },
+          ],
+        },
+      ],
+    },
+  },
 );
