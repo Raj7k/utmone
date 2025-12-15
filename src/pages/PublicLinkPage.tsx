@@ -20,7 +20,10 @@ import {
   Facebook, 
   Github,
   Globe,
-  ExternalLink
+  ExternalLink,
+  BadgeCheck,
+  MapPin,
+  Mail
 } from "lucide-react";
 
 const socialIcons: Record<string, typeof Instagram> = {
@@ -319,51 +322,126 @@ export default function PublicLinkPage() {
       </Helmet>
 
       <div className="max-w-md mx-auto space-y-6">
-        {/* Profile Section */}
-        <div className="flex flex-col items-center text-center space-y-3">
-          <div className={cn(
-            "h-20 w-20 rounded-full flex items-center justify-center text-2xl font-bold overflow-hidden",
-            styles.card
-          )}>
-            {(page.metadata as Record<string, unknown>)?.avatar_url ? (
-              <img 
-                src={(page.metadata as Record<string, unknown>).avatar_url as string} 
-                alt={page.title} 
-                className="w-full h-full object-cover" 
-              />
-            ) : (
-              page.title?.charAt(0)?.toUpperCase() || "?"
-            )}
-          </div>
-          <div>
-            <h1 className={cn("text-xl font-bold", styles.text)}>
-              {page.title}
-            </h1>
-            {page.bio && (
-              <p className={cn("text-sm mt-1 opacity-80", styles.text)}>
-                {page.bio}
-              </p>
-            )}
-          </div>
-        </div>
+        {(() => {
+          const metadata = page.metadata as Record<string, unknown> | null;
+          const avatarUrl = metadata?.avatar_url as string | undefined;
+          const websiteUrl = metadata?.website_url as string | undefined;
+          const location = metadata?.location as string | undefined;
+          const email = metadata?.email as string | undefined;
+          const ctaText = metadata?.cta_text as string | undefined;
+          const ctaUrl = metadata?.cta_url as string | undefined;
+          const verified = metadata?.verified as boolean | undefined;
+          const hideBranding = metadata?.hide_branding as boolean | undefined;
 
-        {/* Blocks */}
-        <div className="space-y-3">
-          {page.blocks.length > 0 ? (
-            page.blocks.map((block) => (
-              <BlockRenderer
-                key={block.id}
-                block={block}
-                theme={theme}
-                onBlockClick={handleBlockClick}
-              />
-            ))
-          ) : (
-            <p className={cn("text-center text-sm opacity-60 py-8", styles.text)}>
-              No content yet
-            </p>
-          )}
-        </div>
+          return (
+            <>
+              {/* Profile Section */}
+              <div className="flex flex-col items-center text-center space-y-3">
+                <div className={cn(
+                  "h-20 w-20 rounded-full flex items-center justify-center text-2xl font-bold overflow-hidden",
+                  styles.card
+                )}>
+                  {avatarUrl ? (
+                    <img 
+                      src={avatarUrl} 
+                      alt={page.title} 
+                      className="w-full h-full object-cover" 
+                    />
+                  ) : (
+                    page.title?.charAt(0)?.toUpperCase() || "?"
+                  )}
+                </div>
+                <div>
+                  <h1 className={cn("text-xl font-bold flex items-center justify-center gap-1.5", styles.text)}>
+                    {page.title}
+                    {verified && <BadgeCheck className="w-5 h-5 text-blue-400" />}
+                  </h1>
+                  {page.bio && (
+                    <p className={cn("text-sm mt-1 opacity-80", styles.text)}>
+                      {page.bio}
+                    </p>
+                  )}
+                </div>
+
+                {/* Profile Details */}
+                {(websiteUrl || location || email) && (
+                  <div className={cn("flex flex-wrap items-center justify-center gap-3 text-sm opacity-80", styles.text)}>
+                    {websiteUrl && (
+                      <a 
+                        href={websiteUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 hover:opacity-100 transition-opacity"
+                      >
+                        <Globe className="w-3.5 h-3.5" /> Website
+                      </a>
+                    )}
+                    {location && (
+                      <span className="flex items-center gap-1">
+                        <MapPin className="w-3.5 h-3.5" /> {location}
+                      </span>
+                    )}
+                    {email && (
+                      <a 
+                        href={`mailto:${email}`} 
+                        className="flex items-center gap-1 hover:opacity-100 transition-opacity"
+                      >
+                        <Mail className="w-3.5 h-3.5" /> {email}
+                      </a>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* CTA Button */}
+              {ctaText && ctaUrl && (
+                <a 
+                  href={ctaUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className={cn(
+                    "block w-full py-3 px-6 rounded-full text-center font-medium transition-all duration-200 hover:scale-[1.02]",
+                    styles.accent
+                  )}
+                >
+                  {ctaText}
+                </a>
+              )}
+
+              {/* Blocks */}
+              <div className="space-y-3">
+                {page.blocks.length > 0 ? (
+                  page.blocks.map((block) => (
+                    <BlockRenderer
+                      key={block.id}
+                      block={block}
+                      theme={theme}
+                      onBlockClick={handleBlockClick}
+                    />
+                  ))
+                ) : (
+                  <p className={cn("text-center text-sm opacity-60 py-8", styles.text)}>
+                    No content yet
+                  </p>
+                )}
+              </div>
+
+              {/* Branding */}
+              {!hideBranding && (
+                <div className="text-center pt-8">
+                  <a 
+                    href="https://utm.one" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className={cn("text-xs opacity-40 hover:opacity-60 transition-opacity", styles.text)}
+                  >
+                    Powered by utm.one
+                  </a>
+                </div>
+              )}
+            </>
+          );
+        })()}
       </div>
     </div>
   );
