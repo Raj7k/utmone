@@ -16,11 +16,13 @@ export const LinkPagesVisual = () => {
     })));
   }, []);
 
+  // Single orange accent - grey base for all destinations
+  const accentColor = "#F97316";
   const destinations = [
-    { y: 15, label: "Blog", color: "#F97316", icon: FileText },
-    { y: 27, label: "Portfolio", color: "#EC4899", icon: Briefcase },
-    { y: 39, label: "Store", color: "#8B5CF6", icon: ShoppingBag },
-    { y: 51, label: "Social", color: "#06B6D4", icon: Share2 },
+    { y: 15, label: "Blog", icon: FileText },
+    { y: 27, label: "Portfolio", icon: Briefcase },
+    { y: 39, label: "Store", icon: ShoppingBag },
+    { y: 51, label: "Social", icon: Share2 },
   ];
 
   return (
@@ -43,14 +45,12 @@ export const LinkPagesVisual = () => {
           <feComposite in="SourceGraphic" in2="glow" operator="over" />
         </filter>
         
-        {/* Per-destination gradients with white-hot center */}
-        {destinations.map((dest, i) => (
-          <linearGradient key={`lpFlow-${i}`} id={`lpFlow-${i}`} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#F97316" stopOpacity="0.8" />
-            <stop offset="40%" stopColor="#FFFFFF" stopOpacity="0.9" />
-            <stop offset="100%" stopColor={dest.color} stopOpacity="0.5" />
-          </linearGradient>
-        ))}
+        {/* Single flow gradient - orange accent throughout */}
+        <linearGradient id="lpFlowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#F97316" stopOpacity="0.8" />
+          <stop offset="40%" stopColor="#FFFFFF" stopOpacity="0.9" />
+          <stop offset="100%" stopColor="#71717A" stopOpacity="0.5" />
+        </linearGradient>
         
         {/* Source gradient */}
         <radialGradient id="sourceGlow" cx="50%" cy="50%" r="50%">
@@ -92,7 +92,7 @@ export const LinkPagesVisual = () => {
         <text x="14" y="31.5" fill="white" fontSize="2.5" textAnchor="middle" fontFamily="ui-monospace" opacity="0.8">utm.one</text>
       </motion.g>
 
-      {/* Multi-strand fiber flows to destinations */}
+      {/* Multi-strand fiber flows to destinations - grey base with orange center */}
       {destinations.map((dest, destIdx) => (
         fiberOffsets.map((offset, strandIdx) => {
           const isCenter = strandIdx === 1;
@@ -101,7 +101,7 @@ export const LinkPagesVisual = () => {
               key={`fiber-${destIdx}-${strandIdx}`}
               d={`M 24 ${30 + offset} Q 55 ${30 + offset * 0.5}, 88 ${dest.y + 3 + offset * 0.3}`}
               fill="none"
-              stroke={isCenter ? `url(#lpFlow-${destIdx})` : dest.color}
+              stroke={isCenter ? "url(#lpFlowGradient)" : "#52525B"}
               strokeWidth={isCenter ? 1.0 : 0.3}
               strokeLinecap="round"
               strokeOpacity={isCenter ? 0.8 : 0.2}
@@ -114,7 +114,7 @@ export const LinkPagesVisual = () => {
         })
       ))}
 
-      {/* Destination bars with icons */}
+      {/* Destination bars with icons - grey base, subtle orange pulse */}
       {destinations.map((dest, i) => {
         const IconComponent = dest.icon;
         return (
@@ -132,7 +132,7 @@ export const LinkPagesVisual = () => {
               animate={{ scaleX: 1, opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.5 + i * 0.08, ease: appleEase }}
             />
-            {/* Glow pulse on particle arrival */}
+            {/* Subtle pulse - grey with hint of orange */}
             <motion.rect
               x="90"
               y={dest.y}
@@ -140,22 +140,22 @@ export const LinkPagesVisual = () => {
               height="6"
               rx="1"
               fill="none"
-              stroke={dest.color}
+              stroke={accentColor}
               strokeWidth="0.3"
               animate={{ 
-                strokeOpacity: [0.2, 0.7, 0.2],
+                strokeOpacity: [0.1, 0.3, 0.1],
               }}
               transition={{ 
-                duration: 1,
+                duration: 1.5,
                 delay: i * 0.25,
                 repeat: Infinity,
                 ease: appleEase,
               }}
             />
-            {/* Icon */}
+            {/* Icon - grey base */}
             <foreignObject x="91" y={dest.y + 0.5} width="5" height="5">
               <div className="flex items-center justify-center w-full h-full">
-                <IconComponent className="w-1.5 h-1.5" style={{ color: dest.color }} strokeWidth={2} />
+                <IconComponent className="w-1.5 h-1.5 text-zinc-400" strokeWidth={2} />
               </div>
             </foreignObject>
             <motion.text
@@ -166,7 +166,7 @@ export const LinkPagesVisual = () => {
               textAnchor="middle"
               fontFamily="ui-monospace"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.7 }}
+              animate={{ opacity: 0.6 }}
               transition={{ delay: 0.7 + i * 0.08, ease: appleEase }}
             >
               {dest.label}
@@ -175,14 +175,14 @@ export const LinkPagesVisual = () => {
         );
       })}
 
-      {/* Heartbeat particles */}
+      {/* Heartbeat particles - single orange accent */}
       {particles.map((particle) => {
         const dest = destinations[particle.path];
         return (
           <motion.circle
             key={particle.id}
             r="1.2"
-            fill={dest.color}
+            fill={accentColor}
             filter="url(#lpFiberGlow)"
             initial={{ offsetDistance: "0%", opacity: 0 }}
             animate={{

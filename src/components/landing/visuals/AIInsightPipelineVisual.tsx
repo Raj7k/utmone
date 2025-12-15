@@ -85,7 +85,7 @@ export const AIInsightPipelineVisual = () => {
           <foreignObject x="6" y={input.y + 1.5} width="5" height="5">
             <input.icon className="w-full h-full text-zinc-400" style={{ opacity: 0.7 }} />
           </foreignObject>
-          <text x="12" y={input.y + 5.5} fill="white" fontSize="2" fontFamily="ui-monospace" opacity="0.5">{input.label}</text>
+          <text x="12" y={input.y + 5.5} fill="white" fontSize="2.5" fontFamily="ui-monospace" opacity="0.5">{input.label}</text>
         </motion.g>
       ))}
       
@@ -198,12 +198,13 @@ export const AIInsightPipelineVisual = () => {
         {/* AI label */}
         <text 
           x="58" 
-          y="31.5" 
+          y="32" 
           fill="white" 
-          fontSize="3" 
+          fontSize="5" 
           textAnchor="middle" 
           fontFamily="ui-monospace" 
-          opacity="0.85"
+          fontWeight="bold"
+          opacity="0.9"
         >
           AI
         </text>
@@ -338,10 +339,10 @@ export const AIInsightPipelineVisual = () => {
         x="58"
         y="56"
         fill="white"
-        fontSize="2"
+        fontSize="2.5"
         fontFamily="ui-monospace"
         textAnchor="middle"
-        fillOpacity="0.35"
+        fillOpacity="0.4"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.2 }}
