@@ -71,12 +71,11 @@ const PartnerDashboard = React.lazy(() => import("@/pages/Partners/Dashboard"));
 const ClientWorkspaces = React.lazy(() => import("@/pages/ClientWorkspaces"));
 
 // Helper component for dashboard routes
+// NOTE: Removed inner Suspense - parent App.tsx already handles lazy loading
 const DashboardPage = ({ children }: { children: React.ReactNode }) => (
-  <Suspense fallback={<DashboardSkeleton />}>
-    <DashboardLayout>
-      {children}
-    </DashboardLayout>
-  </Suspense>
+  <DashboardLayout>
+    {children}
+  </DashboardLayout>
 );
 
 // Helper component for admin routes

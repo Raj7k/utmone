@@ -202,15 +202,24 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
     let isMounted = true;
     
     const initialize = async () => {
-      // FAST PATH: If we have valid cached session AND workspace, skip blocking getSession
-      // This makes dashboard load instantly - we'll refresh in background
+      // FAST PATH: If we have valid cached session AND workspace, render immediately
+      // Background validation with timeout to prevent stale sessions from causing issues
       if (INITIAL_SESSION?.user && INITIAL_WORKSPACE) {
         if (isMounted) {
           setIsFullyLoaded(true);
         }
-        // Background refresh - non-blocking
+        
+        // FIXED: Add timeout for background validation to catch expired sessions
+        const validationTimeout = setTimeout(() => {
+          // Timeout means we trust cached data - no action needed
+          console.log("[AppSession] Background validation timed out, using cached session");
+        }, 3000);
+        
+        // Background refresh - non-blocking but handles session expiry
         supabase.auth.getSession().then(async ({ data: { session } }) => {
+          clearTimeout(validationTimeout);
           if (!isMounted) return;
+          
           if (session?.user) {
             setSession(session);
             cacheSession(session);
@@ -220,7 +229,24 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
               setWorkspaces(freshWorkspaces);
               cacheWorkspaces(freshWorkspaces);
             }
+          } else {
+            // FIXED: Session expired - clear cache and force re-auth
+            console.log("[AppSession] Cached session expired, clearing");
+            if (isMounted) {
+              setUser(null);
+              setSession(null);
+              setCurrentWorkspace(null);
+              setWorkspaces([]);
+              setIsFullyLoaded(true);
+              localStorage.removeItem(SESSION_CACHE_KEY);
+              localStorage.removeItem(WORKSPACE_CACHE_KEY);
+              localStorage.removeItem('currentWorkspaceId');
+            }
           }
+        }).catch((err) => {
+          clearTimeout(validationTimeout);
+          console.error("[AppSession] Background validation error:", err);
+          // On error, trust cached data
         });
         return;
       }

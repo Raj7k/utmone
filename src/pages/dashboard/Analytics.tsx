@@ -27,7 +27,7 @@ import { AnalyticsShareDialog } from "@/components/analytics/AnalyticsShareDialo
 import { ScheduleReportDialog } from "@/components/analytics/ScheduleReportDialog";
 import { useQueryClient } from "@tanstack/react-query";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
-import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
+// DashboardContentLoader removed - no longer blocking render
 import { StaleIndicator } from "@/components/loading/CardSkeleton";
 import { Skeleton } from "@/components/ui/skeleton";
 import { LazySection } from "@/components/loading/LazySection";
@@ -113,14 +113,8 @@ export default function Analytics() {
   // Non-blocking: show content immediately, use isFetching for subtle indicator
   const showLoadingIndicator = isFetching;
 
-  // Show loading state when data is loading
-  if (isLoading && !analytics) {
-    return (
-      <div className="p-6 lg:p-8 max-w-5xl mx-auto">
-        <DashboardContentLoader context="analytics" minHeight="60vh" />
-      </div>
-    );
-  }
+  // FIXED: Removed blocking DashboardContentLoader - render content immediately
+  // AnalyticsSkeleton inline handles loading state
 
   // Error state
   if (error) {

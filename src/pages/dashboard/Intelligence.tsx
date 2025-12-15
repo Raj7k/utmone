@@ -2,7 +2,6 @@ import { useState, useEffect, lazy, Suspense, useMemo } from "react";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { useIntelligenceData } from "@/hooks/useIntelligenceData";
-import { useCampaignsData } from "@/hooks/dashboard";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -36,7 +35,6 @@ import { TopicAttributionView } from "@/components/attribution/TopicAttributionV
 import { SentinelSavesWidget } from "@/components/analytics/SentinelSavesWidget";
 import { useSentinelStats } from "@/hooks/useSentinelSaves";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
 import { StaleIndicator } from "@/components/loading/CardSkeleton";
 
 // Lazy load heavy visualization components
@@ -62,17 +60,9 @@ export default function Intelligence() {
     ? Math.ceil((customRange.to.getTime() - customRange.from.getTime()) / (1000 * 60 * 60 * 24)) + 1
     : periodDays[period];
 
-  // OPTIMIZED: Use lightweight campaign hook (1 query instead of 10)
-  const { campaigns: cachedCampaigns, isLoading: campaignsLoading } = useCampaignsData();
-
-  // Pass preloaded campaigns to intelligence hook
-  const preloaded = !campaignsLoading && cachedCampaigns ? {
-    totalClicks: 0, // Let intelligence hook fetch this
-    campaigns: cachedCampaigns.map(c => ({ id: c.id, name: c.name })),
-  } : undefined;
-
-  // Use unified data hook for fast loading - leverages shared cache + preloaded data
-  const { data: intelligenceData, isLoading, isFetching, isStale } = useIntelligenceData(effectiveWorkspaceId, days, preloaded);
+  // FIXED: Removed useCampaignsData dependency that caused waterfall
+  // useIntelligenceData now fetches campaigns internally
+  const { data: intelligenceData, isLoading, isFetching, isStale, error } = useIntelligenceData(effectiveWorkspaceId, days);
 
   // Signal navigation complete when data loads or times out
   useEffect(() => {
@@ -114,14 +104,8 @@ export default function Intelligence() {
     );
   }
 
-  // Show loading state when data is loading
-  if (isLoading && !intelligenceData) {
-    return (
-      <div className="p-6 lg:p-8 max-w-5xl mx-auto">
-        <DashboardContentLoader context="intelligence" minHeight="60vh" />
-      </div>
-    );
-  }
+  // FIXED: Removed blocking DashboardContentLoader - render content immediately
+  // Show skeleton states inline instead of blocking entire page
 
   return (
     <div className="animate-fade-in relative">
