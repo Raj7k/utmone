@@ -1,19 +1,7 @@
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
 import { Link, QrCode, Share2, Globe } from "lucide-react";
 
 export const LinksQRSankeyVisual = () => {
-  const [particles, setParticles] = useState<{ id: number; path: number; delay: number }[]>([]);
-  const appleEase = [0.4, 0.0, 0.2, 1] as const;
   const fiberOffsets = [-1, -0.5, 0, 0.5, 1];
-
-  useEffect(() => {
-    setParticles(Array.from({ length: 8 }, (_, i) => ({
-      id: i,
-      path: i % 4,
-      delay: i * 0.25,
-    })));
-  }, []);
 
   const sources = [
     { y: 12, icon: Link, color: "#0A66C2", label: "UTM" },
@@ -21,6 +9,12 @@ export const LinksQRSankeyVisual = () => {
     { y: 36, icon: Share2, color: "#1DA1F2", label: "Social" },
     { y: 48, icon: Globe, color: "#6366F1", label: "Web" },
   ];
+
+  const particles = Array.from({ length: 8 }, (_, i) => ({
+    id: i,
+    path: i % 4,
+    delay: i * 0.25,
+  }));
 
   return (
     <svg viewBox="0 0 120 60" className="w-full h-full">
@@ -39,9 +33,53 @@ export const LinksQRSankeyVisual = () => {
         <pattern id="linksDotGrid" patternUnits="userSpaceOnUse" width="4" height="4">
           <circle cx="2" cy="2" r="0.12" fill="white" fillOpacity="0.1" />
         </pattern>
+
+        {/* Define paths for particles */}
+        {sources.map((source, i) => (
+          <path
+            key={`path-${i}`}
+            id={`linksPath${i}`}
+            d={`M 26 ${source.y + 2} Q 45 ${source.y + 2}, 58 30`}
+            fill="none"
+          />
+        ))}
       </defs>
       
       <rect x="0" y="0" width="120" height="60" fill="url(#linksDotGrid)" opacity="0.3" />
+
+      <style>{`
+        @keyframes linksCircleScale {
+          from { transform: scale(0); }
+          to { transform: scale(1); }
+        }
+        @keyframes linksPathDraw {
+          from { stroke-dashoffset: 100; }
+          to { stroke-dashoffset: 0; }
+        }
+        @keyframes linksPulse {
+          0%, 100% { r: 6; opacity: 0.5; }
+          50% { r: 9; opacity: 0.1; }
+        }
+        .links-source-circle {
+          animation: linksCircleScale 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          transform-origin: center;
+        }
+        .links-fiber-path {
+          stroke-dasharray: 100;
+          animation: linksPathDraw 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .links-hub-circle {
+          animation: linksCircleScale 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
+          transform: scale(0);
+        }
+        .links-pulse-ring {
+          animation: linksPulse 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+        .links-dest-circle {
+          animation: linksCircleScale 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          transform: scale(0);
+        }
+      `}</style>
 
       {/* Source icons + labels OUTSIDE */}
       {sources.map((source, i) => (
@@ -62,16 +100,15 @@ export const LinksQRSankeyVisual = () => {
             {source.label}
           </text>
           
-          <motion.circle
+          <circle
             cx="24"
             cy={source.y + 2}
             r="2"
             fill="none"
             stroke="rgba(113,113,122,0.4)"
             strokeWidth="0.4"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: i * 0.1, ease: appleEase }}
+            className="links-source-circle"
+            style={{ animationDelay: `${i * 0.1}s` }}
           />
         </g>
       ))}
@@ -82,7 +119,7 @@ export const LinksQRSankeyVisual = () => {
           const isCenter = strandIdx === 2;
           const baseY = source.y + 2;
           return (
-            <motion.path
+            <path
               key={`fiber-${srcIdx}-${strandIdx}`}
               d={`M 26 ${baseY + offset * 0.6} Q 45 ${baseY + offset * 0.3}, 58 30`}
               fill="none"
@@ -91,35 +128,31 @@ export const LinksQRSankeyVisual = () => {
               strokeLinecap="round"
               strokeOpacity={isCenter ? 0.5 : 0.15}
               filter={isCenter ? "url(#linksGlow)" : undefined}
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 + srcIdx * 0.1, ease: appleEase }}
+              className="links-fiber-path"
+              style={{ animationDelay: `${0.2 + srcIdx * 0.1}s` }}
             />
           );
         })
       ))}
 
       {/* Central hub */}
-      <motion.circle
+      <circle
         cx="60"
         cy="30"
         r="6"
         fill="url(#linksHub)"
         filter="url(#linksGlow)"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
+        className="links-hub-circle"
       />
       
-      <motion.circle
+      <circle
         cx="60"
         cy="30"
         r="6"
         fill="none"
         stroke="#0A66C2"
         strokeWidth="0.4"
-        animate={{ r: [6, 9, 6], opacity: [0.5, 0.1, 0.5] }}
-        transition={{ duration: 1.5, repeat: Infinity, ease: appleEase }}
+        className="links-pulse-ring"
       />
 
       {/* Output lines from hub */}
@@ -127,7 +160,7 @@ export const LinksQRSankeyVisual = () => {
         fiberOffsets.map((offset, strandIdx) => {
           const isCenter = strandIdx === 2;
           return (
-            <motion.path
+            <path
               key={`out-${i}-${strandIdx}`}
               d={`M 66 ${30 + offset * 0.4} Q 85 ${(30 + destY) / 2 + offset * 0.2}, 100 ${destY}`}
               fill="none"
@@ -136,9 +169,8 @@ export const LinksQRSankeyVisual = () => {
               strokeLinecap="round"
               strokeOpacity={isCenter ? 0.5 : 0.15}
               filter={isCenter ? "url(#linksGlow)" : undefined}
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.7 + i * 0.1, ease: appleEase }}
+              className="links-fiber-path"
+              style={{ animationDelay: `${0.7 + i * 0.1}s` }}
             />
           );
         })
@@ -146,7 +178,7 @@ export const LinksQRSankeyVisual = () => {
 
       {/* Output hollow circles */}
       {[15, 30, 45].map((destY, i) => (
-        <motion.circle
+        <circle
           key={`dest-${i}`}
           cx="104"
           cy={destY}
@@ -154,9 +186,8 @@ export const LinksQRSankeyVisual = () => {
           fill="none"
           stroke="rgba(34,197,94,0.5)"
           strokeWidth="0.4"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.9 + i * 0.1, ease: appleEase }}
+          className="links-dest-circle"
+          style={{ animationDelay: `${0.9 + i * 0.1}s` }}
         />
       ))}
 
@@ -164,27 +195,29 @@ export const LinksQRSankeyVisual = () => {
       {particles.map((particle) => {
         const source = sources[particle.path];
         return (
-          <motion.circle
+          <circle
             key={particle.id}
             r="1"
             fill={source.color}
             filter="url(#linksGlow)"
-            initial={{ offsetDistance: "0%", opacity: 0 }}
-            animate={{ 
-              offsetDistance: ["0%", "100%"],
-              opacity: [0, 1, 1, 0],
-            }}
-            transition={{
-              duration: 0.8,
-              delay: particle.delay,
-              repeat: Infinity,
-              repeatDelay: 0.6,
-              ease: appleEase,
-            }}
-            style={{
-              offsetPath: `path("M 26 ${source.y + 2} Q 45 ${source.y + 2}, 58 30")`,
-            }}
-          />
+          >
+            <animateMotion
+              dur="0.8s"
+              repeatCount="indefinite"
+              begin={`${particle.delay}s`}
+              calcMode="spline"
+              keySplines="0.4 0 0.2 1"
+            >
+              <mpath href={`#linksPath${particle.path}`} />
+            </animateMotion>
+            <animate
+              attributeName="opacity"
+              values="0;1;1;0"
+              dur="0.8s"
+              repeatCount="indefinite"
+              begin={`${particle.delay}s`}
+            />
+          </circle>
         );
       })}
     </svg>
