@@ -2,60 +2,36 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-// Brick colors for the colorful QR
-const BRICK_COLORS = [
-  "#E4202E", // Red
-  "#0057A6", // Blue
-  "#FAC80A", // Yellow
-  "#00852B", // Green
-  "#F57D20", // Orange
-  "#7C4B96", // Purple
-];
-
-// Generate QR-like pattern
-const generatePattern = (size: number = 8): boolean[][] => {
-  const pattern: boolean[][] = [];
-  for (let row = 0; row < size; row++) {
-    pattern[row] = [];
-    for (let col = 0; col < size; col++) {
-      // Corner finder patterns
-      if (row < 2 && col < 2) {
-        pattern[row][col] = row === 0 || col === 0;
-      } else if (row < 2 && col >= size - 2) {
-        pattern[row][col] = row === 0 || col === size - 1;
-      } else if (row >= size - 2 && col < 2) {
-        pattern[row][col] = row === size - 1 || col === 0;
-      } else {
-        pattern[row][col] = ((42 + row * 7 + col * 11) % 10) < 5;
-      }
-    }
-  }
-  return pattern;
-};
+import brickQRImage from "@/assets/images/brickmatrix-qr.svg";
 
 // Boring generic QR - grayscale, flat, no personality
 const BoringQR = () => {
-  const pattern = generatePattern(8);
-  
   return (
     <div className="relative">
-      {/* Muted container */}
-      <div className="w-[140px] h-[140px] bg-zinc-200 rounded-lg p-3 opacity-60 grayscale">
-        <div 
-          className="grid gap-[2px] w-full h-full"
-          style={{ gridTemplateColumns: `repeat(8, 1fr)` }}
-        >
-          {pattern.map((row, rowIdx) =>
-            row.map((cell, colIdx) => (
-              <div
-                key={`boring-${rowIdx}-${colIdx}`}
-                className="aspect-square"
-                style={{ backgroundColor: cell ? "#333" : "#fff" }}
-              />
-            ))
-          )}
-        </div>
+      {/* Muted container with simple grid pattern */}
+      <div className="w-[140px] h-[140px] bg-zinc-200 rounded-lg p-3 opacity-60 grayscale flex items-center justify-center">
+        <svg viewBox="0 0 64 64" className="w-full h-full">
+          {/* Simple boring QR pattern */}
+          <rect x="0" y="0" width="64" height="64" fill="white"/>
+          <rect x="4" y="4" width="16" height="16" fill="#333"/>
+          <rect x="8" y="8" width="8" height="8" fill="white"/>
+          <rect x="10" y="10" width="4" height="4" fill="#333"/>
+          <rect x="44" y="4" width="16" height="16" fill="#333"/>
+          <rect x="48" y="8" width="8" height="8" fill="white"/>
+          <rect x="50" y="10" width="4" height="4" fill="#333"/>
+          <rect x="4" y="44" width="16" height="16" fill="#333"/>
+          <rect x="8" y="48" width="8" height="8" fill="white"/>
+          <rect x="10" y="50" width="4" height="4" fill="#333"/>
+          {/* Random data modules */}
+          <rect x="24" y="8" width="4" height="4" fill="#333"/>
+          <rect x="32" y="12" width="4" height="4" fill="#333"/>
+          <rect x="28" y="24" width="4" height="4" fill="#333"/>
+          <rect x="36" y="28" width="4" height="4" fill="#333"/>
+          <rect x="24" y="36" width="4" height="4" fill="#333"/>
+          <rect x="44" y="32" width="4" height="4" fill="#333"/>
+          <rect x="48" y="44" width="4" height="4" fill="#333"/>
+          <rect x="32" y="48" width="4" height="4" fill="#333"/>
+        </svg>
       </div>
       
       {/* Boring label */}
@@ -66,62 +42,27 @@ const BoringQR = () => {
   );
 };
 
-// Vibrant brick QR - colorful, 3D studs, animated
+// Vibrant brick QR using the real image
 const BrickQR = () => {
-  const pattern = generatePattern(8);
-  
   return (
     <div className="relative">
       {/* Glowing container */}
-      <div 
-        className="w-[180px] h-[180px] rounded-xl p-3 relative"
+      <motion.div 
+        className="w-[200px] h-[200px] rounded-xl relative"
         style={{
-          background: "linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)",
           boxShadow: "0 0 40px rgba(250, 200, 10, 0.3), 0 0 80px rgba(228, 32, 46, 0.2)"
         }}
+        initial={{ scale: 0.8, opacity: 0 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       >
-        {/* Brick grid */}
-        <div 
-          className="grid gap-[2px] w-full h-full"
-          style={{ gridTemplateColumns: `repeat(8, 1fr)` }}
-        >
-          {pattern.map((row, rowIdx) =>
-            row.map((cell, colIdx) => {
-              const colorIndex = (rowIdx + colIdx) % BRICK_COLORS.length;
-              const brickColor = cell ? BRICK_COLORS[colorIndex] : "#2a2a4a";
-              
-              return (
-                <motion.div
-                  key={`brick-${rowIdx}-${colIdx}`}
-                  initial={{ scale: 0, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ 
-                    delay: (rowIdx + colIdx) * 0.02,
-                    type: "spring",
-                    stiffness: 400,
-                    damping: 20
-                  }}
-                  className="aspect-square relative rounded-[2px]"
-                  style={{ 
-                    backgroundColor: brickColor,
-                    boxShadow: cell ? "inset 0 -2px 4px rgba(0,0,0,0.3)" : "none"
-                  }}
-                >
-                  {/* Stud effect */}
-                  <div 
-                    className="absolute inset-[15%] rounded-full"
-                    style={{ 
-                      backgroundColor: brickColor,
-                      boxShadow: `inset 0 -1px 3px rgba(0,0,0,0.4), inset 0 2px 2px rgba(255,255,255,0.2)`
-                    }}
-                  />
-                </motion.div>
-              );
-            })
-          )}
-        </div>
-      </div>
+        <img 
+          src={brickQRImage} 
+          alt="3D Brick QR Code" 
+          className="w-full h-full object-contain rounded-xl"
+        />
+      </motion.div>
       
       {/* Sparkle label */}
       <motion.div 
