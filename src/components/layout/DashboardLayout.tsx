@@ -1,4 +1,5 @@
 import { ReactNode, useEffect, useState, lazy, Suspense } from "react";
+import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { SidebarProvider } from "./sidebar/SidebarProvider";
 import { DashboardSidebarV2 } from "./sidebar/DashboardSidebarV2";
 import { ContextualHeader } from "./ContextualHeader";
@@ -27,10 +28,18 @@ interface DashboardLayoutProps {
 
 export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const { _source, displayName } = useCurrentPlan();
+  const { currentWorkspace, isWorkspaceLoading } = useWorkspaceContext();
   const [searchParams] = useSearchParams();
   const [impersonatedUser, setImpersonatedUser] = useState<{ email: string; full_name?: string } | null>(null);
 
-  // Check if we're in impersonation mode
+  if (isWorkspaceLoading && !currentWorkspace) {
+    return (
+      <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center">
+        <div className="w-24 h-1 rounded-full bg-primary animate-breathing-pulse" />
+        <p className="mt-4 text-muted-foreground text-sm font-medium animate-fade-in">loading workspace...</p>
+      </div>
+    );
+  }
   useEffect(() => {
     const isImpersonating = searchParams.get('impersonating') === 'true';
     

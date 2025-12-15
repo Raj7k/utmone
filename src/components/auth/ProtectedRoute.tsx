@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAppSession } from "@/contexts/AppSessionContext";
-import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
 
@@ -48,12 +47,7 @@ function hasCachedSession(): boolean {
  */
 function hasCachedAuth(): boolean {
   try {
-    const hasSession = hasCachedSession();
-    if (!hasSession) return false;
-
-    // Dashboard requires a workspace context too
-    const workspaceId = localStorage.getItem('currentWorkspaceId');
-    return !!workspaceId;
+    return hasCachedSession();
   } catch {
     return false;
   }
@@ -61,7 +55,6 @@ function hasCachedAuth(): boolean {
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { isReady, isAuthenticated, error, refresh } = useAppSession();
-  const { currentWorkspace } = useWorkspaceContext();
   const location = useLocation();
   
   const [hasTimedOut, setHasTimedOut] = useState(false);
@@ -111,8 +104,8 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   // CONDITIONAL RETURNS - AFTER ALL HOOKS
   // ============================================
 
-  // INSTANT RENDER only if we have session + workspace cached AND context is ready AND workspace exists
-  if (cachedAuth && isReady && currentWorkspace) {
+  // INSTANT RENDER only if we have cached session AND context is ready
+  if (cachedAuth && isReady) {
     return <>{children}</>;
   }
 
@@ -152,8 +145,8 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     );
   }
 
-  // Also render if context says ready and authenticated AND workspace exists
-  if (isReady && isAuthenticated && currentWorkspace) {
+  // Also render if context says ready and authenticated
+  if (isReady && isAuthenticated) {
     return <>{children}</>;
   }
 
