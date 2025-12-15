@@ -14,7 +14,9 @@ import {
   Sparkles,
   ChevronRight,
   Loader2,
-  CheckCircle2
+  CheckCircle2,
+  LayoutGrid,
+  Waves
 } from "lucide-react";
 import { UseCaseType } from "./ControlDeckHero";
 
@@ -51,6 +53,20 @@ const USE_CASES = [
     fullLabel: p("AI intelligence"),
     sublabel: p("clean-track insights"),
   },
+  {
+    id: "linkpages" as UseCaseType,
+    icon: LayoutGrid,
+    label: p("pages"),
+    fullLabel: p("link pages"),
+    sublabel: p("one link, all destinations"),
+  },
+  {
+    id: "eventhalo" as UseCaseType,
+    icon: Waves,
+    label: p("halo"),
+    fullLabel: p("event halo"),
+    sublabel: p("detect invisible attendees"),
+  },
 ];
 
 const HERO_CONTENT: Record<UseCaseType, { headline: string; subheadline: string }> = {
@@ -73,6 +89,14 @@ const HERO_CONTENT: Record<UseCaseType, { headline: string; subheadline: string 
   governance: {
     headline: p("your links, under total control"),
     subheadline: p("naming conventions, approval workflows, audit trails. scale without chaos."),
+  },
+  linkpages: {
+    headline: p("one link to rule them all"),
+    subheadline: p("link-in-bio pages with full UTM tracking. every click measured, every visitor identified."),
+  },
+  eventhalo: {
+    headline: p("track the invisible 90%"),
+    subheadline: p("Event Halo detects booth walk-by visitors your competitors miss."),
   },
 };
 

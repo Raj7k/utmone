@@ -15,7 +15,9 @@ import {
   CheckCircle2,
   User,
   Brain,
-  Loader2
+  Loader2,
+  LayoutGrid,
+  Waves
 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileHero } from "./MobileHero";
@@ -23,8 +25,13 @@ import { FiberOpticGraph } from "./FiberOpticGraph";
 import { FoundingSpotsCounter } from "./AnimatedCounter";
 import { supabase } from "@/integrations/supabase/client";
 import { GoogleIcon, LinkedInIcon, HubSpotIcon, MetaIcon } from "@/components/icons/SocialIcons";
+import { LinkPagesVisual } from "./visuals/LinkPagesVisual";
+import { EventHaloVisual } from "./visuals/EventHaloVisual";
+import { LinksQRSankeyVisual } from "./visuals/LinksQRSankeyVisual";
+import { JourneySankeyVisual } from "./visuals/JourneySankeyVisual";
+import { AIInsightPipelineVisual } from "./visuals/AIInsightPipelineVisual";
 
-export type UseCaseType = "attribution" | "journey" | "links" | "intelligence" | "governance";
+export type UseCaseType = "attribution" | "journey" | "links" | "intelligence" | "governance" | "linkpages" | "eventhalo";
 
 interface ControlDeckHeroProps {
   onUseCaseChange?: (useCase: UseCaseType) => void;
@@ -75,6 +82,24 @@ const CONTROL_ITEMS = [
     headline: p("scale fast. stay in control."),
     subheadline: p("as your team grows, your links stay consistent. roles, rules, approvals, and audit trails — without the bureaucracy."),
     route: "/features/enterprise-control",
+  },
+  {
+    id: "linkpages" as UseCaseType,
+    icon: LayoutGrid,
+    label: p("link pages"),
+    sublabel: p("one link, all destinations"),
+    headline: p("one link to rule them all."),
+    subheadline: p("link-in-bio pages with full UTM tracking. every click measured, every visitor identified. no more dark social."),
+    route: "/features/link-pages",
+  },
+  {
+    id: "eventhalo" as UseCaseType,
+    icon: Waves,
+    label: p("event halo"),
+    sublabel: p("detect invisible attendees"),
+    headline: p("track the invisible 90%."),
+    subheadline: p("Event Halo detects booth walk-by visitors your competitors miss. see the full impact of field marketing, not just badge scans."),
+    route: "/features/event-halo",
   },
 ];
 
@@ -330,13 +355,17 @@ const DeckVisual = ({ type }: { type: UseCaseType }) => {
     case "attribution":
       return <FiberOpticGraph />;
     case "journey":
-      return <JourneyVisual />;
+      return <JourneySankeyVisual />;
     case "links":
-      return <LinksVisual />;
+      return <LinksQRSankeyVisual />;
     case "intelligence":
-      return <IntelligenceVisual />;
+      return <AIInsightPipelineVisual />;
     case "governance":
       return <GovernanceVisual />;
+    case "linkpages":
+      return <LinkPagesVisual />;
+    case "eventhalo":
+      return <EventHaloVisual />;
     default:
       return null;
   }
