@@ -1,12 +1,25 @@
 import { motion } from "framer-motion";
-import { Monitor, FileText, Boxes, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-// Generate brick pattern for visualizations
-const generatePattern = (seed: number, size: number = 8): boolean[][] => {
+// Brick colors for the colorful QR
+const BRICK_COLORS = [
+  "#E4202E", // Red
+  "#0057A6", // Blue
+  "#FAC80A", // Yellow
+  "#00852B", // Green
+  "#F57D20", // Orange
+  "#7C4B96", // Purple
+];
+
+// Generate QR-like pattern
+const generatePattern = (size: number = 8): boolean[][] => {
   const pattern: boolean[][] = [];
   for (let row = 0; row < size; row++) {
     pattern[row] = [];
     for (let col = 0; col < size; col++) {
+      // Corner finder patterns
       if (row < 2 && col < 2) {
         pattern[row][col] = row === 0 || col === 0;
       } else if (row < 2 && col >= size - 2) {
@@ -14,262 +27,208 @@ const generatePattern = (seed: number, size: number = 8): boolean[][] => {
       } else if (row >= size - 2 && col < 2) {
         pattern[row][col] = row === size - 1 || col === 0;
       } else {
-        pattern[row][col] = ((seed + row * 7 + col * 11) % 10) < 5;
+        pattern[row][col] = ((42 + row * 7 + col * 11) % 10) < 5;
       }
     }
   }
   return pattern;
 };
 
-const BrickGrid = ({ 
-  pattern, 
-  fgColor, 
-  bgColor,
-  studStyle = true 
-}: { 
-  pattern: boolean[][];
-  fgColor: string;
-  bgColor: string;
-  studStyle?: boolean;
-}) => {
+// Boring generic QR - grayscale, flat, no personality
+const BoringQR = () => {
+  const pattern = generatePattern(8);
+  
   return (
-    <div 
-      className="grid gap-[1px] w-full h-full"
-      style={{ gridTemplateColumns: `repeat(${pattern[0].length}, 1fr)` }}
-    >
-      {pattern.map((row, rowIdx) =>
-        row.map((cell, colIdx) => (
-          <motion.div
-            key={`${rowIdx}-${colIdx}`}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: (rowIdx + colIdx) * 0.015, duration: 0.2 }}
-            className="aspect-square relative"
-            style={{ backgroundColor: cell ? fgColor : bgColor }}
-          >
-            {studStyle && (
-              <div 
-                className="absolute inset-[12%] rounded-full"
-                style={{ 
-                  backgroundColor: cell ? fgColor : bgColor,
-                  boxShadow: `inset 0 -1px 2px rgba(0,0,0,0.25), inset 0 1px 1px rgba(255,255,255,0.15)`
-                }}
+    <div className="relative">
+      {/* Muted container */}
+      <div className="w-[140px] h-[140px] bg-zinc-200 rounded-lg p-3 opacity-60 grayscale">
+        <div 
+          className="grid gap-[2px] w-full h-full"
+          style={{ gridTemplateColumns: `repeat(8, 1fr)` }}
+        >
+          {pattern.map((row, rowIdx) =>
+            row.map((cell, colIdx) => (
+              <div
+                key={`boring-${rowIdx}-${colIdx}`}
+                className="aspect-square"
+                style={{ backgroundColor: cell ? "#333" : "#fff" }}
               />
-            )}
-          </motion.div>
-        ))
-      )}
+            ))
+          )}
+        </div>
+      </div>
+      
+      {/* Boring label */}
+      <div className="absolute -top-2 -right-2 bg-zinc-500 text-white text-[10px] px-2 py-0.5 rounded-full">
+        boring
+      </div>
     </div>
   );
 };
 
-const WorkflowStep = ({ 
-  step, 
-  icon: Icon, 
-  title, 
-  description, 
-  children,
+// Vibrant brick QR - colorful, 3D studs, animated
+const BrickQR = () => {
+  const pattern = generatePattern(8);
+  
+  return (
+    <div className="relative">
+      {/* Glowing container */}
+      <div 
+        className="w-[180px] h-[180px] rounded-xl p-3 relative"
+        style={{
+          background: "linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)",
+          boxShadow: "0 0 40px rgba(250, 200, 10, 0.3), 0 0 80px rgba(228, 32, 46, 0.2)"
+        }}
+      >
+        {/* Brick grid */}
+        <div 
+          className="grid gap-[2px] w-full h-full"
+          style={{ gridTemplateColumns: `repeat(8, 1fr)` }}
+        >
+          {pattern.map((row, rowIdx) =>
+            row.map((cell, colIdx) => {
+              const colorIndex = (rowIdx + colIdx) % BRICK_COLORS.length;
+              const brickColor = cell ? BRICK_COLORS[colorIndex] : "#2a2a4a";
+              
+              return (
+                <motion.div
+                  key={`brick-${rowIdx}-${colIdx}`}
+                  initial={{ scale: 0, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ 
+                    delay: (rowIdx + colIdx) * 0.02,
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 20
+                  }}
+                  className="aspect-square relative rounded-[2px]"
+                  style={{ 
+                    backgroundColor: brickColor,
+                    boxShadow: cell ? "inset 0 -2px 4px rgba(0,0,0,0.3)" : "none"
+                  }}
+                >
+                  {/* Stud effect */}
+                  <div 
+                    className="absolute inset-[15%] rounded-full"
+                    style={{ 
+                      backgroundColor: brickColor,
+                      boxShadow: `inset 0 -1px 3px rgba(0,0,0,0.4), inset 0 2px 2px rgba(255,255,255,0.2)`
+                    }}
+                  />
+                </motion.div>
+              );
+            })
+          )}
+        </div>
+      </div>
+      
+      {/* Sparkle label */}
+      <motion.div 
+        initial={{ scale: 0 }}
+        whileInView={{ scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.5, type: "spring" }}
+        className="absolute -top-2 -right-2 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-[10px] px-2 py-0.5 rounded-full font-medium"
+      >
+        ✨ brick
+      </motion.div>
+    </div>
+  );
+};
+
+// Comparison bullet points
+const ComparisonPoint = ({ 
+  text, 
+  isGood,
   delay 
 }: { 
-  step: number;
-  icon: typeof Monitor;
-  title: string;
-  description: string;
-  children: React.ReactNode;
+  text: string; 
+  isGood: boolean;
   delay: number;
 }) => (
   <motion.div
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
+    initial={{ opacity: 0, x: isGood ? 20 : -20 }}
+    whileInView={{ opacity: 1, x: 0 }}
     viewport={{ once: true }}
-    transition={{ duration: 0.5, delay }}
-    className="flex flex-col items-center text-center"
+    transition={{ delay }}
+    className={`text-sm ${isGood ? "text-white" : "text-white/40"}`}
   >
-    {/* Step Number */}
-    <div className="w-8 h-8 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center mb-4">
-      <span className="text-sm font-bold text-primary">{step}</span>
-    </div>
-    
-    {/* Visual */}
-    <div className="mb-6">
-      {children}
-    </div>
-    
-    {/* Icon + Title */}
-    <div className="flex items-center gap-2 mb-2">
-      <Icon className="w-5 h-5 text-primary" />
-      <h3 className="font-semibold text-white">{title}</h3>
-    </div>
-    
-    {/* Description */}
-    <p className="text-sm text-white/50 max-w-[200px]">{description}</p>
+    <span className="mr-2">{isGood ? "✓" : "×"}</span>
+    {text}
   </motion.div>
 );
 
 export function BrickDeviceShowcase() {
-  const designPattern = generatePattern(42, 10);
-  const physicalPattern = generatePattern(42, 10); // Same pattern for consistency
-
   return (
     <section className="py-16 md:py-24 px-4 overflow-hidden">
-      <div className="container mx-auto max-w-5xl">
-        <div className="text-center mb-16">
+      <div className="container mx-auto max-w-4xl">
+        {/* Headline */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
           <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 text-white">
-            from screen to studs
+            QR codes don't have to be boring
           </h2>
           <p className="text-white/50 max-w-xl mx-auto">
-            Design on any device, then build with real bricks
+            Turn any link into a buildable brick masterpiece
           </p>
+        </motion.div>
+
+        {/* Before/After Comparison */}
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+          {/* BORING Side */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="flex flex-col items-center text-center space-y-6"
+          >
+            <BoringQR />
+            
+            <div className="space-y-2">
+              <ComparisonPoint text="generic black & white" isGood={false} delay={0.1} />
+              <ComparisonPoint text="forgettable" isGood={false} delay={0.15} />
+              <ComparisonPoint text="digital only" isGood={false} delay={0.2} />
+            </div>
+          </motion.div>
+
+          {/* BRICK Side */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="flex flex-col items-center text-center space-y-6"
+          >
+            <BrickQR />
+            
+            <div className="space-y-2">
+              <ComparisonPoint text="14 vibrant colors" isGood={true} delay={0.2} />
+              <ComparisonPoint text="conversation starter" isGood={true} delay={0.25} />
+              <ComparisonPoint text="physical masterpiece" isGood={true} delay={0.3} />
+            </div>
+          </motion.div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 md:gap-4 items-start">
-          {/* Step 1: Design */}
-          <WorkflowStep
-            step={1}
-            icon={Monitor}
-            title="design"
-            description="Create your QR code with our visual builder"
-            delay={0}
-          >
-            <div className="w-[200px] bg-zinc-900 rounded-xl shadow-2xl overflow-hidden border border-white/10">
-              {/* Browser Chrome */}
-              <div className="h-6 bg-zinc-800 flex items-center px-2 gap-1.5">
-                <div className="flex gap-1">
-                  <div className="w-2 h-2 rounded-full bg-red-500/80" />
-                  <div className="w-2 h-2 rounded-full bg-yellow-500/80" />
-                  <div className="w-2 h-2 rounded-full bg-green-500/80" />
-                </div>
-                <div className="flex-1 ml-2">
-                  <div className="bg-zinc-700 rounded px-2 py-0.5 text-[8px] text-zinc-400 truncate">
-                    utm.one/builder
-                  </div>
-                </div>
-              </div>
-              
-              {/* Screen */}
-              <div className="h-[140px] bg-zinc-950 flex items-center justify-center p-4">
-                <div className="bg-white rounded-lg p-2 shadow-xl w-[80px] h-[80px]">
-                  <BrickGrid 
-                    pattern={designPattern} 
-                    fgColor="#1B1B1B" 
-                    bgColor="#F4F4F4"
-                  />
-                </div>
-              </div>
-            </div>
-          </WorkflowStep>
-
-          {/* Arrow 1 */}
-          <div className="hidden md:flex items-center justify-center pt-24">
-            <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-            >
-              <ArrowRight className="w-8 h-8 text-white/20" />
-            </motion.div>
-          </div>
-
-          {/* Step 2: Export */}
-          <WorkflowStep
-            step={2}
-            icon={FileText}
-            title="export"
-            description="Get PDF instructions and parts list"
-            delay={0.2}
-          >
-            <div className="w-[160px] space-y-2">
-              {/* PDF Document */}
-              <div className="bg-white rounded-lg p-3 shadow-xl">
-                <div className="flex items-center gap-2 mb-2 pb-2 border-b border-zinc-200">
-                  <div className="w-4 h-5 bg-red-500 rounded-sm flex items-center justify-center">
-                    <span className="text-[6px] text-white font-bold">PDF</span>
-                  </div>
-                  <span className="text-[10px] text-zinc-600 font-medium">build-instructions.pdf</span>
-                </div>
-                <div className="space-y-1.5">
-                  <div className="h-2 bg-zinc-200 rounded w-full" />
-                  <div className="h-2 bg-zinc-200 rounded w-3/4" />
-                  <div className="h-2 bg-zinc-200 rounded w-1/2" />
-                </div>
-              </div>
-              
-              {/* Parts List */}
-              <div className="bg-zinc-800 rounded-lg p-2 border border-white/10">
-                <div className="text-[9px] text-white/60 mb-1.5">Parts needed:</div>
-                <div className="flex gap-1.5">
-                  <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 rounded-sm bg-zinc-900 border border-white/20" />
-                    <span className="text-[8px] text-white/50">×512</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 rounded-sm bg-white border border-white/20" />
-                    <span className="text-[8px] text-white/50">×512</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </WorkflowStep>
-
-          {/* Arrow 2 */}
-          <div className="hidden md:flex items-center justify-center pt-24 -ml-4">
-            <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5 }}
-            >
-              <ArrowRight className="w-8 h-8 text-white/20" />
-            </motion.div>
-          </div>
-
-          {/* Step 3: Build */}
-          <WorkflowStep
-            step={3}
-            icon={Boxes}
-            title="build"
-            description="Assemble your physical QR masterpiece"
-            delay={0.4}
-          >
-            {/* 3D Perspective Brick Display */}
-            <div 
-              className="relative"
-              style={{ 
-                perspective: "500px",
-                perspectiveOrigin: "center center"
-              }}
-            >
-              <motion.div
-                initial={{ rotateX: 0, rotateY: 0 }}
-                animate={{ rotateX: 15, rotateY: -15 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-                className="w-[120px] h-[120px] relative"
-                style={{ transformStyle: "preserve-3d" }}
-              >
-                {/* Base plate */}
-                <div 
-                  className="absolute inset-0 bg-zinc-700 rounded"
-                  style={{ transform: "translateZ(-4px)" }}
-                />
-                
-                {/* Brick surface */}
-                <div className="absolute inset-0 bg-zinc-300 rounded overflow-hidden p-1">
-                  <BrickGrid 
-                    pattern={physicalPattern} 
-                    fgColor="#1B1B1B" 
-                    bgColor="#E8E8E8"
-                  />
-                </div>
-                
-                {/* Shadow */}
-                <div 
-                  className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-[100px] h-4 bg-black/30 blur-md rounded-full"
-                />
-              </motion.div>
-            </div>
-          </WorkflowStep>
-        </div>
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+          className="text-center mt-12"
+        >
+          <Button asChild size="lg" className="group">
+            <Link to="/dashboard/qr-codes">
+              Make it interesting
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </Button>
+        </motion.div>
       </div>
     </section>
   );
