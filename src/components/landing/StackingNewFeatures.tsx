@@ -66,22 +66,36 @@ const StackingFeatureCard = ({ card, index, totalCards, scrollProgress }: Stacki
   // Scale: stacked cards are smaller, active card is full size
   const scale = useTransform(
     scrollProgress,
-    [Math.max(0, cardStart - 0.1), cardStart, cardEnd],
-    [0.88 + (index * 0.02), 1, 1]
+    [Math.max(0, cardStart - 0.1), cardStart, cardEnd, Math.min(1, cardEnd + 0.1)],
+    [0.92, 1, 1, 0.95]
   );
   
-  // Opacity: fades in as it becomes active
+  // Opacity: fades in when active, dims when exited
   const opacity = useTransform(
     scrollProgress,
-    [Math.max(0, cardStart - 0.05), cardStart],
-    [0.3, 1]
+    [Math.max(0, cardStart - 0.1), cardStart, cardEnd, Math.min(1, cardEnd + 0.1)],
+    [0.4, 1, 1, 0.7]
   );
   
-  // Y position: cards slide up smoothly
+  // Y position: cards start below, center when active, exit upward
   const y = useTransform(
     scrollProgress,
-    [0, cardStart, cardEnd],
-    [index * 60, 0, -60]
+    [Math.max(0, cardStart - 0.1), cardStart, cardEnd, Math.min(1, cardEnd + 0.1)],
+    [80, 0, 0, -100]
+  );
+  
+  // Blur: cards become blurry when they exit upward (glassmorphic effect)
+  const blur = useTransform(
+    scrollProgress,
+    [cardEnd, Math.min(1, cardEnd + 0.05)],
+    [0, 16]
+  );
+  
+  // Dynamic z-index: active card on top, exited cards stack behind
+  const zIndex = useTransform(
+    scrollProgress,
+    [cardStart, cardEnd],
+    [totalCards + 1, index]
   );
 
   const Icon = card.badgeIcon;
@@ -92,11 +106,19 @@ const StackingFeatureCard = ({ card, index, totalCards, scrollProgress }: Stacki
         scale,
         opacity,
         y,
-        zIndex: totalCards - index,
+        zIndex,
+        filter: useTransform(blur, (b) => b > 0 ? `blur(${b}px)` : 'none'),
       }}
-      className={`absolute inset-0 ${card.bgColor} rounded-3xl shadow-2xl border border-border overflow-hidden backdrop-blur-sm`}
+      className="absolute inset-0 rounded-3xl shadow-2xl border border-white/10 overflow-hidden"
     >
-      <div className="h-full flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 p-6 md:p-10 lg:p-16">
+      {/* Solid background to prevent text bleed-through */}
+      <div className="absolute inset-0 bg-zinc-900" />
+      
+      {/* Glassmorphic overlay */}
+      <div className={`absolute inset-0 ${card.bgColor} backdrop-blur-xl`} />
+      
+      {/* Card content */}
+      <div className="relative h-full flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 p-6 md:p-10 lg:p-16">
         {/* Content */}
         <div className="flex-1 text-center lg:text-left space-y-6 max-w-lg">
           {/* Badge */}
