@@ -6345,6 +6345,80 @@ export type Database = {
           },
         ]
       }
+      verification_requests: {
+        Row: {
+          business_name: string | null
+          business_website: string | null
+          category: string | null
+          created_at: string | null
+          document_type: string
+          document_url: string | null
+          email: string
+          full_name: string
+          id: string
+          phone_number: string
+          reason_for_verification: string
+          rejection_reason: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          social_links: Json | null
+          status: string | null
+          updated_at: string | null
+          user_id: string
+          workspace_id: string
+        }
+        Insert: {
+          business_name?: string | null
+          business_website?: string | null
+          category?: string | null
+          created_at?: string | null
+          document_type: string
+          document_url?: string | null
+          email: string
+          full_name: string
+          id?: string
+          phone_number: string
+          reason_for_verification: string
+          rejection_reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          social_links?: Json | null
+          status?: string | null
+          updated_at?: string | null
+          user_id: string
+          workspace_id: string
+        }
+        Update: {
+          business_name?: string | null
+          business_website?: string | null
+          category?: string | null
+          created_at?: string | null
+          document_type?: string
+          document_url?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          phone_number?: string
+          reason_for_verification?: string
+          rejection_reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          social_links?: Json | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "verification_requests_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       visitor_identities: {
         Row: {
           created_at: string
