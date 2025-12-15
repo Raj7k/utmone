@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { UseCaseType } from "./SideNavHero";
-import { AlertTriangle, TrendingDown, Shuffle, Clock, FileWarning } from "lucide-react";
+import { UseCaseType } from "./ControlDeckHero";
+import { AlertTriangle, TrendingDown, Shuffle, Clock, FileWarning, LayoutGrid, Waves } from "lucide-react";
 import { LinkedInIcon, GoogleIcon, SpotifyIcon } from "@/components/icons/SocialIcons";
 
 interface DynamicProblemSectionProps {
@@ -165,6 +165,60 @@ const PROBLEM_CONTENT: Record<UseCaseType, {
         </div>
         <div className="text-center text-xs text-white/40 mt-2">
           ↓ shows as "direct traffic" in analytics
+        </div>
+      </div>
+    ),
+  },
+  linkpages: {
+    icon: LayoutGrid,
+    eyebrow: "the fragmentation problem",
+    headline: "5 tools. zero tracking. no idea who clicked what.",
+    description: "you're using linktree for links, buffer for socials, and a spreadsheet to track clicks. your bio link is a black hole.",
+    stat: { value: "0%", label: "of link-in-bio clicks attributed to revenue" },
+    visual: (
+      <div className="space-y-3">
+        <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
+          <span className="text-sm text-white/50">🔗 Linktree</span>
+          <div className="flex-1 h-2 rounded-full bg-white/10" />
+          <span className="text-sm text-white/30">?</span>
+        </div>
+        <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
+          <span className="text-sm text-white/50">📊 Buffer</span>
+          <div className="flex-1 h-2 rounded-full bg-white/10" />
+          <span className="text-sm text-white/30">?</span>
+        </div>
+        <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
+          <span className="text-sm text-white/50">📋 Spreadsheet</span>
+          <div className="flex-1 h-2 rounded-full bg-white/10" />
+          <span className="text-sm text-white/30">?</span>
+        </div>
+        <div className="text-center text-xs text-white/40 mt-2">
+          = 0 attribution insights
+        </div>
+      </div>
+    ),
+  },
+  eventhalo: {
+    icon: Waves,
+    eyebrow: "the invisible attendee problem",
+    headline: "you scanned 100 badges. 900 walked by.",
+    description: "the booth only captures who stopped. event halo detects the walk-bys who never scanned but still saw your brand.",
+    stat: { value: "90%", label: "of event attendees never scan a badge" },
+    visual: (
+      <div className="relative">
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex-1 text-center p-4 rounded-lg bg-white/5 border border-white/10">
+            <div className="text-2xl font-bold text-white/50">100</div>
+            <div className="text-xs text-white/30">badge scans</div>
+          </div>
+          <div className="text-white/20">→</div>
+          <div className="flex-1 text-center p-4 rounded-lg bg-primary/10 border border-primary/20">
+            <div className="text-2xl font-bold text-primary">900</div>
+            <div className="text-xs text-primary/70">halo visitors</div>
+          </div>
+        </div>
+        <div className="mt-4 text-center text-xs text-white/40">
+          the booth sees 10%. halo detects the other 90%.
         </div>
       </div>
     ),
