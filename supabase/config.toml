@@ -303,6 +303,13 @@ verify_jwt = false
 [functions.sitemap-scanner]
 verify_jwt = false
 
+# vCard short link service
+[functions.serve-vcard]
+verify_jwt = false
+
+[functions.create-vcard-link]
+verify_jwt = true
+
 # Unified Dashboard API
 [functions.get-dashboard-data]
 verify_jwt = true

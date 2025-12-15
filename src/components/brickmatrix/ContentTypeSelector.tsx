@@ -5,9 +5,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { AlertTriangle, AlertCircle } from "lucide-react";
+import { AlertTriangle, AlertCircle, Loader2, Link2, CheckCircle2 } from "lucide-react";
 import { getContentComplexity } from "@/lib/qrMatrix";
+import { supabase } from "@/integrations/supabase/client";
+import { useWorkspace } from "@/hooks/workspace";
+import { toast } from "sonner";
 import {
   ContentType,
   CONTENT_TYPES,
@@ -34,6 +38,11 @@ interface ContentTypeSelectorProps {
 
 export const ContentTypeSelector = ({ value, onChange }: ContentTypeSelectorProps) => {
   const [contentType, setContentType] = useState<ContentType>("url");
+  const { currentWorkspace } = useWorkspace();
+  
+  // vCard short link state
+  const [isCreatingVcardLink, setIsCreatingVcardLink] = useState(false);
+  const [vcardShortUrl, setVcardShortUrl] = useState<string | null>(null);
   
   // Form states for each type
   const [emailData, setEmailData] = useState<EmailData>({ email: "", subject: "", body: "" });
@@ -50,8 +59,51 @@ export const ContentTypeSelector = ({ value, onChange }: ContentTypeSelectorProp
 
   const handleTypeChange = (type: ContentType) => {
     setContentType(type);
-    // Clear the value when switching types
+    // Clear the value and vCard state when switching types
     onChange("");
+    setVcardShortUrl(null);
+  };
+
+  // Create vCard short link for brick builder (handles complex vCards)
+  const createVcardShortLink = async () => {
+    if (!currentWorkspace?.id) {
+      toast.error("no workspace selected");
+      return;
+    }
+    if (!vcardData.firstName && !vcardData.lastName) {
+      toast.error("at least first or last name is required");
+      return;
+    }
+
+    setIsCreatingVcardLink(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("create-vcard-link", {
+        body: {
+          workspaceId: currentWorkspace.id,
+          firstName: vcardData.firstName,
+          lastName: vcardData.lastName,
+          phone: vcardData.phone,
+          email: vcardData.email,
+          company: vcardData.company,
+          title: vcardData.title,
+          website: vcardData.website,
+          address: vcardData.address,
+        },
+      });
+
+      if (error) throw error;
+      
+      if (data?.shortUrl) {
+        setVcardShortUrl(data.shortUrl);
+        onChange(data.shortUrl);
+        toast.success("vCard short link created!");
+      }
+    } catch (error) {
+      console.error("Error creating vCard link:", error);
+      toast.error("failed to create vCard short link");
+    } finally {
+      setIsCreatingVcardLink(false);
+    }
   };
 
   const updateEmail = (updates: Partial<EmailData>) => {
@@ -287,51 +339,89 @@ export const ContentTypeSelector = ({ value, onChange }: ContentTypeSelectorProp
         )}
 
         {contentType === "vcard" && (
-          <div className="space-y-2">
-            <div className="grid grid-cols-2 gap-2">
+          <div className="space-y-3">
+            {/* vCard info notice */}
+            <div className="p-2.5 rounded-lg bg-primary/5 border border-primary/10">
+              <p className="text-xs text-muted-foreground">
+                vCards are complex. we'll create a short link that downloads the contact when scanned.
+              </p>
+            </div>
+            
+            <div className="space-y-2">
+              <div className="grid grid-cols-2 gap-2">
+                <Input
+                  placeholder="first name"
+                  value={vcardData.firstName}
+                  onChange={(e) => updateVcard({ firstName: e.target.value })}
+                />
+                <Input
+                  placeholder="last name"
+                  value={vcardData.lastName}
+                  onChange={(e) => updateVcard({ lastName: e.target.value })}
+                />
+              </div>
               <Input
-                placeholder="first name"
-                value={vcardData.firstName}
-                onChange={(e) => updateVcard({ firstName: e.target.value })}
+                placeholder="phone"
+                value={vcardData.phone}
+                onChange={(e) => updateVcard({ phone: e.target.value })}
               />
               <Input
-                placeholder="last name"
-                value={vcardData.lastName}
-                onChange={(e) => updateVcard({ lastName: e.target.value })}
+                type="email"
+                placeholder="email"
+                value={vcardData.email}
+                onChange={(e) => updateVcard({ email: e.target.value })}
+              />
+              <Input
+                placeholder="company"
+                value={vcardData.company}
+                onChange={(e) => updateVcard({ company: e.target.value })}
+              />
+              <Input
+                placeholder="job title"
+                value={vcardData.title}
+                onChange={(e) => updateVcard({ title: e.target.value })}
+              />
+              <Input
+                placeholder="website"
+                value={vcardData.website}
+                onChange={(e) => updateVcard({ website: e.target.value })}
+              />
+              <Textarea
+                placeholder="address"
+                value={vcardData.address}
+                onChange={(e) => updateVcard({ address: e.target.value })}
+                rows={2}
               />
             </div>
-            <Input
-              placeholder="phone"
-              value={vcardData.phone}
-              onChange={(e) => updateVcard({ phone: e.target.value })}
-            />
-            <Input
-              type="email"
-              placeholder="email"
-              value={vcardData.email}
-              onChange={(e) => updateVcard({ email: e.target.value })}
-            />
-            <Input
-              placeholder="company"
-              value={vcardData.company}
-              onChange={(e) => updateVcard({ company: e.target.value })}
-            />
-            <Input
-              placeholder="job title"
-              value={vcardData.title}
-              onChange={(e) => updateVcard({ title: e.target.value })}
-            />
-            <Input
-              placeholder="website"
-              value={vcardData.website}
-              onChange={(e) => updateVcard({ website: e.target.value })}
-            />
-            <Textarea
-              placeholder="address"
-              value={vcardData.address}
-              onChange={(e) => updateVcard({ address: e.target.value })}
-              rows={2}
-            />
+
+            {/* Create short link button */}
+            {vcardShortUrl ? (
+              <div className="flex items-center gap-2 p-2.5 rounded-lg bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400">
+                <CheckCircle2 className="h-4 w-4 shrink-0" />
+                <p className="text-xs truncate flex-1">{vcardShortUrl}</p>
+              </div>
+            ) : (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="w-full"
+                onClick={createVcardShortLink}
+                disabled={isCreatingVcardLink || (!vcardData.firstName && !vcardData.lastName)}
+              >
+                {isCreatingVcardLink ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    creating short link...
+                  </>
+                ) : (
+                  <>
+                    <Link2 className="h-4 w-4 mr-2" />
+                    create vCard short link
+                  </>
+                )}
+              </Button>
+            )}
           </div>
         )}
       </div>
