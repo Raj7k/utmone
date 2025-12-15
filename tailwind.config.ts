@@ -376,13 +376,23 @@ export default {
   			'radar-pulse': {
   				'0%': { r: '10', opacity: '0.6' },
   				'100%': { r: '60', opacity: '0' }
+  			},
+  			'content-switch': {
+  				'0%': { opacity: '0', transform: 'translateY(20px)', filter: 'blur(8px)' },
+  				'100%': { opacity: '1', transform: 'translateY(0)', filter: 'blur(0)' }
+  			},
+  			'draw-path': {
+  				'0%': { strokeDashoffset: '400' },
+  				'100%': { strokeDashoffset: '0' }
   			}
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out',
   			'fade-in-up': 'fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-  			'glow-pulse': 'glow-pulse 4s ease-in-out infinite'
+  			'glow-pulse': 'glow-pulse 4s ease-in-out infinite',
+  			'content-switch': 'content-switch 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
+  			'draw-path': 'draw-path 1.5s ease-out forwards'
   		},
   		transitionDuration: {
   			apple: '200ms',
