@@ -27,6 +27,27 @@ async function handleRequest(request) {
     return new Response('Short link not found. Links require a path (e.g., yourdomain.com/slug)', { status: 404 });
   }
   
+  // Check if this is a vCard request (/v/{slug})
+  if (pathname.startsWith('/v/')) {
+    const vcardSlug = pathname.substring(3); // Remove '/v/'
+    const vcardUrl = `https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/serve-vcard/${vcardSlug}`;
+    
+    try {
+      const response = await fetch(vcardUrl, {
+        method: 'GET',
+        redirect: 'manual',
+        headers: {
+          'User-Agent': request.headers.get('User-Agent') || '',
+          'X-Forwarded-For': request.headers.get('CF-Connecting-IP') || '',
+        },
+      });
+      return response;
+    } catch (error) {
+      console.error('Error forwarding vCard request:', error);
+      return new Response('vCard not found', { status: 404 });
+    }
+  }
+  
   // Forward to Supabase edge function with the same path
   // Add X-Original-Domain header so edge function knows the original domain
   const supabaseUrl = `${SUPABASE_FUNCTION_URL}${pathname}`;
