@@ -322,10 +322,18 @@ export default function PublicLinkPage() {
         {/* Profile Section */}
         <div className="flex flex-col items-center text-center space-y-3">
           <div className={cn(
-            "h-20 w-20 rounded-full flex items-center justify-center text-2xl font-bold",
+            "h-20 w-20 rounded-full flex items-center justify-center text-2xl font-bold overflow-hidden",
             styles.card
           )}>
-            {page.title?.charAt(0)?.toUpperCase() || "?"}
+            {(page.metadata as Record<string, unknown>)?.avatar_url ? (
+              <img 
+                src={(page.metadata as Record<string, unknown>).avatar_url as string} 
+                alt={page.title} 
+                className="w-full h-full object-cover" 
+              />
+            ) : (
+              page.title?.charAt(0)?.toUpperCase() || "?"
+            )}
           </div>
           <div>
             <h1 className={cn("text-xl font-bold", styles.text)}>
