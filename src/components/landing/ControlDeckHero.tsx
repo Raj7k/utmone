@@ -22,6 +22,7 @@ import { MobileHero } from "./MobileHero";
 import { FiberOpticGraph } from "./FiberOpticGraph";
 import { FoundingSpotsCounter } from "./AnimatedCounter";
 import { supabase } from "@/integrations/supabase/client";
+import { GoogleIcon, LinkedInIcon, HubSpotIcon, MetaIcon } from "@/components/icons/SocialIcons";
 
 export type UseCaseType = "attribution" | "journey" | "links" | "intelligence" | "governance";
 
@@ -341,59 +342,83 @@ const DeckVisual = ({ type }: { type: UseCaseType }) => {
   }
 };
 
-// Attribution Visual - Sankey Flow
-const AttributionVisual = () => (
-  <div className="relative w-[380px] h-[220px]">
-    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 380 220">
-      {/* Source nodes */}
-      <motion.rect x="10" y="20" width="60" height="30" rx="6" className="fill-white/10"
-        initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }} />
-      <motion.rect x="10" y="70" width="60" height="45" rx="6" className="fill-white/15"
-        initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }} />
-      <motion.rect x="10" y="135" width="60" height="25" rx="6" className="fill-white/[0.08]"
-        initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }} />
-      <motion.rect x="10" y="180" width="60" height="20" rx="6" className="fill-white/[0.06]"
-        initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 }} />
+// Attribution Visual - Sankey Flow with Brand Icons
+const AttributionVisual = () => {
+  const sources = [
+    { y: 20, height: 30, icon: GoogleIcon, color: "#4285F4", label: "paid ads" },
+    { y: 70, height: 45, icon: LinkedInIcon, color: "#0A66C2", label: "organic" },
+    { y: 135, height: 25, icon: HubSpotIcon, color: "#FF7A59", label: "email" },
+    { y: 180, height: 20, icon: MetaIcon, color: "#0668E1", label: "referral" },
+  ];
 
-      {/* Flow paths */}
-      <motion.path d="M 70 35 Q 150 35, 190 110 T 310 110" fill="none" className="stroke-white/20" strokeWidth="12" strokeLinecap="round"
-        initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.5, delay: 0.5, ease: appleEase }} />
-      <motion.path d="M 70 92 Q 150 92, 190 110 T 310 110" fill="none" className="stroke-white/30" strokeWidth="20" strokeLinecap="round"
-        initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.5, delay: 0.6, ease: appleEase }} />
-      <motion.path d="M 70 147 Q 150 147, 190 110 T 310 110" fill="none" className="stroke-white/[0.12]" strokeWidth="10" strokeLinecap="round"
-        initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.5, delay: 0.7, ease: appleEase }} />
-      <motion.path d="M 70 190 Q 150 190, 190 110 T 310 110" fill="none" className="stroke-white/[0.08]" strokeWidth="6" strokeLinecap="round"
-        initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.5, delay: 0.8, ease: appleEase }} />
+  return (
+    <div className="relative w-[380px] h-[220px]">
+      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 380 220">
+        {/* Source nodes with brand colors */}
+        {sources.map((source, i) => (
+          <motion.rect
+            key={i}
+            x="10"
+            y={source.y}
+            width="60"
+            height={source.height}
+            rx="6"
+            fill={source.color}
+            fillOpacity={0.15}
+            stroke={source.color}
+            strokeOpacity={0.3}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1 + i * 0.1 }}
+          />
+        ))}
 
-      {/* Revenue node */}
-      <motion.rect x="310" y="85" width="60" height="50" rx="8" className="fill-white/90"
-        initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 2, type: "spring", stiffness: 300 }} />
-    </svg>
-    
-    {/* Labels */}
-    <motion.div className="absolute left-0 top-[18px] text-[10px] uppercase tracking-wider text-white/50"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
-      paid ads
-    </motion.div>
-    <motion.div className="absolute left-0 top-[75px] text-[10px] uppercase tracking-wider text-white/50"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
-      organic
-    </motion.div>
-    <motion.div className="absolute left-0 top-[133px] text-[10px] uppercase tracking-wider text-white/50"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
-      email
-    </motion.div>
-    <motion.div className="absolute left-0 top-[178px] text-[10px] uppercase tracking-wider text-white/50"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
-      referral
-    </motion.div>
-    <motion.div className="absolute right-0 top-[100px] flex items-center gap-1"
-      initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 2.2 }}>
-      <DollarSign className="w-4 h-4 text-zinc-900" />
-      <span className="text-sm font-bold text-zinc-900">revenue</span>
-    </motion.div>
-  </div>
-);
+        {/* Flow paths with brand colors */}
+        {sources.map((source, i) => (
+          <motion.path
+            key={`path-${i}`}
+            d={`M 70 ${source.y + source.height / 2} Q 150 ${source.y + source.height / 2}, 190 110 T 310 110`}
+            fill="none"
+            stroke={source.color}
+            strokeOpacity={0.3}
+            strokeWidth={source.height / 3}
+            strokeLinecap="round"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 1.5, delay: 0.5 + i * 0.1, ease: "easeOut" }}
+          />
+        ))}
+
+        {/* Revenue node */}
+        <motion.rect x="310" y="85" width="60" height="50" rx="8" className="fill-white/90"
+          initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 2, type: "spring", stiffness: 300 }} />
+      </svg>
+      
+      {/* Labels with brand icons */}
+      {sources.map((source, i) => {
+        const Icon = source.icon;
+        return (
+          <motion.div
+            key={i}
+            className="absolute left-0 flex items-center gap-1.5"
+            style={{ top: source.y - 2 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 + i * 0.1 }}
+          >
+            <Icon className="w-3.5 h-3.5" />
+            <span className="text-[10px] uppercase tracking-wider text-white/50">{source.label}</span>
+          </motion.div>
+        );
+      })}
+      <motion.div className="absolute right-0 top-[100px] flex items-center gap-1"
+        initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 2.2 }}>
+        <DollarSign className="w-4 h-4 text-zinc-900" />
+        <span className="text-sm font-bold text-zinc-900">revenue</span>
+      </motion.div>
+    </div>
+  );
+};
 
 // Journey Visual - Timeline
 const JourneyVisual = () => {
