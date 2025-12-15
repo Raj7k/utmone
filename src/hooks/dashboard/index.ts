@@ -16,6 +16,10 @@ export type {
 export { useDashboardPreferences } from "./useDashboardPreferences";
 export { useDashboardPrefetch } from "./useDashboardPrefetch";
 
+// Core hook for DashboardHome (1 RPC call instead of 10)
+export { useDashboardCore } from "./useDashboardCore";
+export type { DashboardCoreLink, DashboardCoreStats, DashboardCoreOnboarding } from "./useDashboardCore";
+
 // Domain-specific lightweight hooks
 export { useSalesData } from "./useSalesData";
 export type { SalesLink } from "./useSalesData";

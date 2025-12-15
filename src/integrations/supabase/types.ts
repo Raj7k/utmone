@@ -7464,6 +7464,10 @@ export type Database = {
           source: string
         }[]
       }
+      get_dashboard_summary: {
+        Args: { p_user_id: string; p_workspace_id: string }
+        Returns: Json
+      }
       get_device_analytics: {
         Args: { p_workspace_id: string }
         Returns: {
