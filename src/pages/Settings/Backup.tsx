@@ -1,13 +1,17 @@
 import { useState } from "react";
-import { Download, CheckCircle2, AlertCircle, Server } from "lucide-react";
+import { Github, Download, Clock, CheckCircle2, AlertCircle, Server } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function Backup() {
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [isExporting, setIsExporting] = useState(false);
 
   // Get current workspace
@@ -29,7 +33,26 @@ export default function Backup() {
 
   const currentWorkspace = workspaces?.[0];
 
-  // Fetch backup logs (manual exports only)
+  // Fetch backup schedule
+  const { data: backupSchedule } = useQuery({
+    queryKey: ["backup-schedule", currentWorkspace?.id],
+    queryFn: async () => {
+      if (!currentWorkspace) return null;
+
+      const { data, error } = await supabase
+        .from("backup_schedules")
+        .select("*")
+        .eq("workspace_id", currentWorkspace.id)
+        .eq("backup_type", "github")
+        .maybeSingle();
+
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!currentWorkspace,
+  });
+
+  // Fetch backup logs
   const { data: backupLogs } = useQuery({
     queryKey: ["backup-logs", currentWorkspace?.id],
     queryFn: async () => {
@@ -39,9 +62,27 @@ export default function Backup() {
         .from("backup_logs")
         .select("*")
         .eq("workspace_id", currentWorkspace.id)
-        .neq("backup_type", "github")
         .order("created_at", { ascending: false })
         .limit(10);
+
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!currentWorkspace,
+  });
+
+  // Fetch GitHub integration
+  const { data: githubIntegration } = useQuery({
+    queryKey: ["github-integration", currentWorkspace?.id],
+    queryFn: async () => {
+      if (!currentWorkspace) return null;
+
+      const { data, error } = await supabase
+        .from("integrations")
+        .select("*")
+        .eq("workspace_id", currentWorkspace.id)
+        .eq("provider", "github")
+        .maybeSingle();
 
       if (error) throw error;
       return data;
@@ -114,6 +155,35 @@ export default function Backup() {
     },
   });
 
+  // Trigger manual GitHub backup
+  const githubBackupMutation = useMutation({
+    mutationFn: async () => {
+      const { data, error } = await supabase.functions.invoke('github-backup', {
+        body: { 
+          workspaceId: currentWorkspace?.id,
+          manual: true,
+        }
+      });
+
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["backup-logs"] });
+      toast({
+        title: "GitHub Backup Started",
+        description: "Your data is being backed up to GitHub.",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Backup Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
   return (
     <div className="space-y-6 p-6">
       <div>
@@ -122,6 +192,73 @@ export default function Backup() {
           Manage your data backups and exports. Your data, your control.
         </p>
       </div>
+
+      {/* GitHub Backup */}
+      <Card className="p-6">
+        <div className="flex items-start gap-4 mb-6">
+          <div className="h-12 w-12 rounded-lg flex items-center justify-center bg-primary/10">
+            <Github className="h-6 w-6 text-primary" />
+          </div>
+          <div className="flex-1">
+            <h2 className="text-xl font-semibold mb-2">Automatic GitHub Backups</h2>
+            <p className="text-muted-foreground">
+              Connect your GitHub account to automatically backup all your links every night.
+            </p>
+          </div>
+        </div>
+
+        {githubIntegration ? (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
+              <div className="flex items-center gap-3">
+                <CheckCircle2 className="h-5 w-5 text-green-500" />
+                <div>
+                  <p className="font-medium">Connected to GitHub</p>
+                  <p className="text-sm text-muted-foreground">
+                    Last backup: {backupSchedule?.last_backup_at 
+                      ? new Date(backupSchedule.last_backup_at).toLocaleString() 
+                      : 'Never'}
+                  </p>
+                </div>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => githubBackupMutation.mutate()}
+                disabled={githubBackupMutation.isPending}
+              >
+                {githubBackupMutation.isPending ? "Backing up..." : "Backup Now"}
+              </Button>
+            </div>
+
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <Label>Enable Automatic Backups</Label>
+                <Switch checked={backupSchedule?.is_enabled} />
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <Label>Backup Frequency</Label>
+                <Select value={backupSchedule?.frequency || "daily"}>
+                  <SelectTrigger className="w-32">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="daily">Daily</SelectItem>
+                    <SelectItem value="weekly">Weekly</SelectItem>
+                    <SelectItem value="monthly">Monthly</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <Button className="w-full">
+            <Github className="h-4 w-4 mr-2" />
+            Connect GitHub
+          </Button>
+        )}
+      </Card>
 
       {/* Manual Export */}
       <Card className="p-6">
@@ -191,7 +328,7 @@ export default function Backup() {
       {/* Recent Backups */}
       {backupLogs && backupLogs.length > 0 && (
         <Card className="p-6">
-          <h2 className="text-xl font-semibold mb-4">Recent Exports</h2>
+          <h2 className="text-xl font-semibold mb-4">Recent Backups</h2>
           <div className="space-y-2">
             {backupLogs.map((log) => (
               <div key={log.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
@@ -202,7 +339,7 @@ export default function Backup() {
                     <AlertCircle className="h-4 w-4 text-red-500" />
                   )}
                   <div>
-                    <p className="text-sm font-medium capitalize">{log.backup_type} Export</p>
+                    <p className="text-sm font-medium capitalize">{log.backup_type} Backup</p>
                     <p className="text-xs text-muted-foreground">
                       {new Date(log.created_at).toLocaleString()}
                     </p>
