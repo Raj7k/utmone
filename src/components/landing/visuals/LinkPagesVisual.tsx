@@ -1,209 +1,188 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import { FileText, Briefcase, ShoppingBag, Share2 } from "lucide-react";
+import { Link, Instagram, Twitter, Youtube, Music, Globe } from "lucide-react";
 
-// Link Pages Visual: Matching Attribution structure exactly
-// Grey base, single orange accent, proper sizing
+// Link Pages Visual with central rotating portal and radiating fibers
 export const LinkPagesVisual = () => {
-  const [particles, setParticles] = useState<{ id: number; path: number; delay: number }[]>([]);
   const appleEase = [0.4, 0.0, 0.2, 1] as const;
-  const fiberOffsets = [-1, -0.5, 0, 0.5, 1]; // 5 strands matching Attribution
-  const fontStack = "'SF Mono', SFMono-Regular, ui-monospace, Menlo, monospace";
-  const accentColor = "#F97316"; // Single orange accent
+  const accentColor = "#F97316";
 
-  useEffect(() => {
-    setParticles(Array.from({ length: 8 }, (_, i) => ({
-      id: i,
-      path: i % 4,
-      delay: i * 0.25,
-    })));
-  }, []);
+  // Layered fiber bundle
+  const FiberBundle = ({ path, delay = 0 }: { path: string; delay?: number }) => {
+    const layers = [
+      { count: 2, opacity: 0.95, width: 1.5 },
+      { count: 5, opacity: 0.4, width: 0.8 },
+      { count: 9, opacity: 0.12, width: 0.35 },
+    ];
 
-  // Destinations with proportional widths
-  const destinations = [
-    { y: 10, width: 28, icon: FileText },
-    { y: 22, width: 35, icon: Briefcase },
-    { y: 34, width: 42, icon: ShoppingBag },
-    { y: 46, width: 32, icon: Share2 },
-  ];
+    return (
+      <g style={{ mixBlendMode: "screen" }}>
+        {layers.flatMap((layer, li) =>
+          Array.from({ length: layer.count }, (_, i) => {
+            const offset = (i - layer.count / 2) * 0.6;
+            return (
+              <motion.path
+                key={`${li}-${i}`}
+                d={path}
+                fill="none"
+                stroke={li === 0 ? "white" : accentColor}
+                strokeWidth={layer.width}
+                strokeLinecap="round"
+                opacity={layer.opacity}
+                transform={`translate(0, ${offset * 0.35})`}
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{ pathLength: 1, opacity: layer.opacity }}
+                transition={{ duration: 1.1, delay: delay + li * 0.07, ease: appleEase }}
+              />
+            );
+          })
+        )}
+      </g>
+    );
+  };
+
+  // 60bpm particle stream
+  const ParticleStream = ({ path, count = 4 }: { path: string; count?: number }) => (
+    <>
+      {Array.from({ length: count }, (_, i) => (
+        <motion.circle
+          key={i}
+          r={1.2}
+          fill="white"
+          filter="url(#lpParticleGlow)"
+          style={{ mixBlendMode: "screen" }}
+          animate={{ opacity: [0, 1, 1, 0] }}
+          transition={{ duration: 1.0, delay: i / count, repeat: Infinity, ease: appleEase }}
+        >
+          <animateMotion dur="1s" repeatCount="indefinite" begin={`${i / count}s`} path={path} />
+        </motion.circle>
+      ))}
+    </>
+  );
 
   return (
-    <svg viewBox="0 0 120 60" className="w-full h-full">
+    <svg viewBox="0 0 160 80" className="w-full h-full">
       <defs>
-        {/* Bloom filter */}
-        <filter id="lpBloom" x="-100%" y="-100%" width="300%" height="300%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur1" />
-          <feGaussianBlur in="SourceGraphic" stdDeviation="0.6" result="blur2" />
-          <feMerge>
-            <feMergeNode in="blur1" />
-            <feMergeNode in="blur2" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
+        <filter id="lpBloomF" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="2.2" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
         </filter>
-        
-        {/* Fiber glow */}
-        <filter id="lpFiberGlow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="1" result="glow" />
-          <feComposite in="SourceGraphic" in2="glow" operator="over" />
+        <filter id="lpParticleGlow" x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur stdDeviation="1.6" result="glow" />
+          <feMerge><feMergeNode in="glow" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
-        
-        {/* Flow gradient - orange to white to grey */}
-        <linearGradient id="lpFlow" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor={accentColor} stopOpacity="0.7" />
-          <stop offset="40%" stopColor="#FFFFFF" stopOpacity="0.9" />
-          <stop offset="100%" stopColor="#71717A" stopOpacity="0.5" />
+        <linearGradient id="lpOrange" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#F97316" />
+          <stop offset="50%" stopColor="#FB923C" />
+          <stop offset="100%" stopColor="#F97316" />
         </linearGradient>
-        
-        {/* Source gradient */}
-        <radialGradient id="sourceGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.9" />
-          <stop offset="40%" stopColor={accentColor} stopOpacity="0.5" />
-          <stop offset="100%" stopColor={accentColor} stopOpacity="0.15" />
+        <radialGradient id="portalGlow">
+          <stop offset="0%" stopColor="white" stopOpacity="0.9" />
+          <stop offset="40%" stopColor="#FB923C" stopOpacity="0.5" />
+          <stop offset="100%" stopColor="#F97316" stopOpacity="0" />
         </radialGradient>
-        
-        {/* Dot grid */}
-        <pattern id="lpDotGrid" patternUnits="userSpaceOnUse" width="4" height="4">
-          <circle cx="2" cy="2" r="0.12" fill="white" fillOpacity="0.1" />
+        <pattern id="lpGrid" width="8" height="8" patternUnits="userSpaceOnUse">
+          <circle cx="4" cy="4" r="0.18" fill="rgba(249,115,22,0.04)" />
         </pattern>
       </defs>
-      
-      {/* Background */}
-      <rect x="0" y="0" width="120" height="60" fill="url(#lpDotGrid)" opacity="0.3" />
 
-      {/* Source node - single link origin */}
-      <motion.g
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, ease: appleEase }}
-      >
-        <circle cx="18" cy="30" r="10" fill="url(#sourceGlow)" />
-        <circle cx="18" cy="30" r="10" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="0.4" />
-        {/* Pulse ring */}
-        <motion.circle
-          cx="18"
-          cy="30"
-          r="10"
-          fill="none"
-          stroke={accentColor}
-          strokeWidth="0.5"
-          animate={{ 
-            r: [10, 13, 10],
-            opacity: [0.5, 0.1, 0.5],
-          }}
-          transition={{ duration: 1, repeat: Infinity, ease: appleEase }}
-        />
-        {/* Inner core */}
-        <circle cx="18" cy="30" r="5" fill="rgba(249,115,22,0.2)" stroke={accentColor} strokeWidth="0.4" />
-        <text 
-          x="18" 
-          y="32" 
-          fill="white" 
-          fontSize="4" 
-          textAnchor="middle" 
-          fontFamily={fontStack}
+      <rect width="160" height="80" fill="url(#lpGrid)" />
+
+      {/* CENTRAL LINK PORTAL */}
+      <g transform="translate(45, 40)">
+        {/* Radiating light rays */}
+        {Array.from({ length: 10 }, (_, i) => (
+          <motion.line
+            key={i}
+            x1={0} y1={0}
+            x2={Math.cos((i * 36) * Math.PI / 180) * 22}
+            y2={Math.sin((i * 36) * Math.PI / 180) * 22}
+            stroke="rgba(251,146,60,0.15)"
+            strokeWidth={0.3}
+            animate={{ opacity: [0.08, 0.25, 0.08] }}
+            transition={{ duration: 2, delay: i * 0.1, repeat: Infinity }}
+          />
+        ))}
+
+        {/* Outer ring - slow */}
+        <motion.circle r={18} fill="none" stroke="rgba(249,115,22,0.18)" strokeWidth={0.4} strokeDasharray="5 9"
+          animate={{ rotate: 360 }} transition={{ duration: 22, repeat: Infinity, ease: "linear" }} />
+        {/* Middle ring - counter */}
+        <motion.circle r={13} fill="none" stroke="rgba(251,146,60,0.32)" strokeWidth={0.6} strokeDasharray="7 4"
+          animate={{ rotate: -360 }} transition={{ duration: 13, repeat: Infinity, ease: "linear" }} />
+        {/* Inner ring - fast */}
+        <motion.circle r={8} fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth={0.8} strokeDasharray="3 5"
+          animate={{ rotate: 360 }} transition={{ duration: 7, repeat: Infinity, ease: "linear" }} />
+
+        {/* Portal core glow */}
+        <circle r={7} fill="url(#portalGlow)" />
+
+        {/* Pulsing energy core */}
+        <motion.circle r={4.5} fill="url(#lpOrange)" opacity={0.65}
+          animate={{ scale: [1, 1.15, 1], opacity: [0.65, 0.92, 0.65] }}
+          transition={{ duration: 1.0, repeat: Infinity }} />
+        <circle r={2.2} fill="white" opacity={0.95} />
+
+        {/* Link icon */}
+        <foreignObject x={-3.5} y={-3.5} width={7} height={7}>
+          <div className="flex items-center justify-center w-full h-full">
+            <Link className="w-2 h-2 text-orange-500" strokeWidth={2.5} />
+          </div>
+        </foreignObject>
+
+        {/* "1" badge */}
+        <motion.text
+          x={0} y={-11}
+          textAnchor="middle"
+          fill="white"
+          fontSize={5}
+          fontFamily="'SF Mono', monospace"
           fontWeight="bold"
-          opacity="0.9"
+          animate={{ opacity: [0.7, 1, 0.7] }}
+          transition={{ duration: 1, repeat: Infinity }}
         >
           1
-        </text>
-      </motion.g>
+        </motion.text>
+      </g>
 
-      {/* Multi-strand fiber flows to destinations - 5 strands each */}
-      {destinations.map((dest, destIdx) => (
-        fiberOffsets.map((offset, strandIdx) => {
-          const isCenter = strandIdx === 2;
-          const baseY = dest.y + 3;
-          return (
-            <motion.path
-              key={`fiber-${destIdx}-${strandIdx}`}
-              d={`M 28 ${30 + offset * 0.6} Q 55 ${30 + (baseY - 30) * 0.3 + offset * 0.4}, ${120 - dest.width - 4} ${baseY + offset * 0.3}`}
-              fill="none"
-              stroke={isCenter ? "url(#lpFlow)" : "#52525B"}
-              strokeWidth={isCenter ? 1.0 : 0.3}
-              strokeLinecap="round"
-              strokeOpacity={isCenter ? 0.8 : 0.2}
-              filter={isCenter ? "url(#lpFiberGlow)" : undefined}
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.3 + destIdx * 0.08, ease: appleEase }}
-            />
-          );
-        })
+      {/* Fiber bundles radiating outward */}
+      <g filter="url(#lpBloomF)">
+        <FiberBundle path="M 60 32 Q 85 22, 110 12" delay={0} />
+        <FiberBundle path="M 62 36 Q 88 30, 110 28" delay={0.08} />
+        <FiberBundle path="M 63 40 Q 90 40, 110 40" delay={0.12} />
+        <FiberBundle path="M 62 44 Q 88 50, 110 52" delay={0.16} />
+        <FiberBundle path="M 60 48 Q 85 58, 110 68" delay={0.2} />
+      </g>
+
+      <ParticleStream path="M 60 32 Q 85 22, 110 12" count={3} />
+      <ParticleStream path="M 62 36 Q 88 30, 110 28" count={3} />
+      <ParticleStream path="M 63 40 Q 90 40, 110 40" count={3} />
+      <ParticleStream path="M 62 44 Q 88 50, 110 52" count={3} />
+      <ParticleStream path="M 60 48 Q 85 58, 110 68" count={3} />
+
+      {/* Destination link nodes */}
+      {[
+        { y: 6, icon: Instagram, label: "Instagram" },
+        { y: 22, icon: Twitter, label: "Twitter" },
+        { y: 34, icon: Youtube, label: "YouTube" },
+        { y: 46, icon: Music, label: "Spotify" },
+        { y: 62, icon: Globe, label: "Website" },
+      ].map((node, i) => (
+        <g key={i}>
+          <rect x={114} y={node.y} width={38} height={12} rx={2} fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.08)" strokeWidth={0.4} />
+          <motion.rect x={114} y={node.y} width={38} height={12} rx={2} fill="none" stroke="#FB923C" strokeWidth={0.6}
+            animate={{ opacity: [0.12, 0.38, 0.12] }} transition={{ duration: 1, repeat: Infinity, delay: i * 0.12 }} />
+          <foreignObject x={117} y={node.y + 2} width={8} height={8}>
+            <div className="flex items-center justify-center w-full h-full">
+              <node.icon className="w-2 h-2 text-orange-400" strokeWidth={2} />
+            </div>
+          </foreignObject>
+          <text x={130} y={node.y + 7.5} fill="rgba(255,255,255,0.7)" fontSize={3} fontFamily="'SF Mono', monospace" dominantBaseline="middle">{node.label}</text>
+        </g>
       ))}
 
-      {/* Destination bars with icons OUTSIDE on right side */}
-      {destinations.map((dest, i) => {
-        const IconComponent = dest.icon;
-        const barX = 120 - dest.width - 4;
-        return (
-          <g key={`dest-${i}`}>
-            <motion.rect
-              x={barX}
-              y={dest.y}
-              width={dest.width}
-              height="6"
-              rx="2"
-              fill="#52525B"
-              fillOpacity={0.2}
-              stroke="#52525B"
-              strokeOpacity={0.5}
-              strokeWidth="0.4"
-              initial={{ width: 0 }}
-              animate={{ width: dest.width }}
-              transition={{ duration: 0.5, delay: 0.5 + i * 0.08, ease: appleEase }}
-            />
-            {/* Pulse glow */}
-            <motion.rect
-              x={barX}
-              y={dest.y}
-              width={dest.width}
-              height="6"
-              rx="2"
-              fill="none"
-              stroke="#71717A"
-              strokeWidth="0.3"
-              animate={{ strokeOpacity: [0.2, 0.5, 0.2] }}
-              transition={{ duration: 1.5, delay: i * 0.2, repeat: Infinity, ease: appleEase }}
-            />
-            {/* Icon OUTSIDE bar on right - mirrored from Attribution */}
-            <foreignObject x="110" y={dest.y - 1} width="10" height="8">
-              <div className="flex items-center justify-center w-full h-full">
-                <IconComponent className="w-2 h-2 text-zinc-400" strokeWidth={2} />
-              </div>
-            </foreignObject>
-          </g>
-        );
-      })}
-
-      {/* Heartbeat particles - single orange accent */}
-      {particles.map((particle) => {
-        const dest = destinations[particle.path];
-        const barX = 120 - dest.width - 4;
-        return (
-          <motion.circle
-            key={particle.id}
-            r="1.5"
-            fill={accentColor}
-            filter="url(#lpFiberGlow)"
-            initial={{ offsetDistance: "0%", opacity: 0 }}
-            animate={{
-              offsetDistance: ["0%", "100%"],
-              opacity: [0, 1, 1, 0],
-              scale: [0.8, 1.2, 0.8],
-            }}
-            transition={{
-              duration: 1,
-              delay: particle.delay,
-              repeat: Infinity,
-              repeatDelay: 0.5,
-              ease: appleEase,
-            }}
-            style={{
-              offsetPath: `path("M 28 30 Q 55 ${30 + (dest.y + 3 - 30) * 0.3}, ${barX} ${dest.y + 3}")`,
-            }}
-          />
-        );
-      })}
+      {/* Labels */}
+      <text x={38} y={5} fill="rgba(255,255,255,0.4)" fontSize={3.5} fontFamily="'SF Mono', monospace">PORTAL</text>
+      <text x={124} y={5} fill="rgba(255,255,255,0.4)" fontSize={3.5} fontFamily="'SF Mono', monospace">LINKS</text>
     </svg>
   );
 };
