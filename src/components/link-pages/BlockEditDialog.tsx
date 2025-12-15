@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { Plus, Trash2 } from "lucide-react";
 import type { LinkPageBlock } from "@/hooks/useLinkPageBlocks";
+import { UrlInputWithUTM } from "./UrlInputWithUTM";
 
 interface BlockEditDialogProps {
   block: LinkPageBlock | null;
@@ -82,11 +83,10 @@ export function BlockEditDialog({
             </div>
             <div className="space-y-2">
               <Label htmlFor="url">URL</Label>
-              <Input
+              <UrlInputWithUTM
                 id="url"
-                type="url"
                 value={(formData.url as string) || ""}
-                onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+                onChange={(url) => setFormData({ ...formData, url })}
                 placeholder="https://example.com"
               />
             </div>
@@ -229,7 +229,7 @@ export function BlockEditDialog({
                   value={p.platform}
                   onValueChange={(value) => updatePlatform(i, "platform", value)}
                 >
-                  <SelectTrigger className="w-32">
+                  <SelectTrigger className="w-28">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -240,9 +240,9 @@ export function BlockEditDialog({
                     ))}
                   </SelectContent>
                 </Select>
-                <Input
+                <UrlInputWithUTM
                   value={p.url}
-                  onChange={(e) => updatePlatform(i, "url", e.target.value)}
+                  onChange={(url) => updatePlatform(i, "url", url)}
                   placeholder="https://..."
                   className="flex-1"
                 />

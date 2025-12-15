@@ -10,6 +10,9 @@ import {
   Music,
   Mail,
   ExternalLink,
+  BadgeCheck,
+  MapPin,
+  Globe,
 } from "lucide-react";
 
 interface LivePreviewProps {
@@ -18,6 +21,13 @@ interface LivePreviewProps {
   blocks: LinkPageBlock[];
   theme?: string;
   avatarUrl?: string | null;
+  websiteUrl?: string;
+  location?: string;
+  email?: string;
+  ctaText?: string;
+  ctaUrl?: string;
+  verified?: boolean;
+  hideBranding?: boolean;
 }
 
 const socialIcons: Record<string, typeof Instagram> = {
@@ -102,7 +112,7 @@ const themeStyles: Record<string, { bg: string; text: string; card: string; bord
   },
 };
 
-export function LivePreview({ title, bio, blocks, theme = "default", avatarUrl }: LivePreviewProps) {
+export function LivePreview({ title, bio, blocks, theme = "default", avatarUrl, websiteUrl, location, email, ctaText, ctaUrl, verified, hideBranding }: LivePreviewProps) {
   const enabledBlocks = blocks.filter((b) => b.is_enabled);
   const styles = themeStyles[theme] || themeStyles.default;
 
@@ -235,9 +245,26 @@ export function LivePreview({ title, bio, blocks, theme = "default", avatarUrl }
                 title ? title.charAt(0).toUpperCase() : "?"
               )}
             </div>
-            <h1 className="text-lg font-bold">{title || "Your Name"}</h1>
+            <div className="flex items-center justify-center gap-1">
+              <h1 className="text-lg font-bold">{title || "Your Name"}</h1>
+              {verified && <BadgeCheck className="h-4 w-4 text-primary" />}
+            </div>
             {bio && <p className="text-xs opacity-70">{bio}</p>}
+            {(location || websiteUrl || email) && (
+              <div className="flex items-center justify-center gap-2 text-[10px] opacity-60 mt-1">
+                {location && <span className="flex items-center gap-0.5"><MapPin className="h-2.5 w-2.5" />{location}</span>}
+                {websiteUrl && <a href={websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-0.5 hover:opacity-100"><Globe className="h-2.5 w-2.5" />Web</a>}
+                {email && <a href={`mailto:${email}`} className="flex items-center gap-0.5 hover:opacity-100"><Mail className="h-2.5 w-2.5" />Email</a>}
+              </div>
+            )}
           </div>
+
+          {/* CTA Button */}
+          {ctaText && ctaUrl && (
+            <a href={ctaUrl} target="_blank" rel="noopener noreferrer" className={cn("block w-full py-2.5 px-4 rounded-xl text-center font-medium text-sm transition-transform hover:scale-[1.02]", theme === "minimal" ? "bg-zinc-900 text-white" : "bg-white/90 text-zinc-900")}>
+              {ctaText} <ExternalLink className="h-3 w-3 inline-block ml-1" />
+            </a>
+          )}
 
           {/* Blocks */}
           <div className="space-y-2.5">
@@ -257,11 +284,13 @@ export function LivePreview({ title, bio, blocks, theme = "default", avatarUrl }
       </div>
 
       {/* Footer */}
-      <div className="py-2 text-center bg-muted/80">
-        <span className="text-[10px] text-muted-foreground">
-          Powered by utm.one
-        </span>
-      </div>
+      {!hideBranding && (
+        <div className="py-2 text-center bg-muted/80">
+          <span className="text-[10px] text-muted-foreground">
+            Powered by utm.one
+          </span>
+        </div>
+      )}
     </div>
   );
 }
