@@ -31,6 +31,7 @@ const socialIcons: Record<string, typeof Instagram> = {
 };
 
 const themeStyles: Record<string, { bg: string; text: string; card: string; border: string }> = {
+  // Solid themes
   default: {
     bg: "bg-gradient-to-b from-background to-muted",
     text: "text-foreground",
@@ -43,17 +44,60 @@ const themeStyles: Record<string, { bg: string; text: string; card: string; bord
     card: "bg-white/10 hover:bg-white/15 border-white/10",
     border: "border-white/10",
   },
-  gradient: {
-    bg: "bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400",
-    text: "text-white",
-    card: "bg-white/20 hover:bg-white/30 border-white/20 backdrop-blur-sm",
-    border: "border-white/20",
-  },
   minimal: {
     bg: "bg-white",
     text: "text-zinc-900",
     card: "bg-zinc-100 hover:bg-zinc-200 border-zinc-200",
     border: "border-zinc-200",
+  },
+  // Gradient themes
+  "gradient-purple": {
+    bg: "bg-gradient-to-br from-purple-600 to-pink-500",
+    text: "text-white",
+    card: "bg-white/20 hover:bg-white/30 border-white/20 backdrop-blur-sm",
+    border: "border-white/20",
+  },
+  "gradient-orange": {
+    bg: "bg-gradient-to-br from-amber-500 to-orange-600",
+    text: "text-white",
+    card: "bg-white/20 hover:bg-white/30 border-white/20 backdrop-blur-sm",
+    border: "border-white/20",
+  },
+  "gradient-green": {
+    bg: "bg-gradient-to-br from-emerald-500 to-teal-600",
+    text: "text-white",
+    card: "bg-white/20 hover:bg-white/30 border-white/20 backdrop-blur-sm",
+    border: "border-white/20",
+  },
+  "gradient-blue": {
+    bg: "bg-gradient-to-br from-blue-400 to-cyan-400",
+    text: "text-white",
+    card: "bg-white/20 hover:bg-white/30 border-white/20 backdrop-blur-sm",
+    border: "border-white/20",
+  },
+  "gradient-sunset": {
+    bg: "bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600",
+    text: "text-white",
+    card: "bg-white/20 hover:bg-white/30 border-white/20 backdrop-blur-sm",
+    border: "border-white/20",
+  },
+  "gradient-ocean": {
+    bg: "bg-gradient-to-br from-cyan-500 to-blue-600",
+    text: "text-white",
+    card: "bg-white/20 hover:bg-white/30 border-white/20 backdrop-blur-sm",
+    border: "border-white/20",
+  },
+  "gradient-rose": {
+    bg: "bg-gradient-to-br from-rose-400 to-pink-600",
+    text: "text-white",
+    card: "bg-white/20 hover:bg-white/30 border-white/20 backdrop-blur-sm",
+    border: "border-white/20",
+  },
+  "gradient-slate": {
+    bg: "bg-gradient-to-br from-slate-600 to-slate-800",
+    text: "text-white",
+    card: "bg-white/10 hover:bg-white/20 border-white/10 backdrop-blur-sm",
+    border: "border-white/10",
   },
 };
 
