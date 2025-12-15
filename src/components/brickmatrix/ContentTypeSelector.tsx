@@ -1,13 +1,12 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { AlertTriangle, AlertCircle, Loader2, Link2, CheckCircle2 } from "lucide-react";
+import { AlertTriangle, AlertCircle, Loader2, CheckCircle2 } from "lucide-react";
 import { getContentComplexity } from "@/lib/qrMatrix";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/workspace";
@@ -28,7 +27,6 @@ import {
   generateWifiQR,
   generateLocationQR,
   generateEventQR,
-  generateVCardQR,
 } from "@/lib/qrContentTypes";
 
 interface ContentTypeSelectorProps {
@@ -43,6 +41,7 @@ export const ContentTypeSelector = ({ value, onChange }: ContentTypeSelectorProp
   // vCard short link state
   const [isCreatingVcardLink, setIsCreatingVcardLink] = useState(false);
   const [vcardShortUrl, setVcardShortUrl] = useState<string | null>(null);
+  const vcardDebounceRef = useRef<NodeJS.Timeout | null>(null);
   
   // Form states for each type
   const [emailData, setEmailData] = useState<EmailData>({ email: "", subject: "", body: "" });
@@ -62,49 +61,13 @@ export const ContentTypeSelector = ({ value, onChange }: ContentTypeSelectorProp
     // Clear the value and vCard state when switching types
     onChange("");
     setVcardShortUrl(null);
-  };
-
-  // Create vCard short link for brick builder (handles complex vCards)
-  const createVcardShortLink = async () => {
-    if (!currentWorkspace?.id) {
-      toast.error("no workspace selected");
-      return;
-    }
-    if (!vcardData.firstName && !vcardData.lastName) {
-      toast.error("at least first or last name is required");
-      return;
-    }
-
-    setIsCreatingVcardLink(true);
-    try {
-      const { data, error } = await supabase.functions.invoke("create-vcard-link", {
-        body: {
-          workspaceId: currentWorkspace.id,
-          firstName: vcardData.firstName,
-          lastName: vcardData.lastName,
-          phone: vcardData.phone,
-          email: vcardData.email,
-          company: vcardData.company,
-          title: vcardData.title,
-          website: vcardData.website,
-          address: vcardData.address,
-        },
-      });
-
-      if (error) throw error;
-      
-      if (data?.shortUrl) {
-        setVcardShortUrl(data.shortUrl);
-        onChange(data.shortUrl);
-        toast.success("vCard short link created!");
-      }
-    } catch (error) {
-      console.error("Error creating vCard link:", error);
-      toast.error("failed to create vCard short link");
-    } finally {
-      setIsCreatingVcardLink(false);
+    // Cancel any pending vCard debounce
+    if (vcardDebounceRef.current) {
+      clearTimeout(vcardDebounceRef.current);
+      vcardDebounceRef.current = null;
     }
   };
+
 
   const updateEmail = (updates: Partial<EmailData>) => {
     const newData = { ...emailData, ...updates };
@@ -145,8 +108,62 @@ export const ContentTypeSelector = ({ value, onChange }: ContentTypeSelectorProp
   const updateVcard = (updates: Partial<VCardData>) => {
     const newData = { ...vcardData, ...updates };
     setVcardData(newData);
-    onChange(generateVCardQR(newData));
+    // Don't set raw vCard - it's too complex. Will auto-create short link.
   };
+
+  // Auto-create vCard short link when data changes (debounced)
+  useEffect(() => {
+    if (contentType !== "vcard") return;
+    if (!vcardData.firstName && !vcardData.lastName) {
+      setVcardShortUrl(null);
+      onChange("");
+      return;
+    }
+    if (!currentWorkspace?.id) return;
+
+    // Clear existing debounce
+    if (vcardDebounceRef.current) {
+      clearTimeout(vcardDebounceRef.current);
+    }
+
+    // Debounce 800ms before creating short link
+    vcardDebounceRef.current = setTimeout(async () => {
+      setIsCreatingVcardLink(true);
+      try {
+        const { data, error } = await supabase.functions.invoke("create-vcard-link", {
+          body: {
+            workspaceId: currentWorkspace.id,
+            firstName: vcardData.firstName,
+            lastName: vcardData.lastName,
+            phone: vcardData.phone,
+            email: vcardData.email,
+            company: vcardData.company,
+            title: vcardData.title,
+            website: vcardData.website,
+            address: vcardData.address,
+          },
+        });
+
+        if (error) throw error;
+        
+        if (data?.shortUrl) {
+          setVcardShortUrl(data.shortUrl);
+          onChange(data.shortUrl);
+        }
+      } catch (error) {
+        console.error("Error creating vCard link:", error);
+        toast.error("failed to create vCard short link");
+      } finally {
+        setIsCreatingVcardLink(false);
+      }
+    }, 800);
+
+    return () => {
+      if (vcardDebounceRef.current) {
+        clearTimeout(vcardDebounceRef.current);
+      }
+    };
+  }, [contentType, vcardData, currentWorkspace?.id, onChange]);
 
   return (
     <div className="space-y-4">
@@ -340,12 +357,24 @@ export const ContentTypeSelector = ({ value, onChange }: ContentTypeSelectorProp
 
         {contentType === "vcard" && (
           <div className="space-y-3">
-            {/* vCard info notice */}
-            <div className="p-2.5 rounded-lg bg-primary/5 border border-primary/10">
-              <p className="text-xs text-muted-foreground">
-                vCards are complex. we'll create a short link that downloads the contact when scanned.
-              </p>
-            </div>
+            {/* vCard status indicator */}
+            {isCreatingVcardLink ? (
+              <div className="flex items-center gap-2 p-2.5 rounded-lg bg-primary/5 border border-primary/10">
+                <Loader2 className="h-4 w-4 shrink-0 animate-spin text-primary" />
+                <p className="text-xs text-muted-foreground">creating short link...</p>
+              </div>
+            ) : vcardShortUrl ? (
+              <div className="flex items-center gap-2 p-2.5 rounded-lg bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400">
+                <CheckCircle2 className="h-4 w-4 shrink-0" />
+                <p className="text-xs truncate flex-1">{vcardShortUrl}</p>
+              </div>
+            ) : (
+              <div className="p-2.5 rounded-lg bg-primary/5 border border-primary/10">
+                <p className="text-xs text-muted-foreground">
+                  enter name to auto-generate short link for this contact
+                </p>
+              </div>
+            )}
             
             <div className="space-y-2">
               <div className="grid grid-cols-2 gap-2">
@@ -393,35 +422,6 @@ export const ContentTypeSelector = ({ value, onChange }: ContentTypeSelectorProp
                 rows={2}
               />
             </div>
-
-            {/* Create short link button */}
-            {vcardShortUrl ? (
-              <div className="flex items-center gap-2 p-2.5 rounded-lg bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400">
-                <CheckCircle2 className="h-4 w-4 shrink-0" />
-                <p className="text-xs truncate flex-1">{vcardShortUrl}</p>
-              </div>
-            ) : (
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="w-full"
-                onClick={createVcardShortLink}
-                disabled={isCreatingVcardLink || (!vcardData.firstName && !vcardData.lastName)}
-              >
-                {isCreatingVcardLink ? (
-                  <>
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    creating short link...
-                  </>
-                ) : (
-                  <>
-                    <Link2 className="h-4 w-4 mr-2" />
-                    create vCard short link
-                  </>
-                )}
-              </Button>
-            )}
           </div>
         )}
       </div>
