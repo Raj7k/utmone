@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
-import { getCachedUserId } from "@/lib/getCachedUser";
 import {
   Dialog,
   DialogContent,
@@ -37,7 +36,7 @@ export function CreateFlagModal({ open, onOpenChange }: CreateFlagModalProps) {
 
   const createMutation = useMutation({
     mutationFn: async () => {
-      const userId = getCachedUserId();
+      const { data: { user } } = await supabase.auth.getUser();
       
       const { error } = await supabase
         .from('feature_flags')
@@ -46,7 +45,7 @@ export function CreateFlagModal({ open, onOpenChange }: CreateFlagModalProps) {
           description,
           category,
           is_enabled: false,
-          last_modified_by: userId,
+          last_modified_by: user?.id,
           metadata: { impact },
         });
 

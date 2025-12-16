@@ -1,5 +1,4 @@
 import { ReactNode, useEffect, useState, lazy, Suspense } from "react";
-import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { SidebarProvider } from "./sidebar/SidebarProvider";
 import { DashboardSidebarV2 } from "./sidebar/DashboardSidebarV2";
 import { ContextualHeader } from "./ContextualHeader";
@@ -10,7 +9,6 @@ import { NavigationProgress } from "@/components/navigation/NavigationProgress";
 import { DashboardErrorBoundary } from "./DashboardErrorBoundary";
 import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { getCachedUser } from "@/lib/getCachedUser";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { AlertTriangle } from "lucide-react";
 import { TourProvider } from "@/components/onboarding";
@@ -28,25 +26,22 @@ interface DashboardLayoutProps {
 
 export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const { _source, displayName } = useCurrentPlan();
-  const { currentWorkspace } = useWorkspaceContext();
   const [searchParams] = useSearchParams();
   const [impersonatedUser, setImpersonatedUser] = useState<{ email: string; full_name?: string } | null>(null);
 
-  // REMOVED: Workspace loading gate - layout renders immediately
-  // Children (DashboardHome, etc.) handle their own loading states
-  // This eliminates the second sequential loading screen
-
+  // Check if we're in impersonation mode
   useEffect(() => {
     const isImpersonating = searchParams.get('impersonating') === 'true';
     
     if (isImpersonating) {
-      const user = getCachedUser();
-      if (user) {
-        setImpersonatedUser({
-          email: user.email || '',
-          full_name: undefined, // metadata not available in cache
-        });
-      }
+      supabase.auth.getUser().then(({ data: { user } }) => {
+        if (user) {
+          setImpersonatedUser({
+            email: user.email || '',
+            full_name: user.user_metadata?.full_name,
+          });
+        }
+      });
     } else {
       setImpersonatedUser(null);
     }

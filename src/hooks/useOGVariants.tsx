@@ -1,7 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { requireUserId } from "@/lib/getCachedUser";
 
 export interface OGVariant {
   id: string;
@@ -51,7 +50,8 @@ export const useAddOGVariant = () => {
       linkId: string;
       variant: OGVariantInput;
     }) => {
-      const userId = requireUserId();
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData.user) throw new Error("Not authenticated");
 
       const { data, error } = await supabase
         .from("og_image_variants")
@@ -62,7 +62,7 @@ export const useAddOGVariant = () => {
           og_description: variant.og_description || null,
           og_image: variant.og_image,
           is_active: variant.is_active ?? true,
-          created_by: userId,
+          created_by: userData.user.id,
         })
         .select()
         .single();

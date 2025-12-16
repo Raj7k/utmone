@@ -3,7 +3,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useMfaStatus } from "@/hooks/auth";
-import { requireUserId } from "@/lib/getCachedUser";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -36,12 +35,13 @@ export function TotpSettings() {
 
   const disableMutation = useMutation({
     mutationFn: async () => {
-      const userId = requireUserId();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Not authenticated');
 
       const { error } = await supabase
         .from('mfa_settings')
         .update({ is_enabled: false })
-        .eq('user_id', userId);
+        .eq('user_id', user.id);
 
       if (error) throw error;
     },

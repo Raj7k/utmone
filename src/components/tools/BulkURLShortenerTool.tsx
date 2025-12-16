@@ -8,7 +8,6 @@ import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { requireUserId } from "@/lib/getCachedUser";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { 
   Link2, 
@@ -101,7 +100,8 @@ export const BulkURLShortenerTool = ({ workspaceId }: BulkURLShortenerToolProps)
   // Process URLs mutation
   const processURLsMutation = useMutation({
     mutationFn: async () => {
-      requireUserId(); // Just verify auth, actual user ID sent to edge function
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("not authenticated");
 
       const urlLines = bulkInput.split('\n').filter(line => line.trim());
       const links = urlLines.map((url, index) => {

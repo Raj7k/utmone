@@ -47,16 +47,13 @@ interface AppSessionState {
 // These execute BEFORE React component mounts
 // ============================================
 
-// Cache TTL constant - 30 minutes (must match across all files)
-const SESSION_CACHE_TTL = 30 * 60 * 1000;
-
 function getCachedSession(): { user: User | null; accessToken: string | null; timestamp: number } | null {
   try {
     const cached = localStorage.getItem(SESSION_CACHE_KEY);
     if (!cached) return null;
     const parsed = JSON.parse(cached);
-    // 30 min expiry - aligned across all auth files
-    if (Date.now() - parsed.timestamp > SESSION_CACHE_TTL) {
+    // 15 min expiry
+    if (Date.now() - parsed.timestamp > 15 * 60 * 1000) {
       localStorage.removeItem(SESSION_CACHE_KEY);
       return null;
     }
@@ -163,21 +160,22 @@ function cacheWorkspaces(workspaces: Workspace[]): void {
 }
 
 export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
-  // Initialize state from cache at MOUNT time (fresh read), with module-level fallback
+  // Initialize state from MODULE-LEVEL constants (synchronous)
   const [user, setUser] = useState<User | null>(INITIAL_SESSION?.user ?? null);
   const [session, setSession] = useState<Session | null>(null);
-  const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(() => getCachedWorkspace() ?? INITIAL_WORKSPACE);
+  const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(INITIAL_WORKSPACE);
   const [workspaces, setWorkspaces] = useState<Workspace[]>(INITIAL_WORKSPACES ?? []);
   const [isFullyLoaded, setIsFullyLoaded] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-
+  
   // ============================================
   // DYNAMIC isReady CALCULATION
-  // Ready = we have enough auth state to render routes/redirect
-  // Workspace readiness is handled by dashboard shell/pages.
+  // Ready = we have user (cached or fresh) - workspace loads progressively
+  // This allows UI to render immediately while workspace data loads
   // ============================================
+  // Ready immediately if we have cached user AND workspace (no blocking)
+  const isReady = !!(INITIAL_SESSION?.user && INITIAL_WORKSPACE) || !!user || isFullyLoaded;
   const isAuthenticated = !!user;
-  const isReady = !!user || !!INITIAL_SESSION?.user || isFullyLoaded;
 
   // Fetch workspaces for a user
   const fetchWorkspaces = useCallback(async (userId: string): Promise<Workspace[]> => {
@@ -201,80 +199,32 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
     let isMounted = true;
     
     const initialize = async () => {
-      // FAST PATH: If we have valid cached session AND workspace, render immediately
-      // Background validation with timeout to prevent stale sessions from causing issues
+      // FAST PATH: If we have valid cached session AND workspace, skip blocking getSession
+      // This makes dashboard load instantly - we'll refresh in background
       if (INITIAL_SESSION?.user && INITIAL_WORKSPACE) {
-        // IMPORTANT: Do NOT mark fully loaded yet; validate in background (or timeout)
-        const validationTimeout = setTimeout(() => {
-          if (!isMounted) return;
-          // Timeout means we trust cached data
+        if (isMounted) {
           setIsFullyLoaded(true);
-        }, 3000);
-
-        // Background refresh - non-blocking but handles session expiry
-        supabase.auth
-          .getSession()
-          .then(async ({ data: { session } }) => {
-            clearTimeout(validationTimeout);
-            if (!isMounted) return;
-
-            if (session?.user) {
-              setSession(session);
-              cacheSession(session);
-
-              // Refresh workspaces in background
-              const freshWorkspaces = await fetchWorkspaces(session.user.id);
-              if (isMounted && freshWorkspaces.length > 0) {
-                setWorkspaces(freshWorkspaces);
-                cacheWorkspaces(freshWorkspaces);
-
-                // Ensure current workspace stays valid
-                const savedId = localStorage.getItem("currentWorkspaceId");
-                const existing = savedId ? freshWorkspaces.find((w) => w.id === savedId) : null;
-                const selected = existing || freshWorkspaces[0];
-                setCurrentWorkspace(selected);
-                cacheWorkspace(selected);
-              }
-
-              setIsFullyLoaded(true);
-            } else {
-              // Session expired - clear cache and force re-auth
-              if (isMounted) {
-                setUser(null);
-                setSession(null);
-                setCurrentWorkspace(null);
-                setWorkspaces([]);
-                setIsFullyLoaded(true);
-                localStorage.removeItem(SESSION_CACHE_KEY);
-                localStorage.removeItem(WORKSPACE_CACHE_KEY);
-                localStorage.removeItem("currentWorkspaceId");
-              }
+        }
+        // Background refresh - non-blocking
+        supabase.auth.getSession().then(async ({ data: { session } }) => {
+          if (!isMounted) return;
+          if (session?.user) {
+            setSession(session);
+            cacheSession(session);
+            // Refresh workspaces in background
+            const freshWorkspaces = await fetchWorkspaces(session.user.id);
+            if (isMounted && freshWorkspaces.length > 0) {
+              setWorkspaces(freshWorkspaces);
+              cacheWorkspaces(freshWorkspaces);
             }
-          })
-          .catch((err) => {
-            clearTimeout(validationTimeout);
-            console.error("[AppSession] Background validation error:", err);
-            // On error, trust cached data
-            if (isMounted) setIsFullyLoaded(true);
-          });
-
+          }
+        });
         return;
       }
-
-      // SLOW PATH: No cache - must wait for auth with fallback recovery
+      
+      // SLOW PATH: No cache - must wait for auth
       try {
-        // First try getSession (uses stored tokens)
-        let { data: { session: freshSession }, error: authError } = await supabase.auth.getSession();
-        
-        // FALLBACK: If no session from getSession, try refreshing from stored refresh token
-        if (!freshSession && !authError) {
-          console.log("[AppSession] No session from getSession, attempting token refresh...");
-          const refreshResult = await supabase.auth.refreshSession();
-          if (refreshResult.data.session) {
-            freshSession = refreshResult.data.session;
-            console.log("[AppSession] Session recovered via refresh token");
-          }
-        }
+        const { data: { session: freshSession }, error: authError } = await supabase.auth.getSession();
         
         if (authError) {
           console.error("[AppSession] Auth error:", authError);

@@ -8,7 +8,6 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { requireUserId } from "@/lib/getCachedUser";
 import { Copy, ExternalLink, Sparkles } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DomainSelectorWithAdd } from "@/components/domains/DomainSelectorWithAdd";
@@ -74,7 +73,8 @@ export function CreateLinkInline({ workspaceId, onSuccess }: CreateLinkInlinePro
   const onSubmit = async (data: LinkFormData) => {
     setIsCreating(true);
     try {
-      const userId = requireUserId();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
 
       const slug = data.slug || await generateSlug(data.title);
 
@@ -94,7 +94,7 @@ export function CreateLinkInline({ workspaceId, onSuccess }: CreateLinkInlinePro
         .from("links")
         .insert({
           workspace_id: workspaceId,
-          created_by: userId,
+          created_by: user.id,
           title: data.title,
           slug,
           destination_url: data.destination,

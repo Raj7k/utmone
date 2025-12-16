@@ -2,10 +2,11 @@ import { useState, useEffect, lazy, Suspense, useMemo } from "react";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { useIntelligenceData } from "@/hooks/useIntelligenceData";
+import { useCampaignsData } from "@/hooks/dashboard";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BarChart3, Network, TrendingUp, Activity, Shield, RefreshCw, AlertCircle } from "lucide-react";
+import { BarChart3, Network, TrendingUp, Activity, Shield } from "lucide-react";
 import PulseHero from "@/components/intelligence/PulseHero";
 import ContextSwitcher, { IntelligenceContext } from "@/components/intelligence/ContextSwitcher";
 import { PeriodSelector, PeriodOption, periodDays } from "@/components/intelligence/PeriodSelector";
@@ -17,7 +18,6 @@ import ChannelMixDonut from "@/components/intelligence/ChannelMixDonut";
 import GeoHeatTiles from "@/components/intelligence/GeoHeatTiles";
 import { LazySection } from "@/components/loading/LazySection";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
 
 // Lazy load LiveActivityRail - only visible on desktop, below fold
 const LiveActivityRail = lazy(() => import("@/components/intelligence/LiveActivityRail"));
@@ -36,6 +36,7 @@ import { TopicAttributionView } from "@/components/attribution/TopicAttributionV
 import { SentinelSavesWidget } from "@/components/analytics/SentinelSavesWidget";
 import { useSentinelStats } from "@/hooks/useSentinelSaves";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
 import { StaleIndicator } from "@/components/loading/CardSkeleton";
 
 // Lazy load heavy visualization components
@@ -61,43 +62,26 @@ export default function Intelligence() {
     ? Math.ceil((customRange.to.getTime() - customRange.from.getTime()) / (1000 * 60 * 60 * 24)) + 1
     : periodDays[period];
 
-  // FIXED: Removed useCampaignsData dependency that caused waterfall
-  // useIntelligenceData now fetches campaigns internally
-  const { data: intelligenceData, isLoading, isFetching, isStale, error, refetch } = useIntelligenceData(effectiveWorkspaceId, days);
+  // OPTIMIZED: Use lightweight campaign hook (1 query instead of 10)
+  const { campaigns: cachedCampaigns, isLoading: campaignsLoading } = useCampaignsData();
 
-  // Loading timeout - show error if loading takes too long
-  const [loadingTimedOut, setLoadingTimedOut] = useState(false);
-  
-  useEffect(() => {
-    if (isLoading && !loadingTimedOut) {
-      const timeout = setTimeout(() => {
-        setLoadingTimedOut(true);
-      }, 10000); // 10 second timeout
-      return () => clearTimeout(timeout);
-    }
-    if (!isLoading) {
-      setLoadingTimedOut(false);
-    }
-  }, [isLoading, loadingTimedOut]);
+  // Pass preloaded campaigns to intelligence hook
+  const preloaded = !campaignsLoading && cachedCampaigns ? {
+    totalClicks: 0, // Let intelligence hook fetch this
+    campaigns: cachedCampaigns.map(c => ({ id: c.id, name: c.name })),
+  } : undefined;
+
+  // Use unified data hook for fast loading - leverages shared cache + preloaded data
+  const { data: intelligenceData, isLoading, isFetching, isStale } = useIntelligenceData(effectiveWorkspaceId, days, preloaded);
 
   // Signal navigation complete when data loads or times out
   useEffect(() => {
-    if (!isLoading || hasTimedOut || loadingTimedOut) {
+    if (!isLoading || hasTimedOut) {
       completeNavigation();
     }
-  }, [isLoading, hasTimedOut, loadingTimedOut]);
+  }, [isLoading, hasTimedOut]);
 
-  // GUARD: Wait for workspace before rendering any content
-  // This prevents blank screen when workspace is still loading
-  if (!currentWorkspace && !hasTimedOut) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="w-24 h-1 rounded-full bg-primary animate-breathing-pulse" />
-      </div>
-    );
-  }
-
-  // Show error/timeout state if no workspace after timeout
+  // Show error/timeout state if no workspace
   if (!currentWorkspace && hasTimedOut) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -130,50 +114,14 @@ export default function Intelligence() {
     );
   }
 
-  // Show error state for data loading failure or timeout
-  if ((error || loadingTimedOut) && !intelligenceData?.totalClicks) {
+  // Show loading state when data is loading
+  if (isLoading && !intelligenceData) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="flex flex-col items-center gap-4 text-center max-w-md px-4">
-          <div className="h-12 w-12 rounded-full bg-destructive/10 flex items-center justify-center">
-            <AlertCircle className="h-6 w-6 text-destructive" />
-          </div>
-          <div>
-            <h3 className="font-medium text-foreground mb-1">
-              {loadingTimedOut ? "data took too long to load" : "couldn't load intelligence data"}
-            </h3>
-            <p className="text-sm text-muted-foreground">
-              {loadingTimedOut 
-                ? "the database is taking longer than expected. try again in a moment."
-                : error?.message || "an error occurred while fetching data."
-              }
-            </p>
-          </div>
-          <div className="flex gap-3">
-            <Button 
-              onClick={() => {
-                setLoadingTimedOut(false);
-                refetch();
-              }}
-              className="gap-2"
-            >
-              <RefreshCw className="h-4 w-4" />
-              try again
-            </Button>
-            <Button 
-              variant="outline"
-              onClick={() => window.location.reload()}
-            >
-              refresh page
-            </Button>
-          </div>
-        </div>
+      <div className="p-6 lg:p-8 max-w-5xl mx-auto">
+        <DashboardContentLoader context="intelligence" minHeight="60vh" />
       </div>
     );
   }
-
-  // FIXED: Removed blocking DashboardContentLoader - render content immediately
-  // Show skeleton states inline instead of blocking entire page
 
   return (
     <div className="animate-fade-in relative">

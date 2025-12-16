@@ -25,7 +25,7 @@ import { toast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-// DashboardContentLoader removed - no longer blocking render
+import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
 import { StaleIndicator } from "@/components/loading/CardSkeleton";
 
 // Lazy load EventBridgeTab - it's only shown when user clicks the tab
@@ -129,7 +129,14 @@ const Events = () => {
   // Cast events to FieldEvent type
   const typedEvents = events as FieldEvent[];
 
-  // FIXED: Removed blocking DashboardContentLoader - render content immediately
+  // Show loading state when data is loading
+  if (isLoading && !isFetched) {
+    return (
+      <div className="p-6 lg:p-8 max-w-5xl mx-auto">
+        <DashboardContentLoader context="events" minHeight="60vh" />
+      </div>
+    );
+  }
 
   // Progressive render with fade-in
   return (

@@ -10,7 +10,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import { Save, Trash2, Plus, FileText } from "lucide-react";
 import type { Database } from "@/integrations/supabase/types";
-import { requireUserId } from "@/lib/getCachedUser";
 
 type UTMTemplate = Database["public"]["Tables"]["bulk_upload_templates"]["Row"];
 
@@ -56,13 +55,14 @@ export function UTMTemplateManager({ workspaceId, onApplyTemplate }: UTMTemplate
   // Create template mutation
   const createMutation = useMutation({
     mutationFn: async () => {
-      const userId = requireUserId();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("not authenticated");
 
       const { data, error } = await supabase
         .from("bulk_upload_templates")
         .insert({
           workspace_id: workspaceId,
-          created_by: userId,
+          created_by: user.id,
           name: templateName,
           description: templateDescription || null,
           domain: "utm.one", // default

@@ -1,6 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { requireUserId } from "@/lib/getCachedUser";
 
 export interface BulkUploadActivity {
   id: string;
@@ -44,14 +43,15 @@ export const useBulkUploadActivity = (bulkUploadId: string | null) => {
       actionType: string;
       metadata?: Record<string, any>;
     }) => {
-      const userId = requireUserId();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
 
       const { error } = await supabase
         .from("bulk_upload_activity")
         .insert({
           bulk_upload_id: bulkUploadId,
           workspace_id: workspaceId,
-          user_id: userId,
+          user_id: user.id,
           action_type: actionType,
           metadata: metadata || {},
         });

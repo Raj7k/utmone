@@ -43,17 +43,13 @@ const tabTitles: Record<string, { title: string; description: string }> = {
   extension: { title: "browser extension", description: "get quick access from any tab" },
 };
 
-// Cache TTL constant - 30 minutes (must match AppSessionContext.tsx)
-const SESSION_CACHE_TTL = 30 * 60 * 1000;
-
 // Read cached user synchronously at module level
 const getCachedUser = () => {
   try {
     const cached = localStorage.getItem('utm_session_cache');
     if (!cached) return null;
     const { user, timestamp } = JSON.parse(cached);
-    // 30 min expiry - aligned with AppSessionContext
-    if (Date.now() - timestamp > SESSION_CACHE_TTL) return null;
+    if (Date.now() - timestamp > 15 * 60 * 1000) return null;
     return user;
   } catch { return null; }
 };

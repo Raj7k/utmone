@@ -77,17 +77,15 @@ export const useDashboardCore = () => {
   const queryClient = useQueryClient();
 
   const workspaceId = currentWorkspace?.id || getCachedWorkspaceId() || "";
-
+  
   // Get userId from context cache - NO network call
   const userId = getCachedUserId() || "";
-
-  // Get cached data (only if we have a workspaceId)
-  const cachedResult = workspaceId ? getCached(workspaceId) : undefined;
+  
+  // Get cached data
+  const cachedResult = getCached(workspaceId);
   const cachedData = cachedResult?.data;
   const isCacheStale = cachedResult?.isStale ?? true;
 
-  // IMPORTANT: Always call useQuery unconditionally (React rules of hooks)
-  // Use `enabled` to control when it actually fetches
   const { data, isLoading, isFetching, isFetched, refetch, error } = useQuery({
     queryKey: ["dashboard-core", workspaceId],
     queryFn: async (): Promise<DashboardCoreData> => {
@@ -165,7 +163,6 @@ export const useDashboardCore = () => {
 
       return result;
     },
-    // Only fetch when we have a workspaceId
     enabled: !!workspaceId,
     initialData: () => cachedData,
     staleTime: 5 * 60 * 1000,
@@ -177,34 +174,8 @@ export const useDashboardCore = () => {
   });
 
   const invalidate = () => {
-    if (workspaceId) {
-      queryClient.invalidateQueries({ queryKey: ["dashboard-core", workspaceId] });
-    }
+    queryClient.invalidateQueries({ queryKey: ["dashboard-core", workspaceId] });
   };
-
-  // If no workspaceId yet, return safe loading shape
-  if (!workspaceId) {
-    return {
-      links: [],
-      stats: { clicksToday: 0, totalLinks: 0, totalRevenue: 0 },
-      onboarding: {
-        hasLinks: true, // Default true to avoid FirstRunExperience flash
-        hasQrCodes: false,
-        hasViewedAnalytics: false,
-        hasInvitedTeam: false,
-        hasCustomDomain: false,
-        hasInstalledPixel: false,
-        linkCount: 0,
-      },
-      isLoading: true,
-      isFetching: false,
-      isFetched: false,
-      isStale: false,
-      error: null,
-      refetch: () => Promise.resolve({ data: undefined } as any),
-      invalidate,
-    };
-  }
 
   // Use cached data immediately if available
   const effectiveData = data || cachedData;

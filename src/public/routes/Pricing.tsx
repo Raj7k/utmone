@@ -1,43 +1,32 @@
-import { lazy, Suspense, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { PricingTable } from "@/components/PricingTable";
 import { AnimatedSection } from "@/components/landing/StaticSection";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/seo/SEO";
+import { LLMSchemaGenerator } from "@/components/seo/LLMSchemaGenerator";
 import { MainLayout } from "@/components/layout/MainLayout";
-import {
-  PLAN_CONFIG,
-  formatPlanPrice,
+import { 
+  getPricingMetaDescription, 
   getCompetitorComparison,
-  getLLMPricingData,
-  getLifetimeDealDescription,
-  getMaxAnnualDiscountDisplay,
-  getPricingMetaDescription,
-  generatePricingFAQs,
-  LIFETIME_DEAL_CONFIG,
+  formatPlanPrice,
+  PLAN_CONFIG
+} from "@/lib/planConfig";
+import { 
+  generatePricingFAQs, 
+  LIFETIME_DEAL_CONFIG, 
   TRUST_INDICATORS,
-} from "@/shared-core";
-
-const PromoBanner = lazy(() => import("@/public/components/pricing/PromoBanner").then(m => ({ default: m.PromoBanner })));
-const LazySchema = lazy(() => import("@/components/seo/LLMSchemaGenerator").then(m => ({ default: m.LLMSchemaGenerator })));
+  getLifetimeDealDescription,
+  getLLMPricingData,
+  getMaxAnnualDiscountDisplay
+} from "@/lib/pricingPageConfig";
+import { PromoBanner } from "@/public/components/pricing/PromoBanner";
 
 const Pricing = () => {
   const navigate = useNavigate();
-  const [renderSchema, setRenderSchema] = useState(false);
-  const [showPromo, setShowPromo] = useState(false);
   const competitorData = getCompetitorComparison();
   const faqs = generatePricingFAQs();
   const lifetimeDealDescription = getLifetimeDealDescription();
   const llmData = getLLMPricingData();
-
-  useEffect(() => {
-    const timeout = window.setTimeout(() => {
-      setRenderSchema(true);
-      setShowPromo(true);
-    }, 200);
-
-    return () => window.clearTimeout(timeout);
-  }, []);
 
   const handlePlanSelect = (tier: string) => {
     if (tier === 'enterprise') {
@@ -57,22 +46,14 @@ const Pricing = () => {
         canonical="https://utm.one/pricing"
         keywords={["utm.one pricing", "url shortener pricing", "link management pricing", "flat pricing", "no per-seat charges"]}
       />
-      {renderSchema && (
-        <Suspense fallback={null}>
-          <LazySchema
-            type="pricing"
-            data={llmData}
-          />
-        </Suspense>
-      )}
+      <LLMSchemaGenerator 
+        type="pricing" 
+        data={llmData} 
+      />
 
       {/* Promo Banner - shows when active promotions exist */}
       <section className="max-w-[980px] mx-auto px-8">
-        {showPromo && (
-          <Suspense fallback={null}>
-            <PromoBanner />
-          </Suspense>
-        )}
+        <PromoBanner />
       </section>
 
       {/* Hero Section */}

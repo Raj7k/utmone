@@ -1,7 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { requireUserId } from "@/lib/getCachedUser";
 
 export interface CustomReport {
   id: string;
@@ -37,14 +36,15 @@ export const useCustomReports = (workspaceId: string) => {
 
   const createReport = useMutation({
     mutationFn: async (report: Omit<CustomReport, "id" | "created_at" | "updated_at" | "created_by">) => {
-      const userId = requireUserId();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
 
       const { data, error } = await supabase
         .from("custom_reports")
         .insert({
           ...report,
           workspace_id: workspaceId,
-          created_by: userId,
+          created_by: user.id,
         })
         .select()
         .single();

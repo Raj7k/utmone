@@ -1,6 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { getCachedUserId } from "@/lib/getCachedUser";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -61,14 +60,14 @@ export function FlagRecommendations() {
 
   const applyRecommendation = useMutation({
     mutationFn: async ({ id, flagKey, enable }: { id: string; flagKey: string; enable: boolean }) => {
-      const userId = getCachedUserId();
+      const { data: { user } } = await supabase.auth.getUser();
       
       // Update the flag
       const { error: flagError } = await supabase
         .from('feature_flags')
         .update({ 
           is_enabled: enable,
-          last_modified_by: userId,
+          last_modified_by: user?.id,
           last_modified_at: new Date().toISOString()
         })
         .eq('flag_key', flagKey);
@@ -81,7 +80,7 @@ export function FlagRecommendations() {
         .update({ 
           status: 'accepted',
           applied_at: new Date().toISOString(),
-          applied_by: userId
+          applied_by: user?.id
         })
         .eq('id', id);
 

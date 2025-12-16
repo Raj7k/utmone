@@ -1,6 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/workspace";
-import { getCachedUserId } from "@/lib/getCachedUser";
 
 interface LogWorkspaceActionParams {
   action: string;
@@ -27,9 +26,9 @@ export const useWorkspaceAuditLog = () => {
     // Fire and Forget: Don't await, don't block
     Promise.resolve().then(async () => {
       try {
-        const userId = getCachedUserId();
+        const { data: { user } } = await supabase.auth.getUser();
         
-        if (!userId || !currentWorkspace?.id) {
+        if (!user || !currentWorkspace?.id) {
           console.error('No authenticated user or workspace for audit log');
           return;
         }
@@ -38,7 +37,7 @@ export const useWorkspaceAuditLog = () => {
         
         await supabase.rpc('log_workspace_action', {
           p_workspace_id: currentWorkspace.id,
-          p_admin_user_id: userId,
+          p_admin_user_id: user.id,
           p_action: action,
           p_resource_type: resourceType,
           p_resource_id: resourceId,

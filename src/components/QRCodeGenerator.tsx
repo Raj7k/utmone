@@ -11,7 +11,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
-import { requireUserId } from "@/lib/getCachedUser";
 import { useToast } from "@/hooks/use-toast";
 import { Download, Loader2, CheckCircle2, Sparkles } from "lucide-react";
 import { QRDownloadOptions } from "./qr/QRDownloadOptions";
@@ -143,12 +142,14 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
 
 
         // Get current user
-        const userId = requireUserId();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) throw new Error("User not authenticated");
+        
 
         // Save to database
         const insertData = {
           link_id: linkId,
-          created_by: userId,
+          created_by: user.id,
           name: data.name,
           variant_name: data.variantName,
           primary_color: data.primaryColor,

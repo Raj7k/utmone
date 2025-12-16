@@ -12,29 +12,34 @@ import { useDashboardCore } from "@/hooks/dashboard";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { useQueryClient } from "@tanstack/react-query";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
+import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
+import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
 import { LazySection } from "@/components/loading/LazySection";
 import { ActivityFeedSkeleton } from "@/components/loading/CardSkeleton";
 import { ActivityFeed } from "@/components/dashboard/ActivityFeed";
 
 const DashboardHome = () => {
   const { showDemoMode } = useDemoMode();
-
+  const { currentWorkspace, isWorkspaceLoading, retry } = useWorkspaceContext();
+  
   // OPTIMIZED: Single RPC call (1 query instead of 10)
   const { links, stats, onboarding, isFetching, isFetched, isLoading, isStale, invalidate } = useDashboardCore();
+  const hasLinks = onboarding.hasLinks;
 
-  const [dataTimeout, setDataTimeout] = useState(false);
+  // Workspace timeout fallback - show retry after 3 seconds
+  const [workspaceTimeout, setWorkspaceTimeout] = useState(false);
 
-  // CONSOLIDATED: Single loading state - dashboard data timeout recovery
+  // Workspace timeout logic - only reset when workspace actually loads
   useEffect(() => {
-    if (isLoading && !isFetched) {
-      setDataTimeout(false);
-      const timer = setTimeout(() => setDataTimeout(true), 5000);
+    if (isWorkspaceLoading && !currentWorkspace) {
+      const timer = setTimeout(() => setWorkspaceTimeout(true), 3000);
       return () => clearTimeout(timer);
+    } else if (currentWorkspace) {
+      setWorkspaceTimeout(false);
     }
-    setDataTimeout(false);
-  }, [isLoading, isFetched]);
+  }, [isWorkspaceLoading, currentWorkspace]);
 
   // Complete navigation as soon as we have any data (cached or fresh)
   useEffect(() => {
@@ -42,7 +47,7 @@ const DashboardHome = () => {
       completeNavigation();
     }
   }, [isFetched]);
-
+  
   const [showSuccess, setShowSuccess] = useState(false);
   const [createdLinkUrl, setCreatedLinkUrl] = useState("");
   const queryClient = useQueryClient();
@@ -52,7 +57,7 @@ const DashboardHome = () => {
     startTransition(() => {
       invalidate();
     });
-
+    
     const slug = Math.random().toString(36).substring(2, 8);
     setCreatedLinkUrl(`utm.one/${slug}`);
     setShowSuccess(true);
@@ -62,34 +67,29 @@ const DashboardHome = () => {
     setShowSuccess(false);
   }, []);
 
-  // NEW: Recovery state if dashboard data never resolves
-  if (isLoading && !isFetched && dataTimeout) {
-    return (
-      <div className="p-6 lg:p-8 max-w-5xl mx-auto flex flex-col items-center justify-center min-h-[400px]">
-        <p className="text-sm text-muted-foreground mb-4">couldn't load dashboard data</p>
-        <Button variant="outline" onClick={() => window.location.reload()} className="gap-2">
-          <RefreshCw className="h-4 w-4" />
-          refresh page
-        </Button>
-      </div>
-    );
-  }
-
-  // NEW: If core data isn't ready yet, show a minimal inline skeleton
-  // (prevents falling into FirstRunExperience while workspace is still resolving)
-  if (isLoading && !isFetched) {
+  // Workspace timeout - show retry option
+  if (workspaceTimeout && !currentWorkspace) {
     return (
       <div className="p-6 lg:p-8 max-w-5xl mx-auto">
-        <div className="animate-pulse space-y-4">
-          <div className="h-7 w-48 rounded-md bg-muted" />
-          <div className="h-28 rounded-md bg-muted" />
-          <div className="h-28 rounded-md bg-muted" />
+        <DashboardContentLoader context="dashboard" minHeight="50vh" />
+        <div className="flex justify-center mt-4">
+          <Button variant="outline" onClick={retry} className="gap-2">
+            <RefreshCw className="h-4 w-4" />
+            retry
+          </Button>
         </div>
       </div>
     );
   }
 
-  const hasLinks = onboarding.hasLinks;
+  // Show loading state while data is loading (before any content checks)
+  if (isLoading && !isFetched) {
+    return (
+      <div className="p-6 lg:p-8 max-w-5xl mx-auto">
+        <DashboardContentLoader context="dashboard" minHeight="60vh" />
+      </div>
+    );
+  }
 
   // First-run experience for users without links
   if (!hasLinks && !showSuccess) {

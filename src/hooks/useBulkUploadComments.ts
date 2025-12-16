@@ -1,7 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { requireUserId } from "@/lib/getCachedUser";
 
 export interface BulkUploadComment {
   id: string;
@@ -44,13 +43,15 @@ export const useBulkUploadComments = (bulkUploadId: string | null) => {
       mentions?: string[];
     }) => {
       if (!bulkUploadId) throw new Error("No bulk upload ID");
-      const userId = requireUserId();
+
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
 
       const { data, error } = await supabase
         .from("bulk_upload_comments")
         .insert({
           bulk_upload_id: bulkUploadId,
-          user_id: userId,
+          user_id: user.id,
           comment_text: comment,
           parent_id: parentId || null,
           mentioned_users: mentions || [],

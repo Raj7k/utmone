@@ -1,7 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { notify } from '@/lib/notify';
-import { getCachedUserId, requireUserId } from '@/lib/getCachedUser';
 
 export interface Partner {
   id: string;
@@ -47,13 +46,13 @@ export const usePartner = () => {
   const { data: partner, isLoading } = useQuery({
     queryKey: ['partner'],
     queryFn: async () => {
-      const userId = getCachedUserId();
-      if (!userId) return null;
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return null;
 
       const { data, error } = await supabase
         .from('partners')
         .select('*')
-        .eq('user_id', userId)
+        .eq('user_id', user.id)
         .single();
 
       if (error && error.code !== 'PGRST116') throw error;
@@ -84,15 +83,17 @@ export const usePartner = () => {
       payment_method: string;
       application_notes: string;
     }) => {
-      const userId = requireUserId();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Not authenticated');
+
       // Generate unique partner code
-      const partnerCode = `PARTNER_${userId.substring(0, 8).toUpperCase()}`;
+      const partnerCode = `PARTNER_${user.id.substring(0, 8).toUpperCase()}`;
       const referralUrl = `${window.location.origin}/?ref=${partnerCode}`;
 
       const { data, error } = await supabase
         .from('partners')
         .insert({
-          user_id: userId,
+          user_id: user.id,
           partner_code: partnerCode,
           referral_url: referralUrl,
           ...application,

@@ -10,7 +10,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { requireUserId } from '@/lib/getCachedUser';
 import { useWorkspaceContext } from '@/contexts/WorkspaceContext';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -166,7 +165,8 @@ export const OneLinkValidator = () => {
     mutationFn: async (data: UltimateURLFormData) => {
       if (!workspaceId) throw new Error('no workspace found');
 
-      const userId = requireUserId();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('not authenticated');
 
       // Check for duplicates
       const duplicates = await checkForDuplicates(data.url);
@@ -195,7 +195,7 @@ export const OneLinkValidator = () => {
         .from('links')
         .insert({
           workspace_id: workspaceId,
-          created_by: userId,
+          created_by: user.id,
           title: data.title,
           slug: data.slug,
           destination_url: data.url,

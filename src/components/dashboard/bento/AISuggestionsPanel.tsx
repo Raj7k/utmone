@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Sparkles, RefreshCw, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AISuggestions } from "@/hooks/useAIAnalyzeUrl";
@@ -23,20 +23,15 @@ export const AISuggestionsPanel = ({
   selectedSlug,
   utmApplied,
 }: AISuggestionsPanelProps) => {
-  const [isVisible, setIsVisible] = useState(false);
   const hasUtm = suggestions.utm_campaign || suggestions.utm_content || suggestions.utm_term;
 
-  // Animate in on mount
-  useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(true), 10);
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
-    <div
-      className={`overflow-hidden transition-all duration-200 ease-out ${
-        isVisible ? "opacity-100 max-h-96" : "opacity-0 max-h-0"
-      }`}
+    <motion.div
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: "auto" }}
+      exit={{ opacity: 0, height: 0 }}
+      transition={{ duration: 0.2 }}
+      className="overflow-hidden"
     >
       <div className="pt-3 space-y-3">
         {/* Header */}
@@ -105,6 +100,6 @@ export const AISuggestionsPanel = ({
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };

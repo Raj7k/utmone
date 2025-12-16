@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,7 +20,6 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
   const [isCreating, setIsCreating] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [createdSlug, setCreatedSlug] = useState("");
-  const [isVisible, setIsVisible] = useState(false);
   const { currentWorkspace, user } = useAppSession();
   const userId = user?.id;
   
@@ -35,24 +35,20 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
       return data;
     },
     enabled: !!userId,
-    staleTime: 5 * 60 * 1000,
+    staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000,
     refetchOnWindowFocus: false,
   });
 
   useEffect(() => {
     if (profile && !profile.has_seen_welcome_modal) {
-      const timer = setTimeout(() => {
-        setIsOpen(true);
-        setTimeout(() => setIsVisible(true), 50);
-      }, 500);
+      const timer = setTimeout(() => setIsOpen(true), 500);
       return () => clearTimeout(timer);
     }
   }, [profile]);
 
   const handleClose = async () => {
-    setIsVisible(false);
-    setTimeout(() => setIsOpen(false), 200);
+    setIsOpen(false);
     
     if (userId) {
       await supabase
@@ -105,6 +101,7 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
       setIsSuccess(true);
       onLinkCreated?.();
 
+      // Close after showing success
       setTimeout(() => {
         handleClose();
       }, 2000);
@@ -135,13 +132,14 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
             <>
               {/* Header */}
               <div className="text-center space-y-2">
-                <div
-                  className={`w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto transition-transform duration-300 ${
-                    isVisible ? "scale-100" : "scale-0"
-                  }`}
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", delay: 0.1 }}
+                  className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto"
                 >
                   <Sparkles className="w-8 h-8 text-primary" />
-                </div>
+                </motion.div>
                 <h2 className="text-2xl font-display font-bold text-foreground">
                   welcome, {firstName}!
                 </h2>
@@ -168,11 +166,15 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
                 </div>
 
                 {url && (
-                  <div className="bg-muted/50 rounded-lg p-3 text-sm animate-fade-in">
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    className="bg-muted/50 rounded-lg p-3 text-sm"
+                  >
                     <span className="text-muted-foreground">preview: </span>
                     <span className="font-mono text-foreground">utm.one/</span>
                     <span className="font-mono text-primary">abc123</span>
-                  </div>
+                  </motion.div>
                 )}
 
                 <Button
@@ -207,10 +209,10 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
             </>
           ) : (
             /* Success State */
-            <div
-              className={`text-center space-y-4 transition-all duration-300 ${
-                isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
-              }`}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="text-center space-y-4"
             >
               <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mx-auto">
                 <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center">
@@ -236,7 +238,7 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
                 </p>
                 <p className="text-xs text-muted-foreground mt-1">click to copy</p>
               </div>
-            </div>
+            </motion.div>
           )}
         </div>
       </DialogContent>

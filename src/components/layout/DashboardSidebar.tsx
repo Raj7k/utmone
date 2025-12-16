@@ -26,7 +26,6 @@ import {
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
-import { getCachedUserId } from "@/lib/getCachedUser";
 import { notify } from "@/lib/notify";
 import { useTheme } from "next-themes";
 import { useState, useEffect, useCallback } from "react";
@@ -104,13 +103,13 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
   const { data: profile } = useQuery({
     queryKey: ['user-profile'],
     queryFn: async () => {
-      const userId = getCachedUserId();
-      if (!userId) throw new Error("Not authenticated");
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
       
       const { data, error } = await supabase
         .from('profiles')
         .select('full_name, email, avatar_url')
-        .eq('id', userId)
+        .eq('id', user.id)
         .single();
       
       if (error) throw error;

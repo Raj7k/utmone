@@ -3,7 +3,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { AnnouncementConfig } from "@/lib/announcementConfig";
 import { notify } from "@/lib/notify";
 import { useAuditLog } from "@/hooks/useAuditLog";
-import { getCachedUserId } from "@/lib/getCachedUser";
 
 export const useAnnouncementAdmin = () => {
   const queryClient = useQueryClient();
@@ -62,7 +61,7 @@ export const useAnnouncementAdmin = () => {
   // Create announcement
   const createMutation = useMutation({
     mutationFn: async (config: Partial<AnnouncementConfig>) => {
-      const userId = getCachedUserId();
+      const { data: { user } } = await supabase.auth.getUser();
       
       const { data, error } = await supabase
         .from("announcement_configs")
@@ -80,7 +79,7 @@ export const useAnnouncementAdmin = () => {
           priority: config.priority!,
           rotation_group: config.rotationGroup,
           rotation_interval_minutes: config.rotationIntervalMinutes,
-          created_by: userId,
+          created_by: user?.id,
         })
         .select()
         .single();

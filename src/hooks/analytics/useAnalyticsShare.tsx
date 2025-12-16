@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { requireUserId } from "@/lib/getCachedUser";
+
 export const useAnalyticsShare = (workspaceId: string | undefined) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -39,7 +39,9 @@ export const useAnalyticsShare = (workspaceId: string | undefined) => {
     }) => {
       if (!workspaceId) throw new Error("No workspace selected");
 
-      const userId = requireUserId();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+
       const { data, error } = await supabase
         .from("analytics_share_links")
         .insert({
@@ -49,7 +51,7 @@ export const useAnalyticsShare = (workspaceId: string | undefined) => {
           show_geography: showGeography,
           show_devices: showDevices,
           show_campaigns: showCampaigns,
-          created_by: userId,
+          created_by: user.id,
         })
         .select()
         .single();

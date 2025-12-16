@@ -2,7 +2,6 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { calculateProbabilityBWins, shouldDeclareWinner } from "@/lib/bayesian";
 import { toast } from "sonner";
-import { requireUserId } from "@/lib/getCachedUser";
 
 export const useExperiment = (linkId: string | undefined) => {
   const queryClient = useQueryClient();
@@ -52,13 +51,11 @@ export const useExperiment = (linkId: string | undefined) => {
       variant_a_url: string;
       variant_b_url: string;
     }) => {
-      const userId = requireUserId();
-      
       const { data, error } = await supabase
         .from("experiments")
         .insert({
           ...params,
-          created_by: userId,
+          created_by: (await supabase.auth.getUser()).data.user!.id,
           status: "running",
           started_at: new Date().toISOString(),
         })

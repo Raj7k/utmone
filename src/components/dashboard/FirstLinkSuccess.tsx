@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Check, Copy, ExternalLink, QrCode, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
@@ -14,19 +15,12 @@ interface FirstLinkSuccessProps {
 export const FirstLinkSuccess = ({ shortUrl, onContinue }: FirstLinkSuccessProps) => {
   const [copied, setCopied] = useState(false);
   const [showConfetti, setShowConfetti] = useState(true);
-  const [isVisible, setIsVisible] = useState(false);
   const { width, height } = useWindowSize();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Trigger animation
-    const animTimer = setTimeout(() => setIsVisible(true), 50);
-    // Stop confetti
-    const confettiTimer = setTimeout(() => setShowConfetti(false), 4000);
-    return () => {
-      clearTimeout(animTimer);
-      clearTimeout(confettiTimer);
-    };
+    const timer = setTimeout(() => setShowConfetti(false), 4000);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleCopy = async () => {
@@ -56,65 +50,66 @@ export const FirstLinkSuccess = ({ shortUrl, onContinue }: FirstLinkSuccessProps
       />
 
       <div className="min-h-[60vh] flex flex-col items-center justify-center px-4">
-        <div
-          className={`w-full max-w-xl text-center transition-all duration-400 ease-out ${
-            isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
-          }`}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4 }}
+          className="w-full max-w-xl text-center"
         >
           {/* Success checkmark */}
-          <div
-            className={`w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center mx-auto mb-6 transition-transform duration-300 ${
-              isVisible ? "scale-100" : "scale-0"
-            }`}
-            style={{ transitionDelay: "100ms" }}
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", delay: 0.1, stiffness: 200 }}
+            className="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center mx-auto mb-6"
           >
-            <div
-              className={`w-12 h-12 rounded-full bg-green-500 flex items-center justify-center transition-transform duration-300 ${
-                isVisible ? "scale-100" : "scale-0"
-              }`}
-              style={{ transitionDelay: "300ms" }}
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", delay: 0.3 }}
+              className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center"
             >
               <Check className="w-7 h-7 text-white" strokeWidth={3} />
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Headline */}
-          <h1
-            className={`text-3xl md:text-4xl font-display font-bold text-foreground mb-2 transition-all duration-300 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
-            }`}
-            style={{ transitionDelay: "200ms" }}
+          <motion.h1
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-3xl md:text-4xl font-display font-bold text-foreground mb-2"
           >
             link created!
-          </h1>
+          </motion.h1>
 
-          <p
-            className={`text-lg text-muted-foreground mb-8 transition-opacity duration-300 ${
-              isVisible ? "opacity-100" : "opacity-0"
-            }`}
-            style={{ transitionDelay: "300ms" }}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="text-lg text-muted-foreground mb-8"
           >
             your first short link is ready to share
-          </p>
+          </motion.p>
 
           {/* Link display */}
-          <div
-            className={`bg-card border border-border rounded-2xl p-6 mb-6 transition-all duration-300 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
-            }`}
-            style={{ transitionDelay: "400ms" }}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="bg-card border border-border rounded-2xl p-6 mb-6"
           >
             <p className="text-2xl font-mono text-primary font-medium">
               {shortUrl}
             </p>
-          </div>
+          </motion.div>
 
           {/* Action buttons */}
-          <div
-            className={`flex flex-col sm:flex-row gap-3 mb-8 transition-all duration-300 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
-            }`}
-            style={{ transitionDelay: "500ms" }}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="flex flex-col sm:flex-row gap-3 mb-8"
           >
             <Button
               onClick={handleCopy}
@@ -142,14 +137,14 @@ export const FirstLinkSuccess = ({ shortUrl, onContinue }: FirstLinkSuccessProps
               <ExternalLink className="w-4 h-4 mr-2" />
               open
             </Button>
-          </div>
+          </motion.div>
 
           {/* Next step suggestion */}
-          <div
-            className={`bg-muted/50 rounded-xl p-4 transition-opacity duration-300 ${
-              isVisible ? "opacity-100" : "opacity-0"
-            }`}
-            style={{ transitionDelay: "600ms" }}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className="bg-muted/50 rounded-xl p-4"
           >
             <p className="text-sm text-muted-foreground mb-3">
               next up: generate a QR code for your link
@@ -163,14 +158,14 @@ export const FirstLinkSuccess = ({ shortUrl, onContinue }: FirstLinkSuccessProps
               create QR code
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
-          </div>
+          </motion.div>
 
           {/* Continue to dashboard */}
-          <div
-            className={`mt-6 transition-opacity duration-300 ${
-              isVisible ? "opacity-100" : "opacity-0"
-            }`}
-            style={{ transitionDelay: "700ms" }}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.7 }}
+            className="mt-6"
           >
             <button
               onClick={onContinue}
@@ -178,8 +173,8 @@ export const FirstLinkSuccess = ({ shortUrl, onContinue }: FirstLinkSuccessProps
             >
               continue to dashboard →
             </button>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </>
   );

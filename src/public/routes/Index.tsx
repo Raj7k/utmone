@@ -6,7 +6,7 @@ import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
 import { HeroInlineCTA } from "@/components/landing/HeroInlineCTA";
 import { StaticSection } from "@/components/landing/StaticSection";
 import { LinkLayersSection } from "@/components/landing/LinkLayersSection";
-import { UseCaseType } from "@/components/landing/ControlDeckHero";
+import { UseCaseType } from "@/components/landing/SideNavHero";
 import { LazyOnScroll } from "@/components/lazy/LazyOnScroll";
 import { 
   useTrackPageView, 
@@ -26,11 +26,11 @@ const ControlDeckHero = lazy(() => import("@/components/landing/ControlDeckHero"
 const OmniDemo = lazy(() => import("@/components/landing/OmniDemo").then(m => ({ default: m.default })));
 const AuthorityToolsStrip = lazy(() => import("@/components/landing/AuthorityToolsStrip").then(m => ({ default: m.AuthorityToolsStrip })));
 const TransparencyStrip = lazy(() => import("@/components/landing/TransparencyStrip").then(m => ({ default: m.TransparencyStrip })));
-const DynamicProblemSection = lazy(() => import("@/components/landing/StaticProblemSection").then(m => ({ default: m.StaticProblemSection })));
+const DynamicProblemSection = lazy(() => import("@/components/landing/DynamicProblemSection").then(m => ({ default: m.DynamicProblemSection })));
 const DynamicInsightSection = lazy(() => import("@/components/landing/StaticInsightSection").then(m => ({ default: m.DynamicInsightSection })));
-const DynamicProofSection = lazy(() => import("@/components/landing/StaticProofSection").then(m => ({ default: m.StaticProofSection })));
-const DynamicFAQ = lazy(() => import("@/components/landing/StaticFAQ").then(m => ({ default: m.StaticFAQ })));
-const DynamicCTA = lazy(() => import("@/components/landing/StaticCTA").then(m => ({ default: m.StaticCTA })));
+const DynamicProofSection = lazy(() => import("@/components/landing/DynamicProofSection").then(m => ({ default: m.DynamicProofSection })));
+const DynamicFAQ = lazy(() => import("@/components/landing/DynamicFAQ").then(m => ({ default: m.DynamicFAQ })));
+const DynamicCTA = lazy(() => import("@/components/landing/DynamicCTA").then(m => ({ default: m.DynamicCTA })));
 const AIIntelligenceHero = lazy(() => import("@/components/landing/AIIntelligenceHero").then(m => ({ default: m.AIIntelligenceHero })));
 const UnifiedToolsShowcase = lazy(() => import("@/components/landing/UnifiedToolsShowcase").then(m => ({ default: m.UnifiedToolsShowcase })));
 const EventHaloShowcase = lazy(() => import("@/components/landing/EventHaloShowcase").then(m => ({ default: m.EventHaloShowcase })));

@@ -3,7 +3,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { getFriendlyErrorMessage } from "@/lib/errorMessages";
-import { requireUserId } from "@/lib/getCachedUser";
 
 export const useWorkspace = () => {
   const queryClient = useQueryClient();
@@ -11,7 +10,8 @@ export const useWorkspace = () => {
 
   const createWorkspaceMutation = useMutation({
     mutationFn: async (name: string) => {
-      const userId = requireUserId();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
 
       const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
       
@@ -20,7 +20,7 @@ export const useWorkspace = () => {
         .insert({
           name,
           slug,
-          owner_id: userId,
+          owner_id: user.id,
         })
         .select()
         .single();

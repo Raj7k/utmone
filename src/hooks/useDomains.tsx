@@ -1,7 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
-import { requireUserId } from "@/lib/getCachedUser";
 
 export interface Domain {
   id: string;
@@ -71,14 +70,15 @@ export const useAddDomain = () => {
       workspaceId: string;
       domain: string;
     }) => {
-      const userId = requireUserId();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
 
       const { data, error } = await supabase
         .from("domains")
         .insert({
           workspace_id: workspaceId,
           domain: domain.toLowerCase().trim(),
-          created_by: userId,
+          created_by: user.id,
         })
         .select()
         .single();

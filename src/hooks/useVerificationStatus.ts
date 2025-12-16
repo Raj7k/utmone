@@ -1,8 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { getCachedUserId, requireUserId } from "@/lib/getCachedUser";
 
 export type VerificationStatus = 'not_applied' | 'pending' | 'under_review' | 'approved' | 'rejected';
+
+const getUserId = async () => {
+  const { data: { user } } = await supabase.auth.getUser();
+  return user?.id;
+};
 
 export interface VerificationRequest {
   id: string;
@@ -44,7 +48,7 @@ export function useVerificationStatus(workspaceId?: string) {
   return useQuery({
     queryKey: ['verification-status', workspaceId],
     queryFn: async (): Promise<{ status: VerificationStatus; request: VerificationRequest | null }> => {
-      const userId = getCachedUserId();
+      const userId = await getUserId();
       if (!userId || !workspaceId) {
         return { status: 'not_applied', request: null };
       }
@@ -82,7 +86,8 @@ export function useCreateVerificationRequest() {
 
   return useMutation({
     mutationFn: async (request: CreateVerificationRequest) => {
-      const userId = requireUserId();
+      const userId = await getUserId();
+      if (!userId) throw new Error('Not authenticated');
 
       const { data, error } = await supabase
         .from('verification_requests')
@@ -116,7 +121,8 @@ export function useCreateVerificationRequest() {
 export function useUploadVerificationDocument() {
   return useMutation({
     mutationFn: async (file: File): Promise<string> => {
-      const userId = requireUserId();
+      const userId = await getUserId();
+      if (!userId) throw new Error('Not authenticated');
 
       const fileExt = file.name.split('.').pop();
       const filePath = `${userId}/${Date.now()}.${fileExt}`;
@@ -166,7 +172,7 @@ export function useUpdateVerificationStatus() {
       status: 'approved' | 'rejected'; 
       rejection_reason?: string;
     }) => {
-      const userId = getCachedUserId();
+      const userId = await getUserId();
       const { data, error } = await supabase
         .from('verification_requests')
         .update({

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { getCachedUserId } from "@/lib/getCachedUser";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -88,7 +87,7 @@ export const LinkComments = ({ linkId }: LinkCommentsProps) => {
     const { error } = await supabase.from("link_comments").insert({
       link_id: linkId,
       comment_text: newComment,
-      user_id: getCachedUserId(),
+      user_id: (await supabase.auth.getUser()).data.user?.id,
     });
 
     if (error) {

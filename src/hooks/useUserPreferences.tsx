@@ -1,7 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { requireUserId, getCachedUserId } from "@/lib/getCachedUser";
 
 interface UserPreference {
   id: string;
@@ -28,31 +27,32 @@ export function useUserPreferences(workspaceId: string) {
   const { data: preferences, isLoading } = useQuery({
     queryKey: ["user-preferences", workspaceId],
     queryFn: async () => {
-      const userId = getCachedUserId();
-      if (!userId) throw new Error("Not authenticated");
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
       
       const { data, error } = await supabase
         .from("user_preferences")
         .select("*")
         .eq("workspace_id", workspaceId)
-        .eq("user_id", userId)
+        .eq("user_id", user.id)
         .maybeSingle();
       
       if (error) throw error;
       return data as UserPreference | null;
     },
-    enabled: !!workspaceId && !!getCachedUserId(),
+    enabled: !!workspaceId,
   });
   
   // Update preferences
   const updatePreferencesMutation = useMutation({
     mutationFn: async (updates: Partial<Omit<UserPreference, 'id' | 'user_id' | 'workspace_id' | 'created_at' | 'updated_at'>>) => {
-      const userId = requireUserId();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
       
       const { data, error } = await supabase
         .from("user_preferences")
         .upsert({
-          user_id: userId,
+          user_id: user.id,
           workspace_id: workspaceId,
           updated_at: new Date().toISOString(),
           ...updates,

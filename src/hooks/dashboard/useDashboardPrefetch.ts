@@ -253,26 +253,20 @@ export const useDashboardPrefetch = () => {
   }, [getWorkspaceId, shouldPrefetch, queryClient]);
 
   const prefetchSettings = useCallback(() => {
-    // Use cached user ID instead of network call
-    const cachedUserId = localStorage.getItem('utm_session_cache');
-    if (!shouldPrefetch('settings') || !cachedUserId) return;
+    const userId = supabase.auth.getUser().then(({ data }) => data.user?.id);
+    if (!shouldPrefetch('settings')) return;
     
-    let userId: string | null = null;
-    try {
-      const parsed = JSON.parse(cachedUserId);
-      userId = parsed?.user?.id;
-    } catch {}
-    
-    if (!userId) return;
-    
-    const prefetch = () => {
+    const prefetch = async () => {
+      const id = await userId;
+      if (!id) return;
+      
       queryClient.prefetchQuery({
-        queryKey: ["user-profile", userId],
+        queryKey: ["user-profile", id],
         queryFn: async () => {
           const { data } = await supabase
             .from("profiles")
             .select("id, full_name, email, avatar_url, timezone, language")
-            .eq("id", userId)
+            .eq("id", id)
             .single();
           return data;
         },

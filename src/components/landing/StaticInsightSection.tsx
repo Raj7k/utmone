@@ -412,8 +412,8 @@ function useInView(ref: React.RefObject<HTMLElement>, threshold = 0.2) {
 }
 
 export const StaticInsightSection = ({ selectedUseCase }: StaticInsightSectionProps) => {
-  const content = INSIGHT_CONTENT[selectedUseCase] || INSIGHT_CONTENT.attribution;
-  const VisualComponent = VISUAL_COMPONENTS[selectedUseCase] || VISUAL_COMPONENTS.attribution;
+  const content = INSIGHT_CONTENT[selectedUseCase];
+  const VisualComponent = VISUAL_COMPONENTS[selectedUseCase];
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef);
 

@@ -63,43 +63,37 @@ const WorkspaceContext = createContext<WorkspaceContextType>(DEFAULT_CONTEXT);
  * Maintains backward compatibility with existing code
  */
 export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
-  const {
-    currentWorkspace,
-    workspaces,
-    isReady,
-    isFullyLoaded,
-    error,
-    switchWorkspace,
-    refresh,
+  const { 
+    currentWorkspace, 
+    workspaces, 
+    isReady, 
+    isFullyLoaded, 
+    error, 
+    switchWorkspace, 
+    refresh 
   } = useAppSession();
-
-  // Dynamic cache fallback (covers timing gaps during hydration)
-  const effectiveWorkspace = currentWorkspace || getCachedWorkspaceSync();
 
   // Compute loading state - NOT loading if ready (cached) or fully loaded
   const isLoading = !isReady && !isFullyLoaded;
-
+  
   // More granular loading states for progressive rendering
-  const isWorkspaceLoading = !effectiveWorkspace && !isFullyLoaded;
+  const isWorkspaceLoading = !isFullyLoaded && !currentWorkspace;
   const hasNoWorkspaces = isFullyLoaded && workspaces.length === 0;
-
+  
   // hasTimedOut is now managed by AppSession, but we keep the interface
-  const hasTimedOut = !isLoading && !effectiveWorkspace && workspaces.length === 0 && isFullyLoaded;
+  const hasTimedOut = !isLoading && !currentWorkspace && workspaces.length === 0 && isFullyLoaded;
 
-  const contextValue = useMemo(
-    () => ({
-      currentWorkspace: effectiveWorkspace,
-      workspaces,
-      isLoading,
-      isWorkspaceLoading,
-      hasNoWorkspaces,
-      hasTimedOut,
-      error,
-      switchWorkspace,
-      retry: refresh,
-    }),
-    [effectiveWorkspace, workspaces, isLoading, isWorkspaceLoading, hasNoWorkspaces, hasTimedOut, error, switchWorkspace, refresh]
-  );
+  const contextValue = useMemo(() => ({
+    currentWorkspace,
+    workspaces,
+    isLoading,
+    isWorkspaceLoading,
+    hasNoWorkspaces,
+    hasTimedOut,
+    error,
+    switchWorkspace,
+    retry: refresh,
+  }), [currentWorkspace, workspaces, isLoading, isWorkspaceLoading, hasNoWorkspaces, hasTimedOut, error, switchWorkspace, refresh]);
 
   return (
     <WorkspaceContext.Provider value={contextValue}>

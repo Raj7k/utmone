@@ -1,7 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { requireUserId } from "@/lib/getCachedUser";
 
 export interface BulkOperation {
   id: string;
@@ -46,7 +45,8 @@ export const useBulkOperations = (workspaceId: string) => {
       linkIds: string[];
       parameters: Record<string, any>;
     }) => {
-      const userId = requireUserId();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
 
       // Create operation log
       const { data: operation, error: logError } = await supabase
@@ -56,7 +56,7 @@ export const useBulkOperations = (workspaceId: string) => {
           operation_type: operationType,
           link_ids: linkIds,
           parameters,
-          created_by: userId,
+          created_by: user.id,
           status: "processing",
         })
         .select()
