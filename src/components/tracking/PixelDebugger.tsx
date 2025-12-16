@@ -129,11 +129,7 @@ export const PixelDebugger = () => {
           setLastEvent(newEvent);
           setSecondsSinceLastEvent(0);
           setRecentEvents(prev => [newEvent, ...prev].slice(0, 5));
-          
-          toast({
-            title: "Event received!",
-            description: `${newEvent.event_name || newEvent.event_type} from ${newEvent.visitor_id}`,
-          });
+          // Visual feedback already provided by UI state changes - no toast needed
         }
       )
       .subscribe((status) => {
