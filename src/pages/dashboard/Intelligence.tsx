@@ -71,8 +71,8 @@ export default function Intelligence() {
     campaigns: cachedCampaigns.map(c => ({ id: c.id, name: c.name })),
   } : undefined;
 
-  // Use unified data hook for fast loading - leverages shared cache + preloaded data
-  const { data: intelligenceData, isLoading, isFetching, isStale } = useIntelligenceData(effectiveWorkspaceId, days, preloaded);
+  // Use unified data hook for fast loading - leverages shared cache + preloaded data + context filtering
+  const { data: intelligenceData, isLoading, isFetching, isStale } = useIntelligenceData(effectiveWorkspaceId, days, preloaded, context);
 
   // Signal navigation complete when data loads or times out
   useEffect(() => {
@@ -208,6 +208,7 @@ export default function Intelligence() {
                 <PerformanceSnapshot
                   workspaceId={currentWorkspace?.id}
                   days={days}
+                  context={context}
                   preloadedClicks={intelligenceData.totalClicks}
                 />
               </div>
@@ -229,6 +230,7 @@ export default function Intelligence() {
               <ChannelMixDonut
                 workspaceId={currentWorkspace?.id}
                 days={days}
+                context={context}
                 preloadedData={intelligenceData.channelMix}
               />
             </div>
@@ -270,6 +272,7 @@ export default function Intelligence() {
               <GeoHeatTiles
                 workspaceId={currentWorkspace?.id}
                 days={days}
+                context={context}
                 preloadedData={intelligenceData.topCities}
               />
               {/* Placeholder for Sales Velocity */}
