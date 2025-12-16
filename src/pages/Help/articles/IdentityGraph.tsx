@@ -1,7 +1,8 @@
 import { HelpLayout } from "@/components/help/HelpLayout";
 import { ProTip } from "@/components/help/ProTip";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Users, Smartphone, Monitor, Shield } from "lucide-react";
+import { ArrowLeft, Users, Smartphone, Monitor, Shield, Zap, Code } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 const IdentityGraph = () => {
   return (
@@ -23,7 +24,7 @@ const IdentityGraph = () => {
             <h1 className="text-3xl font-display font-bold text-zinc-900">Identity Graph</h1>
           </div>
           <p className="text-lg text-zinc-600">
-            Connect visitor touchpoints across devices for complete customer journey visibility.
+            Connect visitor touchpoints across devices for complete customer journey visibility—automatically.
           </p>
         </div>
 
@@ -55,31 +56,59 @@ const IdentityGraph = () => {
             can't attribute the conversion to the original ad.
           </p>
 
-          <h2 className="text-xl font-semibold text-zinc-900 mt-8 mb-4">How Identity Graph works</h2>
-          <p className="text-zinc-600 mb-4">
-            utm.one uses probabilistic matching to connect devices to the same visitor:
-          </p>
-          <ul className="list-disc list-inside space-y-2 text-zinc-600 mb-6">
-            <li><strong>Email matching:</strong> When a user logs in or submits a form</li>
-            <li><strong>Link persistence:</strong> utm.one cookies carry visitor ID across sessions</li>
-            <li><strong>Device fingerprinting:</strong> Privacy-safe signals like timezone and language</li>
-            <li><strong>IP clustering:</strong> Same household/office IP patterns</li>
-          </ul>
+          {/* Automatic Cross-Device Section */}
+          <div className="border-2 border-primary/20 bg-primary/5 rounded-xl p-6 my-8">
+            <div className="flex items-center gap-3 mb-4">
+              <Zap className="h-6 w-6 text-primary" />
+              <h2 className="text-xl font-semibold text-zinc-900 m-0">Automatic Cross-Device Tracking</h2>
+              <Badge className="bg-primary text-primary-foreground">No code required</Badge>
+            </div>
+            <p className="text-zinc-600 mb-4">
+              The utm.one pixel automatically achieves <strong>75-95% cross-device accuracy</strong> without 
+              any additional code. This happens automatically using:
+            </p>
+            <ul className="list-disc list-inside space-y-2 text-zinc-600 mb-4">
+              <li><strong>IP address patterns:</strong> Same household/office identification</li>
+              <li><strong>Geographic signals:</strong> Location proximity matching</li>
+              <li><strong>Device/browser family:</strong> Platform and browser correlations</li>
+              <li><strong>Time proximity:</strong> Sessions occurring close together in time</li>
+            </ul>
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+              <p className="text-sm text-green-800 m-0">
+                <strong>This is the core utm.one differentiator.</strong> Unlike CRMs that require email or login 
+                before any attribution, utm.one tracks the entire journey from first anonymous click.
+              </p>
+            </div>
+          </div>
 
-          <ProTip>
-            Identity resolution works best when visitors eventually identify themselves (login, 
-            form submission, purchase). Encourage email capture to improve cross-device matching.
-          </ProTip>
+          {/* 100% Accuracy Section */}
+          <div className="border border-zinc-200 rounded-xl p-6 my-8">
+            <div className="flex items-center gap-3 mb-4">
+              <Code className="h-6 w-6 text-zinc-700" />
+              <h2 className="text-xl font-semibold text-zinc-900 m-0">Upgrading to 100% Accuracy</h2>
+              <Badge variant="outline">Optional enhancement</Badge>
+            </div>
+            <p className="text-zinc-600 mb-4">
+              For deterministic (100% accurate) cross-device matching, add the <code>identify()</code> call 
+              after user login or signup:
+            </p>
+            <div className="bg-zinc-900 rounded-xl p-4 my-4 overflow-x-auto">
+              <pre className="text-sm text-zinc-100">
+{`// After successful login or signup
+utmone('identify', 'user@email.com', 'John Doe');`}
+              </pre>
+            </div>
+            <p className="text-zinc-600 mb-4">
+              This explicitly links all previous anonymous touchpoints to the identified user, upgrading 
+              probabilistic matches to 100% certainty.
+            </p>
+            <ProTip>
+              The identify() call requires developer involvement. Go to <strong>Settings → Tracking</strong> and 
+              use the "100% cross-device accuracy" section to share platform-specific code snippets with your developer.
+            </ProTip>
+          </div>
 
-          <h2 className="text-xl font-semibold text-zinc-900 mt-8 mb-4">Viewing identity matches</h2>
-          <ol className="list-decimal list-inside space-y-3 text-zinc-600 mb-6">
-            <li>Go to <strong>Intelligence → Advanced</strong></li>
-            <li>Select <strong>Identity Graph</strong></li>
-            <li>See connected device clusters</li>
-            <li>Click any cluster to see the merged journey</li>
-          </ol>
-
-          <h2 className="text-xl font-semibold text-zinc-900 mt-8 mb-4">Match confidence</h2>
+          <h2 className="text-xl font-semibold text-zinc-900 mt-8 mb-4">Match confidence levels</h2>
           <p className="text-zinc-600 mb-4">
             Each identity match includes a confidence score:
           </p>
@@ -89,30 +118,49 @@ const IdentityGraph = () => {
                 <tr>
                   <th className="text-left p-3 font-medium text-zinc-900">Confidence</th>
                   <th className="text-left p-3 font-medium text-zinc-900">Match type</th>
+                  <th className="text-left p-3 font-medium text-zinc-900">How achieved</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-100">
                 <tr>
                   <td className="p-3">
-                    <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-medium">High (90%+)</span>
+                    <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-medium">100%</span>
                   </td>
-                  <td className="p-3 text-zinc-600">Same email or logged-in user</td>
+                  <td className="p-3 text-zinc-600">Deterministic</td>
+                  <td className="p-3 text-zinc-600">Identified via <code>utmone('identify')</code></td>
                 </tr>
                 <tr>
                   <td className="p-3">
-                    <span className="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs font-medium">Medium (70-89%)</span>
+                    <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-medium">75-95%</span>
                   </td>
-                  <td className="p-3 text-zinc-600">Strong probabilistic signals</td>
+                  <td className="p-3 text-zinc-600">Probabilistic (strong)</td>
+                  <td className="p-3 text-zinc-600">Automatic - multiple strong signals</td>
                 </tr>
                 <tr>
                   <td className="p-3">
-                    <span className="bg-zinc-100 text-zinc-800 px-2 py-1 rounded text-xs font-medium">Low (50-69%)</span>
+                    <span className="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs font-medium">50-74%</span>
                   </td>
-                  <td className="p-3 text-zinc-600">Weak probabilistic signals</td>
+                  <td className="p-3 text-zinc-600">Probabilistic (moderate)</td>
+                  <td className="p-3 text-zinc-600">Automatic - some matching signals</td>
+                </tr>
+                <tr>
+                  <td className="p-3">
+                    <span className="bg-zinc-100 text-zinc-800 px-2 py-1 rounded text-xs font-medium">&lt;50%</span>
+                  </td>
+                  <td className="p-3 text-zinc-600">Weak/Unknown</td>
+                  <td className="p-3 text-zinc-600">Limited signals available</td>
                 </tr>
               </tbody>
             </table>
           </div>
+
+          <h2 className="text-xl font-semibold text-zinc-900 mt-8 mb-4">Viewing identity matches</h2>
+          <ol className="list-decimal list-inside space-y-3 text-zinc-600 mb-6">
+            <li>Go to <strong>Intelligence → Advanced</strong></li>
+            <li>Select <strong>Identity Graph</strong></li>
+            <li>See connected device clusters</li>
+            <li>Click any cluster to see the merged journey</li>
+          </ol>
 
           <h2 className="text-xl font-semibold text-zinc-900 mt-8 mb-4">Real-time matching</h2>
           <p className="text-zinc-600 mb-4">
@@ -122,8 +170,8 @@ const IdentityGraph = () => {
           <div className="bg-zinc-50 border border-zinc-200 rounded-xl p-4 my-6">
             <p className="text-sm text-zinc-600">
               <strong>Example:</strong> A visitor clicks three links over a week, all tracked 
-              as "anonymous." When they submit a form with their email, all three clicks are 
-              retroactively attributed to that email address.
+              as "anonymous." When they call <code>utmone('identify', email)</code> after signup, 
+              all three clicks are retroactively attributed to that email address.
             </p>
           </div>
 
@@ -149,6 +197,7 @@ const IdentityGraph = () => {
             Increase cross-device matching accuracy:
           </p>
           <ul className="list-disc list-inside space-y-3 text-zinc-600 mb-6">
+            <li><strong>Add identify() calls:</strong> The fastest way to reach 100% accuracy</li>
             <li><strong>Encourage logins:</strong> More identified sessions = better matching</li>
             <li><strong>Use email capture:</strong> Newsletter signups, lead magnets, gated content</li>
             <li><strong>Consistent UTMs:</strong> Carry campaign data across touchpoints</li>
@@ -157,8 +206,9 @@ const IdentityGraph = () => {
 
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 my-6">
             <p className="text-sm text-amber-800">
-              <strong>Enterprise feature:</strong> Advanced identity resolution with CRM integration 
-              is available on Business and Enterprise plans.
+              <strong>Developer resources:</strong> For implementation details and platform-specific code snippets, 
+              go to <Link to="/dashboard/settings/tracking" className="underline">Settings → Tracking</Link> and 
+              use the "Developer Handoff" section.
             </p>
           </div>
         </div>
