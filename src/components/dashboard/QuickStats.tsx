@@ -1,7 +1,6 @@
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { TrendingUp, TrendingDown, Minus, Link2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Progress } from "@/components/ui/progress";
 import { PLAN_CONFIG } from "@/lib/planConfig";
 import { DashboardStats } from "@/hooks/dashboard";
@@ -34,28 +33,22 @@ export const QuickStats = ({ stats, clicksChange = 0, isLoading }: QuickStatsPro
         <div className="flex items-start justify-between">
           <div>
             <p className="text-sm text-muted-foreground font-medium">today</p>
-            {isLoading ? (
-              <Skeleton className="h-10 w-24 mt-1" />
-            ) : (
-              <p className="text-4xl font-semibold tracking-tight mt-1">
-                {formatNumber(stats?.clicksToday || 0)}
-              </p>
-            )}
+            <p className="text-4xl font-semibold tracking-tight mt-1">
+              {formatNumber(stats?.clicksToday || 0)}
+            </p>
             <p className="text-sm text-muted-foreground mt-1">clicks</p>
           </div>
-          {!isLoading && (
-            <div className={cn(
-              "flex items-center gap-1 text-sm font-medium px-2 py-1 rounded-full",
-              clicksChange > 0 && "text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-900/20",
-              clicksChange < 0 && "text-red-600 bg-red-50 dark:text-red-400 dark:bg-red-900/20",
-              clicksChange === 0 && "text-muted-foreground bg-muted"
-            )}>
-              {clicksChange > 0 && <TrendingUp className="h-3.5 w-3.5" />}
-              {clicksChange < 0 && <TrendingDown className="h-3.5 w-3.5" />}
-              {clicksChange === 0 && <Minus className="h-3.5 w-3.5" />}
-              <span>{clicksChange > 0 ? '+' : ''}{clicksChange}%</span>
-            </div>
-          )}
+          <div className={cn(
+            "flex items-center gap-1 text-sm font-medium px-2 py-1 rounded-full",
+            clicksChange > 0 && "text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-900/20",
+            clicksChange < 0 && "text-red-600 bg-red-50 dark:text-red-400 dark:bg-red-900/20",
+            clicksChange === 0 && "text-muted-foreground bg-muted"
+          )}>
+            {clicksChange > 0 && <TrendingUp className="h-3.5 w-3.5" />}
+            {clicksChange < 0 && <TrendingDown className="h-3.5 w-3.5" />}
+            {clicksChange === 0 && <Minus className="h-3.5 w-3.5" />}
+            <span>{clicksChange > 0 ? '+' : ''}{clicksChange}%</span>
+          </div>
         </div>
       </div>
 
@@ -64,20 +57,16 @@ export const QuickStats = ({ stats, clicksChange = 0, isLoading }: QuickStatsPro
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <p className="text-sm text-muted-foreground font-medium">plan usage</p>
-            {isLoading ? (
-              <Skeleton className="h-10 w-32 mt-1" />
-            ) : (
-              <p className="text-4xl font-semibold tracking-tight mt-1">
-                {totalLinks}/{typeof monthlyLinks === 'number' ? monthlyLinks : '∞'}
-              </p>
-            )}
+            <p className="text-4xl font-semibold tracking-tight mt-1">
+              {totalLinks}/{typeof monthlyLinks === 'number' ? monthlyLinks : '∞'}
+            </p>
             <p className="text-sm text-muted-foreground mt-1">links</p>
           </div>
           <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center">
             <Link2 className="h-5 w-5 text-muted-foreground" />
           </div>
         </div>
-        {!isLoading && typeof monthlyLinks === 'number' && (
+        {typeof monthlyLinks === 'number' && (
           <Progress value={usagePercent} className="mt-4 h-2" />
         )}
       </div>

@@ -17,7 +17,6 @@ import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
 import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
 import { LazySection } from "@/components/loading/LazySection";
-import { ActivityFeedSkeleton } from "@/components/loading/CardSkeleton";
 import { ActivityFeed } from "@/components/dashboard/ActivityFeed";
 
 const DashboardHome = () => {
@@ -158,10 +157,10 @@ const DashboardHome = () => {
         </ErrorBoundary>
 
         {/* OPTIMIZED: Pass links from unified hook - no separate query */}
-        <LazySection fallback={<ActivityFeedSkeleton />}>
+        <LazySection fallback={<DashboardContentLoader context="links" minHeight="20rem" />}>
           <ErrorBoundary section="activity-feed">
             <div className="animate-fade-in" style={{ animationDelay: '200ms' }}>
-              <ActivityFeed links={links} isLoading={isLoading} />
+              <ActivityFeed links={links} />
             </div>
           </ErrorBoundary>
         </LazySection>

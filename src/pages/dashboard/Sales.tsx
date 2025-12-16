@@ -4,7 +4,6 @@ import { useWorkspace } from "@/hooks/workspace";
 import { SalesLinkTable } from "@/components/sales/SalesLinkTable";
 import { SalesStatCard } from "@/components/sales/SalesStatCard";
 import { LazySection } from "@/components/loading/LazySection";
-import { Skeleton } from "@/components/ui/skeleton";
 
 // Lazy load heavy components
 const SalesActivityFeed = lazy(() => import("@/components/sales/SalesActivityFeed").then(m => ({ default: m.SalesActivityFeed })));
@@ -69,37 +68,27 @@ const Sales = () => {
         <StaleIndicator visible={isStale || isFetching} />
       </div>
 
-      {/* Stats Banner - show skeletons when loading, data when ready */}
+      {/* Stats Banner - always show data */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {isLoading && !isFetched ? (
-          <>
-            <Skeleton className="h-24 rounded-xl" />
-            <Skeleton className="h-24 rounded-xl" />
-            <Skeleton className="h-24 rounded-xl" />
-          </>
-        ) : (
-          <>
-            <SalesStatCard
-              icon={Zap}
-              label="hot leads (1h)"
-              value={hotLeads}
-              variant="hot"
-              pulse={hotLeads > 0}
-            />
-            <SalesStatCard
-              icon={Briefcase}
-              label="active deals"
-              value={salesLinks.length}
-              variant="primary"
-            />
-            <SalesStatCard
-              icon={Eye}
-              label="total views"
-              value={totalViews}
-              variant="amber"
-            />
-          </>
-        )}
+        <SalesStatCard
+          icon={Zap}
+          label="hot leads (1h)"
+          value={hotLeads}
+          variant="hot"
+          pulse={hotLeads > 0}
+        />
+        <SalesStatCard
+          icon={Briefcase}
+          label="active deals"
+          value={salesLinks.length}
+          variant="primary"
+        />
+        <SalesStatCard
+          icon={Eye}
+          label="total views"
+          value={totalViews}
+          variant="amber"
+        />
       </div>
 
       {/* Main Content - always render */}
@@ -117,10 +106,10 @@ const Sales = () => {
         {/* Activity Feed - Lazy loaded, receives pre-fetched links */}
         <div className="lg:col-span-1">
           <LazySection 
-            fallback={<Skeleton className="h-80 rounded-xl" />}
+            fallback={<DashboardContentLoader context="sales" minHeight="20rem" />}
             rootMargin="200px"
           >
-            <Suspense fallback={<Skeleton className="h-80 rounded-xl" />}>
+            <Suspense fallback={<DashboardContentLoader context="sales" minHeight="20rem" />}>
               <SalesActivityFeed salesLinks={activityFeedLinks} />
             </Suspense>
           </LazySection>
