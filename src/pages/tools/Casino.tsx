@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { TrendingUp, Zap, Share2, ArrowRight, DollarSign, BarChart3 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { AppHeader } from "@/components/layout/AppHeader";
+import { MainLayout } from "@/components/layout/MainLayout";
 import { GlassCard } from "@/components/ui/glass-card";
 import { preserveAcronyms as p } from "@/utils/textFormatter";
 
@@ -90,8 +90,8 @@ export default function Casino() {
   };
 
   return (
-    <div className="dark min-h-screen bg-background">
-      <AppHeader />
+    <MainLayout showAnnouncement={false}>
+      <div className="min-h-screen">
       
       {/* Subtle glow effects */}
       <div className="fixed inset-0 pointer-events-none">
@@ -318,6 +318,7 @@ export default function Casino() {
           </motion.div>
         </div>
       </div>
-    </div>
+      </div>
+    </MainLayout>
   );
 }
