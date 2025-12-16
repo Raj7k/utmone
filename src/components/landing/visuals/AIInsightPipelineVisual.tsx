@@ -26,7 +26,7 @@ export const AIInsightPipelineVisual = () => {
   const smoothPath = "M 10 30 C 30 30, 50 28, 70 30 S 90 32, 110 30";
 
   return (
-    <svg viewBox="0 0 120 60" className="w-full h-full">
+    <svg viewBox="0 0 120 60" className="w-full h-full transform-gpu">
       <defs>
         {/* Frosted glass lens gradient */}
         <radialGradient id="aiLensGlass" cx="50%" cy="50%" r="50%">
@@ -43,7 +43,7 @@ export const AIInsightPipelineVisual = () => {
             width={lensPosition + "%"}
             height="100%"
             animate={{ width: ["25%", "95%", "95%", "25%"] }}
-            transition={{ duration: 4, repeat: Infinity, ease: appleSpring }}
+            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
           />
         </clipPath>
         
@@ -56,7 +56,7 @@ export const AIInsightPipelineVisual = () => {
               x: ["25%", "95%", "95%", "25%"],
               width: ["75%", "5%", "5%", "75%"]
             }}
-            transition={{ duration: 4, repeat: Infinity, ease: appleSpring }}
+            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
           />
         </clipPath>
       </defs>
@@ -85,7 +85,8 @@ export const AIInsightPipelineVisual = () => {
           y: [-0.5, 0.5, -0.5],
           opacity: [0.2, 0.3, 0.2]
         }}
-        transition={{ duration: 0.15, repeat: Infinity }}
+        transition={{ duration: 0.15, repeat: Infinity, ease: "linear" }}
+        style={{ willChange: 'transform, opacity' }}
       />
 
       {/* The clean white line (solution) - revealed by lens */}
@@ -99,12 +100,14 @@ export const AIInsightPipelineVisual = () => {
         initial={{ pathLength: 0 }}
         animate={{ pathLength: 1 }}
         transition={{ duration: 2, ease: appleSpring }}
+        style={{ willChange: 'stroke-dashoffset' }}
       />
 
       {/* The AI Lens - frosted glass circle that sweeps */}
       <motion.g
         animate={{ x: [0, 70, 70, 0] }}
-        transition={{ duration: 4, repeat: Infinity, ease: appleSpring }}
+        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+        style={{ willChange: 'transform' }}
       >
         {/* Lens body */}
         <circle
@@ -146,17 +149,18 @@ export const AIInsightPipelineVisual = () => {
           transition={{ 
             duration: 4, 
             repeat: Infinity, 
-            ease: appleSpring,
+            ease: "linear",
             delay: i * 0.08
           }}
+          style={{ willChange: 'transform, opacity' }}
         >
           {/* Plus sign (+) */}
           <motion.text
             x={20 + i * 8}
             y={42 + (i % 2) * 3}
             fill="rgba(84,18,174,0.35)"
-            fontSize="3"
-            fontFamily="'SF Mono', ui-monospace"
+            fontSize="4.5"
+            fontFamily="'SF Mono', ui-monospace, monospace"
             fontWeight="300"
             initial={{ opacity: 0 }}
             animate={{ opacity: [0, 0.35, 0.35, 0] }}
@@ -186,8 +190,10 @@ export const AIInsightPipelineVisual = () => {
           transition={{ 
             duration: 4, 
             repeat: Infinity, 
-            delay: 0.8 + i * 0.2 
+            delay: 0.8 + i * 0.2,
+            ease: "linear"
           }}
+          style={{ willChange: 'transform, opacity' }}
         />
       ))}
 
@@ -196,8 +202,8 @@ export const AIInsightPipelineVisual = () => {
         x="10"
         y="52"
         fill="rgba(113,113,122,0.6)"
-        fontSize="4"
-        fontFamily="'SF Mono', ui-monospace"
+        fontSize="4.5"
+        fontFamily="'SF Mono', ui-monospace, monospace"
       >
         noisy
       </text>
@@ -206,11 +212,11 @@ export const AIInsightPipelineVisual = () => {
         x="100"
         y="52"
         fill="rgba(255,255,255,0.6)"
-        fontSize="4"
-        fontFamily="'SF Mono', ui-monospace"
+        fontSize="4.5"
+        fontFamily="'SF Mono', ui-monospace, monospace"
         textAnchor="end"
         animate={{ opacity: [0.4, 0.6, 0.4] }}
-        transition={{ duration: 3, repeat: Infinity }}
+        transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
       >
         clean
       </motion.text>
@@ -227,14 +233,15 @@ export const AIInsightPipelineVisual = () => {
         initial={{ pathLength: 0 }}
         animate={{ pathLength: 1 }}
         transition={{ delay: 2, duration: 1, ease: appleSpring }}
+        style={{ willChange: 'stroke-dashoffset' }}
       />
       
       <motion.text
         x="116"
         y="22"
         fill="rgba(255,255,255,0.6)"
-        fontSize="4"
-        fontFamily="'SF Mono', ui-monospace"
+        fontSize="4.5"
+        fontFamily="'SF Mono', ui-monospace, monospace"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.5 }}

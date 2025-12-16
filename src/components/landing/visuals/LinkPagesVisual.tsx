@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { Briefcase, Mail } from "lucide-react";
+import { TwitterIcon, YouTubeIcon } from "@/components/icons/SocialIcons";
 
 // Apple Pro aesthetic: "One Link, All Destinations"
 // Single thread unraveling into organized cards with mechanical precision
@@ -16,14 +18,14 @@ export const LinkPagesVisual = () => {
   }, []);
 
   const destinations = [
-    { y: 10, label: "Portfolio" },
-    { y: 22, label: "Twitter" },
-    { y: 34, label: "YouTube" },
-    { y: 46, label: "Contact" },
+    { y: 10, Icon: Briefcase },
+    { y: 22, Icon: TwitterIcon },
+    { y: 34, Icon: YouTubeIcon },
+    { y: 46, Icon: Mail },
   ];
 
   return (
-    <svg viewBox="0 0 120 60" className="w-full h-full">
+    <svg viewBox="0 0 120 60" className="w-full h-full transform-gpu">
       <defs>
         {/* Frosted glass card gradient */}
         <linearGradient id="lpCardGlass" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -46,6 +48,7 @@ export const LinkPagesVisual = () => {
         initial={{ pathLength: 0 }}
         animate={{ pathLength: 1 }}
         transition={{ duration: 1, ease: appleSpring }}
+        style={{ willChange: 'stroke-dashoffset' }}
       />
 
       {/* Central split point - tiny node */}
@@ -59,12 +62,12 @@ export const LinkPagesVisual = () => {
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.8, type: "spring", stiffness: 200, damping: 15 }}
+        style={{ willChange: 'transform' }}
       />
 
       {/* Branching lines - 90° mechanical turns */}
       {destinations.map((dest, i) => {
         const midX = 20 + (i + 1) * 8;
-        const isTop = dest.y < 30;
         
         return (
           <motion.g key={`branch-${i}`}>
@@ -82,8 +85,9 @@ export const LinkPagesVisual = () => {
               transition={{ 
                 duration: 0.6, 
                 delay: expanded ? 1 + i * 0.1 : 0.4 - i * 0.05,
-                ease: appleSpring 
+                ease: "linear"
               }}
+              style={{ willChange: 'stroke-dashoffset' }}
             />
             
             {/* Vertical segment to destination */}
@@ -100,8 +104,9 @@ export const LinkPagesVisual = () => {
               transition={{ 
                 duration: 0.5, 
                 delay: expanded ? 1.3 + i * 0.1 : 0.2 - i * 0.03,
-                ease: appleSpring 
+                ease: "linear"
               }}
+              style={{ willChange: 'stroke-dashoffset' }}
             />
             
             {/* Horizontal to card */}
@@ -118,8 +123,9 @@ export const LinkPagesVisual = () => {
               transition={{ 
                 duration: 0.7, 
                 delay: expanded ? 1.5 + i * 0.1 : 0,
-                ease: appleSpring 
+                ease: "linear"
               }}
+              style={{ willChange: 'stroke-dashoffset' }}
             />
           </motion.g>
         );
@@ -148,25 +154,24 @@ export const LinkPagesVisual = () => {
               delay: expanded ? 1.8 + i * 0.12 : 0,
               ease: appleSpring 
             }}
+            style={{ willChange: 'transform, opacity' }}
           />
           
-          {/* Card label */}
-          <motion.text
-            x="76"
-            y={dest.y + 5.5}
-            fill="rgba(255,255,255,0.7)"
-            fontSize="3.5"
-            fontFamily="'SF Mono', ui-monospace"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: expanded ? 1 : 0 }}
-            transition={{ 
-              duration: 0.5, 
-              delay: expanded ? 2 + i * 0.12 : 0,
-              ease: appleSpring 
-            }}
-          >
-            {dest.label}
-          </motion.text>
+          {/* Card icon */}
+          <foreignObject x="74" y={dest.y + 1} width="8" height="8">
+            <motion.div 
+              className="flex items-center justify-center w-full h-full"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: expanded ? 1 : 0 }}
+              transition={{ 
+                duration: 0.5, 
+                delay: expanded ? 2 + i * 0.12 : 0,
+                ease: appleSpring 
+              }}
+            >
+              <dest.Icon className="w-2 h-2" style={{ color: 'rgba(255,255,255,0.7)' }} />
+            </motion.div>
+          </foreignObject>
           
           {/* Arrow indicator */}
           <motion.path
@@ -187,8 +192,8 @@ export const LinkPagesVisual = () => {
         x="20"
         y="8"
         fill="rgba(255,255,255,0.6)"
-        fontSize="4"
-        fontFamily="'SF Mono', ui-monospace"
+        fontSize="4.5"
+        fontFamily="'SF Mono', ui-monospace, monospace"
         textAnchor="middle"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -202,8 +207,8 @@ export const LinkPagesVisual = () => {
         x="92"
         y="57"
         fill="rgba(113,113,122,0.6)"
-        fontSize="3.5"
-        fontFamily="'SF Mono', ui-monospace"
+        fontSize="4.5"
+        fontFamily="'SF Mono', ui-monospace, monospace"
         textAnchor="middle"
         initial={{ opacity: 0 }}
         animate={{ opacity: expanded ? 1 : 0.3 }}

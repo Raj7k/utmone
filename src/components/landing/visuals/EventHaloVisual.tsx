@@ -26,7 +26,7 @@ export const EventHaloVisual = () => {
   ];
 
   return (
-    <svg viewBox="0 0 120 60" className="w-full h-full">
+    <svg viewBox="0 0 120 60" className="w-full h-full transform-gpu">
       <defs>
         {/* Frosted glass gradient for destination lens */}
         <radialGradient id="haloLens" cx="50%" cy="50%" r="50%">
@@ -43,6 +43,7 @@ export const EventHaloVisual = () => {
         initial={{ opacity: 0, x: -5 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8, ease: appleSpring }}
+        style={{ willChange: 'transform, opacity' }}
       >
         <rect
           x="4"
@@ -66,9 +67,9 @@ export const EventHaloVisual = () => {
           x="12" 
           y="36" 
           fill="rgba(255,255,255,0.5)" 
-          fontSize="4" 
+          fontSize="4.5" 
           textAnchor="middle" 
-          fontFamily="'SF Mono', ui-monospace"
+          fontFamily="'SF Mono', ui-monospace, monospace"
         >
           100
         </text>
@@ -86,6 +87,7 @@ export const EventHaloVisual = () => {
           initial={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
           transition={{ duration: 1.5, delay: i * 0.1, ease: appleSpring }}
+          style={{ willChange: 'stroke-dashoffset' }}
         />
       ))}
 
@@ -101,7 +103,8 @@ export const EventHaloVisual = () => {
           x1: [22, 85, 85, 22],
           x2: [22, 85, 85, 22],
         }}
-        transition={{ duration: 4, repeat: Infinity, ease: appleSpring }}
+        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+        style={{ willChange: 'transform' }}
       />
       
       {/* Beam glow trail (subtle) */}
@@ -116,7 +119,8 @@ export const EventHaloVisual = () => {
           x1: [20, 83, 83, 20],
           x2: [20, 83, 83, 20],
         }}
-        transition={{ duration: 4, repeat: Infinity, ease: appleSpring }}
+        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+        style={{ willChange: 'transform' }}
       />
 
       {/* Stage 3: Crystallized solid white lines (appear after beam passes) */}
@@ -136,8 +140,9 @@ export const EventHaloVisual = () => {
           transition={{ 
             duration: 0.8, 
             delay: i * 0.08,
-            ease: appleSpring 
+            ease: "linear"
           }}
+          style={{ willChange: 'stroke-dashoffset, opacity' }}
         />
       ))}
 
@@ -150,6 +155,7 @@ export const EventHaloVisual = () => {
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.5, type: "spring", stiffness: 100, damping: 15 }}
+        style={{ willChange: 'transform' }}
       />
       
       {/* Lens rim - hairline white */}
@@ -162,7 +168,8 @@ export const EventHaloVisual = () => {
         strokeWidth="0.3"
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
-        transition={{ delay: 0.6, ease: appleSpring, duration: 0.8 }}
+        transition={{ delay: 0.6, type: "spring", stiffness: 100, damping: 15 }}
+        style={{ willChange: 'transform' }}
       />
       
       {/* Inner lens ring - light bending effect */}
@@ -175,7 +182,8 @@ export const EventHaloVisual = () => {
         strokeWidth="0.2"
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
-        transition={{ delay: 0.7, ease: appleSpring }}
+        transition={{ delay: 0.7, type: "spring", stiffness: 100, damping: 15 }}
+        style={{ willChange: 'transform' }}
       />
 
       {/* Output: Single perfect white line exits right */}
@@ -190,6 +198,7 @@ export const EventHaloVisual = () => {
         initial={{ pathLength: 0 }}
         animate={{ pathLength: 1 }}
         transition={{ delay: 1.2, duration: 0.8, ease: appleSpring }}
+        style={{ willChange: 'stroke-dashoffset' }}
       />
       
       {/* Subtle pulse on output */}
@@ -202,7 +211,8 @@ export const EventHaloVisual = () => {
           opacity: [0.4, 0.6, 0.4],
           scale: [1, 1.2, 1]
         }}
-        transition={{ duration: 2, repeat: Infinity, ease: appleSpring }}
+        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+        style={{ willChange: 'transform, opacity' }}
       />
 
       {/* Detection count in lens */}
@@ -212,7 +222,7 @@ export const EventHaloVisual = () => {
         fill="rgba(255,255,255,0.7)"
         fontSize="6"
         textAnchor="middle"
-        fontFamily="'SF Mono', ui-monospace"
+        fontFamily="'SF Mono', ui-monospace, monospace"
         fontWeight="600"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -226,8 +236,8 @@ export const EventHaloVisual = () => {
         x="60"
         y="56"
         fill="rgba(113,113,122,0.6)"
-        fontSize="3.5"
-        fontFamily="'SF Mono', ui-monospace"
+        fontSize="4.5"
+        fontFamily="'SF Mono', ui-monospace, monospace"
         textAnchor="middle"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
