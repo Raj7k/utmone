@@ -376,13 +376,50 @@ export default {
   			'radar-pulse': {
   				'0%': { r: '10', opacity: '0.6' },
   				'100%': { r: '60', opacity: '0' }
+  			},
+  			// Dropdown-specific animations (CSS-only, GPU accelerated)
+  			'fade-in-dropdown': {
+  				'0%': { opacity: '0', transform: 'translateY(10px)' },
+  				'100%': { opacity: '1', transform: 'translateY(0)' }
+  			},
+  			'node-pulse': {
+  				'0%, 100%': { opacity: '0.4' },
+  				'50%': { opacity: '0.8' }
+  			},
+  			'node-pulse-scale': {
+  				'0%, 100%': { opacity: '0.6', transform: 'scale(1)' },
+  				'50%': { opacity: '1', transform: 'scale(1.1)' }
+  			},
+  			'path-pulse': {
+  				'0%, 100%': { strokeOpacity: '0.2' },
+  				'50%': { strokeOpacity: '0.5' }
+  			},
+  			'data-wiggle': {
+  				'0%, 100%': { transform: 'translateX(0)' },
+  				'50%': { transform: 'translateX(2px)' }
+  			},
+  			'flow-dot': {
+  				'0%, 100%': { opacity: '0.2', transform: 'translateX(0)' },
+  				'50%': { opacity: '1', transform: 'translateX(4px)' }
+  			},
+  			'halo-wave': {
+  				'0%, 100%': { opacity: '0.5', transform: 'translate(-50%, 0) scale(1)' },
+  				'50%': { opacity: '0', transform: 'translate(-50%, 0) scale(1.2)' }
   			}
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out',
   			'fade-in-up': 'fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-  			'glow-pulse': 'glow-pulse 4s ease-in-out infinite'
+  			'glow-pulse': 'glow-pulse 4s ease-in-out infinite',
+  			// Dropdown animations
+  			'fade-in-dropdown': 'fade-in-dropdown 0.3s ease-out forwards',
+  			'node-pulse': 'node-pulse 2s ease-in-out infinite',
+  			'node-pulse-scale': 'node-pulse-scale 2s ease-in-out infinite',
+  			'path-pulse': 'path-pulse 1.5s ease-in-out infinite',
+  			'data-wiggle': 'data-wiggle 0.8s ease-in-out infinite',
+  			'flow-dot': 'flow-dot 1.2s ease-in-out infinite',
+  			'halo-wave': 'halo-wave 2s ease-in-out infinite'
   		},
   		transitionDuration: {
   			apple: '200ms',

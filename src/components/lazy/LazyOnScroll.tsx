@@ -69,17 +69,29 @@ export function LazyShimmer({ height = "200px", className = "" }: { height?: str
   );
 }
 
-// Dropdown-specific shimmer
+// Dropdown-specific shimmer - matches mega dropdown layout for better perceived performance
 export function DropdownShimmer() {
   return (
-    <div className="w-[600px] p-4 rounded-xl bg-zinc-900/90 backdrop-blur-xl border border-white/10">
-      <div className="space-y-3">
-        <div className="h-4 w-32 bg-white/10 rounded animate-pulse" />
-        <div className="grid grid-cols-2 gap-3">
-          {[...Array(4)].map((_, i) => (
-            <div key={i} className="h-16 bg-white/5 rounded-lg animate-pulse" />
+    <div className="w-[800px] p-4 rounded-[20px] bg-zinc-950/95 backdrop-blur-xl border border-white/[0.1]">
+      <div className="flex gap-4">
+        {/* Left column - 3 showcase cards */}
+        <div className="w-[200px] flex flex-col gap-3">
+          {[...Array(3)].map((_, i) => (
+            <div 
+              key={i} 
+              className="h-[140px] bg-white/[0.03] rounded-2xl border border-white/[0.08] animate-pulse"
+              style={{ animationDelay: `${i * 100}ms` }}
+            />
           ))}
         </div>
+        {/* Right column - grid area */}
+        <div className="flex-1">
+          <div className="h-full bg-white/[0.02] rounded-2xl border border-white/[0.06] animate-pulse" style={{ animationDelay: '200ms' }} />
+        </div>
+      </div>
+      {/* Footer */}
+      <div className="mt-3 pt-3 border-t border-white/[0.05]">
+        <div className="h-3 w-48 bg-white/[0.05] rounded animate-pulse" style={{ animationDelay: '300ms' }} />
       </div>
     </div>
   );
