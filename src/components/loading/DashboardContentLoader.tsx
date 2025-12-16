@@ -31,6 +31,21 @@ const contextMessages: Record<string, string[]> = {
     "processing insights...",
     "preparing intelligence...",
   ],
+  bulk: [
+    "preparing bulk upload...",
+    "loading templates...",
+    "getting ready...",
+  ],
+  qr: [
+    "loading QR codes...",
+    "preparing preview...",
+    "almost ready...",
+  ],
+  targeting: [
+    "loading targeting rules...",
+    "fetching geo data...",
+    "preparing options...",
+  ],
 };
 
 interface DashboardContentLoaderProps {

@@ -15,19 +15,10 @@ import { QRCodeGenerator } from "@/components/QRCodeGenerator";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
-import { Skeleton } from "@/components/ui/skeleton";
+import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
 
 // Lazy load BrickBuilderWizard (3-step wizard)
 const BrickBuilderWizard = lazy(() => import("@/components/brickmatrix/BrickBuilderWizard").then(m => ({ default: m.BrickBuilderWizard })));
-
-// Skeleton for progressive loading
-const QRGridSkeleton = () => (
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    {[1, 2, 3, 4, 5, 6].map(i => (
-      <Skeleton key={i} className="h-64 rounded-xl" />
-    ))}
-  </div>
-);
 
 export default function QRCodes() {
   const { currentWorkspace } = useWorkspace();
@@ -157,9 +148,9 @@ export default function QRCodes() {
         </div>
 
         <TabsContent value="all" className="space-y-6">
-          {/* Show skeleton only if no data at all (first load without cache) */}
+          {/* Show loader only if no data at all (first load without cache) */}
           {isLoading && !qrCodes?.length ? (
-            <QRGridSkeleton />
+            <DashboardContentLoader context="qr" minHeight="40vh" />
           ) : qrCodes && qrCodes.length > 0 ? (
             <>
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
