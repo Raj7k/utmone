@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useRef, ReactNode } from "react";
+import { createContext, useContext, useMemo, useRef, useEffect, ReactNode } from "react";
 import { useAppSession } from "@/contexts/AppSessionContext";
 
 interface Workspace {
@@ -18,6 +18,7 @@ interface WorkspaceContextType {
   workspaces: Workspace[];
   isLoading: boolean;
   isWorkspaceLoading: boolean;
+  isRefreshing: boolean;
   hasNoWorkspaces: boolean;
   hasTimedOut: boolean;
   error: Error | null;
@@ -49,6 +50,7 @@ const DEFAULT_CONTEXT: WorkspaceContextType = {
   workspaces: CACHED_WORKSPACE ? [CACHED_WORKSPACE] : [],
   isLoading: !CACHED_WORKSPACE, // Not loading if we have cache
   isWorkspaceLoading: !CACHED_WORKSPACE,
+  isRefreshing: false,
   hasNoWorkspaces: false,
   hasTimedOut: false,
   error: null,
@@ -58,13 +60,22 @@ const DEFAULT_CONTEXT: WorkspaceContextType = {
 
 const WorkspaceContext = createContext<WorkspaceContextType>(DEFAULT_CONTEXT);
 
+const cacheWorkspace = (workspace: Workspace | null): void => {
+  try {
+    if (workspace) {
+      localStorage.setItem('currentWorkspaceData', JSON.stringify(workspace));
+      localStorage.setItem('currentWorkspaceId', workspace.id);
+    }
+  } catch {}
+};
+
 /**
  * WorkspaceProvider - Thin wrapper around AppSessionContext
  * Maintains backward compatibility with existing code
  */
 export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
   const { 
-    currentWorkspace, 
+    currentWorkspace: sessionWorkspace, 
     workspaces, 
     isReady, 
     isFullyLoaded, 
@@ -73,27 +84,43 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
     refresh 
   } = useAppSession();
 
+  const lastWorkspaceRef = useRef<Workspace | null>(CACHED_WORKSPACE);
+
+  useEffect(() => {
+    if (sessionWorkspace) {
+      lastWorkspaceRef.current = sessionWorkspace;
+      cacheWorkspace(sessionWorkspace);
+    }
+  }, [sessionWorkspace]);
+
+  const resolvedWorkspace = sessionWorkspace ?? lastWorkspaceRef.current;
+  const resolvedWorkspaces = workspaces.length > 0
+    ? workspaces
+    : (resolvedWorkspace ? [resolvedWorkspace] : []);
+
   // Compute loading state - NOT loading if ready (cached) or fully loaded
   const isLoading = !isReady && !isFullyLoaded;
   
   // More granular loading states for progressive rendering
-  const isWorkspaceLoading = !isFullyLoaded && !currentWorkspace;
-  const hasNoWorkspaces = isFullyLoaded && workspaces.length === 0;
+  const isWorkspaceLoading = !isFullyLoaded && !resolvedWorkspace;
+  const isRefreshing = !isFullyLoaded && !!resolvedWorkspace;
+  const hasNoWorkspaces = isFullyLoaded && resolvedWorkspaces.length === 0;
   
   // hasTimedOut is now managed by AppSession, but we keep the interface
-  const hasTimedOut = !isLoading && !currentWorkspace && workspaces.length === 0 && isFullyLoaded;
+  const hasTimedOut = !isLoading && !resolvedWorkspace && resolvedWorkspaces.length === 0 && isFullyLoaded;
 
   const contextValue = useMemo(() => ({
-    currentWorkspace,
-    workspaces,
+    currentWorkspace: resolvedWorkspace,
+    workspaces: resolvedWorkspaces,
     isLoading,
     isWorkspaceLoading,
+    isRefreshing,
     hasNoWorkspaces,
     hasTimedOut,
     error,
     switchWorkspace,
     retry: refresh,
-  }), [currentWorkspace, workspaces, isLoading, isWorkspaceLoading, hasNoWorkspaces, hasTimedOut, error, switchWorkspace, refresh]);
+  }), [resolvedWorkspace, resolvedWorkspaces, isLoading, isWorkspaceLoading, isRefreshing, hasNoWorkspaces, hasTimedOut, error, switchWorkspace, refresh]);
 
   return (
     <WorkspaceContext.Provider value={contextValue}>

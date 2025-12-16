@@ -10,9 +10,11 @@ import { DashboardErrorBoundary } from "./DashboardErrorBoundary";
 import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, Loader2 } from "lucide-react";
 import { TourProvider } from "@/components/onboarding";
 import { KeyboardShortcutsProvider } from "@/components/keyboard/KeyboardShortcutsProvider";
+import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
+import { useAppSession } from "@/contexts/AppSessionContext";
 
 // Lazy load non-critical components
 const CreateLinkModal = lazy(() => import("@/components/CreateLinkModal").then(m => ({ default: m.CreateLinkModal })));
@@ -26,6 +28,8 @@ interface DashboardLayoutProps {
 
 export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const { _source, displayName } = useCurrentPlan();
+  const { currentWorkspace, isLoading: isWorkspaceLoading, isRefreshing } = useWorkspaceContext();
+  const { isFullyLoaded } = useAppSession();
   const [searchParams] = useSearchParams();
   const [impersonatedUser, setImpersonatedUser] = useState<{ email: string; full_name?: string } | null>(null);
 
@@ -87,6 +91,23 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
               {/* Page Content - with proper overflow and mobile bottom padding */}
               <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-4 lg:px-8 lg:py-6 pb-24 md:pb-6">
+                {(isWorkspaceLoading || isRefreshing || !isFullyLoaded) && (
+                  <div className="mb-4">
+                    <div className="flex items-start gap-3 rounded-lg border border-dashed border-primary/30 bg-primary/5 px-4 py-3 text-sm">
+                      <Loader2 className="h-4 w-4 animate-spin text-primary mt-0.5" />
+                      <div className="flex flex-col">
+                        <span className="font-medium text-foreground">
+                          {currentWorkspace ? "Refreshing workspace data" : "Loading your workspace"}
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                          {currentWorkspace
+                            ? "Using cached workspace while we pull the latest updates."
+                            : "Setting up your workspace — this only takes a moment."}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
                 <div className="max-w-full">
                   {children}
                 </div>

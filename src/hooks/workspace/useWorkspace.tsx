@@ -6,7 +6,7 @@ import { getFriendlyErrorMessage } from "@/lib/errorMessages";
 
 export const useWorkspace = () => {
   const queryClient = useQueryClient();
-  const { currentWorkspace, workspaces, isLoading, isWorkspaceLoading, hasNoWorkspaces, hasTimedOut, error, switchWorkspace, retry } = useWorkspaceContext();
+  const { currentWorkspace, workspaces, isLoading, isWorkspaceLoading, isRefreshing, hasNoWorkspaces, hasTimedOut, error, switchWorkspace, retry } = useWorkspaceContext();
 
   const createWorkspaceMutation = useMutation({
     mutationFn: async (name: string) => {
@@ -62,6 +62,7 @@ export const useWorkspace = () => {
     needsOnboarding,
     isLoading,
     isWorkspaceLoading,
+    isRefreshing,
     hasNoWorkspaces,
     hasTimedOut,
     error,
