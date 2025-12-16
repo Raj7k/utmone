@@ -29,7 +29,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
 import { StaleIndicator } from "@/components/loading/CardSkeleton";
-import { Skeleton } from "@/components/ui/skeleton";
 import { LazySection } from "@/components/loading/LazySection";
 
 // Lazy load heavy Attribution tab (575 lines, 6+ queries)
@@ -226,7 +225,7 @@ export default function Analytics() {
           </div>
 
           {/* Channel Performance & Top Campaigns - Lazy loaded */}
-          <LazySection fallback={<Skeleton className="h-80 rounded-xl" />}>
+          <LazySection fallback={<DashboardContentLoader context="analytics" minHeight="20rem" />}>
             <div className="grid lg:grid-cols-2 gap-6">
               <ChannelPerformanceGrid workspaceId={effectiveWorkspaceId} />
               <TopCampaignsTable workspaceId={effectiveWorkspaceId} />
@@ -288,7 +287,7 @@ export default function Analytics() {
                   />
                 </div>
               </div>
-              <LazySection fallback={<Skeleton className="h-80 rounded-xl" />}>
+              <LazySection fallback={<DashboardContentLoader context="analytics" minHeight="20rem" />}>
                 <div className="grid lg:grid-cols-2 gap-6">
                   <ChannelPerformanceGrid workspaceId={effectiveWorkspaceId} />
                   <TopCampaignsTable workspaceId={effectiveWorkspaceId} />
@@ -432,15 +431,7 @@ export default function Analytics() {
             </TabsContent>
 
             <TabsContent value="attribution">
-              <Suspense fallback={
-                <div className="space-y-6">
-                  <Skeleton className="h-40 rounded-xl" />
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-24 rounded-xl" />)}
-                  </div>
-                  <Skeleton className="h-80 rounded-xl" />
-                </div>
-              }>
+              <Suspense fallback={<DashboardContentLoader context="analytics" minHeight="30rem" />}>
                 <AttributionTabContent workspaceId={currentWorkspace?.id} />
               </Suspense>
             </TabsContent>

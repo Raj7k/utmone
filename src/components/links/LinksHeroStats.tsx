@@ -1,6 +1,5 @@
 import { TrendingUp, TrendingDown, Link as LinkIcon, BarChart3, Trophy } from "lucide-react";
 import { useLinksHeroStats } from "@/hooks/useLinksHeroStats";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -10,7 +9,7 @@ interface LinksHeroStatsProps {
 }
 
 export const LinksHeroStats = ({ workspaceId }: LinksHeroStatsProps) => {
-  const { data, isLoading, isFetching } = useLinksHeroStats(workspaceId);
+  const { data, isFetching } = useLinksHeroStats(workspaceId);
 
   const handleCopyTopLink = () => {
     if (data?.topPerformer?.shortUrl) {
@@ -19,18 +18,8 @@ export const LinksHeroStats = ({ workspaceId }: LinksHeroStatsProps) => {
     }
   };
 
-  // Show skeleton ONLY if no cached data available (first ever load)
-  if (!data) {
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <Skeleton className="h-24 w-full" />
-        <Skeleton className="h-24 w-full" />
-        <Skeleton className="h-24 w-full" />
-      </div>
-    );
-  }
-
-  // Always render with data (cached or fresh), show subtle loading indicator if fetching
+  // Always render immediately with defaults - no skeleton
+  const stats = data || { totalActiveLinks: 0, thisWeekClicks: 0, clickTrend: 0, topPerformer: null };
 
   return (
     <div className="relative grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -48,7 +37,7 @@ export const LinksHeroStats = ({ workspaceId }: LinksHeroStatsProps) => {
           </div>
           <div>
             <p className="text-sm text-muted-foreground">active links</p>
-            <p className="text-3xl font-display font-bold text-foreground">{data.totalActiveLinks}</p>
+            <p className="text-3xl font-display font-bold text-foreground">{stats.totalActiveLinks}</p>
           </div>
         </div>
       </div>
@@ -63,18 +52,18 @@ export const LinksHeroStats = ({ workspaceId }: LinksHeroStatsProps) => {
             <p className="text-sm text-muted-foreground">this week's clicks</p>
             <div className="flex items-center gap-2">
               <p className="text-3xl font-display font-bold text-foreground">
-                {data.thisWeekClicks.toLocaleString()}
+                {stats.thisWeekClicks.toLocaleString()}
               </p>
-              {data.clickTrend !== 0 && (
+              {stats.clickTrend !== 0 && (
                 <span className={`flex items-center text-sm font-medium ${
-                  data.clickTrend > 0 ? "text-green-600" : "text-red-600"
+                  stats.clickTrend > 0 ? "text-green-600" : "text-red-600"
                 }`}>
-                  {data.clickTrend > 0 ? (
+                  {stats.clickTrend > 0 ? (
                     <TrendingUp className="h-4 w-4 mr-1" />
                   ) : (
                     <TrendingDown className="h-4 w-4 mr-1" />
                   )}
-                  {Math.abs(data.clickTrend)}%
+                  {Math.abs(stats.clickTrend)}%
                 </span>
               )}
             </div>
@@ -90,14 +79,14 @@ export const LinksHeroStats = ({ workspaceId }: LinksHeroStatsProps) => {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm text-muted-foreground mb-1">top performer</p>
-            {data.topPerformer ? (
+            {stats.topPerformer ? (
               <>
                 <p className="text-sm font-medium text-foreground truncate">
-                  {data.topPerformer.title || data.topPerformer.shortUrl}
+                  {stats.topPerformer.title || stats.topPerformer.shortUrl}
                 </p>
                 <div className="flex items-center gap-2 mt-1">
                   <p className="text-xs text-muted-foreground">
-                    {data.topPerformer.totalClicks.toLocaleString()} clicks
+                    {stats.topPerformer.totalClicks.toLocaleString()} clicks
                   </p>
                   <Button
                     variant="ghost"

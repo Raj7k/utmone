@@ -16,7 +16,7 @@ import { BulkSentinelPanel } from "@/components/sentinel";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
-import { StaleIndicator, HeroStatsSkeleton, LinkCardGridSkeleton } from "@/components/loading/CardSkeleton";
+import { StaleIndicator } from "@/components/loading/CardSkeleton";
 
 export default function Links() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -96,12 +96,8 @@ export default function Links() {
           </div>
         }
       >
-        {/* Hero Stats Bar - use effectiveWorkspaceId */}
-        {effectiveWorkspaceId ? (
-          <LinksHeroStats workspaceId={effectiveWorkspaceId} />
-        ) : (
-          <HeroStatsSkeleton />
-        )}
+        {/* Hero Stats Bar - always render with fallback */}
+        <LinksHeroStats workspaceId={effectiveWorkspaceId} />
 
         {/* Bulk Sentinel Panel - only show with workspace */}
         {effectiveWorkspaceId && (
@@ -127,10 +123,8 @@ export default function Links() {
           onStatusChange={setStatusFilter}
         />
 
-        {/* View Content - skeleton only if no cached data (first load) */}
-        {isLoading && !data?.links?.length ? (
-          <LinkCardGridSkeleton />
-        ) : viewMode === "cards" ? (
+        {/* View Content - always render immediately */}
+        {viewMode === "cards" ? (
           <LinkCardGrid links={data?.links || []} />
         ) : (
           <EnhancedLinksTable 
