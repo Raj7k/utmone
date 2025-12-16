@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -12,16 +11,14 @@ export function EventHaloShowcaseCard({ variant = "dark" }: EventHaloShowcaseCar
   
   return (
     <Link to="/features/event-halo" className="block group">
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
+      <div
         className={cn(
-          "relative h-[140px] rounded-2xl p-4 cursor-pointer overflow-hidden transition-all duration-300",
+          "relative h-[140px] rounded-2xl p-4 cursor-pointer overflow-hidden transition-all duration-300 animate-fade-in-dropdown",
           isLight
             ? "bg-zinc-100/80 border border-zinc-200 hover:bg-zinc-100 hover:border-zinc-300 shadow-sm hover:shadow-md"
             : "bg-white/[0.03] border border-white/[0.12] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] ring-1 ring-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.2] hover:ring-white/[0.1] hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15),0_0_20px_-5px_rgba(255,255,255,0.1)]"
         )}
+        style={{ animationDelay: '100ms' }}
       >
         {/* Navigation indicator */}
         <ArrowUpRight className={cn(
@@ -46,12 +43,12 @@ export function EventHaloShowcaseCard({ variant = "dark" }: EventHaloShowcaseCar
           <span className={cn("text-[11px] font-medium", isLight ? "text-zinc-700" : "text-white/80")}>event halo</span>
         </div>
 
-        {/* City Silhouette with Waves */}
+        {/* City Silhouette with Waves - CSS only */}
         <div className="relative h-[50px] flex items-end justify-center">
           {/* City buildings */}
           <div className="flex items-end gap-0.5">
             {[12, 20, 16, 24, 18, 14, 22, 10].map((h, i) => (
-              <motion.div
+              <div
                 key={i}
                 className={cn("w-2 rounded-t-sm", isLight ? "bg-zinc-300" : "bg-white/30")}
                 style={{ height: h }}
@@ -59,23 +56,18 @@ export function EventHaloShowcaseCard({ variant = "dark" }: EventHaloShowcaseCar
             ))}
           </div>
           
-          {/* Pulsing waves */}
+          {/* Pulsing waves - CSS animation */}
           {[1, 2, 3].map((ring) => (
-            <motion.div
+            <div
               key={ring}
               className={cn(
-                "absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full border",
+                "absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full border animate-halo-wave",
                 isLight ? "border-zinc-300" : "border-white/20"
               )}
-              style={{ width: ring * 30, height: ring * 15 }}
-              animate={{ 
-                opacity: [0.5, 0, 0.5], 
-                scale: [1, 1.2, 1] 
-              }}
-              transition={{ 
-                duration: 2, 
-                repeat: Infinity, 
-                delay: ring * 0.3 
+              style={{ 
+                width: ring * 30, 
+                height: ring * 15,
+                animationDelay: `${ring * 300}ms`
               }}
             />
           ))}
@@ -83,7 +75,7 @@ export function EventHaloShowcaseCard({ variant = "dark" }: EventHaloShowcaseCar
 
         {/* Tagline */}
         <p className={cn("text-[10px] text-center mt-1", isLight ? "text-zinc-400" : "text-white/40")}>offline → online attribution</p>
-      </motion.div>
+      </div>
     </Link>
   );
 }

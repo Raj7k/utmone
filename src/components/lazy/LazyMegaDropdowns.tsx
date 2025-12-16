@@ -18,35 +18,39 @@ export const LazyResourcesMegaDropdown = lazy(() =>
   import("@/components/landing/mega-dropdown/resources/ResourcesMegaDropdown").then(m => ({ default: m.ResourcesMegaDropdown }))
 );
 
-// Wrapper components with Suspense
-export function ProductDropdown() {
+// Wrapper components with Suspense - accept variant prop for light/dark themes
+interface DropdownWrapperProps {
+  variant?: "light" | "dark";
+}
+
+export function ProductDropdown({ variant = "dark" }: DropdownWrapperProps) {
   return (
     <Suspense fallback={<DropdownShimmer />}>
-      <LazyProductMegaDropdown />
+      <LazyProductMegaDropdown variant={variant} />
     </Suspense>
   );
 }
 
-export function FeaturesDropdown() {
+export function FeaturesDropdown({ variant = "dark" }: DropdownWrapperProps) {
   return (
     <Suspense fallback={<DropdownShimmer />}>
-      <LazyFeaturesMegaDropdown />
+      <LazyFeaturesMegaDropdown variant={variant} />
     </Suspense>
   );
 }
 
-export function SolutionsDropdown() {
+export function SolutionsDropdown({ variant = "dark" }: DropdownWrapperProps) {
   return (
     <Suspense fallback={<DropdownShimmer />}>
-      <LazySolutionsMegaDropdown />
+      <LazySolutionsMegaDropdown variant={variant} />
     </Suspense>
   );
 }
 
-export function ResourcesDropdown() {
+export function ResourcesDropdown({ variant = "dark" }: DropdownWrapperProps) {
   return (
     <Suspense fallback={<DropdownShimmer />}>
-      <LazyResourcesMegaDropdown />
+      <LazyResourcesMegaDropdown variant={variant} />
     </Suspense>
   );
 }
