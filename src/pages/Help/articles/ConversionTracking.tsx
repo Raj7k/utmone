@@ -2,6 +2,7 @@ import { HelpLayout } from "@/components/help/HelpLayout";
 import { ProTip } from "@/components/help/ProTip";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Target, DollarSign, CheckCircle } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 const ConversionTracking = () => {
   return (
@@ -23,7 +24,7 @@ const ConversionTracking = () => {
             <h1 className="text-3xl font-display font-bold text-zinc-900">Conversion tracking</h1>
           </div>
           <p className="text-lg text-zinc-600">
-            Track when link clicks turn into valuable actions like purchases, signups, and leads.
+            Track when link clicks turn into valuable actions like purchases, signups, and leads using the <code>utmone()</code> API.
           </p>
         </div>
 
@@ -43,40 +44,59 @@ const ConversionTracking = () => {
 
           <h2 className="text-xl font-semibold text-zinc-900 mt-8 mb-4">Setting up conversion tracking</h2>
           <p className="text-zinc-600 mb-4">
-            There are two ways to track conversions:
+            <strong>Prerequisite:</strong> Make sure you have the{" "}
+            <Link to="/help/getting-started/pixel" className="text-primary hover:underline">
+              main pixel installed
+            </Link>{" "}
+            on all pages first.
           </p>
 
-          <h3 className="text-lg font-semibold text-zinc-900 mt-6 mb-3">Method 1: JavaScript API</h3>
+          <h3 className="text-lg font-semibold text-zinc-900 mt-6 mb-3">Method 1: JavaScript API (Recommended)</h3>
           <p className="text-zinc-600 mb-4">
-            Call the tracking function when a conversion happens:
+            Use the <code>utmone()</code> function to track conversions:
           </p>
           <div className="bg-zinc-900 rounded-xl p-4 my-6 overflow-x-auto">
             <pre className="text-sm text-zinc-100">
 {`// When a purchase completes
-window.utm.track('purchase', {
+utmone('track', 'purchase', {
   revenue: 149.99,
   currency: 'USD',
-  order_id: 'ORD-12345',
-  items: ['Pro Plan']
+  order_id: 'ORD-12345'
 });
 
 // When someone signs up
-window.utm.track('signup', {
-  plan: 'starter',
-  source: 'pricing_page'
+utmone('track', 'signup', {
+  plan: 'starter'
 });
 
 // When a lead form is submitted
-window.utm.track('lead', {
-  form_name: 'contact_us',
-  company_size: '50-100'
+utmone('track', 'lead', {
+  form_name: 'contact_us'
 });`}
             </pre>
           </div>
 
+          <h3 className="text-lg font-semibold text-zinc-900 mt-6 mb-3">Where to Place This Code</h3>
+          <div className="bg-zinc-50 border border-zinc-200 rounded-xl p-4 my-6">
+            <ul className="text-sm text-zinc-600 space-y-2 m-0">
+              <li className="flex items-start gap-2">
+                <Badge variant="outline" className="mt-0.5 shrink-0">purchase</Badge>
+                <span>On your thank-you/order confirmation page</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <Badge variant="outline" className="mt-0.5 shrink-0">signup</Badge>
+                <span>After successful account creation or in your signup success handler</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <Badge variant="outline" className="mt-0.5 shrink-0">lead</Badge>
+                <span>After form submission success (in your form's onSubmit handler)</span>
+              </li>
+            </ul>
+          </div>
+
           <h3 className="text-lg font-semibold text-zinc-900 mt-6 mb-3">Method 2: Server-side API</h3>
           <p className="text-zinc-600 mb-4">
-            Send conversion data from your backend:
+            Send conversion data from your backend for more reliable tracking:
           </p>
           <div className="bg-zinc-900 rounded-xl p-4 my-6 overflow-x-auto">
             <pre className="text-sm text-zinc-100">
@@ -99,12 +119,52 @@ window.utm.track('lead', {
             by ad blockers. Use JavaScript for lead events, server-side for purchases.
           </ProTip>
 
+          <h2 className="text-xl font-semibold text-zinc-900 mt-8 mb-4">Platform-Specific Revenue Tracking</h2>
+          
+          <h3 className="text-lg font-semibold text-zinc-900 mt-6 mb-3">Shopify</h3>
+          <p className="text-zinc-600 mb-2">Add to your checkout thank-you page or <code>checkout.liquid</code>:</p>
+          <div className="bg-zinc-900 rounded-xl p-4 my-4 overflow-x-auto">
+            <pre className="text-sm text-zinc-100">
+{`{% if first_time_accessed %}
+<script>
+utmone('track', 'purchase', { 
+  revenue: {{ total_price | money_without_currency | remove: ',' }} 
+});
+</script>
+{% endif %}`}
+            </pre>
+          </div>
+
+          <h3 className="text-lg font-semibold text-zinc-900 mt-6 mb-3">WooCommerce</h3>
+          <p className="text-zinc-600 mb-2">Add to your thank-you page template:</p>
+          <div className="bg-zinc-900 rounded-xl p-4 my-4 overflow-x-auto">
+            <pre className="text-sm text-zinc-100">
+{`<script>
+utmone('track', 'purchase', { 
+  revenue: <?php echo $order->get_total(); ?> 
+});
+</script>`}
+            </pre>
+          </div>
+
+          <h3 className="text-lg font-semibold text-zinc-900 mt-6 mb-3">Generic JavaScript (React, Vue, etc.)</h3>
+          <p className="text-zinc-600 mb-2">Call after successful payment in your checkout handler:</p>
+          <div className="bg-zinc-900 rounded-xl p-4 my-4 overflow-x-auto">
+            <pre className="text-sm text-zinc-100">
+{`// In your payment success handler
+const handlePaymentSuccess = (orderTotal) => {
+  utmone('track', 'purchase', { revenue: orderTotal });
+  // Navigate to thank-you page...
+};`}
+            </pre>
+          </div>
+
           <h2 className="text-xl font-semibold text-zinc-900 mt-8 mb-4">Revenue tracking</h2>
           <div className="flex items-start gap-3 mb-4">
             <DollarSign className="h-5 w-5 text-amber-600 mt-0.5" />
             <div>
               <p className="text-zinc-600">
-                Always include <code>revenue</code> and <code>currency</code> for purchase events. 
+                Always include <code>revenue</code> for purchase events. 
                 This enables ROI calculations and revenue attribution.
               </p>
             </div>
@@ -114,8 +174,8 @@ window.utm.track('lead', {
             <h4 className="font-medium text-zinc-900 mb-3">Revenue data format</h4>
             <ul className="text-sm text-zinc-600 space-y-2">
               <li><strong>revenue:</strong> Number (e.g., 99.99, not "$99.99")</li>
-              <li><strong>currency:</strong> ISO 4217 code (USD, EUR, GBP, etc.)</li>
-              <li><strong>order_id:</strong> Your unique transaction identifier</li>
+              <li><strong>currency:</strong> ISO 4217 code (USD, EUR, GBP, etc.) — optional, defaults to USD</li>
+              <li><strong>order_id:</strong> Your unique transaction identifier — recommended for deduplication</li>
             </ul>
           </div>
 
