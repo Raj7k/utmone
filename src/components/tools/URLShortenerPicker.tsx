@@ -40,8 +40,8 @@ export const URLShortenerPicker = ({ onSelectMode }: URLShortenerPickerProps) =>
       id: "shortener-advanced" as const,
       name: "advanced",
       quantity: "100+ urls",
-      description: "full control with templates & utm",
-      hint: "for campaigns with strict tracking rules",
+      description: "4-step wizard with templates & utm",
+      hint: "guided flow for campaigns with strict tracking",
       icon: Sparkles,
     },
   ];
