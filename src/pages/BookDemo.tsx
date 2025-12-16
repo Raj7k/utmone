@@ -10,6 +10,7 @@ import { Helmet } from "react-helmet";
 import { phoneCountryCodes } from "@/lib/phoneCountryCodes";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
+import { ValidationResult, validateEmailSmart } from "@/lib/emailValidator";
 
 const MARQUEE_ITEMS = [
   "marketing teams", "sales ops", "events", "partner programs", "enterprise"
@@ -79,6 +80,7 @@ export default function BookDemo() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDetecting, setIsDetecting] = useState(true);
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
+  const [emailValidation, setEmailValidation] = useState<ValidationResult | null>(null);
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -108,6 +110,13 @@ export default function BookDemo() {
   }, []);
 
   const validateForm = (): boolean => {
+    const emailCheck = validateEmailSmart(formData.email);
+    setEmailValidation(emailCheck);
+    if (!emailCheck.isValid) {
+      setErrors((prev) => ({ ...prev, email: emailCheck.error || "valid work email required" }));
+      return false;
+    }
+
     try {
       formSchema.parse(formData);
       setErrors({});
@@ -141,11 +150,13 @@ export default function BookDemo() {
     setIsSubmitting(true);
 
     try {
+      const normalizedEmail = emailValidation?.normalizedEmail || formData.email.trim().toLowerCase();
+
       const { error } = await supabase
         .from('demo_requests')
         .insert([{
           name: formData.name,
-          email: formData.email,
+          email: normalizedEmail,
           company: formData.company || null,
           team_size: formData.team_size || null,
           country_code: formData.country_code,
@@ -276,11 +287,38 @@ export default function BookDemo() {
                     type="email"
                     placeholder="work email"
                     value={formData.email}
-                    onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                    className={`h-11 bg-muted/50 border-border text-foreground placeholder:text-muted-foreground ${errors.email ? 'border-destructive' : ''}`}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setFormData(prev => ({ ...prev, email: value }));
+                      const nextValidation = validateEmailSmart(value);
+                      setEmailValidation(nextValidation);
+                      setErrors((prev) => ({ ...prev, email: nextValidation.isValid ? undefined : prev.email }));
+                    }}
+                    className={`h-11 bg-muted/50 border-border text-foreground placeholder:text-muted-foreground ${
+                      emailValidation?.reason === "disposable" ? 'border-amber-500' :
+                      emailValidation?.isValid ? 'border-green-500' :
+                      errors.email ? 'border-destructive' : ''
+                    }`}
                     required
                   />
-                  {errors.email && <p className="text-xs text-destructive mt-1">{errors.email}</p>}
+                  {emailValidation?.suggestion ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const suggestion = emailValidation.suggestion!;
+                        setFormData(prev => ({ ...prev, email: suggestion }));
+                        setEmailValidation(validateEmailSmart(suggestion));
+                      }}
+                      className="text-xs text-amber-600 dark:text-amber-400 mt-1 hover:underline"
+                    >
+                      {emailValidation.error} <span className="font-medium">click to fix</span>
+                    </button>
+                  ) : null}
+                  {errors.email && !emailValidation?.suggestion && (
+                    <p className={`text-xs ${emailValidation?.reason === "disposable" ? "text-amber-600 dark:text-amber-400" : "text-destructive"} mt-1`}>
+                      {errors.email}
+                    </p>
+                  )}
                 </div>
                 
                 {/* Company & Team Size */}

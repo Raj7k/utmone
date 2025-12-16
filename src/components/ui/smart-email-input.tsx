@@ -15,6 +15,7 @@ interface SmartEmailInputProps {
   name?: string;
   required?: boolean;
   autoComplete?: string;
+  allowDisposable?: boolean;
 }
 
 export const SmartEmailInput = forwardRef<HTMLInputElement, SmartEmailInputProps>(
@@ -29,6 +30,7 @@ export const SmartEmailInput = forwardRef<HTMLInputElement, SmartEmailInputProps
     name,
     required,
     autoComplete = "email",
+    allowDisposable,
   }, ref) => {
     const {
       value,
@@ -40,7 +42,7 @@ export const SmartEmailInput = forwardRef<HTMLInputElement, SmartEmailInputProps
       severity,
       applySuggestion,
       inputProps,
-    } = useSmartEmail(externalValue || '', { onValidChange });
+    } = useSmartEmail(externalValue || '', { onValidChange, allowDisposable });
 
     // Sync with external value
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,17 +61,21 @@ export const SmartEmailInput = forwardRef<HTMLInputElement, SmartEmailInputProps
           onChange={handleChange}
           onBlur={inputProps.onBlur}
           placeholder={placeholder}
-          disabled={disabled}
-          required={required}
-          autoComplete={autoComplete}
-          className={cn(
-            "pr-10",
-            error && severity === 'error' && "border-red-500 focus-visible:ring-red-500/20",
-            error && severity === 'warning' && "border-amber-500 focus-visible:ring-amber-500/20",
-            isValid && "border-green-500 focus-visible:ring-green-500/20",
-            className
-          )}
-        />
+      disabled={disabled}
+      required={required}
+      autoComplete={autoComplete}
+      className={cn(
+        "pr-10",
+        error && severity === 'error'
+          ? "border-red-500 focus-visible:ring-red-500/20"
+          : error && severity === 'warning'
+            ? "border-amber-500 focus-visible:ring-amber-500/20"
+            : isValid
+              ? "border-green-500 focus-visible:ring-green-500/20"
+              : "",
+        className
+      )}
+    />
         
         {/* Status Icon */}
         <div className="absolute right-3 top-1/2 -translate-y-1/2">

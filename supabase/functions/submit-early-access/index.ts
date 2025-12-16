@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.38.4";
 import { corsHeaders } from "../_shared/cors.ts";
+import { checkEmailQuality } from "../_shared/emailQuality.ts";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -38,12 +39,29 @@ serve(async (req) => {
       );
     }
 
+    const quality = checkEmailQuality(email);
+    if (!quality.ok) {
+      return new Response(
+        JSON.stringify({
+          error: "Invalid email",
+          reason: quality.reason,
+          suggestion: quality.suggestion,
+        }),
+        {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    const normalizedEmail = quality.normalizedEmail || email.trim().toLowerCase();
+
     // Check rate limit: max 3 signups per email per hour
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
     const { count: recentCount } = await supabase
       .from("early_access_requests")
       .select("*", { count: "exact", head: true })
-      .eq("email", email)
+      .eq("email", normalizedEmail)
       .gte("created_at", oneHourAgo);
 
     if (recentCount && recentCount >= 3) {
@@ -61,7 +79,7 @@ serve(async (req) => {
       .from("early_access_requests")
       .insert({
         name,
-        email,
+        email: normalizedEmail,
         team_size,
         role,
         reason_for_joining,
@@ -91,7 +109,7 @@ serve(async (req) => {
       await supabase.functions.invoke("send-applicant-confirmation", {
         body: {
           name,
-          email,
+          email: normalizedEmail,
           team_size,
           referral_code: insertedData.referral_code,
           request_id: insertedData.id,

@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { usePartner } from '@/hooks/usePartner';
 import { Loader2 } from 'lucide-react';
+import { ValidationResult, validateEmailSmart } from '@/lib/emailValidator';
 
 export default function PartnerApply() {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ export default function PartnerApply() {
     agreed_to_terms: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [emailValidation, setEmailValidation] = useState<ValidationResult | null>(null);
 
   if (partner) {
     navigate('/partners/dashboard');
@@ -30,10 +32,18 @@ export default function PartnerApply() {
     e.preventDefault();
     if (!formData.agreed_to_terms) return;
 
+    const validation = validateEmailSmart(formData.payment_email);
+    setEmailValidation(validation);
+    if (!validation.isValid) {
+      return;
+    }
+
     setIsSubmitting(true);
     try {
+      const normalizedEmail = validation.normalizedEmail || formData.payment_email.trim().toLowerCase();
+
       await applyAsPartner({
-        payment_email: formData.payment_email,
+        payment_email: normalizedEmail,
         payment_method: formData.payment_method,
         application_notes: formData.application_notes,
       });
@@ -68,12 +78,38 @@ export default function PartnerApply() {
                 type="email"
                 required
                 value={formData.payment_email}
-                onChange={(e) => setFormData({ ...formData, payment_email: e.target.value })}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setFormData({ ...formData, payment_email: value });
+                  setEmailValidation(validateEmailSmart(value));
+                }}
                 placeholder="payments@example.com"
+                className={emailValidation?.reason === "disposable"
+                  ? "border-amber-500"
+                  : emailValidation?.isValid
+                    ? "border-green-500"
+                    : undefined}
               />
               <p className="text-sm text-secondary-label mt-1">
                 we'll use this email to send your commission payouts
               </p>
+              {emailValidation?.suggestion ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const suggested = emailValidation.suggestion!;
+                    setFormData({ ...formData, payment_email: suggested });
+                    setEmailValidation(validateEmailSmart(suggested));
+                  }}
+                  className="text-xs text-amber-600 dark:text-amber-400 mt-1 hover:underline"
+                >
+                  {emailValidation.error} <span className="font-semibold">click to fix</span>
+                </button>
+              ) : !emailValidation?.isValid && emailValidation?.error ? (
+                <p className={`text-xs mt-1 ${emailValidation.reason === "disposable" ? "text-amber-600 dark:text-amber-400" : "text-destructive"}`}>
+                  {emailValidation.error}
+                </p>
+              ) : null}
             </div>
 
             <div>
