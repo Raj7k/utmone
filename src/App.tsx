@@ -548,7 +548,7 @@ const AppRoutes = () => {
                   )}
                 />
 
-                <Route element={<Suspense fallback={<DashboardSkeleton />}><AppLayout /></Suspense>}>
+                <Route element={<AppLayout />}>
                   {privateRoutes}
                 </Route>
 
