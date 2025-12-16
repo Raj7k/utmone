@@ -15,6 +15,17 @@ import {
   QRCodeVisual, 
   ExpirationClockVisual 
 } from "@/components/features/visuals/FeatureVisuals";
+import {
+  AILinkOptimizerVisual,
+  LinkHealthMonitorVisual,
+  SmartRedirectVisual,
+  ClickFraudShieldVisual,
+  DeepLinkVisual,
+  ABLinkTestVisual,
+  QRScanAnalyticsVisual,
+  DynamicQRRedirectVisual,
+  QRBrandStudioVisual,
+} from "@/components/features/visuals/EnhancedFeatureVisuals";
 import { motion } from "framer-motion";
 import { 
   Link2, 
@@ -29,12 +40,24 @@ import {
   Lock,
   CheckCircle2,
   Zap,
-  ArrowRight
+  ArrowRight,
+  Sparkles,
+  Activity,
+  Route,
+  Bot,
+  Smartphone,
+  FlaskConical,
+  Brain,
+  ShieldCheck,
+  ScanLine,
+  RefreshCw,
+  Palette
 } from "lucide-react";
 
 const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const controlDeckTabs = [
+  // Original 5 features
   {
     id: "domains",
     icon: Globe,
@@ -75,9 +98,83 @@ const controlDeckTabs = [
     subheadline: "set links to expire after a date or click count. perfect for flash sales and promos.",
     visual: <ExpirationClockVisual />,
   },
+  // 6 New features
+  {
+    id: "ai-optimizer",
+    icon: Sparkles,
+    label: "AI link optimizer",
+    headline: "smarter slugs, better clicks.",
+    subheadline: "AI analyzes your destination and suggests slugs that match human intent. more clicks, less guesswork.",
+    visual: <AILinkOptimizerVisual />,
+  },
+  {
+    id: "health-monitor",
+    icon: Activity,
+    label: "link health monitor",
+    headline: "know before they break.",
+    subheadline: "real-time health scores for every link. catch 404s, SSL issues, and slowdowns before users do.",
+    visual: <LinkHealthMonitorVisual />,
+  },
+  {
+    id: "smart-redirect",
+    icon: Route,
+    label: "smart redirect engine",
+    headline: "one link, infinite destinations.",
+    subheadline: "route users by device, location, or time. iOS users go to App Store, Android to Play Store—automatically.",
+    visual: <SmartRedirectVisual />,
+  },
+  {
+    id: "fraud-shield",
+    icon: ShieldCheck,
+    label: "click fraud shield",
+    headline: "bots filtered. humans counted.",
+    subheadline: "machine learning identifies and filters fake clicks. your analytics show real engagement only.",
+    visual: <ClickFraudShieldVisual />,
+  },
+  {
+    id: "deep-link",
+    icon: Smartphone,
+    label: "deep link intelligence",
+    headline: "into the app, not around it.",
+    subheadline: "seamless app deep linking with web fallbacks. users land exactly where they should.",
+    visual: <DeepLinkVisual />,
+  },
+  {
+    id: "ab-testing",
+    icon: FlaskConical,
+    label: "A/B link testing",
+    headline: "test before you commit.",
+    subheadline: "split traffic between destinations. see which landing page converts better—with statistical confidence.",
+    visual: <ABLinkTestVisual />,
+  },
+  // QR Code Features
+  {
+    id: "qr-analytics",
+    icon: ScanLine,
+    label: "QR scan analytics",
+    headline: "every scan tells a story.",
+    subheadline: "track who scanned, when, where, and what device they used. full attribution from physical to digital.",
+    visual: <QRScanAnalyticsVisual />,
+  },
+  {
+    id: "dynamic-qr",
+    icon: RefreshCw,
+    label: "dynamic QR redirect",
+    headline: "print once. redirect forever.",
+    subheadline: "change the destination without reprinting. update campaigns instantly.",
+    visual: <DynamicQRRedirectVisual />,
+  },
+  {
+    id: "qr-brand",
+    icon: Palette,
+    label: "QR brand studio",
+    headline: "your logo. your colors. your QR.",
+    subheadline: "full customization with colors, shapes, and embedded logos. scannable and beautiful.",
+    visual: <QRBrandStudioVisual />,
+  },
 ];
 
-// Carousel visuals (kept for carousel items)
+// Carousel visuals
 const LinkPreviewVisual = () => (
   <svg viewBox="0 0 120 60" className="w-full h-full">
     <motion.rect x="10" y="8" width="100" height="44" rx="6" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" strokeWidth="1"
@@ -104,6 +201,28 @@ const SecurityBadgeVisual = () => (
   </svg>
 );
 
+const HealthScoreVisual = () => (
+  <svg viewBox="0 0 120 60" className="w-full h-full">
+    <motion.rect x="15" y="15" width="90" height="30" rx="4" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" />
+    <motion.rect x="20" y="25" width="60" height="10" rx="5" fill="rgba(74,222,128,0.3)"
+      initial={{ width: 0 }} animate={{ width: 60 }} transition={{ duration: 0.8 }} />
+    <motion.circle cx="95" cy="30" r="8" fill="rgba(74,222,128,0.2)" stroke="rgba(74,222,128,0.5)"
+      initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.5 }} />
+  </svg>
+);
+
+const FraudFilterVisual = () => (
+  <svg viewBox="0 0 120 60" className="w-full h-full">
+    <motion.path d="M20,30 L50,30" stroke="rgba(255,255,255,0.3)" strokeWidth="2" />
+    <motion.rect x="50" y="20" width="20" height="20" rx="4" fill="rgba(255,255,255,0.1)" stroke="hsl(var(--primary))" />
+    <motion.path d="M70,30 L100,30" stroke="rgba(74,222,128,0.5)" strokeWidth="2" />
+    <motion.circle cx="15" cy="30" r="4" fill="rgba(248,113,113,0.5)"
+      initial={{ x: 0 }} animate={{ x: 35, opacity: 0 }} transition={{ duration: 1, repeat: Infinity }} />
+    <motion.circle cx="15" cy="30" r="4" fill="rgba(74,222,128,0.5)"
+      initial={{ x: 0 }} animate={{ x: 85 }} transition={{ duration: 1, repeat: Infinity, delay: 0.3 }} />
+  </svg>
+);
+
 const carouselItems = [
   {
     icon: Eye,
@@ -114,7 +233,7 @@ const carouselItems = [
   {
     icon: Shield,
     title: "security scan badge",
-    description: "every link shows its security status—scanned & safe, ssl secured, or pending review.",
+    description: "every link shows its security status—scanned & safe, SSL secured, or pending review.",
     visual: <SecurityBadgeVisual />,
   },
   {
@@ -131,8 +250,8 @@ const carouselItems = [
   },
   {
     icon: QrCode,
-    title: "auto qr generation",
-    description: "every short link gets a branded qr code automatically. no extra steps.",
+    title: "auto QR generation",
+    description: "every short link gets a branded QR code automatically. no extra steps.",
     visual: <SecurityBadgeVisual />,
   },
   {
@@ -153,21 +272,48 @@ const carouselItems = [
     description: "assign links to team members. clear accountability and organized management.",
     visual: <SecurityBadgeVisual />,
   },
+  // 4 New carousel items
+  {
+    icon: Activity,
+    title: "link health scores",
+    description: "proactive monitoring catches issues before your audience does. SSL, uptime, speed—all tracked.",
+    visual: <HealthScoreVisual />,
+  },
+  {
+    icon: ShieldCheck,
+    title: "fraud protection",
+    description: "ML-powered filtering removes bots from your analytics. see only real human engagement.",
+    visual: <FraudFilterVisual />,
+  },
+  {
+    icon: Route,
+    title: "smart routing",
+    description: "device-aware redirects send users to the right destination. iOS, Android, desktop—handled.",
+    visual: <LinkPreviewVisual />,
+  },
+  {
+    icon: FlaskConical,
+    title: "A/B testing",
+    description: "statistically significant split tests for landing pages. know which page wins with confidence.",
+    visual: <SecurityBadgeVisual />,
+  },
 ];
 
 const stats = [
-  { value: "99.99%", label: "uptime guarantee" },
+  { value: "99.99%", label: "uptime SLA" },
   { value: "<50ms", label: "redirect latency" },
-  { value: "2B+", label: "links shortened" },
-  { value: "180+", label: "countries served" },
+  { value: "0", label: "broken links undetected" },
+  { value: "98.7%", label: "bot detection accuracy" },
 ];
 
 const beforeAfterItems = [
   { feature: "URL clarity", before: "bit.ly/3x7Kz9", after: "acme.co/summer-sale" },
   { feature: "User trust", before: "suspicious, hesitant", after: "confident clicking" },
-  { feature: "Brand presence", before: "generic shortener", after: "your domain" },
-  { feature: "Destination visibility", before: "unknown until click", after: "preview available" },
-  { feature: "Security status", before: "no indication", after: "scanned & verified" },
+  { feature: "Link intelligence", before: "static redirect", after: "AI-optimized routing" },
+  { feature: "Health monitoring", before: "find out when users complain", after: "proactive alerts before issues" },
+  { feature: "Click quality", before: "bots inflate numbers", after: "98.7% human-verified clicks" },
+  { feature: "Testing", before: "guess which page wins", after: "statistical confidence" },
+  { feature: "Deep links", before: "broken app experiences", after: "seamless app-to-web fallback" },
 ];
 
 const capabilities = [
@@ -209,6 +355,19 @@ const capabilities = [
     features: ["Real-time click tracking", "Geographic breakdown", "Device & browser stats", "Referrer analysis"],
     href: "/features/analytics",
   },
+  // 2 New capability cards
+  {
+    id: "ai-intelligence",
+    title: "AI Intelligence",
+    icon: Brain,
+    features: ["Smart slug suggestions", "Click prediction", "Optimal timing", "Performance forecasting"],
+  },
+  {
+    id: "fraud-protection",
+    title: "Fraud Protection",
+    icon: ShieldCheck,
+    features: ["Bot detection", "Click verification", "IP reputation", "Traffic quality scores"],
+  },
 ];
 
 const ShortLinks = () => {
@@ -226,9 +385,9 @@ const ShortLinks = () => {
     >
       {/* Fold 1: Hero with Interactive Tool */}
       <FeatureHeroWithTool
-        headlineLine1="links that work"
-        headlineLine2="harder than you."
-        subheadline="create short links with custom domains, security badges, and full analytics. every click tracked, every destination trusted."
+        headlineLine1="every click"
+        headlineLine2="builds trust."
+        subheadline="generic links feel suspicious. branded links feel intentional. utm.one makes every click feel safe—with security badges, destination previews, and invisible intelligence."
         toolComponent={<URLShortenerBasic />}
       />
 
@@ -240,7 +399,7 @@ const ShortLinks = () => {
 
       {/* Fold 3: Feature Carousel with Subtle Pagination */}
       <FeatureCarouselSection
-        headline="8 ways to make every link count"
+        headline="12 ways to make every link count"
         subheadline="each feature designed to increase trust and drive more clicks"
         items={carouselItems}
       />

@@ -13,10 +13,13 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Menu, ChevronDown } from "lucide-react";
-import { ProductMegaDropdown } from "./mega-dropdown/ProductMegaDropdown";
-import { FeaturesMegaDropdown } from "./mega-dropdown/features/FeaturesMegaDropdown";
-import { SolutionsMegaDropdown } from "./mega-dropdown/solutions/SolutionsMegaDropdown";
-import { ResourcesMegaDropdown } from "./mega-dropdown/resources/ResourcesMegaDropdown";
+import { 
+  ProductDropdown, 
+  FeaturesDropdown, 
+  SolutionsDropdown, 
+  ResourcesDropdown 
+} from "@/components/lazy/LazyMegaDropdowns";
+import { createDropdownPreloadHandler } from "@/lib/dropdownPreloader";
 
 export const ResourcesNavigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -56,38 +59,54 @@ export const ResourcesNavigation = () => {
           <NavigationMenu>
             <NavigationMenuList className="gap-1">
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="h-9 px-3 text-sm font-medium text-zinc-600 hover:text-zinc-900 data-[state=open]:text-zinc-900 bg-transparent">
+                <NavigationMenuTrigger 
+                  className="h-9 px-3 text-sm font-medium text-zinc-600 hover:text-zinc-900 data-[state=open]:text-zinc-900 bg-transparent"
+                  onMouseEnter={createDropdownPreloadHandler('product')}
+                  onFocus={createDropdownPreloadHandler('product')}
+                >
                   Product
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ProductMegaDropdown variant="light" />
+                  <ProductDropdown variant="light" />
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="h-9 px-3 text-sm font-medium text-zinc-600 hover:text-zinc-900 data-[state=open]:text-zinc-900 bg-transparent">
+                <NavigationMenuTrigger 
+                  className="h-9 px-3 text-sm font-medium text-zinc-600 hover:text-zinc-900 data-[state=open]:text-zinc-900 bg-transparent"
+                  onMouseEnter={createDropdownPreloadHandler('features')}
+                  onFocus={createDropdownPreloadHandler('features')}
+                >
                   Features
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <FeaturesMegaDropdown variant="light" />
+                  <FeaturesDropdown variant="light" />
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="h-9 px-3 text-sm font-medium text-zinc-600 hover:text-zinc-900 data-[state=open]:text-zinc-900 bg-transparent">
+                <NavigationMenuTrigger 
+                  className="h-9 px-3 text-sm font-medium text-zinc-600 hover:text-zinc-900 data-[state=open]:text-zinc-900 bg-transparent"
+                  onMouseEnter={createDropdownPreloadHandler('solutions')}
+                  onFocus={createDropdownPreloadHandler('solutions')}
+                >
                   Solutions
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <SolutionsMegaDropdown variant="light" />
+                  <SolutionsDropdown variant="light" />
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="h-9 px-3 text-sm font-medium text-zinc-600 hover:text-zinc-900 data-[state=open]:text-zinc-900 bg-transparent">
+                <NavigationMenuTrigger 
+                  className="h-9 px-3 text-sm font-medium text-zinc-600 hover:text-zinc-900 data-[state=open]:text-zinc-900 bg-transparent"
+                  onMouseEnter={createDropdownPreloadHandler('resources')}
+                  onFocus={createDropdownPreloadHandler('resources')}
+                >
                   Resources
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ResourcesMegaDropdown variant="light" />
+                  <ResourcesDropdown variant="light" />
                 </NavigationMenuContent>
               </NavigationMenuItem>
 

@@ -33,6 +33,7 @@ import {
   SolutionsDropdown, 
   ResourcesDropdown 
 } from "@/components/lazy/LazyMegaDropdowns";
+import { createDropdownPreloadHandler } from "@/lib/dropdownPreloader";
 
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -104,7 +105,11 @@ export const Navigation = () => {
             <NavigationMenuList className="gap-2">
               {/* Product Dropdown */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="h-9 px-3 text-small-text font-medium bg-transparent transition-apple text-white-70 hover:text-white-90 data-[state=open]:text-white-90">
+                <NavigationMenuTrigger 
+                  className="h-9 px-3 text-small-text font-medium bg-transparent transition-apple text-white-70 hover:text-white-90 data-[state=open]:text-white-90"
+                  onMouseEnter={createDropdownPreloadHandler('product')}
+                  onFocus={createDropdownPreloadHandler('product')}
+                >
                   {formatText("product")}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -114,7 +119,11 @@ export const Navigation = () => {
 
               {/* Features Dropdown */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="h-9 px-3 text-small-text font-medium bg-transparent transition-apple text-white-70 hover:text-white-90 data-[state=open]:text-white-90">
+                <NavigationMenuTrigger 
+                  className="h-9 px-3 text-small-text font-medium bg-transparent transition-apple text-white-70 hover:text-white-90 data-[state=open]:text-white-90"
+                  onMouseEnter={createDropdownPreloadHandler('features')}
+                  onFocus={createDropdownPreloadHandler('features')}
+                >
                   {formatText("features")}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -124,7 +133,11 @@ export const Navigation = () => {
 
               {/* Solutions Dropdown */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="h-9 px-3 text-small-text font-medium bg-transparent transition-apple text-white-70 hover:text-white-90 data-[state=open]:text-white-90">
+                <NavigationMenuTrigger 
+                  className="h-9 px-3 text-small-text font-medium bg-transparent transition-apple text-white-70 hover:text-white-90 data-[state=open]:text-white-90"
+                  onMouseEnter={createDropdownPreloadHandler('solutions')}
+                  onFocus={createDropdownPreloadHandler('solutions')}
+                >
                   {formatText("solutions")}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -134,7 +147,11 @@ export const Navigation = () => {
 
               {/* Resources Dropdown */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="h-9 px-3 text-small-text font-medium bg-transparent transition-apple text-white-70 hover:text-white-90 data-[state=open]:text-white-90">
+                <NavigationMenuTrigger 
+                  className="h-9 px-3 text-small-text font-medium bg-transparent transition-apple text-white-70 hover:text-white-90 data-[state=open]:text-white-90"
+                  onMouseEnter={createDropdownPreloadHandler('resources')}
+                  onFocus={createDropdownPreloadHandler('resources')}
+                >
                   {formatText("resources")}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>

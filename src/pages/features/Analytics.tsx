@@ -15,6 +15,14 @@ import {
   AICommandVisual,
   AnomalyRadarVisual,
 } from "@/components/features/visuals/FeatureVisuals";
+import {
+  RevenueWaterfallVisual,
+  UTMDecayAlertVisual,
+  BudgetReallocationVisual,
+  ConversionLagHeatmapVisual,
+  SaturationCurveVisual,
+  RealTimePulseVisual,
+} from "@/components/features/visuals/EnhancedFeatureVisuals";
 import { RevenueIntelligenceDashboard } from "@/components/features/visuals/RevenueIntelligenceDashboard";
 import { motion } from "framer-motion";
 import { 
@@ -27,142 +35,157 @@ import {
   Target,
   Zap,
   Route,
-  MessageSquare
+  MessageSquare,
+  DollarSign,
+  AlertTriangle,
+  Clock,
+  Activity,
+  Waves,
+  PieChart
 } from "lucide-react";
 
 const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const controlDeckTabs = [
   {
-    id: "attribution",
-    icon: GitBranch,
-    label: "multi-touch attribution",
-    headline: "every touchpoint credited.",
-    subheadline: "7 attribution models show each channel's true contribution to revenue—not just last-click.",
-    visual: <AttributionFlowVisual />,
+    id: "revenue-waterfall",
+    icon: DollarSign,
+    label: "revenue waterfall",
+    headline: "see money flow.",
+    subheadline: "interactive waterfall shows exactly where revenue comes from—by UTM, by channel, by campaign.",
+    visual: <RevenueWaterfallVisual />,
   },
   {
-    id: "cross-device",
-    icon: Smartphone,
-    label: "cross-device identity",
-    headline: "unified customer view.",
-    subheadline: "stitch mobile → desktop → app sessions. see the complete journey, not device fragments.",
-    visual: <CrossDeviceVisual />,
+    id: "decay-alerts",
+    icon: AlertTriangle,
+    label: "UTM decay alerts",
+    headline: "stale parameters detected.",
+    subheadline: "we alert you when UTM performance drops. catch decay before your reports lie.",
+    visual: <UTMDecayAlertVisual />,
   },
   {
-    id: "forecasting",
-    icon: TrendingUp,
-    label: "predictive forecasting",
-    headline: "see 7 days ahead.",
-    subheadline: "traffic predictions with 85-92% accuracy. plan campaigns with confidence intervals.",
-    visual: <PredictionVisual />,
-  },
-  {
-    id: "ai",
+    id: "budget-ai",
     icon: Brain,
-    label: "AI command center",
-    headline: "ask anything.",
-    subheadline: "natural language queries: 'which campaign had best ROI?' get instant, data-backed answers.",
-    visual: <AICommandVisual />,
+    label: "budget reallocation AI",
+    headline: "spend smarter.",
+    subheadline: "AI shows where to move budget for maximum ROI. data-backed, not gut-based.",
+    visual: <BudgetReallocationVisual />,
   },
   {
-    id: "anomaly",
-    icon: Bell,
-    label: "anomaly detection",
-    headline: "24/7 pulse monitoring.",
-    subheadline: "get alerts when traffic spikes or drops unexpectedly. never miss a viral moment.",
-    visual: <AnomalyRadarVisual />,
+    id: "conversion-lag",
+    icon: Clock,
+    label: "conversion lag heatmap",
+    headline: "time to convert.",
+    subheadline: "visualize how long each channel takes to close. plan campaigns with timing insight.",
+    visual: <ConversionLagHeatmapVisual />,
+  },
+  {
+    id: "saturation",
+    icon: Waves,
+    label: "channel saturation",
+    headline: "when enough is enough.",
+    subheadline: "see diminishing returns before you overspend on saturated channels.",
+    visual: <SaturationCurveVisual />,
+  },
+  {
+    id: "pulse",
+    icon: Activity,
+    label: "real-time pulse",
+    headline: "live campaign vitals.",
+    subheadline: "heartbeat monitor for your active campaigns. green = healthy, red = needs attention.",
+    visual: <RealTimePulseVisual />,
   },
 ];
 
 const Analytics = () => {
   const carouselItems = [
     {
+      icon: DollarSign,
+      title: "revenue waterfall",
+      description: "see exactly where revenue flows—by UTM, channel, campaign. interactive drill-down."
+    },
+    {
       icon: GitBranch,
       title: "multi-touch attribution",
-      description: "7 attribution models show each touchpoint's true contribution to revenue—not just last-click."
+      description: "7 models show each touchpoint's true contribution to revenue—not just last-click."
     },
     {
       icon: Smartphone,
       title: "cross-device identity",
-      description: "stitch mobile → desktop → app sessions. see the complete journey, not device fragments."
-    },
-    {
-      icon: Route,
-      title: "customer journey flow",
-      description: "sankey diagrams show how prospects flow through touchpoints to conversion."
-    },
-    {
-      icon: TrendingUp,
-      title: "traffic forecasting",
-      description: "7-day predictions with 85-92% accuracy. plan campaigns with confidence intervals."
+      description: "stitch mobile → desktop → app sessions. see the complete journey, not fragments."
     },
     {
       icon: Brain,
-      title: "AI command center",
-      description: "ask questions in plain english. 'which campaign had the best ROI?' get instant answers."
+      title: "budget reallocation AI",
+      description: "AI shows where to move budget for maximum ROI. data-backed recommendations."
     },
     {
-      icon: Bell,
-      title: "anomaly detection",
-      description: "pulse watchdog monitors your data 24/7. get alerts when traffic spikes or drops."
+      icon: AlertTriangle,
+      title: "UTM decay alerts",
+      description: "get notified when UTM performance drops. catch decay before it corrupts reports."
     },
     {
-      icon: Target,
-      title: "topic attribution",
-      description: "which content themes drive conversions? fingerprint your content and track what resonates."
+      icon: Clock,
+      title: "conversion lag analysis",
+      description: "how long does each channel take to convert? plan campaigns with timing insight."
     },
     {
-      icon: MessageSquare,
-      title: "smart insights",
-      description: "auto-generated recommendations. surface hidden opportunities. spot trends first."
+      icon: Waves,
+      title: "saturation curves",
+      description: "see diminishing returns before you overspend. know when enough is enough."
+    },
+    {
+      icon: Activity,
+      title: "real-time pulse",
+      description: "heartbeat monitor for campaigns. green = healthy, red = needs attention."
     }
   ];
 
   const stats = [
     { value: "7", label: "attribution models", suffix: "" },
-    { value: "85", label: "forecast accuracy", suffix: "%" },
-    { value: "24", label: "monitoring", suffix: "/7" },
-    { value: "100", label: "latency", suffix: "ms" }
+    { value: "92", label: "forecast accuracy", suffix: "%" },
+    { value: "<100", label: "latency", suffix: "ms" },
+    { value: "$2.4M", label: "avg revenue attributed", suffix: "" },
   ];
 
   const beforeAfterItems = [
-    { feature: "attribution", before: "last-click only", after: "7 multi-touch models" },
-    { feature: "cross-device", before: "fragmented silos", after: "unified identity graph" },
-    { feature: "forecasting", before: "gut feelings", after: "85-92% accuracy predictions" },
-    { feature: "insights", before: "manual reports", after: "AI-powered answers" },
-    { feature: "anomalies", before: "missed entirely", after: "instant pulse alerts" }
+    { feature: "revenue visibility", before: "clicks only", after: "full revenue waterfall" },
+    { feature: "attribution", before: "last-click bias", after: "7 multi-touch models" },
+    { feature: "budget decisions", before: "gut feelings", after: "AI-powered reallocation" },
+    { feature: "performance decay", before: "missed entirely", after: "instant decay alerts" },
+    { feature: "channel saturation", before: "overspend blindly", after: "see diminishing returns" },
+    { feature: "campaign health", before: "check manually", after: "real-time pulse monitor" }
   ];
 
   const capabilities = [
     {
+      icon: DollarSign,
+      title: "Revenue Intelligence",
+      features: ["Revenue waterfall", "Channel ROI", "Campaign attribution", "Deal tracking"]
+    },
+    {
       icon: GitBranch,
-      title: "attribution models",
-      features: ["linear", "time-decay", "position-based", "first-click", "last-click", "w-shaped", "custom weighted"]
-    },
-    {
-      icon: Smartphone,
-      title: "identity graph",
-      features: ["cross-device stitching", "probabilistic matching", "login identity sync", "session unification"]
-    },
-    {
-      icon: TrendingUp,
-      title: "predictions",
-      features: ["traffic forecasting", "conversion predictions", "best time analysis", "lift modeling"]
+      title: "Attribution Models",
+      features: ["Linear", "Time-decay", "Position-based", "First/last-click", "W-shaped", "Custom"]
     },
     {
       icon: Brain,
-      title: "AI intelligence",
-      features: ["natural language queries", "smart recommendations", "anomaly detection", "automated reports"]
+      title: "AI Insights",
+      features: ["Budget reallocation", "Performance predictions", "Natural language queries", "Smart recommendations"]
+    },
+    {
+      icon: Activity,
+      title: "Real-Time Monitoring",
+      features: ["Campaign pulse", "UTM decay alerts", "Saturation curves", "Anomaly detection"]
     }
   ];
 
   return (
     <FeatureLayout
-      title="Revenue Intelligence | utm.one"
-      description="Stop counting clicks. Start measuring revenue. Multi-touch attribution, customer journey visualization, predictive forecasting, and AI-powered insights."
+      title="Revenue Intelligence - From Clicks to Revenue | utm.one"
+      description="Stop counting clicks. Start measuring revenue. Multi-touch attribution, revenue waterfall, budget AI, and real-time campaign monitoring."
       canonical="https://utm.one/features/analytics"
-      keywords={["revenue intelligence", "multi-touch attribution", "marketing analytics", "customer journey", "predictive analytics"]}
+      keywords={["revenue intelligence", "multi-touch attribution", "marketing analytics", "revenue waterfall", "budget optimization"]}
       breadcrumbs={[
         { name: "Home", url: "https://utm.one" },
         { name: "Features", url: "https://utm.one/#features" },
@@ -183,10 +206,10 @@ const Analytics = () => {
               revenue intelligence platform
             </div>
             <h1 className="text-5xl md:text-7xl font-display font-bold hero-gradient mb-6">
-              from clicks to revenue.
+              from clicks<br />to revenue.
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
-              utm.one doesn't just count clicks. it shows which touchpoints actually drive revenue—across devices, channels, and time.
+              utm.one doesn't just count clicks. it shows which touchpoints actually drive revenue—with AI recommendations to spend smarter.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <CTAButton href="/early-access" variant="primary">
@@ -200,10 +223,10 @@ const Analytics = () => {
         </div>
       </section>
 
-      {/* Control Deck */}
+      {/* Control Deck - New Features */}
       <FeatureControlDeck
         tabs={controlDeckTabs}
-        badge={{ title: "Clean Track Intelligence™", subtitle: "MIT & Harvard algorithms" }}
+        badge={{ title: "Clean Track Intelligence™", subtitle: "AI-powered analytics" }}
       />
 
       {/* Carousel Section */}
@@ -242,6 +265,8 @@ const Analytics = () => {
       <FeatureFinalCTA
         headline="ready to see what's really working?"
         subheadline="join teams measuring revenue, not just clicks"
+        primaryCTA={{ label: "get started free", href: "/early-access" }}
+        secondaryCTA={{ label: "book a demo", href: "/book-demo" }}
       />
     </FeatureLayout>
   );
