@@ -74,11 +74,15 @@ export const HelpPanel = () => {
 
   return (
     <>
-      {/* Floating Help Button */}
+      {/* Floating Help Button - position higher on link detail pages to avoid save button overlap */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "fixed bottom-20 md:bottom-6 right-6 z-50",
+          "fixed right-6 z-50",
+          // Higher position on link detail pages to avoid save button overlap
+          location.pathname.match(/\/dashboard\/links\/[^/]+$/) 
+            ? "bottom-28 md:bottom-24" 
+            : "bottom-20 md:bottom-6",
           "w-14 h-14 rounded-full",
           "shadow-lg hover:shadow-xl",
           "flex items-center justify-center",

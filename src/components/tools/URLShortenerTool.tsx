@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Link2, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { supabase } from "@/integrations/supabase/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { generateSlugFromTitle } from "@/lib/slugify";
@@ -207,6 +208,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
       setCreatedLinkId(link.id);
       // Invalidate links-count to disable demo mode
       queryClient.invalidateQueries({ queryKey: ["links-count"] });
+      notify.success("link created successfully!");
     },
     onError: (error: Error) => {
       setIsSubmitting(false);
