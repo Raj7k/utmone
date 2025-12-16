@@ -153,16 +153,16 @@ export function useIntelligenceData(
           .eq("workspace_id", workspaceId)
           .gte("attributed_at", startDateStr),
         
-        // 3. Channel mix - use links table with total_clicks
+        // 3. Channel mix - query link_clicks with date filter, join to links for utm_source
         supabase
-          .from("links")
-          .select("utm_source, total_clicks")
+          .from("link_clicks")
+          .select("link_id, links!inner(utm_source)")
           .eq("workspace_id", workspaceId)
-          .not("utm_source", "is", null)
-          .order("total_clicks", { ascending: false })
-          .limit(10),
+          .gte("clicked_at", startDateStr)
+          .not("links.utm_source", "is", null)
+          .limit(5000),
         
-        // 4. Geo data - limit to top 50 most recent
+        // 4. Geo data - increased limit for better accuracy
         supabase
           .from("link_clicks")
           .select("city, country")
@@ -170,7 +170,7 @@ export function useIntelligenceData(
           .gte("clicked_at", startDateStr)
           .not("city", "is", null)
           .order("clicked_at", { ascending: false })
-          .limit(50),
+          .limit(500),
         
         // 5. Recent clicks for live feed - only last 10
         supabase
@@ -202,9 +202,13 @@ export function useIntelligenceData(
         clicksTrend = change > 0 ? "up" : change < 0 ? "down" : "neutral";
       }
 
-      // Process channel mix first (needed for topChannels)
-      const channelData = (channelMixResult.data || []).filter((link: any) => link.utm_source);
-      const channelTotal = channelData.reduce((sum: number, link: any) => sum + (link.total_clicks || 0), 0);
+      // Process channel mix - aggregate clicks by utm_source from link_clicks data
+      const channelAggregated: Record<string, number> = {};
+      (channelMixResult.data || []).forEach((click: any) => {
+        const source = click.links?.utm_source || "direct";
+        channelAggregated[source] = (channelAggregated[source] || 0) + 1;
+      });
+      const channelTotal = Object.values(channelAggregated).reduce((sum, c) => sum + c, 0);
 
       // Process revenue data
       let totalRevenue = 0;
@@ -212,13 +216,7 @@ export function useIntelligenceData(
         totalRevenue += conv.event_value || 0;
       });
 
-      // Top channels - aggregate by source first to avoid duplicate keys
-      const channelAggregated = channelData.reduce((acc: Record<string, number>, link: any) => {
-        const source = link.utm_source || "direct";
-        acc[source] = (acc[source] || 0) + (link.total_clicks || 0);
-        return acc;
-      }, {});
-      
+      // Top channels sorted by click count
       const topChannels = Object.entries(channelAggregated)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 3)
@@ -228,31 +226,67 @@ export function useIntelligenceData(
           percentage: channelTotal > 0 ? (clicks / channelTotal) * 100 : 0,
         }));
 
-      // Use preloaded campaigns or fetch if not available
+      // Get campaigns with actual click counts
       let topCampaigns: Array<{ id: string; name: string; clicks: number }> = [];
-      if (preloadedCampaigns && preloadedCampaigns.length > 0) {
-        topCampaigns = preloadedCampaigns.map(c => ({ ...c, clicks: 0 }));
-      } else {
+      const campaignNames = preloadedCampaigns || [];
+      
+      // Fetch campaigns if not preloaded
+      let campaignsToProcess = campaignNames;
+      if (!preloadedCampaigns || preloadedCampaigns.length === 0) {
         const campaignsResult = await supabase
           .from("campaigns")
           .select("id, name")
           .eq("workspace_id", workspaceId)
           .eq("status", "active")
           .limit(5);
-        topCampaigns = (campaignsResult.data || []).map((c: any) => ({
-          id: c.id,
-          name: c.name,
-          clicks: 0,
-        }));
+        campaignsToProcess = (campaignsResult.data || []).map((c: any) => ({ id: c.id, name: c.name }));
+      }
+      
+      // Get actual click counts for each campaign
+      if (campaignsToProcess.length > 0) {
+        const campaignIds = campaignsToProcess.map(c => c.id);
+        const { data: campaignLinks } = await supabase
+          .from("links")
+          .select("id, campaign_id")
+          .eq("workspace_id", workspaceId)
+          .in("campaign_id", campaignIds);
+        
+        if (campaignLinks && campaignLinks.length > 0) {
+          const linkIds = campaignLinks.map(l => l.id);
+          const { data: campaignClicks } = await supabase
+            .from("link_clicks")
+            .select("link_id")
+            .eq("workspace_id", workspaceId)
+            .gte("clicked_at", startDateStr)
+            .in("link_id", linkIds);
+          
+          // Aggregate clicks by campaign
+          const clicksByCampaign: Record<string, number> = {};
+          campaignClicks?.forEach((click: any) => {
+            const link = campaignLinks.find(l => l.id === click.link_id);
+            if (link?.campaign_id) {
+              clicksByCampaign[link.campaign_id] = (clicksByCampaign[link.campaign_id] || 0) + 1;
+            }
+          });
+          
+          topCampaigns = campaignsToProcess.map(c => ({
+            id: c.id,
+            name: c.name,
+            clicks: clicksByCampaign[c.id] || 0,
+          })).sort((a, b) => b.clicks - a.clicks);
+        } else {
+          topCampaigns = campaignsToProcess.map(c => ({ id: c.id, name: c.name, clicks: 0 }));
+        }
       }
 
-      // Channel mix for donut chart
-      const channelMix = channelData
+      // Channel mix for donut chart - using date-filtered data
+      const channelMix = Object.entries(channelAggregated)
+        .sort((a, b) => b[1] - a[1])
         .slice(0, 5)
-        .map((link: any) => ({
-          name: link.utm_source,
-          value: link.total_clicks || 0,
-          percentage: channelTotal > 0 ? ((link.total_clicks || 0) / channelTotal) * 100 : 0,
+        .map(([name, value]) => ({
+          name,
+          value,
+          percentage: channelTotal > 0 ? (value / channelTotal) * 100 : 0,
         }));
 
       // Process geo data

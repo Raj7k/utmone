@@ -36,6 +36,12 @@ export default function RevenueBentoCard({ workspaceId, days, context, preloaded
 
       const startDate = new Date();
       startDate.setDate(startDate.getDate() - days);
+      const startDateStr = startDate.toISOString();
+      
+      // Previous period for trend
+      const prevStartDate = new Date(startDate);
+      prevStartDate.setDate(prevStartDate.getDate() - days);
+      const prevStartDateStr = prevStartDate.toISOString();
 
       // Fetch conversion events with revenue
       const { data: conversions, error } = await supabase
@@ -52,12 +58,25 @@ export default function RevenueBentoCard({ workspaceId, days, context, preloaded
           )
         `)
         .eq("workspace_id", workspaceId)
-        .gte("attributed_at", startDate.toISOString())
+        .gte("attributed_at", startDateStr)
         .limit(2000);
 
       if (error) throw error;
 
-      // Aggregate by source
+      // Previous period conversions for trend
+      const { data: prevConversions } = await supabase
+        .from("conversion_events")
+        .select(`
+          event_value,
+          link_id,
+          links!inner(utm_source)
+        `)
+        .eq("workspace_id", workspaceId)
+        .gte("attributed_at", prevStartDateStr)
+        .lt("attributed_at", startDateStr)
+        .limit(2000);
+
+      // Aggregate by source - current period
       const sourceMap = new Map<string, number>();
       let totalRevenue = 0;
 
@@ -69,21 +88,42 @@ export default function RevenueBentoCard({ workspaceId, days, context, preloaded
         sourceMap.set(source, (sourceMap.get(source) || 0) + value);
       });
 
-      // Sort and get top 3
+      // Aggregate by source - previous period
+      const prevSourceMap = new Map<string, number>();
+      let prevTotalRevenue = 0;
+      prevConversions?.forEach((conv: any) => {
+        const value = conv.event_value || 0;
+        prevTotalRevenue += value;
+        const source = conv.links?.utm_source || "direct";
+        prevSourceMap.set(source, (prevSourceMap.get(source) || 0) + value);
+      });
+
+      // Sort and get top 3 with real trends
       const channels: ChannelAttribution[] = Array.from(sourceMap.entries())
         .sort((a, b) => b[1] - a[1])
         .slice(0, 3)
-        .map(([source, revenue]) => ({
-          source,
-          revenue,
-          percentage: totalRevenue > 0 ? (revenue / totalRevenue) * 100 : 0,
-          trend: Math.random() > 0.5 ? Math.random() * 20 : -Math.random() * 10, // Placeholder
-        }));
+        .map(([source, revenue]) => {
+          const prevRevenue = prevSourceMap.get(source) || 0;
+          const trend = prevRevenue > 0 ? ((revenue - prevRevenue) / prevRevenue) * 100 : 0;
+          return {
+            source,
+            revenue,
+            percentage: totalRevenue > 0 ? (revenue / totalRevenue) * 100 : 0,
+            trend: Math.round(trend),
+          };
+        });
 
-      // Generate sparkline data (last 7 data points)
-      const sparklineData = Array.from({ length: 7 }, (_, i) => ({
-        value: Math.floor(Math.random() * 1000) + 500, // Placeholder
-      }));
+      // Build real sparkline from daily revenue
+      const dailyRevenue = Array(7).fill(0);
+      conversions?.forEach((conv: any) => {
+        const convDate = new Date(conv.attributed_at);
+        const dayIndex = Math.floor((Date.now() - convDate.getTime()) / (24 * 60 * 60 * 1000));
+        if (dayIndex >= 0 && dayIndex < 7) {
+          dailyRevenue[6 - dayIndex] += conv.event_value || 0;
+        }
+      });
+
+      const sparklineData = dailyRevenue.map(value => ({ value }));
 
       return {
         totalRevenue,
@@ -101,7 +141,7 @@ export default function RevenueBentoCard({ workspaceId, days, context, preloaded
     totalRevenue: preloadedData?.totalRevenue ?? 0,
     conversions: preloadedData?.conversions ?? 0,
     channels: (preloadedData?.channels ?? []).map(c => ({ ...c, trend: 0 })),
-    sparklineData: Array.from({ length: 7 }, () => ({ value: Math.floor(Math.random() * 1000) + 500 })),
+    sparklineData: [], // Empty sparkline when preloaded - will show flat line
   } : data;
 
   const showLoading = !hasPreloadedData && isLoading;
