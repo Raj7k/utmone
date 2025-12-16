@@ -255,11 +255,7 @@ export default function Intelligence() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Suspense fallback={
-                    <div className="flex items-center justify-center py-12">
-                      <Network className="w-8 h-8 text-muted-foreground animate-pulse" />
-                    </div>
-                  }>
+                  <Suspense fallback={<DashboardContentLoader context="intelligence" minHeight="12rem" />}>
                     <IdentityGraphView />
                   </Suspense>
                 </CardContent>
@@ -402,11 +398,7 @@ export default function Intelligence() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Suspense fallback={
-                  <div className="flex items-center justify-center py-12">
-                    <Network className="w-8 h-8 text-muted-foreground animate-pulse" />
-                  </div>
-                }>
+                <Suspense fallback={<DashboardContentLoader context="intelligence" minHeight="12rem" />}>
                   <IdentityGraphView />
                 </Suspense>
               </CardContent>

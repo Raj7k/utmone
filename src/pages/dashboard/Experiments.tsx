@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { useExperiment } from "@/hooks/useExperiment";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { CreateExperimentDialog } from "@/components/experiments/CreateExperimentDialog";
+import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
 
 export default function Experiments() {
   const { currentWorkspace } = useWorkspaceContext();
@@ -39,14 +40,7 @@ export default function Experiments() {
   });
 
   if (isLoading) {
-    return (
-      <div className="space-y-6">
-        <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-muted rounded w-1/4"></div>
-          <div className="h-64 bg-muted rounded"></div>
-        </div>
-      </div>
-    );
+    return <DashboardContentLoader context="experiments" minHeight="50vh" />;
   }
 
   return (

@@ -2,7 +2,6 @@ import { useState, useEffect, lazy, Suspense } from "react";
 import { Plus, Waves, Zap, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useWorkspace } from "@/hooks/workspace";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { useEventsData } from "@/hooks/dashboard";
@@ -239,14 +238,7 @@ const Events = () => {
           </TabsContent>
 
           <TabsContent value="bridge" className="mt-0">
-            <Suspense fallback={
-              <div className="flex items-center justify-center py-24">
-                <div className="text-center">
-                  <Zap className="w-12 h-12 text-muted-foreground mb-4 mx-auto animate-pulse" />
-                  <p className="text-muted-foreground">loading event bridge...</p>
-                </div>
-              </div>
-            }>
+            <Suspense fallback={<DashboardContentLoader context="events" minHeight="24rem" />}>
               <EventBridgeTab />
             </Suspense>
           </TabsContent>

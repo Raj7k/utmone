@@ -46,6 +46,16 @@ const contextMessages: Record<string, string[]> = {
     "fetching geo data...",
     "preparing options...",
   ],
+  experiments: [
+    "loading experiments...",
+    "preparing test data...",
+    "analyzing results...",
+  ],
+  linkpages: [
+    "loading link pages...",
+    "preparing your pages...",
+    "almost ready...",
+  ],
 };
 
 interface DashboardContentLoaderProps {
