@@ -124,11 +124,16 @@ export const useAnalyticsData = (range: string = "30d") => {
       const clicks = clicksResult.data || [];
       const links = linksResult.data || [];
       const prevClicks = clicksDetailsResult.count || 0;
-      const totalClicks = clicks.length;
+      
+      // Use exact count from query (not limited by .limit(5000))
+      const totalClicks = clicksResult.count || clicks.length;
 
-      // Calculate unique visitors
+      // Calculate unique visitors - use Set for sample, but count is more accurate for large datasets
       const uniqueVisitorIds = new Set(clicks.map(c => c.visitor_id).filter(Boolean));
-      const uniqueVisitors = uniqueVisitorIds.size;
+      // For accuracy with large datasets, scale unique visitors proportionally if we hit the limit
+      const uniqueVisitors = clicks.length >= 5000 && clicksResult.count
+        ? Math.round((uniqueVisitorIds.size / clicks.length) * clicksResult.count)
+        : uniqueVisitorIds.size;
 
       // Calculate heatmap data
       const heatmapMap: Record<string, number> = {};
