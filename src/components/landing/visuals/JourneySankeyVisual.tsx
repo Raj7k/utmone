@@ -24,7 +24,7 @@ export const JourneySankeyVisual = () => {
   ];
 
   return (
-    <svg viewBox="0 0 120 60" className="w-full h-full">
+    <svg viewBox="0 0 120 60" className="w-full h-full transform-gpu">
       <defs>
         {/* Frosted glass gradient for destination node */}
         <radialGradient id="journeyLens" cx="50%" cy="50%" r="50%">
@@ -65,7 +65,8 @@ export const JourneySankeyVisual = () => {
             strokeWidth="0.3"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            transition={{ delay: i * 0.15, ease: appleSpring, duration: 0.6 }}
+            transition={{ delay: i * 0.15, type: "spring", stiffness: 100, damping: 15 }}
+            style={{ willChange: 'transform' }}
           />
         </g>
       ))}
@@ -86,6 +87,7 @@ export const JourneySankeyVisual = () => {
               initial={{ pathLength: 0, opacity: 0 }}
               animate={{ pathLength: 1, opacity: 1 }}
               transition={{ duration: 1.5, delay: 0.3 + srcIdx * 0.15, ease: appleSpring }}
+              style={{ willChange: 'stroke-dashoffset, opacity' }}
             />
           );
         })
@@ -109,10 +111,11 @@ export const JourneySankeyVisual = () => {
               delay: particle.delay,
               repeat: Infinity,
               repeatDelay: 1,
-              ease: appleSpring,
+              ease: "linear",
             }}
             style={{
               offsetPath: `path("M 30 ${source.y + 2} Q 70 ${source.y + 2}, 98 30")`,
+              willChange: 'offset-distance, opacity',
             }}
           />
         );
@@ -127,6 +130,7 @@ export const JourneySankeyVisual = () => {
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ delay: 1, type: "spring", stiffness: 100, damping: 15 }}
+        style={{ willChange: 'transform' }}
       />
       
       {/* Rim light - hairline white stroke */}
@@ -139,7 +143,8 @@ export const JourneySankeyVisual = () => {
         strokeWidth="0.3"
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
-        transition={{ delay: 1.1, ease: appleSpring, duration: 0.8 }}
+        transition={{ delay: 1.1, type: "spring", stiffness: 100, damping: 15 }}
+        style={{ willChange: 'transform' }}
       />
       
       {/* Subtle breathing pulse - no glow, just opacity */}
@@ -151,7 +156,8 @@ export const JourneySankeyVisual = () => {
         stroke="rgba(255,255,255,0.1)"
         strokeWidth="0.2"
         animate={{ r: [8, 10, 8], opacity: [0.1, 0.02, 0.1] }}
-        transition={{ duration: 3, repeat: Infinity, ease: appleSpring }}
+        transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+        style={{ willChange: 'r, opacity' }}
       />
       
       {/* Revenue symbol */}
@@ -161,7 +167,7 @@ export const JourneySankeyVisual = () => {
         fill="rgba(255,255,255,0.8)"
         fontSize="6"
         textAnchor="middle"
-        fontFamily="'SF Mono', ui-monospace"
+        fontFamily="'SF Mono', ui-monospace, monospace"
         fontWeight="600"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
