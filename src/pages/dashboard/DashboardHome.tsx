@@ -12,42 +12,27 @@ import { useDashboardCore } from "@/hooks/dashboard";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { useQueryClient } from "@tanstack/react-query";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
-import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
-// DashboardContentLoader removed - no longer blocking render
 import { LazySection } from "@/components/loading/LazySection";
 import { ActivityFeedSkeleton } from "@/components/loading/CardSkeleton";
 import { ActivityFeed } from "@/components/dashboard/ActivityFeed";
 
 const DashboardHome = () => {
   const { showDemoMode } = useDemoMode();
-  const { currentWorkspace, isWorkspaceLoading, retry } = useWorkspaceContext();
 
   // OPTIMIZED: Single RPC call (1 query instead of 10)
   const { links, stats, onboarding, isFetching, isFetched, isLoading, isStale, invalidate } = useDashboardCore();
 
-  const [workspaceTimeout, setWorkspaceTimeout] = useState(false);
   const [dataTimeout, setDataTimeout] = useState(false);
 
-  // Workspace timeout fallback - show retry after 3 seconds
-  useEffect(() => {
-    if (isWorkspaceLoading && !currentWorkspace) {
-      const timer = setTimeout(() => setWorkspaceTimeout(true), 3000);
-      return () => clearTimeout(timer);
-    }
-
-    setWorkspaceTimeout(false);
-  }, [isWorkspaceLoading, currentWorkspace]);
-
-  // Dashboard data timeout recovery - show refresh after 5 seconds
+  // CONSOLIDATED: Single loading state - dashboard data timeout recovery
   useEffect(() => {
     if (isLoading && !isFetched) {
       setDataTimeout(false);
       const timer = setTimeout(() => setDataTimeout(true), 5000);
       return () => clearTimeout(timer);
     }
-
     setDataTimeout(false);
   }, [isLoading, isFetched]);
 
@@ -76,20 +61,6 @@ const DashboardHome = () => {
   const handleContinue = useCallback(() => {
     setShowSuccess(false);
   }, []);
-
-  // FIXED: Removed blocking DashboardContentLoader
-  // Show retry option inline instead of blocking page
-  if (workspaceTimeout && !currentWorkspace) {
-    return (
-      <div className="p-6 lg:p-8 max-w-5xl mx-auto flex flex-col items-center justify-center min-h-[400px]">
-        <p className="text-sm text-muted-foreground mb-4">taking longer than expected...</p>
-        <Button variant="outline" onClick={retry} className="gap-2">
-          <RefreshCw className="h-4 w-4" />
-          retry
-        </Button>
-      </div>
-    );
-  }
 
   // NEW: Recovery state if dashboard data never resolves
   if (isLoading && !isFetched && dataTimeout) {

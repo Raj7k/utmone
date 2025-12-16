@@ -104,45 +104,11 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   // CONDITIONAL RETURNS - AFTER ALL HOOKS
   // ============================================
 
-  // INSTANT RENDER only if we have cached session AND context is ready
-  if (cachedAuth && isReady) {
+  // INSTANT PASS-THROUGH: If we have ANY cached session, render children immediately
+  // Children (DashboardLayout, DashboardHome) will handle their own loading states
+  // This eliminates the multiple sequential loading screens
+  if (cachedAuth || cachedSessionOnly) {
     return <>{children}</>;
-  }
-
-  // Partial cache (session+workspace cached but context not ready yet): wait for context
-  if (cachedAuth && !isReady && !hasTimedOut && !error) {
-    return (
-      <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center">
-        <div
-          className="absolute inset-0 opacity-[0.03] pointer-events-none"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-          }}
-        />
-
-        <div className="w-24 h-1 rounded-full bg-primary animate-breathing-pulse" />
-        <p className="mt-4 text-muted-foreground text-sm font-medium animate-fade-in">
-          loading workspace...
-        </p>
-      </div>
-    );
-  }
-
-  // Partial cache (session exists but workspace not ready): show brief "loading workspace"
-  if (cachedSessionOnly && !isReady && !hasTimedOut && !error) {
-    return (
-      <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center">
-        <div
-          className="absolute inset-0 opacity-[0.03] pointer-events-none"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-          }}
-        />
-
-        <div className="w-24 h-1 rounded-full bg-primary animate-breathing-pulse" />
-        <p className="mt-4 text-muted-foreground text-sm font-medium animate-fade-in">loading workspace...</p>
-      </div>
-    );
   }
 
   // Also render if context says ready and authenticated
