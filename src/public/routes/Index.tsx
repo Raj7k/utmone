@@ -6,7 +6,7 @@ import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
 import { HeroInlineCTA } from "@/components/landing/HeroInlineCTA";
 import { StaticSection } from "@/components/landing/StaticSection";
 import { LinkLayersSection } from "@/components/landing/LinkLayersSection";
-import { UseCaseType } from "@/components/landing/SideNavHero";
+import { UseCaseType } from "@/components/landing/ControlDeckHero";
 import { LazyOnScroll } from "@/components/lazy/LazyOnScroll";
 import { 
   useTrackPageView, 
