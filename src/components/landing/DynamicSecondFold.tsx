@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { UseCaseType } from "./SideNavHero";
+import { UseCaseType } from "./useCaseConfig";
 import { preserveAcronyms as p } from "@/utils/textFormatter";
 import { 
   TrendingUp, 

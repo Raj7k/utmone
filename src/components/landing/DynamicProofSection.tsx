@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { UseCaseType } from "./SideNavHero";
+import { UseCaseType, resolveUseCaseContent } from "./useCaseConfig";
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle2, Zap, Clock, Shield, Brain, Target } from "lucide-react";
 
@@ -7,12 +7,12 @@ interface DynamicProofSectionProps {
   selectedUseCase: UseCaseType;
 }
 
-const PROOF_CONTENT: Record<UseCaseType, {
+const PROOF_CONTENT: Partial<Record<UseCaseType, {
   eyebrow: string;
   headline: string;
   capabilities: { icon: typeof CheckCircle2; title: string; description: string }[];
   cta: { text: string; route: string };
-}> = {
+}>> = {
   attribution: {
     eyebrow: "clean-track attribution engine",
     headline: "mathematical proof, not guesswork.",
@@ -125,15 +125,44 @@ const PROOF_CONTENT: Record<UseCaseType, {
   },
 };
 
+const PROOF_FALLBACK_CONTENT = PROOF_CONTENT.links ?? PROOF_CONTENT.attribution ?? {
+  eyebrow: "utm.one",
+  headline: "clean links, clean data, clear proof.",
+  capabilities: [
+    {
+      icon: CheckCircle2,
+      title: "validated by default",
+      description: "templates and governance rules prevent broken tracking before it ships.",
+    },
+    {
+      icon: Shield,
+      title: "secure everywhere",
+      description: "enterprise controls, approvals, and audit trails protect every campaign.",
+    },
+    {
+      icon: Brain,
+      title: "ai-backed insights",
+      description: "anomaly detection and forecasts keep marketing data trustworthy in real time.",
+    },
+  ],
+  cta: { text: "explore the platform", route: "/product" },
+};
+
 export const DynamicProofSection = ({ selectedUseCase }: DynamicProofSectionProps) => {
-  const content = PROOF_CONTENT[selectedUseCase];
+  const { content, resolvedUseCase } = resolveUseCaseContent({
+    contentMap: PROOF_CONTENT,
+    useCase: selectedUseCase,
+    fallbackUseCase: "links",
+    defaultContent: PROOF_FALLBACK_CONTENT,
+    section: "Proof",
+  });
 
   return (
     <section className="py-16 md:py-24 relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <AnimatePresence mode="wait">
           <motion.div
-            key={selectedUseCase}
+            key={resolvedUseCase}
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -30 }}

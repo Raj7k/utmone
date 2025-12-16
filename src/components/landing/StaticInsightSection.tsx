@@ -3,7 +3,7 @@
  * Removes framer-motion dependency for better LCP
  */
 import { useEffect, useRef, useState } from "react";
-import { UseCaseType } from "./ControlDeckHero";
+import { UseCaseType } from "./useCaseConfig";
 import { cn } from "@/lib/utils";
 
 interface StaticInsightSectionProps {

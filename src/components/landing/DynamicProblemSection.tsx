@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { UseCaseType } from "./ControlDeckHero";
+import { UseCaseType, resolveUseCaseContent } from "./useCaseConfig";
 import { AlertTriangle, TrendingDown, Shuffle, Clock, FileWarning, LayoutGrid, Waves } from "lucide-react";
 import { LinkedInIcon, GoogleIcon, SpotifyIcon } from "@/components/icons/SocialIcons";
 
@@ -7,14 +7,14 @@ interface DynamicProblemSectionProps {
   selectedUseCase: UseCaseType;
 }
 
-const PROBLEM_CONTENT: Record<UseCaseType, {
+const PROBLEM_CONTENT: Partial<Record<UseCaseType, {
   icon: typeof AlertTriangle;
   eyebrow: string;
   headline: string;
   description: string;
   stat: { value: string; label: string };
   visual: React.ReactNode;
-}> = {
+}>> = {
   attribution: {
     icon: TrendingDown,
     eyebrow: "the attribution problem",
@@ -225,8 +225,23 @@ const PROBLEM_CONTENT: Record<UseCaseType, {
   },
 };
 
+const PROBLEM_FALLBACK_CONTENT = PROBLEM_CONTENT.attribution ?? {
+  icon: AlertTriangle,
+  eyebrow: "the marketing data problem",
+  headline: "broken tracking hides the real story.",
+  description: "inconsistent links and missing metadata make it impossible to trust reports. utm.one keeps every link clean by default.",
+  stat: { value: "0", label: "broken links in governed workspaces" },
+  visual: <div className="h-32 w-full rounded-xl bg-white/5 border border-white/10" />,
+};
+
 export const DynamicProblemSection = ({ selectedUseCase }: DynamicProblemSectionProps) => {
-  const content = PROBLEM_CONTENT[selectedUseCase];
+  const { content, resolvedUseCase } = resolveUseCaseContent({
+    contentMap: PROBLEM_CONTENT,
+    useCase: selectedUseCase,
+    fallbackUseCase: "journey",
+    defaultContent: PROBLEM_FALLBACK_CONTENT,
+    section: "Problem",
+  });
   const Icon = content.icon;
 
   return (
@@ -234,7 +249,7 @@ export const DynamicProblemSection = ({ selectedUseCase }: DynamicProblemSection
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <AnimatePresence mode="wait">
           <motion.div
-            key={selectedUseCase}
+            key={resolvedUseCase}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}

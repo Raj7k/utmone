@@ -88,6 +88,8 @@ const PublicUTMBuilder = lazy(() => import("@/pages/tools/UTMBuilder"));
 // Help
 const HelpIndex = lazy(() => import("@/pages/Help/index"));
 
+const NotFound = lazy(() => import("@/pages/NotFound"));
+
 // Legal
 const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
 
@@ -181,7 +183,9 @@ export function MarketingRoutes() {
       {/* Help */}
       <Route path="/help" element={wrap(HelpIndex)} />
       <Route path="/help/*" element={wrap(HelpIndex)} />
+
+      {/* Catch-all for unknown marketing slugs */}
+      <Route path="*" element={wrap(NotFound)} />
     </Routes>
   );
 }
-

@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { UseCaseType } from "./SideNavHero";
+import { UseCaseType, resolveUseCaseContent } from "./useCaseConfig";
 import {
   Accordion,
   AccordionContent,
@@ -11,7 +11,7 @@ interface DynamicFAQProps {
   selectedUseCase: UseCaseType;
 }
 
-const FAQ_CONTENT: Record<UseCaseType, { question: string; answer: string }[]> = {
+const FAQ_CONTENT: Partial<Record<UseCaseType, { question: string; answer: string }[]>> = {
   attribution: [
     {
       question: "how is this different from google analytics attribution?",
@@ -124,15 +124,23 @@ const FAQ_CONTENT: Record<UseCaseType, { question: string; answer: string }[]> =
   ],
 };
 
+const FAQ_FALLBACK_CONTENT = FAQ_CONTENT.attribution ?? [];
+
 export const DynamicFAQ = ({ selectedUseCase }: DynamicFAQProps) => {
-  const faqs = FAQ_CONTENT[selectedUseCase];
+  const { content: faqs, resolvedUseCase } = resolveUseCaseContent({
+    contentMap: FAQ_CONTENT,
+    useCase: selectedUseCase,
+    fallbackUseCase: "links",
+    defaultContent: FAQ_FALLBACK_CONTENT,
+    section: "FAQ",
+  });
 
   return (
     <section className="py-16 md:py-24 bg-white/[0.01]">
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <AnimatePresence mode="wait">
           <motion.div
-            key={selectedUseCase}
+            key={resolvedUseCase}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -153,10 +161,10 @@ export const DynamicFAQ = ({ selectedUseCase }: DynamicFAQProps) => {
                   backgroundClip: 'text'
                 }}
               >
-                questions about {selectedUseCase === 'attribution' ? 'attribution' : 
-                               selectedUseCase === 'journey' ? 'journey analytics' :
-                               selectedUseCase === 'links' ? 'link management' :
-                               selectedUseCase === 'intelligence' ? 'AI intelligence' :
+                questions about {resolvedUseCase === 'attribution' ? 'attribution' : 
+                               resolvedUseCase === 'journey' ? 'journey analytics' :
+                               resolvedUseCase === 'links' ? 'link management' :
+                               resolvedUseCase === 'intelligence' ? 'AI intelligence' :
                                'enterprise control'}
               </h2>
             </div>
