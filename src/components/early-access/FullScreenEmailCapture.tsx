@@ -28,7 +28,7 @@ export const FullScreenEmailCapture = ({
       return;
     }
     const timeout = setTimeout(() => {
-      setValidation(validateEmailSmart(email));
+      setValidation(validateEmailSmart(email, { allowDisposable: true }));
     }, 300);
     return () => clearTimeout(timeout);
   }, [email]);
@@ -36,19 +36,26 @@ export const FullScreenEmailCapture = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const result = validateEmailSmart(email);
-    if (!result.isValid) {
+    const result = validateEmailSmart(email, { allowDisposable: true });
+    if (!result.isValid && result.reason !== "disposable") {
       setValidation(result);
       return;
     }
 
     setIsSubmitting(true);
 
+    const normalizedEmail = result.normalizedEmail || email.trim().toLowerCase();
+
     // Capture email immediately
     await captureEmailLead({
-      email,
+      email: normalizedEmail,
       source: "fullscreen_capture",
       referralCode: new URLSearchParams(window.location.search).get("ref"),
+      metadata: {
+        email_quality_reason: result.reason,
+        email_suggestion_shown: !!result.suggestion,
+        is_disposable: result.reason === "disposable",
+      },
     });
 
     // Close this overlay and open the step form modal
@@ -131,6 +138,7 @@ export const FullScreenEmailCapture = ({
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className={`h-14 text-lg bg-card border-border rounded-xl text-center placeholder:text-muted-foreground focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all pr-12 ${
+                      validation?.reason === "disposable" ? 'border-amber-500' :
                       validation?.isValid ? 'border-green-500' :
                       validation?.error && validation.severity === 'error' ? 'border-red-500' :
                       validation?.error && validation.severity === 'warning' ? 'border-amber-500' : ''
@@ -140,7 +148,9 @@ export const FullScreenEmailCapture = ({
                   />
                   {/* Status icon */}
                   <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                    {validation?.isValid && (
+                    {validation?.reason === "disposable" ? (
+                      <AlertCircle className="h-5 w-5 text-amber-500" />
+                    ) : validation?.isValid ? (
                       <Check className="h-5 w-5 text-green-500" />
                     )}
                     {validation?.error && !validation.isValid && (
@@ -154,14 +164,14 @@ export const FullScreenEmailCapture = ({
                           type="button"
                           onClick={() => {
                             setEmail(validation.suggestion!);
-                            setValidation({ isValid: true });
+                            setValidation(validateEmailSmart(validation.suggestion!, { allowDisposable: true }));
                           }}
                           className="text-sm text-amber-600 dark:text-amber-400 hover:underline"
                         >
                           {validation.error} <span className="font-medium">click to fix</span>
                         </button>
                       ) : (
-                        <p className="text-sm text-destructive">{validation.error}</p>
+                        <p className={`text-sm ${validation.severity === "warning" ? "text-amber-600 dark:text-amber-400" : "text-destructive"}`}>{validation.error}</p>
                       )}
                     </div>
                   )}

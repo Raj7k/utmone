@@ -197,10 +197,11 @@ const Signup = () => {
     }
     
     setIsLoading(true);
+    const normalizedEmail = validation.normalizedEmail || email.trim().toLowerCase();
 
     try {
       const { error } = await supabase.auth.signUp({
-        email,
+        email: normalizedEmail,
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/auth/callback`,
@@ -218,11 +219,11 @@ const Signup = () => {
         if (refCode) {
           // Store referral info to process after email confirmation
           localStorage.setItem('pending_referral_code', refCode);
-          localStorage.setItem('pending_referral_email', email);
+          localStorage.setItem('pending_referral_email', normalizedEmail);
         }
 
         // Show email confirmation screen
-        setPendingEmail(email);
+        setPendingEmail(normalizedEmail);
         setConfirmationPending(true);
         notify.success("confirmation email sent");
       }
