@@ -10,18 +10,93 @@ import { FeatureControlDeck } from "@/components/features/FeatureControlDeck";
 import {
   AttributionFlowVisual,
   CrossDeviceVisual,
-  PredictionVisual,
 } from "@/components/features/visuals/FeatureVisuals";
+import {
+  IncrementalLiftVisual,
+  MarketingMixVisual,
+  CausalInferenceVisual,
+  ModelComparisonVisual,
+  HoldoutTestVisual,
+  DiminishingReturnsVisual,
+} from "@/components/features/visuals/EnhancedFeatureVisuals";
 import { motion } from "framer-motion";
-import { GitBranch, Target, BarChart3, Lightbulb, DollarSign, TrendingUp, Layers, Workflow, Route, RefreshCw } from "lucide-react";
+import { 
+  GitBranch, 
+  Target, 
+  BarChart3, 
+  Lightbulb, 
+  DollarSign, 
+  TrendingUp, 
+  Layers, 
+  Workflow, 
+  Route, 
+  RefreshCw,
+  FlaskConical,
+  PieChart,
+  Zap,
+  Scale,
+  TestTube,
+  TrendingDown
+} from "lucide-react";
 
 const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-// Journey Flow Visual for Attribution
+// Control Deck tabs with new causal/scientific features
+const controlDeckTabs = [
+  {
+    id: "incremental-lift",
+    icon: FlaskConical,
+    label: "incremental lift",
+    headline: "prove causation, not correlation.",
+    subheadline: "statistical holdout testing shows what marketing actually caused—not just appeared before.",
+    visual: <IncrementalLiftVisual />,
+  },
+  {
+    id: "marketing-mix",
+    icon: PieChart,
+    label: "marketing mix model",
+    headline: "the big picture view.",
+    subheadline: "model channel interactions at scale. see how paid, organic, and earned work together.",
+    visual: <MarketingMixVisual />,
+  },
+  {
+    id: "causal-inference",
+    icon: Zap,
+    label: "causal inference",
+    headline: "if you hadn't spent, would they have bought?",
+    subheadline: "counterfactual analysis shows true incremental impact of each dollar.",
+    visual: <CausalInferenceVisual />,
+  },
+  {
+    id: "model-comparison",
+    icon: Scale,
+    label: "model arena",
+    headline: "7 models. one truth.",
+    subheadline: "compare linear, time-decay, position-based, and Clean Track Intelligence™ side by side.",
+    visual: <ModelComparisonVisual />,
+  },
+  {
+    id: "holdout-tests",
+    icon: TestTube,
+    label: "geo holdout tests",
+    headline: "run tests while you sleep.",
+    subheadline: "automated geo and audience holdouts prove marketing's true contribution.",
+    visual: <HoldoutTestVisual />,
+  },
+  {
+    id: "diminishing-returns",
+    icon: TrendingDown,
+    label: "diminishing returns",
+    headline: "know when to stop.",
+    subheadline: "visualize channel saturation. stop throwing money at diminishing returns.",
+    visual: <DiminishingReturnsVisual />,
+  },
+];
+
+// Journey Flow Visual
 const JourneyFlowVisual = () => (
   <div className="w-full h-full flex items-center justify-center">
     <svg viewBox="0 0 320 180" className="w-full h-full max-w-[320px]">
-      {/* Journey path */}
       <motion.path
         d="M40,90 Q100,40 160,90 T280,90"
         fill="none"
@@ -32,7 +107,6 @@ const JourneyFlowVisual = () => (
         animate={{ pathLength: 1 }}
         transition={{ duration: 1.5 }}
       />
-      {/* Touchpoint nodes */}
       {[
         { x: 40, label: "First" },
         { x: 120, label: "Middle" },
@@ -44,7 +118,6 @@ const JourneyFlowVisual = () => (
           <text x={node.x} y="120" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="9">{node.label}</text>
         </motion.g>
       ))}
-      {/* Moving particle */}
       <motion.circle
         r="4"
         fill="rgba(255,255,255,0.9)"
@@ -61,7 +134,6 @@ const JourneyFlowVisual = () => (
 const RevenueChannelVisual = () => (
   <div className="w-full h-full flex items-center justify-center">
     <svg viewBox="0 0 320 180" className="w-full h-full max-w-[320px]">
-      {/* Channel bars */}
       {[
         { label: "LinkedIn", pct: 32, color: "rgba(10,102,194,0.6)" },
         { label: "Email", pct: 28, color: "rgba(255,255,255,0.4)" },
@@ -98,153 +170,76 @@ const RevenueChannelVisual = () => (
   </div>
 );
 
-// CRM Sync Visual
-const CRMSyncVisual = () => (
-  <div className="w-full h-full flex items-center justify-center">
-    <svg viewBox="0 0 320 180" className="w-full h-full max-w-[320px]">
-      {/* utm.one box */}
-      <motion.g initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
-        <rect x="30" y="60" width="80" height="60" rx="8" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" />
-        <text x="70" y="95" textAnchor="middle" fill="rgba(255,255,255,0.7)" fontSize="11" fontWeight="bold">utm.one</text>
-      </motion.g>
-      {/* Sync arrows */}
-      <motion.path
-        d="M120,90 L180,90"
-        stroke="rgba(74,222,128,0.5)"
-        strokeWidth="2"
-        strokeDasharray="6 4"
-        markerEnd="url(#arrowhead)"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ delay: 0.3, duration: 0.5 }}
-      />
-      <motion.circle
-        cx="150" cy="90" r="12"
-        fill="rgba(74,222,128,0.1)"
-        stroke="rgba(74,222,128,0.4)"
-        strokeWidth="1.5"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1, rotate: 360 }}
-        transition={{ delay: 0.5, duration: 1, type: "spring" }}
-      />
-      {/* CRM boxes */}
-      {["HubSpot", "Salesforce"].map((crm, i) => (
-        <motion.g key={crm} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6 + i * 0.1 }}>
-          <rect x="200" y={50 + i * 40} width="90" height="35" rx="6" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
-          <text x="245" y={72 + i * 40} textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="10">{crm}</text>
-        </motion.g>
-      ))}
-      <defs>
-        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-          <polygon points="0 0, 10 3.5, 0 7" fill="rgba(74,222,128,0.5)" />
-        </marker>
-      </defs>
-    </svg>
-  </div>
-);
-
-const controlDeckTabs = [
-  {
-    id: "journey",
-    icon: Route,
-    label: "journey tracking",
-    headline: "every touchpoint captured.",
-    subheadline: "30-day lookback window tracks the complete path from first anonymous visit to final sale.",
-    visual: <JourneyFlowVisual />,
-  },
-  {
-    id: "intelligence",
-    icon: Lightbulb,
-    label: "Clean Track Intelligence™",
-    headline: "probabilistic credit.",
-    subheadline: "which touchpoints caused the conversion, not just appeared. MIT & Harvard algorithms.",
-    visual: <AttributionFlowVisual />,
-  },
-  {
-    id: "revenue",
-    icon: DollarSign,
-    label: "revenue attribution",
-    headline: "channel ROI revealed.",
-    subheadline: "see exactly which channels drive revenue. prove marketing's contribution to the board.",
-    visual: <RevenueChannelVisual />,
-  },
-  {
-    id: "cross-device",
-    icon: Layers,
-    label: "cross-device tracking",
-    headline: "unified journeys.",
-    subheadline: "stitch journeys across devices. 80-85% cross-device journey capture accuracy.",
-    visual: <CrossDeviceVisual />,
-  },
-  {
-    id: "crm",
-    icon: RefreshCw,
-    label: "CRM push",
-    headline: "auto-sync deals.",
-    subheadline: "push attribution data to HubSpot & Salesforce. close the loop on marketing ROI.",
-    visual: <CRMSyncVisual />,
-  },
-];
-
 export default function AttributionGraph() {
   const carouselItems = [
     {
-      title: "Multi-Touch Attribution",
-      description: "See every touchpoint in the customer journey. Credit distributed by actual contribution.",
-      icon: GitBranch,
+      title: "incremental lift modeling",
+      description: "prove causation, not correlation. statistical holdouts show what marketing actually caused.",
+      icon: FlaskConical,
+    },
+    {
+      title: "marketing mix modeling",
+      description: "see the big picture. how paid, organic, and earned channels work together at scale.",
+      icon: PieChart,
+    },
+    {
+      title: "causal inference engine",
+      description: "counterfactual analysis: if you hadn't spent, would they have bought?",
+      icon: Zap,
     },
     {
       title: "Clean Track Intelligence™",
-      description: "Probabilistic credit distribution. Which touchpoints caused the conversion, not just appeared.",
+      description: "probabilistic credit distribution. which touchpoints caused the conversion, not just appeared.",
       icon: Lightbulb,
     },
     {
-      title: "Journey Visualization",
-      description: "Beautiful flow diagrams showing the path from first touch to conversion.",
-      icon: Workflow,
+      title: "model comparison arena",
+      description: "7 models side by side. see how linear, time-decay, and position-based differ.",
+      icon: Scale,
     },
     {
-      title: "Revenue Attribution",
-      description: "Know exactly which channels drive revenue. Prove marketing's contribution to the board.",
-      icon: DollarSign,
+      title: "geo holdout automation",
+      description: "run tests while you sleep. automated geographic and audience holdouts.",
+      icon: TestTube,
     },
     {
-      title: "Cross-Device Tracking",
-      description: "Stitch journeys across devices. 80-85% cross-device journey capture.",
+      title: "diminishing returns curves",
+      description: "know when to stop. visualize saturation before you overspend.",
+      icon: TrendingDown,
+    },
+    {
+      title: "cross-device tracking",
+      description: "stitch journeys across devices. 80-85% cross-device accuracy.",
       icon: Layers,
-    },
-    {
-      title: "GA4 Comparison",
-      description: "Side-by-side: see what GA4 hides. Reveal the hidden 30-50% attribution.",
-      icon: BarChart3,
     },
   ];
 
   const stats = [
-    { value: "30-50", label: "Hidden Attribution", suffix: "%" },
-    { value: "85", label: "Cross-Device Accuracy", suffix: "%" },
-    { value: "30", label: "Day Lookback", suffix: "days" },
-    { value: "0", label: "Extra Setup", suffix: "" },
+    { value: "30-50", label: "hidden attribution revealed", suffix: "%" },
+    { value: "85", label: "cross-device accuracy", suffix: "%" },
+    { value: "7", label: "attribution models", suffix: "" },
+    { value: "0", label: "guesswork required", suffix: "" },
   ];
 
   const beforeAfterItems = [
-    { feature: "Attribution Model", before: "Last-click only", after: "Multi-touch probabilistic" },
-    { feature: "Upper Funnel Credit", before: "0% (invisible)", after: "True contribution revealed" },
-    { feature: "Cross-Device", before: "Siloed by device", after: "Unified journey view" },
-    { feature: "Budget Decisions", before: "Based on lies", after: "Based on real data" },
-    { feature: "Marketing ROI Proof", before: "Impossible", after: "Board-ready reports" },
+    { feature: "attribution model", before: "last-click only", after: "7 models + causal inference" },
+    { feature: "upper funnel credit", before: "0% (invisible)", after: "true incremental lift" },
+    { feature: "budget proof", before: "correlation only", after: "holdout-proven causation" },
+    { feature: "channel saturation", before: "overspend blindly", after: "diminishing returns visible" },
+    { feature: "marketing ROI proof", before: "impossible", after: "board-ready causal reports" },
+    { feature: "cross-device", before: "siloed by device", after: "unified journey view" },
   ];
 
   const capabilities = [
     {
-      icon: GitBranch,
-      title: "Journey Tracking",
-      features: ["Every touchpoint logged", "30-day window", "Cross-device stitching", "Offline + online"],
+      icon: FlaskConical,
+      title: "Causal Proof",
+      features: ["Incremental lift modeling", "Geo holdout tests", "Counterfactual analysis", "Statistical significance"],
     },
     {
       icon: BarChart3,
       title: "Attribution Models",
-      features: ["Clean Track Intelligence™", "First-touch", "Last-touch", "Linear comparison"],
+      features: ["Clean Track Intelligence™", "First-touch", "Last-touch", "Linear", "Time-decay", "Position-based", "Custom"],
     },
     {
       icon: DollarSign,
@@ -258,7 +253,6 @@ export default function AttributionGraph() {
     },
   ];
 
-  // Journey visualization data
   const journeySteps = [
     { channel: "LinkedIn", credit: 32, position: "first" },
     { channel: "Email", credit: 28, position: "middle" },
@@ -268,10 +262,10 @@ export default function AttributionGraph() {
 
   return (
     <FeatureLayout
-      title="Attribution Graph - Finally Know Where Revenue Comes From - utm.one"
-      description="Tired of Google taking 100% credit? utm.one reveals the true contribution of every marketing touchpoint."
+      title="Attribution Graph - Prove Causation, Not Correlation | utm.one"
+      description="Tired of Google taking 100% credit? Prove marketing's true impact with incremental lift modeling, geo holdouts, and causal inference."
       canonical="https://utm.one/features/attribution-graph"
-      keywords={["attribution modeling", "multi-touch attribution", "customer journey", "marketing attribution"]}
+      keywords={["attribution modeling", "incremental lift", "marketing mix model", "causal inference", "multi-touch attribution"]}
       breadcrumbs={[
         { name: "Home", url: "https://utm.one" },
         { name: "Features", url: "https://utm.one/features" },
@@ -281,40 +275,89 @@ export default function AttributionGraph() {
       <FeatureHero
         headlineLine1="finally know where"
         headlineLine2="revenue comes from."
-        subheadline="Tired of Google taking 100% credit? We reveal the true contribution of every touchpoint in the customer journey."
+        subheadline="tired of Google taking 100% credit? we prove causation, not correlation—with incremental lift modeling and automated holdout tests."
       />
 
-      {/* Control Deck */}
+      {/* Control Deck - New Causal Features */}
       <FeatureControlDeck
         tabs={controlDeckTabs}
-        badge={{ title: "Clean Track Intelligence™", subtitle: "probabilistic attribution" }}
+        badge={{ title: "Clean Track Intelligence™", subtitle: "causal attribution" }}
       />
 
       <FeatureCarouselSection
-        headline="True Attribution"
-        subheadline="Every touchpoint gets the credit it deserves"
+        headline="true attribution, proven"
+        subheadline="every touchpoint gets the credit it deserves—with causal proof"
         items={carouselItems}
       />
 
       <FeatureStatsStrip stats={stats} />
 
       <FeatureBeforeAfter
-        headline="The Truth vs The Lie"
-        subheadline="See what last-click attribution hides"
+        headline="the truth vs the lie"
+        subheadline="see what last-click attribution hides"
         items={beforeAfterItems}
       />
 
+      {/* Model Arena Showcase */}
       <FeatureShowcase
-        headline="Customer Journey Visualization"
-        subheadline="Every touchpoint. Every contribution. One beautiful flow."
+        headline="attribution model arena"
+        subheadline="7 models. same journey. different truth."
       >
         <div className="bg-background/50 rounded-xl border border-border p-8">
-          {/* Journey flow */}
-          <div className="flex items-center justify-between relative">
-            {/* Connection lines */}
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
+            {[
+              { model: "Last-Click", linkedin: 0, email: 0, blog: 0, google: 100, verdict: "Google takes all" },
+              { model: "Linear", linkedin: 25, email: 25, blog: 25, google: 25, verdict: "Equal split" },
+              { model: "Clean Track™", linkedin: 32, email: 28, blog: 18, google: 22, verdict: "True contribution" },
+            ].map((row, i) => (
+              <motion.div
+                key={row.model}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.15, ease: appleEase }}
+                className={`p-5 rounded-xl border ${i === 2 ? 'border-primary/30 bg-primary/5' : 'border-border bg-card/50'}`}
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className={`font-semibold ${i === 2 ? 'text-primary' : 'text-foreground'}`}>{row.model}</h3>
+                  {i === 2 && <span className="text-xs px-2 py-1 rounded-full bg-primary/20 text-primary">recommended</span>}
+                </div>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">LinkedIn</span>
+                    <span className={i === 0 && row.linkedin === 0 ? "line-through text-muted-foreground/50" : ""}>{row.linkedin}%</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Email</span>
+                    <span className={i === 0 && row.email === 0 ? "line-through text-muted-foreground/50" : ""}>{row.email}%</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Blog</span>
+                    <span className={i === 0 && row.blog === 0 ? "line-through text-muted-foreground/50" : ""}>{row.blog}%</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Google</span>
+                    <span className={i === 0 ? "font-bold" : ""}>{row.google}%</span>
+                  </div>
+                </div>
+                <div className={`mt-4 pt-3 border-t ${i === 2 ? 'border-primary/20' : 'border-border'}`}>
+                  <p className={`text-xs ${i === 2 ? 'text-primary' : 'text-muted-foreground'}`}>{row.verdict}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+          
+          {/* Journey visualization */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5, ease: appleEase }}
+            className="flex items-center justify-between relative pt-8 border-t border-border"
+          >
             <svg className="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="none">
               <defs>
-                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <linearGradient id="lineGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
                   <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
                   <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.8" />
                 </linearGradient>
@@ -322,7 +365,7 @@ export default function AttributionGraph() {
               <motion.path
                 d="M 80 50 Q 200 20, 280 50 Q 400 80, 480 50 Q 600 20, 680 50"
                 fill="none"
-                stroke="url(#lineGradient)"
+                stroke="url(#lineGradient2)"
                 strokeWidth="2"
                 strokeDasharray="8 4"
                 initial={{ pathLength: 0 }}
@@ -338,7 +381,7 @@ export default function AttributionGraph() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.15, duration: 0.5, ease: appleEase }}
+                transition={{ delay: 0.6 + i * 0.15, duration: 0.5, ease: appleEase }}
                 className="relative z-10 text-center"
               >
                 <div className="w-16 h-16 rounded-full bg-primary/10 border-2 border-primary/30 flex items-center justify-center mb-3 mx-auto">
@@ -349,12 +392,11 @@ export default function AttributionGraph() {
               </motion.div>
             ))}
             
-            {/* Conversion */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.6, duration: 0.5, ease: appleEase }}
+              transition={{ delay: 1, duration: 0.5, ease: appleEase }}
               className="relative z-10 text-center"
             >
               <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center mb-3 mx-auto shadow-lg shadow-primary/30">
@@ -363,72 +405,20 @@ export default function AttributionGraph() {
               <h3 className="text-sm font-semibold">Conversion</h3>
               <p className="text-xs text-primary font-medium">$15,000</p>
             </motion.div>
-          </div>
-          
-          {/* Comparison table */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.8, duration: 0.5, ease: appleEase }}
-            className="mt-10 grid grid-cols-2 gap-4"
-          >
-            <div className="p-4 bg-destructive/5 border border-destructive/20 rounded-lg">
-              <h4 className="text-sm font-semibold text-destructive/80 mb-2">GA4 Last-Click</h4>
-              <div className="space-y-1 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">LinkedIn</span>
-                  <span className="line-through text-muted-foreground/50">0%</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Email</span>
-                  <span className="line-through text-muted-foreground/50">0%</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Blog</span>
-                  <span className="line-through text-muted-foreground/50">0%</span>
-                </div>
-                <div className="flex justify-between font-medium">
-                  <span>Google</span>
-                  <span>100%</span>
-                </div>
-              </div>
-            </div>
-            
-            <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg">
-              <h4 className="text-sm font-semibold text-primary mb-2">utm.one Attribution</h4>
-              <div className="space-y-1 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">LinkedIn</span>
-                  <span className="text-primary font-medium">32%</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Email</span>
-                  <span className="text-primary font-medium">28%</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Blog</span>
-                  <span className="text-primary font-medium">18%</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Google</span>
-                  <span className="text-primary font-medium">22%</span>
-                </div>
-              </div>
-            </div>
           </motion.div>
         </div>
       </FeatureShowcase>
 
       <FeatureBentoGrid
-        headline="Complete Attribution Stack"
-        subheadline="Everything you need to prove marketing's contribution"
+        headline="complete attribution stack"
+        subheadline="everything you need to prove marketing's contribution"
         capabilities={capabilities}
       />
 
+      {/* Revenue by Channel Showcase */}
       <FeatureShowcase
-        headline="Revenue by Channel"
-        subheadline="See the real ROI of every marketing investment"
+        headline="revenue by channel"
+        subheadline="see the real ROI of every marketing investment"
         background="muted"
       >
         <div className="bg-background/50 rounded-xl border border-border p-6">
@@ -472,10 +462,10 @@ export default function AttributionGraph() {
       </FeatureShowcase>
 
       <FeatureFinalCTA
-        headline="Ready to See the Full Picture?"
-        subheadline="Stop letting last-click steal credit from your best channels."
-        primaryCTA={{ label: "Get Started Free", href: "/early-access" }}
-        secondaryCTA={{ label: "See a Demo", href: "/book-demo" }}
+        headline="ready to prove marketing's impact?"
+        subheadline="stop letting last-click steal credit from your best channels."
+        primaryCTA={{ label: "get started free", href: "/early-access" }}
+        secondaryCTA={{ label: "see a demo", href: "/book-demo" }}
       />
     </FeatureLayout>
   );
