@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Share2, ArrowRight, Upload, AlertTriangle, CheckCircle2, XCircle, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
-import { AppHeader } from "@/components/layout/AppHeader";
+import { MainLayout } from "@/components/layout/MainLayout";
 import { GlassCard } from "@/components/ui/glass-card";
 import { toast } from "sonner";
 
@@ -101,8 +101,8 @@ export default function QRTest() {
   };
 
   return (
-    <div className="dark min-h-screen bg-background">
-      <AppHeader />
+    <MainLayout showAnnouncement={false}>
+      <div className="min-h-screen">
       
       {/* Industrial overlay - subtle */}
       <div className="fixed inset-0 pointer-events-none opacity-5">
@@ -383,6 +383,7 @@ export default function QRTest() {
         backgroundSize: "40px 100%",
         backgroundImage: "repeating-linear-gradient(45deg, hsl(var(--background)) 0px, hsl(var(--background)) 10px, hsl(var(--system-yellow) / 0.3) 10px, hsl(var(--system-yellow) / 0.3) 20px)"
       }} />
-    </div>
+      </div>
+    </MainLayout>
   );
 }

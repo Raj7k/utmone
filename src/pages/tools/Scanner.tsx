@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Shield, AlertTriangle, CheckCircle2, XCircle, Zap, Share2, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { AppHeader } from "@/components/layout/AppHeader";
+import { MainLayout } from "@/components/layout/MainLayout";
 import { GlassCard } from "@/components/ui/glass-card";
 
 interface ScanResult {
@@ -112,8 +112,8 @@ export default function Scanner() {
   };
 
   return (
-    <div className="dark min-h-screen bg-background text-foreground font-mono">
-      <AppHeader />
+    <MainLayout showAnnouncement={false}>
+      <div className="text-foreground font-mono">
       
       {/* Scanlines overlay - subtle platinum */}
       <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.02]">
@@ -314,6 +314,7 @@ export default function Scanner() {
           )}
         </AnimatePresence>
       </div>
-    </div>
+      </div>
+    </MainLayout>
   );
 }
