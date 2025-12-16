@@ -152,7 +152,7 @@ export const FullScreenEmailCapture = ({
                       <AlertCircle className="h-5 w-5 text-amber-500" />
                     ) : validation?.isValid ? (
                       <Check className="h-5 w-5 text-green-500" />
-                    )}
+                    ) : null}
                     {validation?.error && !validation.isValid && (
                       <AlertCircle className={`h-5 w-5 ${validation.severity === 'error' ? 'text-red-500' : 'text-amber-500'}`} />
                     )}
