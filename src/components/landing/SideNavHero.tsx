@@ -17,8 +17,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileHero } from "./MobileHero";
 import { FiberOpticGraph } from "./FiberOpticGraph";
-
-export type UseCaseType = "attribution" | "journey" | "links" | "governance" | "intelligence";
+import { DEFAULT_USE_CASE, resolveUseCaseContent, UseCaseType } from "./useCaseConfig";
 
 interface SideNavHeroProps {
   onUseCaseChange?: (useCase: UseCaseType) => void;
@@ -70,7 +69,7 @@ interface HeroContentItem {
   features?: { name: string; description: string }[];
 }
 
-const HERO_CONTENT: Record<UseCaseType, HeroContentItem> = {
+const HERO_CONTENT: Partial<Record<UseCaseType, HeroContentItem>> = {
   attribution: {
     headline: "stop the guessing. start the knowing.",
     subheadline: "see which channels actually drive revenue — not which ones take credit. Clean-Track attribution shows you where every dollar comes from.",
@@ -148,8 +147,16 @@ const HERO_CONTENT: Record<UseCaseType, HeroContentItem> = {
   },
 };
 
+const HERO_FALLBACK_CONTENT = HERO_CONTENT.attribution ?? {
+  headline: "see everything clearly.",
+  subheadline: "utm.one keeps links consistent so your analytics always make sense.",
+  cta: "get early access",
+  stats: [],
+  features: [],
+};
+
 export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
-  const [activeUseCase, setActiveUseCase] = useState<UseCaseType>("attribution");
+  const [activeUseCase, setActiveUseCase] = useState<UseCaseType>(DEFAULT_USE_CASE);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const isMobile = useIsMobile();
 
@@ -158,7 +165,13 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
     onUseCaseChange?.(useCase);
   };
 
-  const content = HERO_CONTENT[activeUseCase];
+  const { content } = resolveUseCaseContent({
+    contentMap: HERO_CONTENT,
+    useCase: activeUseCase,
+    fallbackUseCase: "links",
+    defaultContent: HERO_FALLBACK_CONTENT,
+    section: "Hero",
+  });
 
   // Render mobile-specific hero on small screens
   if (isMobile) {

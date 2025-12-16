@@ -6,7 +6,7 @@ import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
 import { HeroInlineCTA } from "@/components/landing/HeroInlineCTA";
 import { StaticSection } from "@/components/landing/StaticSection";
 import { LinkLayersSection } from "@/components/landing/LinkLayersSection";
-import { UseCaseType } from "@/components/landing/SideNavHero";
+import { DEFAULT_USE_CASE, normalizeUseCase, UseCaseType } from "@/components/landing/useCaseConfig";
 import { LazyOnScroll } from "@/components/lazy/LazyOnScroll";
 import { 
   useTrackPageView, 
@@ -53,7 +53,7 @@ const Index = () => {
 
   // Force interactive variant to show the new Stripe-style hero
   const [landingVariant] = useState<'static' | 'interactive'>('interactive');
-  const [selectedUseCase, setSelectedUseCase] = useState<UseCaseType>('attribution');
+  const [selectedUseCase, setSelectedUseCase] = useState<UseCaseType>(DEFAULT_USE_CASE);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -79,7 +79,7 @@ const Index = () => {
       {/* Control Deck Hero - Jony Ive Style */}
       {landingVariant === 'interactive' ? (
         <Suspense fallback={<SectionSkeleton />}>
-          <ControlDeckHero onUseCaseChange={(uc) => setSelectedUseCase(uc as UseCaseType)} />
+          <ControlDeckHero onUseCaseChange={(uc) => setSelectedUseCase(normalizeUseCase(uc))} />
         </Suspense>
       ) : (
         <>

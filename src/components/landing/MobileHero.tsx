@@ -18,7 +18,7 @@ import {
   LayoutGrid,
   Waves
 } from "lucide-react";
-import { UseCaseType } from "./ControlDeckHero";
+import { UseCaseType } from "./useCaseConfig";
 
 interface MobileHeroProps {
   onUseCaseChange?: (useCase: UseCaseType) => void;

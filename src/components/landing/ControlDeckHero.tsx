@@ -30,8 +30,7 @@ import { EventHaloVisual } from "./visuals/EventHaloVisual";
 import { LinksQRSankeyVisual } from "./visuals/LinksQRSankeyVisual";
 import { JourneySankeyVisual } from "./visuals/JourneySankeyVisual";
 import { AIInsightPipelineVisual } from "./visuals/AIInsightPipelineVisual";
-
-export type UseCaseType = "attribution" | "journey" | "links" | "intelligence" | "governance" | "linkpages" | "eventhalo";
+import { UseCaseType } from "./useCaseConfig";
 
 interface ControlDeckHeroProps {
   onUseCaseChange?: (useCase: UseCaseType) => void;
