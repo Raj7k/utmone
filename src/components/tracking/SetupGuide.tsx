@@ -3,10 +3,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Copy, Check, Globe, DollarSign, ChevronDown, Code, Mail, Zap, Users, CheckCircle2 } from 'lucide-react';
+import { Copy, Check, Globe, DollarSign, ChevronDown, Code, Mail, Zap, Users, CheckCircle2, XCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { getPlatformIcon, platformColors } from './PlatformIcons';
 import { cn } from '@/lib/utils';
+import { IdentifyDeveloperHandoff } from './IdentifyDeveloperHandoff';
 
 interface SetupGuideProps {
   pixelId: string;
@@ -35,6 +36,7 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
   const [showRevenue, setShowRevenue] = useState(false);
   const [showCrossDevice, setShowCrossDevice] = useState(false);
   const [showFunnel, setShowFunnel] = useState(false);
+  const [hasLogin, setHasLogin] = useState<boolean | null>(null);
 
   // Single unified pixel snippet - no identify by default
   const mainPixelSnippet = `<!-- utm.one Tracking Pixel -->
@@ -62,10 +64,6 @@ export const SetupGuide: React.FC<SetupGuideProps> = ({
   utmone('track', 'purchase', { revenue: <?php echo $order->get_total(); ?> });
 </script>
 <?php endif; ?>`;
-
-  // Identify snippet for 100% cross-device
-  const identifySnippet = `// Call this after user logs in or signs up
-utmone('identify', 'user@email.com', 'User Name');`;
 
   // Funnel snippet
   const funnelSnippet = `// Track funnel stages
@@ -273,27 +271,61 @@ utmone('track', 'purchase', { revenue: 99.99 });`;
                 </div>
               </div>
 
-              <p className="text-sm text-muted-foreground">
-                call this <strong>after</strong> user successfully logs in or signs up:
-              </p>
-              
-              <div className="relative">
-                <pre className="bg-zinc-950 dark:bg-zinc-900/50 p-4 rounded-lg text-xs font-mono overflow-x-auto border border-border text-zinc-300">
-                  <code>{identifySnippet}</code>
-                </pre>
-                <Button
-                  size="sm"
-                  variant="secondary"
-                  className="absolute top-2 right-2"
-                  onClick={() => copyToClipboard(identifySnippet, 'Identify code')}
-                >
-                  {copiedSnippet === 'Identify code' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                </Button>
+              {/* Do you have login? */}
+              <div className="space-y-3">
+                <p className="text-sm font-medium text-foreground">do you have user login/signup on your website?</p>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setHasLogin(true)}
+                    className={cn(
+                      "flex items-center gap-2 px-4 py-2 rounded-lg border transition-all",
+                      hasLogin === true
+                        ? "border-green-500 bg-green-500/10 text-green-700 dark:text-green-400"
+                        : "border-border hover:border-green-500/50 text-muted-foreground"
+                    )}
+                  >
+                    <CheckCircle2 className="h-4 w-4" />
+                    <span className="text-sm font-medium">yes, we have login</span>
+                  </button>
+                  <button
+                    onClick={() => setHasLogin(false)}
+                    className={cn(
+                      "flex items-center gap-2 px-4 py-2 rounded-lg border transition-all",
+                      hasLogin === false
+                        ? "border-muted-foreground bg-muted text-foreground"
+                        : "border-border hover:border-muted-foreground text-muted-foreground"
+                    )}
+                  >
+                    <XCircle className="h-4 w-4" />
+                    <span className="text-sm font-medium">no login</span>
+                  </button>
+                </div>
               </div>
 
-              <p className="text-xs text-muted-foreground">
-                💡 this links their anonymous visitor_id to their email permanently, enabling perfect cross-device attribution.
-              </p>
+              {/* No login - reassurance */}
+              {hasLogin === false && (
+                <div className="flex items-start gap-3 p-4 rounded-lg bg-green-500/10 border border-green-500/20">
+                  <CheckCircle2 className="h-5 w-5 text-green-600 flex-shrink-0" />
+                  <div className="text-sm">
+                    <p className="font-medium text-green-700 dark:text-green-400 mb-1">no worries! you're all set</p>
+                    <p className="text-green-600/80 dark:text-green-400/80 text-xs">
+                      you're already getting 75-95% cross-device accuracy automatically. 
+                      this is significantly better than most analytics tools which don't track cross-device at all.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Has login - show developer handoff */}
+              {hasLogin === true && (
+                <IdentifyDeveloperHandoff pixelId={pixelId} />
+              )}
+
+              {hasLogin === null && (
+                <p className="text-xs text-muted-foreground italic">
+                  👆 select an option above to see setup instructions
+                </p>
+              )}
             </CollapsibleContent>
           </Collapsible>
 
