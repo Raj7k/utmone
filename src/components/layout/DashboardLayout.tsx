@@ -28,18 +28,14 @@ interface DashboardLayoutProps {
 
 export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const { _source, displayName } = useCurrentPlan();
-  const { currentWorkspace, isWorkspaceLoading } = useWorkspaceContext();
+  const { currentWorkspace } = useWorkspaceContext();
   const [searchParams] = useSearchParams();
   const [impersonatedUser, setImpersonatedUser] = useState<{ email: string; full_name?: string } | null>(null);
 
-  if (isWorkspaceLoading && !currentWorkspace) {
-    return (
-      <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center">
-        <div className="w-24 h-1 rounded-full bg-primary animate-breathing-pulse" />
-        <p className="mt-4 text-muted-foreground text-sm font-medium animate-fade-in">loading workspace...</p>
-      </div>
-    );
-  }
+  // REMOVED: Workspace loading gate - layout renders immediately
+  // Children (DashboardHome, etc.) handle their own loading states
+  // This eliminates the second sequential loading screen
+
   useEffect(() => {
     const isImpersonating = searchParams.get('impersonating') === 'true';
     
