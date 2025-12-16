@@ -33,6 +33,7 @@ import { UrlInputWithUTM } from "@/components/link-pages/UrlInputWithUTM";
 import type { LinkPageBlockType } from "@/lib/linkPages";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
+import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
 
 interface PageMeta {
   title: string;
@@ -181,9 +182,7 @@ export default function LinkPageBuilder() {
         description="Loading..."
         breadcrumbs={[{ label: "dashboard" }, { label: "link pages", href: "/dashboard/link-pages" }, { label: "builder" }]}
       >
-        <div className="animate-pulse space-y-4">
-          <div className="h-32 bg-muted rounded" />
-        </div>
+        <DashboardContentLoader context="linkpages" minHeight="50vh" />
       </PageContentWrapper>
     );
   }

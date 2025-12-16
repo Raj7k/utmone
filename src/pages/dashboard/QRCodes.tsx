@@ -265,14 +265,7 @@ export default function QRCodes() {
         </TabsContent>
 
         <TabsContent value="brick-builder" className="space-y-6">
-          <Suspense fallback={
-            <div className="flex items-center justify-center py-24">
-              <div className="text-center">
-                <Boxes className="w-12 h-12 text-muted-foreground mb-4 mx-auto animate-pulse" />
-                <p className="text-muted-foreground">loading brick builder...</p>
-              </div>
-            </div>
-          }>
+          <Suspense fallback={<DashboardContentLoader context="qr" minHeight="24rem" />}>
             <BrickBuilderWizard />
           </Suspense>
         </TabsContent>

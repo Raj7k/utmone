@@ -22,6 +22,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
 
 const VIEW_OPTIONS: { label: string; days: number }[] = [
   { label: "Last 7 days", days: 7 },
@@ -80,11 +81,7 @@ export default function LinkPages() {
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            <div className="space-y-3">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="h-16 bg-muted animate-pulse rounded-lg" />
-              ))}
-            </div>
+            <DashboardContentLoader context="linkpages" minHeight="20vh" />
           ) : rows.length === 0 ? (
             <div className="text-center py-12">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
