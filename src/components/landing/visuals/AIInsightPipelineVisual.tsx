@@ -61,8 +61,7 @@ export const AIInsightPipelineVisual = () => {
         </clipPath>
       </defs>
       
-      {/* Pure black background */}
-      <rect x="0" y="0" width="120" height="60" fill="#000000" />
+      {/* Transparent background */}
 
       {/* The noisy grey line (problem data) - visible after lens */}
       <polyline
@@ -196,8 +195,8 @@ export const AIInsightPipelineVisual = () => {
       <text
         x="10"
         y="52"
-        fill="rgba(113,113,122,0.4)"
-        fontSize="2.5"
+        fill="rgba(113,113,122,0.6)"
+        fontSize="4"
         fontFamily="'SF Mono', ui-monospace"
       >
         noisy
@@ -206,11 +205,11 @@ export const AIInsightPipelineVisual = () => {
       <motion.text
         x="100"
         y="52"
-        fill="rgba(255,255,255,0.5)"
-        fontSize="2.5"
+        fill="rgba(255,255,255,0.6)"
+        fontSize="4"
         fontFamily="'SF Mono', ui-monospace"
         textAnchor="end"
-        animate={{ opacity: [0.3, 0.5, 0.3] }}
+        animate={{ opacity: [0.4, 0.6, 0.4] }}
         transition={{ duration: 3, repeat: Infinity }}
       >
         clean
@@ -233,8 +232,8 @@ export const AIInsightPipelineVisual = () => {
       <motion.text
         x="116"
         y="22"
-        fill="rgba(255,255,255,0.5)"
-        fontSize="2.5"
+        fill="rgba(255,255,255,0.6)"
+        fontSize="4"
         fontFamily="'SF Mono', ui-monospace"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

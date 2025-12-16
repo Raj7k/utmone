@@ -34,8 +34,7 @@ export const LinksQRSankeyVisual = () => {
         </radialGradient>
       </defs>
       
-      {/* Pure black background */}
-      <rect x="0" y="0" width="120" height="60" fill="#000000" />
+      {/* Transparent background */}
 
       {/* Source icons + labels - monochrome */}
       {sources.map((source, i) => (
@@ -49,8 +48,8 @@ export const LinksQRSankeyVisual = () => {
           <text
             x="9"
             y={source.y + 3}
-            fill="rgba(161,161,170,0.5)"
-            fontSize="3"
+            fill="rgba(161,161,170,0.7)"
+            fontSize="4.5"
             fontFamily="'SF Mono', ui-monospace, monospace"
           >
             {source.label}
@@ -135,20 +134,37 @@ export const LinksQRSankeyVisual = () => {
         })
       ))}
 
-      {/* Output hollow circles - zinc stroke */}
-      {[15, 30, 45].map((destY, i) => (
-        <motion.circle
-          key={`dest-${i}`}
-          cx="104"
-          cy={destY}
-          r="1.5"
-          fill="none"
-          stroke="rgba(113,113,122,0.3)"
-          strokeWidth="0.3"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 1.2 + i * 0.12, ease: appleSpring, duration: 0.6 }}
-        />
+      {/* Output destinations with labels */}
+      {[
+        { y: 15, label: "Site" },
+        { y: 30, label: "App" },
+        { y: 45, label: "CRM" },
+      ].map((dest, i) => (
+        <g key={`dest-${i}`}>
+          <motion.circle
+            cx="100"
+            cy={dest.y}
+            r="2"
+            fill="none"
+            stroke="rgba(113,113,122,0.4)"
+            strokeWidth="0.3"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 1.2 + i * 0.12, ease: appleSpring, duration: 0.6 }}
+          />
+          <motion.text
+            x="105"
+            y={dest.y + 1.5}
+            fill="rgba(161,161,170,0.7)"
+            fontSize="4"
+            fontFamily="'SF Mono', ui-monospace"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.3 + i * 0.12, duration: 0.5 }}
+          >
+            {dest.label}
+          </motion.text>
+        </g>
       ))}
 
       {/* Silver particles - no glow */}

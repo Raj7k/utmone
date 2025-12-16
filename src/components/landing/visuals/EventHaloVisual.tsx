@@ -36,8 +36,7 @@ export const EventHaloVisual = () => {
         </radialGradient>
       </defs>
       
-      {/* Pure black background */}
-      <rect x="0" y="0" width="120" height="60" fill="#000000" />
+      {/* Transparent background */}
 
       {/* Source booth - frosted glass card */}
       <motion.g
@@ -66,8 +65,8 @@ export const EventHaloVisual = () => {
         <text 
           x="12" 
           y="36" 
-          fill="rgba(255,255,255,0.4)" 
-          fontSize="2.5" 
+          fill="rgba(255,255,255,0.5)" 
+          fontSize="4" 
           textAnchor="middle" 
           fontFamily="'SF Mono', ui-monospace"
         >
@@ -209,9 +208,9 @@ export const EventHaloVisual = () => {
       {/* Detection count in lens */}
       <motion.text
         x="95"
-        y="32"
-        fill="rgba(255,255,255,0.6)"
-        fontSize="5"
+        y="33"
+        fill="rgba(255,255,255,0.7)"
+        fontSize="6"
         textAnchor="middle"
         fontFamily="'SF Mono', ui-monospace"
         fontWeight="600"
@@ -226,8 +225,8 @@ export const EventHaloVisual = () => {
       <motion.text
         x="60"
         y="56"
-        fill="rgba(113,113,122,0.4)"
-        fontSize="2.5"
+        fill="rgba(113,113,122,0.6)"
+        fontSize="3.5"
         fontFamily="'SF Mono', ui-monospace"
         textAnchor="middle"
         initial={{ opacity: 0 }}

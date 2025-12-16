@@ -32,8 +32,7 @@ export const LinkPagesVisual = () => {
         </linearGradient>
       </defs>
       
-      {/* Pure black background */}
-      <rect x="0" y="0" width="120" height="60" fill="#000000" />
+      {/* Transparent background */}
 
       {/* The single input thread - descending from top */}
       <motion.line
@@ -155,8 +154,8 @@ export const LinkPagesVisual = () => {
           <motion.text
             x="76"
             y={dest.y + 5.5}
-            fill="rgba(255,255,255,0.6)"
-            fontSize="3"
+            fill="rgba(255,255,255,0.7)"
+            fontSize="3.5"
             fontFamily="'SF Mono', ui-monospace"
             initial={{ opacity: 0 }}
             animate={{ opacity: expanded ? 1 : 0 }}
@@ -187,8 +186,8 @@ export const LinkPagesVisual = () => {
       <motion.text
         x="20"
         y="8"
-        fill="rgba(255,255,255,0.5)"
-        fontSize="3"
+        fill="rgba(255,255,255,0.6)"
+        fontSize="4"
         fontFamily="'SF Mono', ui-monospace"
         textAnchor="middle"
         initial={{ opacity: 0 }}
@@ -202,12 +201,12 @@ export const LinkPagesVisual = () => {
       <motion.text
         x="92"
         y="57"
-        fill="rgba(113,113,122,0.4)"
-        fontSize="2.5"
+        fill="rgba(113,113,122,0.6)"
+        fontSize="3.5"
         fontFamily="'SF Mono', ui-monospace"
         textAnchor="middle"
         initial={{ opacity: 0 }}
-        animate={{ opacity: expanded ? 1 : 0.2 }}
+        animate={{ opacity: expanded ? 1 : 0.3 }}
         transition={{ delay: 2.5 }}
       >
         one link · all destinations

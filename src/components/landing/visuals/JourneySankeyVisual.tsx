@@ -34,8 +34,7 @@ export const JourneySankeyVisual = () => {
         </radialGradient>
       </defs>
       
-      {/* Pure black background - no dot grid */}
-      <rect x="0" y="0" width="120" height="60" fill="#000000" />
+      {/* Transparent background */}
 
       {/* Source icons + labels - monochrome zinc */}
       {sources.map((source, i) => (
@@ -49,8 +48,8 @@ export const JourneySankeyVisual = () => {
           <text
             x="9"
             y={source.y + 3}
-            fill="rgba(161,161,170,0.5)"
-            fontSize="3"
+            fill="rgba(161,161,170,0.7)"
+            fontSize="4.5"
             fontFamily="'SF Mono', ui-monospace, monospace"
           >
             {source.label}
@@ -158,9 +157,9 @@ export const JourneySankeyVisual = () => {
       {/* Revenue symbol */}
       <motion.text
         x="106"
-        y="32"
-        fill="rgba(255,255,255,0.7)"
-        fontSize="4"
+        y="33"
+        fill="rgba(255,255,255,0.8)"
+        fontSize="6"
         textAnchor="middle"
         fontFamily="'SF Mono', ui-monospace"
         fontWeight="600"
