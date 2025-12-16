@@ -222,7 +222,7 @@ const PROBLEM_CONTENT: Record<UseCaseType, {
 };
 
 export const StaticProblemSection = ({ selectedUseCase }: StaticProblemSectionProps) => {
-  const content = PROBLEM_CONTENT[selectedUseCase];
+  const content = PROBLEM_CONTENT[selectedUseCase] || PROBLEM_CONTENT.attribution;
   const Icon = content.icon;
   const [isVisible, setIsVisible] = useState(false);
   const [currentUseCase, setCurrentUseCase] = useState(selectedUseCase);
