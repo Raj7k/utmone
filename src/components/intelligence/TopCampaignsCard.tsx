@@ -60,7 +60,16 @@ export default function TopCampaignsCard({ workspaceId, days, context, preloaded
     queryFn: async () => {
       if (!workspaceId) return [];
 
-      // Simplified query - just get campaign names
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - days);
+      const startDateStr = startDate.toISOString();
+      
+      // Previous period for trend calculation
+      const prevStartDate = new Date(startDate);
+      prevStartDate.setDate(prevStartDate.getDate() - days);
+      const prevStartDateStr = prevStartDate.toISOString();
+
+      // Get campaigns with their links
       const { data: campaigns } = await supabase
         .from("campaigns")
         .select("id, name")
@@ -68,17 +77,106 @@ export default function TopCampaignsCard({ workspaceId, days, context, preloaded
         .eq("status", "active")
         .limit(5);
 
-      if (!campaigns) return [];
+      if (!campaigns || campaigns.length === 0) return [];
 
-      // Return campaigns with placeholder click data
-      const campaignStats: CampaignData[] = campaigns.map((campaign: any) => ({
-        id: campaign.id,
-        name: campaign.name,
-        clicks: Math.floor(Math.random() * 500), // Placeholder - would need separate COUNT query
-        conversions: Math.floor(Math.random() * 25),
-        trend: Math.random() > 0.5 ? Math.random() * 30 : -Math.random() * 15,
-        sparkline: Array.from({ length: 7 }, () => Math.random() * 50),
-      }));
+      // Get links for these campaigns
+      const campaignIds = campaigns.map(c => c.id);
+      const { data: links } = await supabase
+        .from("links")
+        .select("id, campaign_id")
+        .eq("workspace_id", workspaceId)
+        .in("campaign_id", campaignIds);
+
+      if (!links || links.length === 0) {
+        return campaigns.map(c => ({ id: c.id, name: c.name, clicks: 0, conversions: 0, trend: 0, sparkline: [] }));
+      }
+
+      const linkIds = links.map(l => l.id);
+      
+      // Get current period clicks
+      const { data: currentClicks } = await supabase
+        .from("link_clicks")
+        .select("link_id, clicked_at")
+        .eq("workspace_id", workspaceId)
+        .gte("clicked_at", startDateStr)
+        .in("link_id", linkIds);
+
+      // Get previous period clicks for trend
+      const { data: prevClicks } = await supabase
+        .from("link_clicks")
+        .select("link_id")
+        .eq("workspace_id", workspaceId)
+        .gte("clicked_at", prevStartDateStr)
+        .lt("clicked_at", startDateStr)
+        .in("link_id", linkIds);
+
+      // Get conversions
+      const { data: conversions } = await supabase
+        .from("conversion_events")
+        .select("link_id")
+        .eq("workspace_id", workspaceId)
+        .gte("attributed_at", startDateStr)
+        .in("link_id", linkIds);
+
+      // Aggregate by campaign
+      const clicksByCampaign: Record<string, number> = {};
+      const prevClicksByCampaign: Record<string, number> = {};
+      const conversionsByCampaign: Record<string, number> = {};
+      const dailyClicksByCampaign: Record<string, number[]> = {};
+
+      // Initialize
+      campaigns.forEach(c => {
+        clicksByCampaign[c.id] = 0;
+        prevClicksByCampaign[c.id] = 0;
+        conversionsByCampaign[c.id] = 0;
+        dailyClicksByCampaign[c.id] = Array(7).fill(0);
+      });
+
+      // Map link to campaign
+      const linkToCampaign: Record<string, string> = {};
+      links.forEach(l => { if (l.campaign_id) linkToCampaign[l.id] = l.campaign_id; });
+
+      // Count current clicks and build sparkline
+      currentClicks?.forEach((click: any) => {
+        const campaignId = linkToCampaign[click.link_id];
+        if (campaignId) {
+          clicksByCampaign[campaignId]++;
+          // Calculate day index for sparkline
+          const clickDate = new Date(click.clicked_at);
+          const dayIndex = Math.floor((Date.now() - clickDate.getTime()) / (24 * 60 * 60 * 1000));
+          if (dayIndex >= 0 && dayIndex < 7) {
+            dailyClicksByCampaign[campaignId][6 - dayIndex]++;
+          }
+        }
+      });
+
+      // Count previous period clicks
+      prevClicks?.forEach((click: any) => {
+        const campaignId = linkToCampaign[click.link_id];
+        if (campaignId) prevClicksByCampaign[campaignId]++;
+      });
+
+      // Count conversions
+      conversions?.forEach((conv: any) => {
+        const campaignId = linkToCampaign[conv.link_id];
+        if (campaignId) conversionsByCampaign[campaignId]++;
+      });
+
+      // Build results with real data
+      const campaignStats: CampaignData[] = campaigns.map((campaign: any) => {
+        const clicks = clicksByCampaign[campaign.id] || 0;
+        const prevClickCount = prevClicksByCampaign[campaign.id] || 0;
+        const trend = prevClickCount > 0 ? ((clicks - prevClickCount) / prevClickCount) * 100 : 0;
+        
+        return {
+          id: campaign.id,
+          name: campaign.name,
+          clicks,
+          conversions: conversionsByCampaign[campaign.id] || 0,
+          trend,
+          sparkline: dailyClicksByCampaign[campaign.id] || [],
+        };
+      });
 
       const result = campaignStats.sort((a, b) => b.clicks - a.clicks).slice(0, 3);
       if (workspaceId) setCache(workspaceId, days, context, result);
@@ -91,13 +189,13 @@ export default function TopCampaignsCard({ workspaceId, days, context, preloaded
     refetchOnWindowFocus: false,
   });
 
-  // Use preloaded data if available
+  // Use preloaded data if available - with real click data
   const displayData = hasPreloadedData 
     ? preloadedCampaigns.map(c => ({
         ...c,
-        conversions: Math.floor(c.clicks * 0.05),
+        conversions: 0, // Would need real query
         trend: 0,
-        sparkline: Array.from({ length: 7 }, () => Math.random() * 50),
+        sparkline: [],
       }))
     : data;
 

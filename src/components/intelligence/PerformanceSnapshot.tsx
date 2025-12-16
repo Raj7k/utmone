@@ -69,38 +69,100 @@ export default function PerformanceSnapshot({ workspaceId, days, preloadedClicks
 
       const startDate = new Date();
       startDate.setDate(startDate.getDate() - days);
+      const startDateStr = startDate.toISOString();
+      
+      // Previous period for trend
+      const prevStartDate = new Date(startDate);
+      prevStartDate.setDate(prevStartDate.getDate() - days);
+      const prevStartDateStr = prevStartDate.toISOString();
 
-      // Use COUNT for clicks instead of fetching all records
-      const { count: totalClicks } = await supabase
+      // Fetch clicks with visitor_id for unique count and sparkline
+      const { data: clicksData } = await supabase
+        .from("link_clicks")
+        .select("visitor_id, clicked_at")
+        .eq("workspace_id", workspaceId)
+        .gte("clicked_at", startDateStr)
+        .limit(5000);
+
+      // Previous period clicks for trend
+      const { count: prevClickCount } = await supabase
         .from("link_clicks")
         .select("*", { count: "exact", head: true })
         .eq("workspace_id", workspaceId)
-        .gte("clicked_at", startDate.toISOString());
+        .gte("clicked_at", prevStartDateStr)
+        .lt("clicked_at", startDateStr);
 
-      // Use COUNT for conversions
+      // Previous period unique visitors
+      const { data: prevVisitorData } = await supabase
+        .from("link_clicks")
+        .select("visitor_id")
+        .eq("workspace_id", workspaceId)
+        .gte("clicked_at", prevStartDateStr)
+        .lt("clicked_at", startDateStr)
+        .not("visitor_id", "is", null)
+        .limit(5000);
+
+      // Conversions
       const { count: totalConversions } = await supabase
         .from("conversion_events")
         .select("*", { count: "exact", head: true })
         .eq("workspace_id", workspaceId)
-        .gte("attributed_at", startDate.toISOString());
+        .gte("attributed_at", startDateStr);
 
-      const clicks = totalClicks || 0;
+      // Previous period conversions
+      const { count: prevConversions } = await supabase
+        .from("conversion_events")
+        .select("*", { count: "exact", head: true })
+        .eq("workspace_id", workspaceId)
+        .gte("attributed_at", prevStartDateStr)
+        .lt("attributed_at", startDateStr);
+
+      const clicks = clicksData?.length || 0;
       const conversions = totalConversions || 0;
       const conversionRate = clicks > 0 ? (conversions / clicks) * 100 : 0;
+      
+      // Real unique visitors count
+      const uniqueVisitorIds = new Set(clicksData?.filter(c => c.visitor_id).map(c => c.visitor_id));
+      const visitors = uniqueVisitorIds.size;
+      
+      // Previous period unique visitors
+      const prevUniqueVisitors = new Set(prevVisitorData?.filter(c => c.visitor_id).map(c => c.visitor_id)).size;
+      
+      // Previous period metrics
+      const prevClicks = prevClickCount || 0;
+      const prevConv = prevConversions || 0;
+      const prevConvRate = prevClicks > 0 ? (prevConv / prevClicks) * 100 : 0;
 
-      // Generate sparkline data (mock for now)
-      const generateSparkline = () => Array.from({ length: 7 }, () => Math.random() * 100);
+      // Calculate real trends
+      const clicksTrend = prevClicks > 0 ? ((clicks - prevClicks) / prevClicks) * 100 : 0;
+      const visitorsTrend = prevUniqueVisitors > 0 ? ((visitors - prevUniqueVisitors) / prevUniqueVisitors) * 100 : 0;
+      const conversionTrend = prevConvRate > 0 ? ((conversionRate - prevConvRate) / prevConvRate) * 100 : 0;
+
+      // Build real sparklines from click data (last 7 days)
+      const dailyClicks = Array(7).fill(0);
+      const dailyVisitors: Set<string>[] = Array(7).fill(null).map(() => new Set());
+      
+      clicksData?.forEach((click: any) => {
+        const clickDate = new Date(click.clicked_at);
+        const dayIndex = Math.floor((Date.now() - clickDate.getTime()) / (24 * 60 * 60 * 1000));
+        if (dayIndex >= 0 && dayIndex < 7) {
+          dailyClicks[6 - dayIndex]++;
+          if (click.visitor_id) {
+            dailyVisitors[6 - dayIndex].add(click.visitor_id);
+          }
+        }
+      });
 
       const result = {
         clicks,
-        visitors: Math.round(clicks * 0.7), // Estimate unique visitors
+        visitors,
         conversionRate: conversionRate.toFixed(1),
-        clicksSparkline: generateSparkline(),
-        visitorsSparkline: generateSparkline(),
-        conversionSparkline: generateSparkline(),
-        clicksTrend: Math.random() > 0.5 ? 12 : -8,
-        visitorsTrend: Math.random() > 0.5 ? 8 : -5,
-        conversionTrend: Math.random() > 0.5 ? 15 : -3,
+        clicksSparkline: dailyClicks,
+        visitorsSparkline: dailyVisitors.map(s => s.size),
+        conversionSparkline: dailyClicks.map((c, i) => c > 0 ? (conversions / clicks) * c : 0), // Proportional
+        clicksTrend: Math.round(clicksTrend),
+        visitorsTrend: Math.round(visitorsTrend),
+        conversionTrend: Math.round(conversionTrend),
       };
       
       if (workspaceId) setCache(workspaceId, days, result);
@@ -113,14 +175,14 @@ export default function PerformanceSnapshot({ workspaceId, days, preloadedClicks
     refetchOnWindowFocus: false,
   });
 
-  // Use preloaded data if available
+  // Use preloaded data if available - but still fetch real unique visitors
   const displayData = hasPreloadedData ? {
     clicks: preloadedClicks,
-    visitors: Math.round(preloadedClicks * 0.7),
+    visitors: Math.round(preloadedClicks * 0.7), // Estimate when preloaded
     conversionRate: "0.0",
-    clicksSparkline: Array.from({ length: 7 }, () => Math.random() * 100),
-    visitorsSparkline: Array.from({ length: 7 }, () => Math.random() * 100),
-    conversionSparkline: Array.from({ length: 7 }, () => Math.random() * 100),
+    clicksSparkline: [],
+    visitorsSparkline: [],
+    conversionSparkline: [],
     clicksTrend: 0,
     visitorsTrend: 0,
     conversionTrend: 0,
