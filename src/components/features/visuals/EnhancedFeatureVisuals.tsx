@@ -569,28 +569,194 @@ export const SmartRedirectVisual = () => {
   }, []);
 
   return (
-    <svg viewBox="0 0 120 60" className="w-full h-full">
+    <svg viewBox="0 0 120 70" className="w-full h-full" overflow="visible">
       {/* Central Link */}
-      <rect x="45" y="22" width="30" height="16" rx="3" fill="rgba(255,255,255,0.1)" stroke="hsl(var(--primary))" strokeWidth="1" />
-      <text x="60" y="32" textAnchor="middle" fill="hsl(var(--primary))" fontSize="4" fontWeight="600">/app</text>
+      <rect x="45" y="26" width="30" height="16" rx="3" fill="rgba(255,255,255,0.1)" stroke="hsl(var(--primary))" strokeWidth="1" />
+      <text x="60" y="36" textAnchor="middle" fill="hsl(var(--primary))" fontSize="4" fontWeight="600">/app</text>
       
       {/* Routes */}
       {routes.map((route, idx) => {
-        const yPos = 10 + idx * 18;
+        const yPos = 14 + idx * 16;
         const isActive = activeRoute === idx;
         return (
           <motion.g key={idx}>
-            <motion.path d={`M 75 30 Q 90 30 95 ${yPos + 8}`} fill="none"
+            <motion.path d={`M 75 34 Q 88 34 93 ${yPos + 7}`} fill="none"
               stroke={isActive ? "hsl(var(--primary))" : "rgba(255,255,255,0.2)"}
               strokeWidth={isActive ? 1.5 : 0.5} strokeDasharray={isActive ? "0" : "2,2"} />
-            <motion.rect x="95" y={yPos} width="20" height="14" rx="2" 
+            <motion.rect x="93" y={yPos} width="22" height="13" rx="2" 
               fill={isActive ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.03)"} 
               stroke={isActive ? "hsl(var(--primary))" : "rgba(255,255,255,0.1)"} strokeWidth="0.5"
-              animate={{ scale: isActive ? 1.05 : 1 }} />
-            <text x="105" y={yPos + 9} textAnchor="middle" fontSize="5">{route.split(" ")[0]}</text>
+              animate={{ scale: isActive ? 1.03 : 1 }} />
+            <text x="104" y={yPos + 8} textAnchor="middle" fontSize="5">{route.split(" ")[0]}</text>
           </motion.g>
         );
       })}
+    </svg>
+  );
+};
+
+// ===== QR CODE VISUALS =====
+
+// QR Scan Analytics Visual - Animated scan heatmap
+export const QRScanAnalyticsVisual = () => {
+  const [scanPulse, setScanPulse] = useState(0);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setScanPulse((prev) => (prev + 1) % 4);
+    }, 800);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <svg viewBox="0 0 120 60" className="w-full h-full">
+      {/* QR Code Base */}
+      <rect x="10" y="10" width="40" height="40" rx="3" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+      {/* QR Grid Pattern */}
+      {[0, 1, 2, 3].map((row) =>
+        [0, 1, 2, 3].map((col) => (
+          <motion.rect key={`${row}-${col}`} x={14 + col * 9} y={14 + row * 9} width="6" height="6" rx="1"
+            fill={scanPulse === row ? "hsl(var(--primary))" : "rgba(255,255,255,0.3)"}
+            animate={{ opacity: scanPulse === row ? [0.5, 1, 0.5] : 0.3 }}
+            transition={{ duration: 0.5 }} />
+        ))
+      )}
+      
+      {/* Scan Pulse Ring */}
+      <motion.circle cx="30" cy="30" r="22" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5"
+        animate={{ r: [22, 28, 22], opacity: [0.5, 0, 0.5] }} transition={{ duration: 2, repeat: Infinity }} />
+      
+      {/* Analytics Panel */}
+      <rect x="58" y="8" width="55" height="44" rx="3" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5" />
+      <text x="63" y="18" fill="rgba(255,255,255,0.5)" fontSize="4">Scans Today</text>
+      <motion.text x="63" y="28" fill="hsl(var(--primary))" fontSize="8" fontWeight="700"
+        key={scanPulse} initial={{ opacity: 0.7 }} animate={{ opacity: 1 }}>
+        {1247 + scanPulse}
+      </motion.text>
+      
+      {/* Device breakdown */}
+      {[
+        { device: "iPhone", pct: 62, color: "rgba(74,222,128,0.6)" },
+        { device: "Android", pct: 31, color: "rgba(59,130,246,0.6)" },
+        { device: "Other", pct: 7, color: "rgba(255,255,255,0.3)" },
+      ].map((item, idx) => (
+        <motion.g key={item.device} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: idx * 0.1 }}>
+          <text x="63" y={38 + idx * 6} fill="rgba(255,255,255,0.4)" fontSize="3.5">{item.device}</text>
+          <motion.rect x="83" y={35 + idx * 6} rx="1" height="3" fill={item.color}
+            initial={{ width: 0 }} animate={{ width: item.pct * 0.25 }} transition={{ delay: 0.3, duration: 0.4 }} />
+          <text x={85 + item.pct * 0.25 + 2} y={38 + idx * 6} fill="rgba(255,255,255,0.5)" fontSize="3">{item.pct}%</text>
+        </motion.g>
+      ))}
+    </svg>
+  );
+};
+
+// Dynamic QR Redirect Visual - Change destination without reprinting
+export const DynamicQRRedirectVisual = () => {
+  const [destination, setDestination] = useState(0);
+  const destinations = ["/summer-sale", "/fall-promo", "/holiday-deals"];
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDestination((prev) => (prev + 1) % destinations.length);
+    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <svg viewBox="0 0 120 60" className="w-full h-full">
+      {/* Static Printed QR */}
+      <rect x="10" y="10" width="35" height="35" rx="3" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+      {[0, 1, 2].map((row) =>
+        [0, 1, 2].map((col) => (
+          <rect key={`${row}-${col}`} x={15 + col * 10} y={15 + row * 10} width="7" height="7" rx="1" fill="rgba(255,255,255,0.4)" />
+        ))
+      )}
+      <text x="27.5" y="52" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="4">Printed QR</text>
+      
+      {/* Arrow */}
+      <motion.path d="M 50 27 L 62 27" fill="none" stroke="hsl(var(--primary))" strokeWidth="1.5" markerEnd="url(#qrArrow)"
+        animate={{ x: [0, 3, 0] }} transition={{ duration: 1.5, repeat: Infinity }} />
+      
+      {/* Dynamic Destination Panel */}
+      <rect x="68" y="8" width="45" height="44" rx="3" fill="rgba(255,255,255,0.05)" stroke="hsl(var(--primary))" strokeWidth="1" />
+      <text x="73" y="18" fill="rgba(255,255,255,0.5)" fontSize="4">Destination</text>
+      
+      {destinations.map((dest, idx) => (
+        <motion.g key={dest}>
+          <motion.rect x="73" y={22 + idx * 10} width="35" height="8" rx="2"
+            fill={destination === idx ? "rgba(74,222,128,0.15)" : "rgba(255,255,255,0.03)"}
+            stroke={destination === idx ? "rgba(74,222,128,0.5)" : "rgba(255,255,255,0.1)"}
+            strokeWidth="0.5" />
+          <text x="90.5" y={28 + idx * 10} textAnchor="middle"
+            fill={destination === idx ? "rgba(74,222,128,0.9)" : "rgba(255,255,255,0.4)"} fontSize="4">
+            {dest}
+          </text>
+        </motion.g>
+      ))}
+      
+      <defs>
+        <marker id="qrArrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+          <polygon points="0 0, 6 3, 0 6" fill="hsl(var(--primary))" />
+        </marker>
+      </defs>
+    </svg>
+  );
+};
+
+// QR Brand Studio Visual - Customization preview
+export const QRBrandStudioVisual = () => {
+  const [colorIdx, setColorIdx] = useState(0);
+  const colors = ["hsl(var(--primary))", "rgba(239,68,68,0.8)", "rgba(59,130,246,0.8)", "rgba(168,85,247,0.8)"];
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setColorIdx((prev) => (prev + 1) % colors.length);
+    }, 1500);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <svg viewBox="0 0 120 60" className="w-full h-full">
+      {/* QR Preview */}
+      <rect x="10" y="8" width="44" height="44" rx="4" fill="rgba(255,255,255,0.1)" stroke={colors[colorIdx]} strokeWidth="1.5" />
+      {/* QR Pattern with brand color */}
+      {[0, 1, 2, 3].map((row) =>
+        [0, 1, 2, 3].map((col) => {
+          const isCorner = (row === 0 && col === 0) || (row === 0 && col === 3) || (row === 3 && col === 0);
+          return (
+            <motion.rect key={`${row}-${col}`} x={15 + col * 9} y={13 + row * 9} width="7" height="7" rx={isCorner ? 2 : 1}
+              fill={isCorner ? colors[colorIdx] : "rgba(255,255,255,0.4)"}
+              animate={isCorner ? { scale: [1, 1.1, 1] } : {}} transition={{ duration: 0.5 }} />
+          );
+        })
+      )}
+      {/* Center Logo */}
+      <motion.circle cx="32" cy="30" r="8" fill="rgba(0,0,0,0.8)" stroke={colors[colorIdx]} strokeWidth="1"
+        animate={{ scale: [1, 1.05, 1] }} transition={{ duration: 2, repeat: Infinity }} />
+      <text x="32" y="33" textAnchor="middle" fill={colors[colorIdx]} fontSize="6" fontWeight="700">★</text>
+      
+      {/* Controls Panel */}
+      <rect x="60" y="8" width="52" height="44" rx="3" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5" />
+      <text x="65" y="18" fill="rgba(255,255,255,0.5)" fontSize="4">Brand Colors</text>
+      
+      {/* Color Swatches */}
+      {colors.map((color, idx) => (
+        <motion.circle key={idx} cx={70 + idx * 10} cy="26" r="4"
+          fill={color} stroke={colorIdx === idx ? "white" : "transparent"} strokeWidth="1"
+          animate={colorIdx === idx ? { scale: 1.2 } : { scale: 1 }} />
+      ))}
+      
+      {/* Shape Options */}
+      <text x="65" y="38" fill="rgba(255,255,255,0.5)" fontSize="4">Corner Style</text>
+      {["Square", "Round", "Dot"].map((shape, idx) => (
+        <motion.rect key={shape} x={65 + idx * 16} y={42} width="14" height="8" rx="2"
+          fill={idx === 1 ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.03)"}
+          stroke={idx === 1 ? "hsl(var(--primary))" : "rgba(255,255,255,0.1)"} strokeWidth="0.5" />
+      ))}
+      <text x="72" y="48" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="3">▢</text>
+      <text x="88" y="48" textAnchor="middle" fill="hsl(var(--primary))" fontSize="3">◯</text>
+      <text x="104" y="48" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="3">●</text>
     </svg>
   );
 };
