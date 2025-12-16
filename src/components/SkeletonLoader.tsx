@@ -54,32 +54,30 @@ export const MetricSkeleton = () => (
  */
 export const InlineDashboardSkeleton = () => (
   <div className="min-h-screen bg-background flex">
-    {/* Sidebar - pure CSS pulse */}
-    <div className="hidden lg:flex w-64 border-r border-border/50 flex-col p-4 gap-3">
-      <div className="h-8 w-32 bg-muted/20 rounded animate-pulse" />
-      <div className="h-px bg-border/50 my-2" />
-      <div className="h-9 bg-muted/10 rounded animate-pulse" />
-      <div className="h-9 bg-muted/10 rounded animate-pulse" />
-      <div className="h-9 bg-muted/10 rounded animate-pulse" />
+    {/* Sidebar - minimal outline only */}
+    <div className="hidden lg:flex w-64 border-r border-border/30 flex-col p-4">
+      <div className="h-8 w-32 bg-muted/10 rounded" />
     </div>
     
     {/* Main */}
     <div className="flex-1 flex flex-col">
-      <div className="h-14 border-b border-border/50 flex items-center px-4 gap-4">
-        <div className="h-8 w-8 bg-muted/20 rounded animate-pulse lg:hidden" />
-        <div className="h-6 w-48 bg-muted/20 rounded animate-pulse" />
-        <div className="flex-1" />
-        <div className="h-8 w-8 bg-muted/20 rounded-full animate-pulse" />
-      </div>
+      {/* Header - minimal */}
+      <div className="h-14 border-b border-border/30" />
       
-      <div className="flex-1 p-6">
-        <div className="max-w-6xl mx-auto space-y-6">
-          <div className="h-8 w-64 bg-muted/20 rounded animate-pulse" />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="h-24 bg-muted/10 rounded-lg border border-border/50 animate-pulse" />
-            <div className="h-24 bg-muted/10 rounded-lg border border-border/50 animate-pulse" />
-            <div className="h-24 bg-muted/10 rounded-lg border border-border/50 animate-pulse" />
-          </div>
+      {/* Content - breathing pulse */}
+      <div className="flex-1 flex flex-col items-center justify-center">
+        <div className="w-24 h-1 rounded-full bg-primary animate-breathing-pulse" />
+        <p className="mt-6 text-muted-foreground text-sm font-mono tracking-wide animate-fade-in">
+          loading...
+        </p>
+        <div className="mt-4 flex gap-1.5">
+          {[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              className="w-1.5 h-1.5 rounded-full bg-muted-foreground/30 animate-dot-pulse"
+              style={{ animationDelay: `${i * 200}ms` }}
+            />
+          ))}
         </div>
       </div>
     </div>
