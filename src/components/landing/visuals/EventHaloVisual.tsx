@@ -1,264 +1,238 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { QrCode } from "lucide-react";
 
-// Cinematic Event Halo: Booth scanner → Halo core → ambient detection story
-// Clear story: 100 scanned → 847 detected (9x more)
+// Apple Pro aesthetic: "Smoke → Scanning beam → Crystallized data"
+// Faint ghost threads → hairline beam sweeps → solid white lines emerge
 export const EventHaloVisual = () => {
-  const appleEase = [0.4, 0.0, 0.2, 1] as const;
+  const [scanComplete, setScanComplete] = useState(false);
+  const appleSpring = [0.16, 1, 0.3, 1] as const;
   
-  // Generate fiber strand offsets for multi-strand effect
-  const fiberOffsets = [-1, -0.5, 0, 0.5, 1];
-  
+  useEffect(() => {
+    // Loop: scan → hold → reset
+    const interval = setInterval(() => {
+      setScanComplete(prev => !prev);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Smoke thread positions (barely visible ghost streams)
+  const smokeThreads = [
+    { y: 18, offset: 0 },
+    { y: 26, offset: 0.2 },
+    { y: 30, offset: 0 },
+    { y: 34, offset: -0.15 },
+    { y: 42, offset: 0.1 },
+  ];
+
   return (
     <svg viewBox="0 0 120 60" className="w-full h-full">
       <defs>
-        {/* Bloom effect filter */}
-        <filter id="haloBloom" x="-100%" y="-100%" width="300%" height="300%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur1" />
-          <feGaussianBlur in="SourceGraphic" stdDeviation="0.8" result="blur2" />
-          <feMerge>
-            <feMergeNode in="blur1" />
-            <feMergeNode in="blur2" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-        
-        {/* Fiber glow */}
-        <filter id="haloFiberGlow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="1.2" result="glow" />
-          <feComposite in="SourceGraphic" in2="glow" operator="over" />
-        </filter>
-        
-        {/* Fiber gradient - white hot center to emerald edge */}
-        <linearGradient id="haloFiberCore" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.8" />
-          <stop offset="50%" stopColor="#10B981" stopOpacity="0.6" />
-          <stop offset="100%" stopColor="#10B981" stopOpacity="0.2" />
-        </linearGradient>
-        
-        {/* Halo ring gradient */}
-        <linearGradient id="haloRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#10B981" stopOpacity="1" />
-          <stop offset="50%" stopColor="#06B6D4" stopOpacity="0.8" />
-          <stop offset="100%" stopColor="#10B981" stopOpacity="0.4" />
-        </linearGradient>
-        
-        {/* Dot grid pattern */}
-        <pattern id="haloDotGrid" patternUnits="userSpaceOnUse" width="4" height="4">
-          <circle cx="2" cy="2" r="0.12" fill="white" fillOpacity="0.1" />
-        </pattern>
+        {/* Frosted glass gradient for destination lens */}
+        <radialGradient id="haloLens" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="rgba(26,26,26,0.95)" />
+          <stop offset="60%" stopColor="rgba(26,26,26,0.8)" />
+          <stop offset="100%" stopColor="rgba(26,26,26,0.4)" />
+        </radialGradient>
       </defs>
       
-      {/* Background dot grid */}
-      <rect x="0" y="0" width="120" height="60" fill="url(#haloDotGrid)" opacity="0.3" />
-      
-      {/* Source: Booth node with QR icon */}
+      {/* Pure black background */}
+      <rect x="0" y="0" width="120" height="60" fill="#000000" />
+
+      {/* Source booth - frosted glass card */}
       <motion.g
-        initial={{ opacity: 0, x: -8 }}
+        initial={{ opacity: 0, x: -5 }}
         animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5, ease: appleEase }}
+        transition={{ duration: 0.8, ease: appleSpring }}
       >
         <rect
           x="4"
           y="22"
-          width="18"
+          width="16"
           height="16"
           rx="2"
-          fill="rgba(63,63,70,0.3)"
-          stroke="rgba(255,255,255,0.15)"
-          strokeWidth="0.4"
-        />
-        {/* Glowing edge when active */}
-        <motion.rect
-          x="4"
-          y="22"
-          width="18"
-          height="16"
-          rx="2"
-          fill="none"
-          stroke="#10B981"
+          fill="rgba(26,26,26,0.8)"
+          stroke="rgba(255,255,255,0.1)"
           strokeWidth="0.3"
-          animate={{ strokeOpacity: [0.2, 0.6, 0.2] }}
-          transition={{ duration: 1, repeat: Infinity, ease: appleEase }}
         />
-        {/* QR Icon */}
-        <foreignObject x="8" y="24" width="10" height="10">
+        
+        {/* QR Icon - monochrome */}
+        <foreignObject x="7" y="24" width="10" height="10">
           <div className="flex items-center justify-center w-full h-full">
-            <QrCode className="w-3 h-3" style={{ color: "#10B981" }} strokeWidth={1.5} />
+            <QrCode className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.5)' }} strokeWidth={1.5} />
           </div>
         </foreignObject>
-        <text x="13" y="36" fill="white" fontSize="2.5" textAnchor="middle" fontFamily="ui-monospace" opacity="0.7">100</text>
-      </motion.g>
-      
-      {/* Multi-strand fiber-optic flow - 5 parallel strands */}
-      {fiberOffsets.map((offset, i) => {
-        const isCenter = i === 2;
-        const opacity = isCenter ? 1 : 0.25 - Math.abs(offset) * 0.08;
-        const strokeWidth = isCenter ? 1.0 : 0.3;
         
-        return (
-          <motion.path
-            key={`fiber-${i}`}
-            d={`M 22 ${30 + offset} C 40 ${30 + offset}, 55 ${30 + offset * 0.5}, 70 30`}
-            fill="none"
-            stroke={isCenter ? "url(#haloFiberCore)" : "#10B981"}
-            strokeWidth={strokeWidth}
-            strokeLinecap="round"
-            strokeOpacity={opacity}
-            filter={isCenter ? "url(#haloFiberGlow)" : undefined}
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 + i * 0.05, ease: appleEase }}
-          />
-        );
-      })}
-      
-      {/* Heartbeat pulse on fibers */}
-      <motion.ellipse
-        cx="45"
-        cy="30"
-        rx="3"
-        ry="1.5"
-        fill="#FFFFFF"
-        filter="url(#haloFiberGlow)"
-        animate={{
-          cx: [22, 70],
-          opacity: [0.8, 0],
-          scale: [0.8, 1.2],
+        <text 
+          x="12" 
+          y="36" 
+          fill="rgba(255,255,255,0.4)" 
+          fontSize="2.5" 
+          textAnchor="middle" 
+          fontFamily="'SF Mono', ui-monospace"
+        >
+          100
+        </text>
+      </motion.g>
+
+      {/* Stage 1: Ghost smoke threads (5% opacity) */}
+      {smokeThreads.map((thread, i) => (
+        <motion.path
+          key={`smoke-${i}`}
+          d={`M 22 ${thread.y} C 40 ${thread.y + thread.offset * 10}, 60 ${thread.y + thread.offset * 5}, 85 30`}
+          fill="none"
+          stroke="rgba(255,255,255,0.05)"
+          strokeWidth="0.8"
+          strokeLinecap="round"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 1.5, delay: i * 0.1, ease: appleSpring }}
+        />
+      ))}
+
+      {/* Stage 2: Scanning beam - hairline white vertical line */}
+      <motion.line
+        x1="0"
+        y1="8"
+        x2="0"
+        y2="52"
+        stroke="rgba(255,255,255,0.6)"
+        strokeWidth="0.3"
+        animate={{ 
+          x1: [22, 85, 85, 22],
+          x2: [22, 85, 85, 22],
         }}
-        transition={{
-          duration: 1,
-          repeat: Infinity,
-          ease: appleEase,
-        }}
+        transition={{ duration: 4, repeat: Infinity, ease: appleSpring }}
       />
       
-      {/* The Halo Core - rotating rings */}
-      <g transform="translate(85, 30)">
-        {/* Outer detection ring - slow rotation */}
-        <motion.circle
-          cx="0"
-          cy="0"
-          r="18"
+      {/* Beam glow trail (subtle) */}
+      <motion.line
+        x1="0"
+        y1="10"
+        x2="0"
+        y2="50"
+        stroke="rgba(255,255,255,0.1)"
+        strokeWidth="2"
+        animate={{ 
+          x1: [20, 83, 83, 20],
+          x2: [20, 83, 83, 20],
+        }}
+        transition={{ duration: 4, repeat: Infinity, ease: appleSpring }}
+      />
+
+      {/* Stage 3: Crystallized solid white lines (appear after beam passes) */}
+      {smokeThreads.map((thread, i) => (
+        <motion.path
+          key={`crystal-${i}`}
+          d={`M 22 ${thread.y} C 40 ${thread.y + thread.offset * 10}, 60 ${thread.y + thread.offset * 5}, 85 30`}
           fill="none"
-          stroke="url(#haloRingGrad)"
-          strokeWidth="0.3"
-          strokeDasharray="3 6"
-          strokeOpacity="0.3"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          style={{ transformOrigin: "0 0" }}
-        />
-        
-        {/* Middle ring - medium rotation */}
-        <motion.circle
-          cx="0"
-          cy="0"
-          r="14"
-          fill="none"
-          stroke="#10B981"
+          stroke="rgba(255,255,255,0.5)"
           strokeWidth="0.4"
-          strokeDasharray="2 4"
-          strokeOpacity="0.4"
-          animate={{ rotate: -360 }}
-          transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-          style={{ transformOrigin: "0 0" }}
-        />
-        
-        {/* Inner ring - fast rotation */}
-        <motion.circle
-          cx="0"
-          cy="0"
-          r="10"
-          fill="none"
-          stroke="#06B6D4"
-          strokeWidth="0.5"
-          strokeDasharray="1.5 3"
-          strokeOpacity="0.6"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-          style={{ transformOrigin: "0 0" }}
-        />
-        
-        {/* Sonar pulse rings - expanding outward */}
-        {[0, 1, 2].map((ring) => (
-          <motion.circle
-            key={`sonar-${ring}`}
-            cx="0"
-            cy="0"
-            r="4"
-            fill="none"
-            stroke="#10B981"
-            strokeWidth="0.5"
-            initial={{ r: 4, opacity: 0.6 }}
-            animate={{ 
-              r: [4, 22],
-              opacity: [0.6, 0],
-            }}
-            transition={{
-              duration: 2.5,
-              delay: ring * 0.8,
-              repeat: Infinity,
-              ease: appleEase,
-            }}
-          />
-        ))}
-        
-        {/* Core glow */}
-        <motion.circle
-          cx="0"
-          cy="0"
-          r="5"
-          fill="rgba(16,185,129,0.25)"
-          filter="url(#haloBloom)"
-          animate={{
-            r: [5, 6, 5],
-            fillOpacity: [0.25, 0.4, 0.25],
-          }}
-          transition={{ duration: 1, repeat: Infinity, ease: appleEase }}
-        />
-        
-        {/* Core center */}
-        <circle cx="0" cy="0" r="4" fill="rgba(16,185,129,0.3)" stroke="#10B981" strokeWidth="0.5" />
-        <text x="0" y="2" fill="white" fontSize="5" textAnchor="middle" fontFamily="ui-monospace" fontWeight="bold" opacity="0.9">847</text>
-      </g>
-      
-      {/* Detection dots - representing walk-by visitors */}
-      {[
-        { x: 75, y: 16 }, { x: 95, y: 14 }, { x: 105, y: 20 },
-        { x: 72, y: 44 }, { x: 98, y: 46 }, { x: 108, y: 40 },
-      ].map((dot, i) => (
-        <motion.circle
-          key={`detect-${i}`}
-          cx={dot.x}
-          cy={dot.y}
-          r="1.2"
-          fill="#10B981"
-          initial={{ scale: 0, opacity: 0 }}
+          strokeLinecap="round"
+          initial={{ pathLength: 0, opacity: 0 }}
           animate={{ 
-            scale: [0, 1, 1],
-            opacity: [0, 0.8, 0.4],
+            pathLength: scanComplete ? 1 : 0,
+            opacity: scanComplete ? 1 : 0
           }}
           transition={{ 
-            delay: 1.2 + i * 0.15,
-            duration: 0.8,
-            ease: appleEase,
+            duration: 0.8, 
+            delay: i * 0.08,
+            ease: appleSpring 
           }}
         />
       ))}
+
+      {/* Stage 4: Black hole lens destination */}
+      <motion.circle
+        cx="95"
+        cy="30"
+        r="10"
+        fill="url(#haloLens)"
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ delay: 0.5, type: "spring", stiffness: 100, damping: 15 }}
+      />
       
-      {/* Stats footer - clear story */}
+      {/* Lens rim - hairline white */}
+      <motion.circle
+        cx="95"
+        cy="30"
+        r="10"
+        fill="none"
+        stroke="rgba(255,255,255,0.15)"
+        strokeWidth="0.3"
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ delay: 0.6, ease: appleSpring, duration: 0.8 }}
+      />
+      
+      {/* Inner lens ring - light bending effect */}
+      <motion.circle
+        cx="95"
+        cy="30"
+        r="6"
+        fill="none"
+        stroke="rgba(255,255,255,0.08)"
+        strokeWidth="0.2"
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ delay: 0.7, ease: appleSpring }}
+      />
+
+      {/* Output: Single perfect white line exits right */}
+      <motion.line
+        x1="105"
+        y1="30"
+        x2="118"
+        y2="30"
+        stroke="rgba(255,255,255,0.6)"
+        strokeWidth="0.4"
+        strokeLinecap="round"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ delay: 1.2, duration: 0.8, ease: appleSpring }}
+      />
+      
+      {/* Subtle pulse on output */}
+      <motion.circle
+        cx="116"
+        cy="30"
+        r="1"
+        fill="rgba(255,255,255,0.4)"
+        animate={{ 
+          opacity: [0.4, 0.6, 0.4],
+          scale: [1, 1.2, 1]
+        }}
+        transition={{ duration: 2, repeat: Infinity, ease: appleSpring }}
+      />
+
+      {/* Detection count in lens */}
+      <motion.text
+        x="95"
+        y="32"
+        fill="rgba(255,255,255,0.6)"
+        fontSize="5"
+        textAnchor="middle"
+        fontFamily="'SF Mono', ui-monospace"
+        fontWeight="600"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.8 }}
+      >
+        847
+      </motion.text>
+
+      {/* Stats footer */}
       <motion.text
         x="60"
         y="56"
-        fill="white"
+        fill="rgba(113,113,122,0.4)"
         fontSize="2.5"
-        fontFamily="ui-monospace"
+        fontFamily="'SF Mono', ui-monospace"
         textAnchor="middle"
-        fillOpacity="0.4"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, ease: appleEase }}
+        transition={{ delay: 1.5, ease: appleSpring }}
       >
         100 scanned · 847 detected
       </motion.text>
