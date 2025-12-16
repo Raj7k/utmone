@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthLoadingScreen } from "@/components/loading/AuthLoadingScreen";
 import { notify } from "@/lib/notify";
+import { identifyUser } from "@/hooks/useUtmOneTracking";
 
 const AuthCallback = () => {
   const navigate = useNavigate();
@@ -72,6 +73,12 @@ const AuthCallback = () => {
         }
 
         const userEmail = session.user.email;
+        
+        // 🎯 Identify user for cross-device attribution (OAuth login)
+        identifyUser(
+          userEmail || '', 
+          session.user.user_metadata?.full_name
+        );
 
         // Race Condition Guard: Ensure profile exists before proceeding
         const profileReady = await ensureProfileExists(session.user.id, userEmail);

@@ -14,6 +14,7 @@ import { MFAChallenge } from "@/components/auth/MFAChallenge";
 import { PasswordInput } from "@/components/auth/PasswordInput";
 import { useUIFeatureFlags } from "@/hooks/useUIFeatureFlag";
 import { CleanAuthLayout } from "@/components/layout/CleanAuthLayout";
+import { identifyUser } from "@/hooks/useUtmOneTracking";
 
 const AUTH_PROGRESS_STEPS = [
   "verifying credentials...",
@@ -159,6 +160,12 @@ const Auth = () => {
       if (event === "SIGNED_IN" && session) {
         setIsAuthenticating(true);
         hasNavigated.current = true;
+        
+        // 🎯 Identify user for cross-device attribution
+        identifyUser(
+          session.user.email || '', 
+          session.user.user_metadata?.full_name
+        );
         
         // Defer async work to avoid deadlock
         setTimeout(async () => {
@@ -310,6 +317,10 @@ const Auth = () => {
 
       // Success without 2FA
       notify.success("signed in successfully");
+      
+      // 🎯 Identify user for cross-device attribution
+      identifyUser(email, data.user?.user_metadata?.full_name);
+      
       // onAuthStateChange will handle navigation
     } catch (error) {
       notify.error("an unexpected error occurred");
