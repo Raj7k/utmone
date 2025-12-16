@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import { GuideLayout } from "@/components/resources/GuideLayout";
 import { ActionChecklist } from "@/components/resources/ActionChecklist";
 import { CTABanner } from "@/components/resources/CTABanner";
-import { FAQAccordion } from "@/components/resources/FAQAccordion";
+import { FAQAccordion, FAQCategory } from "@/components/resources/FAQAccordion";
+import { PlaybookInlineCTA } from "@/components/resources/PlaybookInlineCTA";
+import { SharePrompt } from "@/components/resources/SharePrompt";
 import { ProgressiveReveal } from "@/components/landing/ProgressiveReveal";
 import { SEO } from "@/components/seo/SEO";
 import { ArticleSchema, FAQSchema, BreadcrumbSchema, HowToSchema } from "@/components/seo/SchemaMarkup";
@@ -49,21 +51,47 @@ const AnimatedCounter = ({ value, suffix = "" }: { value: string; suffix?: strin
 // ============================================
 // PART DIVIDER COMPONENT
 // ============================================
-const PartDivider = ({ part, title, subtitle, icon: Icon }: { part: number; title: string; subtitle: string; icon: React.ElementType }) => (
-  <div className="relative py-16 my-16">
-    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent" />
-    <div className="relative text-center">
-      <div className="inline-flex items-center gap-3 mb-4">
-        <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-          <Icon className="w-6 h-6 text-primary" />
-        </div>
-        <Badge variant="outline" className="text-lg px-4 py-1">Part {part}</Badge>
+const partGradients: Record<number, { bg: string; icon: string; badge: string }> = {
+  1: {
+    bg: "bg-gradient-to-r from-amber-500/5 via-orange-500/10 to-amber-500/5",
+    icon: "bg-gradient-to-br from-amber-500/20 to-orange-500/10",
+    badge: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30",
+  },
+  2: {
+    bg: "bg-gradient-to-r from-emerald-500/5 via-green-500/10 to-emerald-500/5",
+    icon: "bg-gradient-to-br from-emerald-500/20 to-green-500/10",
+    badge: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30",
+  },
+  3: {
+    bg: "bg-gradient-to-r from-violet-500/5 via-purple-500/10 to-violet-500/5",
+    icon: "bg-gradient-to-br from-violet-500/20 to-purple-500/10",
+    badge: "bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-500/30",
+  },
+};
+
+const PartDivider = ({ part, title, subtitle, icon: Icon }: { part: number; title: string; subtitle: string; icon: React.ElementType }) => {
+  const gradient = partGradients[part] || partGradients[1];
+  
+  return (
+    <div className="relative py-16 my-16">
+      <div className={cn("absolute inset-0", gradient.bg)} />
+      <div className="relative text-center">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          className="inline-flex items-center gap-3 mb-4"
+        >
+          <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center shadow-lg", gradient.icon)}>
+            <Icon className="w-6 h-6 text-foreground" />
+          </div>
+          <Badge className={cn("text-lg px-4 py-1 border", gradient.badge)}>Part {part}</Badge>
+        </motion.div>
+        <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-3">{title}</h2>
+        <p className="text-lg text-muted-foreground">{subtitle}</p>
       </div>
-      <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-3">{title}</h2>
-      <p className="text-lg text-muted-foreground">{subtitle}</p>
     </div>
-  </div>
-);
+  );
+};
 
 // ============================================
 // SEASON PROGRESSION CHART
@@ -699,26 +727,86 @@ export default function HRKatalystReferralPlaybook() {
     { id: "fraud-6", text: "Publish integrity note so people know you care" },
   ];
 
-  const faqItems = [
+  const faqItems: { question: string; answer: string; category?: FAQCategory }[] = [
+    // Strategy
+    {
+      question: "How much budget do we need to run a referral campaign?",
+      answer: "Start with $500-2,000 for prizes and merch. The beauty of referral campaigns is they're mostly organic. Your biggest costs are rewards for top performers. We spent under $3,000 total on prizes but drove 6,900+ registrations.",
+      category: "strategy",
+    },
+    {
+      question: "Can this work for B2B events, not just B2C?",
+      answer: "Absolutely. B2B actually works better because professional networks are higher-trust. People refer colleagues they genuinely think will benefit. Our HR Katalyst audience was 100% B2B professionals.",
+      category: "strategy",
+    },
+    {
+      question: "What's the ideal campaign duration?",
+      answer: "4 weeks is the sweet spot. Week 1 for launch momentum, weeks 2-3 for steady growth, week 4 for FOMO-driven final push. Shorter campaigns lack momentum; longer ones lose urgency.",
+      category: "strategy",
+    },
+    {
+      question: "Should we launch referrals at the same time as ticket sales?",
+      answer: "No. Launch referrals 1-2 weeks after initial sales begin. This way, early registrants become your first referrers, and you've validated demand before investing in the referral infrastructure.",
+      category: "strategy",
+    },
+    // Execution
     {
       question: "How do we prevent fake referrals and gaming?",
-      answer: "Block disposable domains, rate limit conversions per IP, run manual audits on outliers, and mark (don't delete) suspicious entries. Keep an audit trail. Our campaign blocked 238 fraudulent submissions while maintaining 96.6% integrity rate."
+      answer: "Block disposable domains, rate limit conversions per IP, run manual audits on outliers, and mark (don't delete) suspicious entries. Keep an audit trail. Our campaign blocked 238 fraudulent submissions while maintaining 96.6% integrity rate.",
+      category: "execution",
     },
     {
       question: "What rewards work best for referral campaigns?",
-      answer: "Three tiers work best: headline prizes for top 3 (creates competition), guaranteed merch for mid-tier (creates motivation), and recognition badge for anyone with 1+ referral (creates participation). Recognition emails had our highest open rates."
+      answer: "Three tiers work best: headline prizes for top 3 (creates competition), guaranteed merch for mid-tier (creates motivation), and recognition badge for anyone with 1+ referral (creates participation). Recognition emails had our highest open rates.",
+      category: "execution",
     },
     {
+      question: "How many hours per week did it take to manage the campaign?",
+      answer: "About 3-5 hours per week once set up. Most time went to: sending weekly digest emails, posting leaderboard updates, and reviewing flagged entries. The automation handles 90% of the work.",
+      category: "execution",
+    },
+    // Metrics
+    {
       question: "How important is real-time tracking?",
-      answer: "Critical. When referrers can see their stats and leaderboard position update in real-time, engagement compounds. They share more because they can see immediate results. Delayed reporting kills momentum."
+      answer: "Critical. When referrers can see their stats and leaderboard position update in real-time, engagement compounds. They share more because they can see immediate results. Delayed reporting kills momentum.",
+      category: "metrics",
     },
     {
       question: "What conversion rate should we expect?",
-      answer: "We achieved 28% visit-to-registration conversion on our referral landing page. The key: make it clear, not clever. One line about what it is, who it's for, what they get, the date, and a single CTA."
+      answer: "We achieved 28% visit-to-registration conversion on our referral landing page. The key: make it clear, not clever. One line about what it is, who it's for, what they get, the date, and a single CTA.",
+      category: "metrics",
     },
     {
+      question: "What were the top 3 channels that drove referrals?",
+      answer: "WhatsApp (45%), LinkedIn (32%), Email (18%). WhatsApp dominated because it's where Indian professionals actually communicate. Design for mobile-first sharing, not desktop sharing buttons.",
+      category: "metrics",
+    },
+    {
+      question: "What was the ROI compared to paid ads?",
+      answer: "Roughly 8x better cost-per-registration than our paid campaigns. Referral traffic converted at 28% vs 8% for paid. Plus, referral attendees had higher engagement at the actual event.",
+      category: "metrics",
+    },
+    // Trust / Objection handling
+    {
+      question: "We tried referral marketing before and it didn't work. Why is this different?",
+      answer: "Most referral campaigns fail because of broken tracking, not bad marketing. If you can't prove which referrer drove which registration, the whole system loses credibility. Clean attribution is the foundation.",
+      category: "trust",
+    },
+    {
+      question: "Our audience isn't tech-savvy. Will they actually share?",
+      answer: "HR Katalyst's audience included HR managers in traditional industries. The key is making sharing effortless: pre-written messages, one-tap copy buttons, WhatsApp deep links. Remove friction, not assume capability.",
+      category: "trust",
+    },
+    {
+      question: "How do we convince leadership to invest in this?",
+      answer: "Present it as a risk-free experiment. The infrastructure cost is minimal (build in 2-3 days), the prizes are only paid out on results, and you get attribution data regardless. Worst case: you learn what doesn't work.",
+      category: "trust",
+    },
+    // Results
+    {
       question: "How many referrers will actually refer?",
-      answer: "Expect power law distribution. In our campaign, 7 people (0.7%) drove 46% of conversions. 65% of referrers brought 0 conversions. Design for your champions, not your averages."
+      answer: "Expect power law distribution. In our campaign, 7 people (0.7%) drove 46% of conversions. 65% of referrers brought 0 conversions. Design for your champions, not your averages.",
+      category: "results",
     },
   ];
 
@@ -1141,6 +1229,14 @@ const emailTemplates = {
           <h3 className="text-xl font-display font-semibold text-foreground mb-4">Key Insights (Share These)</h3>
           <p className="text-muted-foreground text-sm mb-6">Click any share button to post on social media with utm.one branding</p>
           <InsightsBentoCard />
+          
+          {/* Inline CTA after Insights */}
+          <PlaybookInlineCTA
+            variant="action"
+            headline="track your referral links the right way"
+            subtext="join 500+ marketers who ditched spreadsheets for clean, consistent attribution"
+            ctaText="join the waitlist"
+          />
         </section>
 
         {/* ================================================ */}
@@ -1186,6 +1282,12 @@ const emailTemplates = {
           <ProgressiveReveal>
             <SeasonProgressionChart />
           </ProgressiveReveal>
+
+          {/* Share Prompt after Season Progression */}
+          <SharePrompt 
+            text="referrals went from 3% to 28% in one campaign 🔥" 
+            variant="highlight"
+          />
 
           <ProgressiveReveal>
             <div className="grid md:grid-cols-3 gap-4 mt-8 mb-8">
@@ -1688,6 +1790,12 @@ const emailTemplates = {
               <OlympicPodium />
             </div>
           </ProgressiveReveal>
+          
+          {/* Share Prompt after Power Law */}
+          <SharePrompt 
+            text="7 people drove 46% of all referral conversions. the power law is real." 
+            variant="highlight"
+          />
         </section>
 
         {/* 1.9 Registration Velocity */}
@@ -1736,6 +1844,14 @@ const emailTemplates = {
             </div>
           </ProgressiveReveal>
         </section>
+
+        {/* Inline CTA before Part 2 */}
+        <PlaybookInlineCTA
+          variant="subtle"
+          headline="want results like this?"
+          subtext="utm.one makes clean tracking effortless — the foundation for any successful referral campaign"
+          ctaText="get early access"
+        />
 
         {/* ================================================ */}
         {/* PART 2: THE MARKETER'S PLAYBOOK */}
@@ -2051,6 +2167,12 @@ const emailTemplates = {
               ))}
             </div>
           </ProgressiveReveal>
+          
+          {/* Share Prompt after 14 Steps */}
+          <SharePrompt 
+            text="14-step referral playbook that drove 6,900 registrations. no fluff." 
+            variant="highlight"
+          />
         </section>
 
         {/* 2.4 The 3 Checklists */}
@@ -2384,12 +2506,25 @@ const emailTemplates = {
           </ProgressiveReveal>
         </section>
 
+        {/* Pre-FAQ Inline CTA */}
+        <PlaybookInlineCTA
+          variant="proof"
+          headline="this exact playbook drove 6,900+ registrations"
+          subtext="get the tools to replicate it — clean tracking, real-time attribution, and viral loop infrastructure"
+          ctaText="get early access"
+          badge="founding member badge"
+          socialProof="2,847 marketers on the waitlist"
+        />
+
         {/* FAQ */}
         <section className="mb-16" id="faq">
-          <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
+          <h2 className="text-3xl font-display font-semibold text-foreground mb-4">
             Frequently Asked Questions
           </h2>
-          <FAQAccordion items={faqItems} />
+          <p className="text-muted-foreground mb-6">
+            15 questions from marketers who ran similar campaigns
+          </p>
+          <FAQAccordion items={faqItems} showCategories />
         </section>
 
         {/* Final CTA */}
