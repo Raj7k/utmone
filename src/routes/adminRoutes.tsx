@@ -5,6 +5,30 @@ import { DashboardSkeleton } from "@/components/SkeletonLoader";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { lazyWithRetry } from "@/utils/lazyWithRetry";
 
+const AdminContentSkeleton = () => (
+  <div className="p-6 lg:p-8 space-y-8">
+    <div className="h-8 w-48 bg-muted/20 rounded animate-pulse" />
+    
+    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      {[1, 2, 3].map((item) => (
+        <div
+          key={item}
+          className="h-24 rounded-xl border border-border/50 bg-muted/10 animate-pulse"
+        />
+      ))}
+    </div>
+
+    <div className="space-y-3">
+      {[1, 2, 3, 4].map((item) => (
+        <div
+          key={item}
+          className="h-12 rounded-lg border border-border/40 bg-muted/10 animate-pulse"
+        />
+      ))}
+    </div>
+  </div>
+);
+
 // Admin pages - with retry for resilience
 const AdminDashboard = lazyWithRetry(() => import("@/pages/admin/Dashboard"));
 const WaitlistManagement = lazyWithRetry(() => import("@/pages/admin/WaitlistManagement"));
@@ -25,9 +49,11 @@ const VerificationRequests = lazyWithRetry(() => import("@/pages/admin/Verificat
 // Admin route wrapper
 const AdminRoute = ({ children }: { children: React.ReactNode }) => (
   <ProtectedRoute>
-    <Suspense fallback={<DashboardSkeleton />}>
-      <AdminLayout>{children}</AdminLayout>
-    </Suspense>
+    <AdminLayout>
+      <Suspense fallback={<AdminContentSkeleton />}>
+        {children}
+      </Suspense>
+    </AdminLayout>
   </ProtectedRoute>
 );
 
