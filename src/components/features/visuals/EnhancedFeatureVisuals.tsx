@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Bot, Users, AlertTriangle, Link, TrendingUp, DollarSign, Clock, Zap, Target, BarChart3, Layers, Shield } from "lucide-react";
 
@@ -456,3 +457,235 @@ export const DiminishingReturnsVisual = () => (
     <text x="60" y="58" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5">Spend →</text>
   </svg>
 );
+
+// ============ SHORT LINKS VISUALS ============
+
+// AI Link Optimizer Visual - AI suggesting slug variations
+export const AILinkOptimizerVisual = () => {
+  const [activeSlug, setActiveSlug] = useState(0);
+  const slugSuggestions = [
+    { slug: "summer-sale", score: 94 },
+    { slug: "sale-2024", score: 87 },
+    { slug: "promo-summer", score: 82 },
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveSlug((prev) => (prev + 1) % slugSuggestions.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <svg viewBox="0 0 120 60" className="w-full h-full">
+      {/* Input indicator */}
+      <motion.rect x="10" y="5" width="100" height="12" rx="2" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" />
+      <text x="15" y="13" fill="rgba(255,255,255,0.3)" fontSize="4" fontFamily="monospace">https://store.acme.com/...</text>
+      
+      {/* AI Processing */}
+      <motion.circle cx="60" cy="25" r="6" fill="rgba(255,255,255,0.1)" stroke="hsl(var(--primary))" strokeWidth="1"
+        animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2, repeat: Infinity }} />
+      <text x="60" y="27" textAnchor="middle" fill="hsl(var(--primary))" fontSize="4" fontWeight="600">AI</text>
+      
+      {/* Slug Suggestions */}
+      {slugSuggestions.map((item, idx) => (
+        <motion.g key={idx}
+          animate={{ opacity: activeSlug === idx ? 1 : 0.4, scale: activeSlug === idx ? 1.02 : 1 }}
+          transition={{ duration: 0.3 }}>
+          <rect x="15" y={35 + idx * 8} width="70" height="7" rx="1" 
+            fill={activeSlug === idx ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.03)"} 
+            stroke={activeSlug === idx ? "hsl(var(--primary))" : "rgba(255,255,255,0.1)"} strokeWidth="0.5" />
+          <text x="18" y={40 + idx * 8} fill="rgba(255,255,255,0.7)" fontSize="3.5" fontFamily="monospace">
+            /{item.slug}
+          </text>
+          <text x="95" y={40 + idx * 8} textAnchor="middle" fill={activeSlug === idx ? "hsl(var(--primary))" : "rgba(255,255,255,0.4)"} fontSize="3.5" fontWeight="600">
+            {item.score}%
+          </text>
+        </motion.g>
+      ))}
+    </svg>
+  );
+};
+
+// Link Health Monitor Visual - Dashboard with health indicators
+export const LinkHealthMonitorVisual = () => {
+  const [pulseIndex, setPulseIndex] = useState(0);
+  const links = [
+    { name: "campaign-q4", status: "healthy" },
+    { name: "webinar", status: "warning" },
+    { name: "old-promo", status: "error" },
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPulseIndex((prev) => (prev + 1) % links.length);
+    }, 1500);
+    return () => clearInterval(interval);
+  }, []);
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "healthy": return "74,222,128";
+      case "warning": return "250,204,21";
+      case "error": return "248,113,113";
+      default: return "255,255,255";
+    }
+  };
+
+  return (
+    <svg viewBox="0 0 120 60" className="w-full h-full">
+      <text x="10" y="12" fill="rgba(255,255,255,0.6)" fontSize="5" fontWeight="600">Health Monitor</text>
+      
+      {links.map((link, idx) => {
+        const color = getStatusColor(link.status);
+        return (
+          <motion.g key={idx} animate={{ opacity: pulseIndex === idx ? 1 : 0.6 }}>
+            <rect x="10" y={18 + idx * 13} width="100" height="11" rx="2" 
+              fill={pulseIndex === idx ? `rgba(${color},0.1)` : "rgba(255,255,255,0.03)"} 
+              stroke={`rgba(${color},0.4)`} strokeWidth="0.5" />
+            <motion.circle cx="18" cy={23.5 + idx * 13} r="2.5" fill={`rgb(${color})`}
+              animate={pulseIndex === idx ? { scale: [1, 1.3, 1] } : {}}
+              transition={{ duration: 0.8, repeat: Infinity }} />
+            <text x="25" y={25.5 + idx * 13} fill="rgba(255,255,255,0.7)" fontSize="4" fontFamily="monospace">
+              /{link.name}
+            </text>
+          </motion.g>
+        );
+      })}
+    </svg>
+  );
+};
+
+// Smart Redirect Engine Visual - Device routing
+export const SmartRedirectVisual = () => {
+  const [activeRoute, setActiveRoute] = useState(0);
+  const routes = ["📱 iOS", "🤖 Android", "💻 Desktop"];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveRoute((prev) => (prev + 1) % routes.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <svg viewBox="0 0 120 60" className="w-full h-full">
+      {/* Central Link */}
+      <rect x="45" y="22" width="30" height="16" rx="3" fill="rgba(255,255,255,0.1)" stroke="hsl(var(--primary))" strokeWidth="1" />
+      <text x="60" y="32" textAnchor="middle" fill="hsl(var(--primary))" fontSize="4" fontWeight="600">/app</text>
+      
+      {/* Routes */}
+      {routes.map((route, idx) => {
+        const yPos = 10 + idx * 18;
+        const isActive = activeRoute === idx;
+        return (
+          <motion.g key={idx}>
+            <motion.path d={`M 75 30 Q 90 30 95 ${yPos + 8}`} fill="none"
+              stroke={isActive ? "hsl(var(--primary))" : "rgba(255,255,255,0.2)"}
+              strokeWidth={isActive ? 1.5 : 0.5} strokeDasharray={isActive ? "0" : "2,2"} />
+            <motion.rect x="95" y={yPos} width="20" height="14" rx="2" 
+              fill={isActive ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.03)"} 
+              stroke={isActive ? "hsl(var(--primary))" : "rgba(255,255,255,0.1)"} strokeWidth="0.5"
+              animate={{ scale: isActive ? 1.05 : 1 }} />
+            <text x="105" y={yPos + 9} textAnchor="middle" fontSize="5">{route.split(" ")[0]}</text>
+          </motion.g>
+        );
+      })}
+    </svg>
+  );
+};
+
+// Click Fraud Shield Visual - Bot filtering
+export const ClickFraudShieldVisual = () => (
+  <svg viewBox="0 0 120 60" className="w-full h-full">
+    {/* Shield */}
+    <motion.path
+      d="M60,8 L85,18 L85,35 C85,45 72,52 60,55 C48,52 35,45 35,35 L35,18 Z"
+      fill="rgba(74,222,128,0.1)"
+      stroke="rgba(74,222,128,0.5)"
+      strokeWidth="1"
+      initial={{ scale: 0.9, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+    />
+    <circle cx="60" cy="28" r="8" fill="rgba(255,255,255,0.1)" stroke="hsl(var(--primary))" strokeWidth="0.5" />
+    <text x="60" y="30" textAnchor="middle" fill="hsl(var(--primary))" fontSize="5" fontWeight="600">ML</text>
+    <text x="60" y="42" textAnchor="middle" fill="rgba(74,222,128,0.9)" fontSize="6" fontWeight="700">98.7%</text>
+    <text x="60" y="48" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="3.5">Bot Detection</text>
+  </svg>
+);
+
+// Deep Link Intelligence Visual - App deep linking
+export const DeepLinkVisual = () => {
+  const [stage, setStage] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setStage((prev) => (prev + 1) % 4);
+    }, 1200);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <svg viewBox="0 0 120 60" className="w-full h-full">
+      {/* Flow Steps */}
+      {["Check", "Found", "Deep", "Done"].map((label, idx) => (
+        <motion.g key={idx}>
+          <motion.rect x={10 + idx * 28} y="8" width="22" height="12" rx="2"
+            fill={stage >= idx ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.03)"}
+            stroke={stage === idx ? "hsl(var(--primary))" : "rgba(255,255,255,0.1)"} strokeWidth="0.5"
+            animate={{ scale: stage === idx ? 1.05 : 1 }} />
+          <text x={21 + idx * 28} y="16" textAnchor="middle" fill={stage >= idx ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.3)"} fontSize="4">{label}</text>
+        </motion.g>
+      ))}
+      
+      {/* App Icon */}
+      <motion.rect x="40" y="28" width="40" height="28" rx="6" fill="rgba(255,255,255,0.1)" stroke="hsl(var(--primary))" strokeWidth="1"
+        animate={{ scale: stage >= 2 ? [1, 1.02, 1] : 1 }}
+        transition={{ duration: 0.5, repeat: stage >= 2 ? Infinity : 0 }} />
+      <text x="60" y="42" textAnchor="middle" fontSize="10">📱</text>
+      <text x="60" y="52" textAnchor="middle" fill="hsl(var(--primary))" fontSize="3.5">/products</text>
+    </svg>
+  );
+};
+
+// A/B Link Testing Visual - Split funnel
+export const ABLinkTestVisual = () => {
+  const [variantA, setVariantA] = useState(52);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVariantA(50 + Math.floor(Math.random() * 10) - 5);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const variantB = 100 - variantA;
+
+  return (
+    <svg viewBox="0 0 120 60" className="w-full h-full">
+      {/* Source */}
+      <rect x="45" y="5" width="30" height="12" rx="2" fill="rgba(255,255,255,0.1)" stroke="hsl(var(--primary))" strokeWidth="0.5" />
+      <text x="60" y="13" textAnchor="middle" fill="hsl(var(--primary))" fontSize="4">/sale</text>
+      
+      {/* Split Lines */}
+      <path d="M 45 17 Q 25 25 20 30" fill="none" stroke="rgba(59,130,246,0.6)" strokeWidth="1" />
+      <path d="M 75 17 Q 95 25 100 30" fill="none" stroke="rgba(168,85,247,0.6)" strokeWidth="1" />
+      
+      {/* Variant A */}
+      <rect x="5" y="30" width="35" height="25" rx="3" fill="rgba(59,130,246,0.1)" stroke="rgba(59,130,246,0.4)" strokeWidth="0.5" />
+      <text x="22.5" y="40" textAnchor="middle" fill="rgba(59,130,246,0.9)" fontSize="5" fontWeight="700">A</text>
+      <motion.text x="22.5" y="50" textAnchor="middle" fill="rgba(59,130,246,0.9)" fontSize="6" fontWeight="700"
+        key={variantA} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        {variantA}%
+      </motion.text>
+      
+      {/* Variant B */}
+      <rect x="80" y="30" width="35" height="25" rx="3" fill="rgba(168,85,247,0.1)" stroke="rgba(168,85,247,0.4)" strokeWidth="0.5" />
+      <text x="97.5" y="40" textAnchor="middle" fill="rgba(168,85,247,0.9)" fontSize="5" fontWeight="700">B</text>
+      <motion.text x="97.5" y="50" textAnchor="middle" fill="rgba(168,85,247,0.9)" fontSize="6" fontWeight="700"
+        key={variantB} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        {variantB}%
+      </motion.text>
+    </svg>
+  );
+};
