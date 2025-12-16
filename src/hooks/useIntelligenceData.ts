@@ -166,10 +166,11 @@ export function useIntelligenceData(
           if (context === "campaigns") {
             query = query.not("campaign_id", "is", null);
           } else if (context === "events") {
-            query = query.not("event_id", "is", null);
+            // events context - filter by link_type or utm_campaign containing event
+            query = query.or("link_type.eq.event,utm_campaign.ilike.%event%");
           } else if (context === "sales") {
-            // Filter by utm_content containing "sales" or specific tag
-            query = query.or("utm_content.ilike.%sales%,tags.cs.{sales}");
+            // Filter by link_type or utm_content containing sales
+            query = query.or("link_type.eq.sales,utm_content.ilike.%sales%");
           } else if (context === "customers") {
             // Links that have conversions
             const { data: convLinks } = await supabase
