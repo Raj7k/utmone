@@ -22,25 +22,24 @@ export function FormTrackingWizard({ pixelId }: FormTrackingWizardProps) {
   };
 
   const manualTrackingCode = `// After form submission success
-utmone.trackFormSubmit('lead', {
-  form: 'signup-form',
+utmone('track', 'lead', {
+  form_name: 'signup-form',
   source: 'landing-page'
 });`;
 
   const manualWithEmailCode = `// After form submission with email capture
-utmone.trackFormSubmit('lead', {
-  form: 'contact-form',
-  email: userEmail,
-  name: userName
+utmone('identify', userEmail, userName);
+utmone('track', 'lead', {
+  form_name: 'contact-form'
 });`;
 
   const multiStepCode = `// Track each step of a multi-step form
-utmone.trackFormStep('signup', 1, 3); // Step 1 of 3
-utmone.trackFormStep('signup', 2, 3); // Step 2 of 3
-utmone.trackFormStep('signup', 3, 3); // Step 3 of 3
+utmone('track', 'form_step', { form: 'signup', step: 1, total: 3 });
+utmone('track', 'form_step', { form: 'signup', step: 2, total: 3 });
+utmone('track', 'form_step', { form: 'signup', step: 3, total: 3 });
 
 // On final completion
-utmone.trackFormSubmit('lead', { form: 'signup' });`;
+utmone('track', 'lead', { form_name: 'signup' });`;
 
   const autoDetectCode = `// Enable auto-detection for forms without thank-you pages
 utmone.enableAutoDetect();
@@ -63,8 +62,8 @@ window.fetch = async function(...args) {
   
   // Check if this is a form submission endpoint
   if (args[0].includes('/api/submit') && response.ok) {
-    utmone.trackFormSubmit('lead', {
-      form: 'ajax-form',
+    utmone('track', 'lead', {
+      form_name: 'ajax-form',
       endpoint: args[0]
     });
   }

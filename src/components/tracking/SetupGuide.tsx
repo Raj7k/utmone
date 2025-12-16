@@ -215,6 +215,20 @@ utmone('track', 'purchase', { revenue: 99.99 });`;
                 </Button>
               </div>
 
+              {/* GTM Warning */}
+              {selectedPlatform === 'gtm' && (
+                <div className="flex items-start gap-2 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20">
+                  <Globe className="h-4 w-4 text-amber-500 flex-shrink-0 mt-0.5" />
+                  <div className="text-xs">
+                    <p className="font-medium text-amber-600 dark:text-amber-400 mb-1">GTM: wrap in &lt;script&gt; tags</p>
+                    <p className="text-muted-foreground">
+                      when pasting into GTM Custom HTML tags, always include <code className="bg-amber-500/20 px-1 rounded">&lt;script&gt;</code> and <code className="bg-amber-500/20 px-1 rounded">&lt;/script&gt;</code> tags. 
+                      without them, code appears as visible text on your page.
+                    </p>
+                  </div>
+                </div>
+              )}
+
               {selectedPlatform === 'shopify' && (
                 <p className="text-xs text-muted-foreground">
                   Add to your <code className="bg-muted px-1 rounded">checkout.liquid</code> or order confirmation page.

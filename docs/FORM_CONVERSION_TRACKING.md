@@ -118,12 +118,12 @@ Track progress through multi-step forms to see where users drop off.
 
 ```javascript
 // Track each step
-utmone.trackFormStep('signup', 1, 3); // Step 1 of 3
-utmone.trackFormStep('signup', 2, 3); // Step 2 of 3
-utmone.trackFormStep('signup', 3, 3); // Step 3 of 3
+utmone('track', 'form_step', { form: 'signup', step: 1, total: 3 });
+utmone('track', 'form_step', { form: 'signup', step: 2, total: 3 });
+utmone('track', 'form_step', { form: 'signup', step: 3, total: 3 });
 
 // Track final completion
-utmone('track', 'lead', { revenue: 0 });
+utmone('track', 'lead', { form_name: 'signup' });
 ```
 
 ---
