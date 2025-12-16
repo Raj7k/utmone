@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Copy, Check, Globe, DollarSign, ChevronDown, Code, Mail, Zap, Users, CheckCircle2, XCircle } from 'lucide-react';
+import { Copy, Check, Globe, DollarSign, ChevronDown, Code, Mail, Zap, Users, CheckCircle2, XCircle, Calculator } from 'lucide-react';
 import { toast } from 'sonner';
 import { getPlatformIcon, platformColors } from './PlatformIcons';
 import { cn } from '@/lib/utils';
@@ -233,6 +233,25 @@ utmone('track', 'purchase', { revenue: 99.99 });`;
                   <li>📝 <strong>Leads:</strong> average deal size, or $0 to count</li>
                   <li>👤 <strong>Signups:</strong> plan price, or $0 for free</li>
                 </ul>
+              </div>
+              
+              {/* Link to revenue calculator */}
+              <div className="flex items-center gap-2 p-2.5 bg-amber-500/10 rounded-lg border border-amber-500/20">
+                <Calculator className="h-4 w-4 text-amber-600 flex-shrink-0" />
+                <span className="text-xs text-muted-foreground">
+                  not sure what value to use?{' '}
+                  <button 
+                    onClick={() => {
+                      document.getElementById('revenue-calculator')?.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'center'
+                      });
+                    }}
+                    className="text-primary hover:underline font-medium"
+                  >
+                    use our calculator below ↓
+                  </button>
+                </span>
               </div>
             </CollapsibleContent>
           </Collapsible>
