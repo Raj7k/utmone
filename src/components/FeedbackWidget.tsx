@@ -1,5 +1,7 @@
 import { useState, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { MessageCircle, Send, Camera, Bug, Sparkles, Palette, Zap, HelpCircle, MessageSquare } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -87,6 +89,10 @@ export const FeedbackWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const location = useLocation();
+  
+  // Move higher on link detail pages to avoid overlapping Save button
+  const isLinkDetailPage = location.pathname.match(/\/dashboard\/links\/[^/]+$/);
 
   const handleCaptureToggle = async (enabled: boolean) => {
     setCaptureScreenshot(enabled);
@@ -221,7 +227,12 @@ export const FeedbackWidget = () => {
       <PopoverTrigger asChild>
         <Button
           size="icon"
-          className="feedback-widget-trigger fixed bottom-20 md:bottom-6 right-6 h-12 w-12 rounded-full shadow-lg z-50 bg-card hover:bg-muted border border-border"
+          className={cn(
+            "feedback-widget-trigger fixed right-6 h-12 w-12 rounded-full shadow-lg z-50 bg-card hover:bg-muted border border-border",
+            isLinkDetailPage 
+              ? "bottom-44 md:bottom-40"  // Higher to stack above HelpPanel
+              : "bottom-20 md:bottom-6"
+          )}
           aria-label="Send feedback or report a bug"
         >
           <MessageCircle className="h-5 w-5 text-foreground" />
