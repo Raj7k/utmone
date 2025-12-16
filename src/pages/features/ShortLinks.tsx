@@ -22,6 +22,9 @@ import {
   ClickFraudShieldVisual,
   DeepLinkVisual,
   ABLinkTestVisual,
+  QRScanAnalyticsVisual,
+  DynamicQRRedirectVisual,
+  QRBrandStudioVisual,
 } from "@/components/features/visuals/EnhancedFeatureVisuals";
 import { motion } from "framer-motion";
 import { 
@@ -45,7 +48,10 @@ import {
   Smartphone,
   FlaskConical,
   Brain,
-  ShieldCheck
+  ShieldCheck,
+  ScanLine,
+  RefreshCw,
+  Palette
 } from "lucide-react";
 
 const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -140,6 +146,31 @@ const controlDeckTabs = [
     headline: "test before you commit.",
     subheadline: "split traffic between destinations. see which landing page converts better—with statistical confidence.",
     visual: <ABLinkTestVisual />,
+  },
+  // QR Code Features
+  {
+    id: "qr-analytics",
+    icon: ScanLine,
+    label: "QR scan analytics",
+    headline: "every scan tells a story.",
+    subheadline: "track who scanned, when, where, and what device they used. full attribution from physical to digital.",
+    visual: <QRScanAnalyticsVisual />,
+  },
+  {
+    id: "dynamic-qr",
+    icon: RefreshCw,
+    label: "dynamic QR redirect",
+    headline: "print once. redirect forever.",
+    subheadline: "change the destination without reprinting. update campaigns instantly.",
+    visual: <DynamicQRRedirectVisual />,
+  },
+  {
+    id: "qr-brand",
+    icon: Palette,
+    label: "QR brand studio",
+    headline: "your logo. your colors. your QR.",
+    subheadline: "full customization with colors, shapes, and embedded logos. scannable and beautiful.",
+    visual: <QRBrandStudioVisual />,
   },
 ];
 
