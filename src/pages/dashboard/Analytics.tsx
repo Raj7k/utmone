@@ -47,21 +47,6 @@ const COLORS = {
 
 const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-// Skeleton for progressive loading
-const AnalyticsSkeleton = () => (
-  <div className="space-y-6">
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-      {[1, 2, 3, 4].map(i => (
-        <Skeleton key={i} className="h-24 rounded-xl" />
-      ))}
-    </div>
-    <div className="grid lg:grid-cols-3 gap-6">
-      <Skeleton className="lg:col-span-2 h-80 rounded-xl" />
-      <Skeleton className="h-80 rounded-xl" />
-    </div>
-  </div>
-);
-
 export default function Analytics() {
   const { currentWorkspace, hasTimedOut } = useWorkspace();
   const { trackFirstAnalyticsView } = useActivationTracking();

@@ -10,18 +10,9 @@ import { useState, useEffect } from "react";
 import { Search, Link2, Plus, ArrowRight } from "lucide-react";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { completeNavigation } from "@/hooks/useNavigationProgress";
-import { Skeleton } from "@/components/ui/skeleton";
+import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
 import { useWorkspace } from "@/hooks/workspace";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
-
-// Skeleton for link list
-const LinkListSkeleton = () => (
-  <div className="space-y-2">
-    {[1, 2, 3, 4, 5].map(i => (
-      <Skeleton key={i} className="h-20 w-full rounded-lg" />
-    ))}
-  </div>
-);
 
 export default function Targeting() {
   const { linkId } = useParams<{ linkId?: string }>();
@@ -122,9 +113,9 @@ export default function Targeting() {
               </div>
             ) : null}
 
-            {/* Progressive loading - skeleton or content */}
+            {/* Progressive loading */}
             {isLoading ? (
-              <LinkListSkeleton />
+              <DashboardContentLoader context="targeting" minHeight="30vh" />
             ) : !links || links.length === 0 ? (
               <div className="text-center py-12 space-y-4">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-2 bg-primary/10">
