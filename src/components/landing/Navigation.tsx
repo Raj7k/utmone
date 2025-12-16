@@ -31,7 +31,8 @@ import {
   ProductDropdown, 
   FeaturesDropdown, 
   SolutionsDropdown, 
-  ResourcesDropdown 
+  ResourcesDropdown,
+  ToolsDropdown 
 } from "@/components/lazy/LazyMegaDropdowns";
 import { createDropdownPreloadHandler } from "@/lib/dropdownPreloader";
 
@@ -156,6 +157,20 @@ export const Navigation = () => {
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ResourcesDropdown />
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+
+              {/* Tools Dropdown */}
+              <NavigationMenuItem>
+                <NavigationMenuTrigger 
+                  className="h-9 px-3 text-small-text font-medium bg-transparent transition-apple text-white-70 hover:text-white-90 data-[state=open]:text-white-90"
+                  onMouseEnter={createDropdownPreloadHandler('tools')}
+                  onFocus={createDropdownPreloadHandler('tools')}
+                >
+                  {formatText("tools")}
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ToolsDropdown />
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
@@ -299,10 +314,40 @@ export const Navigation = () => {
                         <Link to="/resources/playbooks" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">Playbooks</Link>
                         <Link to="/resources/guides" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">Guides</Link>
                         <Link to="/resources/reports" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">Reports</Link>
-                        <Link to="/tools" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">Tools</Link>
                         <Link to="/resources/academy" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">Academy</Link>
                       </div>
                     </div>
+                  </CollapsibleContent>
+                </Collapsible>
+
+                {/* Tools Section */}
+                <Collapsible>
+                  <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-lg font-medium text-white-80 hover:text-white-90 transition-colors">
+                    Tools
+                    <ChevronDown className="h-4 w-4 transition-transform duration-200" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="pl-4 space-y-3 pb-2">
+                    <div>
+                      <p className="text-xs uppercase tracking-wider text-white-40 mb-2">Viral Tools</p>
+                      <div className="space-y-1">
+                        <Link to="/tools/scanner" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">Link Hygiene Scanner</Link>
+                        <Link to="/tools/casino" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">GTM Casino</Link>
+                        <Link to="/tools/galaxy" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">Attribution Galaxy</Link>
+                        <Link to="/tools/qr-test" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">QR Crash Test</Link>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-xs uppercase tracking-wider text-white-40 mb-2">Utility Tools</p>
+                      <div className="space-y-1">
+                        <Link to="/tools/qr-generator" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">QR Generator</Link>
+                        <Link to="/tools/url-shortener" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">URL Shortener</Link>
+                        <Link to="/tools/utm-builder" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">UTM Builder</Link>
+                        <Link to="/tools/link-health-checker" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">Link Health Checker</Link>
+                      </div>
+                    </div>
+                    <Link to="/tools" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-70 hover:text-white-90 py-1 font-medium">
+                      Browse all tools →
+                    </Link>
                   </CollapsibleContent>
                 </Collapsible>
                 <Link 

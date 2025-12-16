@@ -6,6 +6,7 @@ const preloadDropdownChunks = {
   features: () => import("@/components/landing/mega-dropdown/features/FeaturesMegaDropdown"),
   solutions: () => import("@/components/landing/mega-dropdown/solutions/SolutionsMegaDropdown"),
   resources: () => import("@/components/landing/mega-dropdown/resources/ResourcesMegaDropdown"),
+  tools: () => import("@/components/landing/mega-dropdown/tools/ToolsMegaDropdown"),
 };
 
 const preloadedDropdowns = new Set<string>();
