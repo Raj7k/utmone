@@ -67,7 +67,7 @@ export default function Intelligence() {
 
   // Pass preloaded campaigns to intelligence hook
   const preloaded = !campaignsLoading && cachedCampaigns ? {
-    totalClicks: 0, // Let intelligence hook fetch this
+    // Don't include totalClicks - let hook fetch actual count
     campaigns: cachedCampaigns.map(c => ({ id: c.id, name: c.name })),
   } : undefined;
 
