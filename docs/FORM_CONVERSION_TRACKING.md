@@ -4,9 +4,48 @@ Track form submissions and conversions **even without thank-you page redirects**
 
 ## The Problem
 
-Many modern forms (especially SPA/AJAX forms) show inline success messages instead of redirecting to thank-you pages. Without explicit tracking code, these conversions go unrecorded.
+Many modern forms (especially single-page apps) show inline "success" messages instead of redirecting to thank-you pages. Without tracking code, these conversions go unrecorded.
 
-**Example:** Keka.com signup form shows "Great move—your journey starts now" inline without any page change.
+**Example:** A signup form shows "Great move—your journey starts now" without any page change.
+
+---
+
+## Quick Start (30 seconds)
+
+Add this code after your form submits successfully:
+
+```javascript
+// After form submission succeeds
+utmone('track', 'lead', { revenue: 0 });
+```
+
+That's it! You're tracking form submissions.
+
+---
+
+## What Value Should I Use?
+
+This is the most common question. Here's a simple guide:
+
+| What you're tracking | What value to use | Example |
+|---------------------|-------------------|---------|
+| 🛒 **E-commerce purchase** | The order total | `{ revenue: 149.99 }` |
+| 📝 **Contact form / Demo request** | Your average deal size, OR $0 | `{ revenue: 5000 }` or `{ revenue: 0 }` |
+| 👤 **Free signup** | $0 | `{ revenue: 0 }` |
+| 👤 **Paid signup** | The plan price | `{ revenue: 29 }` |
+| 🎯 **Download / Other goal** | $0 or estimated value | `{ revenue: 0 }` |
+
+### Don't know your lead value?
+
+Use this simple formula:
+
+```
+Lead Value = (Conversion Rate %) × (Average Deal Size)
+
+Example: 10% of leads become customers × $5,000 avg deal = $500 per lead
+```
+
+**Or just use $0** — you can always add value later. Tracking conversions without value is better than not tracking at all!
 
 ---
 
@@ -17,18 +56,15 @@ Many modern forms (especially SPA/AJAX forms) show inline success messages inste
 Add tracking code after your form's success handler. Most reliable approach.
 
 ```javascript
-// Basic form conversion
-utmone.trackFormSubmit('lead', {
-  form: 'signup-form',
-  source: 'landing-page'
-});
+// Basic form conversion (no value)
+utmone('track', 'lead', { revenue: 0 });
 
-// With email for cross-device attribution
-utmone.trackFormSubmit('lead', {
-  form: 'contact-form',
-  email: userEmail,
-  name: userName
-});
+// With estimated lead value
+utmone('track', 'lead', { revenue: 500 });
+
+// With email for better attribution
+utmone('identify', userEmail, userName);
+utmone('track', 'lead', { revenue: 500 });
 ```
 
 **React Example:**
@@ -38,10 +74,8 @@ const handleSubmit = async (data) => {
     await submitForm(data);
     
     // Track successful conversion
-    window.utmone.trackFormSubmit('lead', {
-      form: 'demo-request',
-      email: data.email
-    });
+    window.utmone('identify', data.email, data.name);
+    window.utmone('track', 'lead', { revenue: 500 });
     
     setSuccess(true);
   } catch (error) {
@@ -55,140 +89,74 @@ const handleSubmit = async (data) => {
 
 ### Method 2: Auto-Detection Mode
 
-Enable DOM mutation observer to automatically detect success patterns appearing on the page.
+Automatically detects when "success" or "thank you" messages appear on the page.
 
 ```javascript
-// Basic auto-detection
+// Enable auto-detection (looks for common success messages)
 utmone.enableAutoDetect();
 
-// With custom patterns
+// With custom patterns (optional)
 utmone.enableAutoDetect({
   successPatterns: [
     /success/i,
     /thank you/i,
     /confirmed/i,
-    /submitted/i,
-    /your journey starts/i,
     /we'll be in touch/i
   ],
-  excludePatterns: [
-    /error/i,
-    /failed/i
-  ],
-  debounce: 1000 // Prevent duplicate detections
+  debounce: 1000 // Prevents counting twice
 });
 ```
 
-**Detected automatically:**
-- "Success"
-- "Thank you"
-- "Confirmed"
-- "Submitted"
-- "Complete"
-- "Received"
-- "We'll be in touch"
-- "Journey starts"
+**Messages detected automatically:**
+- "Success", "Thank you", "Confirmed", "Submitted", "Complete", "We'll be in touch"
 
 ---
 
 ### Method 3: Multi-Step Form Tracking
 
-Track progress through multi-step forms to identify drop-off points.
+Track progress through multi-step forms to see where users drop off.
 
 ```javascript
 // Track each step
-utmone.trackFormStep('signup', 1, 3); // Starting step 1 of 3
-utmone.trackFormStep('signup', 2, 3); // Completed step 1, on step 2
-utmone.trackFormStep('signup', 3, 3); // Completed step 2, on step 3
+utmone.trackFormStep('signup', 1, 3); // Step 1 of 3
+utmone.trackFormStep('signup', 2, 3); // Step 2 of 3
+utmone.trackFormStep('signup', 3, 3); // Step 3 of 3
 
 // Track final completion
-utmone.trackFormSubmit('lead', {
-  form: 'signup',
-  total_steps_completed: 3
-});
+utmone('track', 'lead', { revenue: 0 });
 ```
 
 ---
 
 ### Method 4: URL-Based Detection (Automatic)
 
-The pixel automatically tracks conversions when it detects success indicators in URLs:
+The pixel automatically tracks when it sees success indicators in URLs:
 
-**Query Parameters:**
-- `?submitted=true`
-- `?success=true`
-- `?confirmed=true`
-- `?complete=true`
+- `?success=true` or `?submitted=true`
+- `#thank-you` or `#success`
+- `/thank-you` or `/confirmation` pages
 
-**Hash Fragments:**
-- `#success`
-- `#thank-you`
-- `#confirmed`
-
-**URL Paths:**
-- `/thank-you`
-- `/confirmation`
-- `/success`
-
-No code changes needed—just ensure your form redirects include these patterns.
-
----
-
-### Method 5: Fetch/XHR Interception (Advanced)
-
-Intercept network requests to detect successful API responses.
-
-```javascript
-// Intercept fetch requests
-const originalFetch = window.fetch;
-window.fetch = async function(...args) {
-  const response = await originalFetch.apply(this, args);
-  
-  // Check if form submission endpoint returned success
-  const url = typeof args[0] === 'string' ? args[0] : args[0].url;
-  if (url.includes('/api/submit') && response.ok) {
-    utmone.trackFormSubmit('lead', {
-      form: 'ajax-form',
-      endpoint: url
-    });
-  }
-  
-  return response;
-};
-```
+No code needed — just ensure your form redirects include these patterns.
 
 ---
 
 ## Event Types
 
-| Event Type | Description | When to Use |
-|------------|-------------|-------------|
-| `lead` | Form converted to lead | Contact forms, demo requests, signups |
-| `signup` | Account created | Registration forms |
-| `form_start` | User began filling form | Optional, for funnel analysis |
-| `form_step` | User completed a step | Multi-step forms |
-| `form_submit` | Form submitted (pre-validation) | Debug purposes |
-| `purchase` | Conversion with revenue | E-commerce, payments |
+| Event | When to Use | Example Value |
+|-------|-------------|---------------|
+| 🛒 `purchase` | Someone paid you money | Order total ($99.99) |
+| 📝 `lead` | Form submission | Estimated deal value ($500) or $0 |
+| 👤 `signup` | Account created | Plan price or $0 for free |
+| 🎯 `trial_start` | Free trial began | Expected conversion value |
 
 ---
 
 ## Best Practices
 
-1. **Track after success, not on submit**
-   - Wait for API response confirmation
-   - Don't track on validation errors
-
-2. **Pass email when available**
-   - Enables cross-device attribution
-   - Links anonymous visitors to known users
-
-3. **Use descriptive form names**
-   - `'homepage-demo-request'` > `'form1'`
-   - Helps identify conversion sources
-
-4. **Test before deploying**
-   - Open browser console
-   - Look for `[utm.one] Form conversion tracked` logs
+1. **Track after success, not on submit** — Wait for the API to confirm success
+2. **Pass email when available** — Helps link visitors across devices
+3. **Use descriptive form names** — `'homepage-demo'` is better than `'form1'`
+4. **Test before deploying** — Check browser console for `[utm.one]` messages
 
 ---
 
@@ -196,21 +164,33 @@ window.fetch = async function(...args) {
 
 ### Conversion not showing?
 
-1. **Check console logs** - Look for `[utm.one]` messages
-2. **Verify pixel loaded** - `window.utmone` should exist
-3. **Check timing** - Track AFTER success, not before
-4. **Verify domain whitelist** - If configured, ensure domain is allowed
+1. **Check console** — Look for `[utm.one]` messages
+2. **Verify pixel loaded** — Type `window.utmone` in console (should exist)
+3. **Check timing** — Make sure you track AFTER the form succeeds
 
-### Duplicate conversions?
+### Seeing duplicate conversions?
 
-1. **Add debouncing** - Use `debounce` option in auto-detect
-2. **Track once per session** - Store flag in sessionStorage
-3. **Check for page refreshes** - Prevent re-tracking on refresh
+Add this to track only once per session:
 
 ```javascript
-// Prevent duplicate tracking
 if (!sessionStorage.getItem('form_tracked')) {
-  utmone.trackFormSubmit('lead', { form: 'signup' });
+  utmone('track', 'lead', { revenue: 0 });
   sessionStorage.setItem('form_tracked', 'true');
 }
 ```
+
+---
+
+## FAQ
+
+### Q: What if I don't know my average deal size?
+**A:** Use $0 for now. You can update your tracking code anytime. Counting conversions without value is better than not counting at all.
+
+### Q: Should I track every form on my site?
+**A:** Track forms that represent meaningful conversions — contact forms, demo requests, signups. Skip things like search forms or newsletter signups (unless newsletters are your goal).
+
+### Q: Can I change the value later?
+**A:** Yes! Just update the `revenue` value in your tracking code and redeploy. Historical data keeps its original values.
+
+### Q: What currency is used?
+**A:** USD by default. All values should be in USD for consistent reporting.

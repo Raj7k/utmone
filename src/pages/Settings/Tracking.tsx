@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Copy, CheckCircle2, Code, Zap, Users, DollarSign, Globe, Target, TrendingUp, BarChart3, Layers, ShieldCheck, AlertTriangle, FlaskConical } from "lucide-react";
 import { FormTrackingWizard } from "@/components/tracking/FormTrackingWizard";
+import { RevenueTrackingWizard } from "@/components/tracking/RevenueTrackingWizard";
+import { EventTypeQuickReference } from "@/components/tracking/EventTypeSelector";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -52,11 +54,15 @@ export const Tracking = () => {
   const identifySnippet = `// Call after user logs in or signs up
 utmone('identify', 'user@example.com', 'John Doe');`;
 
-  const revenueSnippet = `// Track purchase with revenue (on thank you page)
+  // Simplified revenue snippet with clearer instructions
+  const revenueSnippet = `// 🛒 For purchases - use your order total
 utmone('track', 'purchase', { revenue: 99.99 });
 
-// Track lead with estimated value
-utmone('track', 'lead', { revenue: 500 });`;
+// 📝 For leads - use your estimated deal value (or 0)
+utmone('track', 'lead', { revenue: 500 });
+
+// 👤 For signups - use plan price (or 0 for free)
+utmone('track', 'signup', { revenue: 29 });`;
 
   const funnelSnippet = `// Track funnel stages
 utmone('track', 'signup_start');
@@ -323,13 +329,26 @@ window.utmone('track', 'purchase', { revenue: order.total });`;
             </div>
           </div>
 
-          {/* Step 3 */}
+          {/* Step 3 - Revenue (Simplified) */}
           <div className="flex items-start gap-4">
             <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-green-600 text-white">
               <DollarSign className="h-4 w-4" />
             </div>
             <div className="flex-1">
-              <p className="text-sm font-medium text-label mb-2">track revenue on thank you/confirmation page</p>
+              <p className="text-sm font-medium text-label mb-2">track revenue on thank-you page</p>
+              
+              {/* Simple explanation */}
+              <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800 mb-4">
+                <p className="text-sm text-green-800 dark:text-green-200 mb-2">
+                  <strong>what value should I use?</strong>
+                </p>
+                <ul className="text-xs text-green-700 dark:text-green-300 space-y-1">
+                  <li>🛒 <strong>Purchases:</strong> use the order total (e.g., $99.99)</li>
+                  <li>📝 <strong>Form/Leads:</strong> use your average deal size, or $0 to just count them</li>
+                  <li>👤 <strong>Signups:</strong> use your plan price, or $0 for free signups</li>
+                </ul>
+              </div>
+
               <div className="relative">
                 <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-xs font-mono">
                   <code>{revenueSnippet}</code>
@@ -343,8 +362,9 @@ window.utmone('track', 'purchase', { revenue: order.total });`;
                   {copied === 'Revenue snippet' ? <CheckCircle2 className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                 </Button>
               </div>
+              
               <p className="text-xs text-secondary-label mt-2">
-                Replace 99.99 with your dynamic order total for accurate revenue attribution.
+                Replace the numbers with your actual values. Not sure? Use the wizard below to calculate your lead value.
               </p>
             </div>
           </div>
@@ -376,6 +396,12 @@ window.utmone('track', 'purchase', { revenue: order.total });`;
           </div>
         </div>
       </Card>
+
+      {/* Revenue Tracking Wizard - NEW */}
+      <RevenueTrackingWizard pixelId={pixelId} supabaseUrl={supabaseUrl} />
+
+      {/* Event Type Quick Reference */}
+      <EventTypeQuickReference />
 
       {/* Platform-Specific Guides */}
       <Card className="p-6">
