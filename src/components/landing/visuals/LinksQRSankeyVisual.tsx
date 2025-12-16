@@ -1,268 +1,304 @@
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import { Link, QrCode, Globe, Smartphone } from "lucide-react";
-import { TwitterIcon, SalesforceIcon } from "@/components/icons/SocialIcons";
+import { useEffect, useRef, useState } from "react";
+import { Link, QrCode, Globe, Smartphone, Monitor } from "lucide-react";
 
-// Cinematic Links/QR Sankey: Fiber-optic bundles → hub → destinations
+interface Particle {
+  id: number;
+  pathIndex: number;
+  progress: number;
+  speed: number;
+  stage: 1 | 2;
+}
+
+const SOURCES = [
+  { id: "link", label: "Links", y: 30, icon: Link, color: "#3B82F6" },
+  { id: "qr", label: "QR", y: 70, icon: QrCode, color: "#10B981" },
+  { id: "bio", label: "Bio", y: 110, icon: Globe, color: "#8B5CF6" },
+];
+
+const DESTINATIONS = [
+  { id: "web", label: "Web", y: 30, icon: Globe, color: "#F59E0B" },
+  { id: "mobile", label: "Mobile", y: 70, icon: Smartphone, color: "#EC4899" },
+  { id: "app", label: "App", y: 110, icon: Monitor, color: "#06B6D4" },
+];
+
 export const LinksQRSankeyVisual = () => {
-  const [particles, setParticles] = useState<{ id: number; path: number; delay: number }[]>([]);
-  const appleEase = [0.4, 0.0, 0.2, 1] as const;
-  const fiberOffsets = [-1, -0.5, 0, 0.5, 1];
+  const svgRef = useRef<SVGSVGElement>(null);
+  const [particles, setParticles] = useState<Particle[]>([]);
+  const [hubGlow, setHubGlow] = useState(false);
+  const particleIdRef = useRef(0);
+  const [mounted, setMounted] = useState(false);
+  const animationRef = useRef<number | null>(null);
+  const lastTimeRef = useRef<number>(0);
+
+  const width = 360;
+  const height = 140;
+  const leftX = 70;
+  const hubX = width / 2;
+  const hubY = height / 2;
+  const rightX = width - 40;
+
+  const stage1Paths = SOURCES.map((source) => {
+    const startX = leftX;
+    const startY = source.y;
+    const cp1x = startX + (hubX - startX) * 0.5;
+    const cp1y = startY;
+    const cp2x = startX + (hubX - startX) * 0.5;
+    const cp2y = hubY;
+    return `M ${startX} ${startY} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${hubX} ${hubY}`;
+  });
+
+  const stage2Paths = DESTINATIONS.map((dest) => {
+    const endX = rightX;
+    const endY = dest.y;
+    const cp1x = hubX + (endX - hubX) * 0.5;
+    const cp1y = hubY;
+    const cp2x = hubX + (endX - hubX) * 0.5;
+    const cp2y = endY;
+    return `M ${hubX} ${hubY} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}`;
+  });
 
   useEffect(() => {
-    setParticles(Array.from({ length: 8 }, (_, i) => ({
-      id: i,
-      path: i % 4,
-      delay: i * 0.25,
-    })));
+    setMounted(true);
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    };
   }, []);
 
-  const sources = [
-    { y: 12, width: 32, icon: Link, color: "#3B82F6", label: "UTM" },
-    { y: 24, width: 28, icon: QrCode, color: "#8B5CF6", label: "QR" },
-    { y: 36, width: 35, Icon: TwitterIcon, color: "#1DA1F2", label: null },
-    { y: 48, width: 25, icon: Globe, color: "#10B981", label: "Web" },
-  ];
+  useEffect(() => {
+    if (!mounted) return;
+    
+    const spawnParticle = () => {
+      const pathIndex = Math.floor(Math.random() * SOURCES.length);
+      const newParticle: Particle = {
+        id: particleIdRef.current++,
+        pathIndex,
+        progress: 0,
+        speed: 0.01 + Math.random() * 0.005,
+        stage: 1,
+      };
+      setParticles(prev => [...prev.slice(-12), newParticle]);
+    };
 
-  const destinations = [
-    { y: 15, Icon: Globe, color: "#10B981" },
-    { y: 30, Icon: Smartphone, color: "#F59E0B" },
-    { y: 45, Icon: SalesforceIcon, color: "#00A1E0" },
-  ];
+    for (let i = 0; i < 3; i++) {
+      setTimeout(() => spawnParticle(), i * 300);
+    }
+
+    const interval = setInterval(spawnParticle, 1000);
+    return () => clearInterval(interval);
+  }, [mounted]);
+
+  useEffect(() => {
+    if (!mounted) return;
+    
+    const animate = (timestamp: number) => {
+      if (timestamp - lastTimeRef.current < 33) {
+        animationRef.current = requestAnimationFrame(animate);
+        return;
+      }
+      lastTimeRef.current = timestamp;
+
+      setParticles(prev => {
+        const updated: Particle[] = [];
+        let glowTriggered = false;
+
+        for (const p of prev) {
+          const newProgress = p.progress + p.speed;
+          
+          if (p.stage === 1 && newProgress >= 1) {
+            glowTriggered = true;
+            updated.push({
+              ...p,
+              stage: 2,
+              progress: 0,
+              pathIndex: Math.floor(Math.random() * DESTINATIONS.length),
+            });
+          } else if (p.stage === 2 && newProgress > 1.1) {
+            // Remove particle
+          } else {
+            updated.push({ ...p, progress: newProgress });
+          }
+        }
+
+        if (glowTriggered) {
+          setHubGlow(true);
+          setTimeout(() => setHubGlow(false), 150);
+        }
+
+        return updated;
+      });
+
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    animationRef.current = requestAnimationFrame(animate);
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    };
+  }, [mounted]);
+
+  const getPointOnPath = (pathIndex: number, progress: number, stage: 1 | 2) => {
+    if (!svgRef.current) return { x: 0, y: 0 };
+    
+    const pathId = stage === 1 ? `links-stage1-path-${pathIndex}` : `links-stage2-path-${pathIndex}`;
+    const pathEl = svgRef.current.querySelector(`#${pathId}`) as SVGPathElement;
+    if (!pathEl) return { x: hubX, y: hubY };
+    
+    try {
+      const length = pathEl.getTotalLength();
+      const point = pathEl.getPointAtLength(length * Math.min(progress, 1));
+      return { x: point.x, y: point.y };
+    } catch {
+      return { x: hubX, y: hubY };
+    }
+  };
 
   return (
-    <svg viewBox="0 0 120 60" className="w-full h-full transform-gpu">
-      <defs>
-        {/* Bloom effect filter */}
-        <filter id="linksBloom" x="-100%" y="-100%" width="300%" height="300%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur1" />
-          <feGaussianBlur in="SourceGraphic" stdDeviation="0.8" result="blur2" />
-          <feMerge>
-            <feMergeNode in="blur1" />
-            <feMergeNode in="blur2" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-        
-        {/* Fiber glow */}
-        <filter id="linksFiberGlow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="1.2" result="glow" />
-          <feComposite in="SourceGraphic" in2="glow" operator="over" />
-        </filter>
-        
-        {/* Per-source fiber gradients with white-hot center */}
-        {sources.map((source, i) => (
-          <linearGradient key={`linksFlow-${i}`} id={`linksFlow-${i}`} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor={source.color} stopOpacity="0.7" />
-            <stop offset="40%" stopColor="#FFFFFF" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="#10B981" stopOpacity="0.4" />
+    <div className="relative w-full">
+      <svg
+        ref={svgRef}
+        viewBox={`0 0 ${width} ${height}`}
+        className="w-full h-auto"
+        style={{ overflow: 'visible' }}
+      >
+        <defs>
+          <filter id="links-particle-glow" x="-100%" y="-100%" width="300%" height="300%">
+            <feGaussianBlur stdDeviation="2" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+
+          <filter id="links-hub-glow" x="-200%" y="-200%" width="500%" height="500%">
+            <feGaussianBlur stdDeviation="6" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+
+          <linearGradient id="links-platinum-text" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#FFFFFF" />
+            <stop offset="100%" stopColor="#A1A1AA" />
           </linearGradient>
+        </defs>
+
+        {/* Stage 1 wire paths */}
+        {stage1Paths.map((path, index) => (
+          <path
+            key={`stage1-wire-${index}`}
+            id={`links-stage1-path-${index}`}
+            d={path}
+            fill="none"
+            className="stroke-white/[0.06]"
+            strokeWidth="1"
+          />
         ))}
-        
-        {/* Hub gradient */}
-        <radialGradient id="linksHubGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.9" />
-          <stop offset="40%" stopColor="#3B82F6" stopOpacity="0.6" />
-          <stop offset="100%" stopColor="#3B82F6" stopOpacity="0.2" />
-        </radialGradient>
-        
-        {/* Dot grid */}
-        <pattern id="linksDotGrid" patternUnits="userSpaceOnUse" width="4" height="4">
-          <circle cx="2" cy="2" r="0.12" fill="white" fillOpacity="0.1" />
-        </pattern>
-      </defs>
-      
-      {/* Background */}
-      <rect x="0" y="0" width="120" height="60" fill="url(#linksDotGrid)" opacity="0.3" />
 
-      {/* Source bars with frosted glass effect */}
-      {sources.map((source, i) => (
-        <g key={i}>
-          <motion.rect
-            x="8"
-            y={source.y}
-            width={source.width}
-            height="6"
-            rx="2"
-            fill={source.color}
-            fillOpacity={0.2}
-            stroke={source.color}
-            strokeOpacity={0.5}
-            strokeWidth="0.4"
-            initial={{ width: 0 }}
-            animate={{ width: source.width }}
-            transition={{ duration: 0.6, delay: i * 0.1, ease: appleEase }}
-          />
-          {/* Glowing edge pulse */}
-          <motion.rect
-            x="8"
-            y={source.y}
-            width={source.width}
-            height="6"
-            rx="2"
+        {/* Stage 2 wire paths */}
+        {stage2Paths.map((path, index) => (
+          <path
+            key={`stage2-wire-${index}`}
+            id={`links-stage2-path-${index}`}
+            d={path}
             fill="none"
-            stroke={source.color}
-            strokeWidth="0.3"
-            animate={{ strokeOpacity: [0.3, 0.7, 0.3] }}
-            transition={{ duration: 1, repeat: Infinity, delay: i * 0.25, ease: appleEase }}
+            className="stroke-white/[0.06]"
+            strokeWidth="1"
           />
-          <foreignObject x="1" y={source.y - 1} width="6" height="8">
-            <div className="flex items-center justify-center w-full h-full">
-              {source.Icon ? (
-                <source.Icon className="w-1.5 h-1.5" style={{ color: source.color }} />
-              ) : source.icon ? (
-                <source.icon className="w-1.5 h-1.5" style={{ color: source.color }} />
-              ) : null}
-            </div>
-          </foreignObject>
-        </g>
-      ))}
+        ))}
 
-      {/* Fiber flows to hub */}
-      {sources.map((source, srcIdx) => (
-        fiberOffsets.map((offset, strandIdx) => {
-          const isCenter = strandIdx === 2;
-          const baseY = source.y + 3;
+        {/* Source nodes */}
+        {SOURCES.map((source) => {
+          const Icon = source.icon;
           return (
-            <motion.path
-              key={`fiber-${srcIdx}-${strandIdx}`}
-              d={`M ${8 + source.width} ${baseY + offset * 0.8} Q 45 ${baseY + offset * 0.4}, 54 30`}
-              fill="none"
-              stroke={isCenter ? `url(#linksFlow-${srcIdx})` : source.color}
-              strokeWidth={isCenter ? 1 : 0.3}
-              strokeLinecap="round"
-              strokeOpacity={isCenter ? 0.8 : 0.2}
-              filter={isCenter ? "url(#linksFiberGlow)" : undefined}
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.3 + srcIdx * 0.1, ease: appleEase }}
-            />
+            <g key={source.id}>
+              <circle cx={leftX} cy={source.y} r="3" fill={source.color} style={{ opacity: 0.8 }} />
+              <circle cx={leftX} cy={source.y} r="6" fill="none" stroke={source.color} strokeWidth="1" style={{ opacity: 0.3 }} />
+              <foreignObject x={leftX - 55} y={source.y - 8} width="45" height="16">
+                <div className="flex items-center gap-1 justify-end h-full">
+                  <Icon className="w-3 h-3" style={{ color: source.color }} />
+                  <span className="text-[8px] text-white/50 font-mono">{source.label}</span>
+                </div>
+              </foreignObject>
+            </g>
           );
-        })
-      ))}
+        })}
 
-      {/* Central hub with bloom */}
-      <motion.circle
-        cx="60"
-        cy="30"
-        r="8"
-        fill="url(#linksHubGlow)"
-        filter="url(#linksBloom)"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 0.6, type: "spring", stiffness: 200 }}
-      />
-      
-      {/* Hub pulsing ring */}
-      <motion.circle
-        cx="60"
-        cy="30"
-        r="8"
-        fill="none"
-        stroke="#3B82F6"
-        strokeWidth="0.5"
-        animate={{ 
-          r: [8, 11, 8],
-          opacity: [0.6, 0.1, 0.6],
-        }}
-        transition={{ duration: 1.2, repeat: Infinity, ease: appleEase }}
-      />
-      
-      {/* Hub inner core */}
-      <circle cx="60" cy="30" r="5" fill="rgba(59,130,246,0.3)" stroke="#3B82F6" strokeWidth="0.5" />
-      
-      {/* Hub icon */}
-      <foreignObject x="56" y="26" width="8" height="8">
-        <div className="flex items-center justify-center w-full h-full">
-          <Link className="w-2 h-2" style={{ color: 'white' }} />
-        </div>
-      </foreignObject>
-
-      {/* Output fiber flows to destinations */}
-      {destinations.map((dest, destIdx) => (
-        fiberOffsets.map((offset, strandIdx) => {
-          const isCenter = strandIdx === 2;
-          return (
-            <motion.path
-              key={`out-${destIdx}-${strandIdx}`}
-              d={`M 68 ${30 + offset * 0.5} Q 85 ${(30 + dest.y) / 2 + offset * 0.3}, 100 ${dest.y}`}
-              fill="none"
-              stroke={isCenter ? dest.color : dest.color}
-              strokeWidth={isCenter ? 0.8 : 0.2}
-              strokeLinecap="round"
-              strokeOpacity={isCenter ? 0.7 : 0.15}
-              filter={isCenter ? "url(#linksFiberGlow)" : undefined}
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.8 + destIdx * 0.1, ease: appleEase }}
-            />
-          );
-        })
-      ))}
-
-      {/* Destination nodes */}
-      {destinations.map((dest, i) => (
-        <g key={`dest-${i}`}>
-          <motion.circle
-            cx="105"
-            cy={dest.y}
-            r="5"
-            fill={dest.color}
-            fillOpacity={0.2}
-            stroke={dest.color}
-            strokeOpacity={0.5}
-            strokeWidth="0.4"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 1 + i * 0.1, type: "spring", stiffness: 200 }}
-          />
-          {/* Pulsing edge */}
-          <motion.circle
-            cx="105"
-            cy={dest.y}
-            r="5"
+        {/* Hub node */}
+        <g>
+          <circle
+            cx={hubX}
+            cy={hubY}
+            r="16"
             fill="none"
-            stroke={dest.color}
-            strokeWidth="0.3"
-            animate={{ strokeOpacity: [0.3, 0.6, 0.3] }}
-            transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.2, ease: appleEase }}
+            className={`transition-all duration-100 ${hubGlow ? "stroke-white/95" : "stroke-white/25"}`}
+            strokeWidth="1.5"
+            filter={hubGlow ? "url(#links-hub-glow)" : undefined}
+            style={{ 
+              transform: `scale(${hubGlow ? 1.15 : 1})`,
+              transformOrigin: `${hubX}px ${hubY}px`
+            }}
           />
-          <foreignObject x="101" y={dest.y - 4} width="8" height="8">
-            <div className="flex items-center justify-center w-full h-full">
-              <dest.Icon className="w-2 h-2" style={{ color: dest.color }} />
-            </div>
-          </foreignObject>
+          <circle cx={hubX} cy={hubY} r="8" fill="none" className="stroke-white/[0.12]" strokeWidth="1" />
+          <circle cx={hubX} cy={hubY} r="3" className="fill-white/80" />
         </g>
-      ))}
 
-      {/* Particles on input fibers */}
-      {particles.slice(0, 4).map((particle) => {
-        const source = sources[particle.path];
-        return (
-          <motion.circle
-            key={`in-${particle.id}`}
-            r="2"
-            fill={source.color}
-            filter="url(#linksFiberGlow)"
-            initial={{ offsetDistance: "0%", opacity: 0 }}
-            animate={{ 
-              offsetDistance: ["0%", "100%"],
-              opacity: [0, 1, 1, 0],
-              scale: [0.8, 1.2, 0.8],
-            }}
-            transition={{
-              duration: 1,
-              delay: particle.delay,
-              repeat: Infinity,
-              repeatDelay: 0.5,
-              ease: appleEase,
-            }}
-            style={{
-              offsetPath: `path("M ${8 + source.width} ${source.y + 3} Q 45 ${source.y + 3}, 54 30")`,
-            }}
-          />
-        );
-      })}
-    </svg>
+        <text x={hubX} y={hubY + 28} textAnchor="middle" className="text-[7px] fill-white/40 font-mono tracking-widest">
+          utm.one
+        </text>
+
+        {/* Destination nodes */}
+        {DESTINATIONS.map((dest) => {
+          const Icon = dest.icon;
+          return (
+            <g key={dest.id}>
+              <circle cx={rightX} cy={dest.y} r="3" fill={dest.color} style={{ opacity: 0.8 }} />
+              <circle cx={rightX} cy={dest.y} r="6" fill="none" stroke={dest.color} strokeWidth="1" style={{ opacity: 0.3 }} />
+              <foreignObject x={rightX + 10} y={dest.y - 8} width="45" height="16">
+                <div className="flex items-center gap-1 h-full">
+                  <Icon className="w-3 h-3" style={{ color: dest.color }} />
+                  <span className="text-[8px] text-white/50 font-mono">{dest.label}</span>
+                </div>
+              </foreignObject>
+            </g>
+          );
+        })}
+
+        {/* Particles */}
+        {particles.map((particle) => {
+          const point = getPointOnPath(particle.pathIndex, particle.progress, particle.stage);
+          const prevPoint = getPointOnPath(particle.pathIndex, Math.max(0, particle.progress - 0.12), particle.stage);
+          
+          if (particle.progress > 1.1) return null;
+          
+          const sourceColor = particle.stage === 1 
+            ? SOURCES[particle.pathIndex]?.color 
+            : DESTINATIONS[particle.pathIndex]?.color;
+          const particleColor = sourceColor || "white";
+          
+          return (
+            <g key={particle.id}>
+              <line
+                x1={prevPoint.x}
+                y1={prevPoint.y}
+                x2={point.x}
+                y2={point.y}
+                stroke={particleColor}
+                strokeWidth="1"
+                strokeLinecap="round"
+                style={{ opacity: 0.4 }}
+              />
+              <circle
+                cx={point.x}
+                cy={point.y}
+                r="2"
+                fill={particleColor}
+                filter="url(#links-particle-glow)"
+              />
+            </g>
+          );
+        })}
+      </svg>
+    </div>
   );
 };
