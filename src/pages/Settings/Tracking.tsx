@@ -85,7 +85,7 @@ export const Tracking = () => {
       <PixelDebugger />
 
       {/* Revenue Tracking Wizard - for calculating lead values */}
-      <Card className="p-6">
+      <Card id="revenue-calculator" className="p-6 scroll-mt-20">
         <div className="flex items-center gap-2 mb-2">
           <DollarSign className="h-5 w-5 text-green-600" />
           <h3 className="text-title-3 font-semibold heading">revenue value calculator</h3>

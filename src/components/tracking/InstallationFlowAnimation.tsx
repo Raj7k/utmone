@@ -112,7 +112,14 @@ const InstallationFlowAnimation: React.FC<{ className?: string }> = ({ className
   };
 
   return (
-    <div className={cn("relative w-full rounded-xl overflow-hidden bg-zinc-950/50 border border-white/5", className)}>
+    <div className={cn(
+      "relative w-full rounded-xl overflow-hidden border",
+      // Light mode: light background with subtle border
+      "bg-zinc-100 border-zinc-200",
+      // Dark mode: dark background with subtle border
+      "dark:bg-zinc-950/50 dark:border-white/5",
+      className
+    )}>
       <svg
         ref={svgRef}
         viewBox="0 0 540 160"
@@ -133,14 +140,14 @@ const InstallationFlowAnimation: React.FC<{ className?: string }> = ({ className
           </linearGradient>
         </defs>
 
-        {/* Flow paths - barely visible wires */}
+        {/* Flow paths - theme-aware wire colors */}
         {paths.map((d, index) => (
           <path
             key={index}
             id={`flow-path-${index}`}
             d={d}
             fill="none"
-            stroke="rgba(255,255,255,0.06)"
+            className="stroke-zinc-300 dark:stroke-white/[0.06]"
             strokeWidth="1.5"
           />
         ))}
@@ -177,21 +184,20 @@ const InstallationFlowAnimation: React.FC<{ className?: string }> = ({ className
         {/* Nodes */}
         {nodes.map((node, index) => (
           <g key={index}>
-            {/* Outer ring */}
+            {/* Outer ring - theme aware */}
             <circle
               cx={node.x}
               cy={node.y}
               r="16"
-              fill="rgba(0,0,0,0.6)"
-              stroke="rgba(255,255,255,0.1)"
+              className="fill-zinc-200 stroke-zinc-300 dark:fill-black/60 dark:stroke-white/10"
               strokeWidth="1"
             />
-            {/* Inner dot */}
+            {/* Inner dot - theme aware */}
             <circle
               cx={node.x}
               cy={node.y}
               r="10"
-              fill="rgba(255,255,255,0.05)"
+              className="fill-zinc-300/50 dark:fill-white/5"
             />
             {/* Icon */}
             <text
@@ -202,12 +208,12 @@ const InstallationFlowAnimation: React.FC<{ className?: string }> = ({ className
             >
               {node.icon}
             </text>
-            {/* Label */}
+            {/* Label - theme aware */}
             <text
               x={node.x}
               y={node.y + 30}
               textAnchor="middle"
-              fill="rgba(255,255,255,0.5)"
+              className="fill-zinc-500 dark:fill-white/50"
               fontSize="8"
               fontFamily="ui-monospace, monospace"
             >
@@ -217,8 +223,8 @@ const InstallationFlowAnimation: React.FC<{ className?: string }> = ({ className
         ))}
       </svg>
 
-      {/* Glass overlay */}
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-background/20 to-transparent" />
+      {/* Glass overlay - theme aware */}
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-zinc-100/50 dark:from-background/20 to-transparent" />
     </div>
   );
 };
