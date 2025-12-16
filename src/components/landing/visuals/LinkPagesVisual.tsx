@@ -1,92 +1,196 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Instagram, Twitter, Youtube, LinkIcon } from "lucide-react";
 
+// Apple Pro aesthetic: "One Link, All Destinations"
+// Single thread unraveling into organized cards with mechanical precision
 export const LinkPagesVisual = () => {
-  const [particles, setParticles] = useState<{ id: number; path: number; delay: number }[]>([]);
-  const appleEase = [0.4, 0.0, 0.2, 1] as const;
-  const fiberOffsets = [-0.8, -0.4, 0, 0.4, 0.8];
+  const [expanded, setExpanded] = useState(true);
+  const appleSpring = [0.16, 1, 0.3, 1] as const;
 
   useEffect(() => {
-    setParticles(Array.from({ length: 8 }, (_, i) => ({
-      id: i,
-      path: i % 4,
-      delay: i * 0.2,
-    })));
+    // Loop animation: expand → hold → collapse → hold
+    const interval = setInterval(() => {
+      setExpanded(prev => !prev);
+    }, 3000);
+    return () => clearInterval(interval);
   }, []);
 
   const destinations = [
-    { y: 12, icon: Instagram, color: "#E1306C", label: "Instagram" },
-    { y: 24, icon: Twitter, color: "#1DA1F2", label: "Twitter" },
-    { y: 36, icon: Youtube, color: "#FF0000", label: "YouTube" },
-    { y: 48, icon: LinkIcon, color: "#F97316", label: "Website" },
+    { y: 10, label: "Portfolio" },
+    { y: 22, label: "Twitter" },
+    { y: 34, label: "YouTube" },
+    { y: 46, label: "Contact" },
   ];
 
   return (
     <svg viewBox="0 0 120 60" className="w-full h-full">
       <defs>
-        <filter id="lpGlow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="1" result="glow" />
-          <feComposite in="SourceGraphic" in2="glow" operator="over" />
-        </filter>
-        
-        <radialGradient id="lpPortal" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.9" />
-          <stop offset="40%" stopColor="#F97316" stopOpacity="0.6" />
-          <stop offset="100%" stopColor="#F97316" stopOpacity="0.2" />
-        </radialGradient>
-        
-        <pattern id="lpDotGrid" patternUnits="userSpaceOnUse" width="4" height="4">
-          <circle cx="2" cy="2" r="0.12" fill="white" fillOpacity="0.1" />
-        </pattern>
+        {/* Frosted glass card gradient */}
+        <linearGradient id="lpCardGlass" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="rgba(26,26,26,0.9)" />
+          <stop offset="100%" stopColor="rgba(26,26,26,0.7)" />
+        </linearGradient>
       </defs>
       
-      <rect x="0" y="0" width="120" height="60" fill="url(#lpDotGrid)" opacity="0.3" />
+      {/* Pure black background */}
+      <rect x="0" y="0" width="120" height="60" fill="#000000" />
 
-      {/* Central link portal with rotating ring */}
-      <motion.circle
-        cx="20"
-        cy="30"
-        r="8"
-        fill="none"
-        stroke="#F97316"
-        strokeWidth="0.4"
-        strokeDasharray="2,3"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-        style={{ transformOrigin: "20px 30px" }}
+      {/* The single input thread - descending from top */}
+      <motion.line
+        x1="20"
+        y1="0"
+        x2="20"
+        y2="30"
+        stroke="rgba(255,255,255,0.6)"
+        strokeWidth="0.5"
+        strokeLinecap="round"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 1, ease: appleSpring }}
       />
-      
+
+      {/* Central split point - tiny node */}
       <motion.circle
         cx="20"
         cy="30"
-        r="5"
-        fill="url(#lpPortal)"
-        filter="url(#lpGlow)"
+        r="2"
+        fill="rgba(26,26,26,0.9)"
+        stroke="rgba(255,255,255,0.3)"
+        strokeWidth="0.3"
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
-        transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+        transition={{ delay: 0.8, type: "spring", stiffness: 200, damping: 15 }}
       />
-      
-      <motion.circle
-        cx="20"
-        cy="30"
-        r="5"
-        fill="none"
-        stroke="#F97316"
-        strokeWidth="0.4"
-        animate={{ r: [5, 7, 5], opacity: [0.5, 0.1, 0.5] }}
-        transition={{ duration: 1.5, repeat: Infinity, ease: appleEase }}
-      />
-      
+
+      {/* Branching lines - 90° mechanical turns */}
+      {destinations.map((dest, i) => {
+        const midX = 20 + (i + 1) * 8;
+        const isTop = dest.y < 30;
+        
+        return (
+          <motion.g key={`branch-${i}`}>
+            {/* Horizontal segment from center */}
+            <motion.line
+              x1="22"
+              y1="30"
+              x2={midX}
+              y2="30"
+              stroke="rgba(255,255,255,0.5)"
+              strokeWidth="0.4"
+              strokeLinecap="round"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: expanded ? 1 : 0 }}
+              transition={{ 
+                duration: 0.6, 
+                delay: expanded ? 1 + i * 0.1 : 0.4 - i * 0.05,
+                ease: appleSpring 
+              }}
+            />
+            
+            {/* Vertical segment to destination */}
+            <motion.line
+              x1={midX}
+              y1="30"
+              x2={midX}
+              y2={dest.y + 4}
+              stroke="rgba(255,255,255,0.5)"
+              strokeWidth="0.4"
+              strokeLinecap="round"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: expanded ? 1 : 0 }}
+              transition={{ 
+                duration: 0.5, 
+                delay: expanded ? 1.3 + i * 0.1 : 0.2 - i * 0.03,
+                ease: appleSpring 
+              }}
+            />
+            
+            {/* Horizontal to card */}
+            <motion.line
+              x1={midX}
+              y1={dest.y + 4}
+              x2="70"
+              y2={dest.y + 4}
+              stroke="rgba(255,255,255,0.4)"
+              strokeWidth="0.3"
+              strokeLinecap="round"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: expanded ? 1 : 0 }}
+              transition={{ 
+                duration: 0.7, 
+                delay: expanded ? 1.5 + i * 0.1 : 0,
+                ease: appleSpring 
+              }}
+            />
+          </motion.g>
+        );
+      })}
+
+      {/* Destination cards - frosted glass with Apple radius */}
+      {destinations.map((dest, i) => (
+        <motion.g key={`card-${i}`}>
+          {/* Card background */}
+          <motion.rect
+            x="72"
+            y={dest.y}
+            width="40"
+            height="8"
+            rx="2"
+            fill="url(#lpCardGlass)"
+            stroke="rgba(255,255,255,0.1)"
+            strokeWidth="0.3"
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ 
+              opacity: expanded ? 1 : 0, 
+              x: expanded ? 0 : 10 
+            }}
+            transition={{ 
+              duration: 0.8, 
+              delay: expanded ? 1.8 + i * 0.12 : 0,
+              ease: appleSpring 
+            }}
+          />
+          
+          {/* Card label */}
+          <motion.text
+            x="76"
+            y={dest.y + 5.5}
+            fill="rgba(255,255,255,0.6)"
+            fontSize="3"
+            fontFamily="'SF Mono', ui-monospace"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: expanded ? 1 : 0 }}
+            transition={{ 
+              duration: 0.5, 
+              delay: expanded ? 2 + i * 0.12 : 0,
+              ease: appleSpring 
+            }}
+          >
+            {dest.label}
+          </motion.text>
+          
+          {/* Arrow indicator */}
+          <motion.path
+            d={`M 106 ${dest.y + 4} l 3 0 l -1.5 -1.5 M 109 ${dest.y + 4} l -1.5 1.5`}
+            fill="none"
+            stroke="rgba(255,255,255,0.3)"
+            strokeWidth="0.3"
+            strokeLinecap="round"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: expanded ? 1 : 0 }}
+            transition={{ delay: expanded ? 2.2 + i * 0.1 : 0 }}
+          />
+        </motion.g>
+      ))}
+
+      {/* "1" indicator on source thread */}
       <motion.text
         x="20"
-        y="32"
-        fill="white"
-        fontSize="4"
-        textAnchor="middle"
+        y="8"
+        fill="rgba(255,255,255,0.5)"
+        fontSize="3"
         fontFamily="'SF Mono', ui-monospace"
-        fontWeight="bold"
+        textAnchor="middle"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
@@ -94,92 +198,20 @@ export const LinkPagesVisual = () => {
         1
       </motion.text>
 
-      {/* Super thin grey fiber lines to destinations */}
-      {destinations.map((dest, destIdx) => (
-        fiberOffsets.map((offset, strandIdx) => {
-          const isCenter = strandIdx === 2;
-          const destY = dest.y + 2;
-          return (
-            <motion.path
-              key={`fiber-${destIdx}-${strandIdx}`}
-              d={`M 28 ${30 + offset * 2} Q 55 ${(30 + destY) / 2 + offset}, 82 ${destY + offset * 0.5}`}
-              fill="none"
-              stroke={isCenter ? dest.color : "rgba(113,113,122,0.3)"}
-              strokeWidth={isCenter ? 0.8 : 0.25}
-              strokeLinecap="round"
-              strokeOpacity={isCenter ? 0.5 : 0.15}
-              filter={isCenter ? "url(#lpGlow)" : undefined}
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 + destIdx * 0.1, ease: appleEase }}
-            />
-          );
-        })
-      ))}
-
-      {/* Destination icons + labels OUTSIDE */}
-      {destinations.map((dest, i) => (
-        <g key={i}>
-          {/* Small hollow circle connector */}
-          <motion.circle
-            cx="86"
-            cy={dest.y + 2}
-            r="2"
-            fill="none"
-            stroke="rgba(113,113,122,0.4)"
-            strokeWidth="0.4"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.8 + i * 0.1, ease: appleEase }}
-          />
-          
-          {/* Label text */}
-          <text
-            x="90"
-            y={dest.y + 3}
-            fill="rgba(161,161,170,0.8)"
-            fontSize="3"
-            fontFamily="'SF Mono', ui-monospace, monospace"
-          >
-            {dest.label}
-          </text>
-          
-          {/* Icon outside */}
-          <foreignObject x="112" y={dest.y - 1} width="6" height="6">
-            <div className="flex items-center justify-center w-full h-full">
-              <dest.icon className="w-1.5 h-1.5 text-zinc-400" />
-            </div>
-          </foreignObject>
-        </g>
-      ))}
-
-      {/* Particles flowing from center to destinations */}
-      {particles.map((particle) => {
-        const dest = destinations[particle.path];
-        return (
-          <motion.circle
-            key={particle.id}
-            r="1"
-            fill={dest.color}
-            filter="url(#lpGlow)"
-            initial={{ offsetDistance: "0%", opacity: 0 }}
-            animate={{ 
-              offsetDistance: ["0%", "100%"],
-              opacity: [0, 1, 1, 0],
-            }}
-            transition={{
-              duration: 1,
-              delay: particle.delay,
-              repeat: Infinity,
-              repeatDelay: 0.5,
-              ease: appleEase,
-            }}
-            style={{
-              offsetPath: `path("M 28 30 Q 55 ${(30 + dest.y + 2) / 2}, 82 ${dest.y + 2}")`,
-            }}
-          />
-        );
-      })}
+      {/* Label */}
+      <motion.text
+        x="92"
+        y="57"
+        fill="rgba(113,113,122,0.4)"
+        fontSize="2.5"
+        fontFamily="'SF Mono', ui-monospace"
+        textAnchor="middle"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: expanded ? 1 : 0.2 }}
+        transition={{ delay: 2.5 }}
+      >
+        one link · all destinations
+      </motion.text>
     </svg>
   );
 };
