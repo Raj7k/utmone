@@ -25,8 +25,8 @@ export const AIInsightPipelineVisual = () => {
   const lastTimeRef = useRef<number>(0);
 
   const width = 360;
-  const height = 100;
-  const centerY = height / 2;
+  const height = 130;
+  const centerY = 45;
 
   const paths = STAGES.slice(0, -1).map((stage, index) => {
     const nextStage = STAGES[index + 1];
@@ -176,10 +176,10 @@ export const AIInsightPipelineVisual = () => {
               <circle cx={stage.x} cy={centerY} r="7" fill="none" className="stroke-white/[0.12]" strokeWidth="1" />
               <circle cx={stage.x} cy={centerY} r="3" fill={stage.color} style={{ opacity: 0.8 }} />
               
-              <foreignObject x={stage.x - 20} y={centerY + 20} width="40" height="20">
+              <foreignObject x={stage.x - 20} y={centerY + 22} width="40" height="35">
                 <div className="flex flex-col items-center">
-                  <Icon className="w-3 h-3" style={{ color: stage.color }} />
-                  <span className="text-[7px] text-white/50 font-mono mt-0.5">{stage.label}</span>
+                  <Icon className="w-4 h-4" style={{ color: stage.color }} />
+                  <span className="text-[8px] text-white/50 font-mono mt-0.5">{stage.label}</span>
                 </div>
               </foreignObject>
             </g>
