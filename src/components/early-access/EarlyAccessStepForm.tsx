@@ -18,7 +18,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { notify } from "@/lib/notify";
 import { useSearchParams } from "react-router-dom";
 import { ArrowRight, ArrowLeft, Sparkles, Check, AlertCircle } from "lucide-react";
-import { validateEmailSmart } from "@/lib/emailValidator";
+import { ValidationResult, validateEmailSmart } from "@/lib/emailValidator";
 
 const LOADING_STEPS = [
   "verifying your email...",
@@ -35,7 +35,7 @@ const earlyAccessSchema = z.object({
     .max(255)
     .refine((email) => {
       const result = validateEmailSmart(email);
-      return result.isValid;
+      return result.isValid && result.reason !== "disposable";
     }, (email) => {
       const result = validateEmailSmart(email);
       return { message: result.error || "please enter a valid email" };
@@ -61,7 +61,7 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loadingStepIndex, setLoadingStepIndex] = useState(0);
-  const [emailValidation, setEmailValidation] = useState<{ isValid: boolean; error?: string; suggestion?: string } | null>(null);
+  const [emailValidation, setEmailValidation] = useState<ValidationResult | null>(null);
   const [searchParams] = useSearchParams();
 
   // Cycle through loading steps while submitting
@@ -115,12 +115,22 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
     try {
       const referredByCode = searchParams.get("ref");
 
+      const validation = validateEmailSmart(data.email);
+      if (!validation.isValid) {
+        setEmailValidation(validation);
+        notify.error(validation.error || "please enter a valid email");
+        setIsSubmitting(false);
+        return;
+      }
+
+      const normalizedEmail = validation.normalizedEmail || data.email.trim().toLowerCase();
+
       const { data: responseData, error } = await supabase.functions.invoke(
         "handle-referral-signup",
         {
           body: {
             name: data.name,
-            email: data.email,
+            email: normalizedEmail,
             team_size: data.team_size,
             reason_for_joining: data.reason_for_joining || "Not specified",
             referral_code: referredByCode || undefined,
@@ -136,7 +146,7 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
         referral_code: responseData.referral_code,
         name: data.name,
         position: responseData.position || 0,
-        email: data.email,
+        email: normalizedEmail,
       });
 
     } catch (error: any) {
@@ -324,14 +334,14 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
                             })}
                             className={`h-11 focus:scale-[1.02] transition-transform duration-200 pr-10 ${
                               emailValidation?.isValid ? 'border-green-500' :
-                              emailValidation?.error ? 'border-red-500' : ''
+                              emailValidation?.error ? emailValidation.severity === "warning" ? 'border-amber-500' : 'border-red-500' : ''
                             }`}
                           />
                           {emailValidation?.isValid && (
                             <Check className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-green-500" />
                           )}
                           {emailValidation?.error && !emailValidation?.isValid && (
-                            <AlertCircle className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-red-500" />
+                            <AlertCircle className={`absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 ${emailValidation.severity === "warning" ? "text-amber-500" : "text-red-500"}`} />
                           )}
                         </div>
                         {emailValidation?.suggestion && (
@@ -339,11 +349,12 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
                             type="button"
                             onClick={() => {
                               setValue("email", emailValidation.suggestion!);
-                              setEmailValidation({ isValid: true });
+                              const updatedValidation = validateEmailSmart(emailValidation.suggestion!);
+                              setEmailValidation(updatedValidation);
                             }}
                             className="text-sm text-amber-600 dark:text-amber-400 hover:underline"
                           >
-                            {emailValidation.error} <span className="font-medium">click to fix</span>
+                            {emailValidation.error || "did you mean this?"} <span className="font-medium">click to fix</span>
                           </button>
                         )}
                         {errors.email && !emailValidation?.suggestion && (

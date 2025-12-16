@@ -4,6 +4,7 @@ import { validateEmailSmart, ValidationResult, isEmailLikelyValid } from '@/lib/
 interface UseSmartEmailOptions {
   debounceMs?: number;
   onValidChange?: (isValid: boolean, email: string) => void;
+  allowDisposable?: boolean;
 }
 
 interface UseSmartEmailReturn {
@@ -27,7 +28,7 @@ export const useSmartEmail = (
   initialValue = '',
   options: UseSmartEmailOptions = {}
 ): UseSmartEmailReturn => {
-  const { debounceMs = 500, onValidChange } = options;
+  const { debounceMs = 500, onValidChange, allowDisposable } = options;
   
   const [value, setValue] = useState(initialValue);
   const [isValidating, setIsValidating] = useState(false);
@@ -54,7 +55,7 @@ export const useSmartEmail = (
     setIsValidating(true);
 
     debounceRef.current = setTimeout(() => {
-      const validationResult = validateEmailSmart(email);
+      const validationResult = validateEmailSmart(email, { allowDisposable });
       setResult(validationResult);
       setIsValidating(false);
       
@@ -105,11 +106,11 @@ export const useSmartEmail = (
     setHasBlurred(true);
     // Immediate validation on blur
     if (value) {
-      const validationResult = validateEmailSmart(value);
+      const validationResult = validateEmailSmart(value, { allowDisposable });
       setResult(validationResult);
       setIsValidating(false);
     }
-  }, [value]);
+  }, [allowDisposable, value]);
 
   // Only show errors after user has interacted (blurred) or if there's a suggestion
   const shouldShowError = hasBlurred || result.suggestion;

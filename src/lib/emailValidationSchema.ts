@@ -10,15 +10,14 @@ export const smartEmailSchema = z.string()
   .min(1, "email is required")
   .max(255, "email is too long")
   .refine((email) => {
-    const result = validateEmailSmart(email);
-    return result.isValid || !!result.suggestion; // Allow suggestions to pass through for UX
+    const result = validateEmailSmart(email, { allowDisposable: true });
+    return result.isValid || !!result.suggestion; // Allow suggestions or soft disposable warnings
   }, {
     message: "please enter a valid email address"
   })
   .refine((email) => {
     const result = validateEmailSmart(email);
-    // Block hard errors (disposable domains, garbage)
-    return result.isValid || result.severity === 'warning';
+    return result.isValid;
   }, (email) => {
     const result = validateEmailSmart(email);
     return { message: result.error || "invalid email" };

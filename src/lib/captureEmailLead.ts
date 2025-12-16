@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { checkEmailQuality } from "@/shared-core/email/emailQuality";
 
 interface CaptureEmailOptions {
   email: string;
@@ -20,15 +21,26 @@ export const captureEmailLead = async ({
   metadata,
 }: CaptureEmailOptions): Promise<void> => {
   try {
+    const quality = checkEmailQuality(email, { allowDisposable: true });
+    if (!quality.ok && quality.reason !== "disposable") {
+      console.warn("Skipped capturing clearly invalid email", quality);
+      return;
+    }
+
+    const normalizedEmail = quality.normalizedEmail || email.trim().toLowerCase();
+
     // Fire-and-forget - don't await, don't block the UI
     supabase.functions.invoke('capture-email-lead', {
       body: {
-        email,
+        email: normalizedEmail,
         source,
         referralCode,
         pageUrl: pageUrl || window.location.href,
         metadata: {
           ...metadata,
+          normalized_email: normalizedEmail,
+          email_quality_reason: quality.reason,
+          is_disposable: quality.reason === "disposable",
           userAgent: navigator.userAgent,
           timestamp: new Date().toISOString(),
         },

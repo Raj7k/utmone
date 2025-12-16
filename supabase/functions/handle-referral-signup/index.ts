@@ -1,4 +1,5 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { checkEmailQuality } from '../_shared/emailQuality.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -28,11 +29,25 @@ Deno.serve(async (req) => {
 
     console.log('[Referral Signup] Processing signup:', { email, referral_code });
 
+    const quality = checkEmailQuality(email);
+    if (!quality.ok) {
+      return new Response(
+        JSON.stringify({
+          error: 'Invalid email',
+          reason: quality.reason,
+          suggestion: quality.suggestion,
+        }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const normalizedEmail = quality.normalizedEmail || email.trim().toLowerCase();
+
     // Check if user has a valid direct invite - if so, auto-approve
     const { data: validInvite } = await supabase
       .from('early_access_invites')
       .select('access_level, plan_tier')
-      .eq('email', email.toLowerCase())
+      .eq('email', normalizedEmail)
       .is('claimed_at', null)
       .gt('expires_at', new Date().toISOString())
       .maybeSingle();
@@ -44,7 +59,7 @@ Deno.serve(async (req) => {
       const { data: approvedRequest, error: approveError } = await supabase
         .from('early_access_requests')
         .upsert({
-          email: email.toLowerCase(),
+          email: normalizedEmail,
           name,
           team_size,
           reason_for_joining,
@@ -75,7 +90,7 @@ Deno.serve(async (req) => {
     const { data: existing } = await supabase
       .from('early_access_requests')
       .select('id')
-      .eq('email', email)
+      .eq('email', normalizedEmail)
       .single();
 
     if (existing) {
@@ -107,7 +122,7 @@ Deno.serve(async (req) => {
     const { data: newRequest, error: insertError } = await supabase
       .from('early_access_requests')
       .insert({
-        email,
+        email: normalizedEmail,
         name,
         team_size,
         reason_for_joining,
@@ -139,7 +154,7 @@ Deno.serve(async (req) => {
     // Send confirmation email to new signup
     await supabase.functions.invoke('send-applicant-confirmation', {
       body: {
-        email,
+        email: normalizedEmail,
         name,
         referrer_name: referrerName,
       },
