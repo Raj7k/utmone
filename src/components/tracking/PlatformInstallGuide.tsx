@@ -313,9 +313,10 @@ const platformGuides: Record<string, PlatformGuide> = {
 interface PlatformInstallGuideProps {
   platform: string;
   pixelId: string;
+  installType?: 'main' | 'revenue';
 }
 
-const PlatformInstallGuide: React.FC<PlatformInstallGuideProps> = ({ platform, pixelId }) => {
+const PlatformInstallGuide: React.FC<PlatformInstallGuideProps> = ({ platform, pixelId, installType = 'main' }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const guide = platformGuides[platform];
   const PlatformIcon = getPlatformIcon(platform);

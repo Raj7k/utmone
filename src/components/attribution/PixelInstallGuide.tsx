@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Copy, Check, Code, Zap, User } from 'lucide-react';
+import { Copy, Check, Code, Globe, DollarSign } from 'lucide-react';
 import { notify } from '@/lib/notify';
 
 interface PixelInstallGuideProps {
@@ -15,63 +15,34 @@ export const PixelInstallGuide: React.FC<PixelInstallGuideProps> = ({ pixelId })
 
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
   
-  const basicSnippet = `<!-- utm.one Tracking Pixel -->
+  // Unified main pixel snippet with identify included
+  const mainPixelSnippet = `<!-- utm.one Pixel - ADD TO ALL PAGES in <head> -->
 <script>
-(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'${supabaseUrl}/functions/v1/pixel-js?id='+i;f.parentNode.insertBefore(j,f);
-})(window,document,'script','utmoneLayer','${pixelId}');
-</script>
-<!-- End utm.one Tracking Pixel -->`;
+(function(w,d,p){
+  w.utmone=w.utmone||function(){(w.utmone.q=w.utmone.q||[]).push(arguments)};
+  var s=d.createElement('script');s.async=1;
+  s.src='${supabaseUrl}/functions/v1/pixel-js?id='+p;
+  d.head.appendChild(s);
+})(window,document,'${pixelId}');
 
-  const identifySnippet = `// Call this after user signs up or logs in
-utmone.identify('user@example.com', 'John Doe');
+// ─────────────────────────────────────────────────────────────
+// OPTIONAL: User identification (enables cross-device tracking)
+// Call this AFTER user logs in or signs up:
+// utmone('identify', 'user@email.com', 'User Name');
+// ─────────────────────────────────────────────────────────────
+</script>`;
 
-// Example: After form submission
-document.getElementById('signup-form').addEventListener('submit', function(e) {
-  var email = document.getElementById('email').value;
-  var name = document.getElementById('name').value;
-  utmone.identify(email, name);
-});`;
-
-  const conversionSnippet = `// Track a conversion event
-utmone.track('purchase', { revenue: 99.99 });
-
-// Track custom events
-utmone.track('signup');
-utmone.track('demo_request');
-utmone.track('add_to_cart', { revenue: 49.99 });`;
-
-  const fullExampleSnippet = `<!-- utm.one Tracking Pixel (place in <head>) -->
+  // Revenue snippet
+  const revenueSnippet = `<!-- ADD TO THANK-YOU PAGE ONLY -->
 <script>
-(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'${supabaseUrl}/functions/v1/pixel-js?id='+i;f.parentNode.insertBefore(j,f);
-})(window,document,'script','utmoneLayer','${pixelId}');
-</script>
+// 🛒 For purchases - use your order total
+utmone('track', 'purchase', { revenue: 99.99 });
 
-<!-- Example: Identify user after login -->
-<script>
-  // After user authenticates, call identify with their email
-  function onUserLogin(user) {
-    if (window.utmone && user.email) {
-      utmone.identify(user.email, user.name);
-    }
-  }
-</script>
+// 📝 For leads - use your estimated deal value (or 0)
+utmone('track', 'lead', { revenue: 500 });
 
-<!-- Example: Track conversion on purchase -->
-<script>
-  function onPurchaseComplete(order) {
-    if (window.utmone) {
-      utmone.track('purchase', { 
-        revenue: order.total,
-        event_name: 'order_' + order.id 
-      });
-    }
-  }
+// 👤 For signups - use plan price (or 0 for free)
+utmone('track', 'signup', { revenue: 29 });
 </script>`;
 
   const copyToClipboard = async (text: string, snippetName: string) => {
@@ -93,139 +64,97 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           pixel installation guide
         </CardTitle>
         <CardDescription className="text-muted-foreground">
-          install the tracking pixel and SDK to enable cross-device identity resolution
+          2 simple steps to enable attribution tracking
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        <Tabs defaultValue="basic" className="w-full">
-          <TabsList className="bg-muted/50 dark:bg-zinc-800/50">
-            <TabsTrigger value="basic" className="flex items-center gap-2">
-              <Zap className="h-4 w-4" />
-              basic setup
+        <Tabs defaultValue="main" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 bg-muted/50 dark:bg-zinc-800/50">
+            <TabsTrigger value="main" className="flex items-center gap-2">
+              <Globe className="h-4 w-4" />
+              <span className="hidden sm:inline">main pixel</span>
+              <Badge variant="outline" className="text-[10px] px-1.5 py-0 bg-blue-500/10 text-blue-600 border-blue-500/20">
+                ALL PAGES
+              </Badge>
             </TabsTrigger>
-            <TabsTrigger value="identify" className="flex items-center gap-2">
-              <User className="h-4 w-4" />
-              identify users
-            </TabsTrigger>
-            <TabsTrigger value="conversions" className="flex items-center gap-2">
-              <Check className="h-4 w-4" />
-              conversions
-            </TabsTrigger>
-            <TabsTrigger value="full" className="flex items-center gap-2">
-              <Code className="h-4 w-4" />
-              full example
+            <TabsTrigger value="revenue" className="flex items-center gap-2">
+              <DollarSign className="h-4 w-4" />
+              <span className="hidden sm:inline">revenue</span>
+              <Badge variant="outline" className="text-[10px] px-1.5 py-0 bg-green-500/10 text-green-600 border-green-500/20">
+                THANK-YOU ONLY
+              </Badge>
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="basic" className="mt-4 space-y-4">
+          <TabsContent value="main" className="mt-4 space-y-4">
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <h4 className="font-medium text-foreground">1. add to your website's &lt;head&gt;</h4>
-                <Badge variant="secondary" className="text-xs">required</Badge>
+                <h4 className="font-medium text-foreground">step 1: add to your website's &lt;head&gt;</h4>
+                <Badge className="text-xs bg-blue-500/10 text-blue-600 border-blue-500/20">ALL PAGES</Badge>
               </div>
               <p className="text-sm text-muted-foreground">
-                paste this snippet in your website's &lt;head&gt; tag. it automatically tracks pageviews 
-                and enables cross-device identity matching.
+                paste this in your &lt;head&gt; tag. it automatically tracks pageviews, UTM parameters, 
+                and enables cross-device identity matching when you call identify().
               </p>
             </div>
             <div className="relative">
               <pre className="bg-muted/50 dark:bg-zinc-800/50 p-4 rounded-lg text-sm overflow-x-auto border border-border dark:border-white/10">
-                <code className="text-foreground">{basicSnippet}</code>
+                <code className="text-foreground">{mainPixelSnippet}</code>
               </pre>
               <Button
                 size="sm"
                 variant="ghost"
                 className="absolute top-2 right-2"
-                onClick={() => copyToClipboard(basicSnippet, 'basic')}
+                onClick={() => copyToClipboard(mainPixelSnippet, 'main')}
               >
-                {copiedSnippet === 'basic' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                {copiedSnippet === 'main' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
               </Button>
+            </div>
+            <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20">
+              <p className="text-xs text-amber-600 dark:text-amber-400">
+                💡 <strong>Have user login?</strong> Uncomment the <code className="bg-muted px-1 rounded">utmone('identify')</code> line 
+                and call it after login/signup for 100% accurate cross-device attribution.
+              </p>
             </div>
           </TabsContent>
 
-          <TabsContent value="identify" className="mt-4 space-y-4">
+          <TabsContent value="revenue" className="mt-4 space-y-4">
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <h4 className="font-medium text-foreground">2. identify users (critical for cross-device)</h4>
-                <Badge className="text-xs bg-amber-500/20 text-amber-500">recommended</Badge>
+                <h4 className="font-medium text-foreground">step 2: track revenue on thank-you page</h4>
+                <Badge className="text-xs bg-green-500/10 text-green-600 border-green-500/20">THANK-YOU ONLY</Badge>
               </div>
               <p className="text-sm text-muted-foreground">
-                call <code className="bg-muted px-1 rounded">utmone.identify()</code> when users sign up, 
-                log in, or submit forms with their email. this enables deterministic cross-device matching 
-                with 100% confidence.
+                add this to your order confirmation or thank-you page to track conversions and revenue.
               </p>
             </div>
             <div className="relative">
               <pre className="bg-muted/50 dark:bg-zinc-800/50 p-4 rounded-lg text-sm overflow-x-auto border border-border dark:border-white/10">
-                <code className="text-foreground">{identifySnippet}</code>
+                <code className="text-foreground">{revenueSnippet}</code>
               </pre>
               <Button
                 size="sm"
                 variant="ghost"
                 className="absolute top-2 right-2"
-                onClick={() => copyToClipboard(identifySnippet, 'identify')}
+                onClick={() => copyToClipboard(revenueSnippet, 'revenue')}
               >
-                {copiedSnippet === 'identify' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                {copiedSnippet === 'revenue' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
               </Button>
             </div>
-          </TabsContent>
-
-          <TabsContent value="conversions" className="mt-4 space-y-4">
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <h4 className="font-medium text-foreground">3. track conversions</h4>
-                <Badge variant="outline" className="text-xs">optional</Badge>
-              </div>
-              <p className="text-sm text-muted-foreground">
-                track revenue and conversion events using <code className="bg-muted px-1 rounded">utmone.track()</code>. 
-                include revenue values for accurate ROI attribution.
+            <div className="p-3 rounded-lg bg-green-500/10 border border-green-500/20">
+              <p className="text-xs text-green-600 dark:text-green-400">
+                💰 Replace the numbers with your actual values. Use $0 for events where you just want to count conversions.
               </p>
-            </div>
-            <div className="relative">
-              <pre className="bg-muted/50 dark:bg-zinc-800/50 p-4 rounded-lg text-sm overflow-x-auto border border-border dark:border-white/10">
-                <code className="text-foreground">{conversionSnippet}</code>
-              </pre>
-              <Button
-                size="sm"
-                variant="ghost"
-                className="absolute top-2 right-2"
-                onClick={() => copyToClipboard(conversionSnippet, 'conversions')}
-              >
-                {copiedSnippet === 'conversions' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-              </Button>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="full" className="mt-4 space-y-4">
-            <div className="space-y-2">
-              <h4 className="font-medium text-foreground">complete implementation example</h4>
-              <p className="text-sm text-muted-foreground">
-                a complete example showing pixel installation, user identification, and conversion tracking.
-              </p>
-            </div>
-            <div className="relative">
-              <pre className="bg-muted/50 dark:bg-zinc-800/50 p-4 rounded-lg text-sm overflow-x-auto border border-border dark:border-white/10 max-h-96">
-                <code className="text-foreground">{fullExampleSnippet}</code>
-              </pre>
-              <Button
-                size="sm"
-                variant="ghost"
-                className="absolute top-2 right-2"
-                onClick={() => copyToClipboard(fullExampleSnippet, 'full')}
-              >
-                {copiedSnippet === 'full' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-              </Button>
             </div>
           </TabsContent>
         </Tabs>
 
         <div className="p-4 rounded-lg bg-primary/5 dark:bg-primary/10 border border-primary/20">
-          <h4 className="font-medium text-foreground mb-2">how cross-device matching works</h4>
+          <h4 className="font-medium text-foreground mb-2">that's it! just 2 steps</h4>
           <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
-            <li><strong>deterministic (100% confidence)</strong>: when you call <code className="bg-muted px-1 rounded">identify()</code> with email</li>
-            <li><strong>probabilistic (70-90% confidence)</strong>: same IP address + compatible devices within time window</li>
-            <li>identity edges are automatically created when matches are detected</li>
-            <li>attribution calculations traverse these edges to unify cross-device journeys</li>
+            <li><strong>Main pixel</strong> on all pages captures visitor journeys automatically</li>
+            <li><strong>Revenue tracking</strong> on thank-you pages enables ROI attribution</li>
+            <li>Optional <code className="bg-muted px-1 rounded">identify()</code> call enables cross-device tracking</li>
           </ul>
         </div>
       </CardContent>
