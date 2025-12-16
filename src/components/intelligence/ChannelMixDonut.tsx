@@ -3,10 +3,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PieChart } from "lucide-react";
 import { motion } from "framer-motion";
+import { IntelligenceContext } from "./ContextSwitcher";
 
 interface ChannelMixDonutProps {
   workspaceId?: string;
   days: number;
+  context?: IntelligenceContext;
   preloadedData?: Array<{ name: string; value: number; percentage: number }>;
 }
 
@@ -29,9 +31,9 @@ const CHANNEL_COLORS = [
 const CACHE_KEY = 'channel-mix-cache';
 const CACHE_EXPIRY = 2 * 60 * 1000; // 2 minutes
 
-function getCached(workspaceId: string, days: number): ChannelData[] | undefined {
+function getCached(workspaceId: string, days: number, context: string): ChannelData[] | undefined {
   try {
-    const cached = localStorage.getItem(CACHE_KEY);
+    const cached = localStorage.getItem(`${CACHE_KEY}-${context}`);
     if (!cached) return undefined;
     const { data, timestamp, wid, d } = JSON.parse(cached);
     if (wid !== workspaceId || d !== days) return undefined;
@@ -42,9 +44,9 @@ function getCached(workspaceId: string, days: number): ChannelData[] | undefined
   }
 }
 
-function setCache(workspaceId: string, days: number, data: ChannelData[]) {
+function setCache(workspaceId: string, days: number, context: string, data: ChannelData[]) {
   try {
-    localStorage.setItem(CACHE_KEY, JSON.stringify({
+    localStorage.setItem(`${CACHE_KEY}-${context}`, JSON.stringify({
       data,
       timestamp: Date.now(),
       wid: workspaceId,
@@ -53,30 +55,35 @@ function setCache(workspaceId: string, days: number, data: ChannelData[]) {
   } catch {}
 }
 
-export default function ChannelMixDonut({ workspaceId, days, preloadedData }: ChannelMixDonutProps) {
+export default function ChannelMixDonut({ workspaceId, days, context = "all", preloadedData }: ChannelMixDonutProps) {
   const hasPreloadedData = !!preloadedData && preloadedData.length > 0;
 
   const { data, isFetching } = useQuery({
-    queryKey: ["channel-mix", workspaceId, days],
+    queryKey: ["channel-mix", workspaceId, days, context],
     queryFn: async () => {
       if (!workspaceId) return [];
 
       const startDate = new Date();
       startDate.setDate(startDate.getDate() - days);
 
+      // FIX: Include ALL clicks, not just those with utm_source
       const { data: clicks, error } = await supabase
         .from("link_clicks")
-        .select("referrer, workspace_id, links!inner(utm_source)")
+        .select("referrer, workspace_id, links(utm_source)")
         .eq("workspace_id", workspaceId)
         .gte("clicked_at", startDate.toISOString())
-        .limit(500); // Cap for performance
+        .limit(1000); // Increased for accuracy
 
       if (error) throw error;
 
-      // Aggregate by source
+      // Aggregate by source - include "direct" for clicks without utm_source
       const sourceMap = new Map<string, number>();
       clicks?.forEach((click: any) => {
-        const source = click.links?.utm_source || extractDomain(click.referrer) || "direct";
+        // Use utm_source first, then referrer domain, then "direct"
+        let source = click.links?.utm_source;
+        if (!source) {
+          source = extractDomain(click.referrer) || "direct";
+        }
         sourceMap.set(source, (sourceMap.get(source) || 0) + 1);
       });
 
@@ -91,10 +98,10 @@ export default function ChannelMixDonut({ workspaceId, days, preloadedData }: Ch
           color: CHANNEL_COLORS[index] || CHANNEL_COLORS[4],
         }));
 
-      if (workspaceId) setCache(workspaceId, days, channels);
+      if (workspaceId) setCache(workspaceId, days, context, channels);
       return channels;
     },
-    initialData: () => workspaceId ? getCached(workspaceId, days) : undefined,
+    initialData: () => workspaceId ? getCached(workspaceId, days, context) : undefined,
     enabled: !!workspaceId && !hasPreloadedData,
     staleTime: 2 * 60 * 1000,
     refetchOnMount: false,

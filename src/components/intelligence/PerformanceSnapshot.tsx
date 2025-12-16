@@ -4,10 +4,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MousePointer, Users, Target, TrendingUp, TrendingDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import MiniSparkline from "./MiniSparkline";
+import { IntelligenceContext } from "./ContextSwitcher";
 
 interface PerformanceSnapshotProps {
   workspaceId?: string;
   days: number;
+  context?: IntelligenceContext;
   preloadedClicks?: number;
 }
 
@@ -35,9 +37,9 @@ interface SnapshotData {
 const CACHE_KEY = 'performance-snapshot-cache';
 const CACHE_EXPIRY = 2 * 60 * 1000; // 2 minutes
 
-function getCached(workspaceId: string, days: number): SnapshotData | undefined {
+function getCached(workspaceId: string, days: number, context: string): SnapshotData | undefined {
   try {
-    const cached = localStorage.getItem(CACHE_KEY);
+    const cached = localStorage.getItem(`${CACHE_KEY}-${context}`);
     if (!cached) return undefined;
     const { data, timestamp, wid, d } = JSON.parse(cached);
     if (wid !== workspaceId || d !== days) return undefined;
@@ -48,9 +50,9 @@ function getCached(workspaceId: string, days: number): SnapshotData | undefined 
   }
 }
 
-function setCache(workspaceId: string, days: number, data: SnapshotData) {
+function setCache(workspaceId: string, days: number, context: string, data: SnapshotData) {
   try {
-    localStorage.setItem(CACHE_KEY, JSON.stringify({
+    localStorage.setItem(`${CACHE_KEY}-${context}`, JSON.stringify({
       data,
       timestamp: Date.now(),
       wid: workspaceId,
@@ -59,11 +61,11 @@ function setCache(workspaceId: string, days: number, data: SnapshotData) {
   } catch {}
 }
 
-export default function PerformanceSnapshot({ workspaceId, days, preloadedClicks }: PerformanceSnapshotProps) {
+export default function PerformanceSnapshot({ workspaceId, days, context = "all", preloadedClicks }: PerformanceSnapshotProps) {
   const hasPreloadedData = preloadedClicks !== undefined;
   
   const { data, isFetching } = useQuery({
-    queryKey: ["performance-snapshot", workspaceId, days],
+    queryKey: ["performance-snapshot", workspaceId, days, context],
     queryFn: async () => {
       if (!workspaceId) return null;
 
@@ -165,10 +167,10 @@ export default function PerformanceSnapshot({ workspaceId, days, preloadedClicks
         conversionTrend: Math.round(conversionTrend),
       };
       
-      if (workspaceId) setCache(workspaceId, days, result);
+      if (workspaceId) setCache(workspaceId, days, context, result);
       return result;
     },
-    initialData: () => workspaceId ? getCached(workspaceId, days) : undefined,
+    initialData: () => workspaceId ? getCached(workspaceId, days, context) : undefined,
     enabled: !!workspaceId && !hasPreloadedData,
     staleTime: 2 * 60 * 1000,
     refetchOnMount: false,

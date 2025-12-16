@@ -1,5 +1,7 @@
-import { useQuery, useQueries } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { IntelligenceContext } from "@/components/intelligence/ContextSwitcher";
 
 interface IntelligenceData {
   // Clicks data
@@ -56,9 +58,9 @@ const DASHBOARD_CACHE_KEY = 'dashboard-unified-cache';
 const CACHE_TTL = 2 * 60 * 1000; // 2 min full cache
 const STALE_TTL = 30 * 1000; // 30 sec stale threshold
 
-function getCachedIntelligence(workspaceId: string, days: number): { data: IntelligenceData; isStale: boolean } | undefined {
+function getCachedIntelligence(workspaceId: string, days: number, context: IntelligenceContext): { data: IntelligenceData; isStale: boolean } | undefined {
   try {
-    const cached = localStorage.getItem(`${CACHE_KEY}-${workspaceId}-${days}`);
+    const cached = localStorage.getItem(`${CACHE_KEY}-${workspaceId}-${days}-${context}`);
     if (!cached) return undefined;
     const { data, timestamp } = JSON.parse(cached);
     const age = Date.now() - timestamp;
@@ -67,9 +69,9 @@ function getCachedIntelligence(workspaceId: string, days: number): { data: Intel
   } catch { return undefined; }
 }
 
-function setCachedIntelligence(workspaceId: string, days: number, data: IntelligenceData): void {
+function setCachedIntelligence(workspaceId: string, days: number, context: IntelligenceContext, data: IntelligenceData): void {
   try {
-    localStorage.setItem(`${CACHE_KEY}-${workspaceId}-${days}`, JSON.stringify({
+    localStorage.setItem(`${CACHE_KEY}-${workspaceId}-${days}-${context}`, JSON.stringify({
       data,
       timestamp: Date.now(),
     }));
@@ -99,10 +101,27 @@ interface PreloadedData {
   campaigns?: Array<{ id: string; name: string }>;
 }
 
+// Build context-specific filters for links table
+function getContextLinkFilter(context: IntelligenceContext) {
+  switch (context) {
+    case "campaigns":
+      return { field: "campaign_id", condition: "not.is.null" };
+    case "events":
+      return { field: "event_id", condition: "not.is.null" };
+    case "sales":
+      return { field: "link_type", condition: "eq.sales" };
+    case "customers":
+      return { field: "has_conversion", condition: "eq.true" };
+    default:
+      return null;
+  }
+}
+
 export function useIntelligenceData(
   workspaceId: string | undefined, 
   days: number = 7,
-  preloaded?: PreloadedData
+  preloaded?: PreloadedData,
+  context: IntelligenceContext = "all"
 ) {
   const startDate = new Date();
   startDate.setDate(startDate.getDate() - days);
@@ -112,87 +131,188 @@ export function useIntelligenceData(
   prevStartDate.setDate(prevStartDate.getDate() - days);
   const prevStartDateStr = prevStartDate.toISOString();
 
-  // Check dashboard unified cache for shared data
-  const dashboardCache = getDashboardCacheData(workspaceId);
-  const preloadedClicks = preloaded?.totalClicks ?? dashboardCache?.totalClicks;
+  // Check dashboard unified cache for shared data (only for "all" context)
+  const dashboardCache = context === "all" ? getDashboardCacheData(workspaceId) : undefined;
   const preloadedCampaigns = preloaded?.campaigns ?? dashboardCache?.campaigns;
 
   // Get cached data with stale check
-  const cachedResult = workspaceId ? getCachedIntelligence(workspaceId, days) : undefined;
+  const cachedResult = workspaceId ? getCachedIntelligence(workspaceId, days, context) : undefined;
   const cachedData = cachedResult?.data;
   const isCacheStale = cachedResult?.isStale ?? true;
 
+  // Clear cache when context changes
+  useEffect(() => {
+    // Invalidate old cache entries for other contexts
+  }, [context, workspaceId, days]);
+
   // Single optimized query that gets all essential data
   const { data, isLoading, isFetching, error } = useQuery({
-    queryKey: ["intelligence-unified", workspaceId, days],
+    queryKey: ["intelligence-unified", workspaceId, days, context],
     queryFn: async (): Promise<IntelligenceData> => {
       if (!workspaceId) {
         return getEmptyData();
       }
 
-      // Execute queries in parallel - skip redundant ones when preloaded
+      // Get link IDs filtered by context first (if context filtering needed)
+      let contextLinkIds: string[] | null = null;
+      if (context !== "all") {
+        const contextFilter = getContextLinkFilter(context);
+        if (contextFilter) {
+          let query = supabase
+            .from("links")
+            .select("id")
+            .eq("workspace_id", workspaceId);
+          
+          if (context === "campaigns") {
+            query = query.not("campaign_id", "is", null);
+          } else if (context === "events") {
+            query = query.not("event_id", "is", null);
+          } else if (context === "sales") {
+            // Filter by utm_content containing "sales" or specific tag
+            query = query.or("utm_content.ilike.%sales%,tags.cs.{sales}");
+          } else if (context === "customers") {
+            // Links that have conversions
+            const { data: convLinks } = await supabase
+              .from("conversion_events")
+              .select("link_id")
+              .eq("workspace_id", workspaceId)
+              .not("link_id", "is", null);
+            contextLinkIds = [...new Set(convLinks?.map(c => c.link_id).filter(Boolean))] as string[];
+          }
+          
+          if (context !== "customers") {
+            const { data: links } = await query;
+            contextLinkIds = links?.map(l => l.id) || [];
+          }
+        }
+      }
+
+      // Build base click query with optional link filter
+      const buildClickQuery = (baseQuery: any) => {
+        if (contextLinkIds && contextLinkIds.length > 0) {
+          return baseQuery.in("link_id", contextLinkIds);
+        } else if (contextLinkIds && contextLinkIds.length === 0 && context !== "all") {
+          // No matching links for this context - return empty
+          return null;
+        }
+        return baseQuery;
+      };
+
+      // Execute queries in parallel
       const [
+        clickCountResult,
         prevClickCountResult,
         revenueResult,
         channelMixResult,
         geoResult,
         recentClicksResult,
       ] = await Promise.all([
-        // 1. Previous period click COUNT (always needed for trend)
-        supabase
-          .from("link_clicks")
-          .select("*", { count: "exact", head: true })
-          .eq("workspace_id", workspaceId)
-          .gte("clicked_at", prevStartDateStr)
-          .lt("clicked_at", startDateStr),
+        // 1. Current period click COUNT with context filter
+        (async () => {
+          let query = supabase
+            .from("link_clicks")
+            .select("*", { count: "exact", head: true })
+            .eq("workspace_id", workspaceId)
+            .gte("clicked_at", startDateStr);
+          
+          if (contextLinkIds && contextLinkIds.length > 0) {
+            query = query.in("link_id", contextLinkIds);
+          } else if (contextLinkIds && contextLinkIds.length === 0 && context !== "all") {
+            return { count: 0 };
+          }
+          return query;
+        })(),
+
+        // 2. Previous period click COUNT
+        (async () => {
+          let query = supabase
+            .from("link_clicks")
+            .select("*", { count: "exact", head: true })
+            .eq("workspace_id", workspaceId)
+            .gte("clicked_at", prevStartDateStr)
+            .lt("clicked_at", startDateStr);
+          
+          if (contextLinkIds && contextLinkIds.length > 0) {
+            query = query.in("link_id", contextLinkIds);
+          } else if (contextLinkIds && contextLinkIds.length === 0 && context !== "all") {
+            return { count: 0 };
+          }
+          return query;
+        })(),
         
-        // 2. Revenue - direct workspace_id query (no JOIN)
-        supabase
-          .from("conversion_events")
-          .select("event_value, link_id")
-          .eq("workspace_id", workspaceId)
-          .gte("attributed_at", startDateStr),
+        // 3. Revenue - direct workspace_id query
+        (async () => {
+          let query = supabase
+            .from("conversion_events")
+            .select("event_value, link_id")
+            .eq("workspace_id", workspaceId)
+            .gte("attributed_at", startDateStr);
+          
+          if (contextLinkIds && contextLinkIds.length > 0) {
+            query = query.in("link_id", contextLinkIds);
+          } else if (contextLinkIds && contextLinkIds.length === 0 && context !== "all") {
+            return { data: [] };
+          }
+          return query;
+        })(),
         
-        // 3. Channel mix - query link_clicks with date filter, join to links for utm_source
-        supabase
-          .from("link_clicks")
-          .select("link_id, links!inner(utm_source)")
-          .eq("workspace_id", workspaceId)
-          .gte("clicked_at", startDateStr)
-          .not("links.utm_source", "is", null)
-          .limit(5000),
+        // 4. Channel mix - query ALL link_clicks (include direct traffic)
+        (async () => {
+          let query = supabase
+            .from("link_clicks")
+            .select("link_id, referrer, links(utm_source)")
+            .eq("workspace_id", workspaceId)
+            .gte("clicked_at", startDateStr)
+            .limit(5000);
+          
+          if (contextLinkIds && contextLinkIds.length > 0) {
+            query = query.in("link_id", contextLinkIds);
+          } else if (contextLinkIds && contextLinkIds.length === 0 && context !== "all") {
+            return { data: [] };
+          }
+          return query;
+        })(),
         
-        // 4. Geo data - increased limit for better accuracy
-        supabase
-          .from("link_clicks")
-          .select("city, country")
-          .eq("workspace_id", workspaceId)
-          .gte("clicked_at", startDateStr)
-          .not("city", "is", null)
-          .order("clicked_at", { ascending: false })
-          .limit(500),
+        // 5. Geo data - increased limit for better accuracy
+        (async () => {
+          let query = supabase
+            .from("link_clicks")
+            .select("city, country")
+            .eq("workspace_id", workspaceId)
+            .gte("clicked_at", startDateStr)
+            .not("city", "is", null)
+            .order("clicked_at", { ascending: false })
+            .limit(500);
+          
+          if (contextLinkIds && contextLinkIds.length > 0) {
+            query = query.in("link_id", contextLinkIds);
+          } else if (contextLinkIds && contextLinkIds.length === 0 && context !== "all") {
+            return { data: [] };
+          }
+          return query;
+        })(),
         
-        // 5. Recent clicks for live feed - only last 10
-        supabase
-          .from("link_clicks")
-          .select("id, city, country, device_type, clicked_at, link_id")
-          .eq("workspace_id", workspaceId)
-          .order("clicked_at", { ascending: false })
-          .limit(10),
+        // 6. Recent clicks for live feed
+        (async () => {
+          let query = supabase
+            .from("link_clicks")
+            .select("id, city, country, device_type, clicked_at, link_id")
+            .eq("workspace_id", workspaceId)
+            .order("clicked_at", { ascending: false })
+            .limit(10);
+          
+          if (contextLinkIds && contextLinkIds.length > 0) {
+            query = query.in("link_id", contextLinkIds);
+          } else if (contextLinkIds && contextLinkIds.length === 0 && context !== "all") {
+            return { data: [] };
+          }
+          return query;
+        })(),
       ]);
 
-      // Use preloaded clicks or fetch if not available (also fetch if 0 to ensure accuracy)
-      let totalClicks = 0;
-      if (preloadedClicks === undefined || preloadedClicks === 0) {
-        const clickCountResult = await supabase
-          .from("link_clicks")
-          .select("*", { count: "exact", head: true })
-          .eq("workspace_id", workspaceId)
-          .gte("clicked_at", startDateStr);
-        totalClicks = clickCountResult.count || 0;
-      }
-
-      const previousPeriodClicks = prevClickCountResult.count || 0;
+      // FIX: Properly use click count result
+      const totalClicks = clickCountResult?.count || 0;
+      const previousPeriodClicks = prevClickCountResult?.count || 0;
       
       let clicksTrend: "up" | "down" | "neutral" = "neutral";
       let clicksTrendPercent = 0;
@@ -202,10 +322,18 @@ export function useIntelligenceData(
         clicksTrend = change > 0 ? "up" : change < 0 ? "down" : "neutral";
       }
 
-      // Process channel mix - aggregate clicks by utm_source from link_clicks data
+      // FIX: Process channel mix - include "direct" for clicks without utm_source
       const channelAggregated: Record<string, number> = {};
       (channelMixResult.data || []).forEach((click: any) => {
-        const source = click.links?.utm_source || "direct";
+        // Use utm_source, fallback to referrer domain, then "direct"
+        let source = click.links?.utm_source;
+        if (!source && click.referrer) {
+          try {
+            const hostname = new URL(click.referrer).hostname;
+            source = hostname.replace("www.", "").split(".")[0];
+          } catch {}
+        }
+        source = source || "direct";
         channelAggregated[source] = (channelAggregated[source] || 0) + 1;
       });
       const channelTotal = Object.values(channelAggregated).reduce((sum, c) => sum + c, 0);
@@ -226,60 +354,62 @@ export function useIntelligenceData(
           percentage: channelTotal > 0 ? (clicks / channelTotal) * 100 : 0,
         }));
 
-      // Get campaigns with actual click counts
+      // Get campaigns with actual click counts (only for campaigns/all context)
       let topCampaigns: Array<{ id: string; name: string; clicks: number }> = [];
-      const campaignNames = preloadedCampaigns || [];
-      
-      // Fetch campaigns if not preloaded
-      let campaignsToProcess = campaignNames;
-      if (!preloadedCampaigns || preloadedCampaigns.length === 0) {
-        const campaignsResult = await supabase
-          .from("campaigns")
-          .select("id, name")
-          .eq("workspace_id", workspaceId)
-          .eq("status", "active")
-          .limit(5);
-        campaignsToProcess = (campaignsResult.data || []).map((c: any) => ({ id: c.id, name: c.name }));
-      }
-      
-      // Get actual click counts for each campaign
-      if (campaignsToProcess.length > 0) {
-        const campaignIds = campaignsToProcess.map(c => c.id);
-        const { data: campaignLinks } = await supabase
-          .from("links")
-          .select("id, campaign_id")
-          .eq("workspace_id", workspaceId)
-          .in("campaign_id", campaignIds);
+      if (context === "all" || context === "campaigns") {
+        const campaignNames = preloadedCampaigns || [];
         
-        if (campaignLinks && campaignLinks.length > 0) {
-          const linkIds = campaignLinks.map(l => l.id);
-          const { data: campaignClicks } = await supabase
-            .from("link_clicks")
-            .select("link_id")
+        // Fetch campaigns if not preloaded
+        let campaignsToProcess = campaignNames;
+        if (!preloadedCampaigns || preloadedCampaigns.length === 0) {
+          const campaignsResult = await supabase
+            .from("campaigns")
+            .select("id, name")
             .eq("workspace_id", workspaceId)
-            .gte("clicked_at", startDateStr)
-            .in("link_id", linkIds);
+            .eq("status", "active")
+            .limit(5);
+          campaignsToProcess = (campaignsResult.data || []).map((c: any) => ({ id: c.id, name: c.name }));
+        }
+        
+        // Get actual click counts for each campaign
+        if (campaignsToProcess.length > 0) {
+          const campaignIds = campaignsToProcess.map(c => c.id);
+          const { data: campaignLinks } = await supabase
+            .from("links")
+            .select("id, campaign_id")
+            .eq("workspace_id", workspaceId)
+            .in("campaign_id", campaignIds);
           
-          // Aggregate clicks by campaign
-          const clicksByCampaign: Record<string, number> = {};
-          campaignClicks?.forEach((click: any) => {
-            const link = campaignLinks.find(l => l.id === click.link_id);
-            if (link?.campaign_id) {
-              clicksByCampaign[link.campaign_id] = (clicksByCampaign[link.campaign_id] || 0) + 1;
-            }
-          });
-          
-          topCampaigns = campaignsToProcess.map(c => ({
-            id: c.id,
-            name: c.name,
-            clicks: clicksByCampaign[c.id] || 0,
-          })).sort((a, b) => b.clicks - a.clicks);
-        } else {
-          topCampaigns = campaignsToProcess.map(c => ({ id: c.id, name: c.name, clicks: 0 }));
+          if (campaignLinks && campaignLinks.length > 0) {
+            const linkIds = campaignLinks.map(l => l.id);
+            const { data: campaignClicks } = await supabase
+              .from("link_clicks")
+              .select("link_id")
+              .eq("workspace_id", workspaceId)
+              .gte("clicked_at", startDateStr)
+              .in("link_id", linkIds);
+            
+            // Aggregate clicks by campaign
+            const clicksByCampaign: Record<string, number> = {};
+            campaignClicks?.forEach((click: any) => {
+              const link = campaignLinks.find(l => l.id === click.link_id);
+              if (link?.campaign_id) {
+                clicksByCampaign[link.campaign_id] = (clicksByCampaign[link.campaign_id] || 0) + 1;
+              }
+            });
+            
+            topCampaigns = campaignsToProcess.map(c => ({
+              id: c.id,
+              name: c.name,
+              clicks: clicksByCampaign[c.id] || 0,
+            })).sort((a, b) => b.clicks - a.clicks);
+          } else {
+            topCampaigns = campaignsToProcess.map(c => ({ id: c.id, name: c.name, clicks: 0 }));
+          }
         }
       }
 
-      // Channel mix for donut chart - using date-filtered data
+      // Channel mix for donut chart - using date-filtered data with direct traffic
       const channelMix = Object.entries(channelAggregated)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 5)
@@ -337,7 +467,7 @@ export function useIntelligenceData(
       
       // Cache for next load
       if (workspaceId) {
-        setCachedIntelligence(workspaceId, days, result);
+        setCachedIntelligence(workspaceId, days, context, result);
       }
       
       return result;

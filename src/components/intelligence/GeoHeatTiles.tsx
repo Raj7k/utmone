@@ -5,10 +5,12 @@ import { Globe, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
+import { IntelligenceContext } from "./ContextSwitcher";
 
 interface GeoHeatTilesProps {
   workspaceId?: string;
   days: number;
+  context?: IntelligenceContext;
   preloadedData?: Array<{ city: string; country: string; clicks: number; percentage: number }>;
 }
 
@@ -23,9 +25,9 @@ interface CityData {
 const CACHE_KEY = 'geo-heat-cache';
 const CACHE_EXPIRY = 2 * 60 * 1000; // 2 minutes
 
-function getCached(workspaceId: string, days: number): CityData[] | undefined {
+function getCached(workspaceId: string, days: number, context: string): CityData[] | undefined {
   try {
-    const cached = localStorage.getItem(CACHE_KEY);
+    const cached = localStorage.getItem(`${CACHE_KEY}-${context}`);
     if (!cached) return undefined;
     const { data, timestamp, wid, d } = JSON.parse(cached);
     if (wid !== workspaceId || d !== days) return undefined;
@@ -36,9 +38,9 @@ function getCached(workspaceId: string, days: number): CityData[] | undefined {
   }
 }
 
-function setCache(workspaceId: string, days: number, data: CityData[]) {
+function setCache(workspaceId: string, days: number, context: string, data: CityData[]) {
   try {
-    localStorage.setItem(CACHE_KEY, JSON.stringify({
+    localStorage.setItem(`${CACHE_KEY}-${context}`, JSON.stringify({
       data,
       timestamp: Date.now(),
       wid: workspaceId,
@@ -47,11 +49,11 @@ function setCache(workspaceId: string, days: number, data: CityData[]) {
   } catch {}
 }
 
-export default function GeoHeatTiles({ workspaceId, days, preloadedData }: GeoHeatTilesProps) {
+export default function GeoHeatTiles({ workspaceId, days, context = "all", preloadedData }: GeoHeatTilesProps) {
   const hasPreloadedData = !!preloadedData && preloadedData.length > 0;
 
   const { data, isFetching } = useQuery({
-    queryKey: ["geo-heat", workspaceId, days],
+    queryKey: ["geo-heat", workspaceId, days, context],
     queryFn: async () => {
       if (!workspaceId) return [];
 
@@ -91,10 +93,10 @@ export default function GeoHeatTiles({ workspaceId, days, preloadedData }: GeoHe
           percentage: total > 0 ? (data.count / total) * 100 : 0,
         }));
 
-      if (workspaceId) setCache(workspaceId, days, cities);
+      if (workspaceId) setCache(workspaceId, days, context, cities);
       return cities;
     },
-    initialData: () => workspaceId ? getCached(workspaceId, days) : undefined,
+    initialData: () => workspaceId ? getCached(workspaceId, days, context) : undefined,
     enabled: !!workspaceId && !hasPreloadedData,
     staleTime: 2 * 60 * 1000,
     refetchOnMount: false,
