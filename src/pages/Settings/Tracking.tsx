@@ -12,9 +12,12 @@ import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { PixelDebugger } from "@/components/tracking/PixelDebugger";
 import { EmailToDeveloperModal } from "@/components/tracking/EmailToDeveloperModal";
 import { InstallationMethodDecider } from "@/components/tracking/InstallationMethodDecider";
+import InstallationFlowAnimation from "@/components/tracking/InstallationFlowAnimation";
+import PlatformInstallGuide from "@/components/tracking/PlatformInstallGuide";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 export const Tracking = () => {
   const { toast } = useToast();
@@ -403,6 +406,18 @@ window.utmone('track', 'purchase', { revenue: order.total });`;
       {/* Event Type Quick Reference */}
       <EventTypeQuickReference />
 
+      {/* Data Flow Animation */}
+      <Card className="p-6">
+        <div className="flex items-center gap-2 mb-4">
+          <TrendingUp className="h-5 w-5 text-primary" />
+          <h3 className="text-title-3 font-semibold heading">how the tracking pixel works</h3>
+        </div>
+        <p className="text-sm text-secondary-label mb-4">
+          once installed, the pixel automatically captures visitor journeys and connects them to revenue
+        </p>
+        <InstallationFlowAnimation className="h-[180px]" />
+      </Card>
+
       {/* Platform-Specific Guides */}
       <Card className="p-6">
         <div className="flex items-center justify-between mb-4">
@@ -413,84 +428,137 @@ window.utmone('track', 'purchase', { revenue: order.total });`;
           <EmailToDeveloperModal />
         </div>
 
-        <Tabs defaultValue={selectedMethod === 'gtm' ? 'gtm' : 'direct'} className="w-full">
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="direct">Direct</TabsTrigger>
-            <TabsTrigger value="wordpress">WordPress</TabsTrigger>
-            <TabsTrigger value="shopify">Shopify</TabsTrigger>
-            <TabsTrigger value="react">React/Next.js</TabsTrigger>
-            <TabsTrigger value="gtm">Via GTM</TabsTrigger>
-          </TabsList>
+        <Tabs defaultValue={selectedMethod === 'gtm' ? 'gtm' : 'wordpress'} className="w-full">
+          <ScrollArea className="w-full whitespace-nowrap">
+            <TabsList className="inline-flex w-max">
+              <TabsTrigger value="wordpress">WordPress</TabsTrigger>
+              <TabsTrigger value="shopify">Shopify</TabsTrigger>
+              <TabsTrigger value="wix">Wix</TabsTrigger>
+              <TabsTrigger value="squarespace">Squarespace</TabsTrigger>
+              <TabsTrigger value="webflow">Webflow</TabsTrigger>
+              <TabsTrigger value="gtm">GTM</TabsTrigger>
+              <TabsTrigger value="react">React</TabsTrigger>
+              <TabsTrigger value="html">HTML</TabsTrigger>
+            </TabsList>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
 
-          <TabsContent value="direct" className="mt-4">
-            <div className="mb-3 p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
-              <p className="text-sm text-blue-800 dark:text-blue-200">
-                <strong>recommended for most users.</strong> paste this code in your website's &lt;head&gt; tag, just before the closing &lt;/head&gt;.
-              </p>
-            </div>
-            <div className="relative">
-              <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-xs font-mono max-h-64">
-                <code>{baseSnippet}</code>
-              </pre>
-              <Button
-                variant="outline"
-                size="sm"
-                className="absolute top-2 right-2"
-                onClick={() => copyToClipboard(baseSnippet, 'Direct snippet')}
-              >
-                {copied === 'Direct snippet' ? <CheckCircle2 className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-              </Button>
-            </div>
-          </TabsContent>
-
+          {/* WordPress */}
           <TabsContent value="wordpress" className="mt-4">
-            <div className="relative">
-              <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-xs font-mono max-h-64">
-                <code>{wordpressSnippet}</code>
-              </pre>
-              <Button
-                variant="outline"
-                size="sm"
-                className="absolute top-2 right-2"
-                onClick={() => copyToClipboard(wordpressSnippet, 'WordPress snippet')}
-              >
-                {copied === 'WordPress snippet' ? <CheckCircle2 className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-              </Button>
-            </div>
+            <PlatformInstallGuide platform="wordpress" pixelId={pixelId} />
+            <details className="mt-4">
+              <summary className="text-sm text-muted-foreground cursor-pointer hover:text-foreground">
+                Show raw code snippet
+              </summary>
+              <div className="relative mt-2">
+                <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-xs font-mono max-h-64">
+                  <code>{wordpressSnippet}</code>
+                </pre>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="absolute top-2 right-2"
+                  onClick={() => copyToClipboard(wordpressSnippet, 'WordPress snippet')}
+                >
+                  {copied === 'WordPress snippet' ? <CheckCircle2 className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                </Button>
+              </div>
+            </details>
           </TabsContent>
 
+          {/* Shopify */}
           <TabsContent value="shopify" className="mt-4">
-            <div className="relative">
-              <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-xs font-mono max-h-64">
-                <code>{shopifySnippet}</code>
-              </pre>
-              <Button
-                variant="outline"
-                size="sm"
-                className="absolute top-2 right-2"
-                onClick={() => copyToClipboard(shopifySnippet, 'Shopify snippet')}
-              >
-                {copied === 'Shopify snippet' ? <CheckCircle2 className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-              </Button>
-            </div>
+            <PlatformInstallGuide platform="shopify" pixelId={pixelId} />
+            <details className="mt-4">
+              <summary className="text-sm text-muted-foreground cursor-pointer hover:text-foreground">
+                Show raw code snippet
+              </summary>
+              <div className="relative mt-2">
+                <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-xs font-mono max-h-64">
+                  <code>{shopifySnippet}</code>
+                </pre>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="absolute top-2 right-2"
+                  onClick={() => copyToClipboard(shopifySnippet, 'Shopify snippet')}
+                >
+                  {copied === 'Shopify snippet' ? <CheckCircle2 className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                </Button>
+              </div>
+            </details>
           </TabsContent>
 
-          <TabsContent value="react" className="mt-4">
-            <div className="relative">
-              <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-xs font-mono max-h-64">
-                <code>{reactSnippet}</code>
-              </pre>
-              <Button
-                variant="outline"
-                size="sm"
-                className="absolute top-2 right-2"
-                onClick={() => copyToClipboard(reactSnippet, 'React snippet')}
-              >
-                {copied === 'React snippet' ? <CheckCircle2 className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-              </Button>
-            </div>
+          {/* Wix */}
+          <TabsContent value="wix" className="mt-4">
+            <PlatformInstallGuide platform="wix" pixelId={pixelId} />
+            <details className="mt-4">
+              <summary className="text-sm text-muted-foreground cursor-pointer hover:text-foreground">
+                Show raw code snippet
+              </summary>
+              <div className="relative mt-2">
+                <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-xs font-mono max-h-64">
+                  <code>{baseSnippet}</code>
+                </pre>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="absolute top-2 right-2"
+                  onClick={() => copyToClipboard(baseSnippet, 'Wix snippet')}
+                >
+                  {copied === 'Wix snippet' ? <CheckCircle2 className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                </Button>
+              </div>
+            </details>
           </TabsContent>
 
+          {/* Squarespace */}
+          <TabsContent value="squarespace" className="mt-4">
+            <PlatformInstallGuide platform="squarespace" pixelId={pixelId} />
+            <details className="mt-4">
+              <summary className="text-sm text-muted-foreground cursor-pointer hover:text-foreground">
+                Show raw code snippet
+              </summary>
+              <div className="relative mt-2">
+                <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-xs font-mono max-h-64">
+                  <code>{baseSnippet}</code>
+                </pre>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="absolute top-2 right-2"
+                  onClick={() => copyToClipboard(baseSnippet, 'Squarespace snippet')}
+                >
+                  {copied === 'Squarespace snippet' ? <CheckCircle2 className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                </Button>
+              </div>
+            </details>
+          </TabsContent>
+
+          {/* Webflow */}
+          <TabsContent value="webflow" className="mt-4">
+            <PlatformInstallGuide platform="webflow" pixelId={pixelId} />
+            <details className="mt-4">
+              <summary className="text-sm text-muted-foreground cursor-pointer hover:text-foreground">
+                Show raw code snippet
+              </summary>
+              <div className="relative mt-2">
+                <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-xs font-mono max-h-64">
+                  <code>{baseSnippet}</code>
+                </pre>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="absolute top-2 right-2"
+                  onClick={() => copyToClipboard(baseSnippet, 'Webflow snippet')}
+                >
+                  {copied === 'Webflow snippet' ? <CheckCircle2 className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                </Button>
+              </div>
+            </details>
+          </TabsContent>
+
+          {/* GTM */}
           <TabsContent value="gtm" className="mt-4">
             {/* GTM Clarification */}
             <div className="mb-3 p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
@@ -498,7 +566,7 @@ window.utmone('track', 'purchase', { revenue: order.total });`;
                 <strong>this installs the utm.one tracking pixel via google tag manager.</strong>
               </p>
               <p className="text-xs text-blue-700 dark:text-blue-300">
-                if you're already using GTM on your website, this is the recommended method. the pixel will be deployed through your GTM container.
+                if you're already using GTM on your website, this is the recommended method.
               </p>
             </div>
             
@@ -507,24 +575,76 @@ window.utmone('track', 'purchase', { revenue: order.total });`;
               <div className="flex items-start gap-2">
                 <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
                 <p className="text-xs text-amber-800 dark:text-amber-200">
-                  <strong>do NOT install both</strong> the GTM version AND the direct &lt;head&gt; version – choose one method only to avoid duplicate tracking.
+                  <strong>do NOT install both</strong> GTM AND direct – choose one method only.
                 </p>
               </div>
             </div>
 
-            <div className="relative">
-              <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-xs font-mono max-h-64">
-                <code>{gtmSnippet}</code>
-              </pre>
-              <Button
-                variant="outline"
-                size="sm"
-                className="absolute top-2 right-2"
-                onClick={() => copyToClipboard(gtmSnippet, 'GTM snippet')}
-              >
-                {copied === 'GTM snippet' ? <CheckCircle2 className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-              </Button>
-            </div>
+            <PlatformInstallGuide platform="gtm" pixelId={pixelId} />
+            <details className="mt-4">
+              <summary className="text-sm text-muted-foreground cursor-pointer hover:text-foreground">
+                Show raw code snippet
+              </summary>
+              <div className="relative mt-2">
+                <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-xs font-mono max-h-64">
+                  <code>{gtmSnippet}</code>
+                </pre>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="absolute top-2 right-2"
+                  onClick={() => copyToClipboard(gtmSnippet, 'GTM snippet')}
+                >
+                  {copied === 'GTM snippet' ? <CheckCircle2 className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                </Button>
+              </div>
+            </details>
+          </TabsContent>
+
+          {/* React */}
+          <TabsContent value="react" className="mt-4">
+            <PlatformInstallGuide platform="react" pixelId={pixelId} />
+            <details className="mt-4">
+              <summary className="text-sm text-muted-foreground cursor-pointer hover:text-foreground">
+                Show raw code snippet
+              </summary>
+              <div className="relative mt-2">
+                <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-xs font-mono max-h-64">
+                  <code>{reactSnippet}</code>
+                </pre>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="absolute top-2 right-2"
+                  onClick={() => copyToClipboard(reactSnippet, 'React snippet')}
+                >
+                  {copied === 'React snippet' ? <CheckCircle2 className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                </Button>
+              </div>
+            </details>
+          </TabsContent>
+
+          {/* HTML */}
+          <TabsContent value="html" className="mt-4">
+            <PlatformInstallGuide platform="html" pixelId={pixelId} />
+            <details className="mt-4">
+              <summary className="text-sm text-muted-foreground cursor-pointer hover:text-foreground">
+                Show raw code snippet
+              </summary>
+              <div className="relative mt-2">
+                <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-xs font-mono max-h-64">
+                  <code>{baseSnippet}</code>
+                </pre>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="absolute top-2 right-2"
+                  onClick={() => copyToClipboard(baseSnippet, 'HTML snippet')}
+                >
+                  {copied === 'HTML snippet' ? <CheckCircle2 className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                </Button>
+              </div>
+            </details>
           </TabsContent>
         </Tabs>
       </Card>
