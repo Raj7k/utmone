@@ -150,7 +150,7 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" role="form" aria-label="Link details form">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 pb-24" role="form" aria-label="Link details form">
       {/* URLs Section */}
       <Card>
         <CardHeader>
