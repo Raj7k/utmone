@@ -1,15 +1,13 @@
 import { Link } from "react-router-dom";
 import { ExternalLink, MousePointer, Clock } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { DashboardLink } from "@/hooks/dashboard";
 
 interface ActivityFeedProps {
   links?: DashboardLink[];
-  isLoading?: boolean;
 }
 
-export const ActivityFeed = ({ links, isLoading }: ActivityFeedProps) => {
+export const ActivityFeed = ({ links }: ActivityFeedProps) => {
   const getExpiryStatus = (expiresAt: string | null | undefined) => {
     if (!expiresAt) return null;
     const expiry = new Date(expiresAt);
@@ -21,18 +19,6 @@ export const ActivityFeed = ({ links, isLoading }: ActivityFeedProps) => {
     return null;
   };
 
-  if (isLoading) {
-    return (
-      <div className="bg-card rounded-2xl border border-border p-6">
-        <h3 className="text-lg font-semibold mb-4">recent activity</h3>
-        <div className="space-y-3">
-          {[...Array(5)].map((_, i) => (
-            <Skeleton key={i} className="h-16 w-full rounded-xl" />
-          ))}
-        </div>
-      </div>
-    );
-  }
 
   // Use first 5 links as recent activity
   const recentLinks = links?.slice(0, 5) || [];

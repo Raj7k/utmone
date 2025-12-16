@@ -17,7 +17,6 @@ import EventImpactRow from "@/components/intelligence/EventImpactRow";
 import ChannelMixDonut from "@/components/intelligence/ChannelMixDonut";
 import GeoHeatTiles from "@/components/intelligence/GeoHeatTiles";
 import { LazySection } from "@/components/loading/LazySection";
-import { Skeleton } from "@/components/ui/skeleton";
 
 // Lazy load LiveActivityRail - only visible on desktop, below fold
 const LiveActivityRail = lazy(() => import("@/components/intelligence/LiveActivityRail"));
@@ -286,10 +285,10 @@ export default function Intelligence() {
           <div className="hidden xl:block w-80 shrink-0">
             <div className="sticky top-6">
               <LazySection 
-                fallback={<Skeleton className="h-96 rounded-xl" />}
+                fallback={<DashboardContentLoader context="intelligence" minHeight="24rem" />}
                 rootMargin="100px"
               >
-                <Suspense fallback={<Skeleton className="h-96 rounded-xl" />}>
+                <Suspense fallback={<DashboardContentLoader context="intelligence" minHeight="24rem" />}>
                   <LiveActivityRail 
                     workspaceId={currentWorkspace?.id}
                     preloadedClicks={intelligenceData.recentClicks}
