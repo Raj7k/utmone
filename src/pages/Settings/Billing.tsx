@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { trackRevenue } from "@/hooks/useUtmOneTracking";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -135,6 +136,12 @@ export default function BillingSettings() {
     onSuccess: async (newPlanTier) => {
       await queryClient.invalidateQueries({ queryKey: ["plan-limits"] });
       await queryClient.invalidateQueries({ queryKey: ["client-workspaces"] });
+      
+      // 🎯 Track revenue for utm.one attribution
+      const planPrice = PLAN_CONFIG[newPlanTier].price;
+      if (typeof planPrice === 'number' && planPrice > 0) {
+        trackRevenue(newPlanTier, planPrice);
+      }
       
       await new Promise(resolve => setTimeout(resolve, 500));
       

@@ -16,6 +16,7 @@ import { CleanAuthLayout } from "@/components/layout/CleanAuthLayout";
 import { EmailConfirmationScreen } from "@/components/auth/EmailConfirmationScreen";
 import { SmartEmailInput } from "@/components/ui/smart-email-input";
 import { validateEmailSmart } from "@/lib/emailValidator";
+import { identifyUser } from "@/hooks/useUtmOneTracking";
 
 // Value proposition badges
 const VALUE_PROPS = [
@@ -114,6 +115,12 @@ const Signup = () => {
       if (event === "SIGNED_IN" && session) {
         setIsAuthenticating(true);
         hasNavigated.current = true;
+        
+        // 🎯 Identify user for cross-device attribution
+        identifyUser(
+          session.user.email || '', 
+          session.user.user_metadata?.full_name
+        );
         
         try {
           // Handle invite token flow
