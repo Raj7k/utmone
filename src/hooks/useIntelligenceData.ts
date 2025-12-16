@@ -181,9 +181,9 @@ export function useIntelligenceData(
           .limit(10),
       ]);
 
-      // Use preloaded clicks or fetch if not available
-      let totalClicks = preloadedClicks ?? 0;
-      if (preloadedClicks === undefined) {
+      // Use preloaded clicks or fetch if not available (also fetch if 0 to ensure accuracy)
+      let totalClicks = 0;
+      if (preloadedClicks === undefined || preloadedClicks === 0) {
         const clickCountResult = await supabase
           .from("link_clicks")
           .select("*", { count: "exact", head: true })
