@@ -9,7 +9,6 @@ import {
   Link2,
   BarChart3,
   DollarSign,
-  CalendarDays,
   Clock,
   QrCode,
   Target,
@@ -44,7 +43,6 @@ const coreNavigation: NavItem[] = [
   { name: "Links", href: "/dashboard/links", icon: Link2, tourId: "nav-links" },
   { name: "Intelligence", href: "/dashboard/intelligence", icon: BarChart3, tourId: "nav-intelligence" },
   { name: "Sales", href: "/dashboard/sales", icon: DollarSign, tourId: "nav-sales" },
-  { name: "Events", href: "/dashboard/events", icon: CalendarDays, isNew: true, tourId: "nav-events" },
   { name: "Approvals", href: "/dashboard/approvals", icon: Clock, badge: true },
 ];
 
@@ -116,7 +114,7 @@ export const ExpandedSidebar = () => {
   const location = useLocation();
   const { currentWorkspace } = useWorkspaceContext();
   const { toggleSidebar, openSearch } = useSidebar();
-  const { prefetchLinks, prefetchIntelligence, prefetchSales, prefetchEvents, prefetchDashboard, prefetchQRCodes, prefetchAnalytics, prefetchCampaigns, prefetchSettings } = useDashboardPrefetch();
+  const { prefetchLinks, prefetchIntelligence, prefetchSales, prefetchDashboard, prefetchQRCodes, prefetchAnalytics, prefetchCampaigns, prefetchSettings } = useDashboardPrefetch();
   
   const [visitedFeatures, setVisitedFeatures] = useState<string[]>(() => {
     const stored = localStorage.getItem('visited_features');
@@ -155,8 +153,6 @@ export const ExpandedSidebar = () => {
         return prefetchIntelligence;
       case "/dashboard/sales":
         return prefetchSales;
-      case "/dashboard/events":
-        return prefetchEvents;
       case "/dashboard/qr-codes":
         return prefetchQRCodes;
       case "/dashboard/analytics":
@@ -168,7 +164,7 @@ export const ExpandedSidebar = () => {
       default:
         return undefined;
     }
-  }, [prefetchLinks, prefetchIntelligence, prefetchSales, prefetchEvents, prefetchDashboard, prefetchQRCodes, prefetchAnalytics, prefetchCampaigns, prefetchSettings]);
+  }, [prefetchLinks, prefetchIntelligence, prefetchSales, prefetchDashboard, prefetchQRCodes, prefetchAnalytics, prefetchCampaigns, prefetchSettings]);
 
   const openFeedback = useCallback(() => {
     const feedbackTrigger = document.querySelector('.feedback-widget-trigger') as HTMLButtonElement;
