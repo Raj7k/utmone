@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Link2, QrCode, BarChart3, Calendar, DollarSign, LucideIcon } from "lucide-react";
+import { Link2, QrCode, BarChart3, DollarSign, LucideIcon } from "lucide-react";
 
 interface QuickAction {
   id: string;
@@ -44,20 +44,12 @@ const quickActions: QuickAction[] = [
     shortcut: '3',
   },
   {
-    id: 'events',
-    icon: Calendar,
-    label: 'event halo',
-    description: 'track field events',
-    href: '/dashboard/events',
-    shortcut: '4',
-  },
-  {
     id: 'sales',
     icon: DollarSign,
     label: 'sales',
     description: 'revenue tracking',
     href: '/dashboard/sales',
-    shortcut: '5',
+    shortcut: '4',
   },
 ];
 

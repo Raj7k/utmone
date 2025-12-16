@@ -5,7 +5,6 @@ import {
   Link2, 
   BarChart3, 
   Users, 
-  Calendar, 
   QrCode, 
   Target, 
   Settings,
@@ -26,7 +25,6 @@ const primaryNav = [
   { name: "Links", href: "/dashboard/links", icon: Link2 },
   { name: "Intelligence", href: "/dashboard/analytics", icon: BarChart3 },
   { name: "Sales", href: "/dashboard/sales", icon: Users },
-  { name: "Events", href: "/dashboard/events", icon: Calendar },
 ];
 
 const secondaryNav = [

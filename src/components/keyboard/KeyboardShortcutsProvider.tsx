@@ -87,7 +87,7 @@ export const KeyboardShortcutsProvider = ({ children, onCreateLink }: KeyboardSh
         return;
       }
 
-      // Number shortcuts for quick navigation (⌘+1 through ⌘+5)
+      // Number shortcuts for quick navigation (⌘+1 through ⌘+4)
       if (modKey && !e.shiftKey && !e.altKey) {
         switch (e.key) {
           case '1':
@@ -103,10 +103,6 @@ export const KeyboardShortcutsProvider = ({ children, onCreateLink }: KeyboardSh
             navigate('/dashboard/intelligence');
             break;
           case '4':
-            e.preventDefault();
-            navigate('/dashboard/events');
-            break;
-          case '5':
             e.preventDefault();
             navigate('/dashboard/sales');
             break;

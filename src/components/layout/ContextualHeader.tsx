@@ -21,7 +21,6 @@ const getPageMeta = (pathname: string): PageMeta => {
     '/dashboard/qr-codes': { title: 'QR codes', subtitle: 'generate branded codes' },
     '/dashboard/intelligence': { title: 'intelligence', subtitle: 'analytics & attribution' },
     '/dashboard/sales': { title: 'sales', subtitle: 'track prospect engagement' },
-    '/dashboard/events': { title: 'events', subtitle: 'field marketing attribution' },
     '/dashboard/campaigns': { title: 'campaigns', subtitle: 'organize your marketing' },
     '/dashboard/experiments': { title: 'the lab', subtitle: 'A/B testing' },
     '/dashboard/targeting': { title: 'geo targeting', subtitle: 'location-based routing' },

@@ -36,7 +36,6 @@ export const CollapsedSidebar = () => {
     prefetchLinks, 
     prefetchIntelligence, 
     prefetchSales, 
-    prefetchEvents, 
     prefetchDashboard, 
     prefetchQRCodes,
     prefetchAnalytics,
@@ -76,8 +75,6 @@ export const CollapsedSidebar = () => {
         return prefetchIntelligence;
       case "/dashboard/sales":
         return prefetchSales;
-      case "/dashboard/events":
-        return prefetchEvents;
       case "/dashboard/qr-codes":
         return prefetchQRCodes;
       case "/dashboard/analytics":
@@ -89,7 +86,7 @@ export const CollapsedSidebar = () => {
       default:
         return undefined;
     }
-  }, [prefetchLinks, prefetchIntelligence, prefetchSales, prefetchEvents, prefetchDashboard, prefetchQRCodes, prefetchAnalytics, prefetchCampaigns, prefetchSettings]);
+  }, [prefetchLinks, prefetchIntelligence, prefetchSales, prefetchDashboard, prefetchQRCodes, prefetchAnalytics, prefetchCampaigns, prefetchSettings]);
 
   const getInitials = (name: string | null) => {
     if (!name) return "U";
