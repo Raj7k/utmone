@@ -22,7 +22,7 @@ import { MainLayout } from "@/components/layout/MainLayout";
 const ScrollProgressBar = lazy(() => import("@/components/landing/ScrollProgressBar").then(m => ({ default: m.ScrollProgressBar })));
 
 // Lazy load heavy landing components
-const ControlDeckHero = lazy(() => import("@/components/landing/ControlDeckHero").then(m => ({ default: m.ControlDeckHero })));
+const ControlDeckHero = lazy(() => import("@/components/landing/ControlDeckHeroCSS").then(m => ({ default: m.ControlDeckHeroCSS })));
 const OmniDemo = lazy(() => import("@/components/landing/OmniDemo").then(m => ({ default: m.default })));
 const AuthorityToolsStrip = lazy(() => import("@/components/landing/AuthorityToolsStrip").then(m => ({ default: m.AuthorityToolsStrip })));
 const TransparencyStrip = lazy(() => import("@/components/landing/TransparencyStrip").then(m => ({ default: m.TransparencyStrip })));
