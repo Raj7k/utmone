@@ -1,5 +1,4 @@
 import { Link, useLocation } from "react-router-dom";
-import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { announcements } from "@/lib/announcementConfig";
@@ -41,17 +40,21 @@ export const Navigation = () => {
   const [hideNav, setHideNav] = useState(false);
   const [announcementVisible, setAnnouncementVisible] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { scrollYProgress } = useScroll();
+  const [scrollProgress, setScrollProgress] = useState(0);
   const location = useLocation();
-  
-  const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-      setHideNav(window.scrollY > 600);
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0;
+      
+      setScrollProgress(progress);
+      setIsScrolled(scrollTop > 20);
+      setHideNav(scrollTop > 600);
     };
-    window.addEventListener("scroll", handleScroll);
+    
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -89,10 +92,10 @@ export const Navigation = () => {
           isScrolled ? 'scale-95' : 'scale-100'
         )}
       >
-        {/* Scroll Progress Bar */}
-        <motion.div
-          className="absolute bottom-0 left-0 h-[2px] origin-left rounded-full bg-gradient-to-r from-white/30 via-white/60 to-white/30"
-          style={{ width: progressWidth }}
+        {/* Scroll Progress Bar - CSS only */}
+        <div
+          className="absolute bottom-0 left-0 h-[2px] origin-left rounded-full bg-gradient-to-r from-white/30 via-white/60 to-white/30 transition-transform duration-100 ease-out"
+          style={{ transform: `scaleX(${scrollProgress})` }}
         />
         
         {/* Logo */}
