@@ -1,6 +1,6 @@
-import { motion, useScroll, useTransform } from "framer-motion";
 import { ProductMockup } from "@/components/product/ProductMockup";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
+import { interpolate, useInView } from "@/lib/cssScrollUtils";
 
 const layers = [
   {
@@ -37,70 +37,104 @@ const layers = [
 
 export const LinkLayersSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"]
-  });
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const rafRef = useRef<number>();
+  const { ref: headerRef, inView: headerInView } = useInView({ once: true });
+  const { ref: footerRef, inView: footerInView } = useInView({ once: true });
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const handleScroll = () => {
+      if (rafRef.current) return;
+      
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = undefined;
+        
+        const rect = section.getBoundingClientRect();
+        const sectionHeight = rect.height;
+        const viewportHeight = window.innerHeight;
+        
+        const scrollableDistance = sectionHeight - viewportHeight;
+        const scrolled = -rect.top;
+        const progress = Math.max(0, Math.min(1, scrolled / scrollableDistance));
+        
+        setScrollProgress(progress);
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, []);
 
   return (
     <section ref={sectionRef} className="relative py-12 md:py-16 bg-white/[0.02]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label mb-4 md:mb-6"
+          <h2
+            ref={headerRef}
+            className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label mb-4 md:mb-6 transition-all duration-500 ${
+              headerInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            }`}
           >
             one link. five layers.
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-base sm:text-lg md:text-xl text-secondary-label max-w-2xl mx-auto px-2"
+          </h2>
+          <p
+            className={`text-base sm:text-lg md:text-xl text-secondary-label max-w-2xl mx-auto px-2 transition-all duration-500 delay-100 ${
+              headerInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            }`}
           >
             Most tools shorten. utm.one structures.
-          </motion.p>
+          </p>
         </div>
 
-        {/* Mobile: Simple stacked cards | Desktop: Stacking scroll animation */}
+        {/* Mobile: Simple stacked cards */}
         <div className="lg:hidden space-y-4">
-          {layers.map((layer, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="rounded-2xl p-6 shadow-sm bg-zinc-900/40 backdrop-blur-xl border border-white-08"
-            >
-              <div className="flex flex-col gap-4">
-                {/* Number Badge */}
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full self-start bg-white/5 border border-white-10">
-                  <span className="text-sm font-display font-bold text-white-90">
-                    {layer.number}/5
-                  </span>
-                </div>
-                
-                <h3 className="text-xl sm:text-2xl font-display font-bold text-label">
-                  {layer.headline}
-                </h3>
-                
-                <p className="text-sm sm:text-base text-secondary-label leading-relaxed">
-                  {layer.description}
-                </p>
+          {layers.map((layer, index) => {
+            const { ref, inView } = useInView({ once: true, margin: "-50px" });
+            
+            return (
+              <div
+                key={index}
+                ref={ref}
+                className={`rounded-2xl p-6 shadow-sm bg-zinc-900/40 backdrop-blur-xl border border-white-08 transition-all duration-500 ${
+                  inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+                }`}
+                style={{ transitionDelay: `${index * 100}ms` }}
+              >
+                <div className="flex flex-col gap-4">
+                  {/* Number Badge */}
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full self-start bg-white/5 border border-white-10">
+                    <span className="text-sm font-display font-bold text-white-90">
+                      {layer.number}/5
+                    </span>
+                  </div>
+                  
+                  <h3 className="text-xl sm:text-2xl font-display font-bold text-label">
+                    {layer.headline}
+                  </h3>
+                  
+                  <p className="text-sm sm:text-base text-secondary-label leading-relaxed">
+                    {layer.description}
+                  </p>
 
-                {/* Mockup - Centered and scaled for mobile */}
-                <div className="flex items-center justify-center mt-2">
-                  <ProductMockup type={layer.mockupType} delay={0} size="default" />
+                  {/* Mockup - Centered and scaled for mobile */}
+                  <div className="flex items-center justify-center mt-2">
+                    <ProductMockup type={layer.mockupType} delay={0} size="default" />
+                  </div>
                 </div>
               </div>
-            </motion.div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Desktop: Stacking Cards */}
@@ -112,20 +146,20 @@ export const LinkLayersSection = () => {
             const exitStart = startProgress + segmentSize - 0.04;
             const exitEnd = startProgress + segmentSize;
             
-            const y = useTransform(
-              scrollYProgress,
+            const y = interpolate(
+              scrollProgress,
               [startProgress, midProgress, exitStart, exitEnd],
               [500, 0, 0, 0]
             );
             
-            const scale = useTransform(
-              scrollYProgress,
+            const scale = interpolate(
+              scrollProgress,
               [startProgress, midProgress - 0.02, exitStart, exitEnd],
               [0.95, 1, 1, 0.92]
             );
             
-            const opacity = useTransform(
-              scrollYProgress,
+            const opacity = interpolate(
+              scrollProgress,
               [startProgress, startProgress + 0.04, exitStart, exitEnd],
               [0, 1, 1, 0]
             );
@@ -133,14 +167,14 @@ export const LinkLayersSection = () => {
             const isEven = index % 2 === 0;
             
             return (
-              <motion.div
+              <div
                 key={index}
                 style={{ 
-                  y, 
-                  scale, 
-                  opacity, 
+                  transform: `translateY(${y}px) scale(${scale})`,
+                  opacity,
                   zIndex: 10 + index, 
                   willChange: 'transform, opacity',
+                  transition: 'transform 0.05s linear, opacity 0.05s linear',
                 }}
                 className="sticky top-20 rounded-3xl p-8 lg:p-12 xl:p-20 shadow-2xl min-h-[550px] lg:min-h-[650px] bg-zinc-900/60 backdrop-blur-xl border-2 border-white-10"
               >
@@ -167,23 +201,22 @@ export const LinkLayersSection = () => {
                     <ProductMockup type={layer.mockupType} delay={0} size="large" />
                   </div>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>
 
         {/* Footer */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mt-12 lg:mt-16"
+        <div
+          ref={footerRef}
+          className={`text-center mt-12 lg:mt-16 transition-all duration-500 ${
+            footerInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
         >
           <p className="text-lg sm:text-xl lg:text-2xl text-label font-display font-semibold">
             every link tells the full story.
           </p>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

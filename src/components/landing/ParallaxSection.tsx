@@ -1,5 +1,5 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ReactNode, useRef } from "react";
+import { ReactNode } from "react";
+import { useParallaxScroll } from "@/lib/cssScrollUtils";
 
 interface ParallaxSectionProps {
   children: ReactNode;
@@ -12,19 +12,18 @@ export const ParallaxSection = ({
   className = "",
   speed = 0.5 
 }: ParallaxSectionProps) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"]
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], [0, -50 * speed]);
+  const { ref, y } = useParallaxScroll(speed);
 
   return (
     <div ref={ref} className={className}>
-      <motion.div style={{ y }}>
+      <div 
+        style={{ 
+          transform: `translateY(${y}px)`,
+          willChange: 'transform',
+        }}
+      >
         {children}
-      </motion.div>
+      </div>
     </div>
   );
 };

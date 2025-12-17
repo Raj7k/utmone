@@ -1,6 +1,6 @@
-import { motion, useScroll, useTransform } from "framer-motion";
 import { ProductMockup } from "@/components/product/ProductMockup";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
+import { interpolate, useInView } from "@/lib/cssScrollUtils";
 
 const engines = [
   {
@@ -28,10 +28,43 @@ const engines = [
 
 export const EnginesStackingSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"]
-  });
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const rafRef = useRef<number>();
+  const { ref: headerRef, inView: headerInView } = useInView({ once: true });
+  const { ref: footerRef, inView: footerInView } = useInView({ once: true });
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const handleScroll = () => {
+      if (rafRef.current) return;
+      
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = undefined;
+        
+        const rect = section.getBoundingClientRect();
+        const sectionHeight = rect.height;
+        const viewportHeight = window.innerHeight;
+        
+        const scrollableDistance = sectionHeight - viewportHeight;
+        const scrolled = -rect.top;
+        const progress = Math.max(0, Math.min(1, scrolled / scrollableDistance));
+        
+        setScrollProgress(progress);
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, []);
 
   return (
     <section 
@@ -41,24 +74,21 @@ export const EnginesStackingSection = () => {
       <div className="max-w-7xl mx-auto px-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-white"
+          <h2
+            ref={headerRef}
+            className={`text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-white transition-all duration-500 ${
+              headerInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            }`}
           >
             the three engines
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-xl max-w-2xl mx-auto text-white/60"
+          </h2>
+          <p
+            className={`text-xl max-w-2xl mx-auto text-white/60 transition-all duration-500 delay-100 ${
+              headerInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            }`}
           >
             visitor memory • intelligent attribution • page value scoring
-          </motion.p>
+          </p>
         </div>
 
         {/* Stacking Cards */}
@@ -70,20 +100,20 @@ export const EnginesStackingSection = () => {
             const exitStart = startProgress + segmentSize - 0.05;
             const exitEnd = startProgress + segmentSize;
             
-            const y = useTransform(
-              scrollYProgress,
+            const y = interpolate(
+              scrollProgress,
               [startProgress, midProgress, exitStart, exitEnd],
               [500, 0, 0, 0]
             );
             
-            const scale = useTransform(
-              scrollYProgress,
+            const scale = interpolate(
+              scrollProgress,
               [startProgress, midProgress - 0.02, exitStart, exitEnd],
               [0.95, 1, 1, 0.92]
             );
             
-            const opacity = useTransform(
-              scrollYProgress,
+            const opacity = interpolate(
+              scrollProgress,
               [startProgress, startProgress + 0.04, exitStart, exitEnd],
               [0, 1, 1, 0]
             );
@@ -91,14 +121,14 @@ export const EnginesStackingSection = () => {
             const isEven = index % 2 === 0;
             
             return (
-              <motion.div
+              <div
                 key={index}
                 style={{ 
-                  y, 
-                  scale, 
-                  opacity, 
+                  transform: `translateY(${y}px) scale(${scale})`,
+                  opacity,
                   zIndex: 10 + index, 
                   willChange: 'transform, opacity',
+                  transition: 'transform 0.05s linear, opacity 0.05s linear',
                 }}
                 className="sticky top-20 rounded-3xl p-12 md:p-20 shadow-2xl min-h-[550px] md:min-h-[650px] bg-zinc-900/60 backdrop-blur-xl border border-white/10"
               >
@@ -130,23 +160,22 @@ export const EnginesStackingSection = () => {
                     <ProductMockup type={engine.mockupType} delay={0} size="large" />
                   </div>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>
 
         {/* Footer */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mt-16"
+        <div
+          ref={footerRef}
+          className={`text-center mt-16 transition-all duration-500 ${
+            footerInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
         >
           <p className="text-2xl font-display font-semibold text-white">
             every journey tells the full story.
           </p>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
