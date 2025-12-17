@@ -43,8 +43,13 @@ export const EventHaloVisual = () => {
   const stage2Path = `M ${haloX} ${haloY} C ${haloX + 40} ${haloY}, ${rightX - 40} ${haloY}, ${rightX} ${haloY}`;
 
   useEffect(() => {
-    setMounted(true);
+    // Delay animation start to let skeleton hide first
+    const timer = setTimeout(() => {
+      setMounted(true);
+    }, 500);
+    
     return () => {
+      clearTimeout(timer);
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
   }, []);
