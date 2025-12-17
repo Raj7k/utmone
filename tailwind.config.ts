@@ -461,11 +461,15 @@ export default {
   				'0%, 100%': { opacity: '0.2', transform: 'translateX(0)' },
   				'50%': { opacity: '1', transform: 'translateX(4px)' }
   			},
-  			'halo-wave': {
-  				'0%, 100%': { opacity: '0.5', transform: 'translate(-50%, 0) scale(1)' },
-  				'50%': { opacity: '0', transform: 'translate(-50%, 0) scale(1.2)' }
-  			}
-  		},
+			'halo-wave': {
+				'0%, 100%': { opacity: '0.5', transform: 'translate(-50%, 0) scale(1)' },
+				'50%': { opacity: '0', transform: 'translate(-50%, 0) scale(1.2)' }
+			},
+			'shimmer': {
+				'0%': { transform: 'translateX(-100%)' },
+				'100%': { transform: 'translateX(200%)' }
+			}
+		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out',
@@ -492,10 +496,11 @@ export default {
   			'node-pulse-scale': 'node-pulse-scale 2s ease-in-out infinite',
   			'path-pulse': 'path-pulse 1.5s ease-in-out infinite',
   			'data-wiggle': 'data-wiggle 0.8s ease-in-out infinite',
-  			'flow-dot': 'flow-dot 1.2s ease-in-out infinite',
-  			'halo-wave': 'halo-wave 2s ease-in-out infinite'
-  		},
-  		transitionDuration: {
+			'flow-dot': 'flow-dot 1.2s ease-in-out infinite',
+			'halo-wave': 'halo-wave 2s ease-in-out infinite',
+			'shimmer': 'shimmer 1s linear infinite'
+		},
+		transitionDuration: {
   			apple: '200ms',
   			'apple-slow': '240ms'
   		},
