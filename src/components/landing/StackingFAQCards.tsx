@@ -1,5 +1,4 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { StackingFAQCard } from "./StackingFAQCard";
 
 const faqCards = [
@@ -76,10 +75,42 @@ const faqCards = [
 
 export const StackingFAQCards = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const rafRef = useRef<number>();
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      if (rafRef.current) return;
+      
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = undefined;
+        
+        const rect = container.getBoundingClientRect();
+        const containerHeight = rect.height;
+        const viewportHeight = window.innerHeight;
+        
+        // Progress from when top hits top of viewport to when bottom hits top
+        const scrollableDistance = containerHeight - viewportHeight;
+        const scrolled = -rect.top;
+        const progress = Math.max(0, Math.min(1, scrolled / scrollableDistance));
+        
+        setScrollProgress(progress);
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, []);
 
   return (
     <div ref={containerRef} className="relative min-h-[400vh] py-20">
@@ -91,7 +122,7 @@ export const StackingFAQCards = () => {
               card={card}
               index={index}
               totalCards={faqCards.length}
-              scrollProgress={scrollYProgress}
+              scrollProgress={scrollProgress}
             />
           ))}
         </div>

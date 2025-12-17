@@ -1,7 +1,7 @@
-import { motion, useTransform, MotionValue } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { interpolate } from "@/lib/cssScrollUtils";
 import {
   Accordion,
   AccordionContent,
@@ -25,7 +25,7 @@ interface StackingFAQCardProps {
   card: FAQCard;
   index: number;
   totalCards: number;
-  scrollProgress: MotionValue<number>;
+  scrollProgress: number;
 }
 
 export const StackingFAQCard = ({ card, index, totalCards, scrollProgress }: StackingFAQCardProps) => {
@@ -34,21 +34,21 @@ export const StackingFAQCard = ({ card, index, totalCards, scrollProgress }: Sta
   const cardEnd = (index + 1) / totalCards;
   
   // Scale: starts at 0.85 for stacked cards, becomes 1.0 when active
-  const scale = useTransform(
+  const scale = interpolate(
     scrollProgress,
     [Math.max(0, cardStart - 0.1), cardStart, cardEnd],
     [0.85 + (index * 0.03), 1, 1]
   );
   
   // Opacity: fades in as it becomes active
-  const opacity = useTransform(
+  const opacity = interpolate(
     scrollProgress,
     [Math.max(0, cardStart - 0.05), cardStart],
     [0.4, 1]
   );
   
   // Y position: cards stack with offset
-  const y = useTransform(
+  const y = interpolate(
     scrollProgress,
     [0, cardStart, cardEnd],
     [index * 40, 0, -40]
@@ -56,12 +56,13 @@ export const StackingFAQCard = ({ card, index, totalCards, scrollProgress }: Sta
 
   if (card.isCTA) {
     return (
-      <motion.div
+      <div
         style={{
-          scale,
+          transform: `scale(${scale}) translateY(${y}px)`,
           opacity,
-          y,
           zIndex: totalCards - index,
+          willChange: 'transform, opacity',
+          transition: 'transform 0.05s linear, opacity 0.05s linear',
         }}
         className={`absolute inset-0 ${card.bgColor} rounded-3xl shadow-2xl border border-border overflow-hidden`}
       >
@@ -82,17 +83,18 @@ export const StackingFAQCard = ({ card, index, totalCards, scrollProgress }: Sta
             Free plan includes 100 links • 10K clicks/month • No credit card required
           </p>
         </div>
-      </motion.div>
+      </div>
     );
   }
 
   return (
-    <motion.div
+    <div
       style={{
-        scale,
+        transform: `scale(${scale}) translateY(${y}px)`,
         opacity,
-        y,
         zIndex: totalCards - index,
+        willChange: 'transform, opacity',
+        transition: 'transform 0.05s linear, opacity 0.05s linear',
       }}
       className={`absolute inset-0 ${card.bgColor} rounded-3xl shadow-2xl border border-border overflow-hidden`}
     >
@@ -118,6 +120,6 @@ export const StackingFAQCard = ({ card, index, totalCards, scrollProgress }: Sta
           ))}
         </Accordion>
       </div>
-    </motion.div>
+    </div>
   );
 };
