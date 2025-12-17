@@ -171,13 +171,27 @@ export const ControlDeckHeroCSS = ({ onUseCaseChange }: ControlDeckHeroProps) =>
               "relative flex-shrink-0 p-5 flex flex-col transition-all duration-300 ease-out",
               isCollapsed ? "w-[80px]" : "w-[300px]"
             )}>
-              {/* Section Label */}
-              <p className={cn(
-                "text-[10px] font-medium uppercase tracking-[0.2em] mb-4 text-white/30 transition-opacity duration-200 whitespace-nowrap overflow-hidden",
-                isCollapsed && "opacity-0"
-              )}>
-                Control Deck
-              </p>
+              {/* Section Label + Toggle */}
+              <div className="flex items-center justify-between mb-4">
+                <p className={cn(
+                  "text-[10px] font-medium uppercase tracking-[0.2em] text-white/30 transition-opacity duration-200 whitespace-nowrap overflow-hidden",
+                  isCollapsed && "opacity-0 w-0"
+                )}>
+                  Control Deck
+                </p>
+                
+                {/* Subtle Arrow Toggle */}
+                <button
+                  onClick={() => setIsCollapsed(prev => !prev)}
+                  className="w-6 h-6 rounded-md flex items-center justify-center text-white/20 hover:text-white/50 hover:bg-white/5 transition-all duration-200"
+                >
+                  {isCollapsed ? (
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  ) : (
+                    <ChevronLeft className="w-3.5 h-3.5" />
+                  )}
+                </button>
+              </div>
 
               {/* The Milled Buttons */}
               <nav className="flex-1 flex flex-col gap-1">
@@ -283,32 +297,11 @@ export const ControlDeckHeroCSS = ({ onUseCaseChange }: ControlDeckHeroProps) =>
               {/* Bottom Badge - Only show when expanded */}
               {!isCollapsed && (
                 <div className="mt-4 p-3 rounded-lg bg-white/[0.02] border border-white/5">
-                  <p className="text-[10px] uppercase tracking-wider mb-1 text-white/40">
-                    Clean-Track Intelligence
-                  </p>
-                  <p className="text-xs text-white/60">
-                    developed by utm.one with folks from MIT & Harvard
+                  <p className="text-[10px] uppercase tracking-wider text-white/40">
+                    Clean-Track Intelligence™
                   </p>
                 </div>
               )}
-
-              {/* Collapse Toggle */}
-              <button
-                onClick={() => setIsCollapsed(prev => !prev)}
-                className={cn(
-                  "mt-3 w-full flex items-center gap-2 py-2 rounded-lg text-white/30 hover:text-white/60 hover:bg-white/5 transition-all duration-200 group",
-                  isCollapsed ? "justify-center" : "justify-center"
-                )}
-              >
-                {isCollapsed ? (
-                  <ChevronRight className="w-4 h-4" />
-                ) : (
-                  <>
-                    <ChevronLeft className="w-4 h-4" />
-                    <span className="text-[10px] uppercase tracking-wider">collapse</span>
-                  </>
-                )}
-              </button>
 
               {/* The Groove - Vertical Divider */}
               <div 
