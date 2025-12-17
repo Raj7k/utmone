@@ -1,4 +1,3 @@
-import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Upload, Palette, Sparkles, Download, QrCode, ScanLine } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -65,60 +64,51 @@ const brandColors = ["#E8B44D", "#8B4513", "#F5DEB3"];
 
 // Single Stamp Display Component
 const StampDemo = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="relative w-full flex flex-col items-center">
       {/* AI Generated badge */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="mb-4"
+      <div
+        className={`mb-4 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'}`}
+        style={{ transitionDelay: '200ms' }}
       >
         <Badge className="bg-white/10 text-white/80 border-white/20 uppercase tracking-wider text-[10px]">
           <Sparkles className="w-3 h-3 mr-1" />
           AI Generated
         </Badge>
-      </motion.div>
+      </div>
 
       {/* Stamp Preview Container */}
       <Link 
         to="/surprise"
         className="block"
       >
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          whileHover={{ scale: 1.02 }}
-          className="relative group cursor-pointer"
+        <div
+          className={`relative group cursor-pointer transition-all duration-600 hover:scale-[1.02] ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}
         >
           {/* Responsive stamp size */}
           <StampEdgeMask size={280}>
             <div className="relative w-[240px] h-[240px] sm:w-[260px] sm:h-[260px] md:w-[280px] md:h-[280px] overflow-hidden">
-              {/* Real stamp image */}
-              <motion.img 
+              {/* Real stamp image with CSS float animation */}
+              <img 
                 src={stampMandala} 
                 alt="AI-generated Madhubani art QR stamp"
-                className="w-full h-full object-cover"
-                animate={{
-                  y: [0, -4, 0],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+                className="w-full h-full object-cover animate-[float_4s_ease-in-out_infinite]"
               />
               
               {/* Hover overlay */}
-              <motion.div 
-                className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              >
+              <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="text-center">
                   <ScanLine className="w-8 h-8 text-white mx-auto mb-2 animate-pulse" />
                   <span className="text-white text-sm font-medium">scan me ✨</span>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </StampEdgeMask>
 
@@ -130,30 +120,25 @@ const StampDemo = () => {
               transform: 'translateY(8px)',
             }}
           />
-        </motion.div>
+        </div>
       </Link>
 
       {/* Theme label */}
-      <motion.div 
-        className="mt-6 flex items-center justify-center gap-3"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
+      <div 
+        className={`mt-6 flex items-center justify-center gap-3 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
+        style={{ transitionDelay: '300ms' }}
       >
         <span className="text-xs text-white/40 uppercase tracking-wider">madhubani art</span>
         <div className="flex gap-2">
           {brandColors.map((color, i) => (
-            <motion.div
+            <div
               key={i}
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.4 + i * 0.1 }}
-              className="w-4 h-4 rounded-full border border-white/20"
-              style={{ backgroundColor: color }}
+              className={`w-4 h-4 rounded-full border border-white/20 transition-transform duration-300 ${isVisible ? 'scale-100' : 'scale-0'}`}
+              style={{ backgroundColor: color, transitionDelay: `${400 + i * 100}ms` }}
             />
           ))}
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };
@@ -177,16 +162,13 @@ const WorkflowSteps = () => {
         const isPast = index < activeStep;
         
         return (
-          <motion.div
+          <div
             key={step.label}
             className={`relative p-3 md:p-4 rounded-xl text-center transition-all duration-300 ${
               isActive 
-                ? 'bg-white/10 border border-white/20' 
-                : 'bg-white/5 border border-white/5'
+                ? 'bg-white/10 border border-white/20 scale-[1.02]' 
+                : 'bg-white/5 border border-white/5 scale-100'
             }`}
-            animate={{
-              scale: isActive ? 1.02 : 1,
-            }}
           >
             <div className={`w-10 h-10 mx-auto rounded-lg flex items-center justify-center mb-2 transition-colors ${
               isActive ? 'bg-primary/20' : isPast ? 'bg-white/10' : 'bg-white/5'
@@ -203,47 +185,56 @@ const WorkflowSteps = () => {
             <div className="text-[10px] text-white/40 hidden sm:block">
               {step.description}
             </div>
-          </motion.div>
+          </div>
         );
       })}
     </div>
   );
 };
 
+// Custom hook for intersection observer
+const useInView = (options = {}) => {
+  const ref = useRef<HTMLElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsInView(true);
+        observer.disconnect();
+      }
+    }, { threshold: 0.1, ...options });
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, isInView };
+};
+
 export const AIStampStudioShowcase = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
+  const { ref, isInView } = useInView();
 
   return (
-    <section ref={ref} className="py-16 md:py-24 lg:py-32 relative overflow-hidden">
+    <section ref={ref as React.RefObject<HTMLElement>} className="py-16 md:py-24 lg:py-32 relative overflow-hidden">
       {/* Background effects */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.02] to-transparent" />
       
-      {/* Decorative sparkles */}
-      <motion.div
-        className="absolute top-20 left-[10%] w-2 h-2 bg-primary rounded-full"
-        animate={{ 
-          opacity: [0.3, 0.8, 0.3],
-          scale: [1, 1.5, 1],
-        }}
-        transition={{ duration: 3, repeat: Infinity }}
+      {/* Decorative sparkles - CSS animations */}
+      <div
+        className="absolute top-20 left-[10%] w-2 h-2 bg-primary rounded-full animate-[pulse_3s_ease-in-out_infinite]"
       />
-      <motion.div
-        className="absolute bottom-32 right-[15%] w-1.5 h-1.5 bg-white rounded-full"
-        animate={{ 
-          opacity: [0.2, 0.6, 0.2],
-          scale: [1, 1.3, 1],
-        }}
-        transition={{ duration: 4, repeat: Infinity, delay: 1 }}
+      <div
+        className="absolute bottom-32 right-[15%] w-1.5 h-1.5 bg-white rounded-full animate-[pulse_4s_ease-in-out_infinite_1s]"
       />
       
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Header */}
-        <motion.div 
-          className="text-center mb-10 md:mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+        <div 
+          className={`text-center mb-10 md:mb-16 transition-all duration-600 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}
         >
           <Badge className="mb-4 bg-primary/10 text-primary border-primary/20 uppercase tracking-wider text-xs">
             <Sparkles className="w-3 h-3 mr-1" />
@@ -263,26 +254,22 @@ export const AIStampStudioShowcase = () => {
           <p className="text-base md:text-lg lg:text-xl max-w-[640px] mx-auto text-white/50">
             upload your brand. AI generates vintage stamp art. your QR code becomes unforgettable.
           </p>
-        </motion.div>
+        </div>
 
         {/* Content Grid - Mobile: stamp first, features below */}
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Stamp Demo - Shows first on mobile */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="order-1 lg:order-1"
+          <div
+            className={`order-1 lg:order-1 transition-all duration-600 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}
+            style={{ transitionDelay: '200ms' }}
           >
             <StampDemo />
-          </motion.div>
+          </div>
 
           {/* Features & CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="space-y-8 order-2 lg:order-2"
+          <div
+            className={`space-y-8 order-2 lg:order-2 transition-all duration-600 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}
+            style={{ transitionDelay: '300ms' }}
           >
             {/* Workflow Steps */}
             <div>
@@ -344,7 +331,7 @@ export const AIStampStudioShowcase = () => {
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
