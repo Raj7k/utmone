@@ -1,10 +1,27 @@
-import { RefreshCw } from "lucide-react";
+import { RefreshCw, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 export function ModuleLoadErrorFallback() {
   const handleRefresh = () => {
-    // Clear the reload flag and do a hard refresh with cache bust
+    sessionStorage.removeItem('moduleReloadAttempted');
+    const timestamp = Date.now();
+    window.location.href = window.location.pathname + '?_t=' + timestamp;
+  };
+
+  const handleClearCacheAndRefresh = async () => {
+    // Clear all browser caches
+    if ('caches' in window) {
+      const cacheNames = await caches.keys();
+      await Promise.all(cacheNames.map(name => caches.delete(name)));
+    }
+    
+    // Tell service worker to clear its cache
+    if (navigator.serviceWorker?.controller) {
+      navigator.serviceWorker.controller.postMessage('clearCache');
+    }
+    
+    // Clear session flag and reload with cache bust
     sessionStorage.removeItem('moduleReloadAttempted');
     const timestamp = Date.now();
     window.location.href = window.location.pathname + '?_t=' + timestamp;
@@ -23,10 +40,16 @@ export function ModuleLoadErrorFallback() {
           <p className="text-muted-foreground text-sm">
             There was a problem loading this page. This usually resolves with a refresh.
           </p>
-          <Button onClick={handleRefresh} className="w-full">
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Refresh Page
-          </Button>
+          <div className="flex flex-col gap-2">
+            <Button onClick={handleRefresh} className="w-full">
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Refresh Page
+            </Button>
+            <Button onClick={handleClearCacheAndRefresh} variant="outline" className="w-full">
+              <Trash2 className="h-4 w-4 mr-2" />
+              Clear Cache & Refresh
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>

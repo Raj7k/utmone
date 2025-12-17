@@ -1,7 +1,7 @@
-// Service Worker for utm.one PWA - v2 with aggressive cache busting
-const SW_VERSION = '2.0.0';
-const CACHE_NAME = 'utm-one-v2';
-const STATIC_CACHE = 'utm-one-static-v2';
+// Service Worker for utm.one PWA - Dynamic versioning
+const SW_VERSION = '__BUILD_TIMESTAMP__';
+const CACHE_NAME = 'utm-one-' + SW_VERSION;
+const STATIC_CACHE = 'utm-one-static-' + SW_VERSION;
 
 // Static assets to precache
 const PRECACHE_ASSETS = [
@@ -117,5 +117,10 @@ self.addEventListener('message', (event) => {
     caches.keys().then((names) => {
       names.forEach((name) => caches.delete(name));
     });
+  }
+  
+  // Expose version for debugging
+  if (event.data === 'getVersion') {
+    event.source?.postMessage({ type: 'version', version: SW_VERSION });
   }
 });
