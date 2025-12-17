@@ -1,9 +1,6 @@
-import { ReactNode, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { ReactNode, useState, useRef, useEffect } from "react";
 import { EarlyAccessInlineCTA } from "./EarlyAccessInlineCTA";
 import { formatText } from "@/utils/textFormatter";
-import { Sparkles, TrendingUp, Shield } from "lucide-react";
-import { useRef } from "react";
 import { GoogleIcon, MetaIcon, LinkedInIcon } from "@/components/icons/SocialIcons";
 
 interface FAQItem {
@@ -212,37 +209,74 @@ const faqs: FAQItem[] = [
 // Scroll-reveal FAQ item with progressive text visibility
 const ScrollRevealFAQItem = ({ faq, index, isLast }: { faq: FAQItem; index: number; isLast: boolean }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "center center"]
-  });
+  const [opacity, setOpacity] = useState(0.3);
+  const [translateY, setTranslateY] = useState(20);
+  const [dotVisible, setDotVisible] = useState(false);
+  const [lineVisible, setLineVisible] = useState(false);
 
-  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.3, 0.7, 1]);
-  const y = useTransform(scrollYProgress, [0, 1], [20, 0]);
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
+    const handleScroll = () => {
+      const rect = element.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      // Calculate progress from when element enters viewport to when it reaches center
+      const startY = windowHeight;
+      const endY = windowHeight / 2;
+      const currentY = rect.top;
+      
+      let progress = 0;
+      if (currentY <= startY && currentY >= endY) {
+        progress = (startY - currentY) / (startY - endY);
+      } else if (currentY < endY) {
+        progress = 1;
+      }
+      
+      // Map progress to opacity (0.3 -> 0.7 -> 1)
+      const newOpacity = 0.3 + (progress * 0.35) + (Math.max(0, progress - 0.5) * 0.7);
+      setOpacity(Math.min(1, Math.max(0.3, newOpacity)));
+      
+      // Map progress to translateY (20 -> 0)
+      setTranslateY(20 - (progress * 20));
+      
+      // Show dot and line when visible
+      if (progress > 0.2 && !dotVisible) {
+        setDotVisible(true);
+        setTimeout(() => setLineVisible(true), 100);
+      }
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [dotVisible]);
 
   return (
     <div ref={ref} className="flex gap-6">
       <div className="flex flex-col items-center flex-shrink-0">
-        <motion.div 
-          className="w-3 h-3 rounded-full bg-white/60"
-          initial={{ scale: 0 }}
-          whileInView={{ scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2, type: "spring" }}
+        <div 
+          className={`w-3 h-3 rounded-full bg-white/60 transition-transform duration-500 ease-out ${
+            dotVisible ? 'scale-100' : 'scale-0'
+          }`}
+          style={{ transitionDelay: '200ms' }}
         />
         {!isLast && (
-          <motion.div 
-            className="w-0.5 flex-1 mt-2 bg-gradient-to-b from-white/40 to-white/10"
-            initial={{ scaleY: 0 }}
-            whileInView={{ scaleY: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3, duration: 0.5 }}
+          <div 
+            className={`w-0.5 flex-1 mt-2 bg-gradient-to-b from-white/40 to-white/10 transition-transform duration-500 ease-out origin-top ${
+              lineVisible ? 'scale-y-100' : 'scale-y-0'
+            }`}
+            style={{ transitionDelay: '300ms' }}
           />
         )}
       </div>
-      <motion.div 
-        className="pb-8 flex-1"
-        style={{ opacity, y }}
+      <div 
+        className="pb-8 flex-1 transition-all duration-100 ease-out"
+        style={{ 
+          opacity,
+          transform: `translateY(${translateY}px)`
+        }}
       >
         <h2 className="text-xl md:text-2xl font-display font-semibold mb-4 text-white-90">
           {formatText(faq.question)}
@@ -250,24 +284,44 @@ const ScrollRevealFAQItem = ({ faq, index, isLast }: { faq: FAQItem; index: numb
         <div className="space-y-3 leading-relaxed text-white-50">
           {faq.answer}
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };
 
 export const FooterFAQ = () => {
+  const headerRef = useRef<HTMLDivElement>(null);
+  const [headerVisible, setHeaderVisible] = useState(false);
+
+  useEffect(() => {
+    const element = headerRef.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHeaderVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section className="relative py-24 md:py-32 px-4 sm:px-6 md:px-8 overflow-hidden bg-obsidian">
       {/* Subtle background gradient */}
       <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-zinc-900/30 via-transparent to-zinc-900/20" />
       
       <div className="max-w-[980px] mx-auto relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-16"
+        <div
+          ref={headerRef}
+          className={`mb-16 transition-all duration-600 ease-out ${
+            headerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
         >
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold obsidian-platinum-text">
             {formatText("ok, here's what we do. plain talk.")}
@@ -275,7 +329,7 @@ export const FooterFAQ = () => {
           <p className="text-lg mt-4 max-w-2xl text-white-50">
             Scroll down to learn more. Text becomes clearer as you read.
           </p>
-        </motion.div>
+        </div>
         
         <div className="space-y-4">
           {faqs.map((faq, index) => (
