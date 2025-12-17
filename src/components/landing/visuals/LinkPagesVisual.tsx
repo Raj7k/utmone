@@ -9,9 +9,9 @@ interface Particle {
 }
 
 const STAGES = [
-  { id: "profile", label: "Profile", x: 60, icon: User, color: "#8B5CF6" },
-  { id: "links", label: "Links", x: 180, icon: Link, color: "#3B82F6" },
-  { id: "stats", label: "Stats", x: 300, icon: BarChart3, color: "#10B981" },
+  { id: "profile", label: "Profile", x: 60, icon: User, color: "#A1A1AA" },
+  { id: "links", label: "Links", x: 180, icon: Link, color: "#71717A" },
+  { id: "stats", label: "Stats", x: 300, icon: BarChart3, color: "#D4D4D8" },
 ];
 
 export const LinkPagesVisual = () => {
@@ -177,8 +177,8 @@ export const LinkPagesVisual = () => {
               
               <foreignObject x={stage.x - 25} y={centerY + 22} width="50" height="25">
                 <div className="flex flex-col items-center">
-                  <Icon className="w-3.5 h-3.5" style={{ color: stage.color }} />
-                  <span className="text-[7px] text-white/50 font-mono mt-0.5">{stage.label}</span>
+                  <Icon className="w-2.5 h-2.5" style={{ color: stage.color }} />
+                  <span className="text-[5px] text-white/30 font-mono mt-0.5">{stage.label}</span>
                 </div>
               </foreignObject>
             </g>

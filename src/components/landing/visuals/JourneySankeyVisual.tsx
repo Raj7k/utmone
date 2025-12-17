@@ -9,10 +9,10 @@ interface Particle {
 }
 
 const SOURCES = [
-  { id: "search", label: "Search", y: 25, icon: Search, color: "#3B82F6" },
-  { id: "social", label: "Social", y: 55, icon: Users, color: "#10B981" },
-  { id: "email", label: "Email", y: 85, icon: Mail, color: "#8B5CF6" },
-  { id: "direct", label: "Direct", y: 115, icon: MousePointer, color: "#F59E0B" },
+  { id: "search", label: "Search", y: 25, icon: Search, color: "#A1A1AA" },
+  { id: "social", label: "Social", y: 55, icon: Users, color: "#71717A" },
+  { id: "email", label: "Email", y: 85, icon: Mail, color: "#D4D4D8" },
+  { id: "direct", label: "Direct", y: 115, icon: MousePointer, color: "#52525B" },
 ];
 
 export const JourneySankeyVisual = () => {
@@ -185,8 +185,8 @@ export const JourneySankeyVisual = () => {
               />
               <foreignObject x={leftX - 60} y={source.y - 8} width="50" height="16">
                 <div className="flex items-center gap-1 justify-end h-full">
-                  <Icon className="w-3 h-3" style={{ color: source.color }} />
-                  <span className="text-[8px] text-white/50 font-mono">{source.label}</span>
+                  <Icon className="w-2.5 h-2.5" style={{ color: source.color }} />
+                  <span className="text-[6px] text-white/40 font-mono">{source.label}</span>
                 </div>
               </foreignObject>
             </g>
@@ -228,7 +228,7 @@ export const JourneySankeyVisual = () => {
           x={rightX}
           y={rightY + 28}
           textAnchor="middle"
-          className="text-[7px] fill-white/40 font-mono tracking-widest"
+          className="text-[5px] fill-white/30 font-mono tracking-widest"
         >
           CONVERSION
         </text>
@@ -237,7 +237,7 @@ export const JourneySankeyVisual = () => {
           x={rightX}
           y={rightY + 40}
           textAnchor="middle"
-          className="text-[11px] font-semibold"
+          className="text-[9px] font-semibold"
           fill="url(#journey-platinum-text)"
         >
           $54.2K

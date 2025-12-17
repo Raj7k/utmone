@@ -9,10 +9,10 @@ interface Particle {
 }
 
 const STAGES = [
-  { id: "data", label: "Data", x: 50, icon: Database, color: "#3B82F6" },
-  { id: "process", label: "AI", x: 140, icon: Cpu, color: "#8B5CF6" },
-  { id: "insight", label: "Insight", x: 230, icon: Sparkles, color: "#10B981" },
-  { id: "action", label: "Action", x: 320, icon: Brain, color: "#F59E0B" },
+  { id: "data", label: "Data", x: 50, icon: Database, color: "#A1A1AA" },
+  { id: "process", label: "AI", x: 140, icon: Cpu, color: "#71717A" },
+  { id: "insight", label: "Insight", x: 230, icon: Sparkles, color: "#D4D4D8" },
+  { id: "action", label: "Action", x: 320, icon: Brain, color: "#52525B" },
 ];
 
 export const AIInsightPipelineVisual = () => {
@@ -178,8 +178,8 @@ export const AIInsightPipelineVisual = () => {
               
               <foreignObject x={stage.x - 20} y={centerY + 22} width="40" height="35">
                 <div className="flex flex-col items-center">
-                  <Icon className="w-4 h-4" style={{ color: stage.color }} />
-                  <span className="text-[8px] text-white/50 font-mono mt-0.5">{stage.label}</span>
+                  <Icon className="w-3 h-3" style={{ color: stage.color }} />
+                  <span className="text-[5px] text-white/30 font-mono mt-0.5">{stage.label}</span>
                 </div>
               </foreignObject>
             </g>
