@@ -58,8 +58,13 @@ export const LinksQRSankeyVisual = () => {
   });
 
   useEffect(() => {
-    setMounted(true);
+    // Delay animation start to let skeleton hide first
+    const timer = setTimeout(() => {
+      setMounted(true);
+    }, 500);
+    
     return () => {
+      clearTimeout(timer);
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
   }, []);
