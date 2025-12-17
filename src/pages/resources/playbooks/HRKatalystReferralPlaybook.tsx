@@ -18,6 +18,30 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
+// Product Screenshots
+import heroLanding from "@/assets/playbooks/hr-katalyst/hero-landing.png";
+import howItWorks from "@/assets/playbooks/hr-katalyst/how-it-works.png";
+import hallOfChampions from "@/assets/playbooks/hr-katalyst/hall-of-champions.png";
+import campaignStats from "@/assets/playbooks/hr-katalyst/campaign-stats.png";
+import leaderboardTable from "@/assets/playbooks/hr-katalyst/leaderboard-table.png";
+import emailCampaigns from "@/assets/playbooks/hr-katalyst/email-campaigns.png";
+import adminDashboard from "@/assets/playbooks/hr-katalyst/admin-dashboard.png";
+import referralFlow from "@/assets/playbooks/hr-katalyst/referral-flow.png";
+
+// ============================================
+// PLAYBOOK SCREENSHOT COMPONENT
+// ============================================
+const PlaybookScreenshot = ({ src, alt, caption }: { src: string; alt: string; caption?: string }) => (
+  <figure className="my-8">
+    <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-border/30 bg-card">
+      <img src={src} alt={alt} className="w-full" loading="lazy" />
+    </div>
+    {caption && (
+      <figcaption className="text-center text-sm text-muted-foreground mt-3">{caption}</figcaption>
+    )}
+  </figure>
+);
+
 // ============================================
 // ANIMATED COUNTER COMPONENT
 // ============================================
@@ -1484,6 +1508,12 @@ const emailTemplates = {
             </Card>
           </ProgressiveReveal>
 
+          <PlaybookScreenshot 
+            src={heroLanding} 
+            alt="HR Katalyst GetLink page where fans become referrers" 
+            caption="The GetLink page where existing fans become referrers"
+          />
+
           {/* Experience 2: Landing Page */}
           <ProgressiveReveal>
             <Card className="p-6 bg-card border-border mb-6">
@@ -1559,6 +1589,12 @@ const emailTemplates = {
               </div>
             </Card>
           </ProgressiveReveal>
+
+          <PlaybookScreenshot 
+            src={leaderboardTable} 
+            alt="HR Katalyst real-time leaderboard showing top referrers and prizes" 
+            caption="Real-time leaderboard showing top referrers and tier badges"
+          />
 
           <ProgressiveReveal>
             <div className="bg-primary/5 border-l-4 border-primary p-6 rounded-r-lg">
@@ -1692,6 +1728,12 @@ const emailTemplates = {
             </div>
           </ProgressiveReveal>
 
+          <PlaybookScreenshot 
+            src={emailCampaigns} 
+            alt="Segmented email campaigns to different referrer groups" 
+            caption="Automated email campaigns for milestone notifications"
+          />
+
           <ProgressiveReveal>
             <h3 className="text-xl font-semibold text-foreground mb-4">What We Said (And Didn't Say)</h3>
             <div className="grid md:grid-cols-2 gap-4 mb-8">
@@ -1722,6 +1764,12 @@ const emailTemplates = {
               <p className="text-sm text-muted-foreground">— Referrer who brought 47 registrations</p>
             </div>
           </ProgressiveReveal>
+
+          <PlaybookScreenshot 
+            src={hallOfChampions} 
+            alt="Hall of Champions celebrating top referrers" 
+            caption="Hall of Champions celebrating top performers with tier badges"
+          />
 
           <ProgressiveReveal>
             <h3 className="text-xl font-semibold text-foreground mb-4">The Reward Structure That Worked</h3>
@@ -1796,6 +1844,12 @@ const emailTemplates = {
             text="7 people drove 46% of all referral conversions. the power law is real." 
             variant="highlight"
           />
+
+          <PlaybookScreenshot 
+            src={campaignStats} 
+            alt="Key campaign metrics at a glance" 
+            caption="Key campaign metrics: clicks, sessions, registrations, and conversion rates"
+          />
         </section>
 
         {/* 1.9 Registration Velocity */}
@@ -1806,6 +1860,12 @@ const emailTemplates = {
           <ProgressiveReveal>
             <VelocityGraph />
           </ProgressiveReveal>
+
+          <PlaybookScreenshot 
+            src={referralFlow} 
+            alt="Complete referral flow visualization" 
+            caption="Complete referral journey: from click to conversion"
+          />
         </section>
 
         {/* 1.10 Key Lessons */}
@@ -1904,9 +1964,13 @@ const emailTemplates = {
               </div>
             </div>
           </ProgressiveReveal>
-        </section>
 
-        {/* 2.1 What is a Referral System - Simple English */}
+          <PlaybookScreenshot 
+            src={adminDashboard} 
+            alt="Admin dashboard tracking all referral activity" 
+            caption="The admin dashboard tracking all referral activity in real-time"
+          />
+        </section>
         <section className="mb-16" id="referral-simple">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-6">
             The Referral System in Simple English
@@ -2036,9 +2100,13 @@ const emailTemplates = {
               ))}
             </div>
           </ProgressiveReveal>
-        </section>
 
-        {/* 2.3 Step-by-Step: 14 Steps Day-by-Day Execution */}
+          <PlaybookScreenshot 
+            src={howItWorks} 
+            alt="Simple 3-step process for referrers" 
+            caption="Simple 3-step process: Sign up, Share, Win"
+          />
+        </section>
         <section className="mb-16" id="execution-steps">
           <h2 className="text-3xl font-display font-semibold text-foreground mb-4">
             14 Steps: Day-by-Day Execution
