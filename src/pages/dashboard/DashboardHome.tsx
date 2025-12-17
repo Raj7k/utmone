@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, startTransition } from "react";
 import { QuickCreateTile } from "@/components/dashboard/bento/QuickCreateTile";
 import { QuickStats } from "@/components/dashboard/QuickStats";
-import { OnboardingChecklist } from "@/components/dashboard/OnboardingChecklist";
+import { CompactOnboardingProgress } from "@/components/dashboard/CompactOnboardingProgress";
 import { DemoModeBanner } from "@/components/dashboard/DemoModeBanner";
 import { WelcomeModal } from "@/components/dashboard/WelcomeModal";
 import { DashboardQuickActions } from "@/components/dashboard/DashboardQuickActions";
@@ -132,31 +132,35 @@ const DashboardHome = () => {
           </ErrorBoundary>
         )}
 
-        {/* OPTIMIZED: Pass onboarding data from unified hook - no separate query */}
-        <ErrorBoundary section="onboarding-checklist">
-          <OnboardingChecklist onboarding={onboarding} isLoading={isLoading} />
-        </ErrorBoundary>
-
-        <ErrorBoundary section="quick-actions">
-          <div className="animate-fade-in">
-            <DashboardQuickActions />
-          </div>
-        </ErrorBoundary>
-
+        {/* 1. HERO: Quick Create - immediate action */}
         <ErrorBoundary section="quick-create">
-          <div className="animate-fade-in" style={{ animationDelay: '50ms' }}>
+          <div className="animate-fade-in">
             <QuickCreateTile />
           </div>
         </ErrorBoundary>
 
-        {/* OPTIMIZED: Pass stats from unified hook - no separate query */}
+        {/* 2. VALUE: Today's stats - show immediate value */}
         <ErrorBoundary section="quick-stats">
-          <div className="animate-fade-in" style={{ animationDelay: '100ms' }}>
+          <div className="animate-fade-in" style={{ animationDelay: '50ms' }}>
             <QuickStats stats={stats} isLoading={isLoading} />
           </div>
         </ErrorBoundary>
 
-        {/* OPTIMIZED: Pass links from unified hook - no separate query */}
+        {/* 3. NAVIGATION: Quick actions cards */}
+        <ErrorBoundary section="quick-actions">
+          <div className="animate-fade-in" style={{ animationDelay: '100ms' }}>
+            <DashboardQuickActions />
+          </div>
+        </ErrorBoundary>
+
+        {/* 4. PROGRESS: Compact onboarding strip */}
+        <ErrorBoundary section="onboarding-progress">
+          <div className="animate-fade-in" style={{ animationDelay: '150ms' }}>
+            <CompactOnboardingProgress onboarding={onboarding} isLoading={isLoading} />
+          </div>
+        </ErrorBoundary>
+
+        {/* 5. LAZY: Activity feed */}
         <LazySection fallback={<DashboardContentLoader context="links" minHeight="20rem" />}>
           <ErrorBoundary section="activity-feed">
             <div className="animate-fade-in" style={{ animationDelay: '200ms' }}>
