@@ -45,7 +45,7 @@ export const GlanceableStats = ({ workspaceId }: GlanceableStatsProps) => {
           .from('qr_codes')
           .select('id')
           .eq('workspace_id', workspaceId)
-          .limit(500)
+          .limit(5000)
       ]);
 
       const allLinks = linksResult.data || [];

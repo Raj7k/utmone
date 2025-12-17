@@ -283,7 +283,7 @@ export function useIntelligenceData(
             .gte("clicked_at", startDateStr)
             .not("city", "is", null)
             .order("clicked_at", { ascending: false })
-            .limit(500);
+            .limit(5000);
           
           if (contextLinkIds && contextLinkIds.length > 0) {
             query = query.in("link_id", contextLinkIds);
