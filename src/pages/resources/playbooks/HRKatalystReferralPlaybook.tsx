@@ -26,6 +26,7 @@ import campaignStats from "@/assets/playbooks/hr-katalyst/campaign-stats.png";
 import leaderboardTable from "@/assets/playbooks/hr-katalyst/leaderboard-table.png";
 import emailCampaigns from "@/assets/playbooks/hr-katalyst/email-campaigns.png";
 import adminDashboard from "@/assets/playbooks/hr-katalyst/admin-dashboard.png";
+import adminDashboardHero from "@/assets/playbooks/hr-katalyst/admin-dashboard-hero.png";
 import referralFlow from "@/assets/playbooks/hr-katalyst/referral-flow.png";
 
 // ============================================
@@ -1220,6 +1221,13 @@ const emailTemplates = {
             This is the behind-the-scenes story of how a nerdy HR conference turned into a 25K person movement. Real numbers, real architecture, and a step-by-step guide you can copy.
           </p>
         </ProgressiveReveal>
+
+        {/* Hero Dashboard Screenshot */}
+        <PlaybookScreenshot 
+          src={adminDashboardHero} 
+          alt="HR Katalyst Admin Dashboard showing 24,044 visits, 6,903 registrations, 28.7% conversion rate, and 235 active referrers" 
+          caption="Real dashboard data from HR Katalyst Season 5"
+        />
 
         {/* Clickable Metrics Dashboard */}
         <section className="mb-16" id="results">
