@@ -66,7 +66,7 @@ export default function GeoHeatTiles({ workspaceId, days, context = "all", prelo
         .eq("workspace_id", workspaceId)
         .gte("clicked_at", startDate.toISOString())
         .not("city", "is", null)
-        .limit(500);
+        .limit(5000);
 
       if (error) throw error;
 

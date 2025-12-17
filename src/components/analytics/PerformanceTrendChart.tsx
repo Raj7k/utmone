@@ -45,7 +45,7 @@ export const PerformanceTrendChart = ({ workspaceId, trendData }: PerformanceTre
         .select("clicked_at, is_unique")
         .eq("workspace_id", workspaceId)
         .gte("clicked_at", startDate.toISOString())
-        .limit(500);
+        .limit(5000);
 
       if (error) throw error;
 

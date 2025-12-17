@@ -20,7 +20,7 @@ export const useRealAnalytics = ({ workspaceId, dateRange = 30 }: UseRealAnalyti
         .eq("workspace_id", workspaceId)
         .gte("clicked_at", startDate.toISOString())
         .order("clicked_at", { ascending: false })
-        .limit(500);
+        .limit(5000);
 
       if (error) throw error;
 
