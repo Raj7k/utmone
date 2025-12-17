@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { preserveAcronyms as p } from "@/utils/textFormatter";
 import { 
@@ -10,6 +9,7 @@ import {
   Shield,
   ArrowRight
 } from "lucide-react";
+import { useInView } from "@/hooks/useInView";
 
 const AI_FEATURES = [
   {
@@ -39,8 +39,10 @@ const AI_FEATURES = [
 ];
 
 export const AIIntelligenceHero = () => {
+  const { ref, isInView } = useInView({ threshold: 0.1 });
+
   return (
-    <section className="relative py-24 md:py-32 overflow-hidden">
+    <section className="relative py-24 md:py-32 overflow-hidden" ref={ref}>
       {/* Obsidian Gradient Background */}
       <div 
         className="absolute inset-0"
@@ -51,12 +53,10 @@ export const AIIntelligenceHero = () => {
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+        <div
+          className={`text-center mb-16 transition-all duration-600 ${
+            isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
         >
           <div 
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 bg-white/5 border border-white/10 backdrop-blur-xl"
@@ -74,26 +74,26 @@ export const AIIntelligenceHero = () => {
           <p className="text-lg max-w-2xl mx-auto text-white-50">
             {p("mathematical models from MIT and Harvard scientists, working behind the scenes to make your data smarter.")}
           </p>
-        </motion.div>
+        </div>
 
         {/* Feature Cards Grid - 2x2 on mobile, 1x4 on desktop */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-12">
           {AI_FEATURES.map((feature, index) => {
             const Icon = feature.icon;
             return (
-              <motion.div
+              <div
                 key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className={`transition-all duration-500 ${
+                  isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+                }`}
+                style={{ transitionDelay: isInView ? `${index * 100}ms` : '0ms' }}
               >
                 <Link
                   to={feature.href}
                   className="group block h-full p-4 md:p-6 rounded-xl md:rounded-2xl transition-all duration-300 obsidian-glass-80 relative overflow-hidden"
                 >
                   {/* Animated background glow on hover */}
-                  <motion.div
+                  <div
                     className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                     style={{
                       background: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 70%)'
@@ -104,12 +104,8 @@ export const AIIntelligenceHero = () => {
                     className="relative w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl flex items-center justify-center mb-3 md:mb-4 transition-colors bg-white/10"
                   >
                     <Icon className="w-5 h-5 md:w-6 md:h-6 text-white-80" />
-                    {/* Pulsing ring on hover */}
-                    <motion.div
-                      className="absolute inset-0 rounded-lg md:rounded-xl border border-white/30 opacity-0 group-hover:opacity-100"
-                      animate={{ scale: [1, 1.2, 1], opacity: [0, 0.5, 0] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
+                    {/* CSS-only pulsing ring on hover */}
+                    <div className="absolute inset-0 rounded-lg md:rounded-xl border border-white/30 opacity-0 group-hover:opacity-100 group-hover:animate-pulse-ring" />
                   </div>
                   
                   <h3 
@@ -131,18 +127,17 @@ export const AIIntelligenceHero = () => {
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Link>
-              </motion.div>
+              </div>
             );
           })}
         </div>
 
         {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="text-center"
+        <div
+          className={`text-center transition-all duration-500 ${
+            isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
+          style={{ transitionDelay: isInView ? '400ms' : '0ms' }}
         >
           <Link to="/early-access">
             <Button 
@@ -153,7 +148,7 @@ export const AIIntelligenceHero = () => {
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </Link>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

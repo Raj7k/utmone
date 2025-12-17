@@ -54,8 +54,25 @@ export const Navigation = () => {
       setHideNav(scrollTop > 600);
     };
     
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    // Defer scroll listener attachment to avoid blocking initial render
+    const attachScrollListener = () => {
+      window.addEventListener("scroll", handleScroll, { passive: true });
+    };
+    
+    // Use requestIdleCallback if available, fallback to setTimeout for Safari
+    if ('requestIdleCallback' in window) {
+      const idleId = requestIdleCallback(attachScrollListener);
+      return () => {
+        cancelIdleCallback(idleId);
+        window.removeEventListener("scroll", handleScroll);
+      };
+    } else {
+      const timeoutId = setTimeout(attachScrollListener, 100);
+      return () => {
+        clearTimeout(timeoutId);
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
   }, []);
 
   useEffect(() => {
