@@ -29,46 +29,56 @@ export const TourOverlay = () => {
         return;
       }
 
-      const rect = target.getBoundingClientRect();
-      setTargetRect(rect);
+      // Auto-scroll to target element first
+      target.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center',
+        inline: 'nearest'
+      });
 
-      const padding = step.spotlightPadding || 8;
-      const tooltipWidth = 320;
-      const tooltipHeight = 180;
-      const gap = 12;
+      // Wait for scroll animation before calculating position
+      setTimeout(() => {
+        const rect = target.getBoundingClientRect();
+        setTargetRect(rect);
 
-      let top = 0;
-      let left = 0;
-      let arrowPosition: "top" | "bottom" | "left" | "right" = step.position;
+        const padding = step.spotlightPadding || 8;
+        const tooltipWidth = 320;
+        const tooltipHeight = 180;
+        const gap = 12;
 
-      switch (step.position) {
-        case "bottom":
-          top = rect.bottom + gap + padding;
-          left = rect.left + rect.width / 2 - tooltipWidth / 2;
-          arrowPosition = "top";
-          break;
-        case "top":
-          top = rect.top - tooltipHeight - gap - padding;
-          left = rect.left + rect.width / 2 - tooltipWidth / 2;
-          arrowPosition = "bottom";
-          break;
-        case "right":
-          top = rect.top + rect.height / 2 - tooltipHeight / 2;
-          left = rect.right + gap + padding;
-          arrowPosition = "left";
-          break;
-        case "left":
-          top = rect.top + rect.height / 2 - tooltipHeight / 2;
-          left = rect.left - tooltipWidth - gap - padding;
-          arrowPosition = "right";
-          break;
-      }
+        let top = 0;
+        let left = 0;
+        let arrowPosition: "top" | "bottom" | "left" | "right" = step.position;
 
-      // Keep tooltip in viewport
-      left = Math.max(16, Math.min(left, window.innerWidth - tooltipWidth - 16));
-      top = Math.max(16, Math.min(top, window.innerHeight - tooltipHeight - 16));
+        switch (step.position) {
+          case "bottom":
+            top = rect.bottom + gap + padding;
+            left = rect.left + rect.width / 2 - tooltipWidth / 2;
+            arrowPosition = "top";
+            break;
+          case "top":
+            top = rect.top - tooltipHeight - gap - padding;
+            left = rect.left + rect.width / 2 - tooltipWidth / 2;
+            arrowPosition = "bottom";
+            break;
+          case "right":
+            top = rect.top + rect.height / 2 - tooltipHeight / 2;
+            left = rect.right + gap + padding;
+            arrowPosition = "left";
+            break;
+          case "left":
+            top = rect.top + rect.height / 2 - tooltipHeight / 2;
+            left = rect.left - tooltipWidth - gap - padding;
+            arrowPosition = "right";
+            break;
+        }
 
-      setTooltipPosition({ top, left, arrowPosition });
+        // Keep tooltip in viewport
+        left = Math.max(16, Math.min(left, window.innerWidth - tooltipWidth - 16));
+        top = Math.max(16, Math.min(top, window.innerHeight - tooltipHeight - 16));
+
+        setTooltipPosition({ top, left, arrowPosition });
+      }, 350); // Wait for scroll animation
     };
 
     updatePosition();
