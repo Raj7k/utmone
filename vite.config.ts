@@ -1,7 +1,27 @@
-import { defineConfig } from "vite";
+import { defineConfig, Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+import fs from "fs";
 import { componentTagger } from "lovable-tagger";
+
+// Plugin to inject build timestamp into service worker
+function injectServiceWorkerVersion(): Plugin {
+  return {
+    name: 'inject-sw-version',
+    closeBundle() {
+      const distSwPath = path.resolve(__dirname, 'dist/sw.js');
+      
+      // Check if sw.js exists in dist (Vite copies public/ to dist/)
+      if (fs.existsSync(distSwPath)) {
+        let content = fs.readFileSync(distSwPath, 'utf8');
+        const buildTimestamp = Date.now().toString();
+        content = content.replace(/__BUILD_TIMESTAMP__/g, buildTimestamp);
+        fs.writeFileSync(distSwPath, content);
+        console.log(`[vite] Injected SW version: ${buildTimestamp}`);
+      }
+    }
+  };
+}
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -9,13 +29,17 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
-  plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
+  plugins: [
+    react(),
+    mode === "development" && componentTagger(),
+    injectServiceWorkerVersion()
+  ].filter(Boolean),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
-build: {
+  build: {
     rollupOptions: {
       output: {
         manualChunks: {

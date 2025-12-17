@@ -4,8 +4,28 @@ import React, { ComponentType } from 'react';
 import { ModuleLoadErrorFallback } from '@/components/ModuleLoadErrorFallback';
 
 /**
+ * Helper to clear all browser and service worker caches
+ */
+async function clearAllCaches(): Promise<void> {
+  // Clear all browser caches
+  if ('caches' in window) {
+    try {
+      const cacheNames = await caches.keys();
+      await Promise.all(cacheNames.map(name => caches.delete(name)));
+    } catch (e) {
+      console.warn('Failed to clear browser caches:', e);
+    }
+  }
+  
+  // Tell service worker to clear its cache
+  if (navigator.serviceWorker?.controller) {
+    navigator.serviceWorker.controller.postMessage('clearCache');
+  }
+}
+
+/**
  * Wrapper for React.lazy that handles module loading failures gracefully.
- * Retries failed imports once, then shows a fallback UI instead of crashing.
+ * Retries failed imports once, clears cache, then shows a fallback UI instead of crashing.
  * Prevents infinite reload loops using sessionStorage.
  */
 export function lazyWithRetry<T extends ComponentType<any>>(
@@ -26,9 +46,13 @@ export function lazyWithRetry<T extends ComponentType<any>>(
             // Check if we've already tried reloading
             const hasReloaded = sessionStorage.getItem('moduleReloadAttempted');
             if (!hasReloaded) {
-              console.warn('Module load failed, reloading page with cache bust...', error);
+              console.warn('Module load failed, clearing cache and reloading...', error);
+              
+              // Clear all caches before redirect
+              await clearAllCaches();
+              
               sessionStorage.setItem('moduleReloadAttempted', 'true');
-              // Use cache-busting query param instead of reload()
+              // Use cache-busting query param
               const timestamp = Date.now();
               window.location.href = window.location.pathname + '?_t=' + timestamp;
               // Return fallback while redirecting
