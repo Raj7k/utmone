@@ -55,6 +55,13 @@ const Index = () => {
   const [landingVariant] = useState<'static' | 'interactive'>('interactive');
   const [selectedUseCase, setSelectedUseCase] = useState<UseCaseType>(DEFAULT_USE_CASE);
 
+  // Hide skeleton once Index component has mounted and rendered
+  useEffect(() => {
+    if (typeof window !== 'undefined' && (window as any).__hideInstantSkeleton) {
+      (window as any).__hideInstantSkeleton();
+    }
+  }, []);
+
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const refCode = urlParams.get('ref');
