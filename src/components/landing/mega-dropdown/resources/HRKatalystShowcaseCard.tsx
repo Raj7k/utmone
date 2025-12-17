@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { ArrowUpRight, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -12,16 +11,14 @@ export function HRKatalystShowcaseCard({ variant = "dark" }: HRKatalystShowcaseC
   
   return (
     <Link to="/resources/playbooks/hr-katalyst-referral">
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
+      <div
         className={cn(
-          "group relative p-3 rounded-xl transition-all duration-300 cursor-pointer overflow-hidden",
+          "group relative p-3 rounded-xl transition-all duration-300 cursor-pointer overflow-hidden animate-fade-in-dropdown opacity-0",
           isLight 
             ? "bg-zinc-100 hover:bg-zinc-200/80 border border-zinc-200" 
             : "bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.05]"
         )}
+        style={{ animationDelay: "0.2s" }}
       >
         {/* Navigation indicator */}
         <div className={cn(
@@ -54,22 +51,18 @@ export function HRKatalystShowcaseCard({ variant = "dark" }: HRKatalystShowcaseC
               <Users className={cn("w-3.5 h-3.5", isLight ? "text-zinc-600" : "text-white/60")} />
             </div>
             
-            {/* Mini growth indicator */}
-            <div className="flex items-center gap-0.5">
+            {/* Mini growth indicator - CSS animated bars */}
+            <div className="flex items-end gap-0.5 h-4">
               {[1, 2, 3].map((i) => (
-                <motion.div
+                <div
                   key={i}
                   className={cn(
-                    "w-1 rounded-full",
+                    "w-1 rounded-full animate-pulse-dot",
                     isLight ? "bg-emerald-500" : "bg-emerald-400"
                   )}
-                  initial={{ height: 4 }}
-                  animate={{ height: [4, 8 + i * 3, 4] }}
-                  transition={{ 
-                    duration: 2, 
-                    repeat: Infinity, 
-                    delay: i * 0.2,
-                    ease: "easeInOut"
+                  style={{ 
+                    height: `${4 + i * 3}px`,
+                    animationDelay: `${i * 0.2}s`
                   }}
                 />
               ))}
@@ -92,7 +85,7 @@ export function HRKatalystShowcaseCard({ variant = "dark" }: HRKatalystShowcaseC
             10K → 25K growth story
           </p>
         </div>
-      </motion.div>
+      </div>
     </Link>
   );
 }

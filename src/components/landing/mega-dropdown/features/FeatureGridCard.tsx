@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Link2, Tags, QrCode, TrendingUp, Sparkles, GitBranch, Route, Shield, LayoutGrid, Boxes, Radio, Fingerprint } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -37,16 +36,14 @@ export function FeatureGridCard({ variant = "dark" }: FeatureGridCardProps) {
   const isLight = variant === "light";
   
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.2 }}
+    <div
       className={cn(
-        "rounded-2xl p-4",
+        "rounded-2xl p-4 animate-fade-in-dropdown opacity-0",
         isLight
           ? "bg-zinc-50 border border-zinc-200"
           : "bg-white/[0.02] border border-white/[0.08] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]"
       )}
+      style={{ animationDelay: "0.2s" }}
     >
       {/* Core Features */}
       <div className="mb-4">
@@ -130,6 +127,6 @@ export function FeatureGridCard({ variant = "dark" }: FeatureGridCardProps) {
           ))}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

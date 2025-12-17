@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { TrendingUp, ArrowUpRight, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -30,16 +29,14 @@ export function AnalyticsShowcaseCard({ variant = "dark" }: AnalyticsShowcaseCar
 
   return (
     <Link to="/features/analytics" className="block">
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.1 }}
+      <div
         className={cn(
-          "group p-5 rounded-2xl transition-all duration-300 hover:-translate-y-0.5 cursor-pointer",
+          "group p-5 rounded-2xl transition-all duration-300 hover:-translate-y-0.5 cursor-pointer animate-fade-in-dropdown opacity-0",
           isLight
             ? "bg-zinc-50 border border-zinc-200 hover:bg-zinc-100 hover:border-zinc-300"
             : "bg-white/[0.03] border border-white/[0.12] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] ring-1 ring-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.2] hover:ring-white/[0.1] hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15),0_0_20px_-5px_rgba(255,255,255,0.1)]"
         )}
+        style={{ animationDelay: "0.1s" }}
       >
         <div className="flex items-start justify-between mb-4">
           <div>
@@ -71,36 +68,35 @@ export function AnalyticsShowcaseCard({ variant = "dark" }: AnalyticsShowcaseCar
             </defs>
             
             {/* Area fill */}
-            <motion.path
+            <path
               d={`${pathD} L 100 100 L 0 100 Z`}
               fill={`url(#sparklineGradient-${variant})`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              className="animate-fade-in opacity-0"
+              style={{ animationDelay: "0.3s" }}
             />
             
-            {/* Line */}
-            <motion.path
+            {/* Line - CSS draw animation */}
+            <path
               d={pathD}
               fill="none"
               stroke={isLight ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.6)"}
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+              strokeDasharray="300"
+              strokeDashoffset="300"
+              className="animate-draw-line"
+              style={{ animationDelay: "0.2s" }}
             />
             
             {/* End dot */}
-            <motion.circle
+            <circle
               cx="100"
               cy={100 - sparklineData[sparklineData.length - 1]}
               r="3"
               fill={isLight ? "black" : "white"}
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.2, delay: 1.2 }}
+              className="animate-scale-in opacity-0"
+              style={{ animationDelay: "0.8s" }}
             />
           </svg>
           
@@ -116,12 +112,10 @@ export function AnalyticsShowcaseCard({ variant = "dark" }: AnalyticsShowcaseCar
           {metrics.map((metric, i) => {
             const Icon = metric.icon;
             return (
-              <motion.div
+              <div
                 key={metric.label}
-                initial={{ opacity: 0, y: 4 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.2, delay: 0.4 + i * 0.05 }}
-                className="text-center"
+                className="text-center animate-fade-in-dropdown opacity-0"
+                style={{ animationDelay: `${0.4 + i * 0.05}s` }}
               >
                 <div className="flex items-center justify-center gap-1 mb-0.5">
                   <Icon className="w-3 h-3" style={metric.color ? { color: metric.color } : undefined} />
@@ -132,14 +126,14 @@ export function AnalyticsShowcaseCard({ variant = "dark" }: AnalyticsShowcaseCar
                   <TrendingUp className="w-2.5 h-2.5 text-emerald-500" />
                   <span className="text-[10px] font-mono text-emerald-500">{metric.change}</span>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>
 
         {/* Timeline indicator */}
         <p className={cn("text-[10px] text-center mt-3", isLight ? "text-zinc-400" : "text-white/30")}>Dec 2025</p>
-      </motion.div>
+      </div>
     </Link>
   );
 }

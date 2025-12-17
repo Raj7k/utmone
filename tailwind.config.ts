@@ -468,6 +468,20 @@ export default {
 			'shimmer': {
 				'0%': { transform: 'translateX(-100%)' },
 				'100%': { transform: 'translateX(200%)' }
+			},
+			'bar-grow': {
+				'0%': { transform: 'scaleY(0)', transformOrigin: 'bottom' },
+				'100%': { transform: 'scaleY(1)', transformOrigin: 'bottom' }
+			},
+			'particle-flow': {
+				'0%': { offsetDistance: '0%', opacity: '0' },
+				'10%': { opacity: '1' },
+				'90%': { opacity: '1' },
+				'100%': { offsetDistance: '100%', opacity: '0' }
+			},
+			'slide-in-left': {
+				'0%': { transform: 'translateX(-8px)', opacity: '0' },
+				'100%': { transform: 'translateX(0)', opacity: '1' }
 			}
 		},
   		animation: {
@@ -498,7 +512,24 @@ export default {
   			'data-wiggle': 'data-wiggle 0.8s ease-in-out infinite',
 			'flow-dot': 'flow-dot 1.2s ease-in-out infinite',
 			'halo-wave': 'halo-wave 2s ease-in-out infinite',
-			'shimmer': 'shimmer 1s linear infinite'
+			'shimmer': 'shimmer 1s linear infinite',
+			// Stagger delay utilities for dropdown cards
+			'stagger-1': 'fade-in-dropdown 0.3s ease-out 0.05s forwards',
+			'stagger-2': 'fade-in-dropdown 0.3s ease-out 0.1s forwards',
+			'stagger-3': 'fade-in-dropdown 0.3s ease-out 0.15s forwards',
+			'stagger-4': 'fade-in-dropdown 0.3s ease-out 0.2s forwards',
+			'stagger-5': 'fade-in-dropdown 0.3s ease-out 0.25s forwards',
+			'stagger-6': 'fade-in-dropdown 0.3s ease-out 0.3s forwards',
+			'stagger-7': 'fade-in-dropdown 0.3s ease-out 0.35s forwards',
+			'stagger-8': 'fade-in-dropdown 0.3s ease-out 0.4s forwards',
+			// SVG draw animation
+			'draw-line': 'draw-path 0.6s ease-out forwards',
+			// Bar growth animations
+			'bar-grow-1': 'bar-grow 0.6s ease-out 0.2s forwards',
+			'bar-grow-2': 'bar-grow 0.6s ease-out 0.3s forwards',
+			'bar-grow-3': 'bar-grow 0.6s ease-out 0.4s forwards',
+			// Particle flow for attribution
+			'particle-flow': 'particle-flow 2s linear infinite'
 		},
 		transitionDuration: {
   			apple: '200ms',
