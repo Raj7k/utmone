@@ -11,18 +11,20 @@ import {
   DropdownMenuSubContent, 
   DropdownMenuPortal 
 } from "@/components/ui/dropdown-menu";
-import { Bell, User, LogOut, Palette, Sun, Moon, Monitor, Bug } from "lucide-react";
+import { Bell, User, LogOut, Palette, Sun, Moon, Monitor, Bug, Compass } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useTheme } from "next-themes";
 import { useAppSession } from "@/contexts/AppSessionContext";
+import { useTour } from "@/components/onboarding";
 
 export const SidebarUserFooter = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { setTheme } = useTheme();
   const { user } = useAppSession();
+  const { startTour } = useTour();
 
   const { data: profile } = useQuery({
     queryKey: ['user-profile', user?.id],
@@ -101,6 +103,10 @@ export const SidebarUserFooter = () => {
           <DropdownMenuItem onClick={() => navigate('/settings/profile')}>
             <User className="mr-2 h-4 w-4" />
             Profile Settings
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={startTour}>
+            <Compass className="mr-2 h-4 w-4" />
+            Take a Tour
           </DropdownMenuItem>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
