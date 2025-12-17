@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { ExternalLink, Sparkles, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -18,16 +17,14 @@ export function LinkShowcaseCard({ variant = "dark" }: LinkShowcaseCardProps) {
   
   return (
     <Link to="/features/short-links" className="block">
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.05 }}
+      <div
         className={cn(
-          "group p-5 rounded-2xl transition-all duration-300 hover:-translate-y-0.5 cursor-pointer",
+          "group p-5 rounded-2xl transition-all duration-300 hover:-translate-y-0.5 cursor-pointer animate-fade-in-dropdown opacity-0",
           isLight
             ? "bg-zinc-50 border border-zinc-200 hover:bg-zinc-100 hover:border-zinc-300"
             : "bg-white/[0.03] border border-white/[0.12] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] ring-1 ring-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.2] hover:ring-white/[0.1] hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15),0_0_20px_-5px_rgba(255,255,255,0.1)]"
         )}
+        style={{ animationDelay: "0.05s" }}
       >
         <div className="flex items-start justify-between mb-4">
           <div>
@@ -42,17 +39,15 @@ export function LinkShowcaseCard({ variant = "dark" }: LinkShowcaseCardProps) {
 
         <div className="space-y-2.5">
           {links.map((link, i) => (
-            <motion.div
+            <div
               key={link.short}
-              initial={{ opacity: 0, x: -8 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.25, delay: 0.1 + i * 0.05 }}
               className={cn(
-                "group/link flex items-center justify-between p-2.5 rounded-xl transition-all duration-200",
+                "group/link flex items-center justify-between p-2.5 rounded-xl transition-all duration-200 animate-fade-in-dropdown opacity-0",
                 isLight
                   ? "bg-white border border-zinc-200 hover:bg-zinc-50 hover:border-zinc-300"
                   : "bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.05] hover:border-white/[0.1]"
               )}
+              style={{ animationDelay: `${0.1 + i * 0.05}s` }}
             >
               <div className="flex items-center gap-2.5">
                 <span className="text-base">{link.favicon}</span>
@@ -76,10 +71,10 @@ export function LinkShowcaseCard({ variant = "dark" }: LinkShowcaseCardProps) {
                   isLight ? "text-zinc-300 group-hover/link:text-zinc-500" : "text-white/30 group-hover/link:text-white/60"
                 )} />
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
-      </motion.div>
+      </div>
     </Link>
   );
 }

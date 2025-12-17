@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { DollarSign, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -18,16 +17,14 @@ export function AttributionShowcaseCard({ variant = "dark" }: AttributionShowcas
   
   return (
     <Link to="/features/attribution-graph" className="block">
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.15 }}
+      <div
         className={cn(
-          "group p-5 rounded-2xl transition-all duration-300 hover:-translate-y-0.5 cursor-pointer",
+          "group p-5 rounded-2xl transition-all duration-300 hover:-translate-y-0.5 cursor-pointer animate-fade-in-dropdown opacity-0",
           isLight
             ? "bg-zinc-50 border border-zinc-200 hover:bg-zinc-100 hover:border-zinc-300"
             : "bg-white/[0.03] border border-white/[0.12] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] ring-1 ring-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.2] hover:ring-white/[0.1] hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15),0_0_20px_-5px_rgba(255,255,255,0.1)]"
         )}
+        style={{ animationDelay: "0.15s" }}
       >
         <div className="flex items-start justify-between mb-4">
           <div>
@@ -40,11 +37,11 @@ export function AttributionShowcaseCard({ variant = "dark" }: AttributionShowcas
           )} />
         </div>
 
-        {/* Mini Fiber Optic Visualization */}
+        {/* Mini Fiber Optic Visualization - CSS only */}
         <div className="relative h-32 mb-4">
           <svg viewBox="0 0 200 100" className="w-full h-full">
             <defs>
-              <filter id={`glow-${variant}`}>
+              <filter id={`glow-css-${variant}`}>
                 <feGaussianBlur stdDeviation="2" result="coloredBlur" />
                 <feMerge>
                   <feMergeNode in="coloredBlur" />
@@ -53,108 +50,93 @@ export function AttributionShowcaseCard({ variant = "dark" }: AttributionShowcas
               </filter>
             </defs>
 
-            {/* Channel lines */}
+            {/* Channel lines - CSS animated */}
             {channels.map((channel, i) => {
               const startY = 20 + i * 30;
               return (
                 <g key={channel.name}>
-                  {/* Static line */}
-                  <motion.path
+                  {/* Static line with CSS draw animation */}
+                  <path
                     d={`M 20 ${startY} Q 100 ${startY} 160 50`}
                     fill="none"
                     stroke={isLight ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)"}
                     strokeWidth="1"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 0.6, delay: 0.2 + i * 0.1 }}
+                    strokeDasharray="200"
+                    strokeDashoffset="200"
+                    className="animate-draw-line"
+                    style={{ animationDelay: `${0.2 + i * 0.1}s` }}
                   />
                   
-                  {/* Animated particle */}
-                  <motion.circle
+                  {/* Animated particle using CSS */}
+                  <circle
                     r="2"
                     fill={isLight ? "black" : "white"}
-                    filter={`url(#glow-${variant})`}
-                    initial={{ opacity: 0 }}
-                    animate={{
-                      opacity: [0, 1, 1, 0],
-                      offsetDistance: ['0%', '100%'],
-                    }}
-                    transition={{
-                      duration: 2,
-                      delay: i * 0.3,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
+                    filter={`url(#glow-css-${variant})`}
+                    className="animate-particle-flow"
                     style={{
                       offsetPath: `path('M 20 ${startY} Q 100 ${startY} 160 50')`,
+                      animationDelay: `${i * 0.3}s`
                     }}
                   />
 
                   {/* Channel label */}
-                  <motion.text
+                  <text
                     x="5"
                     y={startY + 4}
                     fill={isLight ? "rgba(0,0,0,0.5)" : "rgba(255,255,255,0.5)"}
                     fontSize="8"
                     fontFamily="monospace"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3, delay: 0.3 + i * 0.1 }}
+                    className="animate-fade-in opacity-0"
+                    style={{ animationDelay: `${0.3 + i * 0.1}s` }}
                   >
                     {channel.name}
-                  </motion.text>
+                  </text>
                 </g>
               );
             })}
 
             {/* Revenue node */}
-            <motion.circle
+            <circle
               cx="170"
               cy="50"
               r="15"
               fill="none"
               stroke={isLight ? "rgba(0,0,0,0.3)" : "rgba(255,255,255,0.3)"}
               strokeWidth="1"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.3, delay: 0.5 }}
+              className="animate-scale-in opacity-0"
+              style={{ animationDelay: "0.5s", transformOrigin: "170px 50px" }}
             />
             
             {/* Revenue icon placeholder */}
-            <motion.circle
+            <circle
               cx="170"
               cy="50"
               r="8"
               fill={isLight ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)"}
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.3, delay: 0.6 }}
+              className="animate-scale-in opacity-0"
+              style={{ animationDelay: "0.6s", transformOrigin: "170px 50px" }}
             />
           </svg>
 
           {/* Revenue amount overlay */}
-          <motion.div
-            className="absolute right-2 top-1/2 -translate-y-1/2"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, delay: 0.7 }}
+          <div
+            className="absolute right-2 top-1/2 -translate-y-1/2 animate-scale-in opacity-0"
+            style={{ animationDelay: "0.7s" }}
           >
             <div className="flex items-center gap-1">
               <DollarSign className={cn("w-4 h-4", isLight ? "text-zinc-500" : "text-white/60")} />
               <span className={cn("text-lg font-mono font-medium tabular-nums", isLight ? "text-zinc-800" : "text-white/90")}>1.2M</span>
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Channel breakdown */}
         <div className="space-y-2">
           {channels.map((channel, i) => (
-            <motion.div
+            <div
               key={channel.name}
-              initial={{ opacity: 0, x: -8 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.2, delay: 0.5 + i * 0.05 }}
-              className="flex items-center justify-between"
+              className="flex items-center justify-between animate-fade-in-dropdown opacity-0"
+              style={{ animationDelay: `${0.5 + i * 0.05}s` }}
             >
               <div className="flex items-center gap-2">
                 <div className={cn("w-1.5 h-1.5 rounded-full", isLight ? "bg-zinc-400" : "bg-white/40")} />
@@ -164,10 +146,10 @@ export function AttributionShowcaseCard({ variant = "dark" }: AttributionShowcas
                 <span className={cn("text-[10px] font-mono", isLight ? "text-zinc-600" : "text-white/70")}>{channel.amount}</span>
                 <span className={cn("text-[10px] font-mono", isLight ? "text-zinc-400" : "text-white/40")}>{channel.percent}%</span>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
-      </motion.div>
+      </div>
     </Link>
   );
 }

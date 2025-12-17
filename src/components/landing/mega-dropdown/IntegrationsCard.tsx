@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -56,16 +55,14 @@ export function IntegrationsCard({ variant = "dark" }: IntegrationsCardProps) {
   
   return (
     <Link to="/features/integrations" className="block">
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.2 }}
+      <div
         className={cn(
-          "group p-4 rounded-2xl transition-all duration-300 hover:-translate-y-0.5 cursor-pointer",
+          "group p-4 rounded-2xl transition-all duration-300 hover:-translate-y-0.5 cursor-pointer animate-fade-in-dropdown opacity-0",
           isLight
             ? "bg-zinc-50 border border-zinc-200 hover:bg-zinc-100 hover:border-zinc-300"
             : "bg-white/[0.03] border border-white/[0.12] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] ring-1 ring-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.2] hover:ring-white/[0.1] hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15),0_0_20px_-5px_rgba(255,255,255,0.1)]"
         )}
+        style={{ animationDelay: "0.2s" }}
       >
         <div className="flex items-start justify-between mb-3">
           <div>
@@ -73,14 +70,15 @@ export function IntegrationsCard({ variant = "dark" }: IntegrationsCardProps) {
             <p className={cn("text-xs", isLight ? "text-zinc-500" : "text-white/50")}>Connect your stack</p>
           </div>
           <div className="flex items-center gap-2">
-            <motion.span 
-              className={cn("text-[10px] px-2 py-0.5 rounded-full", isLight ? "bg-zinc-200 text-zinc-500" : "bg-white/[0.05] text-white/40")}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
+            <span 
+              className={cn(
+                "text-[10px] px-2 py-0.5 rounded-full animate-fade-in opacity-0",
+                isLight ? "bg-zinc-200 text-zinc-500" : "bg-white/[0.05] text-white/40"
+              )}
+              style={{ animationDelay: "0.4s" }}
             >
               50+ apps
-            </motion.span>
+            </span>
             <ArrowUpRight className={cn(
               "w-3.5 h-3.5 transition-all duration-200",
               isLight ? "text-transparent group-hover:text-zinc-400" : "text-white/0 group-hover:text-white/40"
@@ -90,39 +88,35 @@ export function IntegrationsCard({ variant = "dark" }: IntegrationsCardProps) {
 
         <div className="flex items-center gap-2">
           {integrations.map((integration, i) => (
-            <motion.div
+            <div
               key={integration.name}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.2, delay: 0.25 + i * 0.04 }}
               className={cn(
-                "group/icon flex items-center justify-center w-9 h-9 rounded-xl transition-all duration-200 cursor-pointer",
+                "group/icon flex items-center justify-center w-9 h-9 rounded-xl transition-all duration-200 cursor-pointer animate-scale-in opacity-0",
                 isLight
                   ? "bg-white border border-zinc-200 hover:bg-zinc-50 hover:border-zinc-300 text-zinc-500 hover:text-zinc-700"
                   : "bg-white/[0.03] border border-white/[0.05] hover:bg-white/[0.08] hover:border-white/[0.1] text-white/60 hover:text-white/100"
               )}
+              style={{ animationDelay: `${0.25 + i * 0.04}s` }}
               title={integration.name}
             >
               {integration.logo}
-            </motion.div>
+            </div>
           ))}
           
           {/* More indicator */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.2, delay: 0.45 }}
+          <div
             className={cn(
-              "flex items-center justify-center w-9 h-9 rounded-xl border border-dashed text-xs font-mono",
+              "flex items-center justify-center w-9 h-9 rounded-xl border border-dashed text-xs font-mono animate-scale-in opacity-0",
               isLight
                 ? "bg-zinc-50 border-zinc-300 text-zinc-400"
                 : "bg-white/[0.02] border-white/[0.1] text-white/30"
             )}
+            style={{ animationDelay: "0.45s" }}
           >
             +45
-          </motion.div>
+          </div>
         </div>
-      </motion.div>
+      </div>
     </Link>
   );
 }

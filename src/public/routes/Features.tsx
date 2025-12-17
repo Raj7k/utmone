@@ -4,7 +4,6 @@ import { BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { Link } from "react-router-dom";
 import { Link2, Tags, QrCode, BarChart3, Shield, CheckCircle2, Users, LayoutGrid } from "lucide-react";
-import { motion } from "framer-motion";
 
 const Features = () => {
   const features = [
@@ -85,23 +84,19 @@ const Features = () => {
         <main className="pt-24 pb-32">
           {/* Hero Section */}
           <section className="container mx-auto px-8 py-24 text-center max-w-[980px]">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-              className="font-display text-5xl md:text-6xl lg:text-7xl font-bold mb-6 hero-gradient"
+            <h1
+              className="font-display text-5xl md:text-6xl lg:text-7xl font-bold mb-6 hero-gradient animate-fade-slide-up opacity-0"
+              style={{ animationDelay: "0s" }}
             >
               Features
-            </motion.h1>
+            </h1>
             
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-              className="text-lg md:text-xl text-white/60"
+            <p
+              className="text-lg md:text-xl text-white/60 animate-fade-slide-up opacity-0"
+              style={{ animationDelay: "0.1s" }}
             >
               Seven products that change how your team shares the internet.
-            </motion.p>
+            </p>
           </section>
 
           {/* Features Grid */}
@@ -110,11 +105,10 @@ const Features = () => {
               {features.map((feature, index) => {
                 const Icon = feature.icon;
                 return (
-                  <motion.div
+                  <div
                     key={feature.name}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="animate-fade-slide-up opacity-0"
+                    style={{ animationDelay: `${index * 0.1}s` }}
                   >
                     <Link
                       to={feature.path}
@@ -132,7 +126,7 @@ const Features = () => {
                         {feature.description}
                       </p>
                     </Link>
-                  </motion.div>
+                  </div>
                 );
               })}
             </div>

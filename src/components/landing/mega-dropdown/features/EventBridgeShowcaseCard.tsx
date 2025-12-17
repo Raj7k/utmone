@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Zap, ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -13,10 +12,9 @@ export function EventBridgeShowcaseCard({ variant = "dark" }: EventBridgeShowcas
   
   return (
     <Link to="/features/event-halo">
-      <motion.div
-        whileHover={{ scale: 1.02 }}
+      <div
         className={cn(
-          "group relative p-3 rounded-xl border transition-all cursor-pointer overflow-hidden",
+          "group relative p-3 rounded-xl border transition-all cursor-pointer overflow-hidden hover:scale-102",
           isLight 
             ? "bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200 hover:border-amber-300 hover:shadow-lg" 
             : "bg-gradient-to-br from-amber-950/30 to-orange-950/30 border-amber-500/20 hover:border-amber-500/40"
@@ -53,15 +51,15 @@ export function EventBridgeShowcaseCard({ variant = "dark" }: EventBridgeShowcas
           Luma → Enrichment → CRM. Automated.
         </p>
 
-        <motion.div
+        <div
           className={cn(
             "absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity",
             isLight ? "text-amber-600" : "text-amber-400"
           )}
         >
           <ArrowUpRight className="w-3 h-3" />
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </Link>
   );
 }
