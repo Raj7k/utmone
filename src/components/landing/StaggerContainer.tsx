@@ -1,5 +1,11 @@
-import { motion } from "framer-motion";
-import { ReactNode } from "react";
+import { ReactNode, createContext, useContext, useEffect, useState, useRef } from "react";
+
+interface StaggerContextValue {
+  isVisible: boolean;
+  staggerDelay: number;
+}
+
+const StaggerContext = createContext<StaggerContextValue>({ isVisible: false, staggerDelay: 0.1 });
 
 interface StaggerContainerProps {
   children: ReactNode;
@@ -12,48 +18,58 @@ export const StaggerContainer = ({
   className = "",
   staggerDelay = 0.1 
 }: StaggerContainerProps) => {
-  return (
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-100px", amount: 0.2 }}
-      variants={{
-        visible: {
-          transition: {
-            staggerChildren: staggerDelay
-          }
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
         }
-      }}
-      className={className}
-    >
-      {children}
-    </motion.div>
+      },
+      { 
+        threshold: 0.2,
+        rootMargin: "-100px"
+      }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <StaggerContext.Provider value={{ isVisible, staggerDelay }}>
+      <div ref={ref} className={className}>
+        {children}
+      </div>
+    </StaggerContext.Provider>
   );
 };
 
 interface StaggerItemProps {
   children: ReactNode;
   className?: string;
+  index?: number;
 }
 
-export const StaggerItem = ({ children, className = "" }: StaggerItemProps) => {
+export const StaggerItem = ({ children, className = "", index = 0 }: StaggerItemProps) => {
+  const { isVisible, staggerDelay } = useContext(StaggerContext);
+  
   return (
-    <motion.div
-      variants={{
-        hidden: { opacity: 0, y: 30, scale: 0.95 },
-        visible: { 
-          opacity: 1, 
-          y: 0, 
-          scale: 1,
-          transition: {
-            duration: 0.6,
-            ease: [0.25, 0.1, 0.25, 1]
-          }
-        }
+    <div
+      className={`transition-all duration-500 ease-out ${className}`}
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? 'translateY(0) scale(1)' : 'translateY(30px) scale(0.95)',
+        transitionDelay: isVisible ? `${index * staggerDelay * 1000}ms` : '0ms',
       }}
-      className={className}
     >
       {children}
-    </motion.div>
+    </div>
   );
 };

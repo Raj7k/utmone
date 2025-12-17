@@ -1,5 +1,4 @@
-import { motion, useMotionValue, useTransform, animate } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 interface FoundingMemberCounterProps {
   total?: number;
@@ -14,32 +13,76 @@ export const FoundingMemberCounter = ({
   const percentageTaken = (taken / total) * 100;
   const isUrgent = remaining < 50;
   
-  // Animated number
-  const count = useMotionValue(remaining + 10);
-  const rounded = useTransform(count, Math.round);
   const [displayCount, setDisplayCount] = useState(remaining + 10);
+  const [progressWidth, setProgressWidth] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
+  // Intersection Observer for visibility
   useEffect(() => {
-    const animation = animate(count, remaining, {
-      duration: 1.5,
-      ease: "easeOut",
-      delay: 0.5
-    });
+    const element = ref.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  // Animate number countdown
+  useEffect(() => {
+    if (!isVisible) return;
     
-    const unsubscribe = rounded.on("change", (v) => setDisplayCount(v));
+    const startValue = remaining + 10;
+    const duration = 1500;
+    const startTime = performance.now();
     
-    return () => {
-      animation.stop();
-      unsubscribe();
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Ease out
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      const currentValue = Math.round(startValue - (startValue - remaining) * easeOut);
+      
+      setDisplayCount(currentValue);
+      
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
     };
-  }, [remaining, count, rounded]);
+    
+    const timeoutId = setTimeout(() => {
+      requestAnimationFrame(animate);
+    }, 500);
+    
+    return () => clearTimeout(timeoutId);
+  }, [isVisible, remaining]);
+
+  // Animate progress bar
+  useEffect(() => {
+    if (!isVisible) return;
+    
+    const timeoutId = setTimeout(() => {
+      setProgressWidth(percentageTaken);
+    }, 500);
+    
+    return () => clearTimeout(timeoutId);
+  }, [isVisible, percentageTaken]);
 
   return (
-    <motion.div 
-      className="relative"
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.3 }}
+    <div 
+      ref={ref}
+      className={`relative transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2.5'}`}
+      style={{ transitionDelay: '300ms' }}
     >
       {/* Glass container */}
       <div className={`
@@ -49,10 +92,8 @@ export const FoundingMemberCounter = ({
       `}>
         {/* Urgency glow */}
         {isUrgent && (
-          <motion.div
-            className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-500/10 via-transparent to-amber-500/10"
-            animate={{ opacity: [0.3, 0.6, 0.3] }}
-            transition={{ duration: 2, repeat: Infinity }}
+          <div
+            className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-500/10 via-transparent to-amber-500/10 animate-pulse"
           />
         )}
 
@@ -64,15 +105,12 @@ export const FoundingMemberCounter = ({
 
           {/* Big number display */}
           <div className="flex items-baseline gap-3 mb-4">
-            <motion.span 
-              className="text-5xl md:text-6xl font-display font-bold text-white tabular-nums"
-              key={remaining}
-              initial={{ scale: 1.1, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: "spring", stiffness: 300 }}
+            <span 
+              className="text-5xl md:text-6xl font-display font-bold text-white tabular-nums transition-transform duration-300"
+              style={{ transform: isVisible ? 'scale(1)' : 'scale(1.1)' }}
             >
               {displayCount}
-            </motion.span>
+            </span>
             <span className="text-lg text-white/40">
               of {total} left
             </span>
@@ -80,32 +118,29 @@ export const FoundingMemberCounter = ({
 
           {/* Animated progress bar */}
           <div className="relative h-2 bg-white/10 rounded-full overflow-hidden">
-            <motion.div 
+            <div 
               className={`
-                h-full rounded-full
+                h-full rounded-full transition-all duration-1000 ease-out
                 ${isUrgent 
                   ? 'bg-gradient-to-r from-orange-500 to-amber-500' 
                   : 'bg-gradient-to-r from-white/60 to-white/40'
                 }
               `}
-              initial={{ width: 0 }}
-              animate={{ width: `${percentageTaken}%` }}
-              transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+              style={{ 
+                width: `${progressWidth}%`,
+                transitionDelay: '500ms'
+              }}
             />
             {/* Shimmer effect */}
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-              animate={{ x: ['-100%', '100%'] }}
-              transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+            <div
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer"
             />
           </div>
 
           {/* Pulsing indicator */}
           <div className="flex items-center gap-2 mt-3">
-            <motion.div
-              className={`w-2 h-2 rounded-full ${isUrgent ? 'bg-orange-500' : 'bg-green-500'}`}
-              animate={{ scale: [1, 1.3, 1], opacity: [1, 0.7, 1] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
+            <div
+              className={`w-2 h-2 rounded-full animate-pulse ${isUrgent ? 'bg-orange-500' : 'bg-green-500'}`}
             />
             <span className="text-xs text-white/50">
               {isUrgent ? 'filling up fast' : 'spots available'}
@@ -113,6 +148,6 @@ export const FoundingMemberCounter = ({
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
