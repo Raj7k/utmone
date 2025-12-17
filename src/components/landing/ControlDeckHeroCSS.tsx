@@ -2,7 +2,7 @@
  * ControlDeckHero - CSS-Only Version
  * Phase 3: Removed framer-motion, using CSS animations for better performance
  */
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useModal } from "@/contexts/ModalContext";
@@ -17,7 +17,9 @@ import {
   Loader2,
   LayoutGrid,
   Waves,
-  CheckCircle2
+  CheckCircle2,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileHero } from "./MobileHero";
@@ -31,6 +33,8 @@ import { JourneySankeyVisual } from "./visuals/JourneySankeyVisual";
 import { AIInsightPipelineVisual } from "./visuals/AIInsightPipelineVisual";
 import { UseCaseType } from "./useCaseConfig";
 import { GovernanceVisualCSS } from "./visuals/GovernanceVisualCSS";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
 interface ControlDeckHeroProps {
   onUseCaseChange?: (useCase: UseCaseType) => void;
@@ -108,6 +112,7 @@ export const ControlDeckHeroCSS = ({ onUseCaseChange }: ControlDeckHeroProps) =>
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const isMobile = useIsMobile();
   const { openEarlyAccessModal } = useModal();
 
@@ -161,10 +166,16 @@ export const ControlDeckHeroCSS = ({ onUseCaseChange }: ControlDeckHeroProps) =>
           className="relative h-[680px] rounded-[32px] overflow-hidden bg-zinc-900/20 border border-white/10 shadow-[0_25px_50px_-12px_hsl(0_0%_0%/0.5),0_0_0_1px_hsl(0_0%_100%/0.05)_inset]"
         >
           <div className="flex h-full">
-            {/* Navigation Rail (Left Sidebar) - The Controls */}
-            <div className="relative w-[300px] flex-shrink-0 p-5 flex flex-col">
+            {/* Navigation Rail (Left Sidebar) - Collapsible */}
+            <div className={cn(
+              "relative flex-shrink-0 p-5 flex flex-col transition-all duration-300 ease-out",
+              isCollapsed ? "w-[80px]" : "w-[300px]"
+            )}>
               {/* Section Label */}
-              <p className="text-[10px] font-medium uppercase tracking-[0.2em] mb-4 text-white/30">
+              <p className={cn(
+                "text-[10px] font-medium uppercase tracking-[0.2em] mb-4 text-white/30 transition-opacity duration-200 whitespace-nowrap overflow-hidden",
+                isCollapsed && "opacity-0"
+              )}>
                 Control Deck
               </p>
 
@@ -174,64 +185,130 @@ export const ControlDeckHeroCSS = ({ onUseCaseChange }: ControlDeckHeroProps) =>
                   const Icon = item.icon;
                   const isActive = index === activeIndex;
 
-                  return (
+                  const buttonContent = (
                     <button
-                      key={item.id}
                       onClick={() => handleSelect(index)}
-                      className="relative w-full text-left p-3 rounded-xl transition-all duration-300 group"
+                      className={cn(
+                        "relative w-full text-left rounded-xl transition-all duration-300 group",
+                        isCollapsed ? "p-2 flex justify-center" : "p-3"
+                      )}
                     >
-                      {/* Active Glow Indicator - CSS only */}
+                      {/* Active Glow Indicator */}
                       <div
-                        className={`absolute inset-0 rounded-xl transition-all duration-300 ${
+                        className={cn(
+                          "absolute inset-0 rounded-xl transition-all duration-300",
                           isActive 
                             ? 'bg-white/5 shadow-[0_0_20px_hsl(0_0%_100%/0.15),inset_0_1px_0_hsl(0_0%_100%/0.1)] border border-white/10 opacity-100' 
                             : 'opacity-0'
-                        }`}
+                        )}
                       />
 
-                      <div className="relative z-10 flex items-start gap-3">
+                      <div className={cn(
+                        "relative z-10 flex items-start gap-3",
+                        isCollapsed && "justify-center"
+                      )}>
                         {/* Icon Container */}
                         <div 
-                          className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-300 shrink-0 mt-0.5 ${isActive ? 'bg-white/10' : 'bg-white/[0.03]'}`}
+                          className={cn(
+                            "w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-300 shrink-0",
+                            isActive ? 'bg-white/10' : 'bg-white/[0.03]',
+                            !isCollapsed && "mt-0.5"
+                          )}
                         >
                           <Icon 
-                            className={`w-4 h-4 transition-colors duration-300 ${isActive ? 'text-white/90' : 'text-zinc-500'}`}
+                            className={cn(
+                              "w-4 h-4 transition-colors duration-300",
+                              isActive ? 'text-white/90' : 'text-zinc-500'
+                            )}
                           />
                         </div>
 
-                        {/* Labels */}
-                        <div className="flex-1 min-w-0">
-                          <span
-                            className={`block font-medium text-sm tracking-wide transition-colors duration-300 ${isActive ? 'text-white/95' : 'text-zinc-500'}`}
-                          >
-                            {item.label}
-                          </span>
-                          <span
-                            className={`block text-xs mt-0.5 transition-colors duration-300 ${isActive ? 'text-white/50' : 'text-zinc-500/60'}`}
-                          >
-                            {item.sublabel}
-                          </span>
-                        </div>
+                        {/* Labels - Hidden when collapsed */}
+                        {!isCollapsed && (
+                          <>
+                            <div className="flex-1 min-w-0">
+                              <span
+                                className={cn(
+                                  "block font-medium text-sm tracking-wide transition-colors duration-300",
+                                  isActive ? 'text-white/95' : 'text-zinc-500'
+                                )}
+                              >
+                                {item.label}
+                              </span>
+                              <span
+                                className={cn(
+                                  "block text-xs mt-0.5 transition-colors duration-300",
+                                  isActive ? 'text-white/50' : 'text-zinc-500/60'
+                                )}
+                              >
+                                {item.sublabel}
+                              </span>
+                            </div>
 
-                        {/* Arrow on hover/active */}
-                        <ArrowRight 
-                          className={`w-4 h-4 mt-1 text-white/40 transition-opacity duration-200 shrink-0 ${isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
-                        />
+                            {/* Arrow on hover/active */}
+                            <ArrowRight 
+                              className={cn(
+                                "w-4 h-4 mt-1 text-white/40 transition-opacity duration-200 shrink-0",
+                                isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                              )}
+                            />
+                          </>
+                        )}
                       </div>
                     </button>
                   );
+
+                  // Wrap in tooltip when collapsed
+                  if (isCollapsed) {
+                    return (
+                      <Tooltip key={item.id}>
+                        <TooltipTrigger asChild>
+                          {buttonContent}
+                        </TooltipTrigger>
+                        <TooltipContent 
+                          side="right" 
+                          className="bg-zinc-900 border-white/10 text-white"
+                        >
+                          <p className="font-medium text-sm">{item.label}</p>
+                          <p className="text-xs text-white/60">{item.sublabel}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    );
+                  }
+
+                  return <div key={item.id}>{buttonContent}</div>;
                 })}
               </nav>
 
-              {/* Bottom Badge */}
-              <div className="mt-4 p-3 rounded-lg bg-white/[0.02] border border-white/5">
-                <p className="text-[10px] uppercase tracking-wider mb-1 text-white/40">
-                  Clean-Track Intelligence
-                </p>
-                <p className="text-xs text-white/60">
-                  developed by utm.one with folks from MIT & Harvard
-                </p>
-              </div>
+              {/* Bottom Badge - Only show when expanded */}
+              {!isCollapsed && (
+                <div className="mt-4 p-3 rounded-lg bg-white/[0.02] border border-white/5">
+                  <p className="text-[10px] uppercase tracking-wider mb-1 text-white/40">
+                    Clean-Track Intelligence
+                  </p>
+                  <p className="text-xs text-white/60">
+                    developed by utm.one with folks from MIT & Harvard
+                  </p>
+                </div>
+              )}
+
+              {/* Collapse Toggle */}
+              <button
+                onClick={() => setIsCollapsed(prev => !prev)}
+                className={cn(
+                  "mt-3 w-full flex items-center gap-2 py-2 rounded-lg text-white/30 hover:text-white/60 hover:bg-white/5 transition-all duration-200 group",
+                  isCollapsed ? "justify-center" : "justify-center"
+                )}
+              >
+                {isCollapsed ? (
+                  <ChevronRight className="w-4 h-4" />
+                ) : (
+                  <>
+                    <ChevronLeft className="w-4 h-4" />
+                    <span className="text-[10px] uppercase tracking-wider">collapse</span>
+                  </>
+                )}
+              </button>
 
               {/* The Groove - Vertical Divider */}
               <div 
