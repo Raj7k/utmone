@@ -2,11 +2,8 @@ import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 
-// Hide instant skeleton immediately when React starts hydrating
-// This is faster than waiting for useEffect in components
-if (typeof window !== 'undefined' && (window as any).__hideInstantSkeleton) {
-  (window as any).__hideInstantSkeleton();
-}
+// IMPORTANT: Do NOT hide skeleton here - let components signal when ready
+// This prevents black screen if JS fails to load/execute
 
 // Defer non-critical initialization to after first paint
 requestIdleCallback?.(() => {

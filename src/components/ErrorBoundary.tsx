@@ -68,6 +68,25 @@ export class ErrorBoundary extends Component<Props, State> {
     window.location.reload();
   };
 
+  private handleClearCacheAndReload = async () => {
+    try {
+      // Clear service worker cache
+      if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage('clearCache');
+      }
+      // Clear all caches
+      if ('caches' in window) {
+        const cacheNames = await caches.keys();
+        await Promise.all(cacheNames.map(name => caches.delete(name)));
+      }
+      // Small delay to let cache clear complete
+      setTimeout(() => window.location.reload(), 100);
+    } catch (e) {
+      console.error('Failed to clear cache:', e);
+      window.location.reload();
+    }
+  };
+
   private isModuleLoadError(): boolean {
     const message = this.state.error?.message || '';
     return message.includes('Failed to fetch dynamically imported module') ||
@@ -114,15 +133,26 @@ export class ErrorBoundary extends Component<Props, State> {
                   This error has occurred {this.state.errorCount} times. Consider refreshing the page.
                 </p>
               )}
-              <div className="flex gap-2">
-                {!isModuleError && (
-                  <Button onClick={this.handleReset} variant="outline" className="flex-1">
-                    Try Again
-                  </Button>
+              <div className="flex flex-col gap-2">
+                {isModuleError ? (
+                  <>
+                    <Button onClick={this.handleClearCacheAndReload} className="w-full">
+                      Clear Cache & Refresh
+                    </Button>
+                    <Button onClick={this.handleReload} variant="outline" className="w-full">
+                      Refresh Page
+                    </Button>
+                  </>
+                ) : (
+                  <div className="flex gap-2">
+                    <Button onClick={this.handleReset} variant="outline" className="flex-1">
+                      Try Again
+                    </Button>
+                    <Button onClick={this.handleReload} className="flex-1">
+                      Refresh Page
+                    </Button>
+                  </div>
                 )}
-                <Button onClick={this.handleReload} className={isModuleError ? "w-full" : "flex-1"}>
-                  Refresh Page
-                </Button>
               </div>
             </CardContent>
           </Card>
