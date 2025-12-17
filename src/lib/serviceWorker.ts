@@ -32,8 +32,20 @@ export const registerServiceWorker = async (): Promise<ServiceWorkerRegistration
       });
     });
 
-    // Auto-reload when new SW takes control (with small delay to avoid jarring refresh)
+    // Track if there was already a service worker controller when page loaded
+    // (indicates this is an update, not first-time installation)
+    const wasControlled = Boolean(navigator.serviceWorker.controller);
+
+    // Only reload on service worker UPDATE, not on first install
     navigator.serviceWorker.addEventListener('controllerchange', () => {
+      // If there was no previous controller, this is first-time install - don't reload
+      if (!wasControlled) {
+        console.log('[SW] First-time installation complete, skipping reload');
+        return;
+      }
+
+      // This is an update - reload to apply changes after a short delay
+      console.log('[SW] Service Worker updated, reloading to apply changes...');
       setTimeout(() => window.location.reload(), 1500);
     });
 
