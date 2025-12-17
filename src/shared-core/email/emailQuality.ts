@@ -208,7 +208,8 @@ const suggestFix = (email: string): string | undefined => {
   }
 
   const closestDomain = findClosestDomain(normalizedDomain);
-  if (closestDomain) {
+  // Only suggest if the closest domain is different from the input
+  if (closestDomain && closestDomain !== normalizedDomain) {
     return `${local}@${closestDomain}`;
   }
 
