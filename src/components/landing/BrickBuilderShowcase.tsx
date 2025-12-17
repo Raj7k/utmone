@@ -1,8 +1,8 @@
-import { motion } from "framer-motion";
 import { ArrowRight, Layers, Palette, FileText, Download, Check, Boxes } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
+import { useRef, useState, useEffect } from "react";
 import brickQRImage from "@/assets/images/brickmatrix-qr.svg";
 
 const LEGO_COLORS = {
@@ -27,15 +27,34 @@ const STATS = [
   { value: "~25cm", label: "size" },
 ];
 
+// Custom hook for intersection observer
+const useInView = (options = {}) => {
+  const ref = useRef<HTMLElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsInView(true);
+        observer.disconnect();
+      }
+    }, { threshold: 0.1, ...options });
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, isInView };
+};
+
 // Brick QR Image component with floating badges
-const BrickQRShowcase = () => {
+const BrickQRShowcase = ({ isInView }: { isInView: boolean }) => {
   return (
-    <motion.div 
-      initial={{ opacity: 0, scale: 0.9, y: 20 }}
-      whileInView={{ opacity: 1, scale: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className="relative"
+    <div 
+      className={`relative transition-all duration-600 ${isInView ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-90 translate-y-5'}`}
     >
       {/* Glow effect behind image */}
       <div 
@@ -45,31 +64,20 @@ const BrickQRShowcase = () => {
         }}
       />
       
-      {/* Main QR Image */}
-      <motion.img 
+      {/* Main QR Image with CSS float animation */}
+      <img 
         src={brickQRImage} 
         alt="3D Brick QR Code" 
-        className="relative w-full max-w-[420px] mx-auto rounded-2xl"
+        className="relative w-full max-w-[420px] mx-auto rounded-2xl animate-[float_4s_ease-in-out_infinite]"
         style={{
           filter: "drop-shadow(0 25px 50px rgba(0,0,0,0.5))"
-        }}
-        animate={{ 
-          y: [0, -8, 0],
-        }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut"
         }}
       />
       
       {/* Floating info badges */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.3 }}
-        className="absolute -left-4 top-8 bg-card/90 backdrop-blur-sm border border-border rounded-lg px-3 py-2 shadow-xl"
+      <div
+        className={`absolute -left-4 top-8 bg-card/90 backdrop-blur-sm border border-border rounded-lg px-3 py-2 shadow-xl transition-all duration-500 ${isInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-5'}`}
+        style={{ transitionDelay: '300ms' }}
       >
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: LEGO_COLORS.red }}>
@@ -80,14 +88,11 @@ const BrickQRShowcase = () => {
             <div className="text-sm font-semibold text-foreground">256 bricks</div>
           </div>
         </div>
-      </motion.div>
+      </div>
       
-      <motion.div
-        initial={{ opacity: 0, x: 20 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.4 }}
-        className="absolute -right-4 top-1/3 bg-card/90 backdrop-blur-sm border border-border rounded-lg px-3 py-2 shadow-xl"
+      <div
+        className={`absolute -right-4 top-1/3 bg-card/90 backdrop-blur-sm border border-border rounded-lg px-3 py-2 shadow-xl transition-all duration-500 ${isInView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-5'}`}
+        style={{ transitionDelay: '400ms' }}
       >
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: LEGO_COLORS.blue }}>
@@ -102,14 +107,11 @@ const BrickQRShowcase = () => {
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
       
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.5 }}
-        className="absolute -right-2 bottom-12 bg-card/90 backdrop-blur-sm border border-border rounded-lg px-3 py-2 shadow-xl"
+      <div
+        className={`absolute -right-2 bottom-12 bg-card/90 backdrop-blur-sm border border-border rounded-lg px-3 py-2 shadow-xl transition-all duration-500 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}
+        style={{ transitionDelay: '500ms' }}
       >
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: LEGO_COLORS.yellow }}>
@@ -120,14 +122,11 @@ const BrickQRShowcase = () => {
             <div className="text-sm font-semibold text-foreground">PDF + BrickLink</div>
           </div>
         </div>
-      </motion.div>
+      </div>
       
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.6 }}
-        className="absolute -left-2 bottom-1/4 bg-card/90 backdrop-blur-sm border border-border rounded-lg px-3 py-2 shadow-xl"
+      <div
+        className={`absolute -left-2 bottom-1/4 bg-card/90 backdrop-blur-sm border border-border rounded-lg px-3 py-2 shadow-xl transition-all duration-500 ${isInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-5'}`}
+        style={{ transitionDelay: '600ms' }}
       >
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: LEGO_COLORS.green }}>
@@ -138,26 +137,24 @@ const BrickQRShowcase = () => {
             <div className="text-sm font-semibold text-foreground">32×32 studs</div>
           </div>
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 };
 
 export function BrickBuilderShowcase() {
+  const { ref, isInView } = useInView();
+
   return (
-    <section className="relative py-20 md:py-32 overflow-hidden">
+    <section ref={ref as React.RefObject<HTMLElement>} className="relative py-20 md:py-32 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
       
       <div className="container mx-auto max-w-6xl px-4 relative">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left - Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center lg:text-left"
+          <div
+            className={`text-center lg:text-left transition-all duration-500 ${isInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}
           >
             <Badge variant="secondary" className="mb-4 gap-2">
               <Boxes className="h-3.5 w-3.5" />
@@ -178,17 +175,14 @@ export function BrickBuilderShowcase() {
             {/* Feature List */}
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8 max-w-lg mx-auto lg:mx-0">
               {FEATURES.map((feature, i) => (
-                <motion.li
+                <li
                   key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.05 + 0.3 }}
-                  className="flex items-center gap-2 text-sm"
+                  className={`flex items-center gap-2 text-sm transition-all duration-300 ${isInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'}`}
+                  style={{ transitionDelay: `${300 + i * 50}ms` }}
                 >
                   <Check className="h-4 w-4 text-primary shrink-0" />
                   <span className="text-muted-foreground">{feature}</span>
-                </motion.li>
+                </li>
               ))}
             </ul>
 
@@ -216,18 +210,15 @@ export function BrickBuilderShowcase() {
                 </Link>
               </Button>
             </div>
-          </motion.div>
+          </div>
 
           {/* Right - Brick QR Image */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex justify-center"
+          <div
+            className={`flex justify-center transition-all duration-500 ${isInView ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}
+            style={{ transitionDelay: '200ms' }}
           >
-            <BrickQRShowcase />
-          </motion.div>
+            <BrickQRShowcase isInView={isInView} />
+          </div>
         </div>
       </div>
     </section>

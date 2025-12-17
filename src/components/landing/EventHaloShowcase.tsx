@@ -1,4 +1,3 @@
-import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Target, Users, TrendingUp } from "lucide-react";
 import { SonarVisualization } from "@/components/events/SonarVisualization";
@@ -6,44 +5,77 @@ import { Badge } from "@/components/ui/badge";
 import { preserveAcronyms as p } from "@/utils/textFormatter";
 import { useRef, useState, useEffect } from "react";
 
+// Custom hook for intersection observer
+const useInView = (options = {}) => {
+  const ref = useRef<HTMLElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsInView(true);
+        observer.disconnect();
+      }
+    }, { threshold: 0.1, ...options });
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, isInView };
+};
+
 // Animated counter hook
-const useAnimatedCounter = (end: number, duration: number = 2000, startOnView: boolean = true) => {
+const useAnimatedCounter = (end: number, duration: number = 2000, shouldStart: boolean = false) => {
   const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
   
   useEffect(() => {
-    if (!startOnView || isInView) {
-      let startTime: number;
-      const animate = (currentTime: number) => {
-        if (!startTime) startTime = currentTime;
-        const progress = Math.min((currentTime - startTime) / duration, 1);
-        setCount(Math.floor(progress * end));
-        if (progress < 1) {
-          requestAnimationFrame(animate);
-        }
-      };
-      requestAnimationFrame(animate);
-    }
-  }, [end, duration, isInView, startOnView]);
+    if (!shouldStart) return;
+    
+    let startTime: number;
+    const animate = (currentTime: number) => {
+      if (!startTime) startTime = currentTime;
+      const progress = Math.min((currentTime - startTime) / duration, 1);
+      setCount(Math.floor(progress * end));
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+    requestAnimationFrame(animate);
+  }, [end, duration, shouldStart]);
   
-  return { count, ref };
+  return count;
+};
+
+// Animated stat component
+const AnimatedStat = ({ end, prefix = "", suffix = "", label, isInView }: { end: number; prefix?: string; suffix?: string; label: string; isInView: boolean }) => {
+  const count = useAnimatedCounter(end, 1500, isInView);
+  
+  return (
+    <div>
+      <div className="text-2xl font-bold text-white mb-1">
+        {prefix}{count}{suffix}
+      </div>
+      <div className="text-sm text-white/50">{label}</div>
+    </div>
+  );
 };
 
 export const EventHaloShowcase = () => {
+  const { ref, isInView } = useInView();
+
   return (
-    <section className="py-12 md:py-16 relative overflow-hidden">
+    <section ref={ref as React.RefObject<HTMLElement>} className="py-12 md:py-16 relative overflow-hidden">
       {/* Subtle gradient background */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent" />
       
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Header */}
-        <motion.div 
-          className="text-center mb-12 md:mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+        <div 
+          className={`text-center mb-12 md:mb-16 transition-all duration-600 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}
         >
           <Badge className="mb-4 bg-primary/10 text-primary border-primary/20 uppercase tracking-wider text-xs">
             New Feature
@@ -62,17 +94,14 @@ export const EventHaloShowcase = () => {
           <p className="text-lg md:text-xl max-w-[640px] mx-auto text-white/50">
             you scan 100 badges. we find the other 900 who saw your booth but never stopped.
           </p>
-        </motion.div>
+        </div>
 
         {/* Content Grid */}
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Sonar Visualization */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex justify-center"
+          <div
+            className={`flex justify-center transition-all duration-600 ${isInView ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+            style={{ transitionDelay: '200ms' }}
           >
             <SonarVisualization 
               haloVisitors={847}
@@ -80,36 +109,31 @@ export const EventHaloShowcase = () => {
               city="Las Vegas"
               isActive={true}
             />
-          </motion.div>
+          </div>
 
           {/* Stats & CTA */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="space-y-8"
+          <div
+            className={`space-y-8 transition-all duration-600 ${isInView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-5'}`}
+            style={{ transitionDelay: '300ms' }}
           >
             {/* Key Stats with animated counters */}
             <div className="grid grid-cols-2 gap-4">
-              <motion.div 
-                className="obsidian-glass-60 rounded-xl p-5 border border-white/10 group hover:border-white/20 transition-colors"
-                whileHover={{ scale: 1.02, y: -2 }}
+              <div 
+                className="obsidian-glass-60 rounded-xl p-5 border border-white/10 group hover:border-white/20 hover:scale-[1.02] hover:-translate-y-0.5 transition-all duration-200"
               >
                 <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center mb-3 group-hover:bg-white/15 transition-colors">
                   <Users className="w-5 h-5 text-white/80" />
                 </div>
-                <AnimatedStat end={847} suffix="" label="halo visitors detected" />
-              </motion.div>
-              <motion.div 
-                className="obsidian-glass-60 rounded-xl p-5 border border-white/10 group hover:border-white/20 transition-colors"
-                whileHover={{ scale: 1.02, y: -2 }}
+                <AnimatedStat end={847} suffix="" label="halo visitors detected" isInView={isInView} />
+              </div>
+              <div 
+                className="obsidian-glass-60 rounded-xl p-5 border border-white/10 group hover:border-white/20 hover:scale-[1.02] hover:-translate-y-0.5 transition-all duration-200"
               >
                 <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center mb-3 group-hover:bg-white/15 transition-colors">
                   <TrendingUp className="w-5 h-5 text-white/80" />
                 </div>
-                <AnimatedStat end={340} prefix="+" suffix="%" label="lift vs baseline" />
-              </motion.div>
+                <AnimatedStat end={340} prefix="+" suffix="%" label="lift vs baseline" isInView={isInView} />
+              </div>
             </div>
 
             {/* Explanation */}
@@ -142,24 +166,10 @@ export const EventHaloShowcase = () => {
               explore event halo
               <ArrowRight className="w-4 h-4" />
             </Link>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
-  );
-};
-
-// Animated stat component
-const AnimatedStat = ({ end, prefix = "", suffix = "", label }: { end: number; prefix?: string; suffix?: string; label: string }) => {
-  const { count, ref } = useAnimatedCounter(end, 1500);
-  
-  return (
-    <div ref={ref}>
-      <div className="text-2xl font-bold text-white mb-1">
-        {prefix}{count}{suffix}
-      </div>
-      <div className="text-sm text-white/50">{label}</div>
-    </div>
   );
 };
 

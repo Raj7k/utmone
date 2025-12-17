@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useModal } from "@/contexts/ModalContext";
@@ -102,9 +101,6 @@ const CONTROL_ITEMS = [
   },
 ];
 
-// Apple ease curve - use string for framer-motion compatibility
-const appleEase = "easeOut";
-
 export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -184,18 +180,14 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                       onClick={() => handleSelect(index)}
                       className="relative w-full text-left p-3 rounded-xl transition-all duration-300 group"
                     >
-                      {/* Active Glow Indicator - The "LED" */}
-                      {isActive && (
-                        <motion.div
-                          layoutId="activeGlow"
-                          className="absolute inset-0 rounded-xl bg-white/5 shadow-[0_0_20px_hsl(0_0%_100%/0.15),inset_0_1px_0_hsl(0_0%_100%/0.1)] border border-white/10"
-                          transition={{ 
-                            type: "spring", 
-                            stiffness: 400, 
-                            damping: 30 
-                          }}
-                        />
-                      )}
+                      {/* Active Glow Indicator - CSS transition instead of layoutId */}
+                      <div
+                        className={`absolute inset-0 rounded-xl transition-all duration-300 ${
+                          isActive 
+                            ? 'bg-white/5 shadow-[0_0_20px_hsl(0_0%_100%/0.15),inset_0_1px_0_hsl(0_0%_100%/0.1)] border border-white/10 opacity-100' 
+                            : 'opacity-0'
+                        }`}
+                      />
 
                       <div className="relative z-10 flex items-start gap-3">
                         {/* Icon Container */}
@@ -209,7 +201,7 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
 
                         {/* Labels */}
                         <div className="flex-1 min-w-0">
-                        <span
+                          <span
                             className={`block font-medium text-sm tracking-wide transition-colors duration-300 ${isActive ? 'text-white/95' : 'text-zinc-500'}`}
                           >
                             {item.label}
@@ -223,7 +215,7 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
 
                         {/* Arrow on hover/active */}
                         <ArrowRight 
-                          className={`w-4 h-4 mt-1 text-white/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 shrink-0 ${isActive ? 'opacity-100' : ''}`}
+                          className={`w-4 h-4 mt-1 text-white/40 transition-opacity duration-200 shrink-0 ${isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
                         />
                       </div>
                     </button>
@@ -249,97 +241,81 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
 
             {/* Display Port (Right Content) */}
             <div className="flex-1 relative overflow-hidden">
-              {/* Light Leak Effect on Transition */}
-              <AnimatePresence>
-                {isTransitioning && (
-                  <motion.div
-                    className="absolute inset-0 z-20 pointer-events-none bg-gradient-to-r from-transparent via-white/5 to-transparent"
-                    initial={{ opacity: 0, x: '-100%' }}
-                    animate={{ opacity: 1, x: '100%' }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5, ease: appleEase }}
-                  />
-                )}
-              </AnimatePresence>
+              {/* Light Leak Effect on Transition - CSS animation */}
+              <div
+                className={`absolute inset-0 z-20 pointer-events-none bg-gradient-to-r from-transparent via-white/5 to-transparent transition-all duration-500 ${
+                  isTransitioning ? 'opacity-100 translate-x-full' : 'opacity-0 -translate-x-full'
+                }`}
+              />
 
-              {/* Content Area */}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeIndex}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.5, ease: appleEase }}
-                  className="absolute inset-0 p-8 flex flex-col"
-                >
-                  {/* Dynamic Visual Based on Selection */}
-                  <div className="flex-1 flex items-center justify-center mb-4 max-h-[240px]">
-                    <DeckVisual type={activeItem.id} />
-                  </div>
+              {/* Content Area - CSS transitions instead of AnimatePresence */}
+              <div
+                key={activeIndex}
+                className={`absolute inset-0 p-8 flex flex-col transition-all duration-500 ${
+                  isTransitioning ? 'opacity-0 translate-y-5' : 'opacity-100 translate-y-0'
+                }`}
+              >
+                {/* Dynamic Visual Based on Selection */}
+                <div className="flex-1 flex items-center justify-center mb-4 max-h-[240px]">
+                  <DeckVisual type={activeItem.id} />
+                </div>
 
-                  {/* Content - Apple-style spacious */}
-                  <div className="space-y-6">
-                    {/* Headline with Brushed Metal Gradient */}
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight obsidian-platinum-text">
-                      {activeItem.headline}
-                    </h1>
+                {/* Content - Apple-style spacious */}
+                <div className="space-y-6">
+                  {/* Headline with Brushed Metal Gradient */}
+                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight obsidian-platinum-text">
+                    {activeItem.headline}
+                  </h1>
 
-                    {/* Subheadline - Muted Silver */}
-                    <p className="text-base md:text-lg max-w-xl leading-relaxed text-muted-foreground font-sans">
-                      {activeItem.subheadline}
-                    </p>
+                  {/* Subheadline - Muted Silver */}
+                  <p className="text-base md:text-lg max-w-xl leading-relaxed text-muted-foreground font-sans">
+                    {activeItem.subheadline}
+                  </p>
 
-                    {/* Inline Email CTA */}
-                    <div className="pt-2">
-                      <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
-                        <div className="relative">
-                          <Input
-                            type="email"
-                            placeholder="you@company.com"
-                            value={email}
-                            onChange={handleEmailChange}
-                            className="h-14 px-6 pr-12 rounded-full bg-white/5 border-white/10 text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:ring-primary/20 min-w-[280px]"
-                            required
-                          />
-                          <AnimatePresence>
-                            {isEmailValid && (
-                              <motion.div
-                                initial={{ opacity: 0, scale: 0.5 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.5 }}
-                                transition={{ duration: 0.2, ease: "easeOut" }}
-                                className="absolute right-4 top-1/2 -translate-y-1/2"
-                              >
-                                <CheckCircle2 className="w-5 h-5 text-green-500" />
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </div>
-                        <Button 
-                          type="submit"
-                          disabled={isSubmitting}
-                          size="lg"
-                          className="h-14 rounded-full px-8 font-medium font-sans bg-primary text-primary-foreground shadow-[0_0_30px_hsl(0_0%_100%/0.3),0_4px_15px_hsl(0_0%_0%/0.2)]"
+                  {/* Inline Email CTA */}
+                  <div className="pt-2">
+                    <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+                      <div className="relative">
+                        <Input
+                          type="email"
+                          placeholder="you@company.com"
+                          value={email}
+                          onChange={handleEmailChange}
+                          className="h-14 px-6 pr-12 rounded-full bg-white/5 border-white/10 text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:ring-primary/20 min-w-[280px]"
+                          required
+                        />
+                        <div
+                          className={`absolute right-4 top-1/2 -translate-y-1/2 transition-all duration-200 ${
+                            isEmailValid ? 'opacity-100 scale-100' : 'opacity-0 scale-50'
+                          }`}
                         >
-                          {isSubmitting ? (
-                            <Loader2 className="w-4 h-4 animate-spin" />
-                          ) : (
-                            <>
-                              get early access
-                              <ArrowRight className="w-4 h-4 ml-2" />
-                            </>
-                          )}
-                        </Button>
-                      </form>
-                      
-                      {/* Founding spots - Animated urgency counter */}
-                      <div className="mt-4">
-                        <FoundingSpotsCounter spots={47} />
+                          <CheckCircle2 className="w-5 h-5 text-green-500" />
+                        </div>
                       </div>
+                      <Button 
+                        type="submit"
+                        disabled={isSubmitting}
+                        size="lg"
+                        className="h-14 rounded-full px-8 font-medium font-sans bg-primary text-primary-foreground shadow-[0_0_30px_hsl(0_0%_100%/0.3),0_4px_15px_hsl(0_0%_0%/0.2)]"
+                      >
+                        {isSubmitting ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <>
+                            get early access
+                            <ArrowRight className="w-4 h-4 ml-2" />
+                          </>
+                        )}
+                      </Button>
+                    </form>
+                    
+                    {/* Founding spots - Animated urgency counter */}
+                    <div className="mt-4">
+                      <FoundingSpotsCounter spots={47} />
                     </div>
                   </div>
-                </motion.div>
-              </AnimatePresence>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -370,361 +346,29 @@ const DeckVisual = ({ type }: { type: UseCaseType }) => {
   }
 };
 
-// Attribution Visual - Sankey Flow with Brand Icons
-const AttributionVisual = () => {
-  const sources = [
-    { y: 20, height: 30, icon: GoogleIcon, color: "#4285F4", label: "paid ads" },
-    { y: 70, height: 45, icon: LinkedInIcon, color: "#0A66C2", label: "organic" },
-    { y: 135, height: 25, icon: HubSpotIcon, color: "#FF7A59", label: "email" },
-    { y: 180, height: 20, icon: MetaIcon, color: "#0668E1", label: "referral" },
-  ];
-
-  return (
-    <div className="relative w-[380px] h-[220px]">
-      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 380 220">
-        {/* Source nodes with brand colors */}
-        {sources.map((source, i) => (
-          <motion.rect
-            key={i}
-            x="10"
-            y={source.y}
-            width="60"
-            height={source.height}
-            rx="6"
-            fill={source.color}
-            fillOpacity={0.15}
-            stroke={source.color}
-            strokeOpacity={0.3}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.1 + i * 0.1 }}
-          />
-        ))}
-
-        {/* Flow paths with brand colors */}
-        {sources.map((source, i) => (
-          <motion.path
-            key={`path-${i}`}
-            d={`M 70 ${source.y + source.height / 2} Q 150 ${source.y + source.height / 2}, 190 110 T 310 110`}
-            fill="none"
-            stroke={source.color}
-            strokeOpacity={0.3}
-            strokeWidth={source.height / 3}
-            strokeLinecap="round"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 1.5, delay: 0.5 + i * 0.1, ease: "easeOut" }}
-          />
-        ))}
-
-        {/* Revenue node */}
-        <motion.rect x="310" y="85" width="60" height="50" rx="8" className="fill-white/90"
-          initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 2, type: "spring", stiffness: 300 }} />
-      </svg>
-      
-      {/* Labels with brand icons */}
-      {sources.map((source, i) => {
-        const Icon = source.icon;
-        return (
-          <motion.div
-            key={i}
-            className="absolute left-0 flex items-center gap-1.5"
-            style={{ top: source.y - 2 }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 + i * 0.1 }}
-          >
-            <Icon className="w-3.5 h-3.5" />
-            <span className="text-[10px] uppercase tracking-wider text-white/50">{source.label}</span>
-          </motion.div>
-        );
-      })}
-      <motion.div className="absolute right-0 top-[100px] flex items-center gap-1"
-        initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 2.2 }}>
-        <DollarSign className="w-4 h-4 text-zinc-900" />
-        <span className="text-sm font-bold text-zinc-900">revenue</span>
-      </motion.div>
-    </div>
-  );
-};
-
-// Journey Visual - Timeline
-const JourneyVisual = () => {
-  const touchpoints = [
-    { label: "visit", delay: 0 },
-    { label: "click", delay: 0.2 },
-    { label: "demo", delay: 0.4 },
-    { label: "call", delay: 0.6 },
-    { label: "close", delay: 0.8 },
-  ];
-
-  return (
-    <div className="relative w-[380px] h-[180px]">
-      {/* Timeline line */}
-      <motion.div 
-        className="absolute top-[60px] left-[30px] right-[30px] h-[2px] bg-white/10"
-        initial={{ scaleX: 0, originX: 0 }}
-        animate={{ scaleX: 1 }}
-        transition={{ duration: 1, ease: appleEase }}
-      />
-
-      {/* Animated progress line */}
-      <motion.div 
-        className="absolute top-[60px] left-[30px] h-[2px] bg-white/60"
-        style={{ width: 'calc(100% - 60px)' }}
-        initial={{ scaleX: 0, originX: 0 }}
-        animate={{ scaleX: 1 }}
-        transition={{ duration: 2, delay: 0.5, ease: appleEase }}
-      />
-
-      {/* Touchpoints */}
-      {touchpoints.map((tp, i) => (
-        <motion.div
-          key={tp.label}
-          className="absolute flex flex-col items-center"
-          style={{ left: `${15 + i * 17.5}%`, top: '40px' }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 + tp.delay, ease: appleEase }}
-        >
-          {/* Dot */}
-          <motion.div 
-            className={`w-10 h-10 rounded-full flex items-center justify-center border-2 border-white/30 ${i === touchpoints.length - 1 ? 'bg-white/90' : 'bg-white/10'}`}
-            animate={i < touchpoints.length - 1 ? { 
-              boxShadow: ['0 0 0 0 transparent', '0 0 0 8px hsl(0 0% 100% / 0.1)', '0 0 0 0 transparent']
-            } : {}}
-            transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
-          >
-            {i === touchpoints.length - 1 && <CheckCircle2 className="w-5 h-5 text-zinc-900" />}
-          </motion.div>
-          {/* Label */}
-          <span className={`mt-3 text-xs uppercase tracking-wider ${i === touchpoints.length - 1 ? 'text-white/90' : 'text-white/50'}`}>
-            {tp.label}
-          </span>
-        </motion.div>
-      ))}
-
-      {/* Device icons floating */}
-      <motion.div 
-        className="absolute top-2 left-[20%] text-[10px] uppercase px-2 py-1 rounded bg-white/5 text-white/40"
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}
-      >
-        📱 mobile
-      </motion.div>
-      <motion.div 
-        className="absolute top-2 left-[55%] text-[10px] uppercase px-2 py-1 rounded bg-white/5 text-white/40"
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.8 }}
-      >
-        💻 desktop
-      </motion.div>
-    </div>
-  );
-};
-
-// Links Visual - UTM Builder Mockup
-const LinksVisual = () => {
-  const fields = [
-    { label: "utm_source", value: "linkedin", delay: 0.2 },
-    { label: "utm_medium", value: "social", delay: 0.4 },
-    { label: "utm_campaign", value: "q4-launch", delay: 0.6 },
-  ];
-
-  return (
-    <div className="relative w-[340px]">
-      {/* Glass Card */}
-      <motion.div 
-        className="rounded-2xl p-5 space-y-4 bg-white/[0.03] border border-white/10 shadow-[inset_0_1px_0_hsl(0_0%_100%/0.05)]"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ ease: appleEase }}
-      >
-        {/* URL Input */}
-        <motion.div 
-          className="rounded-lg px-3 py-2 flex items-center gap-2 bg-white/5 border border-white/[0.08]"
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}
-        >
-          <LinkIcon className="w-4 h-4 text-white/40" />
-          <span className="text-sm text-white/60">utm.one/nike-q4</span>
-          <CheckCircle2 className="w-4 h-4 ml-auto text-green-500/80" />
-        </motion.div>
-
-        {/* UTM Fields */}
-        {fields.map((field) => (
-          <motion.div 
-            key={field.label}
-            className="flex items-center gap-3"
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: field.delay, ease: appleEase }}
-          >
-            <span className="text-[10px] uppercase tracking-wider w-24 text-white/40">
-              {field.label}
-            </span>
-            <div className="flex-1 rounded px-2 py-1.5 flex items-center justify-between bg-white/5">
-              <span className="text-xs text-white/80">{field.value}</span>
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: field.delay + 0.3, type: "spring" }}
-              >
-                <CheckCircle2 className="w-3 h-3 text-green-500/80" />
-              </motion.div>
-            </div>
-          </motion.div>
-        ))}
-
-        {/* QR Preview */}
-        <motion.div 
-          className="flex items-center gap-3 pt-2"
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}
-        >
-          <div className="w-12 h-12 rounded-lg grid grid-cols-4 grid-rows-4 gap-0.5 p-1 bg-white/10">
-            {Array.from({ length: 16 }).map((_, i) => (
-              <div key={i} className={`rounded-sm ${Math.random() > 0.4 ? 'bg-white/70' : 'bg-transparent'}`} />
-            ))}
-          </div>
-          <div>
-            <p className="text-xs font-medium text-white/80">QR generated</p>
-            <p className="text-[10px] text-white/40">print-ready • 300dpi</p>
-          </div>
-        </motion.div>
-      </motion.div>
-    </div>
-  );
-};
-
-// Intelligence Visual - Neural Network
-const IntelligenceVisual = () => {
-  const nodes = [
-    { x: 50, y: 50 }, { x: 50, y: 110 }, { x: 50, y: 170 },
-    { x: 150, y: 80 }, { x: 150, y: 140 },
-    { x: 250, y: 110 },
-  ];
-
-  const connections = [
-    [0, 3], [0, 4], [1, 3], [1, 4], [2, 3], [2, 4],
-    [3, 5], [4, 5]
-  ];
-
-  return (
-    <div className="relative w-[300px] h-[220px]">
-      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 300 220">
-        {/* Connections */}
-        {connections.map(([from, to], i) => (
-          <motion.line
-            key={i}
-            x1={nodes[from].x}
-            y1={nodes[from].y}
-            x2={nodes[to].x}
-            y2={nodes[to].y}
-            className="stroke-white/15"
-            strokeWidth="1"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ pathLength: 1, opacity: 1 }}
-            transition={{ delay: 0.3 + i * 0.1, duration: 0.5 }}
-          />
-        ))}
-
-        {/* Pulse along connections */}
-        {connections.map(([from, to], i) => (
-          <motion.circle
-            key={`pulse-${i}`}
-            r="3"
-            className="fill-white/60"
-            initial={{ opacity: 0 }}
-            animate={{
-              cx: [nodes[from].x, nodes[to].x],
-              cy: [nodes[from].y, nodes[to].y],
-              opacity: [0, 1, 0]
-            }}
-            transition={{
-              duration: 2,
-              delay: 1 + i * 0.2,
-              repeat: Infinity,
-              repeatDelay: 3
-            }}
-          />
-        ))}
-
-        {/* Nodes */}
-        {nodes.map((node, i) => (
-          <motion.circle
-            key={i}
-            cx={node.x}
-            cy={node.y}
-            r={i === nodes.length - 1 ? 20 : 12}
-            className={`stroke-white/30 ${i === nodes.length - 1 ? 'fill-white/90' : 'fill-white/10'}`}
-            strokeWidth="1"
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.1 + i * 0.1, type: "spring" }}
-          />
-        ))}
-      </svg>
-
-      {/* Center brain icon */}
-      <motion.div 
-        className="absolute flex items-center justify-center"
-        style={{ left: '230px', top: '90px' }}
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 1, type: "spring" }}
-      >
-        <Brain className="w-6 h-6 text-zinc-900" />
-      </motion.div>
-
-      {/* Labels */}
-      <motion.div 
-        className="absolute top-[40px] left-0 text-[9px] uppercase tracking-wider text-white/40"
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
-      >
-        inputs
-      </motion.div>
-      <motion.div 
-        className="absolute top-[90px] right-[20px] text-[9px] uppercase tracking-wider text-white/60"
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }}
-      >
-        insight
-      </motion.div>
-
-      {/* AI Features floating */}
-      {['predictive', 'attribution', 'routing', 'immunity'].map((feature, i) => (
-        <motion.div
-          key={feature}
-          className="absolute text-[8px] uppercase tracking-wider px-2 py-1 rounded bg-white/5 text-white/50"
-          style={{ 
-            left: i % 2 === 0 ? '10px' : 'auto',
-            right: i % 2 === 1 ? '10px' : 'auto',
-            top: i < 2 ? '5px' : 'auto',
-            bottom: i >= 2 ? '5px' : 'auto'
-          }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 + i * 0.2 }}
-        >
-          {feature}
-        </motion.div>
-      ))}
-    </div>
-  );
-};
-
-// Governance Visual - Terminal Log
+// Governance Visual - Terminal Log (CSS-only animations)
 const GovernanceVisual = () => {
+  const [visibleLogs, setVisibleLogs] = useState<number[]>([]);
   const logs = [
-    { user: "sarah.k", action: "created", target: "nike-q4-campaign", status: "approved", delay: 0.2 },
-    { user: "mike.r", action: "edited", target: "tesla-launch-2024", status: "pending", delay: 0.5 },
-    { user: "admin", action: "approved", target: "apple-wwdc-link", status: "approved", delay: 0.8 },
-    { user: "lisa.m", action: "archived", target: "old-campaign-123", status: "approved", delay: 1.1 },
+    { user: "sarah.k", action: "created", target: "nike-q4-campaign", status: "approved", delay: 200 },
+    { user: "mike.r", action: "edited", target: "tesla-launch-2024", status: "pending", delay: 500 },
+    { user: "admin", action: "approved", target: "apple-wwdc-link", status: "approved", delay: 800 },
+    { user: "lisa.m", action: "archived", target: "old-campaign-123", status: "approved", delay: 1100 },
   ];
+
+  useEffect(() => {
+    logs.forEach((log, i) => {
+      setTimeout(() => {
+        setVisibleLogs(prev => [...prev, i]);
+      }, log.delay);
+    });
+  }, []);
 
   return (
     <div className="relative w-[380px]">
       {/* Terminal Window */}
-      <motion.div 
-        className="rounded-xl overflow-hidden bg-black/40 border border-white/10"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+      <div 
+        className="rounded-xl overflow-hidden bg-black/40 border border-white/10 animate-fade-in"
       >
         {/* Title Bar */}
         <div className="flex items-center gap-2 px-4 py-2 bg-white/[0.03]">
@@ -739,40 +383,35 @@ const GovernanceVisual = () => {
         {/* Log Entries */}
         <div className="p-4 space-y-2 font-mono text-xs">
           {logs.map((log, i) => (
-            <motion.div
+            <div
               key={i}
-              className="flex items-center gap-2"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: log.delay, ease: appleEase }}
+              className={`flex items-center gap-2 transition-all duration-300 ${
+                visibleLogs.includes(i) ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-5'
+              }`}
             >
               <span className="text-white/30">[{`${9 + i}:${15 + i * 7}am`}]</span>
               <User className="w-3 h-3 text-white/40" />
               <span className="text-white/60">{log.user}</span>
               <span className="text-white/40">{log.action}</span>
               <span className="text-white/80">{log.target}</span>
-              <motion.span 
-                className={`ml-auto px-2 py-0.5 rounded text-[10px] uppercase ${log.status === 'approved' ? 'bg-green-500/20 text-green-500/90' : 'bg-yellow-500/20 text-yellow-500/90'}`}
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: log.delay + 0.3, type: "spring" }}
+              <span 
+                className={`ml-auto px-2 py-0.5 rounded text-[10px] uppercase transition-transform duration-300 ${
+                  log.status === 'approved' ? 'bg-green-500/20 text-green-500/90' : 'bg-yellow-500/20 text-yellow-500/90'
+                } ${visibleLogs.includes(i) ? 'scale-100' : 'scale-0'}`}
+                style={{ transitionDelay: '300ms' }}
               >
                 {log.status}
-              </motion.span>
-            </motion.div>
+              </span>
+            </div>
           ))}
 
           {/* Blinking cursor */}
-          <motion.div 
-            className="flex items-center gap-1 pt-2"
-            animate={{ opacity: [1, 0] }}
-            transition={{ duration: 0.8, repeat: Infinity }}
-          >
+          <div className="flex items-center gap-1 pt-2 animate-pulse">
             <span className="text-white/40">$</span>
             <div className="w-2 h-4 bg-white/60" />
-          </motion.div>
+          </div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };
