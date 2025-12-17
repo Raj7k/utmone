@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -30,6 +30,11 @@ export const OmniDemo = () => {
   const [shortLink, setShortLink] = useState("");
   const [qrCodeUrl, setQrCodeUrl] = useState("");
   const [creationTime, setCreationTime] = useState(0);
+  
+  // Particle animation state (Safari-compatible replacement for CSS Motion Path)
+  const journeyPathRef = useRef<SVGPathElement>(null);
+  const particleAnimationRef = useRef<number>(0);
+  const [particlePositions, setParticlePositions] = useState<{x: number, y: number}[]>([]);
 
   const fullUrl = "linkedin.com/posts/ciso-trends-2025";
   const tags = [
@@ -138,6 +143,53 @@ export const OmniDemo = () => {
       timeouts.forEach(t => clearTimeout(t));
     };
   }, []);
+
+  // Safari-compatible particle animation using requestAnimationFrame
+  useEffect(() => {
+    if (!showJourney || !journeyPathRef.current) {
+      setParticlePositions([]);
+      return;
+    }
+    
+    const path = journeyPathRef.current;
+    const totalLength = path.getTotalLength();
+    const particleCount = 5;
+    let lastTime = 0;
+    const frameInterval = 1000 / 30; // 30fps throttle
+    
+    const animate = (timestamp: number) => {
+      // Skip if tab not visible
+      if (document.visibilityState !== 'visible') {
+        particleAnimationRef.current = requestAnimationFrame(animate);
+        return;
+      }
+      
+      // Throttle to 30fps
+      if (timestamp - lastTime < frameInterval) {
+        particleAnimationRef.current = requestAnimationFrame(animate);
+        return;
+      }
+      lastTime = timestamp;
+      
+      const newPositions = Array.from({ length: particleCount }).map((_, i) => {
+        // Each particle is offset by 0.2 (20%) along the path
+        const progress = ((timestamp / 3000 + i * 0.2) % 1);
+        const point = path.getPointAtLength(progress * totalLength);
+        return { x: point.x, y: point.y };
+      });
+      
+      setParticlePositions(newPositions);
+      particleAnimationRef.current = requestAnimationFrame(animate);
+    };
+    
+    particleAnimationRef.current = requestAnimationFrame(animate);
+    
+    return () => {
+      if (particleAnimationRef.current) {
+        cancelAnimationFrame(particleAnimationRef.current);
+      }
+    };
+  }, [showJourney]);
 
   // Live demo functions
   const generateBrandedQR = async (url: string) => {
@@ -646,24 +698,24 @@ export const OmniDemo = () => {
                         </motion.g>
                       )}
 
-                      {/* Floating particles */}
-                      {showJourney && Array.from({ length: 5 }).map((_, i) => (
-                        <motion.circle
+                      {/* Invisible reference path for particle animation */}
+                      <path
+                        ref={journeyPathRef}
+                        d="M100,200 C200,200 200,120 300,120 C400,120 400,150 500,150 C600,150 600,200 700,200"
+                        fill="none"
+                        stroke="none"
+                      />
+
+                      {/* Floating particles - Safari-compatible using getPointAtLength */}
+                      {showJourney && particlePositions.map((pos, i) => (
+                        <circle
                           key={i}
+                          cx={pos.x}
+                          cy={pos.y}
                           r="2"
                           fill="white"
                           filter="url(#glow)"
-                          initial={{ offsetDistance: "0%" }}
-                          animate={{ offsetDistance: "100%" }}
-                          transition={{
-                            duration: 3,
-                            repeat: Infinity,
-                            delay: i * 0.6,
-                            ease: "linear"
-                          }}
-                          style={{
-                            offsetPath: `path("M100,200 C200,200 200,120 300,120 C400,120 400,150 500,150 C600,150 600,200 700,200")`
-                          }}
+                          opacity={0.9}
                         />
                       ))}
                     </svg>
