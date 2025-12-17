@@ -377,6 +377,65 @@ export default {
   				'0%': { r: '10', opacity: '0.6' },
   				'100%': { r: '60', opacity: '0' }
   			},
+  			// Phase 3: CSS-only animations replacing framer-motion
+  			'fade-in': {
+  				'0%': { opacity: '0' },
+  				'100%': { opacity: '1' }
+  			},
+  			'fade-out': {
+  				'0%': { opacity: '1' },
+  				'100%': { opacity: '0' }
+  			},
+  			'slide-up': {
+  				'0%': { transform: 'translateY(20px)', opacity: '0' },
+  				'100%': { transform: 'translateY(0)', opacity: '1' }
+  			},
+  			'slide-down': {
+  				'0%': { transform: 'translateY(-20px)', opacity: '0' },
+  				'100%': { transform: 'translateY(0)', opacity: '1' }
+  			},
+  			'scale-in': {
+  				'0%': { transform: 'scale(0.95)', opacity: '0' },
+  				'100%': { transform: 'scale(1)', opacity: '1' }
+  			},
+  			'scale-out': {
+  				'0%': { transform: 'scale(1)', opacity: '1' },
+  				'100%': { transform: 'scale(0.95)', opacity: '0' }
+  			},
+  			'fade-slide-up': {
+  				'0%': { opacity: '0', transform: 'translateY(20px)' },
+  				'100%': { opacity: '1', transform: 'translateY(0)' }
+  			},
+  			'fade-slide-down': {
+  				'0%': { opacity: '0', transform: 'translateY(-20px)' },
+  				'100%': { opacity: '1', transform: 'translateY(0)' }
+  			},
+  			'glow-indicator': {
+  				'0%, 100%': { boxShadow: '0 0 15px rgba(255,255,255,0.1)' },
+  				'50%': { boxShadow: '0 0 25px rgba(255,255,255,0.2)' }
+  			},
+  			'draw-path': {
+  				'0%': { strokeDashoffset: '100%' },
+  				'100%': { strokeDashoffset: '0%' }
+  			},
+  			'pulse-dot': {
+  				'0%, 100%': { opacity: '0.3', transform: 'scale(1)' },
+  				'50%': { opacity: '1', transform: 'scale(1.2)' }
+  			},
+  			'flow-particle': {
+  				'0%': { transform: 'translateX(0)', opacity: '0' },
+  				'10%': { opacity: '1' },
+  				'90%': { opacity: '1' },
+  				'100%': { transform: 'translateX(var(--flow-distance, 100px))', opacity: '0' }
+  			},
+  			'cursor-blink': {
+  				'0%, 50%': { opacity: '1' },
+  				'51%, 100%': { opacity: '0' }
+  			},
+  			'ring-pulse': {
+  				'0%': { transform: 'scale(1)', opacity: '0.6' },
+  				'100%': { transform: 'scale(1.5)', opacity: '0' }
+  			},
   			// Dropdown-specific animations (CSS-only, GPU accelerated)
   			'fade-in-dropdown': {
   				'0%': { opacity: '0', transform: 'translateY(10px)' },
@@ -412,6 +471,21 @@ export default {
   			'accordion-up': 'accordion-up 0.2s ease-out',
   			'fade-in-up': 'fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
   			'glow-pulse': 'glow-pulse 4s ease-in-out infinite',
+  			// Phase 3: CSS-only animations
+  			'fade-in': 'fade-in 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+  			'fade-out': 'fade-out 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+  			'slide-up': 'slide-up 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+  			'slide-down': 'slide-down 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+  			'scale-in': 'scale-in 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+  			'scale-out': 'scale-out 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+  			'fade-slide-up': 'fade-slide-up 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+  			'fade-slide-down': 'fade-slide-down 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+  			'glow-indicator': 'glow-indicator 2s ease-in-out infinite',
+  			'draw-path': 'draw-path 1.5s ease-out forwards',
+  			'pulse-dot': 'pulse-dot 2s ease-in-out infinite',
+  			'flow-particle': 'flow-particle 2s linear infinite',
+  			'cursor-blink': 'cursor-blink 1s step-end infinite',
+  			'ring-pulse': 'ring-pulse 2s ease-out infinite',
   			// Dropdown animations
   			'fade-in-dropdown': 'fade-in-dropdown 0.3s ease-out forwards',
   			'node-pulse': 'node-pulse 2s ease-in-out infinite',
