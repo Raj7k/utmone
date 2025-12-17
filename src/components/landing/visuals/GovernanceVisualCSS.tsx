@@ -18,18 +18,18 @@ export const GovernanceVisualCSS = () => {
       <div 
         className="rounded-xl overflow-hidden bg-black/40 border border-white/10 animate-fade-in"
       >
-        {/* Title Bar */}
+        {/* Title Bar - Colorful macOS dots */}
         <div className="flex items-center gap-2 px-4 py-2 bg-white/[0.03]">
-          <div className="w-2 h-2 rounded-full bg-zinc-500/60" />
-          <div className="w-2 h-2 rounded-full bg-zinc-400/60" />
-          <div className="w-2 h-2 rounded-full bg-zinc-300/60" />
+          <div className="w-2 h-2 rounded-full bg-red-500/80" />
+          <div className="w-2 h-2 rounded-full bg-yellow-500/80" />
+          <div className="w-2 h-2 rounded-full bg-green-500/80" />
           <span className="ml-2 text-[8px] uppercase tracking-wider text-white/30">
             audit log
           </span>
         </div>
 
         {/* Log Entries */}
-        <div className="p-4 space-y-2 font-mono text-[6px]">
+        <div className="p-4 space-y-2 font-mono text-[8px]">
           {logs.map((log, i) => (
             <div
               key={i}
@@ -45,10 +45,10 @@ export const GovernanceVisualCSS = () => {
               <span className="text-white/30">{log.action}</span>
               <span className="text-white/60">{log.target}</span>
               <span 
-                className={`ml-auto px-1.5 py-0.5 rounded text-[5px] uppercase animate-scale-in opacity-0 ${
+                className={`ml-auto px-1.5 py-0.5 rounded text-[6px] uppercase animate-scale-in opacity-0 ${
                   log.status === 'approved' 
-                    ? 'bg-white/10 text-white/60' 
-                    : 'bg-white/5 text-white/40'
+                    ? 'bg-green-500/20 text-green-400' 
+                    : 'bg-yellow-500/20 text-yellow-400'
                 }`}
                 style={{ 
                   animationDelay: `${log.delay + 300}ms`,

@@ -180,15 +180,15 @@ export const ControlDeckHeroCSS = ({ onUseCaseChange }: ControlDeckHeroProps) =>
                   Control Deck
                 </p>
                 
-                {/* Subtle Arrow Toggle */}
+                {/* Toggle Arrow - More Visible */}
                 <button
                   onClick={() => setIsCollapsed(prev => !prev)}
-                  className="w-6 h-6 rounded-md flex items-center justify-center text-white/20 hover:text-white/50 hover:bg-white/5 transition-all duration-200"
+                  className="w-8 h-8 rounded-lg flex items-center justify-center bg-white/5 border border-white/10 text-white/50 hover:text-white/80 hover:bg-white/10 transition-all duration-200"
                 >
                   {isCollapsed ? (
-                    <ChevronRight className="w-3.5 h-3.5" />
+                    <ChevronRight className="w-4 h-4" />
                   ) : (
-                    <ChevronLeft className="w-3.5 h-3.5" />
+                    <ChevronLeft className="w-4 h-4" />
                   )}
                 </button>
               </div>
