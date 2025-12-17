@@ -10,15 +10,15 @@ interface Particle {
 }
 
 const SOURCES = [
-  { id: "link", label: "Links", y: 30, icon: Link, color: "#3B82F6" },
-  { id: "qr", label: "QR", y: 70, icon: QrCode, color: "#10B981" },
-  { id: "bio", label: "Bio", y: 110, icon: Globe, color: "#8B5CF6" },
+  { id: "link", label: "Links", y: 30, icon: Link, color: "#A1A1AA" },
+  { id: "qr", label: "QR", y: 70, icon: QrCode, color: "#71717A" },
+  { id: "bio", label: "Bio", y: 110, icon: Globe, color: "#D4D4D8" },
 ];
 
 const DESTINATIONS = [
-  { id: "web", label: "Web", y: 30, icon: Globe, color: "#F59E0B" },
-  { id: "mobile", label: "Mobile", y: 70, icon: Smartphone, color: "#EC4899" },
-  { id: "app", label: "App", y: 110, icon: Monitor, color: "#06B6D4" },
+  { id: "web", label: "Web", y: 30, icon: Globe, color: "#52525B" },
+  { id: "mobile", label: "Mobile", y: 70, icon: Smartphone, color: "#A1A1AA" },
+  { id: "app", label: "App", y: 110, icon: Monitor, color: "#71717A" },
 ];
 
 export const LinksQRSankeyVisual = () => {
@@ -216,8 +216,8 @@ export const LinksQRSankeyVisual = () => {
               <circle cx={leftX} cy={source.y} r="6" fill="none" stroke={source.color} strokeWidth="1" style={{ opacity: 0.3 }} />
               <foreignObject x={leftX - 55} y={source.y - 8} width="45" height="16">
                 <div className="flex items-center gap-1 justify-end h-full">
-                  <Icon className="w-3 h-3" style={{ color: source.color }} />
-                  <span className="text-[8px] text-white/50 font-mono">{source.label}</span>
+                  <Icon className="w-2.5 h-2.5" style={{ color: source.color }} />
+                  <span className="text-[6px] text-white/40 font-mono">{source.label}</span>
                 </div>
               </foreignObject>
             </g>
@@ -243,7 +243,7 @@ export const LinksQRSankeyVisual = () => {
           <circle cx={hubX} cy={hubY} r="3" className="fill-white/80" />
         </g>
 
-        <text x={hubX} y={hubY + 28} textAnchor="middle" className="text-[7px] fill-white/40 font-mono tracking-widest">
+        <text x={hubX} y={hubY + 28} textAnchor="middle" className="text-[5px] fill-white/30 font-mono tracking-widest">
           utm.one
         </text>
 
@@ -256,8 +256,8 @@ export const LinksQRSankeyVisual = () => {
               <circle cx={rightX} cy={dest.y} r="6" fill="none" stroke={dest.color} strokeWidth="1" style={{ opacity: 0.3 }} />
               <foreignObject x={rightX + 10} y={dest.y - 8} width="45" height="16">
                 <div className="flex items-center gap-1 h-full">
-                  <Icon className="w-3 h-3" style={{ color: dest.color }} />
-                  <span className="text-[8px] text-white/50 font-mono">{dest.label}</span>
+                  <Icon className="w-2.5 h-2.5" style={{ color: dest.color }} />
+                  <span className="text-[6px] text-white/40 font-mono">{dest.label}</span>
                 </div>
               </foreignObject>
             </g>

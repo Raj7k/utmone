@@ -9,9 +9,9 @@ interface Particle {
 }
 
 const SOURCES = [
-  { id: "venue", label: "Venue", y: 25, icon: MapPin, color: "#F59E0B" },
-  { id: "event", label: "Event", y: 55, icon: Calendar, color: "#8B5CF6" },
-  { id: "attendees", label: "Leads", y: 85, icon: Users, color: "#10B981" },
+  { id: "venue", label: "Venue", y: 25, icon: MapPin, color: "#A1A1AA" },
+  { id: "event", label: "Event", y: 55, icon: Calendar, color: "#71717A" },
+  { id: "attendees", label: "Leads", y: 85, icon: Users, color: "#D4D4D8" },
 ];
 
 export const EventHaloVisual = () => {
@@ -180,8 +180,8 @@ export const EventHaloVisual = () => {
               <circle cx={leftX} cy={source.y} r="6" fill="none" stroke={source.color} strokeWidth="1" style={{ opacity: 0.3 }} />
               <foreignObject x={leftX - 55} y={source.y - 8} width="45" height="16">
                 <div className="flex items-center gap-1 justify-end h-full">
-                  <Icon className="w-3 h-3" style={{ color: source.color }} />
-                  <span className="text-[8px] text-white/50 font-mono">{source.label}</span>
+                  <Icon className="w-2.5 h-2.5" style={{ color: source.color }} />
+                  <span className="text-[6px] text-white/40 font-mono">{source.label}</span>
                 </div>
               </foreignObject>
             </g>
@@ -195,7 +195,7 @@ export const EventHaloVisual = () => {
             cy={haloY}
             r="18"
             fill="none"
-            className={`transition-all duration-100 ${haloGlow ? "stroke-amber-400/95" : "stroke-amber-400/25"}`}
+            className={`transition-all duration-100 ${haloGlow ? "stroke-white/95" : "stroke-white/25"}`}
             strokeWidth="1.5"
             filter={haloGlow ? "url(#halo-center-glow)" : undefined}
             style={{ 
@@ -203,11 +203,11 @@ export const EventHaloVisual = () => {
               transformOrigin: `${haloX}px ${haloY}px`
             }}
           />
-          <circle cx={haloX} cy={haloY} r="10" fill="none" className="stroke-amber-400/[0.15]" strokeWidth="1" />
-          <circle cx={haloX} cy={haloY} r="4" className="fill-amber-400/80" />
+          <circle cx={haloX} cy={haloY} r="10" fill="none" className="stroke-white/[0.15]" strokeWidth="1" />
+          <circle cx={haloX} cy={haloY} r="4" className="fill-white/80" />
         </g>
 
-        <text x={haloX} y={haloY + 32} textAnchor="middle" className="text-[7px] fill-white/40 font-mono tracking-widest">
+        <text x={haloX} y={haloY + 32} textAnchor="middle" className="text-[5px] fill-white/30 font-mono tracking-widest">
           EVENT HALO
         </text>
 
@@ -215,11 +215,11 @@ export const EventHaloVisual = () => {
         <g>
           <circle cx={rightX} cy={haloY} r="14" fill="none" className="stroke-white/25" strokeWidth="1.5" />
           <circle cx={rightX} cy={haloY} r="7" fill="none" className="stroke-white/[0.12]" strokeWidth="1" />
-          <circle cx={rightX} cy={haloY} r="3" className="fill-emerald-400/80" />
+          <circle cx={rightX} cy={haloY} r="3" className="fill-white/80" />
           <foreignObject x={rightX - 20} y={haloY + 18} width="40" height="25">
             <div className="flex flex-col items-center">
-              <DollarSign className="w-3 h-3 text-emerald-400" />
-              <span className="text-[7px] text-white/50 font-mono">Revenue</span>
+              <DollarSign className="w-2.5 h-2.5 text-white/50" />
+              <span className="text-[5px] text-white/30 font-mono">Revenue</span>
             </div>
           </foreignObject>
         </g>
