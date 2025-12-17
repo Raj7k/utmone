@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
-import { Activity, CheckCircle2, Clock, Zap, XCircle, AlertCircle, Wifi, WifiOff, Send, RefreshCw } from "lucide-react";
+import { Activity, CheckCircle2, Clock, Zap, XCircle, AlertCircle, Wifi, WifiOff, Send, RefreshCw, FlaskConical, DollarSign, User } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
+import { cn } from "@/lib/utils";
 
 interface TrackedEvent {
   id: string;
@@ -16,9 +19,11 @@ interface TrackedEvent {
   landing_page: string | null;
   revenue: number | null;
   created_at: string;
+  user_identifier?: string | null;
 }
 
 type SubscriptionStatus = 'connecting' | 'connected' | 'disconnected' | 'error';
+type TestType = 'basic' | 'revenue' | 'identify';
 
 export const PixelDebugger = () => {
   const { currentWorkspace } = useWorkspaceContext();
@@ -29,6 +34,9 @@ export const PixelDebugger = () => {
   const [recentEvents, setRecentEvents] = useState<TrackedEvent[]>([]);
   const [secondsSinceLastEvent, setSecondsSinceLastEvent] = useState<number | null>(null);
   const [isSendingTest, setIsSendingTest] = useState(false);
+  const [testType, setTestType] = useState<TestType>('basic');
+  const [testRevenue, setTestRevenue] = useState('99.99');
+  const [testEmail, setTestEmail] = useState('');
 
   // Fetch pixel_id for this workspace
   const { data: pixelConfig } = useQuery({
@@ -186,17 +194,37 @@ export const PixelDebugger = () => {
       return;
     }
 
+    // Validate email for identify test
+    if (testType === 'identify' && !testEmail.trim()) {
+      toast({
+        title: "Email required",
+        description: "Please enter an email address for the identify test",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSendingTest(true);
-    console.log('[PixelDebugger] Sending test event with pixel_id:', pixelConfig.pixel_id);
+    console.log('[PixelDebugger] Sending', testType, 'test event with pixel_id:', pixelConfig.pixel_id);
 
     try {
       const testParams = new URLSearchParams({
         pixel_id: pixelConfig.pixel_id,
-        event: 'custom',
-        event_name: 'debug_test',
         visitor_id: `test-${Date.now()}`,
         referrer: window.location.href,
       });
+
+      // Set event type and params based on testType
+      if (testType === 'revenue') {
+        testParams.set('event', 'purchase');
+        testParams.set('revenue', testRevenue);
+      } else if (testType === 'identify') {
+        testParams.set('event', 'identify');
+        testParams.set('email', testEmail.trim());
+      } else {
+        testParams.set('event', 'custom');
+        testParams.set('event_name', 'debug_test');
+      }
 
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/track-pixel?${testParams.toString()}`,
@@ -207,8 +235,9 @@ export const PixelDebugger = () => {
       console.log('[PixelDebugger] Test event response:', result);
 
       if (response.ok) {
+        const eventLabel = testType === 'revenue' ? 'Revenue' : testType === 'identify' ? 'Identify' : 'Test';
         toast({
-          title: "Test event sent!",
+          title: `${eventLabel} event sent!`,
           description: "Check if it appears below within a few seconds",
         });
         // Refetch events after a short delay
@@ -336,19 +365,103 @@ export const PixelDebugger = () => {
         </div>
       </div>
 
-      {/* Test Event Button */}
-      <div className="mb-4 p-3 bg-muted/50 rounded-lg border border-border">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium">send test event</p>
+      {/* Test Event Configuration */}
+      <div className="mb-4 p-4 bg-muted/50 rounded-lg border border-border">
+        <div className="flex items-center gap-2 mb-3">
+          <FlaskConical className="h-4 w-4 text-primary" />
+          <p className="text-sm font-medium">test your pixel</p>
+        </div>
+        
+        {/* Test Type Selector */}
+        <div className="grid grid-cols-3 gap-2 mb-4">
+          <button 
+            onClick={() => setTestType('basic')}
+            className={cn(
+              "p-2 rounded-lg border text-xs font-medium transition-colors flex items-center justify-center gap-1.5",
+              testType === 'basic' 
+                ? "bg-primary/10 border-primary text-primary" 
+                : "bg-card border-border hover:bg-muted"
+            )}
+          >
+            <Zap className="h-3.5 w-3.5" />
+            Basic
+          </button>
+          <button 
+            onClick={() => setTestType('revenue')}
+            className={cn(
+              "p-2 rounded-lg border text-xs font-medium transition-colors flex items-center justify-center gap-1.5",
+              testType === 'revenue' 
+                ? "bg-green-500/10 border-green-500 text-green-600 dark:text-green-400" 
+                : "bg-card border-border hover:bg-muted"
+            )}
+          >
+            <DollarSign className="h-3.5 w-3.5" />
+            Revenue
+          </button>
+          <button 
+            onClick={() => setTestType('identify')}
+            className={cn(
+              "p-2 rounded-lg border text-xs font-medium transition-colors flex items-center justify-center gap-1.5",
+              testType === 'identify' 
+                ? "bg-blue-500/10 border-blue-500 text-blue-600 dark:text-blue-400" 
+                : "bg-card border-border hover:bg-muted"
+            )}
+          >
+            <User className="h-3.5 w-3.5" />
+            Identify
+          </button>
+        </div>
+
+        {/* Conditional inputs based on test type */}
+        {testType === 'revenue' && (
+          <div className="mb-4 space-y-2">
+            <Label className="text-xs">Revenue Amount ($)</Label>
+            <Input 
+              type="number" 
+              value={testRevenue} 
+              onChange={(e) => setTestRevenue(e.target.value)}
+              placeholder="99.99"
+              className="h-8"
+              step="0.01"
+              min="0"
+            />
             <p className="text-xs text-muted-foreground">
-              fire a test event to verify your pixel is working
+              Tests: <code className="bg-muted px-1 py-0.5 rounded">utmone('track', 'purchase', {`{ revenue: ${testRevenue} }`})</code>
             </p>
           </div>
+        )}
+
+        {testType === 'identify' && (
+          <div className="mb-4 space-y-2">
+            <Label className="text-xs">Email Address</Label>
+            <Input 
+              type="email" 
+              value={testEmail} 
+              onChange={(e) => setTestEmail(e.target.value)}
+              placeholder="user@example.com"
+              className="h-8"
+            />
+            <p className="text-xs text-muted-foreground">
+              Tests: <code className="bg-muted px-1 py-0.5 rounded">utmone('identify', '{testEmail || 'email'}')</code> for 100% cross-device accuracy
+            </p>
+          </div>
+        )}
+
+        {testType === 'basic' && (
+          <p className="text-xs text-muted-foreground mb-4">
+            Sends a basic test event to verify your pixel is installed correctly.
+          </p>
+        )}
+
+        <div className="flex items-center justify-between">
           <Button 
             size="sm" 
             onClick={sendTestEvent}
             disabled={isSendingTest || !pixelConfig?.pixel_id}
+            className={cn(
+              testType === 'revenue' && "bg-green-600 hover:bg-green-700",
+              testType === 'identify' && "bg-blue-600 hover:bg-blue-700"
+            )}
           >
             {isSendingTest ? (
               <>
@@ -358,13 +471,14 @@ export const PixelDebugger = () => {
             ) : (
               <>
                 <Send className="h-4 w-4 mr-2" />
-                send test
+                send {testType === 'revenue' ? 'revenue' : testType === 'identify' ? 'identify' : 'test'} event
               </>
             )}
           </Button>
         </div>
+
         {!pixelConfig?.pixel_id && (
-          <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">
+          <p className="text-xs text-amber-600 dark:text-amber-400 mt-3">
             ⚠️ no pixel configured for this workspace
           </p>
         )}
