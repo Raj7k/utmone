@@ -1,5 +1,4 @@
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Sparkles, LayoutGrid, Boxes } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -56,30 +55,28 @@ interface StackingFeatureCardProps {
   card: FeatureCard;
   index: number;
   totalCards: number;
-  scrollProgress: MotionValue<number>;
+  scrollProgress: number;
 }
 
 const StackingFeatureCard = ({ card, index, totalCards, scrollProgress }: StackingFeatureCardProps) => {
   const cardStart = index / totalCards;
-
-  // Y position: first card should be visible immediately; others slide up when active
-  const y = useTransform(
-    scrollProgress,
-    index === 0
-      ? [0, 0.15]
-      : [Math.max(0, cardStart - 0.05), cardStart + 0.2],
-    index === 0 ? ["0%", "0%"] : ["100%", "0%"]
-  );
+  
+  // Calculate Y position based on scroll progress
+  let yPercent = 0;
+  if (index !== 0) {
+    const progress = Math.max(0, Math.min(1, (scrollProgress - (cardStart - 0.05)) / 0.25));
+    yPercent = 100 - (progress * 100);
+  }
 
   const Icon = card.badgeIcon;
 
   return (
-    <motion.div
+    <div
       style={{
-        y,
-        zIndex: index + 1, // Higher index = on top (card 3 covers card 2 covers card 1)
+        transform: `translateY(${yPercent}%)`,
+        zIndex: index + 1,
       }}
-      className="absolute inset-0 rounded-3xl shadow-2xl overflow-hidden"
+      className="absolute inset-0 rounded-3xl shadow-2xl overflow-hidden transition-transform duration-100 ease-out"
     >
       {/* Glass Background */}
       <div className="absolute inset-0 bg-zinc-900/70 backdrop-blur-xl border border-white/10 rounded-3xl" />
@@ -139,11 +136,7 @@ const StackingFeatureCard = ({ card, index, totalCards, scrollProgress }: Stacki
         {/* Visual */}
         <div className="flex-1 flex items-center justify-center max-w-xs lg:max-w-sm overflow-hidden">
           {index === 0 && (
-            <motion.div
-              className="relative"
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            >
+            <div className="relative animate-float">
               <div className="absolute inset-0 blur-3xl opacity-30 bg-gradient-to-br from-amber-500 via-orange-500 to-yellow-500 rounded-full scale-75" />
               <img 
                 src={stampMandala} 
@@ -151,20 +144,16 @@ const StackingFeatureCard = ({ card, index, totalCards, scrollProgress }: Stacki
                 className="w-40 h-40 md:w-56 md:h-56 lg:w-64 lg:h-64 object-cover rounded-lg relative"
                 style={{ filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.4))" }}
               />
-            </motion.div>
+            </div>
           )}
-              {index === 1 && (
-                <div className="relative scale-[0.65] origin-center">
-                  <div className="absolute -inset-2 blur-2xl opacity-15 bg-gradient-to-br from-primary via-purple-500 to-pink-500 rounded-full" />
-                  <LinkPagePreview />
-                </div>
-              )}
+          {index === 1 && (
+            <div className="relative scale-[0.65] origin-center">
+              <div className="absolute -inset-2 blur-2xl opacity-15 bg-gradient-to-br from-primary via-purple-500 to-pink-500 rounded-full" />
+              <LinkPagePreview />
+            </div>
+          )}
           {index === 2 && (
-            <motion.div
-              className="relative"
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            >
+            <div className="relative animate-float">
               <div 
                 className="absolute inset-0 blur-3xl opacity-40"
                 style={{
@@ -177,20 +166,47 @@ const StackingFeatureCard = ({ card, index, totalCards, scrollProgress }: Stacki
                 className="w-40 md:w-56 lg:w-64 relative"
                 style={{ filter: "drop-shadow(0 25px 50px rgba(0,0,0,0.5))" }}
               />
-            </motion.div>
+            </div>
           )}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
 export const StackingNewFeatures = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    let rafId: number;
+    
+    const handleScroll = () => {
+      rafId = requestAnimationFrame(() => {
+        const rect = container.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const containerHeight = container.offsetHeight;
+        
+        // Calculate progress: 0 when top of container hits top of viewport, 1 when bottom hits top
+        const scrolled = -rect.top;
+        const scrollableDistance = containerHeight - windowHeight;
+        const progress = Math.max(0, Math.min(1, scrolled / scrollableDistance));
+        
+        setScrollProgress(progress);
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      cancelAnimationFrame(rafId);
+    };
+  }, []);
 
   return (
     <div ref={containerRef} className="relative min-h-[250vh] -mt-16">
@@ -202,7 +218,7 @@ export const StackingNewFeatures = () => {
               card={card}
               index={index}
               totalCards={featureCards.length}
-              scrollProgress={scrollYProgress}
+              scrollProgress={scrollProgress}
             />
           ))}
         </div>

@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 import { UseCaseType, resolveUseCaseContent } from "./useCaseConfig";
 import { AlertTriangle, TrendingDown, Shuffle, Clock, FileWarning, LayoutGrid, Waves } from "lucide-react";
 import { LinkedInIcon, GoogleIcon, SpotifyIcon } from "@/components/icons/SocialIcons";
@@ -66,17 +66,15 @@ const PROBLEM_CONTENT: Partial<Record<UseCaseType, {
       <div className="relative">
         <div className="flex items-center justify-between gap-2">
           {["📱", "💻", "📱", "💻", "📱"].map((device, i) => (
-            <motion.div
+            <div
               key={i}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: i === 4 ? 1 : 0.2, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              className={`w-12 h-12 rounded-lg flex items-center justify-center text-xl ${
-                i === 4 ? 'bg-primary/20 border border-primary/40' : 'bg-white/5 border border-white/10'
+              className={`w-12 h-12 rounded-lg flex items-center justify-center text-xl transition-all duration-300 ${
+                i === 4 ? 'bg-primary/20 border border-primary/40 opacity-100' : 'bg-white/5 border border-white/10 opacity-20'
               }`}
+              style={{ animationDelay: `${i * 100}ms` }}
             >
               {device}
-            </motion.div>
+            </div>
           ))}
         </div>
         <div className="mt-4 text-center">
@@ -125,12 +123,13 @@ const PROBLEM_CONTENT: Partial<Record<UseCaseType, {
             </div>
             <div className="h-24 flex items-end gap-1">
               {[80, 75, 82, 78, 5, 3, 4, 2].map((h, i) => (
-                <motion.div
+                <div
                   key={i}
-                  className={`flex-1 rounded-t ${i >= 4 ? 'bg-destructive/50' : 'bg-white/20'}`}
-                  initial={{ height: 0 }}
-                  animate={{ height: `${h}%` }}
-                  transition={{ delay: i * 0.1 }}
+                  className={`flex-1 rounded-t transition-all duration-500 ${i >= 4 ? 'bg-destructive/50' : 'bg-white/20'}`}
+                  style={{ 
+                    height: `${h}%`,
+                    transitionDelay: `${i * 100}ms`
+                  }}
                 />
               ))}
             </div>
@@ -243,66 +242,82 @@ export const DynamicProblemSection = ({ selectedUseCase }: DynamicProblemSection
     section: "Problem",
   });
   const Icon = content.icon;
+  
+  const [isVisible, setIsVisible] = useState(false);
+  const [currentKey, setCurrentKey] = useState(resolvedUseCase);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Handle use case changes with fade transition
+  useEffect(() => {
+    if (resolvedUseCase !== currentKey) {
+      setIsVisible(false);
+      const timeout = setTimeout(() => {
+        setCurrentKey(resolvedUseCase);
+        setIsVisible(true);
+      }, 300);
+      return () => clearTimeout(timeout);
+    }
+  }, [resolvedUseCase, currentKey]);
+
+  // Initial visibility on mount
+  useEffect(() => {
+    const timeout = setTimeout(() => setIsVisible(true), 100);
+    return () => clearTimeout(timeout);
+  }, []);
 
   return (
-    <section className="py-16 md:py-24">
+    <section ref={sectionRef} className="py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={resolvedUseCase}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
-            className="grid lg:grid-cols-2 gap-12 items-center"
-          >
-            {/* Left: Content */}
-            <div className="space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-destructive/10 border border-destructive/20">
-                <Icon className="w-4 h-4 text-destructive" />
-                <span className="text-xs font-medium uppercase tracking-wider text-destructive">
-                  {content.eyebrow}
-                </span>
-              </div>
-
-              <h2 
-                className="text-3xl md:text-4xl lg:text-5xl font-display font-bold"
-                style={{
-                  background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text'
-                }}
-              >
-                {content.headline}
-              </h2>
-
-              <p className="text-lg text-white/60 leading-relaxed">
-                {content.description}
-              </p>
-
-              {/* Stat */}
-              <div className="inline-flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10">
-                <div className="text-4xl font-display font-bold text-destructive">
-                  {content.stat.value}
-                </div>
-                <div className="text-sm text-white/50 max-w-[200px]">
-                  {content.stat.label}
-                </div>
-              </div>
+        <div
+          className={`grid lg:grid-cols-2 gap-12 items-center transition-all duration-500 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
+        >
+          {/* Left: Content */}
+          <div className="space-y-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-destructive/10 border border-destructive/20">
+              <Icon className="w-4 h-4 text-destructive" />
+              <span className="text-xs font-medium uppercase tracking-wider text-destructive">
+                {content.eyebrow}
+              </span>
             </div>
 
-            {/* Right: Visual */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="p-6 rounded-2xl bg-white/[0.02] border border-white/10"
+            <h2 
+              className="text-3xl md:text-4xl lg:text-5xl font-display font-bold"
+              style={{
+                background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}
             >
-              {content.visual}
-            </motion.div>
-          </motion.div>
-        </AnimatePresence>
+              {content.headline}
+            </h2>
+
+            <p className="text-lg text-white/60 leading-relaxed">
+              {content.description}
+            </p>
+
+            {/* Stat */}
+            <div className="inline-flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10">
+              <div className="text-4xl font-display font-bold text-destructive">
+                {content.stat.value}
+              </div>
+              <div className="text-sm text-white/50 max-w-[200px]">
+                {content.stat.label}
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Visual */}
+          <div
+            className={`p-6 rounded-2xl bg-white/[0.02] border border-white/10 transition-all duration-500 delay-200 ${
+              isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+            }`}
+          >
+            {content.visual}
+          </div>
+        </div>
       </div>
     </section>
   );

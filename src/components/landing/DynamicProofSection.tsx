@@ -1,7 +1,8 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 import { UseCaseType, resolveUseCaseContent } from "./useCaseConfig";
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle2, Zap, Clock, Shield, Brain, Target } from "lucide-react";
+import { useInView } from "@/hooks/useInView";
 
 interface DynamicProofSectionProps {
   selectedUseCase: UseCaseType;
@@ -157,149 +158,121 @@ export const DynamicProofSection = ({ selectedUseCase }: DynamicProofSectionProp
     section: "Proof",
   });
 
+  const [isVisible, setIsVisible] = useState(false);
+  const [currentKey, setCurrentKey] = useState(resolvedUseCase);
+  const { ref: sectionRef, isInView } = useInView({ threshold: 0.2 });
+
+  // Handle use case changes with fade transition
+  useEffect(() => {
+    if (resolvedUseCase !== currentKey) {
+      setIsVisible(false);
+      const timeout = setTimeout(() => {
+        setCurrentKey(resolvedUseCase);
+        setIsVisible(true);
+      }, 300);
+      return () => clearTimeout(timeout);
+    }
+  }, [resolvedUseCase, currentKey]);
+
+  // Initial visibility when in view
+  useEffect(() => {
+    if (isInView) {
+      const timeout = setTimeout(() => setIsVisible(true), 100);
+      return () => clearTimeout(timeout);
+    }
+  }, [isInView]);
+
   return (
-    <section className="py-16 md:py-24 relative">
+    <section ref={sectionRef} className="py-16 md:py-24 relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={resolvedUseCase}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -30 }}
-            transition={{ duration: 0.5, type: "spring", stiffness: 100 }}
-            className="space-y-12"
-          >
-            {/* Header with stagger animation */}
-            <motion.div 
-              className="text-center space-y-4"
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ amount: 0.5 }}
-              transition={{ duration: 0.5 }}
+        <div
+          className={`space-y-12 transition-all duration-500 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}
+        >
+          {/* Header */}
+          <div className="text-center space-y-4">
+            <div 
+              className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 transition-all duration-500 delay-100 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
+              }`}
             >
-              <motion.div 
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-              >
-                <span className="text-xs font-medium uppercase tracking-wider text-primary">
-                  {content.eyebrow}
-                </span>
-              </motion.div>
-
-              <motion.h2 
-                className="text-3xl md:text-4xl lg:text-5xl font-display font-bold"
-                style={{
-                  background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text'
-                }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-              >
-                {content.headline}
-              </motion.h2>
-            </motion.div>
-
-
-            {/* Stacking Capabilities Grid */}
-            <div className="grid md:grid-cols-3 gap-6 perspective-1000">
-              {content.capabilities.map((capability, i) => {
-                const Icon = capability.icon;
-                return (
-                  <motion.div
-                    key={capability.title}
-                    initial={{ opacity: 0, y: 60, rotateX: -15 }}
-                    animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                    transition={{ 
-                      delay: 0.3 + i * 0.12,
-                      type: "spring",
-                      stiffness: 80,
-                      damping: 15
-                    }}
-                    whileHover={{ 
-                      y: -12,
-                      scale: 1.03,
-                      rotateX: 5,
-                      transition: { type: "spring", stiffness: 400, damping: 20 }
-                    }}
-                    className="relative p-6 rounded-2xl bg-white/[0.02] border border-white/10 hover:border-primary/30 transition-colors group cursor-pointer overflow-hidden"
-                    style={{ transformStyle: 'preserve-3d' }}
-                  >
-                    {/* Animated border glow */}
-                    <motion.div
-                      className="absolute inset-0 rounded-2xl pointer-events-none"
-                      style={{
-                        background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%, rgba(255,255,255,0.02) 100%)',
-                      }}
-                      animate={{
-                        opacity: [0.5, 1, 0.5],
-                      }}
-                      transition={{
-                        duration: 3,
-                        repeat: Infinity,
-                        delay: i * 0.5,
-                      }}
-                    />
-                    
-                    {/* Hover glow effect */}
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                    />
-                    
-                    <div className="relative z-10">
-                      <motion.div 
-                        className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4"
-                        whileHover={{ scale: 1.15, rotate: 5 }}
-                        transition={{ type: "spring", stiffness: 400 }}
-                      >
-                        <Icon className="w-6 h-6 text-primary" />
-                      </motion.div>
-                      <h3 className="text-lg font-semibold text-white/90 mb-2 group-hover:text-white transition-colors">
-                        {capability.title}
-                      </h3>
-                      <p className="text-sm text-white/50 leading-relaxed group-hover:text-white/60 transition-colors">
-                        {capability.description}
-                      </p>
-                    </div>
-                    
-                    {/* Bottom accent line with animation */}
-                    <motion.div
-                      className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-primary/50 to-primary/0"
-                      initial={{ width: 0 }}
-                      whileHover={{ width: "100%" }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  </motion.div>
-                );
-              })}
+              <span className="text-xs font-medium uppercase tracking-wider text-primary">
+                {content.eyebrow}
+              </span>
             </div>
 
-            {/* CTA with hover animation */}
-            <motion.div 
-              className="text-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
+            <h2 
+              className={`text-3xl md:text-4xl lg:text-5xl font-display font-bold transition-all duration-500 delay-200 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+              }`}
+              style={{
+                background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}
             >
-              <Link
-                to={content.cta.route}
-                className="inline-flex items-center gap-2 text-primary font-medium hover:opacity-80 transition-opacity group"
-              >
-                {content.cta.text}
-                <motion.span
-                  animate={{ x: [0, 4, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 1 }}
+              {content.headline}
+            </h2>
+          </div>
+
+          {/* Capabilities Grid */}
+          <div className="grid md:grid-cols-3 gap-6">
+            {content.capabilities.map((capability, i) => {
+              const Icon = capability.icon;
+              return (
+                <div
+                  key={capability.title}
+                  className={`relative p-6 rounded-2xl bg-white/[0.02] border border-white/10 hover:border-primary/30 transition-all duration-300 group cursor-pointer overflow-hidden ${
+                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'
+                  }`}
+                  style={{ 
+                    transitionDelay: `${300 + i * 120}ms`,
+                  }}
                 >
-                  <ArrowRight className="w-4 h-4" />
-                </motion.span>
-              </Link>
-            </motion.div>
-          </motion.div>
-        </AnimatePresence>
+                  {/* Gradient overlay */}
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/[0.03] via-transparent to-white/[0.01] pointer-events-none" />
+                  
+                  {/* Hover glow effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  
+                  <div className="relative z-10">
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 transition-transform duration-200 group-hover:scale-110">
+                      <Icon className="w-6 h-6 text-primary" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-white/90 mb-2 group-hover:text-white transition-colors">
+                      {capability.title}
+                    </h3>
+                    <p className="text-sm text-white/50 leading-relaxed group-hover:text-white/60 transition-colors">
+                      {capability.description}
+                    </p>
+                  </div>
+                  
+                  {/* Bottom accent line */}
+                  <div className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-primary/50 to-primary/0 w-0 group-hover:w-full transition-all duration-300" />
+                </div>
+              );
+            })}
+          </div>
+
+          {/* CTA */}
+          <div 
+            className={`text-center transition-all duration-500 delay-700 ${
+              isVisible ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <Link
+              to={content.cta.route}
+              className="inline-flex items-center gap-2 text-primary font-medium hover:opacity-80 transition-opacity group"
+            >
+              {content.cta.text}
+              <span className="animate-bounce-x">
+                <ArrowRight className="w-4 h-4" />
+              </span>
+            </Link>
+          </div>
+        </div>
       </div>
     </section>
   );
