@@ -24,16 +24,17 @@ export const registerServiceWorker = async (): Promise<ServiceWorkerRegistration
 
       newWorker.addEventListener('statechange', () => {
         if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-          // New version available - dispatch event for UI notification
-          window.dispatchEvent(new CustomEvent('sw-update', { detail: registration }));
+          // Auto-skip waiting and apply update silently
+          if (registration.waiting) {
+            registration.waiting.postMessage('skipWaiting');
+          }
         }
       });
     });
 
-    // Handle controller change (when user accepts update)
+    // Auto-reload when new SW takes control (with small delay to avoid jarring refresh)
     navigator.serviceWorker.addEventListener('controllerchange', () => {
-      // Optionally reload the page when new SW takes control
-      // window.location.reload();
+      setTimeout(() => window.location.reload(), 1500);
     });
 
     console.log('Service Worker registered successfully');
