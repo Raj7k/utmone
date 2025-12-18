@@ -1,19 +1,14 @@
-import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { LinkedInIcon, GoogleIcon, MetaIcon, HubSpotIcon } from "@/components/icons/SocialIcons";
 
-// Cinematic Attribution Sankey: Fiber-optic bundles → heartbeat pulse → bloom revenue
+// CSS-only Attribution Sankey: Fiber-optic bundles → heartbeat pulse → bloom revenue
 export const AttributionSankeyMini = () => {
-  const [particles, setParticles] = useState<{ id: number; path: number; delay: number }[]>([]);
-  const appleEase = [0.4, 0.0, 0.2, 1] as const;
-  const fiberOffsets = [-1, -0.5, 0, 0.5, 1]; // 5 strands per flow
+  const [isVisible, setIsVisible] = useState(false);
+  const fiberOffsets = [-1, -0.5, 0, 0.5, 1];
 
   useEffect(() => {
-    setParticles(Array.from({ length: 8 }, (_, i) => ({
-      id: i,
-      path: i % 4,
-      delay: i * 0.25, // 60bpm rhythm
-    })));
+    const timer = setTimeout(() => setIsVisible(true), 100);
+    return () => clearTimeout(timer);
   }, []);
 
   const sources = [
@@ -26,7 +21,6 @@ export const AttributionSankeyMini = () => {
   return (
     <svg viewBox="0 0 120 60" className="w-full h-full">
       <defs>
-        {/* Bloom effect filter */}
         <filter id="attrBloom" x="-100%" y="-100%" width="300%" height="300%">
           <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur1" />
           <feGaussianBlur in="SourceGraphic" stdDeviation="0.8" result="blur2" />
@@ -37,13 +31,11 @@ export const AttributionSankeyMini = () => {
           </feMerge>
         </filter>
         
-        {/* Fiber glow */}
         <filter id="attrFiberGlow" x="-50%" y="-50%" width="200%" height="200%">
           <feGaussianBlur stdDeviation="1.2" result="glow" />
           <feComposite in="SourceGraphic" in2="glow" operator="over" />
         </filter>
         
-        {/* Per-source fiber gradients with white-hot center */}
         {sources.map((source, i) => (
           <linearGradient key={`attrFlow-${i}`} id={`attrFlow-${i}`} x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor={source.color} stopOpacity="0.7" />
@@ -52,26 +44,55 @@ export const AttributionSankeyMini = () => {
           </linearGradient>
         ))}
         
-        {/* Gold revenue gradient */}
         <radialGradient id="goldRevenue" cx="50%" cy="50%" r="50%">
           <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.9" />
           <stop offset="40%" stopColor="#FFB800" stopOpacity="0.7" />
           <stop offset="100%" stopColor="#FFB800" stopOpacity="0.2" />
         </radialGradient>
         
-        {/* Dot grid */}
         <pattern id="attrDotGrid" patternUnits="userSpaceOnUse" width="4" height="4">
           <circle cx="2" cy="2" r="0.12" fill="white" fillOpacity="0.1" />
         </pattern>
       </defs>
       
-      {/* Background */}
+      <style>{`
+        @keyframes barGrow {
+          from { transform: scaleX(0); }
+          to { transform: scaleX(1); }
+        }
+        @keyframes barPulse {
+          0%, 100% { stroke-opacity: 0.3; }
+          50% { stroke-opacity: 0.7; }
+        }
+        @keyframes pathDraw {
+          from { stroke-dashoffset: 100; }
+          to { stroke-dashoffset: 0; }
+        }
+        @keyframes particleMove {
+          0% { offset-distance: 0%; opacity: 0; }
+          10% { opacity: 1; }
+          90% { opacity: 1; }
+          100% { offset-distance: 100%; opacity: 0; }
+        }
+        @keyframes scaleIn {
+          from { transform: scale(0); }
+          to { transform: scale(1); }
+        }
+        @keyframes ringPulse {
+          0%, 100% { r: 10; opacity: 0.6; }
+          50% { r: 14; opacity: 0.1; }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+      `}</style>
+      
       <rect x="0" y="0" width="120" height="60" fill="url(#attrDotGrid)" opacity="0.3" />
 
-      {/* Source bars with frosted glass effect */}
       {sources.map((source, i) => (
         <g key={i}>
-          <motion.rect
+          <rect
             x="16"
             y={source.y}
             width={source.width}
@@ -82,12 +103,13 @@ export const AttributionSankeyMini = () => {
             stroke={source.color}
             strokeOpacity={0.5}
             strokeWidth="0.4"
-            initial={{ width: 0 }}
-            animate={{ width: source.width }}
-            transition={{ duration: 0.6, delay: i * 0.1, ease: appleEase }}
+            style={{
+              transformOrigin: '16px center',
+              animation: isVisible ? `barGrow 0.6s ${i * 0.1}s cubic-bezier(0.4, 0, 0.2, 1) forwards` : 'none',
+              transform: isVisible ? undefined : 'scaleX(0)',
+            }}
           />
-          {/* Glowing edge pulse */}
-          <motion.rect
+          <rect
             x="16"
             y={source.y}
             width={source.width}
@@ -96,8 +118,9 @@ export const AttributionSankeyMini = () => {
             fill="none"
             stroke={source.color}
             strokeWidth="0.3"
-            animate={{ strokeOpacity: [0.3, 0.7, 0.3] }}
-            transition={{ duration: 1, repeat: Infinity, delay: i * 0.25, ease: appleEase }}
+            style={{
+              animation: isVisible ? `barPulse 1s ${i * 0.25}s cubic-bezier(0.4, 0, 0.2, 1) infinite` : 'none',
+            }}
           />
           <foreignObject x="4" y={source.y - 1} width="10" height="8">
             <div className="flex items-center justify-center w-full h-full">
@@ -107,13 +130,12 @@ export const AttributionSankeyMini = () => {
         </g>
       ))}
 
-      {/* Multi-strand fiber-optic flows */}
       {sources.map((source, srcIdx) => (
         fiberOffsets.map((offset, strandIdx) => {
           const isCenter = strandIdx === 2;
           const baseY = source.y + 3;
           return (
-            <motion.path
+            <path
               key={`fiber-${srcIdx}-${strandIdx}`}
               d={`M ${16 + source.width} ${baseY + offset * 0.8} Q 80 ${baseY + offset * 0.4}, 100 30`}
               fill="none"
@@ -122,74 +144,57 @@ export const AttributionSankeyMini = () => {
               strokeLinecap="round"
               strokeOpacity={isCenter ? 0.8 : 0.2}
               filter={isCenter ? "url(#attrFiberGlow)" : undefined}
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.3 + srcIdx * 0.1, ease: appleEase }}
+              strokeDasharray="100"
+              style={{
+                strokeDashoffset: isVisible ? 0 : 100,
+                transition: `stroke-dashoffset 0.8s ${0.3 + srcIdx * 0.1}s cubic-bezier(0.4, 0, 0.2, 1)`,
+              }}
             />
           );
         })
       ))}
 
-      {/* Heartbeat pulse particles - 60bpm rhythm */}
-      {particles.map((particle) => {
-        const source = sources[particle.path];
-        return (
-          <motion.circle
-            key={particle.id}
-            r="2"
-            fill={source.color}
-            filter="url(#attrFiberGlow)"
-            initial={{ offsetDistance: "0%", opacity: 0 }}
-            animate={{ 
-              offsetDistance: ["0%", "100%"],
-              opacity: [0, 1, 1, 0],
-              scale: [0.8, 1.2, 0.8],
-            }}
-            transition={{
-              duration: 1, // 60bpm
-              delay: particle.delay,
-              repeat: Infinity,
-              repeatDelay: 0.5,
-              ease: appleEase,
-            }}
-            style={{
-              offsetPath: `path("M ${16 + source.width} ${source.y + 3} Q 80 ${source.y + 3}, 100 30")`,
-            }}
-          />
-        );
-      })}
+      {isVisible && sources.map((source, i) => (
+        <circle
+          key={`particle-${i}`}
+          r="2"
+          fill={source.color}
+          filter="url(#attrFiberGlow)"
+          style={{
+            offsetPath: `path("M ${16 + source.width} ${source.y + 3} Q 80 ${source.y + 3}, 100 30")`,
+            animation: `particleMove 1.5s ${i * 0.25}s cubic-bezier(0.4, 0, 0.2, 1) infinite`,
+          }}
+        />
+      ))}
 
-      {/* Revenue node with bloom and gold glow */}
-      <motion.circle
+      <circle
         cx="108"
         cy="30"
         r="10"
         fill="url(#goldRevenue)"
         filter="url(#attrBloom)"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 0.8, type: "spring", stiffness: 200 }}
+        style={{
+          transformOrigin: '108px 30px',
+          animation: isVisible ? 'scaleIn 0.4s 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards' : 'none',
+          transform: isVisible ? undefined : 'scale(0)',
+        }}
       />
       
-      {/* Pulsing outer ring */}
-      <motion.circle
+      <circle
         cx="108"
         cy="30"
         r="10"
         fill="none"
         stroke="#FFB800"
         strokeWidth="0.5"
-        animate={{ 
-          r: [10, 14, 10],
-          opacity: [0.6, 0.1, 0.6],
+        style={{
+          animation: isVisible ? 'ringPulse 1s 1s cubic-bezier(0.4, 0, 0.2, 1) infinite' : 'none',
         }}
-        transition={{ duration: 1, repeat: Infinity, ease: appleEase }}
       />
       
-      {/* Inner core */}
       <circle cx="108" cy="30" r="6" fill="rgba(255,184,0,0.3)" stroke="#FFB800" strokeWidth="0.5" />
       
-      <motion.text
+      <text
         x="108"
         y="32"
         fill="white"
@@ -197,12 +202,13 @@ export const AttributionSankeyMini = () => {
         textAnchor="middle"
         fontFamily="ui-monospace"
         fontWeight="bold"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
+        style={{
+          opacity: isVisible ? 1 : 0,
+          transition: 'opacity 0.3s 1s',
+        }}
       >
         $
-      </motion.text>
+      </text>
     </svg>
   );
 };
