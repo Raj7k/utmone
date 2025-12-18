@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { 
   Target, 
   Scale, 
@@ -27,6 +26,7 @@ const DecisionMatrixBuilder = () => {
     { name: "Risk", weight: 4 }
   ]);
   const [scores, setScores] = useState<Record<string, Record<string, number>>>({});
+  const [showResult, setShowResult] = useState(false);
 
   const updateScore = (option: string, criterion: string, score: number) => {
     setScores(prev => ({
@@ -60,6 +60,13 @@ const DecisionMatrixBuilder = () => {
     const text = `⚖️ Just used the Decision Matrix Builder from utm.one\n\nResult: ${winner} scored highest with ${calculateTotal(winner)} points\n\nMake data-driven decisions:`;
     shareOnLinkedIn(text, "https://utm.one/tools/decision-frameworks?tab=decision-matrix");
   };
+
+  useEffect(() => {
+    const winner = getWinner();
+    if (winner && calculateTotal(winner) > 0) {
+      setShowResult(true);
+    }
+  }, [scores]);
 
   return (
     <div className="rounded-2xl overflow-hidden obsidian-glass">
@@ -123,11 +130,9 @@ const DecisionMatrixBuilder = () => {
             </table>
           </div>
 
-          {getWinner() && calculateTotal(getWinner()) > 0 && (
-            <motion.div 
-              className="p-3 rounded-lg flex items-center justify-between bg-blazeOrange/10 border border-blazeOrange/20"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+          {showResult && getWinner() && calculateTotal(getWinner()) > 0 && (
+            <div 
+              className="p-3 rounded-lg flex items-center justify-between bg-blazeOrange/10 border border-blazeOrange/20 transition-opacity duration-300"
             >
               <div className="flex items-center gap-2 font-semibold text-sm text-blazeOrange">
                 <CheckCircle2 className="w-4 h-4" />
@@ -142,7 +147,7 @@ const DecisionMatrixBuilder = () => {
                 <Share2 className="w-3 h-3 mr-1" />
                 share
               </Button>
-            </motion.div>
+            </div>
           )}
         </div>
       </div>
@@ -224,14 +229,13 @@ const ROIForecaster = () => {
               { label: "Revenue", value: `$${revenue.toLocaleString()}`, color: "text-blazeOrange" },
               { label: "ROI", value: `${roi.toFixed(1)}%`, color: roi > 0 ? "text-green-500" : "text-red-500" },
             ].map((stat) => (
-              <motion.div 
+              <div 
                 key={stat.label} 
-                className="p-3 rounded-lg text-center bg-white/3"
-                whileHover={{ scale: 1.02 }}
+                className="p-3 rounded-lg text-center bg-white/3 hover:scale-[1.02] transition-transform"
               >
                 <div className={`text-lg font-bold ${stat.color}`}>{stat.value}</div>
                 <div className="text-xs text-white-50">{stat.label}</div>
-              </motion.div>
+              </div>
             ))}
           </div>
 
@@ -251,17 +255,35 @@ const ROIForecaster = () => {
 
 export const StrategicToolsShowcase = () => {
   const [activeTab, setActiveTab] = useState("first-principles");
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section className="py-16 md:py-24 bg-obsidian">
+    <section ref={ref} className="py-16 md:py-24 bg-obsidian">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-10 space-y-4"
+        <div
+          className={`text-center mb-10 space-y-4 transition-all duration-500 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm bg-blazeOrange/10 border border-blazeOrange/20 text-blazeOrange">
             <Sparkles className="w-4 h-4" />
@@ -273,14 +295,14 @@ export const StrategicToolsShowcase = () => {
           <p className="text-base md:text-lg max-w-2xl mx-auto text-white-50">
             built from mathematical models developed by MIT and Harvard scientists — now free to use.
           </p>
-        </motion.div>
+        </div>
 
         {/* Embedded Tools with Tabs */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+        <div
+          className={`transition-all duration-500 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
+          style={{ transitionDelay: '200ms' }}
         >
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             {/* Mobile: Full-width vertical tabs */}
@@ -321,15 +343,14 @@ export const StrategicToolsShowcase = () => {
               <ROIForecaster />
             </TabsContent>
           </Tabs>
-        </motion.div>
+        </div>
 
         {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="text-center mt-10"
+        <div
+          className={`text-center mt-10 transition-all duration-500 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
+          style={{ transitionDelay: '400ms' }}
         >
           <Link to="/tools/decision-frameworks">
             <Button 
@@ -341,7 +362,7 @@ export const StrategicToolsShowcase = () => {
               <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
           </Link>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
