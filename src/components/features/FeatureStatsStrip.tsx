@@ -1,7 +1,5 @@
-import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
-
-const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
+import { useIntersectionAnimation } from "@/components/landing/motion";
 
 interface StatItem {
   value: string;
@@ -14,12 +12,11 @@ interface FeatureStatsStripProps {
 }
 
 const AnimatedNumber = ({ value }: { value: string }) => {
-  const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, amount: 0.5 });
+  const { ref, isVisible } = useIntersectionAnimation(0.5);
   const [displayValue, setDisplayValue] = useState("0");
 
   useEffect(() => {
-    if (!isInView) return;
+    if (!isVisible) return;
 
     // Extract numeric part
     const numericMatch = value.match(/[\d.]+/);
@@ -61,30 +58,34 @@ const AnimatedNumber = ({ value }: { value: string }) => {
     }, stepDuration);
 
     return () => clearInterval(timer);
-  }, [isInView, value]);
+  }, [isVisible, value]);
 
-  return <span ref={ref}>{displayValue}</span>;
+  return <span ref={ref as React.RefObject<HTMLSpanElement>}>{displayValue}</span>;
 };
 
 export const FeatureStatsStrip = ({ stats }: FeatureStatsStripProps) => {
+  const { ref, isVisible } = useIntersectionAnimation(0.2);
+
   return (
     <section className="py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: appleEase }}
-          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
+        <div
+          ref={ref}
+          className={`grid sm:grid-cols-2 lg:grid-cols-4 gap-6 transition-all duration-600 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+          style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
         >
           {stats.map((item, index) => (
-            <motion.div
+            <div
               key={index}
-              initial={{ opacity: 0, y: 20, scale: 0.95 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.5, ease: appleEase }}
-              className="p-6 text-center bg-card/30 backdrop-blur-xl rounded-2xl border border-border hover:border-primary/30 transition-colors duration-300"
+              className={`p-6 text-center bg-card/30 backdrop-blur-xl rounded-2xl border border-border hover:border-primary/30 transition-all duration-500 ${
+                isVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-5 scale-95"
+              }`}
+              style={{ 
+                transitionDelay: `${index * 100}ms`,
+                transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)"
+              }}
             >
               <div className="text-4xl md:text-5xl font-sans font-bold hero-gradient mb-2 tabular-nums">
                 <AnimatedNumber value={item.value} />
@@ -92,9 +93,9 @@ export const FeatureStatsStrip = ({ stats }: FeatureStatsStripProps) => {
               <div className="text-sm uppercase text-muted-foreground tracking-wider">
                 {item.label}
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
