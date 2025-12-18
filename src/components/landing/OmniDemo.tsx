@@ -281,7 +281,7 @@ export const OmniDemo = () => {
             <div className="absolute inset-0 pointer-events-none opacity-5 bg-[repeating-linear-gradient(0deg,transparent,transparent_2px,rgba(255,255,255,0.02)_2px,rgba(255,255,255,0.02)_4px)] rounded-[32px]" />
 
             {/* CENTER-STAGE HEADLINE */}
-            <div className="absolute top-12 left-0 right-0 z-10 flex flex-col items-center justify-center">
+            <div className="absolute top-[88px] left-0 right-0 z-10 flex flex-col items-center justify-center">
               {(['problem', 'ai', 'journey', 'halo', 'revenue'] as AnimationPhase[]).map((p) => (
                 <div
                   key={p}
