@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { 
@@ -155,14 +154,49 @@ const HERO_FALLBACK_CONTENT = HERO_CONTENT.attribution ?? {
   features: [],
 };
 
+// CSS animation hook using Intersection Observer
+const useInViewAnimation = (threshold = 0.2) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return { ref, isVisible };
+};
+
 export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
   const [activeUseCase, setActiveUseCase] = useState<UseCaseType>(DEFAULT_USE_CASE);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [expandedMobile, setExpandedMobile] = useState<UseCaseType | null>(null);
   const isMobile = useIsMobile();
 
   const handleUseCaseChange = (useCase: UseCaseType) => {
     setActiveUseCase(useCase);
     onUseCaseChange?.(useCase);
+  };
+
+  const handleMobileToggle = (useCase: UseCaseType) => {
+    if (expandedMobile === useCase) {
+      setExpandedMobile(null);
+    } else {
+      setExpandedMobile(useCase);
+      handleUseCaseChange(useCase);
+    }
   };
 
   const { content } = resolveUseCaseContent({
@@ -173,7 +207,6 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
     section: "Hero",
   });
 
-  // Render mobile-specific hero on small screens
   if (isMobile) {
     return <MobileHero onUseCaseChange={onUseCaseChange} />;
   }
@@ -195,7 +228,7 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                 )}
                 <button
                   onClick={() => setIsCollapsed(!isCollapsed)}
-                  className="p-2 rounded-lg transition-colors text-white-50"
+                  className="p-2 rounded-lg transition-colors text-white-50 hover:bg-white/5"
                   aria-label={isCollapsed ? "Expand navigation" : "Collapse navigation"}
                 >
                   {isCollapsed ? (
@@ -217,21 +250,21 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                       return (
                         <Tooltip key={useCase.id}>
                           <TooltipTrigger asChild>
-                            <motion.button
-                              initial={{ opacity: 0, x: -20 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{ delay: index * 0.05 }}
+                            <button
                               onClick={() => handleUseCaseChange(useCase.id)}
-                              whileHover={{ scale: 1.1 }}
-                              whileTap={{ scale: 0.95 }}
-                              className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-200 ${
+                              className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95 ${
                                 isActive 
                                   ? 'bg-white/15 border border-white/20 shadow-glow-sm' 
                                   : 'bg-zinc-900/40 border border-white/[0.08]'
                               }`}
+                              style={{ 
+                                opacity: 0,
+                                transform: 'translateX(-20px)',
+                                animation: `fade-slide-in 0.3s ease-out ${index * 0.05}s forwards`
+                              }}
                             >
                               <Icon className={`w-5 h-5 ${isActive ? 'text-white-90' : 'text-white-50'}`} />
-                            </motion.button>
+                            </button>
                           </TooltipTrigger>
                           <TooltipContent side="right" className="p-3 bg-zinc-900/95 border border-white/10">
                             <div className="flex flex-col gap-2">
@@ -249,46 +282,38 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                     }
                     
                     return (
-                      <motion.div 
+                      <div 
                         key={useCase.id} 
                         className="relative"
-                        initial={{ opacity: 0, x: -30 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ 
-                          delay: index * 0.08,
-                          type: "spring",
-                          stiffness: 100,
-                          damping: 15
+                        style={{ 
+                          opacity: 0,
+                          transform: 'translateX(-30px)',
+                          animation: `fade-slide-in 0.4s ease-out ${index * 0.08}s forwards`
                         }}
                       >
                         {/* Active indicator line */}
                         {isActive && (
-                          <motion.div
-                            layoutId="activeIndicator"
-                            className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-primary to-primary/50 rounded-full"
-                            transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                          <div
+                            className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-primary to-primary/50 rounded-full transition-all duration-300"
                           />
                         )}
                         
-                        <motion.button
+                        <button
                           onClick={() => handleUseCaseChange(useCase.id)}
-                          whileHover={{ x: 4 }}
-                          whileTap={{ scale: 0.98 }}
-                          className={`w-full text-left p-4 rounded-xl transition-all duration-300 group backdrop-blur-[40px] ${
+                          className={`w-full text-left p-4 rounded-xl transition-all duration-300 group backdrop-blur-[40px] hover:translate-x-1 active:scale-[0.98] ${
                             isActive 
                               ? 'bg-gradient-to-br from-white/[0.12] to-white/[0.04] border border-white/15 border-t-white/25 shadow-glass ml-2' 
                               : 'bg-zinc-900/40 border border-white/[0.08] hover:bg-zinc-900/60 hover:border-white/15'
                           }`}
                         >
                           <div className="flex items-center gap-3">
-                            <motion.div 
-                              className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${
+                            <div 
+                              className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-200 group-hover:rotate-[5deg] ${
                                 isActive ? 'bg-white/15' : 'bg-white/[0.08]'
                               }`}
-                              whileHover={{ rotate: isActive ? 0 : 5 }}
                             >
                               <Icon className={`w-5 h-5 ${isActive ? 'text-white-90' : 'text-white-60'}`} />
-                            </motion.div>
+                            </div>
                             <div className="flex-1 min-w-0">
                               <div className={`font-semibold lowercase text-sm ${isActive ? 'text-white-95' : 'text-white-80'}`}>
                                 {useCase.label}
@@ -297,13 +322,11 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                                 {useCase.sublabel}
                               </div>
                             </div>
-                            <motion.div
-                              initial={{ opacity: 0, x: -10 }}
-                              animate={{ opacity: isActive ? 1 : 0, x: isActive ? 0 : -10 }}
-                              className="text-white-70"
+                            <div
+                              className={`text-white-70 transition-all duration-200 ${isActive ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'}`}
                             >
                               <ChevronRight className="w-4 h-4" />
-                            </motion.div>
+                            </div>
                             <Link 
                               to={useCase.route}
                               onClick={(e) => e.stopPropagation()}
@@ -315,8 +338,8 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                               <ArrowRight className="w-4 h-4" />
                             </Link>
                           </div>
-                        </motion.button>
-                      </motion.div>
+                        </button>
+                      </div>
                     );
                   })}
                 </nav>
@@ -330,23 +353,22 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                 {USE_CASES.map((useCase) => {
                   const Icon = useCase.icon;
                   const isActive = activeUseCase === useCase.id;
-                  const content = HERO_CONTENT[useCase.id];
+                  const isExpanded = expandedMobile === useCase.id;
+                  const mobileContent = HERO_CONTENT[useCase.id];
                   
                   return (
-                    <motion.div 
+                    <div 
                       key={useCase.id}
-                      initial={false}
-                      className={`rounded-xl overflow-hidden transition-colors ${
+                      className={`rounded-xl overflow-hidden transition-colors duration-200 ${
                         isActive 
                           ? 'bg-white/15 border border-white/20 shadow-lg' 
                           : 'bg-zinc-900/40 border border-white/[0.08]'
                       }`}
                     >
                       <button
-                        onClick={() => handleUseCaseChange(useCase.id)}
+                        onClick={() => handleMobileToggle(useCase.id)}
                         className="w-full p-4 flex items-center justify-between"
                       >
-                        {/* Text first */}
                         <div className="flex-1 text-left">
                           <div className={`font-semibold lowercase text-sm ${isActive ? 'text-white-95' : 'text-white-90'}`}>
                             {useCase.label}
@@ -355,7 +377,6 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                             {useCase.sublabel}
                           </div>
                         </div>
-                        {/* Icon last */}
                         <div className={`w-10 h-10 rounded-lg flex items-center justify-center ml-3 ${
                           isActive ? 'bg-white/20' : 'bg-white/10'
                         }`}>
@@ -363,57 +384,49 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                         </div>
                       </button>
                       
-                      {/* Expanded content */}
-                      <AnimatePresence>
-                        {isActive && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-                            className="overflow-hidden"
-                          >
-                            <div className="px-4 pb-4 space-y-4">
-                              {/* Features list */}
-                              {content.features && (
-                                <div className="flex flex-wrap gap-2">
-                                  {content.features.map((feature) => (
-                                    <span
-                                      key={feature.name}
-                                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs bg-white/20 text-white-95"
-                                    >
-                                      <ChevronRight className="w-3 h-3" />
-                                      {feature.name}
-                                    </span>
-                                  ))}
-                                </div>
-                              )}
-                              
-                              {/* CTA buttons */}
-                              <div className="flex items-center gap-3">
-                                <Link to="/early-access" className="flex-1">
-                                  <Button 
-                                    size="sm" 
-                                    variant="secondary" 
-                                    className="w-full bg-white/95 text-obsidian-bg"
-                                  >
-                                    {content.cta}
-                                    <ArrowRight className="ml-2 h-3 w-3" />
-                                  </Button>
-                                </Link>
-                                <Link 
-                                  to={useCase.route}
-                                  className="p-2 rounded-lg transition-colors bg-white/20 text-white-95"
-                                  aria-label={`Learn more about ${useCase.label}`}
+                      {/* Expanded content - CSS transition */}
+                      <div 
+                        className={`overflow-hidden transition-all duration-300 ease-out ${
+                          isExpanded ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'
+                        }`}
+                      >
+                        <div className="px-4 pb-4 space-y-4">
+                          {mobileContent?.features && (
+                            <div className="flex flex-wrap gap-2">
+                              {mobileContent.features.map((feature) => (
+                                <span
+                                  key={feature.name}
+                                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs bg-white/20 text-white-95"
                                 >
-                                  <ArrowRight className="w-4 h-4" />
-                                </Link>
-                              </div>
+                                  <ChevronRight className="w-3 h-3" />
+                                  {feature.name}
+                                </span>
+                              ))}
                             </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </motion.div>
+                          )}
+                          
+                          <div className="flex items-center gap-3">
+                            <Link to="/early-access" className="flex-1">
+                              <Button 
+                                size="sm" 
+                                variant="secondary" 
+                                className="w-full bg-white/95 text-obsidian-bg"
+                              >
+                                {mobileContent?.cta || "get early access"}
+                                <ArrowRight className="ml-2 h-3 w-3" />
+                              </Button>
+                            </Link>
+                            <Link 
+                              to={useCase.route}
+                              className="p-2 rounded-lg transition-colors bg-white/20 text-white-95"
+                              aria-label={`Learn more about ${useCase.label}`}
+                            >
+                              <ArrowRight className="w-4 h-4" />
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   );
                 })}
               </div>
@@ -422,129 +435,115 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
 
           {/* Right: Dynamic Content */}
           <div className={`transition-all duration-300 ${isCollapsed ? "lg:col-span-11" : "lg:col-span-8 xl:col-span-9"}`}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeUseCase}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="space-y-6"
-              >
-                {/* Two-column layout for attribution */}
-                <div className={`grid gap-8 ${activeUseCase === 'attribution' ? 'lg:grid-cols-2 items-center' : ''}`}>
-                  {/* Left: Text Content */}
-                  <div className="space-y-6">
-                    {/* Headline with text reveal */}
-                    <div className="space-y-4">
-                      <motion.h1 
-                        className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-display font-bold leading-[1.1] obsidian-platinum-text"
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-                      >
-                        {content.headline}
-                      </motion.h1>
-                      <motion.p 
-                        className="text-base md:text-lg max-w-xl leading-relaxed text-muted-foreground"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-                      >
-                        {content.subheadline}
-                      </motion.p>
-                    </div>
-
-                    {/* Features Chips with staggered animation */}
-                    {content.features && (
-                      <motion.div 
-                        className="flex flex-wrap gap-2"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.2 }}
-                      >
-                        {content.features.map((feature, index) => (
-                          <motion.span
-                            key={feature.name}
-                            initial={{ opacity: 0, scale: 0.8, y: 10 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            transition={{ 
-                              delay: 0.25 + index * 0.08,
-                              type: "spring",
-                              stiffness: 200,
-                              damping: 20
-                            }}
-                            whileHover={{ 
-                              scale: 1.05, 
-                              backgroundColor: "rgba(255,255,255,0.1)",
-                              transition: { duration: 0.2 }
-                            }}
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm bg-white/[0.06] border border-white/10 text-white-70 cursor-default"
-                          >
-                            <ChevronRight className="w-3 h-3 text-white-50" />
-                            {feature.name}
-                          </motion.span>
-                        ))}
-                      </motion.div>
-                    )}
-
-                    {/* CTA with enhanced animation */}
-                    <motion.div 
-                      className="flex flex-col sm:flex-row items-start gap-4"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.4, duration: 0.5 }}
+            <div
+              key={activeUseCase}
+              className="space-y-6 animate-fade-in"
+            >
+              {/* Two-column layout for attribution */}
+              <div className={`grid gap-8 ${activeUseCase === 'attribution' ? 'lg:grid-cols-2 items-center' : ''}`}>
+                {/* Left: Text Content */}
+                <div className="space-y-6">
+                  {/* Headline with text reveal */}
+                  <div className="space-y-4">
+                    <h1 
+                      className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-display font-bold leading-[1.1] obsidian-platinum-text animate-fade-in"
                     >
-                      <Link to="/early-access">
-                        <motion.div
-                          whileHover={{ scale: 1.03 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          <Button 
-                            size="lg" 
-                            className="h-12 px-6 text-sm rounded-full font-semibold transition-all duration-300 bg-gradient-to-br from-white to-zinc-200 text-obsidian-bg shadow-glow-sm"
-                          >
-                            {content.cta}
-                            <motion.span
-                              className="ml-2"
-                              animate={{ x: [0, 4, 0] }}
-                              transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 2 }}
-                            >
-                              <ArrowRight className="h-4 w-4" />
-                            </motion.span>
-                          </Button>
-                        </motion.div>
-                      </Link>
-                      <Link to="/how-it-works">
-                        <motion.div
-                          whileHover={{ scale: 1.03, backgroundColor: "rgba(255,255,255,0.08)" }}
-                          whileTap={{ scale: 0.98 }}
-                          className="flex items-center gap-2 px-4 py-3 rounded-full text-sm font-medium transition-colors bg-white/5 border border-white/10 text-white-80"
-                        >
-                          learn more
-                          <ArrowRight className="h-4 w-4" />
-                        </motion.div>
-                      </Link>
-                    </motion.div>
+                      {content.headline}
+                    </h1>
+                    <p 
+                      className="text-base md:text-lg max-w-xl leading-relaxed text-muted-foreground animate-fade-in"
+                      style={{ animationDelay: '0.1s' }}
+                    >
+                      {content.subheadline}
+                    </p>
                   </div>
 
-                  {/* Right: Fiber Optic Graph (only for attribution) */}
-                  {activeUseCase === 'attribution' && (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.9, x: 30 }}
-                      animate={{ opacity: 1, scale: 1, x: 0 }}
-                      transition={{ duration: 0.6, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-                      className="hidden lg:block"
+                  {/* Features Chips with staggered animation */}
+                  {content.features && (
+                    <div 
+                      className="flex flex-wrap gap-2 animate-fade-in"
+                      style={{ animationDelay: '0.2s' }}
                     >
-                      <FiberOpticGraph />
-                    </motion.div>
+                      {content.features.map((feature, index) => (
+                        <span
+                          key={feature.name}
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm bg-white/[0.06] border border-white/10 text-white-70 cursor-default transition-all duration-200 hover:scale-105 hover:bg-white/10"
+                          style={{ 
+                            opacity: 0,
+                            animation: `fade-slide-in 0.3s ease-out ${0.25 + index * 0.08}s forwards`
+                          }}
+                        >
+                          <ChevronRight className="w-3 h-3 text-white-50" />
+                          {feature.name}
+                        </span>
+                      ))}
+                    </div>
                   )}
+
+                  {/* CTA with enhanced animation */}
+                  <div 
+                    className="flex flex-col sm:flex-row items-start gap-4 animate-fade-in"
+                    style={{ animationDelay: '0.4s' }}
+                  >
+                    <Link to="/early-access">
+                      <Button 
+                        size="lg" 
+                        className="h-12 px-6 text-sm rounded-full font-semibold transition-all duration-300 bg-gradient-to-br from-white to-zinc-200 text-obsidian-bg shadow-glow-sm hover:scale-[1.03] active:scale-[0.98]"
+                      >
+                        {content.cta}
+                        <span className="ml-2 animate-bounce-x">
+                          <ArrowRight className="h-4 w-4" />
+                        </span>
+                      </Button>
+                    </Link>
+                    <Link to="/how-it-works">
+                      <div
+                        className="flex items-center gap-2 px-4 py-3 rounded-full text-sm font-medium transition-all duration-200 bg-white/5 border border-white/10 text-white-80 hover:scale-[1.03] hover:bg-white/[0.08] active:scale-[0.98]"
+                      >
+                        learn more
+                        <ArrowRight className="h-4 w-4" />
+                      </div>
+                    </Link>
+                  </div>
                 </div>
-              </motion.div>
-            </AnimatePresence>
+
+                {/* Right: Fiber Optic Graph (only for attribution) */}
+                {activeUseCase === 'attribution' && (
+                  <div
+                    className="hidden lg:block animate-fade-in"
+                    style={{ animationDelay: '0.3s' }}
+                  >
+                    <FiberOpticGraph />
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      
+      <style>{`
+        @keyframes fade-slide-in {
+          from {
+            opacity: 0;
+            transform: translateX(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        
+        @keyframes bounce-x {
+          0%, 100% { transform: translateX(0); }
+          50% { transform: translateX(4px); }
+        }
+        
+        .animate-bounce-x {
+          animation: bounce-x 1.5s ease-in-out infinite;
+          animation-delay: 2s;
+        }
+      `}</style>
     </section>
   );
 };

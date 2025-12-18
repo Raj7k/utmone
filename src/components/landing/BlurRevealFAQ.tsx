@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
 import { formatText } from "@/utils/textFormatter";
 import { X } from "lucide-react";
 
@@ -65,6 +64,28 @@ const faqs: FAQItem[] = [
 export const BlurRevealFAQ = () => {
   const [revealedCards, setRevealedCards] = useState<Set<number>>(new Set([0]));
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
+  const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set());
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const index = parseInt(entry.target.getAttribute('data-index') || '0');
+          if (entry.isIntersecting) {
+            setVisibleCards(prev => new Set([...prev, index]));
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    cardRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   const toggleCard = (index: number) => {
     if (expandedCard === index) {
@@ -89,20 +110,23 @@ export const BlurRevealFAQ = () => {
           {faqs.map((faq, index) => {
             const isRevealed = revealedCards.has(index);
             const isExpanded = expandedCard === index;
+            const isVisible = visibleCards.has(index);
             
             return (
-              <motion.div
+              <div
                 key={index}
-                layout
+                ref={el => cardRefs.current[index] = el}
+                data-index={index}
                 className={`
-                  relative cursor-pointer rounded-xl transition-all overflow-hidden
+                  relative cursor-pointer rounded-xl transition-all duration-300 overflow-hidden
                   ${isExpanded ? "shadow-lg sm:col-span-2 lg:col-span-1 bg-white text-black" : "hover:scale-[1.02] bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08]"}
                 `}
                 onClick={() => toggleCard(index)}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
+                style={{
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+                  transitionDelay: `${index * 0.05}s`
+                }}
               >
                 <div className="p-5">
                   {/* Question */}
@@ -118,27 +142,15 @@ export const BlurRevealFAQ = () => {
                   </div>
                   
                   {/* Answer Preview / Full */}
-                  <AnimatePresence mode="wait">
+                  <div className="relative">
                     {isExpanded ? (
-                      <motion.p
-                        key="full"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="text-sm leading-relaxed text-black/80"
-                      >
+                      <p className="text-sm leading-relaxed text-black/80 animate-fade-in">
                         {faq.answer}
-                      </motion.p>
+                      </p>
                     ) : (
-                      <motion.div
-                        key="preview"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="relative"
-                      >
+                      <div className="relative">
                         <p 
-                          className={`text-xs line-clamp-2 text-white/50 ${!isRevealed ? "blur-sm select-none" : ""}`}
+                          className={`text-xs line-clamp-2 text-white/50 transition-all duration-300 ${!isRevealed ? "blur-sm select-none" : ""}`}
                         >
                           {faq.answer}
                         </p>
@@ -147,9 +159,9 @@ export const BlurRevealFAQ = () => {
                             <span className="text-xs font-medium text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">tap to reveal</span>
                           </div>
                         )}
-                      </motion.div>
+                      </div>
                     )}
-                  </AnimatePresence>
+                  </div>
                   
                   {/* Category Tag */}
                   {faq.category && !isExpanded && (
@@ -160,7 +172,7 @@ export const BlurRevealFAQ = () => {
                     </div>
                   )}
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>

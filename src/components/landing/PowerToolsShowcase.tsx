@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { 
   FlaskConical, 
@@ -19,7 +18,7 @@ const POWER_TOOLS = [
     icon: FlaskConical,
     label: "smart testing",
     description: "A/B testing with auto winner",
-    mockup: (
+    mockup: (isVisible: boolean) => (
       <div className="space-y-3">
         <div className="flex items-center justify-between text-xs">
           <span className="text-white-50">variant performance</span>
@@ -29,11 +28,9 @@ const POWER_TOOLS = [
           <div className="flex items-center gap-3">
             <span className="text-xs w-6 text-white-50">A</span>
             <div className="flex-1 h-2.5 rounded-full overflow-hidden bg-white/5">
-              <motion.div 
-                className="h-full rounded-full bg-white/40"
-                initial={{ width: 0 }}
-                animate={{ width: "45%" }}
-                transition={{ duration: 0.6 }}
+              <div 
+                className="h-full rounded-full bg-white/40 transition-all duration-600 ease-out"
+                style={{ width: isVisible ? '45%' : '0%' }}
               />
             </div>
             <span className="text-xs font-medium w-10 text-white-90">4.5%</span>
@@ -41,11 +38,9 @@ const POWER_TOOLS = [
           <div className="flex items-center gap-3">
             <span className="text-xs w-6 text-white-50">B</span>
             <div className="flex-1 h-2.5 rounded-full overflow-hidden bg-white/5">
-              <motion.div 
-                className="h-full rounded-full bg-white/80"
-                initial={{ width: 0 }}
-                animate={{ width: "72%" }}
-                transition={{ duration: 0.6, delay: 0.1 }}
+              <div 
+                className="h-full rounded-full bg-white/80 transition-all duration-600 ease-out"
+                style={{ width: isVisible ? '72%' : '0%', transitionDelay: '0.1s' }}
               />
             </div>
             <span className="text-xs font-medium w-10 text-white-90">7.2% ✓</span>
@@ -63,19 +58,20 @@ const POWER_TOOLS = [
     icon: ShieldCheck,
     label: "link guard",
     description: "Security scanning & protection",
-    mockup: (
+    mockup: (isVisible: boolean) => (
       <div className="space-y-2">
         {[
           { url: "tesla.com/model-s", status: "safe", time: "0.2s" },
           { url: "apple.com/iphone", status: "safe", time: "0.3s" },
           { url: "suspicious-link.xyz", status: "blocked", time: "0.1s" },
         ].map((scan, i) => (
-          <motion.div
+          <div
             key={scan.url}
-            className="flex items-center gap-2 p-2 rounded-lg bg-white/5"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: i * 0.08 }}
+            className="flex items-center gap-2 p-2 rounded-lg bg-white/5 transition-opacity duration-300"
+            style={{ 
+              opacity: isVisible ? 1 : 0, 
+              transitionDelay: `${i * 0.08}s` 
+            }}
           >
             {scan.status === "safe" ? (
               <CheckCircle2 className="w-3.5 h-3.5 shrink-0 text-green-500/80" />
@@ -86,7 +82,7 @@ const POWER_TOOLS = [
             <span className={`text-xs ${scan.status === "safe" ? 'text-green-500/80' : 'text-red-500/80'}`}>
               {scan.status}
             </span>
-          </motion.div>
+          </div>
         ))}
       </div>
     )
@@ -96,7 +92,7 @@ const POWER_TOOLS = [
     icon: Globe,
     label: "geo targeting",
     description: "Route by country",
-    mockup: (
+    mockup: (isVisible: boolean) => (
       <div className="space-y-3">
         <div className="grid grid-cols-3 gap-2">
           {[
@@ -104,17 +100,19 @@ const POWER_TOOLS = [
             { flag: "🇬🇧", code: "UK", url: "/amazon-uk" },
             { flag: "🇩🇪", code: "DE", url: "/amazon-de" },
           ].map((region, i) => (
-            <motion.div
+            <div
               key={region.code}
-              className="p-2 rounded-lg text-center bg-white/5"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: i * 0.08 }}
+              className="p-2 rounded-lg text-center bg-white/5 transition-all duration-300"
+              style={{ 
+                opacity: isVisible ? 1 : 0, 
+                transform: isVisible ? 'scale(1)' : 'scale(0.9)',
+                transitionDelay: `${i * 0.08}s` 
+              }}
             >
               <div className="text-xl mb-0.5">{region.flag}</div>
               <div className="text-xs font-medium text-white-90">{region.code}</div>
               <div className="text-[10px] truncate text-white-50">{region.url}</div>
-            </motion.div>
+            </div>
           ))}
         </div>
         <div className="text-xs text-center text-white-50">
@@ -128,7 +126,7 @@ const POWER_TOOLS = [
     icon: Layers,
     label: "bulk create",
     description: "Hundreds of links from CSV",
-    mockup: (
+    mockup: (isVisible: boolean) => (
       <div className="space-y-2">
         <div className="flex items-center gap-2 p-2 rounded-lg bg-white/5">
           <Layers className="w-3.5 h-3.5 text-white-80" />
@@ -141,11 +139,9 @@ const POWER_TOOLS = [
             <span className="font-medium text-white-80">247/247</span>
           </div>
           <div className="h-2 rounded-full overflow-hidden bg-white/5">
-            <motion.div 
-              className="h-full rounded-full bg-white/80"
-              initial={{ width: 0 }}
-              animate={{ width: "100%" }}
-              transition={{ duration: 1.2 }}
+            <div 
+              className="h-full rounded-full bg-white/80 transition-all duration-[1.2s] ease-out"
+              style={{ width: isVisible ? '100%' : '0%' }}
             />
           </div>
         </div>
@@ -160,11 +156,38 @@ const POWER_TOOLS = [
 
 export const PowerToolsShowcase = () => {
   const [activeTool, setActiveTool] = useState("smart-testing");
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  
   const active = POWER_TOOLS.find(t => t.id === activeTool) || POWER_TOOLS[0];
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Reset visibility when tool changes to trigger animation
+  useEffect(() => {
+    setIsVisible(false);
+    const timer = setTimeout(() => setIsVisible(true), 50);
+    return () => clearTimeout(timer);
+  }, [activeTool]);
 
   return (
     <AnimatedSection className="py-16 md:py-24 bg-transparent">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+      <div ref={sectionRef} className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center mb-8 md:mb-12 space-y-3">
           <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold px-2">
             power tools for scale
@@ -178,20 +201,14 @@ export const PowerToolsShowcase = () => {
           {/* Mobile: Image First, Tabs Below */}
           <div className="md:hidden space-y-4">
             {/* Active Tool Preview - Mobile - FIRST */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTool}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2 }}
-                className="rounded-xl overflow-hidden bg-zinc-900/40 backdrop-blur-[40px] border border-white/8"
-              >
-                <div className="p-4">
-                  {active.mockup}
-                </div>
-              </motion.div>
-            </AnimatePresence>
+            <div
+              key={activeTool}
+              className="rounded-xl overflow-hidden bg-zinc-900/40 backdrop-blur-[40px] border border-white/8 animate-fade-in"
+            >
+              <div className="p-4">
+                {active.mockup(isVisible)}
+              </div>
+            </div>
             
             {/* Tab Buttons - BELOW */}
             <div className="space-y-2">
@@ -200,11 +217,10 @@ export const PowerToolsShowcase = () => {
                 const isActive = activeTool === tool.id;
                 
                 return (
-                  <motion.button
+                  <button
                     key={tool.id}
                     onClick={() => setActiveTool(tool.id)}
-                    whileTap={{ scale: 0.98 }}
-                    className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
+                    className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all duration-200 active:scale-[0.98] ${
                       isActive
                         ? 'bg-white/90 text-obsidian'
                         : 'bg-zinc-900/40 backdrop-blur-[40px] border border-white/8'
@@ -226,7 +242,7 @@ export const PowerToolsShowcase = () => {
                       </p>
                     </div>
                     <ArrowRight className={`w-4 h-4 shrink-0 ${isActive ? 'text-obsidian' : 'text-white-50'}`} />
-                  </motion.button>
+                  </button>
                 );
               })}
             </div>
@@ -240,12 +256,10 @@ export const PowerToolsShowcase = () => {
                 const isActive = activeTool === tool.id;
                 
                 return (
-                  <motion.button
+                  <button
                     key={tool.id}
                     onClick={() => setActiveTool(tool.id)}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`flex items-center gap-2 px-4 py-2.5 rounded-full transition-all ${
+                    className={`flex items-center gap-2 px-4 py-2.5 rounded-full transition-all duration-200 hover:scale-105 active:scale-95 ${
                       isActive
                         ? 'bg-white/90 text-obsidian shadow-glow-sm'
                         : 'bg-zinc-900/40 backdrop-blur-[40px] border border-white/8'
@@ -253,40 +267,34 @@ export const PowerToolsShowcase = () => {
                   >
                     <Icon className={`w-4 h-4 ${isActive ? 'text-obsidian' : 'text-white-80'}`} />
                     <span className={`text-sm font-medium ${isActive ? 'text-obsidian' : 'text-white-90'}`}>{tool.label}</span>
-                  </motion.button>
+                  </button>
                 );
               })}
             </div>
             
             {/* Active Tool Preview - Desktop */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTool}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2 }}
-                className="rounded-2xl overflow-hidden bg-zinc-900/40 backdrop-blur-[40px] border border-white/8"
-              >
-                <div className="p-6 md:p-8 min-h-[280px]">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/5">
-                      {(() => {
-                        const Icon = active.icon;
-                        return <Icon className="w-5 h-5 text-white-80" />;
-                      })()}
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-white-90">{active.label}</h3>
-                      <p className="text-sm text-white-50">{active.description}</p>
-                    </div>
+            <div
+              key={activeTool}
+              className="rounded-2xl overflow-hidden bg-zinc-900/40 backdrop-blur-[40px] border border-white/8 animate-fade-in"
+            >
+              <div className="p-6 md:p-8 min-h-[280px]">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/5">
+                    {(() => {
+                      const Icon = active.icon;
+                      return <Icon className="w-5 h-5 text-white-80" />;
+                    })()}
                   </div>
-                  <div className="max-w-md">
-                    {active.mockup}
+                  <div>
+                    <h3 className="font-semibold text-white-90">{active.label}</h3>
+                    <p className="text-sm text-white-50">{active.description}</p>
                   </div>
                 </div>
-              </motion.div>
-            </AnimatePresence>
+                <div className="max-w-md">
+                  {active.mockup(isVisible)}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         

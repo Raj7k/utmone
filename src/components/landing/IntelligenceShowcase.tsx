@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { 
   Zap, 
@@ -13,9 +13,29 @@ import {
 import { AnimatedSection } from "./StaticSection";
 
 export const IntelligenceShowcase = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <AnimatedSection className="py-16 md:py-24 bg-transparent">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+      <div ref={sectionRef} className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center mb-8 md:mb-12 space-y-3">
           <h1 className="hero-gradient text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold px-2">
             clean-track intelligence
@@ -27,12 +47,12 @@ export const IntelligenceShowcase = () => {
         
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
           {/* Left: AI Chat Mockup - Compact */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="rounded-xl shadow-lg overflow-hidden bg-zinc-900/60 border border-white-10"
+          <div
+            className="rounded-xl shadow-lg overflow-hidden bg-zinc-900/60 border border-white-10 transition-all duration-500"
+            style={{
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? 'translateX(0)' : 'translateX(-20px)'
+            }}
           >
             {/* Chat Header */}
             <div className="flex items-center gap-2 px-3 py-2.5 bg-white/5 border-b border-white-10">
@@ -55,12 +75,13 @@ export const IntelligenceShowcase = () => {
               </div>
               
               {/* AI Response */}
-              <motion.div
-                className="flex gap-2"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 }}
+              <div
+                className="flex gap-2 transition-all duration-300"
+                style={{
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? 'translateY(0)' : 'translateY(10px)',
+                  transitionDelay: '0.3s'
+                }}
               >
                 <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 bg-white/5">
                   <Brain className="w-3 h-3 text-white-80" />
@@ -86,15 +107,16 @@ export const IntelligenceShowcase = () => {
                     Clean-Track confidence: 94%
                   </div>
                 </div>
-              </motion.div>
+              </div>
               
               {/* AI Alert Response */}
-              <motion.div
-                className="flex gap-2"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.5 }}
+              <div
+                className="flex gap-2 transition-all duration-300"
+                style={{
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? 'translateY(0)' : 'translateY(10px)',
+                  transitionDelay: '0.5s'
+                }}
               >
                 <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 bg-amber-500/10">
                   <AlertCircle className="w-3 h-3 text-amber-500/80" />
@@ -107,7 +129,7 @@ export const IntelligenceShowcase = () => {
                     Traffic from <strong>Tesla email</strong> dropped 45% yesterday.
                   </p>
                 </div>
-              </motion.div>
+              </div>
             </div>
             
             {/* Chat Input */}
@@ -117,7 +139,7 @@ export const IntelligenceShowcase = () => {
                 <span className="text-xs text-white-50">Ask anything about your links...</span>
               </div>
             </div>
-          </motion.div>
+          </div>
           
           {/* Right: Feature Cards - Compact */}
           <div className="space-y-4">
@@ -140,14 +162,14 @@ export const IntelligenceShowcase = () => {
             ].map((feature, i) => {
               const Icon = feature.icon;
               return (
-                <motion.div
+                <div
                   key={feature.title}
-                  className="rounded-xl p-4 transition-all bg-zinc-900/60 border border-white-10"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.1 }}
-                  whileHover={{ y: -2 }}
+                  className="rounded-xl p-4 transition-all duration-300 bg-zinc-900/60 border border-white-10 hover:-translate-y-0.5"
+                  style={{
+                    opacity: isVisible ? 1 : 0,
+                    transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+                    transitionDelay: `${i * 0.1}s`
+                  }}
                 >
                   <div className="flex items-start gap-3">
                     <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 bg-white/5">
@@ -158,7 +180,7 @@ export const IntelligenceShowcase = () => {
                       <p className="text-xs text-white-50">{feature.description}</p>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
             

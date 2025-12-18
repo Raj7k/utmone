@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Building2,
@@ -65,43 +65,66 @@ const COMPLIANCE_BADGES = [
 ];
 
 export const EnterpriseGradeSection = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <AnimatedSection className="py-16 md:py-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pt-16 pb-16 border-t border-b border-white/10">
+      <div ref={sectionRef} className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pt-16 pb-16 border-t border-b border-white/10">
         {/* Header */}
         <div className="text-center mb-10 md:mb-14 space-y-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+          <div
+            className="transition-all duration-500"
+            style={{
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? 'translateY(0)' : 'translateY(20px)'
+            }}
           >
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium mb-4 bg-white/[0.06] border border-white/10 text-white-80">
               <Shield className="w-4 h-4" />
               enterprise grade
             </span>
-          </motion.div>
+          </div>
           
-          <motion.h1
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold obsidian-platinum-text"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+          <h1
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold obsidian-platinum-text transition-all duration-500"
+            style={{
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+              transitionDelay: '0.1s'
+            }}
           >
             built for teams that can't afford<br className="hidden md:block" /> broken data
-          </motion.h1>
+          </h1>
           
-          <motion.p
-            className="text-base md:text-lg max-w-3xl mx-auto text-white-50"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+          <p
+            className="text-base md:text-lg max-w-3xl mx-auto text-white-50 transition-all duration-500"
+            style={{
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+              transitionDelay: '0.2s'
+            }}
           >
             utm.one is the enterprise link infrastructure trusted by growth teams 
             managing millions of clicks and thousands of campaigns.
-          </motion.p>
+          </p>
         </div>
 
         {/* Features Grid */}
@@ -109,33 +132,32 @@ export const EnterpriseGradeSection = () => {
           {ENTERPRISE_FEATURES.map((feature, i) => {
             const Icon = feature.icon;
             return (
-              <motion.div
+              <div
                 key={feature.title}
-                className="p-4 md:p-5 rounded-xl transition-all min-h-[140px] obsidian-glass"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                whileHover={{ scale: 1.02, y: -4 }}
-                whileTap={{ scale: 0.98 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.05 }}
+                className="p-4 md:p-5 rounded-xl transition-all duration-300 min-h-[140px] obsidian-glass hover:scale-[1.02] hover:-translate-y-1 active:scale-[0.98]"
+                style={{
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+                  transitionDelay: `${i * 0.05}s`
+                }}
               >
                 <div className="w-9 h-9 rounded-lg flex items-center justify-center mb-2.5 bg-white/10">
                   <Icon className="w-4 h-4 text-white-80" />
                 </div>
                 <h3 className="font-semibold mb-1 text-sm text-white-90">{feature.title}</h3>
                 <p className="text-xs text-white-50">{feature.description}</p>
-              </motion.div>
+              </div>
             );
           })}
         </div>
 
         {/* Compliance Badges */}
-        <motion.div
-          className="flex flex-wrap items-center justify-center gap-2 md:gap-3 mb-10"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+        <div
+          className="flex flex-wrap items-center justify-center gap-2 md:gap-3 mb-10 transition-all duration-500"
+          style={{
+            opacity: isVisible ? 1 : 0,
+            transitionDelay: '0.4s'
+          }}
         >
           {COMPLIANCE_BADGES.map((badge) => (
             <div 
@@ -146,15 +168,16 @@ export const EnterpriseGradeSection = () => {
               <span className="text-xs font-medium text-white-80">{badge}</span>
             </div>
           ))}
-        </motion.div>
+        </div>
 
         {/* Stats Row */}
-        <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 p-5 md:p-6 rounded-xl mb-10 bg-white/[0.03] border border-white/10"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.5 }}
+        <div
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 p-5 md:p-6 rounded-xl mb-10 bg-white/[0.03] border border-white/10 transition-all duration-500"
+          style={{
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+            transitionDelay: '0.5s'
+          }}
         >
           {[
             { stat: "<100ms", label: "redirect latency" },
@@ -169,19 +192,20 @@ export const EnterpriseGradeSection = () => {
               <div className="text-xs mt-0.5 text-white-50">{item.label}</div>
             </div>
           ))}
-        </motion.div>
+        </div>
 
         {/* CTA */}
-        <motion.div
-          className="text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.6 }}
+        <div
+          className="text-center transition-all duration-500"
+          style={{
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+            transitionDelay: '0.6s'
+          }}
         >
           <Link 
             to="/solutions/enterprise"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-medium transition-all text-sm bg-gradient-to-r from-white to-zinc-200 text-obsidian shadow-[0_0_30px_hsl(var(--white-10))]"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-medium transition-all text-sm bg-gradient-to-r from-white to-zinc-200 text-obsidian shadow-[0_0_30px_hsl(var(--white-10))] hover:scale-105 active:scale-95"
           >
             explore enterprise features
             <ArrowRight className="w-4 h-4" />
@@ -189,7 +213,7 @@ export const EnterpriseGradeSection = () => {
           <p className="text-xs mt-2 text-white-40">
             or <Link to="/trust" className="hover:underline text-white-70">view our security portal</Link>
           </p>
-        </motion.div>
+        </div>
       </div>
     </AnimatedSection>
   );
