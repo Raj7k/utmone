@@ -264,40 +264,13 @@ export const OmniDemo = () => {
             <p className="text-base text-zinc-500">paste any url and watch what happens</p>
           </div>
 
-          {/* URL Input Widget */}
-          <div 
-            className={cn(
-              "max-w-md mx-auto transition-all duration-500",
-              phase === 'problem' && !showUtmOne 
-                ? "opacity-100 scale-100" 
-                : "opacity-0 scale-95 pointer-events-none absolute"
-            )}
-          >
-            <div className="flex gap-2">
-              <Input
-                type="url"
-                placeholder="https://example.com/your-page"
-                value={demoUrl}
-                onChange={(e) => setDemoUrl(e.target.value)}
-                className="flex-1 bg-zinc-900/60 border-zinc-700/50 text-zinc-200 placeholder:text-zinc-600 rounded-full px-5 h-12"
-                onKeyDown={(e) => e.key === 'Enter' && handleCreateLink()}
-              />
-              <Button
-                onClick={handleCreateLink}
-                disabled={isCreating || !demoUrl.trim()}
-                className="rounded-full px-6 h-12 bg-white text-zinc-900 hover:bg-zinc-200 font-medium"
-              >
-                {isCreating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
-              </Button>
-            </div>
-          </div>
         </div>
 
         {/* Animation Container */}
         <div className="relative h-[520px] md:h-[560px] mb-8">
           <div className="absolute -inset-[2px] bg-gradient-to-br from-white/10 via-transparent to-transparent rounded-[34px] blur-sm" />
           
-          <div className="relative h-full bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-[32px] overflow-visible shadow-[0_0_80px_-20px_rgba(255,255,255,0.1),inset_0_1px_0_rgba(255,255,255,0.05)]">
+          <div className="relative h-full bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-[32px] overflow-hidden shadow-[0_0_80px_-20px_rgba(255,255,255,0.1),inset_0_1px_0_rgba(255,255,255,0.05)]">
             <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
             
             <div className="absolute inset-0 opacity-[0.03] rounded-[32px]" 
@@ -308,7 +281,7 @@ export const OmniDemo = () => {
             <div className="absolute inset-0 pointer-events-none opacity-5 bg-[repeating-linear-gradient(0deg,transparent,transparent_2px,rgba(255,255,255,0.02)_2px,rgba(255,255,255,0.02)_4px)] rounded-[32px]" />
 
             {/* CENTER-STAGE HEADLINE */}
-            <div className="absolute top-8 left-0 right-0 z-10 flex flex-col items-center justify-center">
+            <div className="absolute top-12 left-0 right-0 z-10 flex flex-col items-center justify-center">
               {(['problem', 'ai', 'journey', 'halo', 'revenue'] as AnimationPhase[]).map((p) => (
                 <div
                   key={p}
@@ -333,7 +306,7 @@ export const OmniDemo = () => {
             </div>
 
             {/* Main Animation Area */}
-            <div className="relative h-full flex items-center justify-center p-8 pt-32 md:pt-36">
+            <div className="relative h-full flex items-center justify-center p-8 pt-36 md:pt-40">
               {/* Phase 1-2: LinkedIn Post Card */}
               <div
                 className={cn(
@@ -424,7 +397,7 @@ export const OmniDemo = () => {
                     : "opacity-0 absolute pointer-events-none"
                 )}
               >
-                <svg viewBox="0 0 800 400" className="w-full h-full" overflow="visible">
+                <svg viewBox="0 0 800 400" className="w-full h-full">
                   <defs>
                     <linearGradient id="platinumPath" x1="0%" y1="0%" x2="100%" y2="0%">
                       <stop offset="0%" stopColor="rgba(255,255,255,0.05)" />
