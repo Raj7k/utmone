@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { 
   PieChart, 
@@ -78,30 +77,44 @@ interface InteractiveHeroProps {
 
 export const InteractiveHero = ({ onUseCaseChange }: InteractiveHeroProps) => {
   const [selectedUseCase, setSelectedUseCase] = useState<UseCaseType>("attribution");
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [displayedContent, setDisplayedContent] = useState(USE_CASE_CONTENT["attribution"]);
+  const [mounted, setMounted] = useState(false);
   const trackCTAClick = useTrackCTAClick();
-  const content = USE_CASE_CONTENT[selectedUseCase];
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleUseCaseChange = (useCase: UseCaseType) => {
+    if (useCase === selectedUseCase) return;
+    
+    setIsTransitioning(true);
     setSelectedUseCase(useCase);
     onUseCaseChange?.(useCase);
     trackCTAClick(`hero-usecase-${useCase}`);
+    
+    // Update content after fade out
+    setTimeout(() => {
+      setDisplayedContent(USE_CASE_CONTENT[useCase]);
+      setIsTransitioning(false);
+    }, 200);
   };
 
   return (
     <section className="relative py-12 md:py-20 lg:py-24 bg-background overflow-hidden">
       <div className="relative z-10 max-w-[980px] mx-auto px-4 sm:px-6 md:px-8">
-        <motion.div 
-          className="text-center space-y-6 md:space-y-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
+        <div 
+          className={`text-center space-y-6 md:space-y-8 transition-opacity duration-600 ${
+            mounted ? 'opacity-100' : 'opacity-0'
+          }`}
         >
           {/* Use Case Selector Pills */}
-          <motion.div 
-            className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+          <div 
+            className={`flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 transition-all duration-500 ${
+              mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2.5'
+            }`}
+            style={{ transitionDelay: '100ms' }}
           >
             {USE_CASE_PILLS.map((pill) => {
               const Icon = pill.icon;
@@ -118,7 +131,7 @@ export const InteractiveHero = ({ onUseCaseChange }: InteractiveHeroProps) => {
                   }`}
                   aria-pressed={isSelected}
                 >
-                  <Icon className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform ${isSelected ? "scale-110" : "group-hover:scale-105"}`} />
+                  <Icon className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 ${isSelected ? "scale-110" : "group-hover:scale-105"}`} />
                   <div className="text-left">
                     <div className="text-sm sm:text-base font-semibold leading-tight">{pill.label}</div>
                     <div 
@@ -130,66 +143,53 @@ export const InteractiveHero = ({ onUseCaseChange }: InteractiveHeroProps) => {
                 </button>
               );
             })}
-          </motion.div>
+          </div>
 
           {/* Dynamic Headline */}
-          <AnimatePresence mode="wait">
-            <motion.h1 
-              key={selectedUseCase}
-              className="hero-gradient text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter text-balance leading-[1.1] md:leading-[1.05]"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.4 }}
-            >
-              {content.headline1}<br />
-              {content.headline2}
-            </motion.h1>
-          </AnimatePresence>
+          <h1 
+            className={`hero-gradient text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter text-balance leading-[1.1] md:leading-[1.05] transition-all duration-300 ${
+              isTransitioning ? 'opacity-0 translate-y-5' : 'opacity-100 translate-y-0'
+            }`}
+          >
+            {displayedContent.headline1}<br />
+            {displayedContent.headline2}
+          </h1>
           
           {/* Dynamic Subheadline */}
-          <AnimatePresence mode="wait">
-            <motion.p 
-              key={`sub-${selectedUseCase}`}
-              className="text-base sm:text-lg md:text-xl max-w-[720px] mx-auto text-balance leading-relaxed px-2 text-white-60"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, delay: 0.1 }}
-            >
-              {content.subheadline}
-            </motion.p>
-          </AnimatePresence>
+          <p 
+            className={`text-base sm:text-lg md:text-xl max-w-[720px] mx-auto text-balance leading-relaxed px-2 text-white-60 transition-opacity duration-300 ${
+              isTransitioning ? 'opacity-0' : 'opacity-100'
+            }`}
+            style={{ transitionDelay: isTransitioning ? '0ms' : '100ms' }}
+          >
+            {displayedContent.subheadline}
+          </p>
           
           {/* CTA Section */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="space-y-4"
+          <div
+            className={`space-y-4 transition-opacity duration-600 ${
+              mounted ? 'opacity-100' : 'opacity-0'
+            }`}
+            style={{ transitionDelay: '300ms' }}
           >
             <HeroInlineCTA />
             
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`cta-${selectedUseCase}`}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
+            <div
+              className={`transition-opacity duration-200 ${
+                isTransitioning ? 'opacity-0' : 'opacity-100'
+              }`}
+            >
+              <Link 
+                to={displayedContent.secondaryCtaLink}
+                className="inline-flex items-center gap-2 text-sm transition-colors font-medium hover:opacity-80 text-white-80"
+                onClick={() => trackCTAClick(`hero-secondary-${selectedUseCase}`)}
               >
-                <Link 
-                  to={content.secondaryCtaLink}
-                  className="inline-flex items-center gap-2 text-sm transition-colors font-medium hover:opacity-80 text-white-80"
-                  onClick={() => trackCTAClick(`hero-secondary-${selectedUseCase}`)}
-                >
-                  {content.secondaryCta}
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </motion.div>
-            </AnimatePresence>
-          </motion.div>
-        </motion.div>
+                {displayedContent.secondaryCta}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

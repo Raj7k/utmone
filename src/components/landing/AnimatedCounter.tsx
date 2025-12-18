@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 
 interface AnimatedCounterProps {
   target: number;
@@ -17,6 +16,7 @@ export const AnimatedCounter = ({
   className = ""
 }: AnimatedCounterProps) => {
   const [count, setCount] = useState(target);
+  const [isAnimating, setIsAnimating] = useState(false);
   
   useEffect(() => {
     // Simulate occasional tick-down for urgency
@@ -24,6 +24,8 @@ export const AnimatedCounter = ({
       setCount(prev => {
         // Random chance to decrease
         if (Math.random() > 0.7 && prev > 10) {
+          setIsAnimating(true);
+          setTimeout(() => setIsAnimating(false), 300);
           return prev - 1;
         }
         return prev;
@@ -34,15 +36,13 @@ export const AnimatedCounter = ({
   }, []);
 
   return (
-    <motion.span
-      key={count}
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className={className}
+    <span
+      className={`inline-block transition-all duration-300 ${
+        isAnimating ? 'opacity-0 -translate-y-2.5' : 'opacity-100 translate-y-0'
+      } ${className}`}
     >
       {prefix}{count}{suffix}
-    </motion.span>
+    </span>
   );
 };
 
@@ -57,12 +57,15 @@ export const PulsingDot = ({ color = "bg-orange-500" }: { color?: string }) => (
 // Founding spots with urgency animation
 export const FoundingSpotsCounter = ({ spots = 47 }: { spots?: number }) => {
   const [currentSpots, setCurrentSpots] = useState(spots);
+  const [isAnimating, setIsAnimating] = useState(false);
   
   useEffect(() => {
     // Occasionally decrease to create urgency
     const interval = setInterval(() => {
       setCurrentSpots(prev => {
         if (Math.random() > 0.8 && prev > 5) {
+          setIsAnimating(true);
+          setTimeout(() => setIsAnimating(false), 300);
           return prev - 1;
         }
         return prev;
@@ -75,14 +78,13 @@ export const FoundingSpotsCounter = ({ spots = 47 }: { spots?: number }) => {
   return (
     <div className="flex items-center gap-2 text-sm text-white/40">
       <PulsingDot color="bg-orange-500" />
-      <motion.span
-        key={currentSpots}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      <span
+        className={`inline-block transition-all duration-300 ${
+          isAnimating ? 'opacity-0 scale-80' : 'opacity-100 scale-100'
+        }`}
       >
         {currentSpots} founding spots left
-      </motion.span>
+      </span>
     </div>
   );
 };
