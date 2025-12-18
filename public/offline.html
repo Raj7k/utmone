@@ -30,6 +30,11 @@
       opacity: 0.5;
     }
     
+    .icon.online {
+      opacity: 1;
+      color: #34C759;
+    }
+    
     h1 {
       font-size: 1.5rem;
       font-weight: 600;
@@ -41,6 +46,40 @@
       color: rgba(255, 255, 255, 0.6);
       margin-bottom: 1.5rem;
       font-size: 0.875rem;
+    }
+    
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2rem;
+      font-size: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #FF3B30;
+    }
+    
+    .status-dot.online {
+      background: #34C759;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    .countdown {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 1rem;
     }
     
     button {
@@ -60,16 +99,30 @@
       opacity: 0.9;
     }
     
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      margin-top: 0.75rem;
+    }
+    
     @media (prefers-color-scheme: light) {
       body { background: #F2F2F7; color: #1C1C1E; }
       button { background: #1C1C1E; color: #fff; }
+      .btn-secondary { background: rgba(0, 0, 0, 0.05); color: #1C1C1E; }
       p { color: rgba(0, 0, 0, 0.5); }
+      .status { background: rgba(0, 0, 0, 0.05); }
+      .countdown { color: rgba(0, 0, 0, 0.4); }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <svg class="icon" id="wifi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <line x1="1" y1="1" x2="23" y2="23"></line>
       <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"></path>
       <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"></path>
@@ -78,9 +131,133 @@
       <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
       <line x1="12" y1="20" x2="12.01" y2="20"></line>
     </svg>
-    <h1>you're offline</h1>
-    <p>check your connection and try again</p>
-    <button onclick="window.location.reload()">retry</button>
+    
+    <div class="status">
+      <span class="status-dot" id="status-dot"></span>
+      <span id="status-text">offline</span>
+    </div>
+    
+    <h1 id="title">you're offline</h1>
+    <p id="message">check your connection and try again</p>
+    
+    <div class="countdown" id="countdown" style="display: none;">
+      retrying in <span id="countdown-value">5</span>s...
+    </div>
+    
+    <button id="retry-btn" onclick="handleRetry()">retry</button>
+    <button class="btn-secondary" onclick="clearCacheAndRetry()">clear cache & retry</button>
   </div>
+
+  <script>
+    let countdownInterval = null;
+    let countdownValue = 5;
+    let isOnline = navigator.onLine;
+
+    // Update UI based on online status
+    function updateStatus() {
+      const icon = document.getElementById('wifi-icon');
+      const dot = document.getElementById('status-dot');
+      const statusText = document.getElementById('status-text');
+      const title = document.getElementById('title');
+      const message = document.getElementById('message');
+      const countdown = document.getElementById('countdown');
+      const retryBtn = document.getElementById('retry-btn');
+
+      if (isOnline) {
+        icon.classList.add('online');
+        dot.classList.add('online');
+        statusText.textContent = 'back online';
+        title.textContent = 'reconnected!';
+        message.textContent = 'loading your page...';
+        retryBtn.disabled = true;
+        
+        // Auto-reload after brief delay
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      } else {
+        icon.classList.remove('online');
+        dot.classList.remove('online');
+        statusText.textContent = 'offline';
+        title.textContent = "you're offline";
+        message.textContent = 'check your connection and try again';
+        retryBtn.disabled = false;
+        countdown.style.display = 'none';
+        stopCountdown();
+      }
+    }
+
+    // Start countdown for auto-retry
+    function startCountdown() {
+      if (!isOnline) return;
+      
+      const countdown = document.getElementById('countdown');
+      const countdownValueEl = document.getElementById('countdown-value');
+      
+      countdown.style.display = 'block';
+      countdownValue = 5;
+      countdownValueEl.textContent = countdownValue;
+      
+      countdownInterval = setInterval(() => {
+        countdownValue--;
+        countdownValueEl.textContent = countdownValue;
+        
+        if (countdownValue <= 0) {
+          stopCountdown();
+          window.location.reload();
+        }
+      }, 1000);
+    }
+
+    // Stop countdown
+    function stopCountdown() {
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+      }
+    }
+
+    // Handle retry button click
+    function handleRetry() {
+      window.location.reload();
+    }
+
+    // Clear cache and retry
+    function clearCacheAndRetry() {
+      // Clear service worker caches
+      if ('caches' in window) {
+        caches.keys().then(function(names) {
+          for (let name of names) {
+            caches.delete(name);
+          }
+        });
+      }
+      
+      // Notify service worker to clear cache
+      if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage('clearCache');
+      }
+      
+      // Reload with cache bypass
+      setTimeout(() => {
+        window.location.href = window.location.href + '?_t=' + Date.now();
+      }, 500);
+    }
+
+    // Listen for online/offline events
+    window.addEventListener('online', function() {
+      isOnline = true;
+      updateStatus();
+    });
+
+    window.addEventListener('offline', function() {
+      isOnline = false;
+      updateStatus();
+    });
+
+    // Initial status check
+    isOnline = navigator.onLine;
+    updateStatus();
+  </script>
 </body>
 </html>

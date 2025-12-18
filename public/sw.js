@@ -41,6 +41,12 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+// Check if URL is a hashed asset (immutable - safe to cache long-term)
+function isHashedAsset(url) {
+  // Match patterns like: index-abc123.js, styles-def456.css
+  return /[-\.][a-f0-9]{8,}\.(?:js|css)$/i.test(url);
+}
+
 // Fetch event - stale-while-revalidate for static assets
 self.addEventListener('fetch', (event) => {
   const { request } = event;
@@ -60,12 +66,10 @@ self.addEventListener('fetch', (event) => {
   }
 
   // Network-first for navigation requests (HTML pages)
-  // This ensures fresh routes are always fetched
   if (request.mode === 'navigate') {
     event.respondWith(
       fetch(request)
         .then((response) => {
-          // Clone and cache successful responses
           if (response.ok) {
             const clone = response.clone();
             caches.open(CACHE_NAME).then((cache) => {
@@ -75,7 +79,6 @@ self.addEventListener('fetch', (event) => {
           return response;
         })
         .catch(() => {
-          // Fallback to cache, then offline page
           return caches.match(request)
             .then((cached) => cached || caches.match('/offline.html'));
         })
@@ -83,24 +86,61 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Stale-while-revalidate for static assets (JS, CSS, fonts, images)
+  // Handle static assets (JS, CSS, fonts, images)
   if (request.destination === 'script' || 
       request.destination === 'style' ||
       request.destination === 'font' ||
       request.destination === 'image') {
+    
     event.respondWith(
-      caches.open(STATIC_CACHE).then((cache) => {
-        return cache.match(request).then((cachedResponse) => {
-          const fetchPromise = fetch(request).then((networkResponse) => {
-            if (networkResponse.ok) {
-              cache.put(request, networkResponse.clone());
-            }
-            return networkResponse;
-          }).catch(() => cachedResponse);
-
-          return cachedResponse || fetchPromise;
-        });
-      })
+      (async () => {
+        const cache = await caches.open(STATIC_CACHE);
+        const cachedResponse = await cache.match(request);
+        
+        // For hashed assets (immutable), return cache immediately if available
+        if (cachedResponse && isHashedAsset(url.pathname)) {
+          return cachedResponse;
+        }
+        
+        try {
+          const networkResponse = await fetch(request);
+          
+          // Handle 404 for JS/CSS chunks - indicates stale deployment
+          if (networkResponse.status === 404 && 
+              (request.destination === 'script' || request.destination === 'style')) {
+            console.warn('[SW] Stale chunk detected (404):', url.pathname);
+            
+            // Clear static cache - chunks are from old deployment
+            await caches.delete(STATIC_CACHE);
+            
+            // Notify clients to reload
+            self.clients.matchAll().then((clients) => {
+              clients.forEach((client) => {
+                client.postMessage({ type: 'staleChunk', url: url.pathname });
+              });
+            });
+            
+            // Return error response that lazyWithRetry can handle
+            return new Response('Chunk not found - deployment updated', { 
+              status: 404,
+              statusText: 'Stale Chunk'
+            });
+          }
+          
+          // Cache successful responses
+          if (networkResponse.ok) {
+            cache.put(request, networkResponse.clone());
+          }
+          
+          return networkResponse;
+        } catch (error) {
+          // Network failed - return cached if available
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+          throw error;
+        }
+      })()
     );
     return;
   }
@@ -119,8 +159,16 @@ self.addEventListener('message', (event) => {
     });
   }
   
-  // Expose version for debugging
+  // Expose version for debugging and validation
   if (event.data === 'getVersion') {
     event.source?.postMessage({ type: 'version', version: SW_VERSION });
+  }
+  
+  // Clear specific cache type
+  if (event.data?.type === 'clearStaticCache') {
+    caches.delete(STATIC_CACHE).then(() => {
+      console.log('[SW] Static cache cleared');
+      event.source?.postMessage({ type: 'staticCacheCleared' });
+    });
   }
 });
