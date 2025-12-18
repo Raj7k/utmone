@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { 
   Link as LinkIcon, 
@@ -51,23 +51,21 @@ const TOOLS = [
     label: "utm builder",
     description: "validated parameters",
     href: "/features/utm-builder",
-    preview: (
+    preview: (isVisible: boolean) => (
       <div className="space-y-1">
         {[
           { param: "source", value: "linkedin" },
           { param: "medium", value: "social" },
           { param: "campaign", value: "q4_launch" },
         ].map((item, i) => (
-          <motion.div 
+          <div 
             key={item.param}
-            className="flex items-center gap-1.5 text-xs font-mono"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: i * 0.1 }}
+            className="flex items-center gap-1.5 text-xs font-mono transition-opacity duration-300"
+            style={{ opacity: isVisible ? 1 : 0, transitionDelay: `${i * 0.1}s` }}
           >
             <span className="text-white-40">{item.param}=</span>
             <span className="text-white-80">{item.value}</span>
-          </motion.div>
+          </div>
         ))}
       </div>
     )
@@ -94,17 +92,18 @@ const TOOLS = [
     label: "analytics",
     description: "real-time insights",
     href: "/features/analytics",
-    preview: (
+    preview: (isVisible: boolean) => (
       <div className="space-y-2">
         <div className="text-xl font-bold text-white-90">24,847</div>
         <div className="h-8 flex items-end gap-0.5">
           {[40, 55, 60, 75, 65, 80, 90].map((h, i) => (
-            <motion.div
+            <div
               key={i}
-              className="flex-1 rounded-t bg-white/30"
-              initial={{ height: 0 }}
-              animate={{ height: `${h}%` }}
-              transition={{ delay: i * 0.05, duration: 0.3 }}
+              className="flex-1 rounded-t bg-white/30 transition-all duration-300"
+              style={{ 
+                height: isVisible ? `${h}%` : '0%', 
+                transitionDelay: `${i * 0.05}s` 
+              }}
             />
           ))}
         </div>
@@ -117,18 +116,16 @@ const TOOLS = [
     label: "clean-track",
     description: "validation rules",
     href: "/features/clean-track",
-    preview: (
+    preview: (isVisible: boolean) => (
       <div className="space-y-1">
         {["format ✓", "naming ✓", "params ✓"].map((rule, i) => (
-          <motion.div
+          <div
             key={rule}
-            className="text-xs text-white-60"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: i * 0.1 }}
+            className="text-xs text-white-60 transition-opacity duration-300"
+            style={{ opacity: isVisible ? 1 : 0, transitionDelay: `${i * 0.1}s` }}
           >
             {rule}
-          </motion.div>
+          </div>
         ))}
       </div>
     )
@@ -139,19 +136,17 @@ const TOOLS = [
     label: "governance",
     description: "team permissions",
     href: "/solutions/enterprise",
-    preview: (
+    preview: (isVisible: boolean) => (
       <div className="space-y-1.5">
         {[
           { initials: "EM", role: "Admin" },
           { initials: "TC", role: "Editor" },
           { initials: "JB", role: "Viewer" },
         ].map((user, i) => (
-          <motion.div
+          <div
             key={user.initials}
-            className="flex items-center gap-2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: i * 0.1 }}
+            className="flex items-center gap-2 transition-opacity duration-300"
+            style={{ opacity: isVisible ? 1 : 0, transitionDelay: `${i * 0.1}s` }}
           >
             <div 
               className="w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-bold bg-white-15 text-white-80"
@@ -159,7 +154,7 @@ const TOOLS = [
               {user.initials}
             </div>
             <span className="text-[10px] text-white-50">{user.role}</span>
-          </motion.div>
+          </div>
         ))}
       </div>
     )
@@ -167,12 +162,32 @@ const TOOLS = [
 ];
 
 export const GTMToolsShowcase = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  
   const featured = TOOLS[0];
   const smallCards = TOOLS.slice(1);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <AnimatedSection className="py-16 md:py-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+      <div ref={sectionRef} className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Header */}
         <div className="text-center mb-10 md:mb-14 space-y-3">
           <h2 
@@ -188,12 +203,12 @@ export const GTMToolsShowcase = () => {
         {/* Bento Box Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
           {/* Featured Card - Short Links (spans 2 columns, 2 rows) */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4 }}
-            className="col-span-2 row-span-2 group"
+          <div
+            className="col-span-2 row-span-2 group transition-all duration-400"
+            style={{
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? 'translateY(0)' : 'translateY(20px)'
+            }}
           >
             <Link 
               to={featured.href}
@@ -234,19 +249,20 @@ export const GTMToolsShowcase = () => {
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
             </Link>
-          </motion.div>
+          </div>
           
           {/* Small Cards */}
           {smallCards.map((tool, index) => {
             const Icon = tool.icon;
             return (
-              <motion.div
+              <div
                 key={tool.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.1 + index * 0.05 }}
-                className="group"
+                className="group transition-all duration-400"
+                style={{
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+                  transitionDelay: `${0.1 + index * 0.05}s`
+                }}
               >
                 <Link 
                   to={tool.href}
@@ -270,7 +286,7 @@ export const GTMToolsShowcase = () => {
                   <div 
                     className="rounded-lg p-3 min-h-[80px] bg-black/25 border border-white/[0.04]"
                   >
-                    {tool.preview}
+                    {typeof tool.preview === 'function' ? (tool.preview as (isVisible: boolean) => React.ReactNode)(isVisible) : tool.preview}
                   </div>
                   
                   {/* Description */}
@@ -278,7 +294,7 @@ export const GTMToolsShowcase = () => {
                     {tool.description}
                   </p>
                 </Link>
-              </motion.div>
+              </div>
             );
           })}
         </div>

@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { 
   CheckCircle2, 
@@ -12,9 +12,29 @@ import {
 import { AnimatedSection } from "./StaticSection";
 
 export const AccessibilityShowcase = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <AnimatedSection className="py-16 md:py-24" style={{ background: 'transparent' }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+      <div ref={sectionRef} className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center mb-8 md:mb-12 space-y-3">
           <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold">
             links that include everyone
@@ -26,12 +46,12 @@ export const AccessibilityShowcase = () => {
         
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left: Visual Demo */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="space-y-4"
+          <div
+            className="space-y-4 transition-all duration-500"
+            style={{
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? 'translateX(0)' : 'translateX(-20px)'
+            }}
           >
             {/* Semantic URL Comparison */}
             <div className="rounded-xl p-5 space-y-3 obsidian-glass-80">
@@ -81,15 +101,16 @@ export const AccessibilityShowcase = () => {
                 <div>Button: "Copy link to clipboard"</div>
               </div>
             </div>
-          </motion.div>
+          </div>
           
           {/* Right: Features */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="space-y-4"
+          <div
+            className="space-y-4 transition-all duration-500"
+            style={{
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? 'translateX(0)' : 'translateX(20px)',
+              transitionDelay: '0.2s'
+            }}
           >
             {[
               {
@@ -125,13 +146,14 @@ export const AccessibilityShowcase = () => {
             ].map((feature, i) => {
               const Icon = feature.icon;
               return (
-                <motion.div
+                <div
                   key={feature.title}
-                  className="flex items-start gap-3"
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: i * 0.08 }}
+                  className="flex items-start gap-3 transition-all duration-300"
+                  style={{
+                    opacity: isVisible ? 1 : 0,
+                    transform: isVisible ? 'translateY(0)' : 'translateY(10px)',
+                    transitionDelay: `${i * 0.08}s`
+                  }}
                 >
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-white/10">
                     <Icon className="w-4 h-4 text-foreground" />
@@ -140,7 +162,7 @@ export const AccessibilityShowcase = () => {
                     <h3 className="font-semibold text-sm text-white-90">{feature.title}</h3>
                     <p className="text-xs mt-0.5 text-white-50">{feature.description}</p>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
             
@@ -153,7 +175,7 @@ export const AccessibilityShowcase = () => {
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </AnimatedSection>
