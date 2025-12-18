@@ -1,10 +1,8 @@
-import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/contexts/ModalContext";
-
-const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
+import { useIntersectionAnimation } from "@/components/landing/motion";
 
 interface FeatureFinalCTAProps {
   headline: string;
@@ -27,6 +25,7 @@ export const FeatureFinalCTA = ({
   secondaryCTA = { label: "book a demo", href: "/book-demo" },
 }: FeatureFinalCTAProps) => {
   const { openEarlyAccessModal } = useModal();
+  const { ref, isVisible } = useIntersectionAnimation(0.3);
 
   const handlePrimaryClick = () => {
     if (primaryCTA.opensEarlyAccess !== false) {
@@ -37,44 +36,50 @@ export const FeatureFinalCTA = ({
   return (
     <section className="py-24 md:py-32">
       <div className="max-w-4xl mx-auto px-6 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: appleEase }}
-          className="p-12 md:p-16 relative overflow-hidden bg-card/50 backdrop-blur-xl rounded-3xl border border-border"
+        <div
+          ref={ref}
+          className={`p-12 md:p-16 relative overflow-hidden bg-card/50 backdrop-blur-xl rounded-3xl border border-border transition-all duration-600 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+          style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
         >
           {/* Glow effect */}
           <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_center,_hsl(var(--primary)_/_0.05)_0%,_transparent_60%)]" />
 
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1, duration: 0.5, ease: appleEase }}
-            className="text-3xl md:text-4xl lg:text-5xl font-sans font-bold mb-6 relative z-10 hero-gradient"
+          <h2
+            className={`text-3xl md:text-4xl lg:text-5xl font-sans font-bold mb-6 relative z-10 hero-gradient transition-all duration-500 ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+            }`}
+            style={{ 
+              transitionDelay: "100ms",
+              transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)"
+            }}
           >
             {headline}
-          </motion.h2>
+          </h2>
 
           {subheadline && (
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2, duration: 0.5, ease: appleEase }}
-              className="text-xl text-muted-foreground mb-10 relative z-10"
+            <p
+              className={`text-xl text-muted-foreground mb-10 relative z-10 transition-all duration-500 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+              }`}
+              style={{ 
+                transitionDelay: "200ms",
+                transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)"
+              }}
             >
               {subheadline}
-            </motion.p>
+            </p>
           )}
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3, duration: 0.5, ease: appleEase }}
-            className="flex flex-col sm:flex-row gap-4 justify-center relative z-10"
+          <div
+            className={`flex flex-col sm:flex-row gap-4 justify-center relative z-10 transition-all duration-500 ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+            }`}
+            style={{ 
+              transitionDelay: "300ms",
+              transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)"
+            }}
           >
             {primaryCTA.opensEarlyAccess !== false ? (
               <Button 
@@ -103,8 +108,8 @@ export const FeatureFinalCTA = ({
                 {secondaryCTA.label}
               </Button>
             </Link>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );

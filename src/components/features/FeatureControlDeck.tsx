@@ -1,6 +1,6 @@
 import { useState, ReactNode } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { LucideIcon, ArrowRight } from "lucide-react";
+import { CSSAnimatePresence } from "@/components/landing/motion";
 
 interface FeatureControlDeckTab {
   id: string;
@@ -18,8 +18,6 @@ interface FeatureControlDeckProps {
     subtitle: string;
   };
 }
-
-const appleEase = "easeOut";
 
 export const FeatureControlDeck = ({ tabs, badge }: FeatureControlDeckProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -71,15 +69,8 @@ export const FeatureControlDeck = ({ tabs, badge }: FeatureControlDeckProps) => 
 
             {/* Mobile Content */}
             <div className="flex-1 p-5">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeIndex}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.4, ease: appleEase }}
-                  className="h-full flex flex-col"
-                >
+              <CSSAnimatePresence show={true} animation="slide-up">
+                <div key={activeIndex} className="h-full flex flex-col animate-fade-slide-up">
                   <div className="flex-1 flex items-center justify-center mb-4">
                     <div className="w-full max-w-[280px] h-[180px]">
                       {activeTab.visual}
@@ -93,8 +84,8 @@ export const FeatureControlDeck = ({ tabs, badge }: FeatureControlDeckProps) => 
                       {activeTab.subheadline}
                     </p>
                   </div>
-                </motion.div>
-              </AnimatePresence>
+                </div>
+              </CSSAnimatePresence>
             </div>
           </div>
 
@@ -117,13 +108,12 @@ export const FeatureControlDeck = ({ tabs, badge }: FeatureControlDeckProps) => 
                       onClick={() => handleSelect(index)}
                       className="relative w-full text-left p-3 rounded-xl transition-all duration-300 group"
                     >
-                      {isActive && (
-                        <motion.div
-                          layoutId="featureActivePill"
-                          className="absolute inset-0 rounded-xl bg-muted/30 border border-border shadow-[0_0_15px_hsl(var(--primary)/0.1)]"
-                          transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                        />
-                      )}
+                      {/* Active pill with CSS transition */}
+                      <div
+                        className={`absolute inset-0 rounded-xl bg-muted/30 border border-border shadow-[0_0_15px_hsl(var(--primary)/0.1)] transition-all duration-300 ${
+                          isActive ? "opacity-100 scale-100" : "opacity-0 scale-95"
+                        }`}
+                      />
 
                       <div className="relative z-10 flex items-center gap-3">
                         <div
@@ -174,46 +164,34 @@ export const FeatureControlDeck = ({ tabs, badge }: FeatureControlDeckProps) => 
             {/* Display Port */}
             <div className="flex-1 relative overflow-hidden">
               {/* Light Leak Effect */}
-              <AnimatePresence>
-                {isTransitioning && (
-                  <motion.div
-                    className="absolute inset-0 z-20 pointer-events-none bg-gradient-to-r from-transparent via-muted/10 to-transparent"
-                    initial={{ opacity: 0, x: "-100%" }}
-                    animate={{ opacity: 1, x: "100%" }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5, ease: appleEase }}
-                  />
-                )}
-              </AnimatePresence>
+              {isTransitioning && (
+                <div
+                  className="absolute inset-0 z-20 pointer-events-none bg-gradient-to-r from-transparent via-muted/10 to-transparent animate-shimmer"
+                />
+              )}
 
-              {/* Content Area */}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeIndex}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.5, ease: appleEase }}
-                  className="absolute inset-0 p-8 flex flex-col"
-                >
-                  {/* Dynamic Visual */}
-                  <div className="flex-1 flex items-center justify-center mb-4">
-                    <div className="w-full max-w-[400px] h-[240px]">
-                      {activeTab.visual}
-                    </div>
+              {/* Content Area with CSS transition */}
+              <div
+                key={activeIndex}
+                className="absolute inset-0 p-8 flex flex-col animate-fade-slide-up"
+              >
+                {/* Dynamic Visual */}
+                <div className="flex-1 flex items-center justify-center mb-4">
+                  <div className="w-full max-w-[400px] h-[240px]">
+                    {activeTab.visual}
                   </div>
+                </div>
 
-                  {/* Content */}
-                  <div className="space-y-3">
-                    <h2 className="text-3xl lg:text-4xl font-display font-bold tracking-tight hero-gradient">
-                      {activeTab.headline}
-                    </h2>
-                    <p className="text-base max-w-xl leading-relaxed text-muted-foreground">
-                      {activeTab.subheadline}
-                    </p>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
+                {/* Content */}
+                <div className="space-y-3">
+                  <h2 className="text-3xl lg:text-4xl font-display font-bold tracking-tight hero-gradient">
+                    {activeTab.headline}
+                  </h2>
+                  <p className="text-base max-w-xl leading-relaxed text-muted-foreground">
+                    {activeTab.subheadline}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

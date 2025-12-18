@@ -1,7 +1,5 @@
-import { motion } from "framer-motion";
 import { Check, X } from "lucide-react";
-
-const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
+import { useIntersectionAnimation } from "@/components/landing/motion";
 
 interface ComparisonItem {
   feature: string;
@@ -20,15 +18,18 @@ export const FeatureBeforeAfter = ({
   subheadline,
   items,
 }: FeatureBeforeAfterProps) => {
+  const { ref: headerRef, isVisible: headerVisible } = useIntersectionAnimation(0.3);
+  const { ref: tableRef, isVisible: tableVisible } = useIntersectionAnimation(0.2);
+
   return (
     <section className="py-16 md:py-24 bg-muted/30">
       <div className="max-w-4xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: appleEase }}
-          className="text-center mb-12"
+        <div
+          ref={headerRef}
+          className={`text-center mb-12 transition-all duration-600 ${
+            headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+          style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
         >
           <h2 className="text-3xl md:text-4xl font-sans font-bold hero-gradient mb-4">
             {headline}
@@ -36,14 +37,17 @@ export const FeatureBeforeAfter = ({
           {subheadline && (
             <p className="text-lg text-muted-foreground">{subheadline}</p>
           )}
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1, duration: 0.6, ease: appleEase }}
-          className="bg-card/50 backdrop-blur-xl border border-border rounded-2xl overflow-hidden"
+        <div
+          ref={tableRef}
+          className={`bg-card/50 backdrop-blur-xl border border-border rounded-2xl overflow-hidden transition-all duration-600 ${
+            tableVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+          }`}
+          style={{ 
+            transitionDelay: "100ms",
+            transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)"
+          }}
         >
           {/* Header */}
           <div className="grid grid-cols-3 text-center p-4 border-b border-border bg-muted/50">
@@ -58,20 +62,22 @@ export const FeatureBeforeAfter = ({
 
           {/* Rows */}
           {items.map((item, index) => (
-            <motion.div
+            <div
               key={index}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.08, duration: 0.5, ease: appleEase }}
-              className="grid grid-cols-3 text-center p-4 border-b border-border last:border-b-0 hover:bg-muted/20 transition-colors"
+              className={`grid grid-cols-3 text-center p-4 border-b border-border last:border-b-0 hover:bg-muted/20 transition-all duration-500 ${
+                tableVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-5"
+              }`}
+              style={{ 
+                transitionDelay: `${(index + 1) * 80}ms`,
+                transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)"
+              }}
             >
               <div className="text-sm font-medium text-foreground">{item.feature}</div>
               <div className="text-sm text-muted-foreground">{item.before}</div>
               <div className="text-sm text-foreground font-medium">{item.after}</div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

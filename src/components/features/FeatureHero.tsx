@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { OrganicShapes } from "@/components/landing/OrganicShapes";
 import { CTAButton } from "@/components/ui/CTAButton";
 
@@ -32,25 +31,24 @@ export const FeatureHero = ({
       <OrganicShapes />
       
       <div className="container relative z-10 px-6 text-center">
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-          className="font-display text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter mb-6 text-white leading-[1.05] whitespace-pre-line"
+        <h1
+          className="font-display text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter mb-6 text-white leading-[1.05] whitespace-pre-line opacity-0 animate-fade-slide-up"
+          style={{ animationDelay: "0ms", animationFillMode: "forwards" }}
         >
           {displayHeadline}
-        </motion.h1>
+        </h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-          className="text-lg md:text-xl text-white/60 max-w-3xl mx-auto mb-10"
+        <p
+          className="text-lg md:text-xl text-white/60 max-w-3xl mx-auto mb-10 opacity-0 animate-fade-slide-up"
+          style={{ animationDelay: "100ms", animationFillMode: "forwards" }}
         >
           {subheadline}
-        </motion.p>
+        </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div 
+          className="flex flex-col sm:flex-row gap-4 justify-center opacity-0 animate-fade-slide-up"
+          style={{ animationDelay: "200ms", animationFillMode: "forwards" }}
+        >
           <CTAButton href={finalCtaLink} variant="primary">
             {finalCtaText}
           </CTAButton>

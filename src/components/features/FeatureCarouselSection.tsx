@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useState, ReactNode } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import { motion } from "framer-motion";
 import { LucideIcon, ChevronLeft, ChevronRight } from "lucide-react";
-
-const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
+import { useIntersectionAnimation } from "@/components/landing/motion";
 
 interface FeatureCarouselItem {
   icon: LucideIcon;
@@ -35,6 +33,7 @@ export const FeatureCarouselSection = ({
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(true);
+  const { ref: headerRef, isVisible: headerVisible } = useIntersectionAnimation(0.5);
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
@@ -69,26 +68,30 @@ export const FeatureCarouselSection = ({
     <section className="py-16 md:py-24 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Section Header */}
-        <div className="text-center mb-10 md:mb-14 space-y-3">
-          <motion.h2
-            className="text-3xl sm:text-4xl md:text-5xl font-sans font-bold hero-gradient"
-            initial={{ opacity: 0, y: 30, scale: 0.95 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 0.6, ease: appleEase }}
+        <div 
+          ref={headerRef}
+          className="text-center mb-10 md:mb-14 space-y-3"
+        >
+          <h2
+            className={`text-3xl sm:text-4xl md:text-5xl font-sans font-bold hero-gradient transition-all duration-600 ${
+              headerVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95"
+            }`}
+            style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
           >
             {headline}
-          </motion.h2>
+          </h2>
           {subheadline && (
-            <motion.p
-              className="text-base sm:text-lg max-w-2xl mx-auto text-muted-foreground"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.5, delay: 0.15, ease: appleEase }}
+            <p
+              className={`text-base sm:text-lg max-w-2xl mx-auto text-muted-foreground transition-all duration-500 ${
+                headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+              }`}
+              style={{ 
+                transitionDelay: "150ms",
+                transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)"
+              }}
             >
               {subheadline}
-            </motion.p>
+            </p>
           )}
         </div>
 
@@ -123,47 +126,7 @@ export const FeatureCarouselSection = ({
               {items.map((item, index) => {
                 const Icon = item.icon;
                 return (
-                  <motion.div
-                    key={index}
-                    className="flex-shrink-0 w-[300px] sm:w-[340px] md:w-[380px]"
-                    initial={{ opacity: 0, y: 40, scale: 0.9 }}
-                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                    viewport={{ once: true, amount: 0.3, margin: "-50px" }}
-                    transition={{
-                      duration: 0.5,
-                      delay: Math.min(index * 0.08, 0.4),
-                      ease: appleEase,
-                    }}
-                    whileHover={{
-                      scale: 1.02,
-                      transition: { type: "spring", stiffness: 400, damping: 20 },
-                    }}
-                  >
-                    <div className="relative h-full p-6 rounded-2xl border border-border bg-card/50 backdrop-blur-xl overflow-hidden group">
-                      {/* Visual area */}
-                      <div className="h-24 mb-6 flex items-center justify-center bg-muted/30 rounded-xl overflow-hidden">
-                        {item.visual || (
-                          <Icon className="w-10 h-10 text-muted-foreground" />
-                        )}
-                      </div>
-
-                      {/* Content */}
-                      <div className="flex items-start gap-3 mb-3">
-                        <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                          <Icon className="w-4 h-4 text-primary" />
-                        </div>
-                        <h3 className="text-lg font-semibold text-foreground leading-tight">
-                          {item.title}
-                        </h3>
-                      </div>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
-                        {item.description}
-                      </p>
-
-                      {/* Hover glow */}
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-[radial-gradient(ellipse_at_center,_hsl(var(--primary)_/_0.05)_0%,_transparent_70%)]" />
-                    </div>
-                  </motion.div>
+                  <CarouselCard key={index} item={item} index={index} />
                 );
               })}
             </div>
@@ -171,27 +134,68 @@ export const FeatureCarouselSection = ({
         </div>
 
         {/* Subtle Progress Bar + Counter */}
-        <motion.div
-          className="flex items-center justify-center gap-3 mt-8"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
+        <div
+          className={`flex items-center justify-center gap-3 mt-8 transition-opacity duration-500 ${
+            headerVisible ? "opacity-100" : "opacity-0"
+          }`}
+          style={{ transitionDelay: "300ms" }}
         >
           <div className="relative w-32 h-1 rounded-full bg-muted overflow-hidden">
-            <motion.div
-              className="absolute left-0 top-0 h-full rounded-full bg-foreground/60"
-              animate={{
+            <div
+              className="absolute left-0 top-0 h-full rounded-full bg-foreground/60 transition-all duration-300 ease-out"
+              style={{
                 width: `${((selectedIndex + 1) / scrollSnaps.length) * 100}%`,
               }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
             />
           </div>
           <span className="text-xs text-muted-foreground tabular-nums font-mono">
             {selectedIndex + 1}/{scrollSnaps.length}
           </span>
-        </motion.div>
+        </div>
       </div>
     </section>
+  );
+};
+
+const CarouselCard = ({ item, index }: { item: FeatureCarouselItem; index: number }) => {
+  const { ref, isVisible } = useIntersectionAnimation(0.3);
+  const Icon = item.icon;
+
+  return (
+    <div
+      ref={ref}
+      className={`flex-shrink-0 w-[300px] sm:w-[340px] md:w-[380px] transition-all duration-500 hover:scale-102 ${
+        isVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-10 scale-90"
+      }`}
+      style={{ 
+        transitionDelay: `${Math.min(index * 80, 400)}ms`,
+        transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)"
+      }}
+    >
+      <div className="relative h-full p-6 rounded-2xl border border-border bg-card/50 backdrop-blur-xl overflow-hidden group">
+        {/* Visual area */}
+        <div className="h-24 mb-6 flex items-center justify-center bg-muted/30 rounded-xl overflow-hidden">
+          {item.visual || (
+            <Icon className="w-10 h-10 text-muted-foreground" />
+          )}
+        </div>
+
+        {/* Content */}
+        <div className="flex items-start gap-3 mb-3">
+          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+            <Icon className="w-4 h-4 text-primary" />
+          </div>
+          <h3 className="text-lg font-semibold text-foreground leading-tight">
+            {item.title}
+          </h3>
+        </div>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          {item.description}
+        </p>
+
+        {/* Hover glow */}
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-[radial-gradient(ellipse_at_center,_hsl(var(--primary)_/_0.05)_0%,_transparent_70%)]" />
+      </div>
+    </div>
   );
 };

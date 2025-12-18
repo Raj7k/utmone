@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useIntersectionAnimation } from "@/components/landing/motion";
 import brickQRImage from "@/assets/images/brickmatrix-qr.svg";
 
 // Boring generic QR - grayscale, flat, no personality
@@ -44,36 +44,37 @@ const BoringQR = () => {
 
 // Vibrant brick QR using the real image
 const BrickQR = () => {
+  const { ref, isVisible } = useIntersectionAnimation(0.3);
+  
   return (
     <div className="relative">
       {/* Glowing container */}
-      <motion.div 
-        className="w-[200px] h-[200px] rounded-xl relative"
+      <div 
+        ref={ref}
+        className={`w-[200px] h-[200px] rounded-xl relative transition-all duration-500 ${
+          isVisible ? "opacity-100 scale-100" : "opacity-0 scale-80"
+        }`}
         style={{
-          boxShadow: "0 0 40px rgba(250, 200, 10, 0.3), 0 0 80px rgba(228, 32, 46, 0.2)"
+          boxShadow: "0 0 40px rgba(250, 200, 10, 0.3), 0 0 80px rgba(228, 32, 46, 0.2)",
+          transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)"
         }}
-        initial={{ scale: 0.8, opacity: 0 }}
-        whileInView={{ scale: 1, opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       >
         <img 
           src={brickQRImage} 
           alt="3D Brick QR Code" 
           className="w-full h-full object-contain rounded-xl"
         />
-      </motion.div>
+      </div>
       
       {/* Sparkle label */}
-      <motion.div 
-        initial={{ scale: 0 }}
-        whileInView={{ scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.5, type: "spring" }}
-        className="absolute -top-2 -right-2 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-[10px] px-2 py-0.5 rounded-full font-medium"
+      <div 
+        className={`absolute -top-2 -right-2 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-[10px] px-2 py-0.5 rounded-full font-medium transition-all duration-300 ${
+          isVisible ? "opacity-100 scale-100" : "opacity-0 scale-0"
+        }`}
+        style={{ transitionDelay: "500ms" }}
       >
         ✨ brick
-      </motion.div>
+      </div>
     </div>
   );
 };
@@ -87,29 +88,42 @@ const ComparisonPoint = ({
   text: string; 
   isGood: boolean;
   delay: number;
-}) => (
-  <motion.div
-    initial={{ opacity: 0, x: isGood ? 20 : -20 }}
-    whileInView={{ opacity: 1, x: 0 }}
-    viewport={{ once: true }}
-    transition={{ delay }}
-    className={`text-sm ${isGood ? "text-white" : "text-white/40"}`}
-  >
-    <span className="mr-2">{isGood ? "✓" : "×"}</span>
-    {text}
-  </motion.div>
-);
+}) => {
+  const { ref, isVisible } = useIntersectionAnimation(0.3);
+  
+  return (
+    <div
+      ref={ref}
+      className={`text-sm transition-all duration-500 ${isGood ? "text-white" : "text-white/40"} ${
+        isVisible ? "opacity-100 translate-x-0" : `opacity-0 ${isGood ? "translate-x-5" : "-translate-x-5"}`
+      }`}
+      style={{ 
+        transitionDelay: `${delay * 1000}ms`,
+        transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)"
+      }}
+    >
+      <span className="mr-2">{isGood ? "✓" : "×"}</span>
+      {text}
+    </div>
+  );
+};
 
 export function BrickDeviceShowcase() {
+  const { ref: headerRef, isVisible: headerVisible } = useIntersectionAnimation(0.3);
+  const { ref: leftRef, isVisible: leftVisible } = useIntersectionAnimation(0.3);
+  const { ref: rightRef, isVisible: rightVisible } = useIntersectionAnimation(0.3);
+  const { ref: ctaRef, isVisible: ctaVisible } = useIntersectionAnimation(0.3);
+
   return (
     <section className="py-16 md:py-24 px-4 overflow-hidden">
       <div className="container mx-auto max-w-4xl">
         {/* Headline */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
+        <div 
+          ref={headerRef}
+          className={`text-center mb-12 transition-all duration-600 ${
+            headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+          }`}
+          style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
         >
           <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 text-white">
             QR codes don't have to be boring
@@ -117,16 +131,17 @@ export function BrickDeviceShowcase() {
           <p className="text-white/50 max-w-xl mx-auto">
             Turn any link into a buildable brick masterpiece
           </p>
-        </motion.div>
+        </div>
 
         {/* Before/After Comparison */}
         <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* BORING Side */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="flex flex-col items-center text-center space-y-6"
+          <div
+            ref={leftRef}
+            className={`flex flex-col items-center text-center space-y-6 transition-all duration-600 ${
+              leftVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"
+            }`}
+            style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
           >
             <BoringQR />
             
@@ -135,15 +150,18 @@ export function BrickDeviceShowcase() {
               <ComparisonPoint text="forgettable" isGood={false} delay={0.15} />
               <ComparisonPoint text="digital only" isGood={false} delay={0.2} />
             </div>
-          </motion.div>
+          </div>
 
           {/* BRICK Side */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="flex flex-col items-center text-center space-y-6"
+          <div
+            ref={rightRef}
+            className={`flex flex-col items-center text-center space-y-6 transition-all duration-600 ${
+              rightVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
+            }`}
+            style={{ 
+              transitionDelay: "100ms",
+              transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)"
+            }}
           >
             <BrickQR />
             
@@ -152,16 +170,19 @@ export function BrickDeviceShowcase() {
               <ComparisonPoint text="conversation starter" isGood={true} delay={0.25} />
               <ComparisonPoint text="physical masterpiece" isGood={true} delay={0.3} />
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="text-center mt-12"
+        <div
+          ref={ctaRef}
+          className={`text-center mt-12 transition-all duration-500 ${
+            ctaVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+          }`}
+          style={{ 
+            transitionDelay: "400ms",
+            transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)"
+          }}
         >
           <Button asChild size="lg" className="group">
             <Link to="/dashboard/qr-codes">
@@ -169,7 +190,7 @@ export function BrickDeviceShowcase() {
               <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </Button>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

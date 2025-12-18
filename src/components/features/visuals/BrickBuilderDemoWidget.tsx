@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import { 
   Link2, Type, Mail, Phone, MessageSquare, Wifi, MapPin, Calendar, User,
   Box, Layers, Square, Circle, Lock, FileText, Image, Download, Palette
@@ -93,22 +92,29 @@ export function BrickBuilderDemoWidget() {
   const [brickStyle, setBrickStyle] = useState<BrickStyle>("3d");
   const [fgColor, setFgColor] = useState(BRICK_COLORS[1]); // Black
   const [bgColor, setBgColor] = useState(BRICK_COLORS[0]); // White
+  const [animationKey, setAnimationKey] = useState(0);
 
   const pattern = generateBrickPattern(content, fgColor.hex, bgColor.hex, brickStyle);
 
+  // Trigger re-animation when pattern changes
+  useEffect(() => {
+    setAnimationKey(prev => prev + 1);
+  }, [content, fgColor.hex, bgColor.hex, brickStyle]);
+
   const renderBrick = (isFilled: boolean, rowIdx: number, colIdx: number) => {
     const color = isFilled ? fgColor.hex : bgColor.hex;
-    const delay = (rowIdx + colIdx) * 0.01;
+    const delayMs = (rowIdx + colIdx) * 10;
 
     if (brickStyle === "3d") {
       return (
-        <motion.div
-          key={`${rowIdx}-${colIdx}`}
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay, duration: 0.15 }}
-          className="aspect-square relative"
-          style={{ backgroundColor: color }}
+        <div
+          key={`${animationKey}-${rowIdx}-${colIdx}`}
+          className="aspect-square relative opacity-0 scale-0 animate-scale-in"
+          style={{ 
+            backgroundColor: color,
+            animationDelay: `${delayMs}ms`,
+            animationFillMode: "forwards"
+          }}
         >
           {/* Stud */}
           <div 
@@ -118,19 +124,20 @@ export function BrickBuilderDemoWidget() {
               boxShadow: `inset 0 -1px 2px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.2)`
             }}
           />
-        </motion.div>
+        </div>
       );
     }
 
     if (brickStyle === "studs") {
       return (
-        <motion.div
-          key={`${rowIdx}-${colIdx}`}
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay, duration: 0.15 }}
-          className="aspect-square flex items-center justify-center"
-          style={{ backgroundColor: bgColor.hex }}
+        <div
+          key={`${animationKey}-${rowIdx}-${colIdx}`}
+          className="aspect-square flex items-center justify-center opacity-0 scale-0 animate-scale-in"
+          style={{ 
+            backgroundColor: bgColor.hex,
+            animationDelay: `${delayMs}ms`,
+            animationFillMode: "forwards"
+          }}
         >
           <div 
             className="w-[60%] h-[60%] rounded-full"
@@ -139,19 +146,20 @@ export function BrickBuilderDemoWidget() {
               boxShadow: isFilled ? `0 1px 2px rgba(0,0,0,0.2)` : 'none'
             }}
           />
-        </motion.div>
+        </div>
       );
     }
 
     // Flat or inverse
     return (
-      <motion.div
-        key={`${rowIdx}-${colIdx}`}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay, duration: 0.1 }}
-        className="aspect-square"
-        style={{ backgroundColor: color }}
+      <div
+        key={`${animationKey}-${rowIdx}-${colIdx}`}
+        className="aspect-square opacity-0 animate-fade-in"
+        style={{ 
+          backgroundColor: color,
+          animationDelay: `${delayMs}ms`,
+          animationFillMode: "forwards"
+        }}
       />
     );
   };
