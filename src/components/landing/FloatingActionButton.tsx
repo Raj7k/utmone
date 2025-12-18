@@ -1,4 +1,3 @@
-import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Plus, ArrowRight, Link as LinkIcon, Zap } from "lucide-react";
@@ -24,114 +23,78 @@ export const FloatingActionButton = () => {
   }, [isExpanded]);
 
   return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.div
-          className="fixed bottom-8 right-8 z-50 flex flex-col items-end gap-3"
-          initial={{ opacity: 0, y: 100, scale: 0.8 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 100, scale: 0.8 }}
-          transition={{ 
-            duration: 0.4, 
-            ease: [0.25, 0.1, 0.25, 1] 
-          }}
-        >
-          {/* Expanded Quick Actions */}
-          <AnimatePresence>
-            {isExpanded && (
-              <motion.div
-                className="flex flex-col gap-2 mb-2"
-                initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 20, scale: 0.8 }}
-                transition={{ duration: 0.3 }}
-              >
-                {/* Create Link Action */}
-                <Link to="/auth">
-                  <motion.div
-                    whileHover={{ scale: 1.05, x: -5 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <Button
-                      size="sm"
-                      className="bg-zinc-900/80 backdrop-blur-xl text-white border border-white-10 hover:bg-zinc-800/80 shadow-lg rounded-full pl-4 pr-5 h-11 font-medium"
-                    >
-                      <LinkIcon className="h-4 w-4 mr-2" />
-                      create link
-                    </Button>
-                  </motion.div>
-                </Link>
-
-                {/* Get Started Action */}
-                <Link to="/early-access">
-                  <motion.div
-                    whileHover={{ scale: 1.05, x: -5 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <Button
-                      size="sm"
-                      className="bg-zinc-900/80 backdrop-blur-xl text-white border border-white-10 hover:bg-zinc-800/80 shadow-lg rounded-full pl-4 pr-5 h-11 font-medium"
-                    >
-                      <Zap className="h-4 w-4 mr-2" />
-                      get started
-                    </Button>
-                  </motion.div>
-                </Link>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Main FAB Button */}
-          <motion.button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="relative group"
-            whileHover={{ scale: 1.1, rotate: isExpanded ? 45 : 0 }}
-            whileTap={{ scale: 0.9 }}
-            transition={{ duration: 0.2 }}
+    <div
+      className={`fixed bottom-8 right-8 z-50 flex flex-col items-end gap-3 transition-all duration-400 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${
+        isVisible 
+          ? 'opacity-100 translate-y-0 scale-100' 
+          : 'opacity-0 translate-y-[100px] scale-80 pointer-events-none'
+      }`}
+    >
+      {/* Expanded Quick Actions */}
+      <div
+        className={`flex flex-col gap-2 mb-2 transition-all duration-300 ${
+          isExpanded 
+            ? 'opacity-100 translate-y-0 scale-100' 
+            : 'opacity-0 translate-y-5 scale-80 pointer-events-none'
+        }`}
+      >
+        {/* Create Link Action */}
+        <Link to="/auth">
+          <Button
+            size="sm"
+            className="bg-zinc-900/80 backdrop-blur-xl text-white border border-white-10 hover:bg-zinc-800/80 hover:scale-105 hover:-translate-x-1.5 active:scale-95 shadow-lg rounded-full pl-4 pr-5 h-11 font-medium transition-all duration-200"
           >
-            {/* Pulsing glow effect */}
-            <motion.div
-              className="absolute inset-0 rounded-full blur-xl opacity-40 bg-foreground"
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.4, 0.6, 0.4]
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
+            <LinkIcon className="h-4 w-4 mr-2" />
+            create link
+          </Button>
+        </Link>
 
-            {/* Main button */}
-            <div className="relative w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-colors bg-foreground">
-              <motion.div
-                animate={{ rotate: isExpanded ? 45 : 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                {isExpanded ? (
-                  <Plus className="h-6 w-6 text-background" />
-                ) : (
-                  <ArrowRight className="h-6 w-6 text-background" />
-                )}
-              </motion.div>
-            </div>
-          </motion.button>
+        {/* Get Started Action */}
+        <Link to="/early-access">
+          <Button
+            size="sm"
+            className="bg-zinc-900/80 backdrop-blur-xl text-white border border-white-10 hover:bg-zinc-800/80 hover:scale-105 hover:-translate-x-1.5 active:scale-95 shadow-lg rounded-full pl-4 pr-5 h-11 font-medium transition-all duration-200"
+          >
+            <Zap className="h-4 w-4 mr-2" />
+            get started
+          </Button>
+        </Link>
+      </div>
 
-          {/* Tooltip on hover (when collapsed) */}
-          {!isExpanded && (
-            <motion.div
-              className="absolute right-16 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity"
-              initial={{ x: 10 }}
-              whileHover={{ x: 0 }}
-            >
-              <div className="bg-foreground text-background text-xs font-medium px-3 py-1.5 rounded-lg shadow-lg whitespace-nowrap">
-                quick actions
-              </div>
-            </motion.div>
-          )}
-        </motion.div>
+      {/* Main FAB Button */}
+      <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="relative group hover:scale-110 active:scale-90 transition-transform duration-200"
+      >
+        {/* Pulsing glow effect */}
+        <div
+          className="absolute inset-0 rounded-full blur-xl bg-foreground animate-fab-pulse"
+        />
+
+        {/* Main button */}
+        <div className="relative w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-colors bg-foreground">
+          <div
+            className={`transition-transform duration-300 ${isExpanded ? 'rotate-45' : 'rotate-0'}`}
+          >
+            {isExpanded ? (
+              <Plus className="h-6 w-6 text-background" />
+            ) : (
+              <ArrowRight className="h-6 w-6 text-background" />
+            )}
+          </div>
+        </div>
+      </button>
+
+      {/* Tooltip on hover (when collapsed) */}
+      {!isVisible || isExpanded ? null : (
+        <div
+          className="absolute right-16 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200"
+        >
+          <div className="bg-foreground text-background text-xs font-medium px-3 py-1.5 rounded-lg shadow-lg whitespace-nowrap">
+            quick actions
+          </div>
+        </div>
       )}
-    </AnimatePresence>
+    </div>
   );
 };

@@ -499,6 +499,11 @@ export default {
 			'glow-pulse-card': {
 				'0%, 100%': { transform: 'scale(1)', opacity: '0.6' },
 				'50%': { transform: 'scale(1.1)', opacity: '0.8' }
+			},
+			// Phase 8: FAB pulse animation
+			'fab-pulse': {
+				'0%, 100%': { transform: 'scale(1)', opacity: '0.4' },
+				'50%': { transform: 'scale(1.2)', opacity: '0.6' }
 			}
 		},
   		animation: {
@@ -551,11 +556,13 @@ export default {
 			'organic-shape-1': 'organic-shape-1 20s ease-in-out infinite',
 			'organic-shape-2': 'organic-shape-2 25s ease-in-out infinite',
 			'organic-shape-3': 'organic-shape-3 18s ease-in-out infinite',
-			'glow-pulse': 'glow-pulse-card 3s ease-in-out infinite'
+			'glow-pulse': 'glow-pulse-card 3s ease-in-out infinite',
+			// Phase 8: FAB animation
+			'fab-pulse': 'fab-pulse 2s ease-in-out infinite'
 		},
 		transitionDuration: {
-  			apple: '200ms',
-  			'apple-slow': '240ms'
+   			apple: '200ms',
+   			'apple-slow': '240ms'
   		},
   		transitionTimingFunction: {
   			apple: 'cubic-bezier(0.4, 0, 0.2, 1)'

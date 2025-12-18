@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { LucideIcon, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -22,6 +22,27 @@ export const BentoFeatureCard = ({
   size = "small",
   gradient,
 }: BentoFeatureCardProps) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   // Mobile: all cards are full width, Desktop: use size classes
   const sizeClasses = {
     small: "col-span-1",
@@ -31,12 +52,14 @@ export const BentoFeatureCard = ({
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay }}
-      className={cn(sizeClasses[size])}
+    <div
+      ref={ref}
+      className={cn(
+        sizeClasses[size],
+        "transition-all duration-500",
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+      )}
+      style={{ transitionDelay: `${delay * 1000}ms` }}
     >
       <Link to={href} className="block h-full group">
         <div 
@@ -68,6 +91,6 @@ export const BentoFeatureCard = ({
           </div>
         </div>
       </Link>
-    </motion.div>
+    </div>
   );
 };
