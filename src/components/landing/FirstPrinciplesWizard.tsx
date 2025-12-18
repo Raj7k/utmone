@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { 
   Target, 
   ArrowRight, 
@@ -16,6 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { shareOnLinkedIn } from "@/lib/utils/linkedinShare";
 import { toast } from "sonner";
 import { triggerConfetti } from "@/components/lazy/LazyConfetti";
+import { CSSAnimatePresence } from "./motion";
 
 interface StepProgressProps {
   currentStep: number;
@@ -27,32 +27,27 @@ const StepProgress = ({ currentStep, totalSteps }: StepProgressProps) => {
     <div className="flex items-center justify-center gap-2 mb-6">
       {Array.from({ length: totalSteps }).map((_, index) => (
         <div key={index} className="flex items-center">
-          <motion.div
-            className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-all ${
+          <div
+            className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 ${
               index < currentStep
                 ? "bg-primary text-primary-foreground"
                 : index === currentStep
-                ? "bg-primary text-primary-foreground ring-4 ring-primary/20"
+                ? "bg-primary text-primary-foreground ring-4 ring-primary/20 scale-110"
                 : "bg-muted text-muted-foreground"
             }`}
-            initial={{ scale: 0.8 }}
-            animate={{ scale: index === currentStep ? 1.1 : 1 }}
-            transition={{ type: "spring", stiffness: 300 }}
           >
             {index < currentStep ? (
               <CheckCircle2 className="w-4 h-4" />
             ) : (
               index + 1
             )}
-          </motion.div>
+          </div>
           {index < totalSteps - 1 && (
-            <motion.div
-              className={`w-12 h-1 mx-1 rounded-full transition-all ${
-                index < currentStep ? "bg-primary" : "bg-muted"
+            <div
+              className={`w-12 h-1 mx-1 rounded-full transition-all duration-300 ${
+                index < currentStep ? "bg-primary scale-x-100" : "bg-muted scale-x-30"
               }`}
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: index < currentStep ? 1 : 0.3 }}
-              transition={{ duration: 0.3 }}
+              style={{ transformOrigin: 'left' }}
             />
           )}
         </div>
@@ -113,29 +108,14 @@ export const FirstPrinciplesWizard = () => {
 
   const prevStep = () => setStep(Math.max(0, step - 1));
 
-  const slideVariants = {
-    enter: (direction: number) => ({ x: direction > 0 ? 100 : -100, opacity: 0 }),
-    center: { x: 0, opacity: 1 },
-    exit: (direction: number) => ({ x: direction < 0 ? 100 : -100, opacity: 0 })
-  };
-
   return (
     <div className="glass-card rounded-2xl overflow-hidden">
       <div className="p-6 md:p-8">
         <StepProgress currentStep={step} totalSteps={3} />
         
-        <AnimatePresence mode="wait" custom={step}>
-          {step === 0 && (
-            <motion.div
-              key="step-0"
-              custom={1}
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.3 }}
-              className="space-y-4"
-            >
+        <div className="relative min-h-[400px]">
+          <CSSAnimatePresence show={step === 0} animation="slide-up">
+            <div className="space-y-4">
               <div className="text-center mb-6">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center mx-auto mb-4">
                   <Target className="w-8 h-8 text-primary-foreground" />
@@ -159,20 +139,11 @@ export const FirstPrinciplesWizard = () => {
                 start breakdown
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
-            </motion.div>
-          )}
+            </div>
+          </CSSAnimatePresence>
 
-          {step === 1 && (
-            <motion.div
-              key="step-1"
-              custom={1}
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.3 }}
-              className="space-y-4"
-            >
+          <CSSAnimatePresence show={step === 1} animation="slide-up">
+            <div className="space-y-4">
               <div className="text-center mb-6">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-system-orange to-system-orange/60 flex items-center justify-center mx-auto mb-4">
                   <Lightbulb className="w-8 h-8 text-white" />
@@ -192,12 +163,10 @@ export const FirstPrinciplesWizard = () => {
               
               <div className="space-y-3">
                 {whys.map((why, index) => (
-                  <motion.div 
+                  <div 
                     key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="flex items-center gap-3"
+                    className="flex items-center gap-3 animate-fade-in"
+                    style={{ animationDelay: `${index * 100}ms` }}
                   >
                     <div 
                       className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold shrink-0 transition-all ${
@@ -212,7 +181,7 @@ export const FirstPrinciplesWizard = () => {
                       onChange={(e) => updateWhy(index, e.target.value)}
                       className="text-sm"
                     />
-                  </motion.div>
+                  </div>
                 ))}
               </div>
 
@@ -230,29 +199,17 @@ export const FirstPrinciplesWizard = () => {
                   reveal insights
                 </Button>
               </div>
-            </motion.div>
-          )}
+            </div>
+          </CSSAnimatePresence>
 
-          {step === 2 && (
-            <motion.div
-              key="step-2"
-              custom={1}
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.3 }}
-              className="space-y-4"
-            >
+          <CSSAnimatePresence show={step === 2} animation="slide-up">
+            <div className="space-y-4">
               <div className="text-center mb-6">
-                <motion.div 
-                  className="w-16 h-16 rounded-2xl bg-gradient-to-br from-system-green to-system-green/80 flex items-center justify-center mx-auto mb-4"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1, rotate: [0, -10, 10, 0] }}
-                  transition={{ type: "spring", delay: 0.2 }}
+                <div 
+                  className="w-16 h-16 rounded-2xl bg-gradient-to-br from-system-green to-system-green/80 flex items-center justify-center mx-auto mb-4 animate-bounce-in"
                 >
                   <PartyPopper className="w-8 h-8 text-white" />
-                </motion.div>
+                </div>
                 <h3 className="text-xl font-display font-semibold text-foreground">
                   fundamental insights revealed
                 </h3>
@@ -263,16 +220,14 @@ export const FirstPrinciplesWizard = () => {
               
               <div className="space-y-3">
                 {fundamentals.map((f, i) => (
-                  <motion.div
+                  <div
                     key={i}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 + i * 0.15 }}
-                    className="flex items-start gap-3 p-4 rounded-xl bg-primary/10 border border-primary/20"
+                    className="flex items-start gap-3 p-4 rounded-xl bg-primary/10 border border-primary/20 animate-fade-in"
+                    style={{ animationDelay: `${300 + i * 150}ms` }}
                   >
                     <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                     <span className="text-sm text-foreground">{f}</span>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
 
@@ -289,9 +244,9 @@ export const FirstPrinciplesWizard = () => {
                   share on linkedin
                 </Button>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            </div>
+          </CSSAnimatePresence>
+        </div>
       </div>
     </div>
   );

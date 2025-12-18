@@ -1,6 +1,5 @@
-import { motion } from "framer-motion";
-import { LucideIcon, type LucideProps } from "lucide-react";
-import { ReactNode } from "react";
+import { LucideIcon } from "lucide-react";
+import { ReactNode, useRef, useEffect, useState } from "react";
 
 interface AnalyticsFeatureCardProps {
   icon: LucideIcon;
@@ -17,64 +16,55 @@ export const AnalyticsFeatureCard = ({
   visual,
   isActive = false 
 }: AnalyticsFeatureCardProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsInView(entry.isIntersecting),
+      { threshold: 0.5 }
+    );
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <motion.div
+    <div
+      ref={ref}
       className={`
-        relative flex flex-col h-full min-h-[280px] p-5 rounded-2xl
+        group relative flex flex-col h-full min-h-[280px] p-5 rounded-2xl
         bg-zinc-900/40 backdrop-blur-xl
         border border-white/[0.08] border-t-white/[0.12]
         shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]
         transition-all duration-300 ease-out overflow-hidden
+        hover:-translate-y-2 hover:shadow-[0_20px_40px_-20px_rgba(0,0,0,0.5),0_0_60px_-30px_rgba(255,255,255,0.15)]
         ${isActive ? 'scale-100 opacity-100' : 'scale-[0.95] opacity-70'}
       `}
-      whileHover={{ 
-        y: -8,
-        boxShadow: '0 20px 40px -20px rgba(0,0,0,0.5), 0 0 60px -30px rgba(255,255,255,0.15)'
-      }}
-      transition={{ type: "spring", stiffness: 400, damping: 25 }}
     >
-      {/* Animated shimmer border effect */}
-      <motion.div
-        className="absolute inset-0 rounded-2xl pointer-events-none"
+      {/* Animated shimmer border effect - CSS animation */}
+      <div
+        className="absolute inset-0 rounded-2xl pointer-events-none animate-shimmer-slide"
         style={{
           background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%)',
           backgroundSize: '200% 100%',
         }}
-        animate={{
-          backgroundPosition: ['200% 0', '-200% 0'],
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          repeatDelay: 2,
-          ease: "linear",
-        }}
       />
 
-      {/* Subtle pulse glow */}
-      <motion.div
-        className="absolute -inset-[1px] rounded-2xl pointer-events-none opacity-0"
+      {/* Subtle pulse glow - CSS animation */}
+      <div
+        className="absolute -inset-[1px] rounded-2xl pointer-events-none animate-pulse-glow"
         style={{
           background: 'radial-gradient(circle at 50% 0%, rgba(255,255,255,0.1) 0%, transparent 50%)',
         }}
-        animate={{
-          opacity: [0, 0.5, 0],
-        }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          repeatDelay: 1,
-        }}
       />
 
-      {/* Icon with subtle animation */}
-      <motion.div 
-        className="relative z-10 w-8 h-8 rounded-lg flex items-center justify-center mb-3 bg-white/[0.08] border border-white/[0.06]"
-        whileHover={{ scale: 1.1, rotate: 5 }}
-        transition={{ type: "spring", stiffness: 400 }}
+      {/* Icon with hover effect */}
+      <div 
+        className="relative z-10 w-8 h-8 rounded-lg flex items-center justify-center mb-3 bg-white/[0.08] border border-white/[0.06] transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[5deg]"
       >
         <Icon className="w-4 h-4 text-white/80" />
-      </motion.div>
+      </div>
 
       {/* Title */}
       <h3 className="relative z-10 text-base font-semibold mb-1.5 text-white/90">
@@ -86,26 +76,21 @@ export const AnalyticsFeatureCard = ({
         {description}
       </p>
 
-      {/* Visual Preview with continuous animation wrapper */}
+      {/* Visual Preview */}
       {visual && (
-        <motion.div 
-          className="relative z-10 mt-auto pt-2"
-          initial={{ opacity: 0.8 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ amount: 0.5 }}
+        <div 
+          className={`relative z-10 mt-auto pt-2 transition-opacity duration-300 ${isInView ? 'opacity-100' : 'opacity-80'}`}
         >
           <div className="h-[80px] rounded-lg bg-white/[0.03] border border-white/[0.05] overflow-hidden flex items-center justify-center">
             {visual}
           </div>
-        </motion.div>
+        </div>
       )}
 
       {/* Hover gradient overlay */}
-      <motion.div 
-        className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/[0.03] to-transparent opacity-0 pointer-events-none"
-        whileHover={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
+      <div 
+        className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/[0.03] to-transparent opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-300"
       />
-    </motion.div>
+    </div>
   );
 };

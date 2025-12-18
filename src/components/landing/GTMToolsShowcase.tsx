@@ -240,7 +240,7 @@ export const GTMToolsShowcase = () => {
               <div 
                 className="rounded-xl p-4 md:p-5 bg-black/30 border border-white/[0.06]"
               >
-                {featured.preview}
+                {typeof featured.preview === 'function' ? featured.preview(true) : featured.preview}
               </div>
               
               {/* CTA */}

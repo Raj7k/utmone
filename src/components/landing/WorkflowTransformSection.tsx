@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 import { ProductMockup } from "@/components/product/ProductMockup";
 
 interface FeatureBlockProps {
@@ -12,37 +12,85 @@ interface FeatureBlockProps {
   reversed: boolean;
 }
 
-const FeatureBlock = ({ step, reversed }: FeatureBlockProps) => (
-  <motion.div
-    initial={{ opacity: 0, y: 40 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: "-100px" }}
-    transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
-    className={`flex flex-col ${reversed ? 'md:flex-row-reverse' : 'md:flex-row'} 
-                items-center gap-12 md:gap-20`}
-  >
-    {/* Text Content - 40% width */}
-    <div className="w-full md:w-[40%] space-y-6">
-      <span className="text-sm font-medium tracking-wider uppercase text-white/50">
-        {step.number}
-      </span>
-      <h3 className="text-3xl md:text-4xl font-display font-semibold leading-tight text-white/90">
-        {step.title}
-      </h3>
-      <p className="text-lg leading-relaxed text-white/50">
-        {step.description}
-      </p>
-      <span className="inline-block font-semibold text-lg text-white/80">
-        {step.metric}
-      </span>
-    </div>
+const FeatureBlock = ({ step, reversed }: FeatureBlockProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
-    {/* Mockup - 60% width */}
-    <div className="w-full md:w-[60%]">
-      <ProductMockup type={step.mockupType} />
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: "-100px" }
+    );
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`flex flex-col ${reversed ? 'md:flex-row-reverse' : 'md:flex-row'} 
+                  items-center gap-12 md:gap-20 transition-all duration-700 ease-out
+                  ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+    >
+      {/* Text Content - 40% width */}
+      <div className="w-full md:w-[40%] space-y-6">
+        <span className="text-sm font-medium tracking-wider uppercase text-white/50">
+          {step.number}
+        </span>
+        <h3 className="text-3xl md:text-4xl font-display font-semibold leading-tight text-white/90">
+          {step.title}
+        </h3>
+        <p className="text-lg leading-relaxed text-white/50">
+          {step.description}
+        </p>
+        <span className="inline-block font-semibold text-lg text-white/80">
+          {step.metric}
+        </span>
+      </div>
+
+      {/* Mockup - 60% width */}
+      <div className="w-full md:w-[60%]">
+        <ProductMockup type={step.mockupType} />
+      </div>
     </div>
-  </motion.div>
-);
+  );
+};
+
+const SectionHeader = () => {
+  const ref = useRef<HTMLHeadingElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <h2
+      ref={ref}
+      className={`text-4xl md:text-5xl font-display font-bold text-white/90 transition-all duration-600 ease-out
+        ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}
+    >
+      how it transforms your workflow
+    </h2>
+  );
+};
 
 export const WorkflowTransformSection = () => {
   const steps = [
@@ -80,15 +128,7 @@ export const WorkflowTransformSection = () => {
     <section className="py-32 md:py-40">
       {/* Section Header */}
       <div className="max-w-4xl mx-auto px-6 text-center mb-24">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-4xl md:text-5xl font-display font-bold text-white/90"
-        >
-          how it transforms your workflow
-        </motion.h2>
+        <SectionHeader />
       </div>
 
       {/* Feature List - Vertical Stack with Alternating Layout */}
