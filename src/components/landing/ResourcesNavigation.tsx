@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
@@ -24,12 +23,19 @@ import { createDropdownPreloadHandler } from "@/lib/dropdownPreloader";
 export const ResourcesNavigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { scrollYProgress } = useScroll();
-  const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const [progressWidth, setProgressWidth] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+      
+      // Calculate scroll progress
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
+      setProgressWidth(progress);
+    };
+    
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -45,9 +51,9 @@ export const ResourcesNavigation = () => {
             : 'inset 0 1px 0 0 hsl(0 0% 100% / 0.5)'
         }}
       >
-        <motion.div
-          className="absolute bottom-0 left-0 h-[2px] origin-left rounded-full bg-gradient-to-r from-black/20 via-black/40 to-black/20"
-          style={{ width: progressWidth }}
+        <div
+          className="absolute bottom-0 left-0 h-[2px] origin-left rounded-full bg-gradient-to-r from-black/20 via-black/40 to-black/20 transition-[width] duration-100 ease-out"
+          style={{ width: `${progressWidth}%` }}
         />
 
         <Link to="/" className="flex items-center group transition-all hover:opacity-70">

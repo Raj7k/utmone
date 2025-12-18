@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
 import { formatText } from "@/utils/textFormatter";
 
 interface FlipRevealFAQProps {
@@ -11,6 +10,26 @@ interface FlipRevealFAQProps {
 
 export const FlipRevealFAQ = ({ question, answer, visualExample, index }: FlipRevealFAQProps) => {
   const [isFlipped, setIsFlipped] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: "-50px" }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div className="flex gap-6">
@@ -21,20 +40,26 @@ export const FlipRevealFAQ = ({ question, answer, visualExample, index }: FlipRe
       </div>
 
       {/* Flippable Card */}
-      <motion.div
-        className="pb-4 flex-1 cursor-pointer perspective-1000"
+      <div
+        ref={ref}
+        className={`pb-4 flex-1 cursor-pointer transition-all duration-700 ease-out ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+        }`}
+        style={{ 
+          perspective: "1000px",
+          transitionDelay: isVisible ? `${index * 100}ms` : '0ms'
+        }}
         onClick={() => setIsFlipped(!isFlipped)}
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: index * 0.1 }}
       >
-        <div className="relative preserve-3d transition-transform duration-700" style={{
-          transformStyle: "preserve-3d",
-          transform: isFlipped ? "rotateX(180deg)" : "rotateX(0deg)"
-        }}>
+        <div 
+          className="relative transition-transform duration-700"
+          style={{
+            transformStyle: "preserve-3d",
+            transform: isFlipped ? "rotateX(180deg)" : "rotateX(0deg)"
+          }}
+        >
           {/* Front: Question + Answer */}
-          <div className="backface-hidden" style={{ backfaceVisibility: "hidden" }}>
+          <div style={{ backfaceVisibility: "hidden" }}>
             <h3 className="text-xl font-display font-semibold mb-3 text-foreground">
               {formatText(question)}
             </h3>
@@ -44,7 +69,7 @@ export const FlipRevealFAQ = ({ question, answer, visualExample, index }: FlipRe
 
           {/* Back: Visual Example */}
           <div 
-            className="absolute inset-0 backface-hidden bg-secondary-grouped-background border border-separator rounded-xl p-6"
+            className="absolute inset-0 bg-secondary-grouped-background border border-separator rounded-xl p-6"
             style={{ 
               backfaceVisibility: "hidden",
               transform: "rotateX(180deg)"
@@ -54,7 +79,7 @@ export const FlipRevealFAQ = ({ question, answer, visualExample, index }: FlipRe
             <p className="text-sm mt-4 text-foreground">tap to go back ←</p>
           </div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };
