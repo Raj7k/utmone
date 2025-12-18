@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 import { 
   Wrench, 
   Zap, 
@@ -61,17 +60,9 @@ const CoreToolsContent = () => {
         const Icon = tool.icon;
         return (
           <Link key={tool.id} to={tool.href}>
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
-              whileHover={{ 
-                scale: 1.03, 
-                y: -4,
-                boxShadow: "0 0 24px rgba(255,255,255,0.08)"
-              }}
-              whileTap={{ scale: 0.98 }}
-              className="group relative p-4 rounded-xl cursor-pointer transition-all obsidian-glass border border-transparent hover:border-white/15"
+            <div
+              className="group relative p-4 rounded-xl cursor-pointer transition-all duration-300 obsidian-glass border border-transparent hover:border-white/15 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-[0_0_24px_rgba(255,255,255,0.08)] active:scale-[0.98] opacity-0 translate-y-2.5 animate-fade-in"
+              style={{ animationDelay: `${i * 50}ms`, animationFillMode: 'forwards' }}
             >
               <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3 bg-foreground/[0.08] group-hover:bg-foreground/[0.15] transition-colors">
                 <Icon className="w-5 h-5 text-foreground/80 group-hover:text-foreground transition-colors" />
@@ -93,7 +84,7 @@ const CoreToolsContent = () => {
               <div className="absolute top-3 right-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
                 <ArrowRight className="w-4 h-4 text-white/50" />
               </div>
-            </motion.div>
+            </div>
           </Link>
         );
       })}
@@ -104,6 +95,8 @@ const CoreToolsContent = () => {
 // Power Tools Content - Enhanced with 2-column layout and full mockups
 const PowerToolsContent = () => {
   const [activeTool, setActiveTool] = useState("testing");
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [displayedTool, setDisplayedTool] = useState("testing");
   
   const tools = [
     { 
@@ -136,10 +129,19 @@ const PowerToolsContent = () => {
     },
   ];
 
-  const active = tools.find(t => t.id === activeTool) || tools[0];
+  useEffect(() => {
+    if (activeTool !== displayedTool) {
+      setIsTransitioning(true);
+      const timer = setTimeout(() => {
+        setDisplayedTool(activeTool);
+        setIsTransitioning(false);
+      }, 200);
+      return () => clearTimeout(timer);
+    }
+  }, [activeTool, displayedTool]);
 
   const renderMockup = () => {
-    switch (activeTool) {
+    switch (displayedTool) {
       case "testing":
         return (
           <div className="space-y-4">
@@ -161,11 +163,9 @@ const PowerToolsContent = () => {
                 <span className="text-sm font-semibold text-white-90">4.5%</span>
               </div>
               <div className="h-3 rounded-full overflow-hidden bg-white/5">
-                <motion.div 
-                  className="h-full rounded-full bg-white/30"
-                  initial={{ width: 0 }}
-                  animate={{ width: '45%' }}
-                  transition={{ duration: 0.8, ease: "easeOut" }}
+                <div 
+                  className="h-full rounded-full bg-white/30 transition-all duration-800"
+                  style={{ width: '45%' }}
                 />
               </div>
               <div className="flex justify-between text-xs text-white-40">
@@ -184,11 +184,9 @@ const PowerToolsContent = () => {
                 <span className="text-sm font-bold text-status-success">7.2%</span>
               </div>
               <div className="h-3 rounded-full overflow-hidden bg-white/5">
-                <motion.div 
-                  className="h-full rounded-full bg-gradient-to-r from-status-success/60 to-status-success/90"
-                  initial={{ width: 0 }}
-                  animate={{ width: '72%' }}
-                  transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+                <div 
+                  className="h-full rounded-full bg-gradient-to-r from-status-success/60 to-status-success/90 transition-all duration-800"
+                  style={{ width: '72%' }}
                 />
               </div>
               <div className="flex justify-between text-xs text-white-40">
@@ -215,16 +213,14 @@ const PowerToolsContent = () => {
               { url: "nike.com/air-jordan", status: "safe", icon: "✓", details: "SSL valid • Clean reputation" },
               { url: "suspicious-offer.xyz", status: "blocked", icon: "✕", details: "Blocked: Phishing detected" },
             ].map((item, i) => (
-              <motion.div 
+              <div 
                 key={item.url}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.1 }}
-                className={`flex items-center gap-3 p-3 rounded-lg ${
+                className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-300 opacity-0 translate-x-0 animate-fade-in ${
                   item.status === 'safe' 
                     ? 'bg-status-success/5 border border-status-success/20' 
                     : 'bg-status-error/5 border border-status-error/20'
                 }`}
+                style={{ animationDelay: `${i * 100}ms`, animationFillMode: 'forwards' }}
               >
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
                   item.status === 'safe' 
@@ -237,7 +233,7 @@ const PowerToolsContent = () => {
                   <div className="text-sm font-mono truncate text-white-90">{item.url}</div>
                   <div className="text-xs text-white-40">{item.details}</div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         );
@@ -254,12 +250,10 @@ const PowerToolsContent = () => {
                 { flag: "🇬🇧", code: "UK", url: "store.nike.co.uk", visits: "28K" },
                 { flag: "🇩🇪", code: "DE", url: "store.nike.de", visits: "19K" },
               ].map((region, i) => (
-                <motion.div 
+                <div 
                   key={region.code}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: i * 0.1 }}
-                  className="p-4 rounded-xl text-center bg-white/[0.03] border border-white/[0.08]"
+                  className="p-4 rounded-xl text-center bg-white/[0.03] border border-white/[0.08] opacity-0 scale-90 animate-scale-in"
+                  style={{ animationDelay: `${i * 100}ms`, animationFillMode: 'forwards' }}
                 >
                   <div className="text-3xl mb-2">{region.flag}</div>
                   <div className="text-sm font-semibold mb-1 text-white-90">{region.code}</div>
@@ -267,7 +261,7 @@ const PowerToolsContent = () => {
                   <div className="text-xs px-2 py-1 rounded-full inline-block bg-white/5 text-white-60">
                     {region.visits} visits
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
             <div className="p-3 rounded-lg flex items-center justify-between bg-white/[0.02]">
@@ -294,11 +288,9 @@ const PowerToolsContent = () => {
                 </span>
               </div>
               <div className="h-2 rounded-full overflow-hidden mb-2 bg-white/5">
-                <motion.div 
-                  className="h-full rounded-full bg-gradient-to-r from-status-success/60 to-status-success"
-                  initial={{ width: 0 }}
-                  animate={{ width: '100%' }}
-                  transition={{ duration: 1.5, ease: "easeOut" }}
+                <div 
+                  className="h-full rounded-full bg-gradient-to-r from-status-success/60 to-status-success transition-all duration-1500"
+                  style={{ width: '100%' }}
                 />
               </div>
             </div>
@@ -334,19 +326,14 @@ const PowerToolsContent = () => {
           const Icon = tool.icon;
           const isActive = activeTool === tool.id;
           return (
-            <motion.div
+            <div
               key={tool.id}
-              className={`group relative w-full flex items-start gap-3 p-4 rounded-xl text-left transition-all cursor-pointer ${
+              className={`group relative w-full flex items-start gap-3 p-4 rounded-xl text-left transition-all cursor-pointer hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(255,255,255,0.06)] active:scale-[0.99] ${
                 isActive 
                   ? 'bg-white/[0.08] border border-white/15' 
                   : 'bg-white/[0.02] border border-white/5 hover:border-white/10'
               }`}
               onClick={() => setActiveTool(tool.id)}
-              whileHover={{ 
-                scale: 1.02,
-                boxShadow: "0 0 20px rgba(255,255,255,0.06)"
-              }}
-              whileTap={{ scale: 0.99 }}
             >
               <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
                 isActive ? 'bg-white/15' : 'bg-white/5 group-hover:bg-white/10'
@@ -374,25 +361,20 @@ const PowerToolsContent = () => {
               <div className="absolute top-3 right-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
                 <ArrowRight className="w-4 h-4 text-white/40" />
               </div>
-            </motion.div>
+            </div>
           );
         })}
       </div>
 
       {/* Right: Mockup Preview */}
       <div className="md:col-span-3">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTool}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="h-full p-6 rounded-2xl obsidian-glass-60"
-          >
-            {renderMockup()}
-          </motion.div>
-        </AnimatePresence>
+        <div
+          className={`h-full p-6 rounded-2xl obsidian-glass-60 transition-all duration-200 ${
+            isTransitioning ? 'opacity-0 translate-y-2.5' : 'opacity-100 translate-y-0'
+          }`}
+        >
+          {renderMockup()}
+        </div>
       </div>
     </div>
   );
@@ -406,17 +388,15 @@ const StepProgress = ({ currentStep, totalSteps }: { currentStep: number; totalS
     <div className="flex items-center justify-center gap-2 mb-6">
       {Array.from({ length: totalSteps }).map((_, index) => (
         <div key={index} className="flex items-center">
-          <motion.div
+          <div
             className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-all ${
               index <= currentStep 
                 ? 'bg-white/90 text-obsidian-bg' 
                 : 'bg-white/10 text-white-50'
-            }`}
-            initial={{ scale: 0.8 }}
-            animate={{ scale: index === currentStep ? 1.1 : 1 }}
+            } ${index === currentStep ? 'scale-110' : 'scale-100'}`}
           >
             {index < currentStep ? <CheckCircle2 className="w-4 h-4" /> : index + 1}
-          </motion.div>
+          </div>
           {index < totalSteps - 1 && (
             <div className={`w-8 h-1 mx-1 rounded-full transition-all ${
               index < currentStep ? 'bg-white/60' : 'bg-white/10'
@@ -434,6 +414,8 @@ const FirstPrinciplesContent = () => {
   const [problem, setProblem] = useState("");
   const [whys, setWhys] = useState(["", "", "", "", ""]);
   const [fundamentals, setFundamentals] = useState<string[]>([]);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [displayedStep, setDisplayedStep] = useState(0);
 
   const updateWhy = (index: number, value: string) => {
     const newWhys = [...whys];
@@ -449,7 +431,7 @@ const FirstPrinciplesContent = () => {
         "This can be validated by testing smaller hypotheses",
         "Action: Start with the smallest possible experiment"
       ]);
-      setStep(2);
+      changeStep(2);
       triggerConfetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#FFFFFF', '#A1A1AA'] });
     } else {
       toast.error("please fill at least 3 'why' answers");
@@ -461,6 +443,15 @@ const FirstPrinciplesContent = () => {
     shareOnLinkedIn(text, "https://utm.one/tools/decision-frameworks");
   };
 
+  const changeStep = (newStep: number) => {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setDisplayedStep(newStep);
+      setStep(newStep);
+      setIsTransitioning(false);
+    }, 200);
+  };
+
   const nextStep = () => {
     if (step === 0 && !problem.trim()) {
       toast.error("please describe your problem first");
@@ -470,22 +461,16 @@ const FirstPrinciplesContent = () => {
       generateFundamentals();
       return;
     }
-    setStep(step + 1);
+    changeStep(step + 1);
   };
 
   return (
     <div className="min-h-[420px]">
       <StepProgress currentStep={step} totalSteps={3} />
       
-      <AnimatePresence mode="wait">
-        {step === 0 && (
-          <motion.div
-            key="step-0"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            className="space-y-4"
-          >
+      <div className={`transition-all duration-200 ${isTransitioning ? 'opacity-0 translate-x-5' : 'opacity-100 translate-x-0'}`}>
+        {displayedStep === 0 && (
+          <div className="space-y-4">
             <div className="text-center mb-6">
               <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 bg-white/10">
                 <Target className="w-7 h-7 text-white-90" />
@@ -502,17 +487,11 @@ const FirstPrinciplesContent = () => {
             <Button onClick={nextStep} className="w-full bg-white text-black hover:bg-white/90">
               start breakdown <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
-          </motion.div>
+          </div>
         )}
 
-        {step === 1 && (
-          <motion.div
-            key="step-1"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            className="space-y-4"
-          >
+        {displayedStep === 1 && (
+          <div className="space-y-4">
             <div className="text-center mb-4">
               <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-3 bg-white/10">
                 <Lightbulb className="w-7 h-7 text-white-90" />
@@ -541,59 +520,49 @@ const FirstPrinciplesContent = () => {
               ))}
             </div>
             <div className="flex gap-2 pt-2">
-              <Button onClick={() => setStep(0)} variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10 text-white">
+              <Button onClick={() => changeStep(0)} variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10 text-white">
                 <ArrowLeft className="w-4 h-4 mr-1" /> back
               </Button>
               <Button onClick={nextStep} className="flex-1 bg-white text-black hover:bg-white/90">
                 <Sparkles className="w-4 h-4 mr-1" /> reveal insights
               </Button>
             </div>
-          </motion.div>
+          </div>
         )}
 
-        {step === 2 && (
-          <motion.div
-            key="step-2"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            className="space-y-4"
-          >
+        {displayedStep === 2 && (
+          <div className="space-y-4">
             <div className="text-center mb-4">
-              <motion.div 
+              <div 
                 className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-3 bg-status-success/20"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1, rotate: [0, -10, 10, 0] }}
               >
                 <PartyPopper className="w-7 h-7 text-status-success" />
-              </motion.div>
+              </div>
               <h3 className="text-lg font-semibold text-white-90">insights revealed</h3>
             </div>
             <div className="space-y-2">
               {fundamentals.map((f, i) => (
-                <motion.div
+                <div
                   key={i}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  className="flex items-start gap-2 p-3 rounded-lg bg-status-success/10 border border-status-success/20"
+                  className="flex items-start gap-2 p-3 rounded-lg bg-status-success/10 border border-status-success/20 opacity-0 translate-y-2.5 animate-fade-in"
+                  style={{ animationDelay: `${i * 100}ms`, animationFillMode: 'forwards' }}
                 >
                   <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-status-success" />
                   <span className="text-sm text-white-90">{f}</span>
-                </motion.div>
+                </div>
               ))}
             </div>
             <div className="flex gap-2 pt-2">
-              <Button onClick={() => setStep(0)} variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10 text-white">
+              <Button onClick={() => changeStep(0)} variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10 text-white">
                 start over
               </Button>
               <Button onClick={handleShare} className="flex-1 bg-white text-black hover:bg-white/90">
                 <Share2 className="w-4 h-4 mr-1" /> share on LinkedIn
               </Button>
             </div>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
+      </div>
     </div>
   );
 };
@@ -608,6 +577,7 @@ const DecisionMatrixContent = () => {
     { name: "Risk", weight: 4 }
   ]);
   const [scores, setScores] = useState<Record<string, Record<string, number>>>({});
+  const [showResult, setShowResult] = useState(false);
 
   const updateScore = (option: string, criterion: string, score: number) => {
     setScores(prev => ({
@@ -641,6 +611,13 @@ const DecisionMatrixContent = () => {
     const text = `⚖️ Just used the Decision Matrix Builder from utm.one\n\nResult: ${winner} scored highest with ${calculateTotal(winner)} points\n\nMake data-driven decisions:`;
     shareOnLinkedIn(text, "https://utm.one/tools/decision-frameworks");
   };
+
+  useEffect(() => {
+    const winner = getWinner();
+    if (winner && calculateTotal(winner) > 0) {
+      setShowResult(true);
+    }
+  }, [scores]);
 
   return (
     <div className="min-h-[420px]">
@@ -698,11 +675,9 @@ const DecisionMatrixContent = () => {
         </table>
       </div>
 
-      {getWinner() && calculateTotal(getWinner()) > 0 && (
-        <motion.div 
-          className="mt-4 p-3 rounded-lg flex items-center justify-between bg-status-success/10 border border-status-success/20"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+      {showResult && getWinner() && calculateTotal(getWinner()) > 0 && (
+        <div 
+          className="mt-4 p-3 rounded-lg flex items-center justify-between bg-status-success/10 border border-status-success/20 transition-opacity duration-300"
         >
           <div className="flex items-center gap-2 text-sm font-semibold text-status-success">
             <CheckCircle2 className="w-4 h-4" />
@@ -711,7 +686,7 @@ const DecisionMatrixContent = () => {
           <Button size="sm" variant="outline" className="text-xs h-7 border-white/10 bg-white/5 hover:bg-white/10 text-white" onClick={handleShare}>
             <Share2 className="w-3 h-3 mr-1" /> share
           </Button>
-        </motion.div>
+        </div>
       )}
     </div>
   );
@@ -767,14 +742,13 @@ const ROIForecasterContent = () => {
             { label: "Revenue", value: `$${revenue.toLocaleString()}`, color: "text-white-90" },
             { label: "ROI", value: `${roi.toFixed(1)}%`, color: roi > 0 ? "text-status-success" : "text-status-error" },
           ].map((stat) => (
-            <motion.div 
+            <div 
               key={stat.label} 
-              className="p-4 rounded-xl text-center bg-white/[0.03]"
-              whileHover={{ scale: 1.02 }}
+              className="p-4 rounded-xl text-center bg-white/[0.03] hover:scale-[1.02] transition-transform"
             >
               <div className={`text-xl font-bold ${stat.color}`}>{stat.value}</div>
               <div className="text-xs mt-1 text-white-50">{stat.label}</div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
@@ -789,12 +763,25 @@ const ROIForecasterContent = () => {
 // Strategic Tools Content - With embedded interactive tools
 const StrategicToolsContent = () => {
   const [activeTool, setActiveTool] = useState("principles");
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [displayedTool, setDisplayedTool] = useState("principles");
   
   const tools = [
     { id: "principles", icon: Target, label: "first principles" },
     { id: "matrix", icon: Scale, label: "decision matrix" },
     { id: "roi", icon: TrendingUp, label: "ROI forecaster" },
   ];
+
+  useEffect(() => {
+    if (activeTool !== displayedTool) {
+      setIsTransitioning(true);
+      const timer = setTimeout(() => {
+        setDisplayedTool(activeTool);
+        setIsTransitioning(false);
+      }, 250);
+      return () => clearTimeout(timer);
+    }
+  }, [activeTool, displayedTool]);
 
   return (
     <div className="space-y-4">
@@ -821,20 +808,15 @@ const StrategicToolsContent = () => {
       </div>
 
       {/* Tool Content */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeTool}
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -15 }}
-          transition={{ duration: 0.25 }}
-          className="p-6 rounded-2xl obsidian-glass-60"
-        >
-          {activeTool === "principles" && <FirstPrinciplesContent />}
-          {activeTool === "matrix" && <DecisionMatrixContent />}
-          {activeTool === "roi" && <ROIForecasterContent />}
-        </motion.div>
-      </AnimatePresence>
+      <div
+        className={`p-6 rounded-2xl obsidian-glass-60 transition-all duration-250 ${
+          isTransitioning ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'
+        }`}
+      >
+        {displayedTool === "principles" && <FirstPrinciplesContent />}
+        {displayedTool === "matrix" && <DecisionMatrixContent />}
+        {displayedTool === "roi" && <ROIForecasterContent />}
+      </div>
     </div>
   );
 };
@@ -842,6 +824,19 @@ const StrategicToolsContent = () => {
 // Quiz Content
 const QuizContent = () => {
   const [activeTab, setActiveTab] = useState("quiz");
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [displayedTab, setDisplayedTab] = useState("quiz");
+
+  useEffect(() => {
+    if (activeTab !== displayedTab) {
+      setIsTransitioning(true);
+      const timer = setTimeout(() => {
+        setDisplayedTab(activeTab);
+        setIsTransitioning(false);
+      }, 200);
+      return () => clearTimeout(timer);
+    }
+  }, [activeTab, displayedTab]);
   
   return (
     <div className="space-y-4">
@@ -872,33 +867,61 @@ const QuizContent = () => {
       </div>
 
       {/* Content */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeTab}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-        >
-          {activeTab === "quiz" ? <CleanTrackScoreQuiz /> : <ROICalculator />}
-        </motion.div>
-      </AnimatePresence>
+      <div
+        className={`transition-all duration-200 ${
+          isTransitioning ? 'opacity-0 translate-y-2.5' : 'opacity-100 translate-y-0'
+        }`}
+      >
+        {displayedTab === "quiz" ? <CleanTrackScoreQuiz /> : <ROICalculator />}
+      </div>
     </div>
   );
 };
 
 export const UnifiedToolsShowcase = () => {
   const [activeTab, setActiveTab] = useState("core");
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [displayedTab, setDisplayedTab] = useState("core");
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (activeTab !== displayedTab) {
+      setIsTransitioning(true);
+      const timer = setTimeout(() => {
+        setDisplayedTab(activeTab);
+        setIsTransitioning(false);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [activeTab, displayedTab]);
 
   return (
     <AnimatedSection className="py-16 md:py-24 bg-transparent">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
+      <div ref={ref} className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-10 space-y-3"
+        <div
+          className={`text-center mb-10 space-y-3 transition-all duration-500 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
         >
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold obsidian-platinum-text">
             your complete marketing toolbox
@@ -906,15 +929,14 @@ export const UnifiedToolsShowcase = () => {
           <p className="text-base md:text-lg max-w-2xl mx-auto text-muted-foreground font-sans">
             six tools. one platform. zero data chaos.
           </p>
-        </motion.div>
+        </div>
 
         {/* Tab Navigation */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="flex flex-wrap justify-center gap-2 mb-8"
+        <div
+          className={`flex flex-wrap justify-center gap-2 mb-8 transition-all duration-500 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
+          style={{ transitionDelay: '100ms' }}
         >
           {TOOL_TABS.map((tab) => {
             const Icon = tab.icon;
@@ -934,31 +956,26 @@ export const UnifiedToolsShowcase = () => {
               </button>
             );
           })}
-        </motion.div>
+        </div>
 
         {/* Tab Content */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {activeTab === "core" && <CoreToolsContent />}
-            {activeTab === "power" && <PowerToolsContent />}
-            {activeTab === "strategic" && <StrategicToolsContent />}
-            {activeTab === "quiz" && <QuizContent />}
-          </motion.div>
-        </AnimatePresence>
+        <div
+          className={`transition-all duration-300 ${
+            isTransitioning ? 'opacity-0 translate-y-5' : 'opacity-100 translate-y-0'
+          }`}
+        >
+          {displayedTab === "core" && <CoreToolsContent />}
+          {displayedTab === "power" && <PowerToolsContent />}
+          {displayedTab === "strategic" && <StrategicToolsContent />}
+          {displayedTab === "quiz" && <QuizContent />}
+        </div>
 
         {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="text-center mt-10"
+        <div
+          className={`text-center mt-10 transition-all duration-500 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
+          style={{ transitionDelay: '300ms' }}
         >
           <Link 
             to="/features"
@@ -967,7 +984,7 @@ export const UnifiedToolsShowcase = () => {
             explore all features
             <ArrowRight className="h-4 w-4" />
           </Link>
-        </motion.div>
+        </div>
       </div>
     </AnimatedSection>
   );

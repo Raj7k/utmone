@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 import { UseCaseType, resolveUseCaseContent } from "./useCaseConfig";
 import {
   Accordion,
@@ -135,65 +135,77 @@ export const DynamicFAQ = ({ selectedUseCase }: DynamicFAQProps) => {
     section: "FAQ",
   });
 
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [displayedFaqs, setDisplayedFaqs] = useState(faqs);
+  const [displayedUseCase, setDisplayedUseCase] = useState(resolvedUseCase);
+
+  useEffect(() => {
+    if (resolvedUseCase !== displayedUseCase) {
+      setIsTransitioning(true);
+      const timer = setTimeout(() => {
+        setDisplayedFaqs(faqs);
+        setDisplayedUseCase(resolvedUseCase);
+        setIsTransitioning(false);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [resolvedUseCase, faqs, displayedUseCase]);
+
   return (
     <section className="py-16 md:py-24 bg-white/[0.01]">
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={resolvedUseCase}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
-            className="space-y-8"
-          >
-            {/* Header */}
-            <div className="text-center space-y-2">
-              <p className="text-xs font-medium uppercase tracking-widest text-white/40">
-                frequently asked
-              </p>
-              <h2 
-                className="text-2xl md:text-3xl font-display font-bold"
-                style={{
-                  background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text'
-                }}
-              >
-                questions about {resolvedUseCase === 'attribution' ? 'attribution' : 
-                               resolvedUseCase === 'journey' ? 'journey analytics' :
-                               resolvedUseCase === 'links' ? 'link management' :
-                               resolvedUseCase === 'intelligence' ? 'AI intelligence' :
-                               'enterprise control'}
-              </h2>
-            </div>
+        <div
+          className={`space-y-8 transition-all duration-300 ${
+            isTransitioning ? 'opacity-0 translate-y-5' : 'opacity-100 translate-y-0'
+          }`}
+        >
+          {/* Header */}
+          <div className="text-center space-y-2">
+            <p className="text-xs font-medium uppercase tracking-widest text-white/40">
+              frequently asked
+            </p>
+            <h2 
+              className="text-2xl md:text-3xl font-display font-bold"
+              style={{
+                background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}
+            >
+              questions about {displayedUseCase === 'attribution' ? 'attribution' : 
+                             displayedUseCase === 'journey' ? 'journey analytics' :
+                             displayedUseCase === 'links' ? 'link management' :
+                             displayedUseCase === 'intelligence' ? 'AI intelligence' :
+                             'enterprise control'}
+            </h2>
+          </div>
 
-            {/* FAQ Accordion */}
-            <Accordion type="single" collapsible className="space-y-3">
-              {faqs.map((faq, i) => (
-                <motion.div
-                  key={faq.question}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 + i * 0.05 }}
+          {/* FAQ Accordion */}
+          <Accordion type="single" collapsible className="space-y-3">
+            {displayedFaqs.map((faq, i) => (
+              <div
+                key={faq.question}
+                className={`transition-all duration-300 ${
+                  isTransitioning ? 'opacity-0 translate-y-2.5' : 'opacity-100 translate-y-0'
+                }`}
+                style={{ transitionDelay: `${100 + i * 50}ms` }}
+              >
+                <AccordionItem 
+                  value={`item-${i}`}
+                  className="rounded-xl bg-white/[0.02] border border-white/10 px-4 overflow-hidden"
                 >
-                  <AccordionItem 
-                    value={`item-${i}`}
-                    className="rounded-xl bg-white/[0.02] border border-white/10 px-4 overflow-hidden"
-                  >
-                    <AccordionTrigger className="text-left text-sm font-medium text-white/80 hover:text-white py-4 hover:no-underline">
-                      {faq.question}
-                    </AccordionTrigger>
-                    <AccordionContent className="text-sm text-white/50 leading-relaxed pb-4">
-                      {faq.answer}
-                    </AccordionContent>
-                  </AccordionItem>
-                </motion.div>
-              ))}
-            </Accordion>
-          </motion.div>
-        </AnimatePresence>
+                  <AccordionTrigger className="text-left text-sm font-medium text-white/80 hover:text-white py-4 hover:no-underline">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-sm text-white/50 leading-relaxed pb-4">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              </div>
+            ))}
+          </Accordion>
+        </div>
       </div>
     </section>
   );

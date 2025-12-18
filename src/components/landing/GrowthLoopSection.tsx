@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CleanTrackScoreQuiz } from "@/components/growth/CleanTrackScoreQuiz";
 import { ROICalculator } from "@/components/growth/ROICalculator";
@@ -9,38 +8,55 @@ import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 export const GrowthLoopSection = () => {
   const [activeTab, setActiveTab] = useState("quiz");
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <AnimatedSection className="py-16 md:py-24 lg:py-32 bg-transparent">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
+      <div ref={ref} className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Header */}
         <div className="text-center mb-12 space-y-4">
-          <motion.h1
-            className="hero-gradient text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+          <h1
+            className={`hero-gradient text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold transition-all duration-500 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            }`}
           >
             how clean is your data?
-          </motion.h1>
-          <motion.p
-            className="text-base md:text-lg max-w-2xl mx-auto text-white-50"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+          </h1>
+          <p
+            className={`text-base md:text-lg max-w-2xl mx-auto text-white-50 transition-all duration-500 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            }`}
+            style={{ transitionDelay: '100ms' }}
           >
             take our quick assessment or calculate your potential savings. share your results with your team.
-          </motion.p>
+          </p>
         </div>
 
         {/* Tabs */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+        <div
+          className={`transition-all duration-500 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
+          style={{ transitionDelay: '200ms' }}
         >
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-8">
@@ -62,7 +78,7 @@ export const GrowthLoopSection = () => {
               <ROICalculator />
             </TabsContent>
           </Tabs>
-        </motion.div>
+        </div>
       </div>
     </AnimatedSection>
   );
