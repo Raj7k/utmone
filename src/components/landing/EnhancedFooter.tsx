@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
-import { motion } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
 import { preserveAcronyms as p } from "@/utils/textFormatter";
+import { cn } from "@/lib/utils";
 import { 
   CheckCircle2,
   Twitter,
@@ -75,16 +76,35 @@ const quickTools = [
 
 export const EnhancedFooter = () => {
   const currentYear = new Date().getFullYear();
+  const ref = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <footer className="relative mt-auto overflow-hidden obsidian-glass-80 border-t border-white/10">
+    <footer ref={ref} className="relative mt-auto overflow-hidden obsidian-glass-80 border-t border-white/10">
       {/* Animated Gradient Accent Top */}
-      <motion.div 
-        className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-blazeOrange to-primary"
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+      <div 
+        className={cn(
+          "absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-blazeOrange to-primary origin-left transition-transform duration-800 ease-out",
+          isVisible ? "scale-x-100" : "scale-x-0"
+        )}
       />
       
       {/* Subtle gradient overlay */}
@@ -96,12 +116,11 @@ export const EnhancedFooter = () => {
         {/* Top Section: Status + Quick Tools */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-10 pb-10 border-b border-white/10">
           {/* Live Status */}
-          <motion.div 
-            className="flex items-center gap-3"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+          <div 
+            className={cn(
+              "flex items-center gap-3 transition-all duration-500",
+              isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-5"
+            )}
           >
             <div className="flex items-center gap-2 px-4 py-2 rounded-full shadow-sm bg-gradient-to-r from-green-500/10 to-primary/10 border border-green-500/20">
               <div className="relative">
@@ -117,26 +136,27 @@ export const EnhancedFooter = () => {
               status page
               <ExternalLink className="w-3 h-3" />
             </Link>
-          </motion.div>
+          </div>
           
           {/* Quick Tools */}
-          <motion.div 
-            className="flex items-center gap-2"
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+          <div 
+            className={cn(
+              "flex items-center gap-2 transition-all duration-500",
+              isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-5"
+            )}
+            style={{ transitionDelay: isVisible ? '100ms' : '0ms' }}
           >
             <span className="text-xs mr-2 text-white-50">quick tools:</span>
             {quickTools.map((tool, i) => {
               const Icon = tool.icon;
               return (
-                <motion.div
+                <div
                   key={tool.label}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: 0.2 + i * 0.1 }}
+                  className={cn(
+                    "transition-all duration-300",
+                    isVisible ? "opacity-100 scale-100" : "opacity-0 scale-90"
+                  )}
+                  style={{ transitionDelay: isVisible ? `${200 + i * 100}ms` : '0ms' }}
                 >
                   <Link
                     to={tool.href}
@@ -145,22 +165,23 @@ export const EnhancedFooter = () => {
                     <Icon className="w-3.5 h-3.5 transition-colors text-white-50" />
                     <span className="text-white-70">{tool.label}</span>
                   </Link>
-                </motion.div>
+                </div>
               );
             })}
-          </motion.div>
+          </div>
         </div>
         
         {/* Main Navigation Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
           {footerSections.map((section, sectionIndex) => (
-            <motion.nav 
+            <nav 
               key={section.title} 
               aria-label={`${section.title} navigation`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: sectionIndex * 0.1 }}
+              className={cn(
+                "transition-all duration-400",
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+              )}
+              style={{ transitionDelay: isVisible ? `${sectionIndex * 100}ms` : '0ms' }}
             >
               <h3 className="font-semibold mb-4 text-sm flex items-center gap-2 text-white/90">
                 <div className="w-1 h-4 rounded-full bg-gradient-to-b from-primary to-blazeOrange" />
@@ -179,17 +200,17 @@ export const EnhancedFooter = () => {
                   </li>
                 ))}
               </ul>
-            </motion.nav>
+            </nav>
           ))}
         </div>
         
         {/* Newsletter + Social Row */}
-        <motion.div 
-          className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 py-8 border-t border-b border-white/10"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+        <div 
+          className={cn(
+            "flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 py-8 border-t border-b border-white/10 transition-all duration-500",
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+          )}
+          style={{ transitionDelay: isVisible ? '400ms' : '0ms' }}
         >
           {/* Newsletter */}
           <div className="flex-1 max-w-md">
@@ -224,31 +245,29 @@ export const EnhancedFooter = () => {
               ].map((social) => {
                 const Icon = social.icon;
                 return (
-                  <motion.a
+                  <a
                     key={social.label}
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:scale-105 bg-white/5"
+                    className="w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95 bg-white/5"
                     aria-label={social.label}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
                   >
                     <Icon className="w-4 h-4 text-white-60" />
-                  </motion.a>
+                  </a>
                 );
               })}
             </div>
           </div>
-        </motion.div>
+        </div>
         
         {/* Bottom: Logo + Trust Badges + Copyright */}
-        <motion.div 
-          className="pt-8 flex flex-col md:flex-row items-center justify-between gap-6"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+        <div 
+          className={cn(
+            "pt-8 flex flex-col md:flex-row items-center justify-between gap-6 transition-all duration-500",
+            isVisible ? "opacity-100" : "opacity-0"
+          )}
+          style={{ transitionDelay: isVisible ? '200ms' : '0ms' }}
         >
           {/* Logo + Copyright */}
           <div className="flex items-center gap-4">
@@ -263,22 +282,21 @@ export const EnhancedFooter = () => {
             {trustBadges.map((badge, i) => {
               const Icon = badge.icon;
               return (
-                <motion.div
+                <div
                   key={badge.label}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/10"
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: 0.3 + i * 0.1 }}
-                  whileHover={{ scale: 1.02 }}
+                  className={cn(
+                    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/10 hover:scale-[1.02] transition-all duration-300",
+                    isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2.5"
+                  )}
+                  style={{ transitionDelay: isVisible ? `${300 + i * 100}ms` : '0ms' }}
                 >
                   <Icon className="w-3 h-3 text-primary" />
                   <span className="text-[11px] font-medium text-white/50">{badge.label}</span>
-                </motion.div>
+                </div>
               );
             })}
           </div>
-        </motion.div>
+        </div>
       </div>
     </footer>
   );

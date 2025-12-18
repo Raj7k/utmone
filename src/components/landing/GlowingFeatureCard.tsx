@@ -1,5 +1,3 @@
-import { motion } from "framer-motion";
-
 interface GlowingFeatureCardProps {
   icon: React.ReactNode;
   title: string;
@@ -20,37 +18,24 @@ export const GlowingFeatureCard = ({
   };
 
   return (
-    <motion.div 
-      whileHover={{ scale: 1.02, y: -4 }}
-      transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-      className="bg-[#0C342C] rounded-2xl p-12 relative overflow-hidden group"
+    <div 
+      className="bg-[#0C342C] rounded-2xl p-12 relative overflow-hidden group hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)]"
     >
       {/* Radial glow behind icon */}
-      <motion.div 
-        className={`absolute top-8 left-8 w-32 h-32 rounded-full blur-3xl ${glowClasses[glowColor]} opacity-60 group-hover:opacity-100 transition-opacity duration-500`}
-        animate={{
-          scale: [1, 1.1, 1],
-          opacity: [0.6, 0.8, 0.6]
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
+      <div 
+        className={`absolute top-8 left-8 w-32 h-32 rounded-full blur-3xl ${glowClasses[glowColor]} opacity-60 group-hover:opacity-100 transition-opacity duration-500 animate-glow-pulse`}
       />
       
       {/* Content */}
       <div className="relative z-10 space-y-4">
-        <motion.div 
-          className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-sm"
-          whileHover={{ rotate: 5, scale: 1.05 }}
-          transition={{ duration: 0.2 }}
+        <div 
+          className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-sm group-hover:rotate-[5deg] group-hover:scale-105 transition-transform duration-200"
         >
           {icon}
-        </motion.div>
+        </div>
         <h3 className="text-h3 text-white font-semibold">{title}</h3>
         <p className="text-body text-white/70">{description}</p>
       </div>
-    </motion.div>
+    </div>
   );
 };

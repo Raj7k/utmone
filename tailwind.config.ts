@@ -482,6 +482,23 @@ export default {
 			'slide-in-left': {
 				'0%': { transform: 'translateX(-8px)', opacity: '0' },
 				'100%': { transform: 'translateX(0)', opacity: '1' }
+			},
+			// Phase 7: Organic shapes and glow animations
+			'organic-shape-1': {
+				'0%, 100%': { transform: 'scale(1) rotate(0deg)' },
+				'50%': { transform: 'scale(1.1) rotate(10deg)' }
+			},
+			'organic-shape-2': {
+				'0%, 100%': { transform: 'scale(1) rotate(0deg)' },
+				'50%': { transform: 'scale(1.15) rotate(-15deg)' }
+			},
+			'organic-shape-3': {
+				'0%, 100%': { transform: 'scale(1) translateX(0)' },
+				'50%': { transform: 'scale(1.2) translateX(50px)' }
+			},
+			'glow-pulse-card': {
+				'0%, 100%': { transform: 'scale(1)', opacity: '0.6' },
+				'50%': { transform: 'scale(1.1)', opacity: '0.8' }
 			}
 		},
   		animation: {
@@ -529,7 +546,12 @@ export default {
 			'bar-grow-2': 'bar-grow 0.6s ease-out 0.3s forwards',
 			'bar-grow-3': 'bar-grow 0.6s ease-out 0.4s forwards',
 			// Particle flow for attribution
-			'particle-flow': 'particle-flow 2s linear infinite'
+			'particle-flow': 'particle-flow 2s linear infinite',
+			// Phase 7: Organic shapes and glow animations
+			'organic-shape-1': 'organic-shape-1 20s ease-in-out infinite',
+			'organic-shape-2': 'organic-shape-2 25s ease-in-out infinite',
+			'organic-shape-3': 'organic-shape-3 18s ease-in-out infinite',
+			'glow-pulse': 'glow-pulse-card 3s ease-in-out infinite'
 		},
 		transitionDuration: {
   			apple: '200ms',
