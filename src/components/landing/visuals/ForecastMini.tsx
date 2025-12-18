@@ -1,7 +1,14 @@
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
-// Animated traffic forecasting with historical + prediction + confidence interval
+// CSS-only traffic forecasting with historical + prediction + confidence interval
 export const ForecastMini = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
   const historicalPath = "M10,45 L25,40 L40,42 L55,35 L70,30";
   const predictionPath = "M70,30 L85,25 L100,18 L110,12";
   
@@ -19,6 +26,27 @@ export const ForecastMini = () => {
         </linearGradient>
       </defs>
 
+      <style>{`
+        @keyframes pathDraw {
+          from { stroke-dashoffset: 100; }
+          to { stroke-dashoffset: 0; }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes scaleIn {
+          from { transform: scale(0); }
+          to { transform: scale(1); }
+        }
+        @keyframes particleMove {
+          0% { offset-distance: 0%; opacity: 0; }
+          10% { opacity: 1; }
+          90% { opacity: 1; }
+          100% { offset-distance: 100%; opacity: 0.5; }
+        }
+      `}</style>
+
       {/* Grid lines */}
       {[20, 35, 50].map((y) => (
         <line
@@ -33,52 +61,58 @@ export const ForecastMini = () => {
       ))}
 
       {/* Confidence interval band (prediction zone) */}
-      <motion.path
+      <path
         d="M70,35 Q85,33 100,28 L110,22 L110,5 L100,10 Q85,18 70,25 Z"
         fill="url(#confidenceGradient)"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.5 }}
+        style={{
+          opacity: isVisible ? 1 : 0,
+          transition: 'opacity 0.5s 1s',
+        }}
       />
 
       {/* Historical data line (solid) */}
-      <motion.path
+      <path
         d={historicalPath}
         fill="none"
         stroke="url(#forecastGradient)"
         strokeWidth="2"
         strokeLinecap="round"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        strokeDasharray="100"
+        style={{
+          strokeDashoffset: isVisible ? 0 : 100,
+          transition: 'stroke-dashoffset 0.8s ease-out',
+        }}
       />
 
       {/* Prediction line (dashed) */}
-      <motion.path
+      <path
         d={predictionPath}
         fill="none"
         stroke="rgba(255,255,255,0.6)"
         strokeWidth="2"
         strokeDasharray="4 3"
         strokeLinecap="round"
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ pathLength: 1, opacity: 1 }}
-        transition={{ delay: 0.8, duration: 0.6, ease: "easeOut" }}
+        style={{
+          opacity: isVisible ? 1 : 0,
+          transition: 'opacity 0.6s 0.8s ease-out',
+        }}
       />
 
       {/* Transition point marker */}
-      <motion.circle
+      <circle
         cx="70"
         cy="30"
         r="4"
         fill="white"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 0.7, type: "spring", stiffness: 300 }}
+        style={{
+          transformOrigin: '70px 30px',
+          animation: isVisible ? 'scaleIn 0.3s 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards' : 'none',
+          transform: isVisible ? undefined : 'scale(0)',
+        }}
       />
 
       {/* Historical/Prediction label line */}
-      <motion.line
+      <line
         x1="70"
         y1="10"
         x2="70"
@@ -86,56 +120,53 @@ export const ForecastMini = () => {
         stroke="rgba(255,255,255,0.1)"
         strokeWidth="1"
         strokeDasharray="2 2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6 }}
+        style={{
+          opacity: isVisible ? 1 : 0,
+          transition: 'opacity 0.3s 0.6s',
+        }}
       />
 
       {/* Labels */}
-      <motion.text
+      <text
         x="40"
         y="55"
         fill="rgba(255,255,255,0.3)"
         fontSize="5"
         textAnchor="middle"
         fontFamily="ui-monospace"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.9 }}
+        style={{
+          opacity: isVisible ? 1 : 0,
+          transition: 'opacity 0.3s 0.9s',
+        }}
       >
         historical
-      </motion.text>
-      <motion.text
+      </text>
+      <text
         x="90"
         y="55"
         fill="rgba(255,255,255,0.3)"
         fontSize="5"
         textAnchor="middle"
         fontFamily="ui-monospace"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.1 }}
+        style={{
+          opacity: isVisible ? 1 : 0,
+          transition: 'opacity 0.3s 1.1s',
+        }}
       >
         forecast
-      </motion.text>
+      </text>
 
       {/* Animated traveling dot on prediction */}
-      <motion.circle
-        r="2"
-        fill="white"
-        initial={{ offsetDistance: "0%", opacity: 0 }}
-        animate={{ offsetDistance: "100%", opacity: [0, 1, 1, 0.5] }}
-        transition={{
-          duration: 2,
-          delay: 1.3,
-          repeat: Infinity,
-          repeatDelay: 1.5,
-          ease: "linear"
-        }}
-        style={{
-          offsetPath: `path("${predictionPath}")`,
-        }}
-      />
+      {isVisible && (
+        <circle
+          r="2"
+          fill="white"
+          style={{
+            offsetPath: `path("${predictionPath}")`,
+            animation: 'particleMove 2s 1.3s linear infinite',
+          }}
+        />
+      )}
     </svg>
   );
 };

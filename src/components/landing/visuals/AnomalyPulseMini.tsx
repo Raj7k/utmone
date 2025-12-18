@@ -1,8 +1,14 @@
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
-// EKG-style anomaly detection with spike and alert
+// CSS-only EKG-style anomaly detection with spike and alert
 export const AnomalyPulseMini = () => {
-  // EKG baseline path with spike
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
   const ekgPath = "M5,35 L15,35 L20,33 L25,37 L30,34 L35,36 L40,35 L48,35 L52,10 L56,45 L60,35 L65,35 L75,33 L85,36 L95,35 L115,35";
 
   return (
@@ -24,9 +30,39 @@ export const AnomalyPulseMini = () => {
         </linearGradient>
       </defs>
 
+      <style>{`
+        @keyframes ekgDraw {
+          from { stroke-dashoffset: 200; }
+          to { stroke-dashoffset: 0; }
+        }
+        @keyframes spikeAppear {
+          0% { transform: scale(0); opacity: 0; }
+          50% { transform: scale(1.5); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes alertRing {
+          0% { transform: scale(0.5); opacity: 0; }
+          50% { opacity: 0.8; }
+          100% { transform: scale(1.5); opacity: 0; }
+        }
+        @keyframes alertRing2 {
+          0% { transform: scale(0.5); opacity: 0; }
+          50% { opacity: 0.5; }
+          100% { transform: scale(2); opacity: 0; }
+        }
+        @keyframes slideIn {
+          from { opacity: 0; transform: translateY(5px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+      `}</style>
+
       {/* Grid lines for context */}
       {[20, 35, 50].map((y) => (
-        <motion.line
+        <line
           key={y}
           x1="5"
           y1={y}
@@ -34,68 +70,79 @@ export const AnomalyPulseMini = () => {
           y2={y}
           stroke="rgba(255,255,255,0.05)"
           strokeWidth="0.5"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.1 }}
+          style={{
+            opacity: isVisible ? 1 : 0,
+            transition: 'opacity 0.3s 0.1s',
+          }}
         />
       ))}
 
       {/* EKG line with animation */}
-      <motion.path
+      <path
         d={ekgPath}
         fill="none"
         stroke="url(#ekgGradient)"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 1.5, ease: "easeInOut" }}
+        strokeDasharray="200"
+        style={{
+          strokeDashoffset: isVisible ? 0 : 200,
+          transition: 'stroke-dashoffset 1.5s ease-in-out',
+        }}
       />
 
       {/* Anomaly spike highlight */}
-      <motion.circle
+      <circle
         cx="52"
         cy="10"
         r="4"
         fill="rgba(255,255,255,0.8)"
         filter="url(#anomalyGlow)"
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: [0, 1.5, 1], opacity: 1 }}
-        transition={{ delay: 0.9, duration: 0.4 }}
+        style={{
+          transformOrigin: '52px 10px',
+          animation: isVisible ? 'spikeAppear 0.4s 0.9s cubic-bezier(0.4, 0, 0.2, 1) forwards' : 'none',
+          opacity: isVisible ? undefined : 0,
+          transform: isVisible ? undefined : 'scale(0)',
+        }}
       />
 
       {/* Alert ring pulsing */}
-      <motion.circle
-        cx="52"
-        cy="10"
-        r="8"
-        fill="none"
-        stroke="rgba(255,255,255,0.6)"
-        strokeWidth="1"
-        initial={{ scale: 0.5, opacity: 0 }}
-        animate={{ scale: [0.5, 1.5, 0.5], opacity: [0, 0.8, 0] }}
-        transition={{ delay: 1.2, duration: 1.5, repeat: Infinity }}
-      />
-
-      {/* Second alert ring (offset timing) */}
-      <motion.circle
-        cx="52"
-        cy="10"
-        r="12"
-        fill="none"
-        stroke="rgba(255,255,255,0.3)"
-        strokeWidth="1"
-        initial={{ scale: 0.5, opacity: 0 }}
-        animate={{ scale: [0.5, 2, 0.5], opacity: [0, 0.5, 0] }}
-        transition={{ delay: 1.5, duration: 2, repeat: Infinity }}
-      />
+      {isVisible && (
+        <>
+          <circle
+            cx="52"
+            cy="10"
+            r="8"
+            fill="none"
+            stroke="rgba(255,255,255,0.6)"
+            strokeWidth="1"
+            style={{
+              transformOrigin: '52px 10px',
+              animation: 'alertRing 1.5s 1.2s ease-out infinite',
+            }}
+          />
+          <circle
+            cx="52"
+            cy="10"
+            r="12"
+            fill="none"
+            stroke="rgba(255,255,255,0.3)"
+            strokeWidth="1"
+            style={{
+              transformOrigin: '52px 10px',
+              animation: 'alertRing2 2s 1.5s ease-out infinite',
+            }}
+          />
+        </>
+      )}
 
       {/* Alert label */}
-      <motion.g
-        initial={{ opacity: 0, y: 5 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.3 }}
+      <g
+        style={{
+          animation: isVisible ? 'slideIn 0.3s 1.3s cubic-bezier(0.4, 0, 0.2, 1) forwards' : 'none',
+          opacity: isVisible ? undefined : 0,
+        }}
       >
         <rect
           x="65"
@@ -115,7 +162,7 @@ export const AnomalyPulseMini = () => {
         >
           +340%
         </text>
-      </motion.g>
+      </g>
     </svg>
   );
 };
