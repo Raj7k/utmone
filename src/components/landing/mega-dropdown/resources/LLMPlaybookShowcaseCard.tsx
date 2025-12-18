@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -12,16 +11,14 @@ export function LLMPlaybookShowcaseCard({ variant = "dark" }: LLMPlaybookShowcas
   
   return (
     <Link to="/resources/playbooks/llm-ranking" className="block group">
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
+      <div
         className={cn(
-          "relative h-[100px] rounded-2xl p-3 cursor-pointer overflow-hidden transition-all duration-300",
+          "relative h-[100px] rounded-2xl p-3 cursor-pointer overflow-hidden transition-all duration-300 animate-fade-in-dropdown opacity-0",
           isLight
             ? "bg-zinc-50 border border-zinc-200 hover:bg-zinc-100 hover:border-zinc-300"
             : "bg-white/[0.03] border border-white/[0.12] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] ring-1 ring-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.2] hover:ring-white/[0.1] hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15),0_0_20px_-5px_rgba(255,255,255,0.1)]"
         )}
+        style={{ animationDelay: "0.1s" }}
       >
         {/* Navigation indicator */}
         <ArrowUpRight className={cn(
@@ -49,31 +46,29 @@ export function LLMPlaybookShowcaseCard({ variant = "dark" }: LLMPlaybookShowcas
           )}>LLM Ranking Playbook</span>
         </div>
 
-        {/* Animated Book/AI icon */}
+        {/* Animated Book/AI icon - CSS animations */}
         <div className="flex items-center gap-2">
-          <motion.div
-            className="flex gap-0.5"
-            animate={{ opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
+          <div className="flex gap-0.5 animate-pulse">
             {[1, 2, 3].map((i) => (
-              <motion.div
+              <div
                 key={i}
                 className={cn(
-                  "w-1 h-3 rounded-sm",
+                  "w-1 rounded-sm animate-bar-grow",
                   isLight ? "bg-zinc-300" : "bg-white/30"
                 )}
-                animate={{ scaleY: [0.5, 1, 0.5] }}
-                transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.2 }}
+                style={{ 
+                  height: '12px',
+                  animationDelay: `${i * 200}ms`
+                }}
               />
             ))}
-          </motion.div>
+          </div>
           <span className={cn(
             "text-[9px]",
             isLight ? "text-zinc-400" : "text-white/40"
           )}>rank higher in AI search</span>
         </div>
-      </motion.div>
+      </div>
     </Link>
   );
 }
