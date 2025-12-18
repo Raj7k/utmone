@@ -42,37 +42,53 @@ export default defineConfig(({ mode }) => ({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
+        manualChunks(id) {
           // Core React ecosystem
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          if (id.includes('node_modules/react-dom')) return 'vendor-react';
+          if (id.includes('node_modules/react-router')) return 'vendor-react';
+          if (id.includes('node_modules/react/')) return 'vendor-react';
+          
           // Data fetching and state
-          'vendor-query': ['@tanstack/react-query'],
+          if (id.includes('@tanstack/react-query')) return 'vendor-query';
+          
           // Backend client
-          'vendor-supabase': ['@supabase/supabase-js'],
+          if (id.includes('@supabase')) return 'vendor-supabase';
+          
           // Visualization libraries
-          'vendor-charts': ['recharts'],
-          'vendor-motion': ['framer-motion'],
-          'vendor-maps': ['react-simple-maps', 'd3-geo'],
-          'vendor-flow': ['@xyflow/react', 'reactflow'],
-          'vendor-nivo': ['@nivo/sankey'],
-          // Heavy utilities (lazy loaded)
-          'vendor-xlsx': ['xlsx'],
-          'vendor-qr': ['qrcode', 'react-qr-code', 'html5-qrcode'],
-          // Confetti libraries (lazy loaded)
-          'vendor-confetti': ['canvas-confetti', 'react-confetti'],
+          if (id.includes('recharts')) return 'vendor-charts';
+          if (id.includes('react-simple-maps') || id.includes('d3-geo')) return 'vendor-maps';
+          if (id.includes('@xyflow') || id.includes('reactflow')) return 'vendor-flow';
+          if (id.includes('@nivo')) return 'vendor-nivo';
+          
+          // Heavy utilities
+          if (id.includes('xlsx')) return 'vendor-xlsx';
+          if (id.includes('qrcode') || id.includes('html5-qrcode')) return 'vendor-qr';
+          if (id.includes('canvas-confetti') || id.includes('react-confetti')) return 'vendor-confetti';
+          
           // UI primitives
-          'vendor-radix': [
-            '@radix-ui/react-dialog',
-            '@radix-ui/react-dropdown-menu',
-            '@radix-ui/react-popover',
-            '@radix-ui/react-select',
-            '@radix-ui/react-tabs',
-            '@radix-ui/react-tooltip',
-            '@radix-ui/react-accordion',
-            '@radix-ui/react-checkbox',
-            '@radix-ui/react-switch',
-            '@radix-ui/react-slider',
-          ],
+          if (id.includes('@radix-ui')) return 'vendor-radix';
+          
+          // Resource pages grouped by category
+          if (id.includes('pages/resources/guides/')) return 'resources-guides';
+          if (id.includes('pages/resources/playbooks/')) return 'resources-playbooks';
+          if (id.includes('pages/resources/glossary/')) return 'resources-glossary';
+          if (id.includes('pages/resources/templates/')) return 'resources-templates';
+          if (id.includes('pages/resources/checklists/')) return 'resources-checklists';
+          if (id.includes('pages/resources/frameworks/')) return 'resources-frameworks';
+          if (id.includes('pages/resources/examples/')) return 'resources-examples';
+          if (id.includes('pages/resources/reports/')) return 'resources-reports';
+          if (id.includes('pages/resources/academy/')) return 'resources-academy';
+          if (id.includes('pages/help/')) return 'help-articles';
+          
+          // Feature and solution pages
+          if (id.includes('pages/features/')) return 'feature-pages';
+          if (id.includes('pages/solutions/')) return 'solution-pages';
+          if (id.includes('pages/use-cases/')) return 'usecase-pages';
+          
+          // Dashboard pages
+          if (id.includes('pages/dashboard/')) return 'dashboard-pages';
+          
+          return undefined;
         },
       },
     },
