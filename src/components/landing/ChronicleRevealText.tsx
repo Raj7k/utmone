@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import { motion } from "framer-motion";
 
 interface ChronicleRevealTextProps {
   text: string;
@@ -89,14 +88,14 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
             </feMerge>
           </filter>
           
-          {/* Clip path that reveals based on mouse position */}
+          {/* Clip path that reveals based on mouse position - CSS transition */}
           <clipPath id="revealClip">
-            <motion.rect
+            <rect
               x="0"
               y="0"
               height="100%"
-              animate={{ width: isHovering ? `${fillPercent}%` : "0%" }}
-              transition={{ duration: 0.1, ease: "easeOut" }}
+              width={isHovering ? `${fillPercent}%` : "0%"}
+              style={{ transition: 'width 0.1s ease-out' }}
             />
           </clipPath>
         </defs>

@@ -514,6 +514,20 @@ export default {
 			'float': {
 				'0%, 100%': { transform: 'translateY(0)' },
 				'50%': { transform: 'translateY(-2px)' }
+			},
+			// Phase 4: Landing page component animations
+			'shimmer-slide': {
+				'0%': { backgroundPosition: '200% 0' },
+				'100%': { backgroundPosition: '-200% 0' }
+			},
+			'pulse-glow': {
+				'0%, 100%': { opacity: '0' },
+				'50%': { opacity: '0.5' }
+			},
+			'bounce-in': {
+				'0%': { transform: 'scale(0)', opacity: '0' },
+				'50%': { transform: 'scale(1.1)' },
+				'100%': { transform: 'scale(1) rotate(0deg)', opacity: '1' }
 			}
 		},
   		animation: {
@@ -572,7 +586,11 @@ export default {
 			// Phase 9: Mega-dropdown animations
 			'scan-line': 'scan-line 2s ease-in-out infinite',
 			'float': 'float 1.5s ease-in-out infinite',
-			'bar-grow': 'bar-grow 0.5s ease-out forwards'
+			'bar-grow': 'bar-grow 0.5s ease-out forwards',
+			// Phase 4: Landing page animations
+			'shimmer-slide': 'shimmer-slide 3s linear infinite',
+			'pulse-glow': 'pulse-glow 4s ease-in-out infinite',
+			'bounce-in': 'bounce-in 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards'
 		},
 		transitionDuration: {
    			apple: '200ms',

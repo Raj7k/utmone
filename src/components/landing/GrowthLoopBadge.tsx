@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { Trophy, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -11,11 +10,7 @@ interface GrowthLoopBadgeProps {
 
 export const GrowthLoopBadge = ({ score, title, subtitle, onShare }: GrowthLoopBadgeProps) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      className="relative glass-card p-8 text-center"
-    >
+    <div className="relative glass-card p-8 text-center animate-scale-in">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.05),transparent)] pointer-events-none rounded-2xl" />
       
       <div className="relative z-10 space-y-6">
@@ -48,6 +43,6 @@ export const GrowthLoopBadge = ({ score, title, subtitle, onShare }: GrowthLoopB
           </Button>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };

@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 import { LucideIcon } from "lucide-react";
 
 interface TimelineStep {
@@ -15,15 +15,47 @@ interface DayInLifeScenarioProps {
 }
 
 export const DayInLifeScenario = ({ title, description, timeline, visualElement }: DayInLifeScenarioProps) => {
+  const leftRef = useRef<HTMLDivElement>(null);
+  const rightRef = useRef<HTMLDivElement>(null);
+  const [leftVisible, setLeftVisible] = useState(false);
+  const [rightVisible, setRightVisible] = useState(false);
+
+  useEffect(() => {
+    const leftObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setLeftVisible(true);
+          leftObserver.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const rightObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setRightVisible(true);
+          rightObserver.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (leftRef.current) leftObserver.observe(leftRef.current);
+    if (rightRef.current) rightObserver.observe(rightRef.current);
+
+    return () => {
+      leftObserver.disconnect();
+      rightObserver.disconnect();
+    };
+  }, []);
+
   return (
     <div className="grid md:grid-cols-2 gap-12 items-center">
       {/* Left: Timeline */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="space-y-6"
+      <div
+        ref={leftRef}
+        className={`space-y-6 transition-all duration-600 ease-out ${leftVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-5'}`}
       >
         <div className="space-y-3">
           <h3 className="text-2xl md:text-3xl font-display font-bold text-white">
@@ -36,13 +68,10 @@ export const DayInLifeScenario = ({ title, description, timeline, visualElement 
         
         <div className="space-y-4">
           {timeline.map((step, index) => (
-            <motion.div
+            <div
               key={index}
-              initial={{ opacity: 0, x: -10 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.4 }}
-              className="flex items-start gap-4"
+              className={`flex items-start gap-4 transition-all duration-400 ease-out ${leftVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'}`}
+              style={{ transitionDelay: leftVisible ? `${index * 100}ms` : '0ms' }}
             >
               <div className="flex flex-col items-center">
                 <div 
@@ -62,20 +91,19 @@ export const DayInLifeScenario = ({ title, description, timeline, visualElement 
                   {step.action}
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
-      </motion.div>
+      </div>
 
       {/* Right: Visual */}
-      <motion.div
-        initial={{ opacity: 0, x: 20 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.2 }}
+      <div
+        ref={rightRef}
+        className={`transition-all duration-600 ease-out ${rightVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-5'}`}
+        style={{ transitionDelay: rightVisible ? '200ms' : '0ms' }}
       >
         {visualElement}
-      </motion.div>
+      </div>
     </div>
   );
 };
