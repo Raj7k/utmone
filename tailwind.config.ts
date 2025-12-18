@@ -504,6 +504,16 @@ export default {
 			'fab-pulse': {
 				'0%, 100%': { transform: 'scale(1)', opacity: '0.4' },
 				'50%': { transform: 'scale(1.2)', opacity: '0.6' }
+			},
+			// Phase 9: Mega-dropdown CSS animations
+			'scan-line': {
+				'0%': { top: '10%' },
+				'50%': { top: '90%' },
+				'100%': { top: '10%' }
+			},
+			'float': {
+				'0%, 100%': { transform: 'translateY(0)' },
+				'50%': { transform: 'translateY(-2px)' }
 			}
 		},
   		animation: {
@@ -558,7 +568,11 @@ export default {
 			'organic-shape-3': 'organic-shape-3 18s ease-in-out infinite',
 			'glow-pulse': 'glow-pulse-card 3s ease-in-out infinite',
 			// Phase 8: FAB animation
-			'fab-pulse': 'fab-pulse 2s ease-in-out infinite'
+			'fab-pulse': 'fab-pulse 2s ease-in-out infinite',
+			// Phase 9: Mega-dropdown animations
+			'scan-line': 'scan-line 2s ease-in-out infinite',
+			'float': 'float 1.5s ease-in-out infinite',
+			'bar-grow': 'bar-grow 0.5s ease-out forwards'
 		},
 		transitionDuration: {
    			apple: '200ms',

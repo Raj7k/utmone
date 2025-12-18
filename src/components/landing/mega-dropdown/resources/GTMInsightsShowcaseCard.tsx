@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -12,16 +11,14 @@ export function GTMInsightsShowcaseCard({ variant = "dark" }: GTMInsightsShowcas
   
   return (
     <Link to="/resources/reports/gtm-insights-2026" className="block group">
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.15 }}
+      <div
         className={cn(
-          "relative h-[100px] rounded-2xl p-3 cursor-pointer overflow-hidden transition-all duration-300",
+          "relative h-[100px] rounded-2xl p-3 cursor-pointer overflow-hidden transition-all duration-300 animate-fade-in-dropdown opacity-0",
           isLight
             ? "bg-zinc-50 border border-zinc-200 hover:bg-zinc-100 hover:border-zinc-300"
             : "bg-white/[0.03] border border-white/[0.12] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] ring-1 ring-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.2] hover:ring-white/[0.1] hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15),0_0_20px_-5px_rgba(255,255,255,0.1)]"
         )}
+        style={{ animationDelay: "0.15s" }}
       >
         {/* Navigation indicator */}
         <ArrowUpRight className={cn(
@@ -49,18 +46,19 @@ export function GTMInsightsShowcaseCard({ variant = "dark" }: GTMInsightsShowcas
           )}>GTM Insights 2026</span>
         </div>
 
-        {/* Animated Chart */}
+        {/* Animated Chart - CSS animations */}
         <div className="flex items-end gap-1 h-4">
           {[40, 60, 45, 80, 65, 90].map((height, i) => (
-            <motion.div
+            <div
               key={i}
               className={cn(
-                "w-2 rounded-t",
+                "w-2 rounded-t animate-pulse",
                 isLight ? "bg-zinc-300" : "bg-white/30"
               )}
-              style={{ height: `${height}%` }}
-              animate={{ opacity: [0.3, 0.6, 0.3] }}
-              transition={{ duration: 2, repeat: Infinity, delay: i * 0.15 }}
+              style={{ 
+                height: `${height}%`,
+                animationDelay: `${i * 150}ms`
+              }}
             />
           ))}
           <span className={cn(
@@ -68,7 +66,7 @@ export function GTMInsightsShowcaseCard({ variant = "dark" }: GTMInsightsShowcas
             isLight ? "text-zinc-400" : "text-white/40"
           )}>go-to-market strategies</span>
         </div>
-      </motion.div>
+      </div>
     </Link>
   );
 }

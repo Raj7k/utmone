@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -12,16 +11,14 @@ export function B2BArchitectsShowcaseCard({ variant = "dark" }: B2BArchitectsSho
   
   return (
     <Link to="/resources/playbooks/b2b-architects-2026" className="block group">
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
+      <div
         className={cn(
-          "relative h-[100px] rounded-2xl p-3 cursor-pointer overflow-hidden transition-all duration-300",
+          "relative h-[100px] rounded-2xl p-3 cursor-pointer overflow-hidden transition-all duration-300 animate-fade-in-dropdown opacity-0",
           isLight
             ? "bg-zinc-50 border border-zinc-200 hover:bg-zinc-100 hover:border-zinc-300"
             : "bg-white/[0.03] border border-white/[0.12] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] ring-1 ring-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.2] hover:ring-white/[0.1] hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15),0_0_20px_-5px_rgba(255,255,255,0.1)]"
         )}
+        style={{ animationDelay: "0.2s" }}
       >
         {/* Navigation indicator */}
         <ArrowUpRight className={cn(
@@ -49,18 +46,17 @@ export function B2BArchitectsShowcaseCard({ variant = "dark" }: B2BArchitectsSho
           )}>B2B Architects 2026</span>
         </div>
 
-        {/* Mini Avatar Grid */}
+        {/* Mini Avatar Grid - CSS animations */}
         <div className="flex items-center gap-2">
           <div className="flex -space-x-1.5">
             {[1, 2, 3, 4, 5].map((i) => (
-              <motion.div
+              <div
                 key={i}
                 className={cn(
-                  "w-4 h-4 rounded-full border",
+                  "w-4 h-4 rounded-full border animate-pulse",
                   isLight ? "bg-zinc-200 border-zinc-300" : "bg-white/20 border-white/10"
                 )}
-                animate={{ opacity: [0.5, 0.8, 0.5] }}
-                transition={{ duration: 2, repeat: Infinity, delay: i * 0.1 }}
+                style={{ animationDelay: `${i * 100}ms` }}
               />
             ))}
           </div>
@@ -69,7 +65,7 @@ export function B2BArchitectsShowcaseCard({ variant = "dark" }: B2BArchitectsSho
             isLight ? "text-zinc-400" : "text-white/40"
           )}>25 leaders to follow</span>
         </div>
-      </motion.div>
+      </div>
     </Link>
   );
 }

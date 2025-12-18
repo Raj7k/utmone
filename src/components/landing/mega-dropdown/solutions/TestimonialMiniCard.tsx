@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface TestimonialMiniCardProps {
@@ -9,16 +8,14 @@ export function TestimonialMiniCard({ variant = "dark" }: TestimonialMiniCardPro
   const isLight = variant === "light";
   
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 0.3 }}
+    <div
       className={cn(
-        "rounded-xl p-3 flex items-center gap-3",
+        "rounded-xl p-3 flex items-center gap-3 animate-fade-in opacity-0",
         isLight
           ? "bg-zinc-50 border border-zinc-200"
           : "bg-white/[0.02] border border-white/[0.08]"
       )}
+      style={{ animationDelay: "0.3s" }}
     >
       {/* Avatar */}
       <div className={cn(
@@ -36,15 +33,11 @@ export function TestimonialMiniCard({ variant = "dark" }: TestimonialMiniCardPro
         <p className={cn("text-[9px] mt-0.5", isLight ? "text-zinc-400" : "text-white/30")}>— Marketing Director, Fortune 500</p>
       </div>
 
-      {/* Animated metric */}
-      <motion.div
-        className="text-right"
-        animate={{ scale: [1, 1.05, 1] }}
-        transition={{ duration: 2, repeat: Infinity }}
-      >
+      {/* Animated metric - CSS pulse */}
+      <div className="text-right animate-pulse">
         <p className={cn("text-sm font-mono font-medium", isLight ? "text-zinc-600" : "text-white/70")}>+47%</p>
         <p className={cn("text-[8px]", isLight ? "text-zinc-400" : "text-white/30")}>attribution</p>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }
