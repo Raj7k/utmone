@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
 import { LucideIcon, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -21,20 +21,42 @@ export const FeaturePillarCard = ({
   delay = 0,
   className 
 }: FeaturePillarCardProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: "-100px" }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
   const cardContent = (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.6, delay }}
+    <div
+      ref={ref}
       className={cn(
         // Obsidian glass card
         "group relative bg-zinc-900/40 backdrop-blur-xl",
         "border border-white/10 rounded-2xl p-8",
-        "hover:border-white/20 transition-all duration-300",
+        "hover:border-white/20 transition-all duration-600 ease-out",
         href && "cursor-pointer",
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[30px]",
         className
       )}
+      style={{
+        transitionDelay: isVisible ? `${delay * 1000}ms` : '0ms'
+      }}
     >
       <div className="flex flex-col items-start space-y-4">
         <div className="p-3 rounded-xl transition-colors bg-white/10 text-white">
@@ -56,7 +78,7 @@ export const FeaturePillarCard = ({
           </div>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 
   if (href) {

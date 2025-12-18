@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 import { UseCaseType, resolveUseCaseContent } from "./useCaseConfig";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
@@ -63,68 +63,89 @@ export const DynamicCTA = ({ selectedUseCase }: DynamicCTAProps) => {
     section: "CTA",
   });
 
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [displayedContent, setDisplayedContent] = useState(content);
+  const [showTrustBadge, setShowTrustBadge] = useState(false);
+  const prevUseCaseRef = useRef(resolvedUseCase);
+
+  useEffect(() => {
+    if (prevUseCaseRef.current !== resolvedUseCase) {
+      setIsTransitioning(true);
+      setShowTrustBadge(false);
+      
+      const timer = setTimeout(() => {
+        setDisplayedContent(content);
+        setIsTransitioning(false);
+        prevUseCaseRef.current = resolvedUseCase;
+        
+        // Show trust badge after content transition
+        setTimeout(() => setShowTrustBadge(true), 500);
+      }, 300);
+      
+      return () => clearTimeout(timer);
+    } else {
+      setDisplayedContent(content);
+      // Show trust badge on initial mount
+      setTimeout(() => setShowTrustBadge(true), 500);
+    }
+  }, [resolvedUseCase, content]);
+
   return (
     <section className="py-16 md:py-24">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={resolvedUseCase}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
-            className="text-center space-y-8"
-          >
-            {/* Content */}
-            <div className="space-y-4">
-              <h2 
-                className="text-3xl md:text-4xl lg:text-5xl font-display font-bold"
-                style={{
-                  background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text'
-                }}
-              >
-                {content.headline}
-              </h2>
-              <p className="text-lg text-white/50 max-w-2xl mx-auto">
-                {content.subheadline}
-              </p>
-            </div>
-
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link to="/early-access">
-                <ShimmerButton
-                  className="px-8 py-3 text-base font-medium"
-                  shimmerColor="rgba(255, 255, 255, 0.4)"
-                  background="hsl(var(--primary))"
-                >
-                  {content.primaryCta}
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </ShimmerButton>
-              </Link>
-              <Link
-                to={content.secondaryCta.route}
-                className="inline-flex items-center gap-2 text-sm font-medium text-white/60 hover:text-white transition-colors"
-              >
-                {content.secondaryCta.text}
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-
-            {/* Trust Badge */}
-            <motion.p 
-              className="text-xs text-white/30"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
+        <div
+          className={`text-center space-y-8 transition-all duration-500 ease-out ${
+            isTransitioning ? 'opacity-0 translate-y-5' : 'opacity-100 translate-y-0'
+          }`}
+        >
+          {/* Content */}
+          <div className="space-y-4">
+            <h2 
+              className="text-3xl md:text-4xl lg:text-5xl font-display font-bold"
+              style={{
+                background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}
             >
-              free during early access • no credit card required
-            </motion.p>
-          </motion.div>
-        </AnimatePresence>
+              {displayedContent.headline}
+            </h2>
+            <p className="text-lg text-white/50 max-w-2xl mx-auto">
+              {displayedContent.subheadline}
+            </p>
+          </div>
+
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link to="/early-access">
+              <ShimmerButton
+                className="px-8 py-3 text-base font-medium"
+                shimmerColor="rgba(255, 255, 255, 0.4)"
+                background="hsl(var(--primary))"
+              >
+                {displayedContent.primaryCta}
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </ShimmerButton>
+            </Link>
+            <Link
+              to={displayedContent.secondaryCta.route}
+              className="inline-flex items-center gap-2 text-sm font-medium text-white/60 hover:text-white transition-colors"
+            >
+              {displayedContent.secondaryCta.text}
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          {/* Trust Badge */}
+          <p 
+            className={`text-xs text-white/30 transition-opacity duration-500 ${
+              showTrustBadge ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            free during early access • no credit card required
+          </p>
+        </div>
       </div>
     </section>
   );

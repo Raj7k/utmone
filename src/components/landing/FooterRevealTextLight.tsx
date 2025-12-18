@@ -1,5 +1,4 @@
 import { useRef, useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { DotPhilosophyModal } from "./DotPhilosophyModal";
 
 interface Particle {
@@ -8,6 +7,7 @@ interface Particle {
   y: number;
   opacity: number;
   size: number;
+  createdAt: number;
 }
 
 interface FooterRevealTextLightProps {
@@ -106,6 +106,8 @@ export const FooterRevealTextLight = ({ className = "" }: FooterRevealTextLightP
   const [mousePos, setMousePos] = useState({ x: 900, y: 200 });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dotPosition, setDotPosition] = useState({ x: 0, y: 0 });
+  const [cornerGlowOpacity, setCornerGlowOpacity] = useState([0, 0, 0, 0]);
+  const [outerGlowOpacity, setOuterGlowOpacity] = useState(0);
   const dotHoverTimer = useRef<NodeJS.Timeout | null>(null);
   const dotScaleAnimation = useRef<number | null>(null);
   const particleIdRef = useRef(0);
@@ -131,17 +133,29 @@ export const FooterRevealTextLight = ({ className = "" }: FooterRevealTextLightP
         y: (y / rect.height) * 400,
         opacity: Math.random() * 0.5 + 0.3,
         size: Math.random() * 3 + 1,
+        createdAt: Date.now(),
       };
       setParticles((prev) => [...prev.slice(-12), newParticle]);
     }
   };
 
-  const handleMouseEnter = () => setIsHovering(true);
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+    // Animate corner glows with staggered delays
+    setTimeout(() => setCornerGlowOpacity(prev => [1, prev[1], prev[2], prev[3]]), 0);
+    setTimeout(() => setCornerGlowOpacity(prev => [prev[0], 0.8, prev[2], prev[3]]), 100);
+    setTimeout(() => setCornerGlowOpacity(prev => [prev[0], prev[1], 0.6, prev[3]]), 150);
+    setTimeout(() => setCornerGlowOpacity(prev => [prev[0], prev[1], prev[2], 0.9]), 200);
+    setTimeout(() => setOuterGlowOpacity(0.3), 0);
+  };
+  
   const handleMouseLeave = () => {
     setIsHovering(false);
     setIsDotHovering(false);
     setFillPercent(0);
     setParticles([]);
+    setCornerGlowOpacity([0, 0, 0, 0]);
+    setOuterGlowOpacity(0);
     if (dotHoverTimer.current) {
       clearTimeout(dotHoverTimer.current);
       dotHoverTimer.current = null;
@@ -209,6 +223,7 @@ export const FooterRevealTextLight = ({ className = "" }: FooterRevealTextLightP
     openModal();
   };
 
+  // Particle cleanup with CSS-based fade out
   useEffect(() => {
     if (particles.length > 0) {
       const timer = setTimeout(() => {
@@ -217,6 +232,9 @@ export const FooterRevealTextLight = ({ className = "" }: FooterRevealTextLightP
       return () => clearTimeout(timer);
     }
   }, [particles]);
+
+  // Calculate clip width for reveal animation
+  const clipWidth = isHovering ? (fillPercent / 100) * 1800 : 0;
 
   return (
     <>
@@ -227,15 +245,14 @@ export const FooterRevealTextLight = ({ className = "" }: FooterRevealTextLightP
         onMouseLeave={handleMouseLeave}
         className={`relative w-full cursor-crosshair select-none overflow-visible ${className}`}
       >
-        <motion.svg
+        <svg
           viewBox="0 0 1800 400"
-          className="w-full h-auto"
+          className="w-full h-auto transition-transform duration-400 ease-out"
           preserveAspectRatio="xMidYMid meet"
-          style={{ overflow: "visible" }}
-          animate={{
-            scale: isHovering ? 1.05 : 1,
+          style={{ 
+            overflow: "visible",
+            transform: isHovering ? "scale(1.05)" : "scale(1)"
           }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
         >
           <defs>
             {/* Light theme glass gradient - dark fill */}
@@ -331,16 +348,14 @@ export const FooterRevealTextLight = ({ className = "" }: FooterRevealTextLightP
               <stop offset="100%" stopColor="hsl(45, 40%, 50%)" stopOpacity="0" />
             </radialGradient>
 
-            {/* Clip path for reveal animation */}
+            {/* Clip path for reveal animation - using CSS transition */}
             <clipPath id="footerRevealClipLight">
-              <motion.rect
+              <rect
                 x="0"
                 y="0"
                 height="400"
-                animate={{
-                  width: isHovering ? (fillPercent / 100) * 1800 : 0,
-                }}
-                transition={{ duration: 0.08, ease: "easeOut" }}
+                width={clipWidth}
+                style={{ transition: "width 0.08s ease-out" }}
               />
             </clipPath>
 
@@ -361,22 +376,24 @@ export const FooterRevealTextLight = ({ className = "" }: FooterRevealTextLightP
             </clipPath>
           </defs>
 
-          {/* Particle dust - darker for light background */}
-          <AnimatePresence>
-            {particles.map((particle) => (
-              <motion.circle
+          {/* Particle dust - CSS transitions */}
+          {particles.map((particle) => {
+            const age = Date.now() - particle.createdAt;
+            const fadeProgress = Math.min(age / 800, 1);
+            return (
+              <circle
                 key={particle.id}
                 cx={particle.x}
-                cy={particle.y}
-                r={particle.size}
+                cy={particle.y - (fadeProgress * 40)}
+                r={particle.size * (1 - fadeProgress)}
                 fill={timeTheme.secondary}
-                initial={{ opacity: particle.opacity, scale: 1 }}
-                animate={{ opacity: 0, scale: 0, cy: particle.y - 40 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
+                style={{
+                  opacity: particle.opacity * (1 - fadeProgress),
+                  transition: "opacity 0.8s ease-out, cy 0.8s ease-out, r 0.8s ease-out"
+                }}
               />
-            ))}
-          </AnimatePresence>
+            );
+          })}
 
           {/* Stroke-only text (always visible) - light gray on light bg */}
           <text
@@ -418,36 +435,40 @@ export const FooterRevealTextLight = ({ className = "" }: FooterRevealTextLightP
               utm.one
             </text>
 
-            {/* Corner glow overlays */}
+            {/* Corner glow overlays - CSS transitions */}
             {isHovering && (
               <g clipPath="url(#textClipLight)">
-                <motion.rect
+                <rect
                   x="0" y="0" width="900" height="200"
                   fill="url(#cornerGlowTLLight)"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.4 }}
+                  style={{ 
+                    opacity: cornerGlowOpacity[0],
+                    transition: "opacity 0.4s ease-out"
+                  }}
                 />
-                <motion.rect
+                <rect
                   x="900" y="0" width="900" height="200"
                   fill="url(#cornerGlowTRLight)"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.8 }}
-                  transition={{ duration: 0.4, delay: 0.1 }}
+                  style={{ 
+                    opacity: cornerGlowOpacity[1],
+                    transition: "opacity 0.4s ease-out"
+                  }}
                 />
-                <motion.rect
+                <rect
                   x="0" y="200" width="900" height="200"
                   fill="url(#cornerGlowBLLight)"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.6 }}
-                  transition={{ duration: 0.4, delay: 0.15 }}
+                  style={{ 
+                    opacity: cornerGlowOpacity[2],
+                    transition: "opacity 0.4s ease-out"
+                  }}
                 />
-                <motion.rect
+                <rect
                   x="900" y="200" width="900" height="200"
                   fill="url(#cornerGlowBRLight)"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.9 }}
-                  transition={{ duration: 0.4, delay: 0.2 }}
+                  style={{ 
+                    opacity: cornerGlowOpacity[3],
+                    transition: "opacity 0.4s ease-out"
+                  }}
                 />
               </g>
             )}
@@ -542,18 +563,15 @@ export const FooterRevealTextLight = ({ className = "" }: FooterRevealTextLightP
             )}
           </g>
 
-          {/* Outer glow on hover */}
+          {/* Outer glow on hover - CSS transition */}
           {isHovering && (
-            <motion.text
+            <text
               x="900"
               y="290"
               textAnchor="middle"
               className="font-display font-bold"
               clipPath="url(#footerRevealClipLight)"
               filter="url(#outerGlowLight)"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.3 }}
-              transition={{ duration: 0.3 }}
               style={{
                 fontSize: "380px",
                 fill: "transparent",
@@ -561,12 +579,14 @@ export const FooterRevealTextLight = ({ className = "" }: FooterRevealTextLightP
                 strokeWidth: "1px",
                 letterSpacing: "-0.05em",
                 pointerEvents: "none",
+                opacity: outerGlowOpacity,
+                transition: "opacity 0.3s ease-out"
               }}
             >
               utm.one
-            </motion.text>
+            </text>
           )}
-        </motion.svg>
+        </svg>
       </div>
 
       <DotPhilosophyModal
