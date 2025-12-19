@@ -2,10 +2,8 @@ import { Link } from "react-router-dom";
 import { formatText } from "@/utils/textFormatter";
 import { ArrowRight, Code, Database } from "lucide-react";
 import { lazy, Suspense, useEffect, useState } from "react";
-import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
 import { HeroInlineCTA } from "@/components/landing/HeroInlineCTA";
 import { StaticSection } from "@/components/landing/StaticSection";
-import { LinkLayersSection } from "@/components/landing/LinkLayersSection";
 import { DEFAULT_USE_CASE, normalizeUseCase, UseCaseType } from "@/components/landing/useCaseConfig";
 import { LazyOnScroll, LazyShimmer } from "@/components/lazy/LazyOnScroll";
 import { 
@@ -51,9 +49,8 @@ const Index = () => {
   useTrackTimeOnPage();
   const trackCTAClick = useTrackCTAClick();
 
-  // Force interactive variant to show the new Stripe-style hero
-  const [landingVariant] = useState<'static' | 'interactive'>('interactive');
   const [selectedUseCase, setSelectedUseCase] = useState<UseCaseType>(DEFAULT_USE_CASE);
+  const [showInteractiveHero, setShowInteractiveHero] = useState(false);
 
   // Hide skeleton once Index component has mounted and rendered
   useEffect(() => {
@@ -70,6 +67,33 @@ const Index = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const requestIdle = (window as { requestIdleCallback?: (cb: () => void, options?: { timeout: number }) => number })
+      .requestIdleCallback;
+    const cancelIdle = (window as { cancelIdleCallback?: (handle: number) => void }).cancelIdleCallback;
+    let idleHandle: number | undefined;
+    let timeoutHandle: number | undefined;
+
+    if (requestIdle) {
+      idleHandle = requestIdle(() => setShowInteractiveHero(true), { timeout: 1200 });
+    } else {
+      timeoutHandle = window.setTimeout(() => setShowInteractiveHero(true), 400);
+    }
+
+    return () => {
+      if (idleHandle !== undefined && cancelIdle) {
+        cancelIdle(idleHandle);
+      }
+      if (timeoutHandle !== undefined) {
+        window.clearTimeout(timeoutHandle);
+      }
+    };
+  }, []);
+
   return (
     <MainLayout>
       <Suspense fallback={null}>
@@ -84,48 +108,41 @@ const Index = () => {
       <LLMSchemaGenerator type="organization" data={{}} />
 
       {/* Control Deck Hero - Jony Ive Style */}
-      {landingVariant === 'interactive' ? (
+      {showInteractiveHero ? (
         <Suspense fallback={<SectionSkeleton />}>
           <ControlDeckHero onUseCaseChange={(uc) => setSelectedUseCase(normalizeUseCase(uc))} />
         </Suspense>
       ) : (
-        <>
-          {/* Original Static Hero */}
-          <HeroVariantManager>
-            {(variant) => (
-              <section className="relative py-12 md:py-20 lg:py-24 bg-background overflow-hidden">
-                <div className="relative z-10 max-w-[980px] mx-auto px-4 sm:px-6 md:px-8">
-                  <div className="text-center space-y-4 md:space-y-6 animate-page-fade">
-                    <h1 className="hero-gradient text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter text-balance leading-[1.1] md:leading-[1.05]">
-                      {variant.headlineLine1}<br />
-                      {variant.headlineLine2}
-                    </h1>
-                    
-                    <p className="text-base sm:text-lg md:text-xl max-w-[720px] mx-auto text-balance leading-relaxed px-2 text-white/60">
-                      {variant.subheadline}
-                    </p>
-                    
-                    <div className="space-y-4">
-                      <HeroInlineCTA />
-                      
-                      <Link 
-                        to="/how-it-works" 
-                        className="inline-flex items-center gap-2 text-sm transition-colors font-medium hover:opacity-80 text-white/80"
-                        onClick={() => trackCTAClick('hero-secondary-cta')}
-                      >
-                        see how it works
-                        <ArrowRight className="h-4 w-4" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </section>
-            )}
-          </HeroVariantManager>
-
-          {/* Original Link Layers Section for Static Variant */}
-          <LinkLayersSection />
-        </>
+        <section className="relative py-14 md:py-20 lg:py-24 bg-background overflow-hidden">
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute -top-24 right-0 h-56 w-56 rounded-full bg-blazeOrange/10 blur-3xl" />
+            <div className="absolute bottom-0 left-0 h-48 w-48 rounded-full bg-white/5 blur-3xl" />
+          </div>
+          <div className="relative z-10 max-w-[960px] mx-auto px-4 sm:px-6 md:px-8">
+            <div className="text-center space-y-5 md:space-y-7 animate-page-fade">
+              <p className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.3em] text-white/60">
+                clean-track attribution
+              </p>
+              <h1 className="hero-gradient text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter text-balance leading-[1.1] md:leading-[1.05]">
+                know exactly where revenue comes from.
+              </h1>
+              <p className="text-base sm:text-lg md:text-xl max-w-[720px] mx-auto text-balance leading-relaxed px-2 text-white/60">
+                see the full customer journey, enforce perfect UTMs, and connect every click to revenue with Clean Track Intelligence™.
+              </p>
+              <div className="space-y-4">
+                <HeroInlineCTA />
+                <Link
+                  to="/how-it-works"
+                  className="inline-flex items-center gap-2 text-sm transition-colors font-medium hover:opacity-80 text-white/80"
+                  onClick={() => trackCTAClick('hero-secondary-cta')}
+                >
+                  see how it works
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
       )}
 
       {/* OmniDemo - The Hidden Revenue Story + Live Demo */}
