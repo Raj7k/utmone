@@ -20,13 +20,11 @@ import { UpdateNotification } from "./components/pwa/UpdateNotification";
 import { queryClient as centralQueryClient } from "@/lib/queryConfig";
 import { ModalProvider } from "./contexts/ModalContext";
 import { privateRoutes, AppLayout } from "./routes/PrivateRoutes";
+import Index from "./public/routes/Index";
 
 // PHASE 14: Deferred providers - only load when needed
 const AdminSimulationProvider = lazy(() => import("./contexts/AdminSimulationContext").then(m => ({ default: m.AdminSimulationProvider })));
 const GlobalEarlyAccessModal = lazy(() => import("./components/early-access/GlobalEarlyAccessModal").then(m => ({ default: m.GlobalEarlyAccessModal })));
-
-// PHASE 17: Lazy load Index page for code splitting
-const Index = lazy(() => import("./public/routes/Index"));
 
 // Auth pages - lazy loaded with preload hints for likely navigation
 const Auth = lazy(() => import("./pages/Auth"));
@@ -500,8 +498,9 @@ const AppRoutes = () => {
           <AppWithHelp>
             <Routes>
               <Route element={<PublicLayout />}>
-                {/* PHASE 17: Lazy load Index page */}
-                <Route path="/" element={<Suspense fallback={<MarketingSkeleton />}><Index /></Suspense>} />
+{/* PHASE 17: Direct load Index page */}
+<Route path="/" element={<Index />} />
+
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/mc" element={<AdminAuth />} />
                 <Route path="/auth/callback" element={<Suspense fallback={<DashboardSkeleton />}><AuthCallback /></Suspense>} />
