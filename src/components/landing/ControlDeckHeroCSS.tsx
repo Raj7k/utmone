@@ -2,7 +2,7 @@
  * ControlDeckHero - CSS-Only Version
  * Phase 3: Removed framer-motion, using CSS animations for better performance
  */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useModal } from "@/contexts/ModalContext";
@@ -107,6 +107,7 @@ const CONTROL_ITEMS = [
 ];
 
 export const ControlDeckHeroCSS = ({ onUseCaseChange }: ControlDeckHeroProps) => {
+  const [isReady, setIsReady] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [contentKey, setContentKey] = useState(0);
   const [email, setEmail] = useState("");
@@ -115,6 +116,34 @@ export const ControlDeckHeroCSS = ({ onUseCaseChange }: ControlDeckHeroProps) =>
   const [isCollapsed, setIsCollapsed] = useState(false);
   const isMobile = useIsMobile();
   const { openEarlyAccessModal } = useModal();
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      setIsReady(true);
+      return;
+    }
+
+    const requestIdle = (window as { requestIdleCallback?: (cb: () => void, options?: { timeout: number }) => number })
+      .requestIdleCallback;
+    const cancelIdle = (window as { cancelIdleCallback?: (handle: number) => void }).cancelIdleCallback;
+    let idleHandle: number | undefined;
+    let timeoutHandle: number | undefined;
+
+    if (requestIdle) {
+      idleHandle = requestIdle(() => setIsReady(true), { timeout: 1200 });
+    } else {
+      timeoutHandle = window.setTimeout(() => setIsReady(true), 300);
+    }
+
+    return () => {
+      if (idleHandle !== undefined && cancelIdle) {
+        cancelIdle(idleHandle);
+      }
+      if (timeoutHandle !== undefined) {
+        window.clearTimeout(timeoutHandle);
+      }
+    };
+  }, []);
 
   const validateEmail = (value: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -153,6 +182,10 @@ export const ControlDeckHeroCSS = ({ onUseCaseChange }: ControlDeckHeroProps) =>
   };
 
   const activeItem = CONTROL_ITEMS[activeIndex];
+
+  if (!isReady) {
+    return null;
+  }
 
   if (isMobile) {
     return <MobileHero onUseCaseChange={onUseCaseChange} />;

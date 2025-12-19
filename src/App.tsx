@@ -498,8 +498,9 @@ const AppRoutes = () => {
           <AppWithHelp>
             <Routes>
               <Route element={<PublicLayout />}>
-                {/* PHASE 17: Direct load Index page */}
-                <Route path="/" element={<Index />} />
+{/* PHASE 17: Direct load Index page */}
+<Route path="/" element={<Index />} />
+
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/mc" element={<AdminAuth />} />
                 <Route path="/auth/callback" element={<Suspense fallback={<DashboardSkeleton />}><AuthCallback /></Suspense>} />
