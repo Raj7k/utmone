@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Building2, ChevronDown, Check, Users, BarChart3, Lock, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { CSSAnimatePresence } from "@/components/landing/motion";
 
 const workspaces = [
   { 
@@ -79,85 +79,74 @@ export const WorkspaceSwitcherDemo = () => {
                 <p className="text-xs text-white/50">{selected.domain}</p>
               </div>
               <ChevronDown className={cn(
-                "w-4 h-4 text-white/40 transition-transform",
+                "w-4 h-4 text-white/40 transition-transform duration-200",
                 isOpen && "rotate-180"
               )} />
             </button>
 
             {/* Dropdown */}
-            <AnimatePresence>
-              {isOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="absolute top-full left-0 right-0 mt-2 bg-zinc-800 border border-white/10 rounded-lg overflow-hidden z-10"
-                >
-                  {workspaces.map((workspace) => (
-                    <button
-                      key={workspace.id}
-                      onClick={() => handleSelect(workspace)}
-                      className={cn(
-                        "w-full flex items-center gap-3 p-3 transition-colors",
-                        workspace.id === selected.id 
-                          ? "bg-primary/10" 
-                          : "hover:bg-white/5"
-                      )}
-                    >
-                      <div className={cn(
-                        "w-10 h-10 rounded-lg bg-gradient-to-br flex items-center justify-center",
-                        workspace.color
-                      )}>
-                        <Building2 className="w-5 h-5 text-white" />
-                      </div>
-                      <div className="flex-1 text-left">
-                        <p className="text-sm font-medium text-white">{workspace.name}</p>
-                        <p className="text-xs text-white/50">{workspace.domain}</p>
-                      </div>
-                      {workspace.id === selected.id && (
-                        <Check className="w-4 h-4 text-primary" />
-                      )}
-                    </button>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <CSSAnimatePresence show={isOpen} animation="slide-up">
+              <div className="absolute top-full left-0 right-0 mt-2 bg-zinc-800 border border-white/10 rounded-lg overflow-hidden z-10">
+                {workspaces.map((workspace) => (
+                  <button
+                    key={workspace.id}
+                    onClick={() => handleSelect(workspace)}
+                    className={cn(
+                      "w-full flex items-center gap-3 p-3 transition-colors",
+                      workspace.id === selected.id 
+                        ? "bg-primary/10" 
+                        : "hover:bg-white/5"
+                    )}
+                  >
+                    <div className={cn(
+                      "w-10 h-10 rounded-lg bg-gradient-to-br flex items-center justify-center",
+                      workspace.color
+                    )}>
+                      <Building2 className="w-5 h-5 text-white" />
+                    </div>
+                    <div className="flex-1 text-left">
+                      <p className="text-sm font-medium text-white">{workspace.name}</p>
+                      <p className="text-xs text-white/50">{workspace.domain}</p>
+                    </div>
+                    {workspace.id === selected.id && (
+                      <Check className="w-4 h-4 text-primary" />
+                    )}
+                  </button>
+                ))}
+              </div>
+            </CSSAnimatePresence>
           </div>
         </div>
 
         {/* Workspace Stats */}
         <div className="p-6">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={selected.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="grid grid-cols-3 gap-4"
-            >
-              <div className="bg-white/5 rounded-xl p-4 text-center">
-                <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center mx-auto mb-2">
-                  <BarChart3 className="w-4 h-4 text-blue-400" />
-                </div>
-                <p className="text-lg font-bold text-white">{selected.links.toLocaleString()}</p>
-                <p className="text-xs text-white/40">Active Links</p>
+          <div
+            key={selected.id}
+            className="grid grid-cols-3 gap-4 animate-fade-slide-up"
+            style={{ animationDuration: '400ms' }}
+          >
+            <div className="bg-white/5 rounded-xl p-4 text-center">
+              <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center mx-auto mb-2">
+                <BarChart3 className="w-4 h-4 text-blue-400" />
               </div>
-              <div className="bg-white/5 rounded-xl p-4 text-center">
-                <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center mx-auto mb-2">
-                  <Users className="w-4 h-4 text-purple-400" />
-                </div>
-                <p className="text-lg font-bold text-white">{selected.members}</p>
-                <p className="text-xs text-white/40">Team Members</p>
+              <p className="text-lg font-bold text-white">{selected.links.toLocaleString()}</p>
+              <p className="text-xs text-white/40">Active Links</p>
+            </div>
+            <div className="bg-white/5 rounded-xl p-4 text-center">
+              <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center mx-auto mb-2">
+                <Users className="w-4 h-4 text-purple-400" />
               </div>
-              <div className="bg-white/5 rounded-xl p-4 text-center">
-                <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center mx-auto mb-2">
-                  <Globe className="w-4 h-4 text-emerald-400" />
-                </div>
-                <p className="text-lg font-bold text-white">1</p>
-                <p className="text-xs text-white/40">Custom Domain</p>
+              <p className="text-lg font-bold text-white">{selected.members}</p>
+              <p className="text-xs text-white/40">Team Members</p>
+            </div>
+            <div className="bg-white/5 rounded-xl p-4 text-center">
+              <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center mx-auto mb-2">
+                <Globe className="w-4 h-4 text-emerald-400" />
               </div>
-            </motion.div>
-          </AnimatePresence>
+              <p className="text-lg font-bold text-white">1</p>
+              <p className="text-xs text-white/40">Custom Domain</p>
+            </div>
+          </div>
 
           {/* Isolation badge */}
           <div className="mt-4 flex items-center justify-center gap-2 py-2 px-4 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">

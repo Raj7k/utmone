@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { useIntersectionAnimation } from "@/components/landing/motion";
+import { cn } from "@/lib/utils";
 
 interface UseCase {
   title: string;
@@ -11,16 +12,18 @@ interface UseCasesGridProps {
 }
 
 export const UseCasesGrid = ({ useCases }: UseCasesGridProps) => {
+  const { ref, isVisible } = useIntersectionAnimation(0.1);
+
   return (
-    <div className="grid md:grid-cols-2 gap-6">
+    <div ref={ref} className="grid md:grid-cols-2 gap-6">
       {useCases.map((useCase, index) => (
-        <motion.div
+        <div
           key={index}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: index * 0.1 }}
-          className="obsidian-glass rounded-xl p-6 transition-all"
+          className={cn(
+            "obsidian-glass rounded-xl p-6 transition-all duration-500 ease-out",
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+          )}
+          style={{ transitionDelay: `${index * 100}ms` }}
         >
           <h3 className="text-lg font-display font-bold mb-3 text-white">
             {useCase.title}
@@ -39,7 +42,7 @@ export const UseCasesGrid = ({ useCases }: UseCasesGridProps) => {
               <p className="text-sm font-medium text-white font-sans">{useCase.solution}</p>
             </div>
           </div>
-        </motion.div>
+        </div>
       ))}
     </div>
   );

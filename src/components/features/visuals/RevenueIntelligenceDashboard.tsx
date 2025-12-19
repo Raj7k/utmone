@@ -1,8 +1,7 @@
-import { motion } from "framer-motion";
 import { Calendar, Download, TrendingUp, TrendingDown, Users, Target, Zap, Smartphone, Monitor, Tablet } from "lucide-react";
 import MiniSparkline from "@/components/intelligence/MiniSparkline";
-
-const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
+import { useIntersectionAnimation } from "@/components/landing/motion";
+import { cn } from "@/lib/utils";
 
 const metrics = [
   { label: "Total Revenue", value: "$1.24M", change: "+12.4%", trend: "up" },
@@ -27,13 +26,15 @@ const journeyData = [
 const sparklineData = [42, 55, 48, 62, 58, 71, 68, 82, 76, 89, 95, 102, 98, 112];
 
 export const RevenueIntelligenceDashboard = () => {
+  const { ref, isVisible } = useIntersectionAnimation(0.1);
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, ease: appleEase }}
-      className="w-full rounded-2xl bg-zinc-900/60 backdrop-blur-xl border border-white/10 overflow-hidden"
+    <div
+      ref={ref}
+      className={cn(
+        "w-full rounded-2xl bg-zinc-900/60 backdrop-blur-xl border border-white/10 overflow-hidden transition-all duration-600 ease-out",
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+      )}
     >
       {/* Dashboard Header */}
       <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
@@ -57,13 +58,13 @@ export const RevenueIntelligenceDashboard = () => {
       {/* Metrics Row */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5">
         {metrics.map((metric, i) => (
-          <motion.div
+          <div
             key={metric.label}
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.1, duration: 0.5, ease: appleEase }}
-            className="bg-zinc-900/80 p-4"
+            className={cn(
+              "bg-zinc-900/80 p-4 transition-all duration-500 ease-out",
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
+            )}
+            style={{ transitionDelay: `${i * 100}ms` }}
           >
             <p className="text-xs text-muted-foreground mb-1">{metric.label}</p>
             <div className="flex items-end gap-2">
@@ -73,19 +74,19 @@ export const RevenueIntelligenceDashboard = () => {
                 {metric.change}
               </span>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
 
       {/* Main Content Grid */}
       <div className="grid md:grid-cols-3 gap-px bg-white/5">
         {/* Attribution Breakdown */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3, duration: 0.5, ease: appleEase }}
-          className="bg-zinc-900/80 p-5"
+        <div
+          className={cn(
+            "bg-zinc-900/80 p-5 transition-all duration-500 ease-out",
+            isVisible ? "opacity-100" : "opacity-0"
+          )}
+          style={{ transitionDelay: '300ms' }}
         >
           <div className="flex items-center gap-2 mb-4">
             <Target className="w-4 h-4 text-primary" />
@@ -99,27 +100,30 @@ export const RevenueIntelligenceDashboard = () => {
                   <span className="text-foreground font-mono">{channel.value}%</span>
                 </div>
                 <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${channel.value}%` }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.4 + i * 0.1, duration: 0.8, ease: appleEase }}
-                    className="h-full rounded-full"
-                    style={{ backgroundColor: channel.color }}
+                  <div
+                    className={cn(
+                      "h-full rounded-full transition-all duration-800 ease-out",
+                      isVisible ? "" : "w-0"
+                    )}
+                    style={{ 
+                      backgroundColor: channel.color,
+                      width: isVisible ? `${channel.value}%` : '0%',
+                      transitionDelay: `${400 + i * 100}ms`
+                    }}
                   />
                 </div>
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         {/* Cross-Device Journey */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4, duration: 0.5, ease: appleEase }}
-          className="bg-zinc-900/80 p-5"
+        <div
+          className={cn(
+            "bg-zinc-900/80 p-5 transition-all duration-500 ease-out",
+            isVisible ? "opacity-100" : "opacity-0"
+          )}
+          style={{ transitionDelay: '400ms' }}
         >
           <div className="flex items-center gap-2 mb-4">
             <Users className="w-4 h-4 text-primary" />
@@ -128,42 +132,32 @@ export const RevenueIntelligenceDashboard = () => {
           <div className="flex items-center justify-center gap-4 py-4">
             {journeyData.map((item, i) => (
               <div key={item.device} className="flex flex-col items-center gap-2">
-                <motion.div
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.5 + i * 0.15, duration: 0.4, ease: appleEase }}
-                  className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center"
+                <div
+                  className={cn(
+                    "w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center transition-all duration-400 ease-out",
+                    isVisible ? "scale-100 opacity-100" : "scale-0 opacity-0"
+                  )}
+                  style={{ transitionDelay: `${500 + i * 150}ms` }}
                 >
                   <item.icon className="w-5 h-5 text-primary" />
-                </motion.div>
+                </div>
                 <span className="text-xs text-muted-foreground">{item.device}</span>
                 <span className="text-sm font-mono text-foreground">{item.percent}%</span>
-                {i < journeyData.length - 1 && (
-                  <motion.div
-                    initial={{ scaleX: 0 }}
-                    whileInView={{ scaleX: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.7, duration: 0.5, ease: appleEase }}
-                    className="absolute w-8 h-px bg-gradient-to-r from-primary/50 to-transparent"
-                    style={{ left: "100%", top: "50%" }}
-                  />
-                )}
               </div>
             ))}
           </div>
           <p className="text-xs text-center text-muted-foreground mt-2">
             unified identity across 3 devices
           </p>
-        </motion.div>
+        </div>
 
         {/* Revenue Trend */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5, duration: 0.5, ease: appleEase }}
-          className="bg-zinc-900/80 p-5"
+        <div
+          className={cn(
+            "bg-zinc-900/80 p-5 transition-all duration-500 ease-out",
+            isVisible ? "opacity-100" : "opacity-0"
+          )}
+          style={{ transitionDelay: '500ms' }}
         >
           <div className="flex items-center gap-2 mb-4">
             <Zap className="w-4 h-4 text-primary" />
@@ -176,7 +170,7 @@ export const RevenueIntelligenceDashboard = () => {
             <span>14 days ago</span>
             <span>Today</span>
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* Footer Stats */}
@@ -188,6 +182,6 @@ export const RevenueIntelligenceDashboard = () => {
         </div>
         <span className="text-xs text-primary/80">powered by Clean Track Intelligence™</span>
       </div>
-    </motion.div>
+    </div>
   );
 };

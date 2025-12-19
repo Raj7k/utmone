@@ -528,6 +528,41 @@ export default {
 				'0%': { transform: 'scale(0)', opacity: '0' },
 				'50%': { transform: 'scale(1.1)' },
 				'100%': { transform: 'scale(1) rotate(0deg)', opacity: '1' }
+			},
+			// Phase 6: Floating icons animations
+			'float-icon-1': {
+				'0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+				'50%': { transform: 'translateY(-15px) rotate(8deg)' }
+			},
+			'float-icon-2': {
+				'0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+				'50%': { transform: 'translateY(-12px) rotate(-6deg)' }
+			},
+			'float-icon-3': {
+				'0%, 100%': { transform: 'translateY(0) translateX(0)' },
+				'50%': { transform: 'translateY(-10px) translateX(8px)' }
+			},
+			'float-icon-4': {
+				'0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+				'50%': { transform: 'translateY(-18px) rotate(10deg)' }
+			},
+			'float-icon-5': {
+				'0%, 100%': { transform: 'translateY(0) scale(1)' },
+				'50%': { transform: 'translateY(-14px) scale(1.05)' }
+			},
+			'float-icon-6': {
+				'0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+				'50%': { transform: 'translateY(-16px) rotate(-8deg)' }
+			},
+			// SVG radar sweep
+			'radar-sweep': {
+				'0%': { transform: 'rotate(0deg)' },
+				'100%': { transform: 'rotate(360deg)' }
+			},
+			// SVG pulse for anomaly dots
+			'anomaly-pulse': {
+				'0%, 100%': { transform: 'scale(1)', opacity: '0.8' },
+				'50%': { transform: 'scale(1.3)', opacity: '0.4' }
 			}
 		},
   		animation: {
@@ -590,7 +625,16 @@ export default {
 			// Phase 4: Landing page animations
 			'shimmer-slide': 'shimmer-slide 3s linear infinite',
 			'pulse-glow': 'pulse-glow 4s ease-in-out infinite',
-			'bounce-in': 'bounce-in 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards'
+			'bounce-in': 'bounce-in 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards',
+			// Phase 6: Floating icons
+			'float-icon-1': 'float-icon-1 8s ease-in-out infinite',
+			'float-icon-2': 'float-icon-2 9s ease-in-out infinite',
+			'float-icon-3': 'float-icon-3 7s ease-in-out infinite',
+			'float-icon-4': 'float-icon-4 10s ease-in-out infinite',
+			'float-icon-5': 'float-icon-5 8.5s ease-in-out infinite',
+			'float-icon-6': 'float-icon-6 7.5s ease-in-out infinite',
+			'radar-sweep': 'radar-sweep 4s linear infinite',
+			'anomaly-pulse': 'anomaly-pulse 1s ease-in-out infinite'
 		},
 		transitionDuration: {
    			apple: '200ms',

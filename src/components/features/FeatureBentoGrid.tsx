@@ -1,8 +1,7 @@
-import { motion } from "framer-motion";
 import { LucideIcon, Check, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-
-const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
+import { useIntersectionAnimation } from "@/components/landing/motion";
+import { cn } from "@/lib/utils";
 
 export interface CapabilityItem {
   id?: string;
@@ -26,16 +25,17 @@ export const FeatureBentoGrid = ({
   capabilities,
   items,
 }: FeatureBentoGridProps) => {
+  const { ref, isVisible } = useIntersectionAnimation(0.1);
   const data = items || capabilities || [];
+  
   return (
-    <section className="py-16 md:py-24">
+    <section ref={ref} className="py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: appleEase }}
-          className="text-center mb-16"
+        <div
+          className={cn(
+            "text-center mb-16 transition-all duration-600 ease-out",
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          )}
         >
           <h2 className="text-3xl md:text-4xl font-sans font-bold hero-gradient mb-4">
             {headline}
@@ -45,7 +45,7 @@ export const FeatureBentoGrid = ({
               {subheadline}
             </p>
           )}
-        </motion.div>
+        </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {data.map((cap, index) => {
@@ -54,12 +54,13 @@ export const FeatureBentoGrid = ({
             const wrapperProps = cap.href ? { to: cap.href } : {};
 
             return (
-              <motion.div
+              <div
                 key={cap.id || index}
-                initial={{ opacity: 0, y: 30, scale: 0.98 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1, ease: appleEase }}
+                className={cn(
+                  "transition-all duration-600 ease-out",
+                  isVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-[0.98]"
+                )}
+                style={{ transitionDelay: `${index * 100}ms` }}
               >
                 <Wrapper {...(wrapperProps as any)} className="block group h-full">
                   <div className="relative p-8 h-full transition-all duration-500 group-hover:scale-[1.02] bg-card/50 backdrop-blur-xl rounded-2xl border border-border group-hover:border-primary/30">
@@ -97,7 +98,7 @@ export const FeatureBentoGrid = ({
                     </div>
                   </div>
                 </Wrapper>
-              </motion.div>
+              </div>
             );
           })}
         </div>
