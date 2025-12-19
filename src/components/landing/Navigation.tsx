@@ -41,6 +41,13 @@ export const Navigation = () => {
   const [announcementVisible, setAnnouncementVisible] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [mountedDropdowns, setMountedDropdowns] = useState({
+    product: false,
+    features: false,
+    solutions: false,
+    resources: false,
+    tools: false,
+  });
   const location = useLocation();
 
   useEffect(() => {
@@ -96,6 +103,14 @@ export const Navigation = () => {
     }
   };
 
+  const handleDropdownIntent =
+    (key: keyof typeof mountedDropdowns) => () => {
+      setMountedDropdowns((prev) =>
+        prev[key] ? prev : { ...prev, [key]: true }
+      );
+      createDropdownPreloadHandler(key)();
+    };
+
   return (
     <header 
       className={`sticky z-50 py-4 px-4 md:px-8 transition-all duration-300 top-0 ${
@@ -128,70 +143,80 @@ export const Navigation = () => {
               <NavigationMenuItem>
                 <NavigationMenuTrigger 
                   className="h-9 px-3 text-small-text font-medium bg-transparent transition-apple text-white-70 hover:text-white-90 data-[state=open]:text-white-90"
-                  onMouseEnter={createDropdownPreloadHandler('product')}
-                  onFocus={createDropdownPreloadHandler('product')}
+                  onMouseEnter={handleDropdownIntent('product')}
+                  onFocus={handleDropdownIntent('product')}
                 >
                   {formatText("product")}
                 </NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ProductDropdown />
-                </NavigationMenuContent>
+                {mountedDropdowns.product && (
+                  <NavigationMenuContent>
+                    <ProductDropdown />
+                  </NavigationMenuContent>
+                )}
               </NavigationMenuItem>
 
               {/* Features Dropdown */}
               <NavigationMenuItem>
                 <NavigationMenuTrigger 
                   className="h-9 px-3 text-small-text font-medium bg-transparent transition-apple text-white-70 hover:text-white-90 data-[state=open]:text-white-90"
-                  onMouseEnter={createDropdownPreloadHandler('features')}
-                  onFocus={createDropdownPreloadHandler('features')}
+                  onMouseEnter={handleDropdownIntent('features')}
+                  onFocus={handleDropdownIntent('features')}
                 >
                   {formatText("features")}
                 </NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <FeaturesDropdown />
-                </NavigationMenuContent>
+                {mountedDropdowns.features && (
+                  <NavigationMenuContent>
+                    <FeaturesDropdown />
+                  </NavigationMenuContent>
+                )}
               </NavigationMenuItem>
 
               {/* Solutions Dropdown */}
               <NavigationMenuItem>
                 <NavigationMenuTrigger 
                   className="h-9 px-3 text-small-text font-medium bg-transparent transition-apple text-white-70 hover:text-white-90 data-[state=open]:text-white-90"
-                  onMouseEnter={createDropdownPreloadHandler('solutions')}
-                  onFocus={createDropdownPreloadHandler('solutions')}
+                  onMouseEnter={handleDropdownIntent('solutions')}
+                  onFocus={handleDropdownIntent('solutions')}
                 >
                   {formatText("solutions")}
                 </NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <SolutionsDropdown />
-                </NavigationMenuContent>
+                {mountedDropdowns.solutions && (
+                  <NavigationMenuContent>
+                    <SolutionsDropdown />
+                  </NavigationMenuContent>
+                )}
               </NavigationMenuItem>
 
               {/* Resources Dropdown */}
               <NavigationMenuItem>
                 <NavigationMenuTrigger 
                   className="h-9 px-3 text-small-text font-medium bg-transparent transition-apple text-white-70 hover:text-white-90 data-[state=open]:text-white-90"
-                  onMouseEnter={createDropdownPreloadHandler('resources')}
-                  onFocus={createDropdownPreloadHandler('resources')}
+                  onMouseEnter={handleDropdownIntent('resources')}
+                  onFocus={handleDropdownIntent('resources')}
                 >
                   {formatText("resources")}
                 </NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ResourcesDropdown />
-                </NavigationMenuContent>
+                {mountedDropdowns.resources && (
+                  <NavigationMenuContent>
+                    <ResourcesDropdown />
+                  </NavigationMenuContent>
+                )}
               </NavigationMenuItem>
 
               {/* Tools Dropdown */}
               <NavigationMenuItem>
                 <NavigationMenuTrigger 
                   className="h-9 px-3 text-small-text font-medium bg-transparent transition-apple text-white-70 hover:text-white-90 data-[state=open]:text-white-90"
-                  onMouseEnter={createDropdownPreloadHandler('tools')}
-                  onFocus={createDropdownPreloadHandler('tools')}
+                  onMouseEnter={handleDropdownIntent('tools')}
+                  onFocus={handleDropdownIntent('tools')}
                 >
                   {formatText("tools")}
                 </NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ToolsDropdown />
-                </NavigationMenuContent>
+                {mountedDropdowns.tools && (
+                  <NavigationMenuContent>
+                    <ToolsDropdown />
+                  </NavigationMenuContent>
+                )}
               </NavigationMenuItem>
 
               {/* Pricing Link */}
