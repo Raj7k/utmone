@@ -501,7 +501,7 @@ const AppRoutes = () => {
             <Routes>
               <Route element={<PublicLayout />}>
                 {/* PHASE 17: Lazy load Index page */}
-                <Route path="/" element={<Suspense fallback={<MarketingSkeleton />}><Index /></Suspense>} />
+                <Route path="/" element={<Suspense fallback={null}><Index /></Suspense>} />
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/mc" element={<AdminAuth />} />
                 <Route path="/auth/callback" element={<Suspense fallback={<DashboardSkeleton />}><AuthCallback /></Suspense>} />
