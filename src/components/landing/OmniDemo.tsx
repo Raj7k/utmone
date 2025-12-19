@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { AnimatedCard } from "@/components/ui/AnimatedCard";
-import { supabase } from "@/integrations/supabase/client";
 import { Loader2, Zap, Tag, Target, TrendingUp, ArrowRight, Link2, QrCode } from "lucide-react";
 import { Link } from "react-router-dom";
 import QRCode from "qrcode";
@@ -215,6 +214,7 @@ export const OmniDemo = () => {
         urlToShorten = 'https://' + urlToShorten;
       }
 
+      const { supabase } = await import("@/integrations/supabase/client");
       const { data, error } = await supabase.functions.invoke('create-public-link', {
         body: { url: urlToShorten }
       });

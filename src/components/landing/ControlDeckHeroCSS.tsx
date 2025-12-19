@@ -25,7 +25,6 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileHero } from "./MobileHero";
 import { FiberOpticGraph } from "./FiberOpticGraph";
 import { FoundingSpotsCounter } from "./AnimatedCounter";
-import { supabase } from "@/integrations/supabase/client";
 import { LinkPagesVisual } from "./visuals/LinkPagesVisual";
 import { EventHaloVisual } from "./visuals/EventHaloVisual";
 import { LinksQRSankeyVisual } from "./visuals/LinksQRSankeyVisual";
@@ -162,6 +161,7 @@ export const ControlDeckHeroCSS = ({ onUseCaseChange }: ControlDeckHeroProps) =>
     
     setIsSubmitting(true);
     try {
+      const { supabase } = await import("@/integrations/supabase/client");
       await supabase.functions.invoke("capture-email-lead", {
         body: { email, source: "hero_inline" },
       });
