@@ -1,6 +1,6 @@
-import { motion } from "framer-motion";
 import { OrganicShapes } from "@/components/landing/OrganicShapes";
 import { ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 interface FeatureHeroWithToolProps {
   headlineLine1: string;
@@ -27,11 +27,9 @@ export const FeatureHeroWithTool = ({
       
       <div className="container relative z-10 px-6">
         {/* Feature badges row */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-          className="flex flex-wrap justify-center gap-2 mb-4"
+        <div
+          className="flex flex-wrap justify-center gap-2 mb-4 animate-fade-slide-up"
+          style={{ animationDelay: '0ms', animationDuration: '500ms', animationFillMode: 'both' }}
         >
           <span className="px-3 py-1 text-xs bg-white/5 rounded-full border border-white/10 text-white/60">
             ✓ free tier
@@ -42,38 +40,32 @@ export const FeatureHeroWithTool = ({
           <span className="px-3 py-1 text-xs bg-white/5 rounded-full border border-white/10 text-white/60">
             ✓ instant
           </span>
-        </motion.div>
+        </div>
 
         <div className="text-center mb-8">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-            className="font-display text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-4 hero-gradient leading-tight"
+          <h1
+            className="font-display text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-4 hero-gradient leading-tight animate-fade-slide-up"
+            style={{ animationDelay: '100ms', animationDuration: '800ms', animationFillMode: 'both' }}
           >
             {headlineLine1}<br />{headlineLine2}
-          </motion.h1>
+          </h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-            className="text-body text-white/60 max-w-2xl mx-auto mb-0"
+          <p
+            className="text-body text-white/60 max-w-2xl mx-auto mb-0 animate-fade-slide-up"
+            style={{ animationDelay: '200ms', animationDuration: '800ms', animationFillMode: 'both' }}
           >
             {subheadline}
-          </motion.p>
+          </p>
         </div>
 
         {/* Tool with enhanced styling */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-          className="relative"
+        <div
+          className="relative animate-fade-slide-up"
+          style={{ animationDelay: '300ms', animationDuration: '800ms', animationFillMode: 'both' }}
         >
           <div className="absolute inset-0 rounded-2xl blur-xl pointer-events-none bg-gradient-to-r from-blazeOrange/5 via-primary/5 to-blazeOrange/5" />
           {toolComponent}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

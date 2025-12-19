@@ -1,5 +1,6 @@
 import { Check, X } from "lucide-react";
-import { motion } from "framer-motion";
+import { useIntersectionAnimation } from "@/components/landing/motion";
+import { cn } from "@/lib/utils";
 
 interface ComparisonItem {
   feature: string;
@@ -13,8 +14,10 @@ interface FeatureComparisonProps {
 }
 
 export const FeatureComparison = ({ title, items }: FeatureComparisonProps) => {
+  const { ref, isVisible } = useIntersectionAnimation(0.1);
+
   return (
-    <div className="w-full">
+    <div ref={ref} className="w-full">
       <h3 className="font-display text-title-2 font-semibold mb-8 text-center text-white">
         {title}
       </h3>
@@ -35,13 +38,13 @@ export const FeatureComparison = ({ title, items }: FeatureComparisonProps) => {
           </thead>
           <tbody>
             {items.map((item, index) => (
-              <motion.tr
+              <tr
                 key={index}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="border-b border-white/5 hover:bg-white/[0.02] transition-colors"
+                className={cn(
+                  "border-b border-white/5 hover:bg-white/[0.02] transition-all duration-400 ease-out",
+                  isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-5"
+                )}
+                style={{ transitionDelay: `${index * 100}ms` }}
               >
                 <td className="py-4 px-6 text-body-apple text-white">{item.feature}</td>
                 <td className="py-4 px-6 text-center">
@@ -58,7 +61,7 @@ export const FeatureComparison = ({ title, items }: FeatureComparisonProps) => {
                     <X className="w-5 h-5 text-white/10 mx-auto" />
                   )}
                 </td>
-              </motion.tr>
+              </tr>
             ))}
           </tbody>
         </table>

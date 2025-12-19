@@ -1,14 +1,17 @@
-import { motion } from "framer-motion";
 import { TrendingUp } from "lucide-react";
+import { useIntersectionAnimation } from "@/components/landing/motion";
+import { cn } from "@/lib/utils";
 
 export const ForecastingPreview = () => {
+  const { ref, isVisible } = useIntersectionAnimation(0.1);
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
-      className="rounded-2xl p-8 shadow-xl bg-zinc-900/40 border-2 border-white-10"
+    <div
+      ref={ref}
+      className={cn(
+        "rounded-2xl p-8 shadow-xl bg-zinc-900/40 border-2 border-white-10 transition-all duration-600 ease-out",
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+      )}
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
@@ -53,10 +56,8 @@ export const ForecastingPreview = () => {
         </svg>
 
         {/* Data Point */}
-        <motion.div
-          animate={{ scale: [1, 1.1, 1] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="absolute top-1/3 right-1/4 w-3 h-3 rounded-full shadow-lg bg-white-90"
+        <div
+          className="absolute top-1/3 right-1/4 w-3 h-3 rounded-full shadow-lg bg-white-90 animate-pulse-dot"
         />
       </div>
 
@@ -75,6 +76,6 @@ export const ForecastingPreview = () => {
           <div className="text-xs text-white/50">peak time</div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
