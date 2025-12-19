@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { preserveAcronyms as p } from "@/utils/textFormatter";
 import { useModal } from "@/contexts/ModalContext";
-import { supabase } from "@/integrations/supabase/client";
 import { 
   TrendingUp, 
   Route, 
@@ -129,6 +128,7 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
     
     setIsSubmitting(true);
     try {
+      const { supabase } = await import("@/integrations/supabase/client");
       await supabase.functions.invoke("capture-email-lead", {
         body: { email, source: "mobile_hero_inline" },
       });
