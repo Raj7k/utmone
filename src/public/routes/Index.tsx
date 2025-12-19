@@ -174,14 +174,14 @@ const Index = () => {
       </LazyOnScroll>
 
       {/* Event Halo Showcase - New Feature Highlight */}
-          <LazyOnScroll height="300px" rootMargin="400px">
-            <Suspense fallback={null}>
-              <EventHaloShowcase />
-            </Suspense>
-          </LazyOnScroll>
-          
-          {/* Stacking New Features - AI Stamp, Link Pages, Brick Builder */}
-          <LazyOnScroll height="200px" rootMargin="400px">
+      <LazyOnScroll height="300px" rootMargin="400px">
+        <Suspense fallback={null}>
+          <EventHaloShowcase />
+        </Suspense>
+      </LazyOnScroll>
+      
+      {/* Stacking New Features - AI Stamp, Link Pages, Brick Builder */}
+      <LazyOnScroll height="200px" rootMargin="400px">
         <Suspense fallback={null}>
           <StackingNewFeatures />
         </Suspense>
