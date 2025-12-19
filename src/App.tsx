@@ -498,7 +498,7 @@ const AppRoutes = () => {
           <AppWithHelp>
             <Routes>
               <Route element={<PublicLayout />}>
-                {/* PHASE 17: Lazy load Index page */}
+                {/* PHASE 17: Direct load Index page */}
                 <Route path="/" element={<Index />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/mc" element={<AdminAuth />} />
