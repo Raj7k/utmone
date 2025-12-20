@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { AlertTriangle, X, DollarSign } from "lucide-react";
 
 export const WrongAttributionMockup = () => {
@@ -10,13 +9,7 @@ export const WrongAttributionMockup = () => {
   ];
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-      className="relative"
-    >
+    <div className="relative animate-scale-in">
       {/* Fake GA4-style dashboard */}
       <div className="rounded-2xl border border-border bg-card overflow-hidden shadow-2xl">
         {/* Header bar */}
@@ -55,24 +48,18 @@ export const WrongAttributionMockup = () => {
             <span className="text-xs text-muted-foreground uppercase tracking-wider">prior touchpoints (ignored)</span>
             
             {touchpoints.slice(0, 3).map((tp, i) => (
-              <motion.div
+              <div
                 key={i}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 + i * 0.1 }}
-                className="flex items-center justify-between p-3 rounded-lg bg-muted/30 border border-border/50 relative overflow-hidden"
+                className="flex items-center justify-between p-3 rounded-lg bg-muted/30 border border-border/50 relative overflow-hidden animate-fade-in"
+                style={{ animationDelay: `${0.2 + i * 0.1}s` }}
               >
                 {/* Strikethrough line */}
-                <motion.div
-                  initial={{ scaleX: 0 }}
-                  whileInView={{ scaleX: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.5 + i * 0.1, duration: 0.3 }}
-                  className="absolute inset-0 flex items-center"
+                <div
+                  className="absolute inset-0 flex items-center animate-scale-in origin-left"
+                  style={{ animationDelay: `${0.5 + i * 0.1}s` }}
                 >
                   <div className="w-full h-px bg-destructive/40" />
-                </motion.div>
+                </div>
                 
                 <div className="flex items-center gap-3 opacity-50">
                   <X className="w-4 h-4 text-destructive" />
@@ -83,7 +70,7 @@ export const WrongAttributionMockup = () => {
                   <DollarSign className="w-3 h-3 text-muted-foreground/40" />
                   <span className="text-sm text-muted-foreground">{tp.revenue}</span>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
 
@@ -99,6 +86,6 @@ export const WrongAttributionMockup = () => {
       {/* Decorative elements */}
       <div className="absolute -top-4 -right-4 w-24 h-24 bg-destructive/5 rounded-full blur-2xl" />
       <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-destructive/5 rounded-full blur-3xl" />
-    </motion.div>
+    </div>
   );
 };

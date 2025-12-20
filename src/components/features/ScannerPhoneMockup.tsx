@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { Check, Sparkles, User, Building2, Mail, Phone, Linkedin } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -20,6 +19,25 @@ export const ScannerPhoneMockup = () => {
 
   return (
     <div className="relative">
+      <style>{`
+        @keyframes scanLine {
+          0%, 100% { top: 0%; }
+          50% { top: 100%; }
+        }
+        @keyframes bracketPulse {
+          0%, 100% { opacity: 0.4; }
+          50% { opacity: 1; }
+        }
+        @keyframes slideUp {
+          from { transform: translateY(100px); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes popIn {
+          from { transform: scale(0); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+      `}</style>
+      
       {/* Phone Frame */}
       <div className="relative w-[280px] h-[560px] bg-zinc-900 rounded-[40px] border-4 border-zinc-700 shadow-2xl overflow-hidden">
         {/* Notch */}
@@ -34,50 +52,56 @@ export const ScannerPhoneMockup = () => {
               {/* Corner Brackets */}
               <div className="relative w-48 h-48">
                 {/* Top Left */}
-                <motion.div 
+                <div 
                   className="absolute top-0 left-0 w-8 h-8 border-l-2 border-t-2 border-white/60"
-                  animate={{ opacity: scanState === "scanning" ? [0.4, 1, 0.4] : 1 }}
-                  transition={{ duration: 1.5, repeat: scanState === "scanning" ? Infinity : 0 }}
+                  style={{
+                    animation: scanState === "scanning" ? 'bracketPulse 1.5s infinite' : 'none',
+                    opacity: scanState === "scanning" ? undefined : 1
+                  }}
                 />
                 {/* Top Right */}
-                <motion.div 
+                <div 
                   className="absolute top-0 right-0 w-8 h-8 border-r-2 border-t-2 border-white/60"
-                  animate={{ opacity: scanState === "scanning" ? [0.4, 1, 0.4] : 1 }}
-                  transition={{ duration: 1.5, repeat: scanState === "scanning" ? Infinity : 0, delay: 0.2 }}
+                  style={{
+                    animation: scanState === "scanning" ? 'bracketPulse 1.5s infinite 0.2s' : 'none',
+                    opacity: scanState === "scanning" ? undefined : 1
+                  }}
                 />
                 {/* Bottom Left */}
-                <motion.div 
+                <div 
                   className="absolute bottom-0 left-0 w-8 h-8 border-l-2 border-b-2 border-white/60"
-                  animate={{ opacity: scanState === "scanning" ? [0.4, 1, 0.4] : 1 }}
-                  transition={{ duration: 1.5, repeat: scanState === "scanning" ? Infinity : 0, delay: 0.4 }}
+                  style={{
+                    animation: scanState === "scanning" ? 'bracketPulse 1.5s infinite 0.4s' : 'none',
+                    opacity: scanState === "scanning" ? undefined : 1
+                  }}
                 />
                 {/* Bottom Right */}
-                <motion.div 
+                <div 
                   className="absolute bottom-0 right-0 w-8 h-8 border-r-2 border-b-2 border-white/60"
-                  animate={{ opacity: scanState === "scanning" ? [0.4, 1, 0.4] : 1 }}
-                  transition={{ duration: 1.5, repeat: scanState === "scanning" ? Infinity : 0, delay: 0.6 }}
+                  style={{
+                    animation: scanState === "scanning" ? 'bracketPulse 1.5s infinite 0.6s' : 'none',
+                    opacity: scanState === "scanning" ? undefined : 1
+                  }}
                 />
 
                 {/* Scan Line */}
                 {scanState === "scanning" && (
-                  <motion.div
+                  <div
                     className="absolute left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-emerald-400 to-transparent"
-                    animate={{ top: ["0%", "100%", "0%"] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                    style={{ animation: 'scanLine 2s linear infinite' }}
                   />
                 )}
 
                 {/* Success Checkmark */}
                 {scanState !== "scanning" && (
-                  <motion.div
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
+                  <div
                     className="absolute inset-0 flex items-center justify-center"
+                    style={{ animation: 'popIn 0.3s ease-out' }}
                   >
                     <div className="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center">
                       <Check className="w-8 h-8 text-emerald-400" />
                     </div>
-                  </motion.div>
+                  </div>
                 )}
 
                 {/* QR Code Placeholder */}
@@ -98,11 +122,9 @@ export const ScannerPhoneMockup = () => {
 
             {/* Status Text */}
             <div className="absolute top-12 left-0 right-0 text-center">
-              <motion.p 
-                className="text-white/80 text-sm font-medium"
+              <p 
+                className="text-white/80 text-sm font-medium transition-all duration-300"
                 key={scanState}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
               >
                 {scanState === "scanning" && "scanning badge..."}
                 {scanState === "scanned" && "badge decoded ✓"}
@@ -113,16 +135,14 @@ export const ScannerPhoneMockup = () => {
                   </span>
                 )}
                 {scanState === "complete" && "lead captured ✓"}
-              </motion.p>
+              </p>
             </div>
 
             {/* Lead Card */}
             {(scanState === "scanned" || scanState === "enriching" || scanState === "complete") && (
-              <motion.div
-                initial={{ y: 100, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.3 }}
+              <div
                 className="absolute bottom-4 left-4 right-4 bg-zinc-900/95 backdrop-blur-xl rounded-2xl p-4 border border-white/10"
+                style={{ animation: 'slideUp 0.4s ease-out 0.3s both' }}
               >
                 {/* Profile Header */}
                 <div className="flex items-center gap-3 mb-3">
@@ -143,10 +163,9 @@ export const ScannerPhoneMockup = () => {
 
                 {/* Enriched Fields */}
                 <div className="space-y-1.5">
-                  <motion.div 
-                    className="flex items-center gap-2"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: scanState === "complete" ? 1 : 0.3 }}
+                  <div 
+                    className="flex items-center gap-2 transition-opacity duration-300"
+                    style={{ opacity: scanState === "complete" ? 1 : 0.3 }}
                   >
                     <Mail className="w-3.5 h-3.5 text-emerald-400" />
                     <span className="text-white/70 text-xs">
@@ -155,13 +174,11 @@ export const ScannerPhoneMockup = () => {
                     {scanState === "complete" && (
                       <span className="text-[10px] text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">+AI</span>
                     )}
-                  </motion.div>
+                  </div>
 
-                  <motion.div 
-                    className="flex items-center gap-2"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: scanState === "complete" ? 1 : 0.3 }}
-                    transition={{ delay: 0.1 }}
+                  <div 
+                    className="flex items-center gap-2 transition-opacity duration-300"
+                    style={{ opacity: scanState === "complete" ? 1 : 0.3, transitionDelay: '0.1s' }}
                   >
                     <Phone className="w-3.5 h-3.5 text-emerald-400" />
                     <span className="text-white/70 text-xs">
@@ -170,13 +187,11 @@ export const ScannerPhoneMockup = () => {
                     {scanState === "complete" && (
                       <span className="text-[10px] text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">+AI</span>
                     )}
-                  </motion.div>
+                  </div>
 
-                  <motion.div 
-                    className="flex items-center gap-2"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: scanState === "complete" ? 1 : 0.3 }}
-                    transition={{ delay: 0.2 }}
+                  <div 
+                    className="flex items-center gap-2 transition-opacity duration-300"
+                    style={{ opacity: scanState === "complete" ? 1 : 0.3, transitionDelay: '0.2s' }}
                   >
                     <Linkedin className="w-3.5 h-3.5 text-emerald-400" />
                     <span className="text-white/70 text-xs">
@@ -185,9 +200,9 @@ export const ScannerPhoneMockup = () => {
                     {scanState === "complete" && (
                       <span className="text-[10px] text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">+AI</span>
                     )}
-                  </motion.div>
+                  </div>
                 </div>
-              </motion.div>
+              </div>
             )}
           </div>
         </div>

@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { LinkedInIcon, GoogleIcon, HubSpotIcon, ZoomIcon } from "@/components/icons/SocialIcons";
 import { DollarSign } from "lucide-react";
 
@@ -25,12 +24,8 @@ export const JourneyFlowPreview = () => {
   const getNodePos = (id: string) => nodes.find(n => n.id === id);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
-      className="rounded-2xl p-8 shadow-xl bg-zinc-900/40 border-2 border-white/10"
+    <div
+      className="rounded-2xl p-8 shadow-xl bg-zinc-900/40 border-2 border-white/10 animate-fade-in"
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
@@ -49,6 +44,21 @@ export const JourneyFlowPreview = () => {
       {/* Sankey-style Flow Diagram */}
       <div className="relative h-48 rounded-xl overflow-hidden bg-white/5 p-4">
         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 150">
+          <style>{`
+            @keyframes drawPath {
+              from { stroke-dashoffset: 200; }
+              to { stroke-dashoffset: 0; }
+            }
+            @keyframes scaleIn {
+              from { transform: scale(0); opacity: 0; }
+              to { transform: scale(1); opacity: 1; }
+            }
+            @keyframes fadeIn {
+              from { opacity: 0; }
+              to { opacity: 1; }
+            }
+          `}</style>
+          
           {/* Flow paths with brand colors */}
           {flows.map((flow, i) => {
             const from = getNodePos(flow.from);
@@ -58,22 +68,23 @@ export const JourneyFlowPreview = () => {
             const midX = (from.x + to.x) / 2;
             
             return (
-              <motion.path
+              <path
                 key={i}
                 d={`M ${from.x + 50} ${from.y} C ${midX} ${from.y}, ${midX} ${to.y}, ${to.x} ${to.y}`}
                 fill="none"
                 stroke={flow.color}
                 strokeOpacity={0.3}
                 strokeWidth={flow.width}
-                initial={{ pathLength: 0 }}
-                whileInView={{ pathLength: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: flow.delay }}
+                strokeDasharray="200"
+                style={{
+                  animation: `drawPath 0.8s ease-out ${flow.delay}s forwards`,
+                  strokeDashoffset: 200
+                }}
               />
             );
           })}
 
-          {/* Animated particles along paths */}
+          {/* Animated particles along paths using native SVG animateMotion */}
           {flows.map((flow, i) => {
             const from = getNodePos(flow.from);
             const to = getNodePos(flow.to);
@@ -90,18 +101,10 @@ export const JourneyFlowPreview = () => {
                     d={`M ${from.x + 50} ${from.y} C ${midX} ${from.y}, ${midX} ${to.y}, ${to.x} ${to.y}`}
                   />
                 </defs>
-                <motion.circle
+                <circle
                   r="3"
                   fill={flow.color}
                   filter="drop-shadow(0 0 4px white)"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: [0, 1, 1, 0] }}
-                  transition={{
-                    duration: 2,
-                    delay: flow.delay + 1,
-                    repeat: Infinity,
-                    repeatDelay: 1,
-                  }}
                 >
                   <animateMotion
                     dur="2s"
@@ -110,7 +113,14 @@ export const JourneyFlowPreview = () => {
                   >
                     <mpath href={`#${pathId}`} />
                   </animateMotion>
-                </motion.circle>
+                  <animate
+                    attributeName="opacity"
+                    values="0;1;1;0"
+                    dur="2s"
+                    repeatCount="indefinite"
+                    begin={`${flow.delay + 1}s`}
+                  />
+                </circle>
               </g>
             );
           })}
@@ -120,34 +130,31 @@ export const JourneyFlowPreview = () => {
             <g key={node.id}>
               {node.id === "revenue" ? (
                 <>
-                  <motion.circle
+                  <circle
                     cx={node.x}
                     cy={node.y}
                     r="28"
                     fill="none"
                     stroke="white"
                     strokeWidth="2"
-                    initial={{ scale: 0 }}
-                    whileInView={{ scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 1.4, type: "spring" }}
+                    style={{
+                      animation: `scaleIn 0.5s ease-out 1.4s both`,
+                      transformOrigin: `${node.x}px ${node.y}px`
+                    }}
                   />
-                  <motion.text
+                  <text
                     x={node.x}
                     y={node.y + 5}
                     textAnchor="middle"
                     className="fill-white font-bold text-sm"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 1.6 }}
+                    style={{ animation: `fadeIn 0.3s ease-out 1.6s both` }}
                   >
                     {node.label}
-                  </motion.text>
+                  </text>
                 </>
               ) : (
                 <>
-                  <motion.rect
+                  <rect
                     x={node.x - 5}
                     y={node.y - 12}
                     width="60"
@@ -156,10 +163,7 @@ export const JourneyFlowPreview = () => {
                     fill={`${node.color}20`}
                     stroke={node.color}
                     strokeOpacity={0.4}
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 }}
+                    style={{ animation: `fadeIn 0.3s ease-out ${i * 0.1}s both` }}
                   />
                   {/* Brand icon using foreignObject */}
                   {node.icon && (
@@ -169,18 +173,15 @@ export const JourneyFlowPreview = () => {
                       </div>
                     </foreignObject>
                   )}
-                  <motion.text
+                  <text
                     x={node.icon ? node.x + 32 : node.x + 22}
                     y={node.y + 4}
                     textAnchor="middle"
                     className="fill-white/80 text-[9px] font-medium"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 + 0.2 }}
+                    style={{ animation: `fadeIn 0.3s ease-out ${i * 0.1 + 0.2}s both` }}
                   >
                     {node.label}
-                  </motion.text>
+                  </text>
                 </>
               )}
             </g>
@@ -203,6 +204,6 @@ export const JourneyFlowPreview = () => {
           <div className="text-xs text-white/50">attributed revenue</div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };

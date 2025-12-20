@@ -1,15 +1,8 @@
-import { motion } from "framer-motion";
 import { Globe, Smartphone, Monitor } from "lucide-react";
 
 export const RoutingMapPreview = () => {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
-      className="rounded-2xl p-8 shadow-xl bg-zinc-900/40 border-2 border-white/10"
-    >
+    <div className="rounded-2xl p-8 shadow-xl bg-zinc-900/40 border-2 border-white/10 animate-fade-in">
       <div className="text-center mb-8">
         <h3 className="text-2xl font-display font-bold text-foreground mb-2">
           one link, infinite destinations
@@ -25,35 +18,26 @@ export const RoutingMapPreview = () => {
         </div>
 
         {/* Routing Arrows */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="absolute top-1/4 left-1/4 px-3 py-2 rounded-lg text-xs font-semibold shadow-lg bg-white text-zinc-900"
+        <div
+          className="absolute top-1/4 left-1/4 px-3 py-2 rounded-lg text-xs font-semibold shadow-lg bg-white text-zinc-900 animate-scale-in"
+          style={{ animationDelay: '0.2s' }}
         >
           🇺🇸 US → /en-us
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="absolute top-1/2 right-1/4 px-3 py-2 rounded-lg text-xs font-semibold shadow-lg bg-white text-zinc-900"
+        <div
+          className="absolute top-1/2 right-1/4 px-3 py-2 rounded-lg text-xs font-semibold shadow-lg bg-white text-zinc-900 animate-scale-in"
+          style={{ animationDelay: '0.4s' }}
         >
           🇬🇧 UK → /en-gb
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="absolute bottom-1/4 left-1/3 px-3 py-2 rounded-lg text-xs font-semibold shadow-lg bg-white text-zinc-900"
+        <div
+          className="absolute bottom-1/4 left-1/3 px-3 py-2 rounded-lg text-xs font-semibold shadow-lg bg-white text-zinc-900 animate-scale-in"
+          style={{ animationDelay: '0.6s' }}
         >
           🇩🇪 DE → /de
-        </motion.div>
+        </div>
       </div>
 
       {/* Device Routing Examples */}
@@ -74,6 +58,6 @@ export const RoutingMapPreview = () => {
           <p className="text-xs text-white/50">→ Full website</p>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
