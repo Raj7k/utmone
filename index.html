@@ -226,18 +226,47 @@
         }
       };
       
-      // Timeout fallback - show error if React doesn't render in 15s
+      // Build version for cache busting (will be replaced at build time)
+      window.__BUILD_VERSION__ = Date.now().toString(36);
+      
+      // Check for version mismatch - auto-clear caches on new deployment
+      (function() {
+        var storedVersion = localStorage.getItem('utm_build_version');
+        var currentVersion = window.__BUILD_VERSION__;
+        if (storedVersion && storedVersion !== currentVersion) {
+          console.log('[Cache] Version mismatch, clearing caches');
+          caches.keys().then(function(names) {
+            names.forEach(function(name) { caches.delete(name); });
+          });
+        }
+        localStorage.setItem('utm_build_version', currentVersion);
+      })();
+      
+      // Timeout fallback - show error if React doesn't render in 8s (reduced from 15s)
       window.__loadingTimeout = setTimeout(function() {
         var skeleton = document.getElementById('instant-skeleton');
         if (skeleton && !skeleton.classList.contains('hidden')) {
+          // First attempt: auto-clear caches and reload silently
+          var autoRetried = sessionStorage.getItem('utm_auto_retry');
+          if (!autoRetried) {
+            sessionStorage.setItem('utm_auto_retry', '1');
+            caches.keys().then(function(names) {
+              names.forEach(function(name) { caches.delete(name); });
+            }).then(function() {
+              location.reload();
+            });
+            return;
+          }
+          // Second attempt failed - show manual recovery UI
+          sessionStorage.removeItem('utm_auto_retry');
           skeleton.innerHTML = '<div style="text-align:center;padding:40px;color:#fff;max-width:400px;margin:auto">' +
             '<h2 style="font-size:20px;margin-bottom:12px;font-weight:600">loading is taking longer than expected</h2>' +
             '<p style="opacity:0.6;font-size:14px;margin-bottom:20px">please refresh the page or check your connection.</p>' +
-            '<button onclick="caches.keys().then(function(n){n.forEach(function(k){caches.delete(k)})});location.reload()" style="padding:12px 24px;background:#fff;color:#000;border:none;border-radius:8px;cursor:pointer;font-weight:500;margin-right:8px">clear cache & refresh</button>' +
+            '<button onclick="caches.keys().then(function(n){n.forEach(function(k){caches.delete(k)})});localStorage.clear();location.reload()" style="padding:12px 24px;background:#fff;color:#000;border:none;border-radius:8px;cursor:pointer;font-weight:500;margin-right:8px">clear cache & refresh</button>' +
             '<button onclick="location.reload()" style="padding:12px 24px;background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.2);border-radius:8px;cursor:pointer;font-weight:500">refresh page</button>' +
           '</div>';
         }
-      }, 15000);
+      }, 8000);
     </script>
     
     <script type="module" src="/src/main.tsx"></script>
