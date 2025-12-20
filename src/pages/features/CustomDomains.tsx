@@ -6,7 +6,6 @@ import { FeatureBeforeAfter } from "@/components/features/FeatureBeforeAfter";
 import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
 import { DomainSetupDemoWidget } from "@/components/features/visuals/DomainSetupDemoWidget";
 import { Globe, Lock, Zap, TrendingUp, Server, Shield, Mail, CheckCircle2 } from "lucide-react";
-import { motion } from "framer-motion";
 
 const CustomDomains = () => {
   const stats = [
@@ -88,28 +87,18 @@ const CustomDomains = () => {
       {/* Interactive Demo Widget */}
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
+          <div className="text-center mb-12 animate-fade-in">
             <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-4">
               try it yourself
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               See how quick and easy it is to set up your custom domain
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-          >
+          <div className="animate-fade-in [animation-delay:100ms]">
             <DomainSetupDemoWidget />
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -119,11 +108,7 @@ const CustomDomains = () => {
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-            >
+            <div className="animate-fade-in">
               <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-6">
                 why branded domains matter
               </h2>
@@ -132,27 +117,19 @@ const CustomDomains = () => {
               </p>
               <ul className="space-y-4">
                 {benefits.map((benefit, index) => (
-                  <motion.li
+                  <li
                     key={index}
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className="flex items-start gap-3"
+                    className="flex items-start gap-3 animate-fade-in"
+                    style={{ animationDelay: `${index * 100}ms` }}
                   >
                     <CheckCircle2 className="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" />
                     <span className="text-foreground">{benefit}</span>
-                  </motion.li>
+                  </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="relative"
-            >
+            <div className="relative animate-fade-in [animation-delay:200ms]">
               {/* Comparison visual */}
               <div className="space-y-4">
                 {/* Generic link */}
@@ -191,7 +168,7 @@ const CustomDomains = () => {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>

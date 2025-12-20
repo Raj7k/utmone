@@ -24,7 +24,6 @@ import {
   RealTimePulseVisual,
 } from "@/components/features/visuals/EnhancedFeatureVisuals";
 import { RevenueIntelligenceDashboard } from "@/components/features/visuals/RevenueIntelligenceDashboard";
-import { motion } from "framer-motion";
 import { 
   BarChart3, 
   TrendingUp, 
@@ -43,8 +42,6 @@ import {
   Waves,
   PieChart
 } from "lucide-react";
-
-const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const controlDeckTabs = [
   {
@@ -196,11 +193,7 @@ const Analytics = () => {
       <section className="relative pt-32 pb-16 overflow-hidden">
         <RetroGradientMesh />
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: appleEase }}
-          >
+          <div className="animate-fade-in">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm mb-6">
               <Zap className="w-4 h-4" />
               revenue intelligence platform
@@ -219,7 +212,7 @@ const Analytics = () => {
                 book a demo
               </CTAButton>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 

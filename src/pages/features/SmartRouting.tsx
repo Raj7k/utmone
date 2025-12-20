@@ -7,7 +7,6 @@ import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
 import { FeatureShowcase } from "@/components/features/FeatureShowcase";
 import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
 import { CTAButton } from "@/components/ui/CTAButton";
-import { motion } from "framer-motion";
 import { 
   Globe, 
   Smartphone, 
@@ -20,8 +19,6 @@ import {
   Users,
   Shield
 } from "lucide-react";
-
-const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const SmartRouting = () => {
   const carouselItems = [
@@ -111,11 +108,7 @@ const SmartRouting = () => {
       <section className="relative pt-32 pb-16 overflow-hidden">
         <RetroGradientMesh />
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: appleEase }}
-          >
+          <div className="animate-fade-in">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm mb-6">
               <Route className="w-4 h-4" />
               intelligent routing
@@ -134,20 +127,14 @@ const SmartRouting = () => {
                 book a demo
               </CTAButton>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Problem Statement */}
       <section className="py-16 md:py-24">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: appleEase }}
-            className="p-8 md:p-12 rounded-2xl bg-destructive/5 border border-destructive/20"
-          >
+          <div className="p-8 md:p-12 rounded-2xl bg-destructive/5 border border-destructive/20 animate-fade-in">
             <MapPin className="w-12 h-12 text-destructive mx-auto mb-6" />
             <h2 className="text-2xl md:text-3xl font-display font-bold mb-4">
               your campaign goes viral... in the wrong country
@@ -155,7 +142,7 @@ const SmartRouting = () => {
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               your LinkedIn ad targets US enterprises. it goes viral in India. 10,000 clicks. zero conversions. why? they all landed on your USD pricing page. you just wasted $15K.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 

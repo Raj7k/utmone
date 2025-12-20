@@ -6,10 +6,7 @@ import { FeatureBeforeAfter } from "@/components/features/FeatureBeforeAfter";
 import { FeatureBentoGrid } from "@/components/features/FeatureBentoGrid";
 import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
 import { FeatureShowcase } from "@/components/features/FeatureShowcase";
-import { motion } from "framer-motion";
 import { Users, Link2, QrCode, MousePointerClick, DollarSign, Activity, TrendingUp, BarChart3, Award } from "lucide-react";
-
-const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const PartnerProgram = () => {
   const carouselItems = [
@@ -149,13 +146,10 @@ const PartnerProgram = () => {
           
           {/* Partner rows */}
           {partnerData.map((partner, i) => (
-            <motion.div
+            <div
               key={i}
-              initial={{ opacity: 0, x: -10 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.4, ease: appleEase }}
-              className="grid grid-cols-5 gap-4 p-4 border-b border-border last:border-b-0 hover:bg-muted/10 transition-colors"
+              className="grid grid-cols-5 gap-4 p-4 border-b border-border last:border-b-0 hover:bg-muted/10 transition-colors animate-fade-in"
+              style={{ animationDelay: `${i * 100}ms` }}
             >
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-medium text-primary">
@@ -172,7 +166,7 @@ const PartnerProgram = () => {
                   {partner.trend}
                 </span>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </FeatureShowcase>
@@ -195,20 +189,17 @@ const PartnerProgram = () => {
             { step: "3", title: "Track", desc: "Every click attributed", icon: Activity },
             { step: "4", title: "Pay", desc: "Auto-calculated commissions", icon: DollarSign },
           ].map((item, i) => (
-            <motion.div
+            <div
               key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.5, ease: appleEase }}
-              className="text-center"
+              className="text-center animate-fade-in"
+              style={{ animationDelay: `${i * 100}ms` }}
             >
               <div className="w-12 h-12 mx-auto rounded-full bg-primary/10 flex items-center justify-center mb-3">
                 <item.icon className="w-5 h-5 text-primary" />
               </div>
               <h3 className="text-sm font-semibold mb-1">{item.title}</h3>
               <p className="text-xs text-muted-foreground">{item.desc}</p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </FeatureShowcase>

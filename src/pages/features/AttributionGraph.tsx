@@ -19,7 +19,6 @@ import {
   HoldoutTestVisual,
   DiminishingReturnsVisual,
 } from "@/components/features/visuals/EnhancedFeatureVisuals";
-import { motion } from "framer-motion";
 import { 
   GitBranch, 
   Target, 
@@ -38,8 +37,6 @@ import {
   TestTube,
   TrendingDown
 } from "lucide-react";
-
-const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 // Control Deck tabs with new causal/scientific features
 const controlDeckTabs = [

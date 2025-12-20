@@ -16,7 +16,6 @@ import {
   PerformancePredictionVisual,
   AdPlatformSyncVisual,
 } from "@/components/features/visuals/EnhancedFeatureVisuals";
-import { motion } from "framer-motion";
 import { 
   Type, 
   FileText, 
@@ -36,8 +35,6 @@ import {
   TrendingUp,
   Download
 } from "lucide-react";
-
-const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 // Control Deck tabs with new AI-powered features
 const controlDeckTabs = [

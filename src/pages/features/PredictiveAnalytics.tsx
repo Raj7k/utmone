@@ -6,10 +6,7 @@ import { FeatureBeforeAfter } from "@/components/features/FeatureBeforeAfter";
 import { FeatureBentoGrid } from "@/components/features/FeatureBentoGrid";
 import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
 import { FeatureShowcase } from "@/components/features/FeatureShowcase";
-import { motion } from "framer-motion";
 import { LineChart, TrendingUp, Clock, Target, Zap, BarChart3, Calendar, Brain } from "lucide-react";
-
-const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function PredictiveAnalytics() {
   const carouselItems = [
@@ -155,14 +152,10 @@ export default function PredictiveAnalytics() {
               
               {/* Bars */}
               {forecastData.map((item, i) => (
-                <motion.div
+                <div
                   key={i}
-                  initial={{ opacity: 0, scaleY: 0 }}
-                  whileInView={{ opacity: 1, scaleY: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, duration: 0.5, ease: appleEase }}
-                  style={{ transformOrigin: 'bottom' }}
-                  className="flex-1 flex flex-col items-center relative z-10"
+                  className="flex-1 flex flex-col items-center relative z-10 animate-scale-in"
+                  style={{ animationDelay: `${i * 100}ms` }}
                 >
                   {item.actual ? (
                     <div
@@ -186,7 +179,7 @@ export default function PredictiveAnalytics() {
                       />
                     </div>
                   )}
-                </motion.div>
+                </div>
               ))}
             </div>
             
@@ -215,17 +208,11 @@ export default function PredictiveAnalytics() {
           </div>
           
           {/* Prediction summary */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5, duration: 0.5, ease: appleEase }}
-            className="mt-6 p-4 bg-primary/5 rounded-lg border border-primary/20 text-center"
-          >
+          <div className="mt-6 p-4 bg-primary/5 rounded-lg border border-primary/20 text-center animate-fade-in [animation-delay:500ms]">
             <p className="text-sm text-muted-foreground">Predicted total for next 4 days:</p>
             <p className="text-2xl font-bold text-primary mt-1">5,420 ± 480 clicks</p>
             <p className="text-xs text-muted-foreground mt-1">85% confidence interval</p>
-          </motion.div>
+          </div>
         </div>
       </FeatureShowcase>
 
@@ -254,26 +241,20 @@ export default function PredictiveAnalytics() {
                 { time: "9-10 AM", activity: 65, label: "Good" },
                 { time: "4-5 PM", activity: 45, label: "Moderate" },
               ].map((slot, i) => (
-                <motion.div
+                <div
                   key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, duration: 0.4, ease: appleEase }}
-                  className="flex items-center gap-3"
+                  className="flex items-center gap-3 animate-fade-in"
+                  style={{ animationDelay: `${i * 100}ms` }}
                 >
                   <span className="text-sm text-muted-foreground w-20">{slot.time}</span>
                   <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${slot.activity}%` }}
-                      viewport={{ once: true }}
-                      transition={{ delay: i * 0.1 + 0.2, duration: 0.6, ease: appleEase }}
-                      className="h-full bg-primary rounded-full"
+                    <div
+                      className="h-full bg-primary rounded-full transition-all duration-700"
+                      style={{ width: `${slot.activity}%` }}
                     />
                   </div>
                   <span className="text-xs text-primary font-medium w-16">{slot.label}</span>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
@@ -291,13 +272,10 @@ export default function PredictiveAnalytics() {
                 { day: "Wednesday", type: "Blog Posts", activity: 70 },
                 { day: "Monday", type: "Newsletters", activity: 60 },
               ].map((pattern, i) => (
-                <motion.div
+                <div
                   key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, duration: 0.4, ease: appleEase }}
-                  className="flex items-center justify-between"
+                  className="flex items-center justify-between animate-fade-in"
+                  style={{ animationDelay: `${i * 100}ms` }}
                 >
                   <div>
                     <span className="text-sm font-medium">{pattern.day}</span>
@@ -305,16 +283,13 @@ export default function PredictiveAnalytics() {
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${pattern.activity}%` }}
-                        viewport={{ once: true }}
-                        transition={{ delay: i * 0.1 + 0.2, duration: 0.6, ease: appleEase }}
-                        className="h-full bg-primary rounded-full"
+                      <div
+                        className="h-full bg-primary rounded-full transition-all duration-700"
+                        style={{ width: `${pattern.activity}%` }}
                       />
                     </div>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>

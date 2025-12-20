@@ -6,7 +6,6 @@ import { FeatureBeforeAfter } from "@/components/features/FeatureBeforeAfter";
 import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
 import { WorkspaceSwitcherDemo } from "@/components/features/visuals/WorkspaceSwitcherDemo";
 import { Users, Building2, Shield, BarChart3, Lock, GitBranch, ArrowRight, CheckCircle2 } from "lucide-react";
-import { motion } from "framer-motion";
 
 const Workspaces = () => {
   const stats = [
@@ -87,28 +86,18 @@ const Workspaces = () => {
       {/* Interactive Demo Widget */}
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
+          <div className="text-center mb-12 animate-fade-in">
             <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-4">
               switch clients instantly
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               One click to switch between completely isolated client workspaces
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-          >
+          <div className="animate-fade-in [animation-delay:100ms]">
             <WorkspaceSwitcherDemo />
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -117,29 +106,21 @@ const Workspaces = () => {
       {/* How It Works - Visual Workflow */}
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
+          <div className="text-center mb-12 animate-fade-in">
             <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-4">
               from setup to handoff
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               The complete workflow for managing client workspaces
             </p>
-          </motion.div>
+          </div>
 
           <div className="grid md:grid-cols-4 gap-6">
             {workflowSteps.map((item, index) => (
-              <motion.div
+              <div
                 key={item.step}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="relative"
+                className="relative animate-fade-in"
+                style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="bg-card border border-border rounded-xl p-6 text-center h-full">
                   <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center mx-auto mb-4 font-bold text-lg">
@@ -151,7 +132,7 @@ const Workspaces = () => {
                 {index < workflowSteps.length - 1 && (
                   <ArrowRight className="hidden md:block absolute top-1/2 -right-5 w-4 h-4 text-muted-foreground -translate-y-1/2" />
                 )}
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -167,11 +148,7 @@ const Workspaces = () => {
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-            >
+            <div className="animate-fade-in">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm mb-6">
                 <Shield className="w-4 h-4" />
                 Enterprise-Grade Security
@@ -190,27 +167,19 @@ const Workspaces = () => {
                   "Audit trail for all cross-workspace actions",
                   "Compliant with enterprise security requirements",
                 ].map((item, index) => (
-                  <motion.li
+                  <li
                     key={index}
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className="flex items-start gap-3"
+                    className="flex items-start gap-3 animate-fade-in"
+                    style={{ animationDelay: `${index * 100}ms` }}
                   >
                     <CheckCircle2 className="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" />
                     <span className="text-foreground">{item}</span>
-                  </motion.li>
+                  </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="relative"
-            >
+            <div className="relative animate-fade-in [animation-delay:200ms]">
               {/* Security visualization */}
               <div className="relative p-8 rounded-2xl bg-zinc-900/60 border border-white/10 backdrop-blur-xl">
                 <div className="absolute inset-0 rounded-2xl pointer-events-none opacity-[0.03]">
@@ -243,7 +212,7 @@ const Workspaces = () => {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
