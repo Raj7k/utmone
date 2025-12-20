@@ -9,7 +9,6 @@ import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
 import { CTAButton } from "@/components/ui/CTAButton";
 import { FAQSchema } from "@/components/seo/SchemaMarkup";
 import { SoftwareApplicationSchema } from "@/components/seo/SoftwareApplicationSchema";
-import { motion } from "framer-motion";
 import { 
   Shield, 
   Bot, 
@@ -21,8 +20,6 @@ import {
   AlertTriangle,
   CheckCircle2
 } from "lucide-react";
-
-const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const Sentinel = () => {
   const faqs = [
@@ -139,11 +136,7 @@ const Sentinel = () => {
       <section className="relative pt-32 pb-16 overflow-hidden">
         <RetroGradientMesh />
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: appleEase }}
-          >
+          <div className="animate-fade-in">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm mb-6">
               <Shield className="w-4 h-4" />
               AI-powered protection
@@ -162,7 +155,7 @@ const Sentinel = () => {
                 book a demo
               </CTAButton>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -190,38 +183,21 @@ const Sentinel = () => {
       >
         <div className="aspect-video rounded-2xl bg-card/50 border border-border p-8">
           <div className="grid grid-cols-3 gap-4 mb-6">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="p-4 rounded-lg bg-muted/30 text-center"
-            >
+            <div className="p-4 rounded-lg bg-muted/30 text-center animate-fade-in">
               <Bot className="w-6 h-6 text-amber-400 mx-auto mb-2" />
               <p className="text-2xl font-display font-bold">2,847</p>
               <p className="text-xs text-muted-foreground">bots blocked</p>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="p-4 rounded-lg bg-muted/30 text-center"
-            >
+            </div>
+            <div className="p-4 rounded-lg bg-muted/30 text-center animate-fade-in [animation-delay:100ms]">
               <HeartPulse className="w-6 h-6 text-emerald-400 mx-auto mb-2" />
               <p className="text-2xl font-display font-bold">156</p>
               <p className="text-xs text-muted-foreground">failures prevented</p>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="p-4 rounded-lg bg-muted/30 text-center"
-            >
+            </div>
+            <div className="p-4 rounded-lg bg-muted/30 text-center animate-fade-in [animation-delay:200ms]">
               <RefreshCw className="w-6 h-6 text-blue-400 mx-auto mb-2" />
               <p className="text-2xl font-display font-bold">89</p>
               <p className="text-xs text-muted-foreground">auto-heals triggered</p>
-            </motion.div>
+            </div>
           </div>
           <div className="space-y-3">
             <div className="flex items-center justify-between p-3 rounded-lg bg-muted/20">

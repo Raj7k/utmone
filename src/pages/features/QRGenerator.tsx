@@ -7,9 +7,8 @@ import { FeatureBentoGrid } from "@/components/features/FeatureBentoGrid";
 import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
 import { FeatureShowcase } from "@/components/features/FeatureShowcase";
 import { QRGeneratorBasic } from "@/components/qr-generator/QRGeneratorBasic";
-import { motion } from "framer-motion";
 import { 
-  QrCode, 
+  QrCode,
   Palette, 
   Repeat, 
   Download, 

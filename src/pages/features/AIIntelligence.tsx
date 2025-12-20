@@ -9,7 +9,6 @@ import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
 import { CTAButton } from "@/components/ui/CTAButton";
 import { FAQSchema } from "@/components/seo/SchemaMarkup";
 import { AIControlDeck } from "@/components/ai/AIControlDeck";
-import { motion } from "framer-motion";
 import { 
   Brain, 
   TrendingUp, 
@@ -20,8 +19,6 @@ import {
   Zap,
   Target
 } from "lucide-react";
-
-const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const AIIntelligence = () => {
   const faqs = [
@@ -132,11 +129,7 @@ const AIIntelligence = () => {
       <section className="relative pt-32 pb-16 overflow-hidden">
         <RetroGradientMesh />
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: appleEase }}
-          >
+          <div className="animate-fade-in">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm mb-6">
               <Brain className="w-4 h-4" />
               AI Intelligence
@@ -155,21 +148,16 @@ const AIIntelligence = () => {
                 see product
               </CTAButton>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* AI Control Deck */}
       <section className="py-16 md:py-24">
         <div className="max-w-6xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: appleEase }}
-          >
+          <div className="animate-fade-in">
             <AIControlDeck />
-          </motion.div>
+          </div>
         </div>
       </section>
 

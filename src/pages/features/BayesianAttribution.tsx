@@ -8,7 +8,6 @@ import { FeatureShowcase } from "@/components/features/FeatureShowcase";
 import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
 import { CTAButton } from "@/components/ui/CTAButton";
 import { WebPageSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
-import { motion } from "framer-motion";
 import { 
   GitBranch, 
   TrendingUp, 
@@ -19,8 +18,6 @@ import {
   Zap,
   Eye
 } from "lucide-react";
-
-const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const BayesianAttribution = () => {
   const carouselItems = [
@@ -123,11 +120,7 @@ const BayesianAttribution = () => {
       <section className="relative pt-32 pb-16 overflow-hidden">
         <RetroGradientMesh />
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: appleEase }}
-          >
+          <div className="animate-fade-in">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm mb-6">
               <Brain className="w-4 h-4" />
               Clean Track Intelligence™
@@ -150,20 +143,14 @@ const BayesianAttribution = () => {
               <CheckCircle2 className="w-4 h-4 text-primary" />
               <span>Powered by Causal Inference • 95% Confidence Intervals</span>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Problem Statement */}
       <section className="py-16 md:py-24">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: appleEase }}
-            className="p-8 md:p-12 rounded-2xl bg-destructive/5 border border-destructive/20"
-          >
+          <div className="p-8 md:p-12 rounded-2xl bg-destructive/5 border border-destructive/20 animate-fade-in">
             <Zap className="w-12 h-12 text-destructive mx-auto mb-6" />
             <h2 className="text-2xl md:text-3xl font-display font-bold mb-4">
               GA4 says 'direct' drove 40%
@@ -171,7 +158,7 @@ const BayesianAttribution = () => {
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               but 'Direct' isn't a channel—it's a measurement gap. users saw your LinkedIn ad, googled your brand 3 days later, and GA4 credited 'Direct'. Clean Track Intelligence™ reveals: LinkedIn gets 42% credit because that's its true causal influence.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 

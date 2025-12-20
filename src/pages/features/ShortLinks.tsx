@@ -26,7 +26,6 @@ import {
   DynamicQRRedirectVisual,
   QRBrandStudioVisual,
 } from "@/components/features/visuals/EnhancedFeatureVisuals";
-import { motion } from "framer-motion";
 import { 
   Link2, 
   Shield, 
@@ -53,8 +52,6 @@ import {
   RefreshCw,
   Palette
 } from "lucide-react";
-
-const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const controlDeckTabs = [
   // Original 5 features

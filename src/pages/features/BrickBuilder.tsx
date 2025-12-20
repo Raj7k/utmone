@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
@@ -201,12 +200,10 @@ export default function BrickBuilder() {
 
           <div className="grid md:grid-cols-3 gap-6">
             {USE_CASES.map((useCase, i) => (
-              <motion.div
+              <div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
+                className="animate-fade-in"
+                style={{ animationDelay: `${i * 100}ms` }}
               >
                 <Card className="p-6 text-center h-full bg-white/5 border-white/10 backdrop-blur-sm">
                   <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center mx-auto mb-4">
@@ -215,7 +212,7 @@ export default function BrickBuilder() {
                   <h3 className="font-semibold mb-2 text-white">{useCase.title}</h3>
                   <p className="text-sm text-white/60">{useCase.description}</p>
                 </Card>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

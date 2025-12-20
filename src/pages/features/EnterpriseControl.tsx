@@ -6,10 +6,7 @@ import { FeatureBeforeAfter } from "@/components/features/FeatureBeforeAfter";
 import { FeatureBentoGrid } from "@/components/features/FeatureBentoGrid";
 import { FeatureFinalCTA } from "@/components/features/FeatureFinalCTA";
 import { FeatureShowcase } from "@/components/features/FeatureShowcase";
-import { motion } from "framer-motion";
 import { Shield, Users, GitBranch, UserCheck, Clock, FileText, Lock, Eye, AlertTriangle, CheckCircle } from "lucide-react";
-
-const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const EnterpriseControl = () => {
   const carouselItems = [
@@ -121,13 +118,7 @@ const EnterpriseControl = () => {
       >
         <div className="grid md:grid-cols-3 gap-6">
           {/* Step 1 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: appleEase }}
-            className="relative"
-          >
+          <div className="relative animate-fade-in">
             <div className="bg-muted/30 rounded-2xl p-6 border border-border h-full">
               <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                 <span className="text-primary font-bold">1</span>
@@ -143,16 +134,10 @@ const EnterpriseControl = () => {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Step 2 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1, duration: 0.5, ease: appleEase }}
-            className="relative"
-          >
+          <div className="relative animate-fade-in [animation-delay:100ms]">
             <div className="bg-muted/30 rounded-2xl p-6 border border-border h-full">
               <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                 <span className="text-primary font-bold">2</span>
@@ -168,16 +153,10 @@ const EnterpriseControl = () => {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Step 3 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2, duration: 0.5, ease: appleEase }}
-            className="relative"
-          >
+          <div className="relative animate-fade-in [animation-delay:200ms]">
             <div className="bg-muted/30 rounded-2xl p-6 border border-border h-full">
               <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                 <span className="text-primary font-bold">3</span>
@@ -193,7 +172,7 @@ const EnterpriseControl = () => {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </FeatureShowcase>
 
@@ -223,13 +202,10 @@ const EnterpriseControl = () => {
               { action: "UTM updated", user: "sarah@company.com", time: "1 hour ago", icon: "~" },
               { action: "Permission changed", user: "admin@company.com", time: "2 hours ago", icon: "⚙" },
             ].map((log, i) => (
-              <motion.div
+              <div
                 key={i}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08, duration: 0.4, ease: appleEase }}
-                className="flex items-center justify-between p-4 hover:bg-muted/20 transition-colors"
+                className="flex items-center justify-between p-4 hover:bg-muted/20 transition-colors animate-fade-in"
+                style={{ animationDelay: `${i * 80}ms` }}
               >
                 <div className="flex items-center gap-3">
                   <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-xs text-primary font-medium">
@@ -241,7 +217,7 @@ const EnterpriseControl = () => {
                   </div>
                 </div>
                 <span className="text-xs text-muted-foreground">{log.time}</span>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
