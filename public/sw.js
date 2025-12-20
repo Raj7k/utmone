@@ -1,4 +1,4 @@
-// Service Worker for utm.one PWA - Dynamic versioning
+// Service Worker for utm.one PWA - Dynamic versioning with aggressive cache invalidation
 const SW_VERSION = '__BUILD_TIMESTAMP__';
 const CACHE_NAME = 'utm-one-' + SW_VERSION;
 const STATIC_CACHE = 'utm-one-static-' + SW_VERSION;
@@ -7,20 +7,24 @@ const STATIC_CACHE = 'utm-one-static-' + SW_VERSION;
 const PRECACHE_ASSETS = [
   '/manifest.json',
   '/favicon.ico',
-  '/offline.html',
 ];
 
-// Install event - precache critical assets
+// Install event - precache critical assets and skip waiting immediately
 self.addEventListener('install', (event) => {
+  console.log('[SW] Installing v' + SW_VERSION);
   event.waitUntil(
     caches.open(STATIC_CACHE)
       .then((cache) => cache.addAll(PRECACHE_ASSETS))
-      .then(() => self.skipWaiting())
+      .then(() => {
+        console.log('[SW] Precache complete, skipping waiting');
+        return self.skipWaiting();
+      })
   );
 });
 
 // Activate event - aggressively clean up ALL old caches
 self.addEventListener('activate', (event) => {
+  console.log('[SW] Activating v' + SW_VERSION);
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
@@ -47,7 +51,7 @@ function isHashedAsset(url) {
   return /[-\.][a-f0-9]{8,}\.(?:js|css)$/i.test(url);
 }
 
-// Fetch event - stale-while-revalidate for static assets
+// Fetch event - network-first for JS/CSS, stale-while-revalidate for images
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
@@ -80,66 +84,76 @@ self.addEventListener('fetch', (event) => {
         })
         .catch(() => {
           return caches.match(request)
-            .then((cached) => cached || caches.match('/offline.html'));
+            .then((cached) => cached || new Response('Offline', { status: 503 }));
         })
     );
     return;
   }
 
-  // Handle static assets (JS, CSS, fonts, images)
-  if (request.destination === 'script' || 
-      request.destination === 'style' ||
-      request.destination === 'font' ||
-      request.destination === 'image') {
-    
+  // Handle static assets (JS, CSS) - Network-first to avoid stale module issues
+  if (request.destination === 'script' || request.destination === 'style') {
     event.respondWith(
       (async () => {
-        const cache = await caches.open(STATIC_CACHE);
-        const cachedResponse = await cache.match(request);
-        
-        // For hashed assets (immutable), return cache immediately if available
-        if (cachedResponse && isHashedAsset(url.pathname)) {
-          return cachedResponse;
-        }
-        
         try {
+          // Always try network first for scripts/styles
           const networkResponse = await fetch(request);
           
           // Handle 404 for JS/CSS chunks - indicates stale deployment
-          if (networkResponse.status === 404 && 
-              (request.destination === 'script' || request.destination === 'style')) {
+          if (networkResponse.status === 404) {
             console.warn('[SW] Stale chunk detected (404):', url.pathname);
             
-            // Clear static cache - chunks are from old deployment
-            await caches.delete(STATIC_CACHE);
+            // Clear ALL caches - deployment was updated
+            const cacheNames = await caches.keys();
+            await Promise.all(cacheNames.map(name => caches.delete(name)));
             
             // Notify clients to reload
-            self.clients.matchAll().then((clients) => {
-              clients.forEach((client) => {
-                client.postMessage({ type: 'staleChunk', url: url.pathname });
-              });
+            const clients = await self.clients.matchAll();
+            clients.forEach((client) => {
+              client.postMessage({ type: 'staleChunk', url: url.pathname });
             });
             
-            // Return error response that lazyWithRetry can handle
             return new Response('Chunk not found - deployment updated', { 
               status: 404,
               statusText: 'Stale Chunk'
             });
           }
           
-          // Cache successful responses
-          if (networkResponse.ok) {
+          // Cache successful responses for hashed assets only
+          if (networkResponse.ok && isHashedAsset(url.pathname)) {
+            const cache = await caches.open(STATIC_CACHE);
             cache.put(request, networkResponse.clone());
           }
           
           return networkResponse;
         } catch (error) {
-          // Network failed - return cached if available
-          if (cachedResponse) {
-            return cachedResponse;
+          // Network failed - try cache as fallback for hashed assets
+          if (isHashedAsset(url.pathname)) {
+            const cached = await caches.match(request);
+            if (cached) return cached;
           }
           throw error;
         }
+      })()
+    );
+    return;
+  }
+
+  // Handle fonts and images - stale-while-revalidate (these are safe to cache)
+  if (request.destination === 'font' || request.destination === 'image') {
+    event.respondWith(
+      (async () => {
+        const cache = await caches.open(STATIC_CACHE);
+        const cachedResponse = await cache.match(request);
+        
+        // Return cached immediately, update in background
+        const fetchPromise = fetch(request).then((networkResponse) => {
+          if (networkResponse.ok) {
+            cache.put(request, networkResponse.clone());
+          }
+          return networkResponse;
+        }).catch(() => cachedResponse);
+        
+        return cachedResponse || fetchPromise;
       })()
     );
     return;
@@ -155,7 +169,9 @@ self.addEventListener('message', (event) => {
   // Force cache clear on demand
   if (event.data === 'clearCache') {
     caches.keys().then((names) => {
-      names.forEach((name) => caches.delete(name));
+      Promise.all(names.map((name) => caches.delete(name))).then(() => {
+        event.source?.postMessage({ type: 'cacheCleared' });
+      });
     });
   }
   
@@ -169,6 +185,19 @@ self.addEventListener('message', (event) => {
     caches.delete(STATIC_CACHE).then(() => {
       console.log('[SW] Static cache cleared');
       event.source?.postMessage({ type: 'staticCacheCleared' });
+    });
+  }
+  
+  // Force update - clear all and reload
+  if (event.data === 'forceUpdate') {
+    caches.keys().then((names) => {
+      return Promise.all(names.map((name) => caches.delete(name)));
+    }).then(() => {
+      self.clients.matchAll().then((clients) => {
+        clients.forEach((client) => {
+          client.postMessage({ type: 'forceReload' });
+        });
+      });
     });
   }
 });
