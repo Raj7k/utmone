@@ -1,5 +1,4 @@
 import { useRef, useState, useEffect, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { DotPhilosophyModal } from "./DotPhilosophyModal";
 
 interface Particle {
@@ -8,6 +7,7 @@ interface Particle {
   y: number;
   opacity: number;
   size: number;
+  createdAt: number;
 }
 
 interface FooterRevealTextProps {
@@ -131,6 +131,45 @@ const getTimeBasedColors = () => {
   }
 };
 
+// CSS keyframe styles injected once
+const injectStyles = () => {
+  const styleId = 'footer-reveal-text-styles';
+  if (document.getElementById(styleId)) return;
+  
+  const style = document.createElement('style');
+  style.id = styleId;
+  style.textContent = `
+    @keyframes footerParticleFade {
+      0% { opacity: var(--particle-opacity); transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-40px) scale(0); }
+    }
+    @keyframes footerCornerGlowFade {
+      0% { opacity: 0; }
+      100% { opacity: var(--glow-opacity); }
+    }
+    @keyframes footerOuterGlowFade {
+      0% { opacity: 0; }
+      100% { opacity: 0.3; }
+    }
+    .footer-reveal-svg {
+      transition: transform 0.4s ease-out;
+    }
+    .footer-reveal-svg.hovering {
+      transform: scale(1.05);
+    }
+    .footer-corner-glow {
+      animation: footerCornerGlowFade 0.4s ease-out forwards;
+    }
+    .footer-outer-glow {
+      animation: footerOuterGlowFade 0.3s ease-out forwards;
+    }
+    .footer-particle {
+      animation: footerParticleFade 0.8s ease-out forwards;
+    }
+  `;
+  document.head.appendChild(style);
+};
+
 export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<SVGTextElement>(null);
@@ -145,6 +184,11 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
   const dotHoverTimer = useRef<NodeJS.Timeout | null>(null);
   const dotScaleAnimation = useRef<number | null>(null);
   const particleIdRef = useRef(0);
+
+  // Inject styles on mount
+  useEffect(() => {
+    injectStyles();
+  }, []);
 
   // Get time-based theme colors
   const timeTheme = useTimeBasedTheme();
@@ -170,6 +214,7 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
         y: (y / rect.height) * 400,
         opacity: Math.random() * 0.5 + 0.3,
         size: Math.random() * 3 + 1,
+        createdAt: Date.now(),
       };
       setParticles((prev) => [...prev.slice(-12), newParticle]);
     }
@@ -264,6 +309,9 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
   // Show subtle moon indicator during night hours
   const showMoon = timeTheme.period === "night" || timeTheme.period === "deepnight" || timeTheme.period === "dusk";
 
+  // Calculate clip width based on fill percent
+  const clipWidth = isHovering ? (fillPercent / 100) * 1800 : 0;
+
   return (
     <>
       <div
@@ -273,15 +321,11 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
         onMouseLeave={handleMouseLeave}
         className={`relative w-full cursor-crosshair select-none overflow-visible ${className}`}
       >
-        <motion.svg
+        <svg
           viewBox="0 0 1800 400"
-          className="w-full h-auto"
+          className={`w-full h-auto footer-reveal-svg ${isHovering ? 'hovering' : ''}`}
           preserveAspectRatio="xMidYMid meet"
           style={{ overflow: "visible" }}
-          animate={{
-            scale: isHovering ? 1.05 : 1,
-          }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
         >
           <defs>
             {/* Time-Based Apple Frosted Glass Gradient */}
@@ -393,16 +437,14 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
               <stop offset="100%" stopColor="hsl(45, 60%, 80%)" stopOpacity="0" />
             </radialGradient>
 
-            {/* Clip path for reveal animation */}
+            {/* Clip path for reveal animation - using inline width for smooth transitions */}
             <clipPath id="footerRevealClip">
-              <motion.rect
+              <rect
                 x="0"
                 y="0"
                 height="400"
-                animate={{
-                  width: isHovering ? (fillPercent / 100) * 1800 : 0,
-                }}
-                transition={{ duration: 0.08, ease: "easeOut" }}
+                width={clipWidth}
+                style={{ transition: 'width 0.08s ease-out' }}
               />
             </clipPath>
 
@@ -450,22 +492,20 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
             </g>
           )}
 
-          {/* Particle dust following cursor */}
-          <AnimatePresence>
-            {particles.map((particle) => (
-              <motion.circle
-                key={particle.id}
-                cx={particle.x}
-                cy={particle.y}
-                r={particle.size}
-                fill={timeTheme.highlight}
-                initial={{ opacity: particle.opacity, scale: 1 }}
-                animate={{ opacity: 0, scale: 0, cy: particle.y - 40 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-              />
-            ))}
-          </AnimatePresence>
+          {/* Particle dust following cursor - CSS animated */}
+          {particles.map((particle) => (
+            <circle
+              key={particle.id}
+              cx={particle.x}
+              cy={particle.y}
+              r={particle.size}
+              fill={timeTheme.highlight}
+              className="footer-particle"
+              style={{
+                '--particle-opacity': particle.opacity,
+              } as React.CSSProperties}
+            />
+          ))}
 
           {/* Stroke-only text (always visible) */}
           <text
@@ -511,45 +551,41 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
             {/* Corner glow overlays - clipped to text shape */}
             {isHovering && (
               <g clipPath="url(#textClip)">
-                <motion.rect
+                <rect
                   x="0"
                   y="0"
                   width="900"
                   height="200"
                   fill="url(#cornerGlowTL)"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.4 }}
+                  className="footer-corner-glow"
+                  style={{ '--glow-opacity': 1 } as React.CSSProperties}
                 />
-                <motion.rect
+                <rect
                   x="900"
                   y="0"
                   width="900"
                   height="200"
                   fill="url(#cornerGlowTR)"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.8 }}
-                  transition={{ duration: 0.4, delay: 0.1 }}
+                  className="footer-corner-glow"
+                  style={{ '--glow-opacity': 0.8, animationDelay: '0.1s' } as React.CSSProperties}
                 />
-                <motion.rect
+                <rect
                   x="0"
                   y="200"
                   width="900"
                   height="200"
                   fill="url(#cornerGlowBL)"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.6 }}
-                  transition={{ duration: 0.4, delay: 0.15 }}
+                  className="footer-corner-glow"
+                  style={{ '--glow-opacity': 0.6, animationDelay: '0.15s' } as React.CSSProperties}
                 />
-                <motion.rect
+                <rect
                   x="900"
                   y="200"
                   width="900"
                   height="200"
                   fill="url(#cornerGlowBR)"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.9 }}
-                  transition={{ duration: 0.4, delay: 0.2 }}
+                  className="footer-corner-glow"
+                  style={{ '--glow-opacity': 0.9, animationDelay: '0.2s' } as React.CSSProperties}
                 />
               </g>
             )}
@@ -650,16 +686,13 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
 
           {/* Outer glow on hover */}
           {isHovering && (
-            <motion.text
+            <text
               x="900"
               y="290"
               textAnchor="middle"
-              className="font-display font-bold"
+              className="font-display font-bold footer-outer-glow"
               clipPath="url(#footerRevealClip)"
               filter="url(#outerGlow)"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.3 }}
-              transition={{ duration: 0.3 }}
               style={{
                 fontSize: "380px",
                 fill: "transparent",
@@ -670,9 +703,9 @@ export const FooterRevealText = ({ className = "" }: FooterRevealTextProps) => {
               }}
             >
               utm.one
-            </motion.text>
+            </text>
           )}
-        </motion.svg>
+        </svg>
       </div>
 
       <DotPhilosophyModal
