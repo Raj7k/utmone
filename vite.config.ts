@@ -48,6 +48,9 @@ export default defineConfig(({ mode }) => ({
           if (id.includes('node_modules/react-router')) return 'vendor-react';
           if (id.includes('node_modules/react/')) return 'vendor-react';
           
+          // Animation library - isolated to avoid loading on pages that don't use it
+          if (id.includes('framer-motion')) return 'vendor-motion';
+          
           // Data fetching and state
           if (id.includes('@tanstack/react-query')) return 'vendor-query';
           

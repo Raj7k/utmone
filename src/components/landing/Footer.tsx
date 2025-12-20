@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { ArrowRight, Boxes, LayoutGrid, ChevronRight } from "lucide-react";
-import { FooterRevealText } from "./FooterRevealText";
 import { Button } from "@/components/ui/button";
+
+// Lazy load FooterRevealText to avoid loading framer-motion on initial page load
+const FooterRevealText = lazy(() => import("./FooterRevealText").then(m => ({ default: m.FooterRevealText })));
 
 interface FooterLink {
   label: string;
@@ -223,10 +226,12 @@ export const Footer = () => {
           </div>
         </div>
 
-      {/* Massive Brand Reveal - Full Bleed */}
+      {/* Massive Brand Reveal - Full Bleed - Lazy loaded to defer framer-motion */}
       <div className="mt-24 pt-8 pb-20 md:pb-0 -mx-6 md:-mx-8 lg:-mx-[calc((100vw-1400px)/2+2rem)]">
         <div className="w-screen relative left-1/2 -translate-x-1/2">
-          <FooterRevealText />
+          <Suspense fallback={<div className="h-32" />}>
+            <FooterRevealText />
+          </Suspense>
         </div>
       </div>
       
