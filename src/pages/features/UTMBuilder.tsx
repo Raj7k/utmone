@@ -241,11 +241,8 @@ const UTMBuilder = () => {
           <div className="space-y-4">
             <div className="text-sm font-medium text-muted-foreground mb-4">Select utm_source</div>
             
-            <motion.div 
-              className="p-4 rounded-lg border-2 border-primary bg-primary/10"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+            <div 
+              className="p-4 rounded-lg border-2 border-primary bg-primary/10 animate-fade-in"
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="font-semibold text-foreground">google</span>
@@ -253,43 +250,32 @@ const UTMBuilder = () => {
               </div>
               <div className="text-xs text-muted-foreground">3.2% avg CTR • Used 847 times</div>
               <div className="mt-2 h-1.5 rounded-full overflow-hidden bg-primary/20">
-                <motion.div 
-                  className="h-full rounded-full bg-primary"
-                  initial={{ width: 0 }}
-                  whileInView={{ width: "85%" }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.3, duration: 0.8 }}
+                <div 
+                  className="h-full rounded-full bg-primary animate-[grow_0.8s_ease-out_0.3s_forwards]"
+                  style={{ width: 0 }}
                 />
               </div>
-            </motion.div>
+            </div>
             
-            <motion.div 
-              className="p-4 rounded-lg border border-border bg-card/50 opacity-70"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 0.7, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
+            <div 
+              className="p-4 rounded-lg border border-border bg-card/50 opacity-70 animate-fade-in [animation-delay:100ms]"
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="font-medium text-foreground">linkedin</span>
                 <span className="text-xs text-muted-foreground">AVERAGE</span>
               </div>
               <div className="text-xs text-muted-foreground">2.1% avg CTR • Used 312 times</div>
-            </motion.div>
+            </div>
             
-            <motion.div 
-              className="p-4 rounded-lg border border-border bg-card/50 opacity-50"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 0.5, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
+            <div 
+              className="p-4 rounded-lg border border-border bg-card/50 opacity-50 animate-fade-in [animation-delay:200ms]"
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="font-medium text-foreground">tiktok</span>
                 <span className="text-xs text-amber-500">⚡ NEW</span>
               </div>
               <div className="text-xs text-muted-foreground">No data yet</div>
-            </motion.div>
+            </div>
           </div>
           
           <div className="space-y-6">

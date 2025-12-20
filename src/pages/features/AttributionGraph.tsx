@@ -90,19 +90,17 @@ const controlDeckTabs = [
   },
 ];
 
-// Journey Flow Visual
+// Journey Flow Visual (CSS-only)
 const JourneyFlowVisual = () => (
   <div className="w-full h-full flex items-center justify-center">
     <svg viewBox="0 0 320 180" className="w-full h-full max-w-[320px]">
-      <motion.path
+      <path
         d="M40,90 Q100,40 160,90 T280,90"
         fill="none"
         stroke="rgba(255,255,255,0.2)"
         strokeWidth="2"
         strokeDasharray="8 4"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 1.5 }}
+        className="animate-fade-in"
       />
       {[
         { x: 40, label: "First" },
@@ -110,24 +108,16 @@ const JourneyFlowVisual = () => (
         { x: 200, label: "Assist" },
         { x: 280, label: "Convert" },
       ].map((node, i) => (
-        <motion.g key={i} initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 + i * 0.15 }}>
+        <g key={i} className="animate-scale-in" style={{ animationDelay: `${300 + i * 150}ms` }}>
           <circle cx={node.x} cy="90" r={i === 3 ? 14 : 10} fill={i === 3 ? "rgba(74,222,128,0.2)" : "rgba(255,255,255,0.1)"} stroke={i === 3 ? "rgba(74,222,128,0.5)" : "rgba(255,255,255,0.3)"} strokeWidth="2" />
           <text x={node.x} y="120" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="9">{node.label}</text>
-        </motion.g>
+        </g>
       ))}
-      <motion.circle
-        r="4"
-        fill="rgba(255,255,255,0.9)"
-        initial={{ offsetDistance: "0%" }}
-        animate={{ offsetDistance: "100%" }}
-        transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
-        style={{ offsetPath: 'path("M40,90 Q100,40 160,90 T280,90")' } as any}
-      />
     </svg>
   </div>
 );
 
-// Revenue Channel Visual
+// Revenue Channel Visual (CSS-only)
 const RevenueChannelVisual = () => (
   <div className="w-full h-full flex items-center justify-center">
     <svg viewBox="0 0 320 180" className="w-full h-full max-w-[320px]">
@@ -137,31 +127,29 @@ const RevenueChannelVisual = () => (
         { label: "Content", pct: 18, color: "rgba(74,222,128,0.5)" },
         { label: "Google", pct: 22, color: "rgba(251,191,36,0.5)" },
       ].map((channel, i) => (
-        <motion.g key={i} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }}>
+        <g key={i} className="animate-fade-in" style={{ animationDelay: `${i * 100}ms` }}>
           <text x="30" y={45 + i * 35} fill="rgba(255,255,255,0.6)" fontSize="10">{channel.label}</text>
           <rect x="90" y={35 + i * 35} width="0" height="16" rx="4" fill="rgba(255,255,255,0.1)" />
-          <motion.rect
+          <rect
             x="90" y={35 + i * 35}
             width={channel.pct * 5}
             height="16" rx="4"
             fill={channel.color}
-            initial={{ width: 0 }}
-            animate={{ width: channel.pct * 5 }}
-            transition={{ delay: 0.3 + i * 0.1, duration: 0.6 }}
+            className="animate-scale-in"
+            style={{ animationDelay: `${300 + i * 100}ms` }}
           />
-          <motion.text
+          <text
             x={100 + channel.pct * 5}
             y={47 + i * 35}
             fill="rgba(255,255,255,0.8)"
             fontSize="10"
             fontWeight="bold"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 + i * 0.1 }}
+            className="animate-fade-in"
+            style={{ animationDelay: `${600 + i * 100}ms` }}
           >
             {channel.pct}%
-          </motion.text>
-        </motion.g>
+          </text>
+        </g>
       ))}
     </svg>
   </div>
@@ -307,13 +295,10 @@ export default function AttributionGraph() {
               { model: "Linear", linkedin: 25, email: 25, blog: 25, google: 25, verdict: "Equal split" },
               { model: "Clean Track™", linkedin: 32, email: 28, blog: 18, google: 22, verdict: "True contribution" },
             ].map((row, i) => (
-              <motion.div
+              <div
                 key={row.model}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.15, ease: appleEase }}
-                className={`p-5 rounded-xl border ${i === 2 ? 'border-primary/30 bg-primary/5' : 'border-border bg-card/50'}`}
+                className={`p-5 rounded-xl border animate-fade-in ${i === 2 ? 'border-primary/30 bg-primary/5' : 'border-border bg-card/50'}`}
+                style={{ animationDelay: `${i * 150}ms` }}
               >
                 <div className="flex items-center justify-between mb-4">
                   <h3 className={`font-semibold ${i === 2 ? 'text-primary' : 'text-foreground'}`}>{row.model}</h3>
@@ -340,17 +325,13 @@ export default function AttributionGraph() {
                 <div className={`mt-4 pt-3 border-t ${i === 2 ? 'border-primary/20' : 'border-border'}`}>
                   <p className={`text-xs ${i === 2 ? 'text-primary' : 'text-muted-foreground'}`}>{row.verdict}</p>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
           
           {/* Journey visualization */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5, ease: appleEase }}
-            className="flex items-center justify-between relative pt-8 border-t border-border"
+          <div
+            className="flex items-center justify-between relative pt-8 border-t border-border animate-fade-in [animation-delay:500ms]"
           >
             <svg className="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="none">
               <defs>
@@ -359,50 +340,39 @@ export default function AttributionGraph() {
                   <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.8" />
                 </linearGradient>
               </defs>
-              <motion.path
+              <path
                 d="M 80 50 Q 200 20, 280 50 Q 400 80, 480 50 Q 600 20, 680 50"
                 fill="none"
                 stroke="url(#lineGradient2)"
                 strokeWidth="2"
                 strokeDasharray="8 4"
-                initial={{ pathLength: 0 }}
-                whileInView={{ pathLength: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.5, ease: appleEase }}
               />
             </svg>
             
             {journeySteps.map((step, i) => (
-              <motion.div
+              <div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.6 + i * 0.15, duration: 0.5, ease: appleEase }}
-                className="relative z-10 text-center"
+                className="relative z-10 text-center animate-fade-in"
+                style={{ animationDelay: `${600 + i * 150}ms` }}
               >
                 <div className="w-16 h-16 rounded-full bg-primary/10 border-2 border-primary/30 flex items-center justify-center mb-3 mx-auto">
                   <span className="text-lg font-bold text-primary">{step.credit}%</span>
                 </div>
                 <h3 className="text-sm font-semibold">{step.channel}</h3>
                 <p className="text-xs text-muted-foreground capitalize">{step.position} touch</p>
-              </motion.div>
+              </div>
             ))}
             
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 1, duration: 0.5, ease: appleEase }}
-              className="relative z-10 text-center"
+            <div
+              className="relative z-10 text-center animate-scale-in [animation-delay:1000ms]"
             >
               <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center mb-3 mx-auto shadow-lg shadow-primary/30">
                 <DollarSign className="w-8 h-8 text-primary-foreground" />
               </div>
               <h3 className="text-sm font-semibold">Conversion</h3>
               <p className="text-xs text-primary font-medium">$15,000</p>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </FeatureShowcase>
 
@@ -426,28 +396,25 @@ export default function AttributionGraph() {
               { channel: "Content/SEO", revenue: "$27,000", contribution: 18, color: "bg-emerald-500" },
               { channel: "Google Ads", revenue: "$33,000", contribution: 22, color: "bg-amber-500" },
             ].map((item, i) => (
-              <motion.div
+              <div
                 key={i}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5, ease: appleEase }}
-                className="flex items-center gap-4"
+                className="flex items-center gap-4 animate-fade-in"
+                style={{ animationDelay: `${i * 100}ms` }}
               >
                 <div className={`w-3 h-3 rounded-full ${item.color}`} />
                 <span className="text-sm font-medium w-32">{item.channel}</span>
                 <div className="flex-1 h-3 bg-muted rounded-full overflow-hidden">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${item.contribution}%` }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 + 0.3, duration: 0.8, ease: appleEase }}
-                    className={`h-full rounded-full ${item.color}`}
+                  <div
+                    className={`h-full rounded-full ${item.color} animate-scale-in`}
+                    style={{ 
+                      width: `${item.contribution}%`,
+                      animationDelay: `${i * 100 + 300}ms` 
+                    }}
                   />
                 </div>
                 <span className="text-sm font-bold w-20 text-right">{item.revenue}</span>
                 <span className="text-xs text-muted-foreground w-12 text-right">{item.contribution}%</span>
-              </motion.div>
+              </div>
             ))}
           </div>
           
