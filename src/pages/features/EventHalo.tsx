@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+// CSS-only animations - no framer-motion import needed
 import { Link, useSearchParams } from "react-router-dom";
 import { Waves, QrCode, Upload, BarChart3, ArrowRight, Shield, Scan, Sparkles, WifiOff, Zap, FileText, Barcode, Nfc, Target, DollarSign, CloudOff, Fingerprint } from "lucide-react";
 import { FeatureLayout } from "@/components/features/FeatureLayout";
@@ -110,11 +110,7 @@ const EventHalo = () => {
         <section className="relative pt-32 pb-12 px-4 overflow-hidden">
           <RetroGradientMesh />
           <div className="max-w-6xl mx-auto relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-center space-y-6"
-            >
+            <div className="text-center space-y-6 animate-fade-in">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-sm text-white/80">
                 <Waves className="w-4 h-4" />
                 field marketing intelligence suite
@@ -127,7 +123,7 @@ const EventHalo = () => {
               <p className="text-xl text-obsidian-text-muted max-w-2xl mx-auto">
                 geo-temporal attribution, one-tap badge scanning, and event automation—all in one place.
               </p>
-            </motion.div>
+            </div>
           </div>
         </section>
 
@@ -154,7 +150,7 @@ const EventHalo = () => {
               <TabsContent value="geo-temporal" className="space-y-20">
                 {/* Demo Section */}
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
-                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+                  <div className="space-y-6 animate-fade-in">
                     <h2 className="text-3xl md:text-4xl font-display font-bold obsidian-platinum-text">
                       the invisible 90% of your event traffic
                     </h2>
@@ -167,7 +163,7 @@ const EventHalo = () => {
                         <Link to="/early-access">get early access<ArrowRight className="ml-2 w-4 h-4" /></Link>
                       </Button>
                     </div>
-                  </motion.div>
+                  </div>
                   <EventHaloDemo />
                 </div>
 
@@ -245,7 +241,7 @@ const EventHalo = () => {
               {/* One-Tap Scanner Tab */}
               <TabsContent value="scanner" className="space-y-20">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
-                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+                  <div className="animate-fade-in">
                     <Badge className="mb-6 bg-emerald-500/20 text-emerald-400 border-emerald-500/30">
                       <Sparkles className="w-3 h-3 mr-1" />{p("AI-powered")}
                     </Badge>
@@ -265,7 +261,7 @@ const EventHalo = () => {
                       <div><p className="text-2xl font-display font-medium text-white">99.7%</p><p className="text-xs text-white/50">decode accuracy</p></div>
                       <div><p className="text-2xl font-display font-medium text-white">$79</p><p className="text-xs text-white/50">vs $5k hardware</p></div>
                     </div>
-                  </motion.div>
+                  </div>
                   <div className="flex justify-center">
                     <ScannerPhoneMockup />
                   </div>
@@ -378,7 +374,7 @@ const EventHalo = () => {
               {/* Event Bridge Tab */}
               <TabsContent value="bridge" className="space-y-20">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
-                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+                  <div className="animate-fade-in">
                     <Badge className="mb-6 bg-blue-500/20 text-blue-400 border-blue-500/30">
                       <Zap className="w-3 h-3 mr-1" />automation
                     </Badge>
@@ -393,7 +389,7 @@ const EventHalo = () => {
                         <Link to="/early-access">get early access<ArrowRight className="w-4 h-4 ml-2" /></Link>
                       </Button>
                     </div>
-                  </motion.div>
+                  </div>
                   <div className="flex justify-center">
                     <Card className="p-8 bg-card border-border w-full max-w-md">
                       <div className="space-y-4">
