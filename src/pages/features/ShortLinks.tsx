@@ -171,52 +171,43 @@ const controlDeckTabs = [
   },
 ];
 
-// Carousel visuals
+// Carousel visuals (CSS-only animations)
 const LinkPreviewVisual = () => (
   <svg viewBox="0 0 120 60" className="w-full h-full">
-    <motion.rect x="10" y="8" width="100" height="44" rx="6" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" strokeWidth="1"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }} />
-    <motion.rect x="18" y="16" width="40" height="6" rx="3" fill="rgba(255,255,255,0.3)"
-      initial={{ width: 0 }} animate={{ width: 40 }} transition={{ delay: 0.2, duration: 0.4 }} />
-    <motion.circle cx="100" cy="20" r="6" fill="rgba(74,222,128,0.3)" stroke="rgba(74,222,128,0.6)" strokeWidth="1"
-      initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.5, type: "spring" }} />
+    <rect x="10" y="8" width="100" height="44" rx="6" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" strokeWidth="1" className="animate-fade-in" />
+    <rect x="18" y="16" width="40" height="6" rx="3" fill="rgba(255,255,255,0.3)" className="animate-scale-in [animation-delay:200ms]" />
+    <circle cx="100" cy="20" r="6" fill="rgba(74,222,128,0.3)" stroke="rgba(74,222,128,0.6)" strokeWidth="1" className="animate-scale-in [animation-delay:500ms]" />
   </svg>
 );
 
 const SecurityBadgeVisual = () => (
   <svg viewBox="0 0 120 60" className="w-full h-full">
-    <motion.path 
+    <path 
       d="M60,8 L90,18 L90,35 C90,45 75,52 60,55 C45,52 30,45 30,35 L30,18 Z" 
       fill="rgba(255,255,255,0.05)" 
       stroke="rgba(255,255,255,0.2)" 
       strokeWidth="1"
-      initial={{ opacity: 0, scale: 0.8 }} 
-      animate={{ opacity: 1, scale: 1 }} 
-      transition={{ duration: 0.5 }}
+      className="animate-fade-in"
     />
-    <motion.circle cx="60" cy="32" r="8" fill="rgba(74,222,128,0.2)" stroke="rgba(74,222,128,0.5)" strokeWidth="1" />
+    <circle cx="60" cy="32" r="8" fill="rgba(74,222,128,0.2)" stroke="rgba(74,222,128,0.5)" strokeWidth="1" className="animate-scale-in [animation-delay:300ms]" />
   </svg>
 );
 
 const HealthScoreVisual = () => (
   <svg viewBox="0 0 120 60" className="w-full h-full">
-    <motion.rect x="15" y="15" width="90" height="30" rx="4" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" />
-    <motion.rect x="20" y="25" width="60" height="10" rx="5" fill="rgba(74,222,128,0.3)"
-      initial={{ width: 0 }} animate={{ width: 60 }} transition={{ duration: 0.8 }} />
-    <motion.circle cx="95" cy="30" r="8" fill="rgba(74,222,128,0.2)" stroke="rgba(74,222,128,0.5)"
-      initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.5 }} />
+    <rect x="15" y="15" width="90" height="30" rx="4" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" className="animate-fade-in" />
+    <rect x="20" y="25" width="60" height="10" rx="5" fill="rgba(74,222,128,0.3)" className="animate-scale-in [animation-delay:200ms]" />
+    <circle cx="95" cy="30" r="8" fill="rgba(74,222,128,0.2)" stroke="rgba(74,222,128,0.5)" className="animate-scale-in [animation-delay:500ms]" />
   </svg>
 );
 
 const FraudFilterVisual = () => (
   <svg viewBox="0 0 120 60" className="w-full h-full">
-    <motion.path d="M20,30 L50,30" stroke="rgba(255,255,255,0.3)" strokeWidth="2" />
-    <motion.rect x="50" y="20" width="20" height="20" rx="4" fill="rgba(255,255,255,0.1)" stroke="hsl(var(--primary))" />
-    <motion.path d="M70,30 L100,30" stroke="rgba(74,222,128,0.5)" strokeWidth="2" />
-    <motion.circle cx="15" cy="30" r="4" fill="rgba(248,113,113,0.5)"
-      initial={{ x: 0 }} animate={{ x: 35, opacity: 0 }} transition={{ duration: 1, repeat: Infinity }} />
-    <motion.circle cx="15" cy="30" r="4" fill="rgba(74,222,128,0.5)"
-      initial={{ x: 0 }} animate={{ x: 85 }} transition={{ duration: 1, repeat: Infinity, delay: 0.3 }} />
+    <path d="M20,30 L50,30" stroke="rgba(255,255,255,0.3)" strokeWidth="2" className="animate-fade-in" />
+    <rect x="50" y="20" width="20" height="20" rx="4" fill="rgba(255,255,255,0.1)" stroke="hsl(var(--primary))" className="animate-fade-in" />
+    <path d="M70,30 L100,30" stroke="rgba(74,222,128,0.5)" strokeWidth="2" className="animate-fade-in" />
+    <circle cx="15" cy="30" r="4" fill="rgba(248,113,113,0.5)" className="animate-pulse" />
+    <circle cx="100" cy="30" r="4" fill="rgba(74,222,128,0.5)" className="animate-pulse [animation-delay:300ms]" />
   </svg>
 );
 
@@ -418,12 +409,8 @@ const ShortLinks = () => {
       >
         <div className="grid md:grid-cols-2 gap-8 items-center">
           {/* Before */}
-          <motion.div 
-            className="p-6 rounded-xl border border-destructive/30 bg-destructive/5"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: appleEase }}
+          <div 
+            className="p-6 rounded-xl border border-destructive/30 bg-destructive/5 animate-fade-in"
           >
             <div className="text-xs uppercase text-destructive font-medium tracking-wider mb-4">generic shortener</div>
             <div className="font-mono text-lg text-foreground mb-4">bit.ly/3x7Kz9</div>
@@ -433,15 +420,11 @@ const ShortLinks = () => {
               <p className="flex items-center gap-2"><span className="text-destructive">✗</span> Who created it?</p>
               <p className="flex items-center gap-2"><span className="text-destructive">✗</span> No brand presence</p>
             </div>
-          </motion.div>
+          </div>
 
           {/* After */}
-          <motion.div 
-            className="p-6 rounded-xl border border-primary/30 bg-primary/5"
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1, ease: appleEase }}
+          <div 
+            className="p-6 rounded-xl border border-primary/30 bg-primary/5 animate-fade-in [animation-delay:100ms]"
           >
             <div className="text-xs uppercase text-primary font-medium tracking-wider mb-4">utm.one short link</div>
             <div className="font-mono text-lg text-foreground mb-4">acme.co/summer-sale</div>
@@ -451,7 +434,7 @@ const ShortLinks = () => {
               <p className="flex items-center gap-2 text-foreground"><User className="w-4 h-4 text-primary" /> Created by marketing team</p>
               <p className="flex items-center gap-2 text-foreground"><Zap className="w-4 h-4 text-primary" /> Full analytics tracking</p>
             </div>
-          </motion.div>
+          </div>
         </div>
       </FeatureShowcase>
 
