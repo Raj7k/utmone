@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { Sparkles, Send } from "lucide-react";
 
 export const AICommandCenterPreview = () => {
@@ -19,12 +18,8 @@ export const AICommandCenterPreview = () => {
   ];
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
-      className="rounded-2xl p-6 shadow-xl bg-zinc-900/40 border-2 border-white/10"
+    <div
+      className="rounded-2xl p-6 shadow-xl bg-zinc-900/40 border-2 border-white/10 animate-fade-in"
     >
       {/* Header */}
       <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
@@ -46,25 +41,19 @@ export const AICommandCenterPreview = () => {
       {/* Chat Messages */}
       <div className="space-y-4 mb-6">
         {/* User Message */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          className="flex justify-end"
+        <div
+          className="flex justify-end animate-fade-in"
+          style={{ animationDelay: '0.2s' }}
         >
           <div className="max-w-[85%] px-4 py-3 rounded-2xl rounded-br-md bg-white/10 border border-white/15">
             <p className="text-sm text-white/90">{messages[0].text}</p>
           </div>
-        </motion.div>
+        </div>
 
         {/* AI Response */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.6 }}
-          className="flex justify-start"
+        <div
+          className="flex justify-start animate-fade-in"
+          style={{ animationDelay: '0.6s' }}
         >
           <div className="max-w-[90%]">
             <div className="px-4 py-3 rounded-2xl rounded-bl-md bg-white/5 border border-white/10 mb-3">
@@ -74,27 +63,24 @@ export const AICommandCenterPreview = () => {
             {/* Insight Cards */}
             <div className="flex gap-2 flex-wrap">
               {messages[1].insights?.map((insight, i) => (
-                <motion.div
+                <div
                   key={i}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.8 + i * 0.1 }}
-                  className={`px-3 py-2 rounded-lg border ${
+                  className={`px-3 py-2 rounded-lg border animate-scale-in ${
                     insight.highlight
                       ? "bg-white/15 border-white/30"
                       : "bg-white/5 border-white/10"
                   }`}
+                  style={{ animationDelay: `${0.8 + i * 0.1}s` }}
                 >
                   <div className="text-[10px] text-white/50 mb-0.5">{insight.label}</div>
                   <div className={`text-sm font-bold ${insight.highlight ? "text-white" : "text-white/70"}`}>
                     {insight.value}
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* Input Bar */}
@@ -113,18 +99,15 @@ export const AICommandCenterPreview = () => {
       {/* Suggested Questions */}
       <div className="mt-4 flex flex-wrap gap-2">
         {["Why did conversions drop?", "Best performing channel?", "Forecast next week"].map((q, i) => (
-          <motion.span
+          <span
             key={i}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 1.2 + i * 0.1 }}
-            className="px-3 py-1.5 text-[11px] rounded-full bg-white/5 border border-white/10 text-white/50 cursor-pointer hover:bg-white/10 hover:text-white/70 transition-colors"
+            className="px-3 py-1.5 text-[11px] rounded-full bg-white/5 border border-white/10 text-white/50 cursor-pointer hover:bg-white/10 hover:text-white/70 transition-colors animate-fade-in"
+            style={{ animationDelay: `${1.2 + i * 0.1}s` }}
           >
             {q}
-          </motion.span>
+          </span>
         ))}
       </div>
-    </motion.div>
+    </div>
   );
 };

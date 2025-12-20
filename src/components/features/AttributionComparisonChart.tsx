@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
 import { preserveAcronyms as p } from "@/utils/textFormatter";
 
@@ -6,12 +5,9 @@ export const AttributionComparisonChart = () => {
   return (
     <div className="grid md:grid-cols-2 gap-8">
       {/* GA4 Last-Click Attribution */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="rounded-xl p-6 bg-destructive/5 border-2 border-destructive/20"
+      <div
+        className="rounded-xl p-6 bg-destructive/5 border-2 border-destructive/20 animate-fade-in"
+        style={{ animationDelay: '0s' }}
       >
         <div className="flex items-center gap-2 mb-4">
           <AlertCircle className="w-5 h-5 text-destructive/90" />
@@ -60,15 +56,12 @@ export const AttributionComparisonChart = () => {
             ❌ LinkedIn and Email get no credit. You cut those budgets. Sales drops 40%.
           </p>
         </div>
-      </motion.div>
+      </div>
 
       {/* utm.one True Attribution */}
-      <motion.div
-        initial={{ opacity: 0, x: 20 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className="rounded-xl p-6 bg-success/5 border-2 border-success/30"
+      <div
+        className="rounded-xl p-6 bg-success/5 border-2 border-success/30 animate-fade-in"
+        style={{ animationDelay: '0.2s' }}
       >
         <div className="flex items-center gap-2 mb-4">
           <CheckCircle2 className="w-5 h-5 text-success/90" />
@@ -117,7 +110,7 @@ export const AttributionComparisonChart = () => {
             ✅ All channels get proportional credit. You optimize the full funnel. Sales grows 25%.
           </p>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { Bot, Users, AlertTriangle, Link, TrendingUp, DollarSign, Clock, Zap, Target, BarChart3, Layers, Shield } from "lucide-react";
+
+// Note: This file uses CSS animations instead of framer-motion for better performance.
+// Components use inline styles with animation properties or className-based animations.
 
 // ===== UTM BUILDER VISUALS =====
 

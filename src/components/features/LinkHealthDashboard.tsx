@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { CheckCircle2, AlertTriangle, XCircle, Activity } from "lucide-react";
 
 export const LinkHealthDashboard = () => {
@@ -31,13 +30,7 @@ export const LinkHealthDashboard = () => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
-      className="obsidian-glass rounded-2xl p-8 shadow-xl"
-    >
+    <div className="obsidian-glass rounded-2xl p-8 shadow-xl animate-fade-in">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
@@ -57,13 +50,10 @@ export const LinkHealthDashboard = () => {
         {links.map((link, index) => {
           const statusStyles = getStatusStyles(link.status);
           return (
-            <motion.div
+            <div
               key={index}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-              className={`p-4 rounded-lg border-2 ${statusStyles.bgClass} ${statusStyles.borderClass}`}
+              className={`p-4 rounded-lg border-2 ${statusStyles.bgClass} ${statusStyles.borderClass} animate-fade-in`}
+              style={{ animationDelay: `${index * 0.1}s` }}
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -86,7 +76,7 @@ export const LinkHealthDashboard = () => {
                   <div className="text-xs capitalize text-white/60 font-sans">{link.status}</div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           );
         })}
       </div>
@@ -101,6 +91,6 @@ export const LinkHealthDashboard = () => {
           When a link goes down, traffic automatically routes to fallback URL. No manual intervention needed.
         </p>
       </div>
-    </motion.div>
+    </div>
   );
 };
