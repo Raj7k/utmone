@@ -1,304 +1,393 @@
-import { useState, useEffect } from "react";
-import { Bot, Users, AlertTriangle, Link, TrendingUp, DollarSign, Clock, Zap, Target, BarChart3, Layers, Shield } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
 
 // Note: This file uses CSS animations instead of framer-motion for better performance.
-// Components use inline styles with animation properties or className-based animations.
+// All animations are done via CSS keyframes, transitions, and inline styles.
+
+// CSS animation helper styles
+const fadeInStyle = (delay: number = 0) => ({
+  animation: `fadeIn 0.3s ease-out ${delay}s both`,
+});
+
+const scaleInStyle = (delay: number = 0) => ({
+  animation: `scaleIn 0.3s ease-out ${delay}s both`,
+});
 
 // ===== UTM BUILDER VISUALS =====
 
 // AI UTM Generator Visual - typing animation with AI generating UTMs
 export const AIUTMGeneratorVisual = () => (
   <svg viewBox="0 0 120 60" className="w-full h-full">
-    <motion.rect x="10" y="8" width="100" height="44" rx="4" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
+    <style>{`
+      @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.3); opacity: 0.6; } }
+      @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    `}</style>
+    <rect x="10" y="8" width="100" height="44" rx="4" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
     {/* AI prompt input */}
-    <motion.rect x="15" y="13" width="90" height="14" rx="3" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
-    <motion.text x="20" y="23" fill="rgba(255,255,255,0.4)" fontSize="6" fontFamily="ui-monospace"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
+    <rect x="15" y="13" width="90" height="14" rx="3" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
+    <text x="20" y="23" fill="rgba(255,255,255,0.4)" fontSize="6" fontFamily="ui-monospace" style={{ animation: 'fadeSlideIn 0.3s ease-out 0.2s both' }}>
       "black friday email..."
-    </motion.text>
+    </text>
     {/* AI sparkle */}
-    <motion.circle cx="98" cy="20" r="4" fill="rgba(147,51,234,0.3)"
-      animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 2, repeat: Infinity }} />
+    <circle cx="98" cy="20" r="4" fill="rgba(147,51,234,0.3)" style={{ animation: 'pulse 2s ease-in-out infinite', transformOrigin: '98px 20px' }} />
     {/* Generated UTM output */}
-    <motion.g initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
-      <motion.rect x="15" y="32" width="90" height="16" rx="3" fill="rgba(74,222,128,0.1)" stroke="rgba(74,222,128,0.3)" strokeWidth="1" />
-      <motion.text x="20" y="42" fill="rgba(74,222,128,0.8)" fontSize="5" fontFamily="ui-monospace">
+    <g style={{ animation: 'fadeSlideIn 0.4s ease-out 0.6s both' }}>
+      <rect x="15" y="32" width="90" height="16" rx="3" fill="rgba(74,222,128,0.1)" stroke="rgba(74,222,128,0.3)" strokeWidth="1" />
+      <text x="20" y="42" fill="rgba(74,222,128,0.8)" fontSize="5" fontFamily="ui-monospace">
         utm_source=email&utm_campaign=bf24
-      </motion.text>
-    </motion.g>
+      </text>
+    </g>
   </svg>
 );
 
 // Team Velocity Visual - animated bar chart racing
-export const TeamVelocityVisual = () => (
-  <svg viewBox="0 0 120 60" className="w-full h-full">
-    {[
-      { name: "Sarah", count: 47, delay: 0 },
-      { name: "Mike", count: 32, delay: 0.1 },
-      { name: "Emma", count: 28, delay: 0.2 },
-    ].map((member, i) => (
-      <motion.g key={member.name} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: member.delay }}>
-        <text x="12" y={18 + i * 16} fill="rgba(255,255,255,0.5)" fontSize="7">{member.name}</text>
-        <rect x="42" y={12 + i * 16} width="70" height="10" rx="2" fill="rgba(255,255,255,0.05)" />
-        <motion.rect x="42" y={12 + i * 16} rx="2" height="10"
-          fill={i === 0 ? "rgba(74,222,128,0.5)" : "rgba(255,255,255,0.2)"}
-          initial={{ width: 0 }} animate={{ width: member.count * 1.3 }} transition={{ delay: 0.3 + member.delay, duration: 0.6 }} />
-        <motion.text x={48 + member.count * 1.3} y={20 + i * 16} fill="rgba(255,255,255,0.7)" fontSize="6" fontWeight="bold"
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 + member.delay }}>
-          {member.count}
-        </motion.text>
-      </motion.g>
-    ))}
-  </svg>
-);
+export const TeamVelocityVisual = () => {
+  const members = [
+    { name: "Sarah", count: 47, delay: 0 },
+    { name: "Mike", count: 32, delay: 0.1 },
+    { name: "Emma", count: 28, delay: 0.2 },
+  ];
+
+  return (
+    <svg viewBox="0 0 120 60" className="w-full h-full">
+      <style>{`
+        @keyframes growWidth { from { width: 0; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+      `}</style>
+      {members.map((member, i) => (
+        <g key={member.name} style={{ animation: `slideIn 0.3s ease-out ${member.delay}s both` }}>
+          <text x="12" y={18 + i * 16} fill="rgba(255,255,255,0.5)" fontSize="7">{member.name}</text>
+          <rect x="42" y={12 + i * 16} width="70" height="10" rx="2" fill="rgba(255,255,255,0.05)" />
+          <rect 
+            x="42" 
+            y={12 + i * 16} 
+            rx="2" 
+            height="10"
+            width={member.count * 1.3}
+            fill={i === 0 ? "rgba(74,222,128,0.5)" : "rgba(255,255,255,0.2)"}
+            style={{ animation: `growWidth 0.6s ease-out ${0.3 + member.delay}s both` }}
+          />
+          <text 
+            x={48 + member.count * 1.3} 
+            y={20 + i * 16} 
+            fill="rgba(255,255,255,0.7)" 
+            fontSize="6" 
+            fontWeight="bold"
+            style={{ animation: `fadeIn 0.3s ease-out ${0.8 + member.delay}s both` }}
+          >
+            {member.count}
+          </text>
+        </g>
+      ))}
+    </svg>
+  );
+};
 
 // Conflict Detection Visual
 export const ConflictDetectionVisual = () => (
   <svg viewBox="0 0 120 60" className="w-full h-full">
-    <motion.rect x="15" y="10" width="90" height="18" rx="3" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
-    <motion.text x="20" y="22" fill="rgba(255,255,255,0.4)" fontSize="6" fontFamily="ui-monospace">utm_campaign=launch</motion.text>
-    <motion.rect x="15" y="32" width="90" height="18" rx="3" fill="rgba(239,68,68,0.1)" stroke="rgba(239,68,68,0.3)" strokeWidth="1"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} />
-    <motion.text x="20" y="44" fill="rgba(239,68,68,0.8)" fontSize="6" fontFamily="ui-monospace"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
+    <style>{`
+      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+      @keyframes scaleIn { from { transform: scale(0); } to { transform: scale(1); } }
+    `}</style>
+    <rect x="15" y="10" width="90" height="18" rx="3" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
+    <text x="20" y="22" fill="rgba(255,255,255,0.4)" fontSize="6" fontFamily="ui-monospace">utm_campaign=launch</text>
+    <rect x="15" y="32" width="90" height="18" rx="3" fill="rgba(239,68,68,0.1)" stroke="rgba(239,68,68,0.3)" strokeWidth="1"
+      style={{ animation: 'fadeIn 0.3s ease-out 0.4s both' }} />
+    <text x="20" y="44" fill="rgba(239,68,68,0.8)" fontSize="6" fontFamily="ui-monospace"
+      style={{ animation: 'fadeIn 0.3s ease-out 0.5s both' }}>
       utm_campaign=launch ⚠️
-    </motion.text>
-    <motion.circle cx="100" cy="41" r="6" fill="rgba(239,68,68,0.2)" stroke="rgba(239,68,68,0.5)" strokeWidth="1"
-      initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.6, type: "spring" }} />
-    <motion.text x="98" y="43" fill="rgba(239,68,68,0.9)" fontSize="8" fontWeight="bold"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }}>!</motion.text>
+    </text>
+    <circle cx="100" cy="41" r="6" fill="rgba(239,68,68,0.2)" stroke="rgba(239,68,68,0.5)" strokeWidth="1"
+      style={{ animation: 'scaleIn 0.4s ease-out 0.6s both', transformOrigin: '100px 41px' }} />
+    <text x="98" y="43" fill="rgba(239,68,68,0.9)" fontSize="8" fontWeight="bold"
+      style={{ animation: 'fadeIn 0.3s ease-out 0.7s both' }}>!</text>
   </svg>
 );
 
 // UTM Inheritance Visual
 export const UTMInheritanceVisual = () => (
   <svg viewBox="0 0 120 60" className="w-full h-full">
+    <style>{`
+      @keyframes drawLine { from { stroke-dashoffset: 30; } to { stroke-dashoffset: 0; } }
+      @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    `}</style>
     {/* Parent campaign */}
-    <motion.rect x="35" y="5" width="50" height="14" rx="3" fill="rgba(147,51,234,0.2)" stroke="rgba(147,51,234,0.4)" strokeWidth="1" />
-    <motion.text x="60" y="14" textAnchor="middle" fill="rgba(147,51,234,0.8)" fontSize="6">Campaign</motion.text>
+    <rect x="35" y="5" width="50" height="14" rx="3" fill="rgba(147,51,234,0.2)" stroke="rgba(147,51,234,0.4)" strokeWidth="1" />
+    <text x="60" y="14" textAnchor="middle" fill="rgba(147,51,234,0.8)" fontSize="6">Campaign</text>
     {/* Lines to children */}
-    <motion.path d="M45,19 L45,28 M60,19 L60,28 M75,19 L75,28" stroke="rgba(255,255,255,0.2)" strokeWidth="1" strokeDasharray="2 2"
-      initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ delay: 0.3, duration: 0.4 }} />
+    <path d="M45,19 L45,28 M60,19 L60,28 M75,19 L75,28" stroke="rgba(255,255,255,0.2)" strokeWidth="1" strokeDasharray="2 2"
+      style={{ strokeDashoffset: 0, animation: 'drawLine 0.4s ease-out 0.3s both' }} />
     {/* Child links */}
     {[30, 50, 70].map((x, i) => (
-      <motion.g key={i} initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 + i * 0.1 }}>
+      <g key={i} style={{ animation: `fadeSlideIn 0.3s ease-out ${0.5 + i * 0.1}s both` }}>
         <rect x={x} y="30" width="20" height="10" rx="2" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
         <text x={x + 10} y="37" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="5">Link {i + 1}</text>
-      </motion.g>
+      </g>
     ))}
     {/* Inherited UTM badge */}
-    <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9 }}>
+    <g style={{ animation: 'fadeIn 0.3s ease-out 0.9s both' }}>
       <rect x="25" y="45" width="70" height="10" rx="2" fill="rgba(74,222,128,0.1)" stroke="rgba(74,222,128,0.3)" strokeWidth="1" />
       <text x="60" y="52" textAnchor="middle" fill="rgba(74,222,128,0.7)" fontSize="5">✓ UTMs inherited</text>
-    </motion.g>
+    </g>
   </svg>
 );
 
 // Performance Prediction Visual
-export const PerformancePredictionVisual = () => (
-  <svg viewBox="0 0 120 60" className="w-full h-full">
-    <motion.rect x="10" y="8" width="100" height="44" rx="4" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
-    {/* Prediction bars */}
-    {[
-      { label: "google", ctr: 3.2, color: "rgba(74,222,128,0.5)" },
-      { label: "linkedin", ctr: 2.1, color: "rgba(255,255,255,0.3)" },
-      { label: "twitter", ctr: 1.8, color: "rgba(255,255,255,0.2)" },
-    ].map((item, i) => (
-      <motion.g key={item.label} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.15 }}>
-        <text x="18" y={22 + i * 13} fill="rgba(255,255,255,0.5)" fontSize="6">{item.label}</text>
-        <motion.rect x="48" y={16 + i * 13} rx="2" height="8" fill={item.color}
-          initial={{ width: 0 }} animate={{ width: item.ctr * 15 }} transition={{ delay: 0.3 + i * 0.1, duration: 0.5 }} />
-        <motion.text x={55 + item.ctr * 15} y={22 + i * 13} fill="rgba(255,255,255,0.7)" fontSize="6"
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 + i * 0.1 }}>
-          {item.ctr}%
-        </motion.text>
-      </motion.g>
-    ))}
-  </svg>
-);
+export const PerformancePredictionVisual = () => {
+  const items = [
+    { label: "google", ctr: 3.2, color: "rgba(74,222,128,0.5)" },
+    { label: "linkedin", ctr: 2.1, color: "rgba(255,255,255,0.3)" },
+    { label: "twitter", ctr: 1.8, color: "rgba(255,255,255,0.2)" },
+  ];
+
+  return (
+    <svg viewBox="0 0 120 60" className="w-full h-full">
+      <style>{`
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes growWidth { from { width: 0; } }
+      `}</style>
+      <rect x="10" y="8" width="100" height="44" rx="4" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
+      {items.map((item, i) => (
+        <g key={item.label} style={{ animation: `fadeIn 0.3s ease-out ${i * 0.15}s both` }}>
+          <text x="18" y={22 + i * 13} fill="rgba(255,255,255,0.5)" fontSize="6">{item.label}</text>
+          <rect x="48" y={16 + i * 13} rx="2" height="8" fill={item.color}
+            width={item.ctr * 15}
+            style={{ animation: `growWidth 0.5s ease-out ${0.3 + i * 0.1}s both` }} />
+          <text x={55 + item.ctr * 15} y={22 + i * 13} fill="rgba(255,255,255,0.7)" fontSize="6"
+            style={{ animation: `fadeIn 0.3s ease-out ${0.6 + i * 0.1}s both` }}>
+            {item.ctr}%
+          </text>
+        </g>
+      ))}
+    </svg>
+  );
+};
 
 // Ad Platform Sync Visual
-export const AdPlatformSyncVisual = () => (
-  <svg viewBox="0 0 120 60" className="w-full h-full">
-    {/* Platform icons */}
-    {[
-      { label: "Google", x: 20, color: "rgba(251,191,36,0.4)" },
-      { label: "Meta", x: 50, color: "rgba(59,130,246,0.4)" },
-      { label: "LinkedIn", x: 80, color: "rgba(10,102,194,0.4)" },
-    ].map((platform, i) => (
-      <motion.g key={platform.label} initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
-        <circle cx={platform.x} cy="18" r="10" fill={platform.color} />
-        <text x={platform.x} y="21" textAnchor="middle" fill="rgba(255,255,255,0.8)" fontSize="5">{platform.label.slice(0, 1)}</text>
-      </motion.g>
-    ))}
-    {/* Sync arrows */}
-    <motion.path d="M30,30 L30,38 M50,30 L50,38 M70,30 L70,38" stroke="rgba(74,222,128,0.5)" strokeWidth="1.5" markerEnd="url(#syncArrow)"
-      initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ delay: 0.4, duration: 0.3 }} />
-    {/* utm.one box */}
-    <motion.rect x="20" y="40" width="60" height="14" rx="3" fill="rgba(74,222,128,0.1)" stroke="rgba(74,222,128,0.3)" strokeWidth="1"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} />
-    <motion.text x="50" y="49" textAnchor="middle" fill="rgba(74,222,128,0.8)" fontSize="6"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }}>utm.one</motion.text>
-    <defs>
-      <marker id="syncArrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-        <polygon points="0 0, 6 3, 0 6" fill="rgba(74,222,128,0.5)" />
-      </marker>
-    </defs>
-  </svg>
-);
+export const AdPlatformSyncVisual = () => {
+  const platforms = [
+    { label: "Google", x: 20, color: "rgba(251,191,36,0.4)" },
+    { label: "Meta", x: 50, color: "rgba(59,130,246,0.4)" },
+    { label: "LinkedIn", x: 80, color: "rgba(10,102,194,0.4)" },
+  ];
+
+  return (
+    <svg viewBox="0 0 120 60" className="w-full h-full">
+      <style>{`
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes drawLine { from { stroke-dashoffset: 20; } to { stroke-dashoffset: 0; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+      `}</style>
+      {platforms.map((platform, i) => (
+        <g key={platform.label} style={{ animation: `slideDown 0.3s ease-out ${i * 0.1}s both` }}>
+          <circle cx={platform.x} cy="18" r="10" fill={platform.color} />
+          <text x={platform.x} y="21" textAnchor="middle" fill="rgba(255,255,255,0.8)" fontSize="5">{platform.label.slice(0, 1)}</text>
+        </g>
+      ))}
+      {/* Sync arrows */}
+      <path d="M30,30 L30,38 M50,30 L50,38 M70,30 L70,38" stroke="rgba(74,222,128,0.5)" strokeWidth="1.5" markerEnd="url(#syncArrow)"
+        strokeDasharray="20" style={{ animation: 'drawLine 0.3s ease-out 0.4s both' }} />
+      {/* utm.one box */}
+      <rect x="20" y="40" width="60" height="14" rx="3" fill="rgba(74,222,128,0.1)" stroke="rgba(74,222,128,0.3)" strokeWidth="1"
+        style={{ animation: 'fadeIn 0.3s ease-out 0.6s both' }} />
+      <text x="50" y="49" textAnchor="middle" fill="rgba(74,222,128,0.8)" fontSize="6"
+        style={{ animation: 'fadeIn 0.3s ease-out 0.7s both' }}>utm.one</text>
+      <defs>
+        <marker id="syncArrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+          <polygon points="0 0, 6 3, 0 6" fill="rgba(74,222,128,0.5)" />
+        </marker>
+      </defs>
+    </svg>
+  );
+};
 
 // ===== ANALYTICS VISUALS =====
 
 // Revenue Waterfall Visual
-export const RevenueWaterfallVisual = () => (
-  <svg viewBox="0 0 120 60" className="w-full h-full">
-    {[
-      { label: "Start", value: 100, y: 35, color: "rgba(255,255,255,0.2)" },
-      { label: "+Paid", value: 30, y: 25, color: "rgba(74,222,128,0.5)" },
-      { label: "+Organic", value: 20, y: 18, color: "rgba(74,222,128,0.4)" },
-      { label: "-Churn", value: -15, y: 28, color: "rgba(239,68,68,0.4)" },
-      { label: "End", value: 135, y: 15, color: "rgba(147,51,234,0.5)" },
-    ].map((item, i) => (
-      <motion.g key={item.label} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.12 }}>
-        <motion.rect x={15 + i * 20} y={item.y} width="15" rx="2"
-          fill={item.color}
-          initial={{ height: 0 }} animate={{ height: Math.abs(item.value) * 0.35 }} transition={{ delay: 0.3 + i * 0.1, duration: 0.4 }} />
-        <text x={22 + i * 20} y="55" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="5">{item.label}</text>
-      </motion.g>
-    ))}
-  </svg>
-);
+export const RevenueWaterfallVisual = () => {
+  const items = [
+    { label: "Start", value: 100, y: 35, color: "rgba(255,255,255,0.2)" },
+    { label: "+Paid", value: 30, y: 25, color: "rgba(74,222,128,0.5)" },
+    { label: "+Organic", value: 20, y: 18, color: "rgba(74,222,128,0.4)" },
+    { label: "-Churn", value: -15, y: 28, color: "rgba(239,68,68,0.4)" },
+    { label: "End", value: 135, y: 15, color: "rgba(147,51,234,0.5)" },
+  ];
+
+  return (
+    <svg viewBox="0 0 120 60" className="w-full h-full">
+      <style>{`
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes growHeight { from { height: 0; } }
+      `}</style>
+      {items.map((item, i) => (
+        <g key={item.label} style={{ animation: `slideUp 0.3s ease-out ${i * 0.12}s both` }}>
+          <rect x={15 + i * 20} y={item.y} width="15" rx="2"
+            fill={item.color}
+            height={Math.abs(item.value) * 0.35}
+            style={{ animation: `growHeight 0.4s ease-out ${0.3 + i * 0.1}s both` }} />
+          <text x={22 + i * 20} y="55" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="5">{item.label}</text>
+        </g>
+      ))}
+    </svg>
+  );
+};
 
 // UTM Decay Alert Visual
 export const UTMDecayAlertVisual = () => (
   <svg viewBox="0 0 120 60" className="w-full h-full">
+    <style>{`
+      @keyframes drawPath { from { stroke-dashoffset: 200; } to { stroke-dashoffset: 0; } }
+      @keyframes scaleIn { from { transform: scale(0); } to { transform: scale(1); } }
+      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    `}</style>
     {/* Declining trend line */}
-    <motion.path d="M15,20 Q40,22 60,30 T105,45" fill="none" stroke="rgba(239,68,68,0.5)" strokeWidth="2"
-      initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.8 }} />
+    <path d="M15,20 Q40,22 60,30 T105,45" fill="none" stroke="rgba(239,68,68,0.5)" strokeWidth="2"
+      strokeDasharray="200" style={{ animation: 'drawPath 0.8s ease-out both' }} />
     {/* Alert indicator */}
-    <motion.g initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.6, type: "spring" }}>
+    <g style={{ animation: 'scaleIn 0.4s ease-out 0.6s both', transformOrigin: '90px 38px' }}>
       <circle cx="90" cy="38" r="10" fill="rgba(239,68,68,0.1)" stroke="rgba(239,68,68,0.4)" strokeWidth="1.5" />
       <text x="90" y="42" textAnchor="middle" fill="rgba(239,68,68,0.9)" fontSize="10">↓</text>
-    </motion.g>
+    </g>
     {/* Alert badge */}
-    <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}>
+    <g style={{ animation: 'fadeIn 0.3s ease-out 0.8s both' }}>
       <rect x="60" y="5" width="55" height="12" rx="6" fill="rgba(239,68,68,0.2)" />
       <text x="87" y="13" textAnchor="middle" fill="rgba(239,68,68,0.8)" fontSize="6">⚠️ -32% CTR</text>
-    </motion.g>
+    </g>
   </svg>
 );
 
 // Budget Reallocation AI Visual
-export const BudgetReallocationVisual = () => (
-  <svg viewBox="0 0 120 60" className="w-full h-full">
-    {/* Current vs Recommended */}
-    {[
-      { channel: "Paid", current: 50, recommended: 35, y: 12 },
-      { channel: "Email", current: 25, recommended: 40, y: 28 },
-      { channel: "Social", current: 25, recommended: 25, y: 44 },
-    ].map((item, i) => (
-      <motion.g key={item.channel} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.15 }}>
-        <text x="10" y={item.y + 5} fill="rgba(255,255,255,0.5)" fontSize="6">{item.channel}</text>
-        {/* Current (faded) */}
-        <motion.rect x="38" y={item.y} width={item.current * 0.8} height="5" rx="1" fill="rgba(255,255,255,0.15)"
-          initial={{ width: 0 }} animate={{ width: item.current * 0.8 }} transition={{ delay: 0.2 + i * 0.1 }} />
-        {/* Recommended (bright) */}
-        <motion.rect x="38" y={item.y + 6} width={item.recommended * 0.8} height="5" rx="1"
-          fill={item.recommended > item.current ? "rgba(74,222,128,0.5)" : "rgba(239,68,68,0.4)"}
-          initial={{ width: 0 }} animate={{ width: item.recommended * 0.8 }} transition={{ delay: 0.4 + i * 0.1 }} />
-      </motion.g>
-    ))}
-    {/* AI badge */}
-    <motion.g initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.8 }}>
-      <rect x="80" y="20" width="35" height="20" rx="4" fill="rgba(147,51,234,0.2)" stroke="rgba(147,51,234,0.4)" strokeWidth="1" />
-      <text x="97" y="33" textAnchor="middle" fill="rgba(147,51,234,0.8)" fontSize="7">AI</text>
-    </motion.g>
-  </svg>
-);
+export const BudgetReallocationVisual = () => {
+  const items = [
+    { channel: "Paid", current: 50, recommended: 35, y: 12 },
+    { channel: "Email", current: 25, recommended: 40, y: 28 },
+    { channel: "Social", current: 25, recommended: 25, y: 44 },
+  ];
+
+  return (
+    <svg viewBox="0 0 120 60" className="w-full h-full">
+      <style>{`
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes growWidth { from { width: 0; } }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+      `}</style>
+      {items.map((item, i) => (
+        <g key={item.channel} style={{ animation: `fadeIn 0.3s ease-out ${i * 0.15}s both` }}>
+          <text x="10" y={item.y + 5} fill="rgba(255,255,255,0.5)" fontSize="6">{item.channel}</text>
+          {/* Current (faded) */}
+          <rect x="38" y={item.y} height="5" rx="1" fill="rgba(255,255,255,0.15)"
+            width={item.current * 0.8}
+            style={{ animation: `growWidth 0.3s ease-out ${0.2 + i * 0.1}s both` }} />
+          {/* Recommended (bright) */}
+          <rect x="38" y={item.y + 6} height="5" rx="1"
+            fill={item.recommended > item.current ? "rgba(74,222,128,0.5)" : "rgba(239,68,68,0.4)"}
+            width={item.recommended * 0.8}
+            style={{ animation: `growWidth 0.3s ease-out ${0.4 + i * 0.1}s both` }} />
+        </g>
+      ))}
+      {/* AI badge */}
+      <g style={{ animation: 'scaleIn 0.3s ease-out 0.8s both', transformOrigin: '97px 30px' }}>
+        <rect x="80" y="20" width="35" height="20" rx="4" fill="rgba(147,51,234,0.2)" stroke="rgba(147,51,234,0.4)" strokeWidth="1" />
+        <text x="97" y="33" textAnchor="middle" fill="rgba(147,51,234,0.8)" fontSize="7">AI</text>
+      </g>
+    </svg>
+  );
+};
 
 // Conversion Lag Heatmap Visual
-export const ConversionLagHeatmapVisual = () => (
-  <svg viewBox="0 0 120 60" className="w-full h-full">
-    {/* Heatmap grid */}
-    {[0, 1, 2, 3, 4].map((col) =>
-      [0, 1, 2].map((row) => {
-        const intensity = Math.random() * 0.6 + 0.1;
-        const delay = col * 0.05 + row * 0.08;
-        return (
-          <motion.rect
-            key={`${col}-${row}`}
-            x={15 + col * 20}
-            y={10 + row * 15}
-            width="18"
-            height="13"
-            rx="2"
-            fill={`rgba(147,51,234,${intensity})`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay }}
-          />
-        );
-      })
-    )}
-    {/* Labels */}
-    <text x="60" y="57" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5">Days to Convert →</text>
-  </svg>
-);
+export const ConversionLagHeatmapVisual = () => {
+  const cells = [];
+  for (let col = 0; col < 5; col++) {
+    for (let row = 0; row < 3; row++) {
+      cells.push({ col, row, intensity: Math.random() * 0.6 + 0.1, delay: col * 0.05 + row * 0.08 });
+    }
+  }
+
+  return (
+    <svg viewBox="0 0 120 60" className="w-full h-full">
+      <style>{`
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+      `}</style>
+      {cells.map((cell, idx) => (
+        <rect
+          key={idx}
+          x={15 + cell.col * 20}
+          y={10 + cell.row * 15}
+          width="18"
+          height="13"
+          rx="2"
+          fill={`rgba(147,51,234,${cell.intensity})`}
+          style={{ animation: `fadeIn 0.3s ease-out ${cell.delay}s both` }}
+        />
+      ))}
+      {/* Labels */}
+      <text x="60" y="57" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5">Days to Convert →</text>
+    </svg>
+  );
+};
 
 // Channel Saturation Curve Visual
 export const SaturationCurveVisual = () => (
   <svg viewBox="0 0 120 60" className="w-full h-full">
+    <style>{`
+      @keyframes drawPath { from { stroke-dashoffset: 200; } to { stroke-dashoffset: 0; } }
+      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    `}</style>
     {/* Axis */}
     <line x1="15" y1="50" x2="110" y2="50" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
     <line x1="15" y1="50" x2="15" y2="8" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
     {/* Saturation curve */}
-    <motion.path
+    <path
       d="M15,48 Q35,45 50,35 T75,20 Q90,15 110,14"
       fill="none"
       stroke="rgba(74,222,128,0.6)"
       strokeWidth="2"
-      initial={{ pathLength: 0 }}
-      animate={{ pathLength: 1 }}
-      transition={{ duration: 1 }}
+      strokeDasharray="200"
+      style={{ animation: 'drawPath 1s ease-out both' }}
     />
     {/* Diminishing returns zone */}
-    <motion.rect x="70" y="8" width="40" height="42" fill="rgba(239,68,68,0.1)" rx="2"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} />
-    <motion.text x="90" y="20" textAnchor="middle" fill="rgba(239,68,68,0.6)" fontSize="5"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}>
+    <rect x="70" y="8" width="40" height="42" fill="rgba(239,68,68,0.1)" rx="2"
+      style={{ animation: 'fadeIn 0.3s ease-out 0.8s both' }} />
+    <text x="90" y="20" textAnchor="middle" fill="rgba(239,68,68,0.6)" fontSize="5"
+      style={{ animation: 'fadeIn 0.3s ease-out 1s both' }}>
       Saturation
-    </motion.text>
+    </text>
   </svg>
 );
 
 // Real-Time UTM Pulse Visual
 export const RealTimePulseVisual = () => (
   <svg viewBox="0 0 120 60" className="w-full h-full">
+    <style>{`
+      @keyframes drawPulse { from { stroke-dashoffset: 200; } to { stroke-dashoffset: 0; } }
+      @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.5); opacity: 0.4; } }
+      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    `}</style>
     {/* Heartbeat line */}
-    <motion.path
+    <path
       d="M10,30 L30,30 L35,20 L40,40 L45,25 L50,35 L55,30 L110,30"
       fill="none"
       stroke="rgba(74,222,128,0.6)"
       strokeWidth="2"
-      initial={{ pathLength: 0 }}
-      animate={{ pathLength: 1 }}
-      transition={{ duration: 1, repeat: Infinity, repeatDelay: 2 }}
+      strokeDasharray="200"
+      style={{ animation: 'drawPulse 1s ease-out both' }}
     />
     {/* Pulse dot */}
-    <motion.circle
+    <circle
       cx="40"
       cy="30"
       r="4"
       fill="rgba(74,222,128,0.8)"
-      animate={{ scale: [1, 1.5, 1], opacity: [0.8, 0.4, 0.8] }}
-      transition={{ duration: 1.5, repeat: Infinity }}
+      style={{ animation: 'pulse 1.5s ease-in-out infinite', transformOrigin: '40px 30px' }}
     />
     {/* Status badges */}
-    <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
+    <g style={{ animation: 'fadeIn 0.3s ease-out 0.5s both' }}>
       <rect x="70" y="10" width="40" height="16" rx="8" fill="rgba(74,222,128,0.2)" />
       <circle cx="78" cy="18" r="3" fill="rgba(74,222,128,0.8)" />
       <text x="92" y="21" fill="rgba(74,222,128,0.8)" fontSize="6">healthy</text>
-    </motion.g>
+    </g>
   </svg>
 );
 
@@ -307,154 +396,196 @@ export const RealTimePulseVisual = () => (
 // Incremental Lift Visual
 export const IncrementalLiftVisual = () => (
   <svg viewBox="0 0 120 60" className="w-full h-full">
+    <style>{`
+      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+      @keyframes growWidth { from { width: 0; } }
+      @keyframes slideUp { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    `}</style>
     {/* Control group */}
-    <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+    <g style={{ animation: 'fadeIn 0.3s ease-out both' }}>
       <rect x="15" y="20" width="40" height="30" rx="3" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
       <text x="35" y="14" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="6">Control</text>
-      <motion.rect x="20" y="35" width="30" height="10" rx="2" fill="rgba(255,255,255,0.2)"
-        initial={{ width: 0 }} animate={{ width: 30 }} transition={{ delay: 0.3, duration: 0.5 }} />
-    </motion.g>
+      <rect x="20" y="35" height="10" rx="2" fill="rgba(255,255,255,0.2)"
+        width="30" style={{ animation: 'growWidth 0.5s ease-out 0.3s both' }} />
+    </g>
     {/* Test group */}
-    <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
+    <g style={{ animation: 'fadeIn 0.3s ease-out 0.2s both' }}>
       <rect x="65" y="20" width="40" height="30" rx="3" fill="rgba(74,222,128,0.1)" stroke="rgba(74,222,128,0.3)" strokeWidth="1" />
       <text x="85" y="14" textAnchor="middle" fill="rgba(74,222,128,0.6)" fontSize="6">Test</text>
-      <motion.rect x="70" y="35" width="30" height="10" rx="2" fill="rgba(74,222,128,0.5)"
-        initial={{ width: 0 }} animate={{ width: 30 }} transition={{ delay: 0.5, duration: 0.5 }} />
-    </motion.g>
+      <rect x="70" y="35" height="10" rx="2" fill="rgba(74,222,128,0.5)"
+        width="30" style={{ animation: 'growWidth 0.5s ease-out 0.5s both' }} />
+    </g>
     {/* Lift indicator */}
-    <motion.g initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}>
+    <g style={{ animation: 'slideUp 0.3s ease-out 0.8s both' }}>
       <text x="60" y="57" textAnchor="middle" fill="rgba(74,222,128,0.8)" fontSize="7" fontWeight="bold">+23% lift</text>
-    </motion.g>
+    </g>
   </svg>
 );
 
 // Marketing Mix Model Visual
-export const MarketingMixVisual = () => (
-  <svg viewBox="0 0 120 60" className="w-full h-full">
-    {/* Pie chart segments */}
-    <motion.circle cx="40" cy="30" r="22" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="12" />
-    {[
-      { offset: 0, pct: 35, color: "rgba(59,130,246,0.6)" },
-      { offset: 35, pct: 25, color: "rgba(74,222,128,0.5)" },
-      { offset: 60, pct: 20, color: "rgba(251,191,36,0.5)" },
-      { offset: 80, pct: 20, color: "rgba(147,51,234,0.5)" },
-    ].map((seg, i) => (
-      <motion.circle
-        key={i}
-        cx="40" cy="30" r="22"
-        fill="none"
-        stroke={seg.color}
-        strokeWidth="12"
-        strokeDasharray={`${seg.pct * 1.38} 138`}
-        strokeDashoffset={-seg.offset * 1.38}
-        initial={{ strokeDasharray: "0 138" }}
-        animate={{ strokeDasharray: `${seg.pct * 1.38} 138` }}
-        transition={{ delay: 0.2 + i * 0.15, duration: 0.5 }}
-      />
-    ))}
-    {/* Legend */}
-    {["Paid", "Organic", "Social", "Email"].map((label, i) => (
-      <motion.g key={label} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 + i * 0.1 }}>
-        <circle cx="75" cy={12 + i * 12} r="3" fill={["rgba(59,130,246,0.6)", "rgba(74,222,128,0.5)", "rgba(251,191,36,0.5)", "rgba(147,51,234,0.5)"][i]} />
-        <text x="82" y={14 + i * 12} fill="rgba(255,255,255,0.5)" fontSize="6">{label}</text>
-      </motion.g>
-    ))}
-  </svg>
-);
+export const MarketingMixVisual = () => {
+  const segments = [
+    { offset: 0, pct: 35, color: "rgba(59,130,246,0.6)" },
+    { offset: 35, pct: 25, color: "rgba(74,222,128,0.5)" },
+    { offset: 60, pct: 20, color: "rgba(251,191,36,0.5)" },
+    { offset: 80, pct: 20, color: "rgba(147,51,234,0.5)" },
+  ];
+  const labels = ["Paid", "Organic", "Social", "Email"];
+
+  return (
+    <svg viewBox="0 0 120 60" className="w-full h-full">
+      <style>{`
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes growStroke { from { stroke-dasharray: 0 138; } }
+      `}</style>
+      {/* Pie chart segments */}
+      <circle cx="40" cy="30" r="22" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="12" />
+      {segments.map((seg, i) => (
+        <circle
+          key={i}
+          cx="40" cy="30" r="22"
+          fill="none"
+          stroke={seg.color}
+          strokeWidth="12"
+          strokeDasharray={`${seg.pct * 1.38} 138`}
+          strokeDashoffset={-seg.offset * 1.38}
+          style={{ animation: `fadeIn 0.5s ease-out ${0.2 + i * 0.15}s both` }}
+        />
+      ))}
+      {/* Legend */}
+      {labels.map((label, i) => (
+        <g key={label} style={{ animation: `fadeIn 0.3s ease-out ${0.8 + i * 0.1}s both` }}>
+          <circle cx="75" cy={12 + i * 12} r="3" fill={segments[i].color} />
+          <text x="82" y={14 + i * 12} fill="rgba(255,255,255,0.5)" fontSize="6">{label}</text>
+        </g>
+      ))}
+    </svg>
+  );
+};
 
 // Causal Inference Visual
-export const CausalInferenceVisual = () => (
-  <svg viewBox="0 0 120 60" className="w-full h-full">
-    {/* Timeline */}
-    <motion.line x1="15" y1="30" x2="105" y2="30" stroke="rgba(255,255,255,0.2)" strokeWidth="1"
-      initial={{ x2: 15 }} animate={{ x2: 105 }} transition={{ duration: 0.5 }} />
-    {/* Events */}
-    {[
-      { x: 25, label: "Ad", color: "rgba(59,130,246,0.6)" },
-      { x: 50, label: "Email", color: "rgba(147,51,234,0.5)" },
-      { x: 75, label: "Visit", color: "rgba(251,191,36,0.5)" },
-      { x: 100, label: "Buy", color: "rgba(74,222,128,0.6)" },
-    ].map((event, i) => (
-      <motion.g key={event.label} initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 + i * 0.15 }}>
-        <circle cx={event.x} cy="30" r="6" fill={event.color} />
-        <text x={event.x} y="45" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="5">{event.label}</text>
-      </motion.g>
-    ))}
-    {/* Causal arrow */}
-    <motion.path d="M30,20 Q60,5 95,20" fill="none" stroke="rgba(74,222,128,0.4)" strokeWidth="1.5" strokeDasharray="4 2"
-      initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ delay: 0.8, duration: 0.5 }} />
-    <motion.text x="60" y="10" textAnchor="middle" fill="rgba(74,222,128,0.6)" fontSize="5"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }}>
-      causal path
-    </motion.text>
-  </svg>
-);
+export const CausalInferenceVisual = () => {
+  const events = [
+    { x: 25, label: "Ad", color: "rgba(59,130,246,0.6)" },
+    { x: 50, label: "Email", color: "rgba(147,51,234,0.5)" },
+    { x: 75, label: "Visit", color: "rgba(251,191,36,0.5)" },
+    { x: 100, label: "Buy", color: "rgba(74,222,128,0.6)" },
+  ];
+
+  return (
+    <svg viewBox="0 0 120 60" className="w-full h-full">
+      <style>{`
+        @keyframes growLine { from { width: 0; } }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0); } to { opacity: 1; transform: scale(1); } }
+        @keyframes drawPath { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+      `}</style>
+      {/* Timeline */}
+      <line x1="15" y1="30" x2="105" y2="30" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+      {/* Events */}
+      {events.map((event, i) => (
+        <g key={event.label} style={{ animation: `scaleIn 0.3s ease-out ${0.3 + i * 0.15}s both`, transformOrigin: `${event.x}px 30px` }}>
+          <circle cx={event.x} cy="30" r="6" fill={event.color} />
+          <text x={event.x} y="45" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="5">{event.label}</text>
+        </g>
+      ))}
+      {/* Causal arrow */}
+      <path d="M30,20 Q60,5 95,20" fill="none" stroke="rgba(74,222,128,0.4)" strokeWidth="1.5" strokeDasharray="4 2"
+        style={{ strokeDashoffset: 0, animation: 'drawPath 0.5s ease-out 0.8s both' }} />
+      <text x="60" y="10" textAnchor="middle" fill="rgba(74,222,128,0.6)" fontSize="5"
+        style={{ animation: 'fadeIn 0.3s ease-out 1.2s both' }}>
+        causal path
+      </text>
+    </svg>
+  );
+};
 
 // Model Comparison Visual
-export const ModelComparisonVisual = () => (
-  <svg viewBox="0 0 120 60" className="w-full h-full">
-    {[
-      { model: "Last-Click", linkedin: 0, email: 0, google: 100 },
-      { model: "Linear", linkedin: 33, email: 33, google: 34 },
-      { model: "Clean Track", linkedin: 45, email: 35, google: 20 },
-    ].map((row, i) => (
-      <motion.g key={row.model} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.15 }}>
-        <text x="8" y={16 + i * 18} fill="rgba(255,255,255,0.5)" fontSize="5">{row.model}</text>
-        {/* Stacked bar */}
-        <motion.rect x="45" y={10 + i * 18} width={row.linkedin * 0.6} height="10" rx="1" fill="rgba(10,102,194,0.5)"
-          initial={{ width: 0 }} animate={{ width: row.linkedin * 0.6 }} transition={{ delay: 0.3 + i * 0.1 }} />
-        <motion.rect x={45 + row.linkedin * 0.6} y={10 + i * 18} width={row.email * 0.6} height="10" rx="1" fill="rgba(147,51,234,0.5)"
-          initial={{ width: 0 }} animate={{ width: row.email * 0.6 }} transition={{ delay: 0.4 + i * 0.1 }} />
-        <motion.rect x={45 + (row.linkedin + row.email) * 0.6} y={10 + i * 18} width={row.google * 0.6} height="10" rx="1" fill="rgba(251,191,36,0.5)"
-          initial={{ width: 0 }} animate={{ width: row.google * 0.6 }} transition={{ delay: 0.5 + i * 0.1 }} />
-      </motion.g>
-    ))}
-  </svg>
-);
+export const ModelComparisonVisual = () => {
+  const rows = [
+    { model: "Last-Click", linkedin: 0, email: 0, google: 100 },
+    { model: "Linear", linkedin: 33, email: 33, google: 34 },
+    { model: "Clean Track", linkedin: 45, email: 35, google: 20 },
+  ];
+
+  return (
+    <svg viewBox="0 0 120 60" className="w-full h-full">
+      <style>{`
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes growWidth { from { width: 0; } }
+      `}</style>
+      {rows.map((row, i) => (
+        <g key={row.model} style={{ animation: `slideIn 0.3s ease-out ${i * 0.15}s both` }}>
+          <text x="8" y={16 + i * 18} fill="rgba(255,255,255,0.5)" fontSize="5">{row.model}</text>
+          {/* Stacked bar */}
+          <rect x="45" y={10 + i * 18} height="10" rx="1" fill="rgba(10,102,194,0.5)"
+            width={row.linkedin * 0.6}
+            style={{ animation: `growWidth 0.3s ease-out ${0.3 + i * 0.1}s both` }} />
+          <rect x={45 + row.linkedin * 0.6} y={10 + i * 18} height="10" rx="1" fill="rgba(147,51,234,0.5)"
+            width={row.email * 0.6}
+            style={{ animation: `growWidth 0.3s ease-out ${0.4 + i * 0.1}s both` }} />
+          <rect x={45 + (row.linkedin + row.email) * 0.6} y={10 + i * 18} height="10" rx="1" fill="rgba(251,191,36,0.5)"
+            width={row.google * 0.6}
+            style={{ animation: `growWidth 0.3s ease-out ${0.5 + i * 0.1}s both` }} />
+        </g>
+      ))}
+    </svg>
+  );
+};
 
 // Holdout Test Visual
-export const HoldoutTestVisual = () => (
-  <svg viewBox="0 0 120 60" className="w-full h-full">
-    {/* Map outline */}
-    <motion.rect x="10" y="10" width="100" height="40" rx="4" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
-    {/* Regions */}
-    {[
-      { x: 20, y: 20, type: "test", label: "NYC" },
-      { x: 50, y: 25, type: "control", label: "CHI" },
-      { x: 80, y: 18, type: "test", label: "LA" },
-      { x: 35, y: 38, type: "control", label: "DEN" },
-    ].map((region, i) => (
-      <motion.g key={region.label} initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2 + i * 0.1, type: "spring" }}>
-        <circle cx={region.x} cy={region.y} r="8"
-          fill={region.type === "test" ? "rgba(74,222,128,0.3)" : "rgba(255,255,255,0.1)"}
-          stroke={region.type === "test" ? "rgba(74,222,128,0.5)" : "rgba(255,255,255,0.2)"}
-          strokeWidth="1" />
-        <text x={region.x} y={region.y + 2} textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="4">{region.label}</text>
-      </motion.g>
-    ))}
-  </svg>
-);
+export const HoldoutTestVisual = () => {
+  const regions = [
+    { x: 20, y: 20, type: "test", label: "NYC" },
+    { x: 50, y: 25, type: "control", label: "CHI" },
+    { x: 80, y: 18, type: "test", label: "LA" },
+    { x: 35, y: 38, type: "control", label: "DEN" },
+  ];
+
+  return (
+    <svg viewBox="0 0 120 60" className="w-full h-full">
+      <style>{`
+        @keyframes scaleIn { from { transform: scale(0); } to { transform: scale(1); } }
+      `}</style>
+      {/* Map outline */}
+      <rect x="10" y="10" width="100" height="40" rx="4" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
+      {/* Regions */}
+      {regions.map((region, i) => (
+        <g key={region.label} style={{ animation: `scaleIn 0.4s ease-out ${0.2 + i * 0.1}s both`, transformOrigin: `${region.x}px ${region.y}px` }}>
+          <circle cx={region.x} cy={region.y} r="8"
+            fill={region.type === "test" ? "rgba(74,222,128,0.3)" : "rgba(255,255,255,0.1)"}
+            stroke={region.type === "test" ? "rgba(74,222,128,0.5)" : "rgba(255,255,255,0.2)"}
+            strokeWidth="1" />
+          <text x={region.x} y={region.y + 2} textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="4">{region.label}</text>
+        </g>
+      ))}
+    </svg>
+  );
+};
 
 // Diminishing Returns Visual
 export const DiminishingReturnsVisual = () => (
   <svg viewBox="0 0 120 60" className="w-full h-full">
+    <style>{`
+      @keyframes drawPath { from { stroke-dashoffset: 200; } to { stroke-dashoffset: 0; } }
+      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    `}</style>
     <line x1="15" y1="50" x2="105" y2="50" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
     <line x1="15" y1="50" x2="15" y2="10" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
     {/* Curve */}
-    <motion.path
+    <path
       d="M15,48 Q30,40 45,32 T65,22 Q80,18 95,16 L105,15"
       fill="none"
       stroke="rgba(74,222,128,0.6)"
       strokeWidth="2"
-      initial={{ pathLength: 0 }}
-      animate={{ pathLength: 1 }}
-      transition={{ duration: 1 }}
+      strokeDasharray="200"
+      style={{ animation: 'drawPath 1s ease-out both' }}
     />
     {/* Optimal point */}
-    <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}>
+    <g style={{ animation: 'fadeIn 0.3s ease-out 0.8s both' }}>
       <circle cx="65" cy="22" r="5" fill="rgba(147,51,234,0.3)" stroke="rgba(147,51,234,0.6)" strokeWidth="1.5" />
       <text x="65" y="10" textAnchor="middle" fill="rgba(147,51,234,0.8)" fontSize="5">optimal</text>
-    </motion.g>
+    </g>
     {/* Labels */}
     <text x="60" y="58" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="5">Spend →</text>
   </svg>
@@ -480,20 +611,21 @@ export const AILinkOptimizerVisual = () => {
 
   return (
     <svg viewBox="0 0 120 60" className="w-full h-full">
+      <style>{`
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+      `}</style>
       {/* Input indicator */}
-      <motion.rect x="10" y="5" width="100" height="12" rx="2" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" />
+      <rect x="10" y="5" width="100" height="12" rx="2" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" />
       <text x="15" y="13" fill="rgba(255,255,255,0.3)" fontSize="4" fontFamily="monospace">https://store.acme.com/...</text>
       
       {/* AI Processing */}
-      <motion.circle cx="60" cy="25" r="6" fill="rgba(255,255,255,0.1)" stroke="hsl(var(--primary))" strokeWidth="1"
-        animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2, repeat: Infinity }} />
+      <circle cx="60" cy="25" r="6" fill="rgba(255,255,255,0.1)" stroke="hsl(var(--primary))" strokeWidth="1"
+        style={{ animation: 'pulse 2s ease-in-out infinite', transformOrigin: '60px 25px' }} />
       <text x="60" y="27" textAnchor="middle" fill="hsl(var(--primary))" fontSize="4" fontWeight="600">AI</text>
       
       {/* Slug Suggestions */}
       {slugSuggestions.map((item, idx) => (
-        <motion.g key={idx}
-          animate={{ opacity: activeSlug === idx ? 1 : 0.4, scale: activeSlug === idx ? 1.02 : 1 }}
-          transition={{ duration: 0.3 }}>
+        <g key={idx} style={{ opacity: activeSlug === idx ? 1 : 0.4, transform: `scale(${activeSlug === idx ? 1.02 : 1})`, transition: 'all 0.3s ease' }}>
           <rect x="15" y={35 + idx * 8} width="70" height="7" rx="1" 
             fill={activeSlug === idx ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.03)"} 
             stroke={activeSlug === idx ? "hsl(var(--primary))" : "rgba(255,255,255,0.1)"} strokeWidth="0.5" />
@@ -503,7 +635,7 @@ export const AILinkOptimizerVisual = () => {
           <text x="95" y={40 + idx * 8} textAnchor="middle" fill={activeSlug === idx ? "hsl(var(--primary))" : "rgba(255,255,255,0.4)"} fontSize="3.5" fontWeight="600">
             {item.score}%
           </text>
-        </motion.g>
+        </g>
       ))}
     </svg>
   );
@@ -536,22 +668,24 @@ export const LinkHealthMonitorVisual = () => {
 
   return (
     <svg viewBox="0 0 120 60" className="w-full h-full">
+      <style>{`
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.3); } }
+      `}</style>
       <text x="10" y="12" fill="rgba(255,255,255,0.6)" fontSize="5" fontWeight="600">Health Monitor</text>
       
       {links.map((link, idx) => {
         const color = getStatusColor(link.status);
         return (
-          <motion.g key={idx} animate={{ opacity: pulseIndex === idx ? 1 : 0.6 }}>
+          <g key={idx} style={{ opacity: pulseIndex === idx ? 1 : 0.6, transition: 'opacity 0.3s ease' }}>
             <rect x="10" y={18 + idx * 13} width="100" height="11" rx="2" 
               fill={pulseIndex === idx ? `rgba(${color},0.1)` : "rgba(255,255,255,0.03)"} 
               stroke={`rgba(${color},0.4)`} strokeWidth="0.5" />
-            <motion.circle cx="18" cy={23.5 + idx * 13} r="2.5" fill={`rgb(${color})`}
-              animate={pulseIndex === idx ? { scale: [1, 1.3, 1] } : {}}
-              transition={{ duration: 0.8, repeat: Infinity }} />
+            <circle cx="18" cy={23.5 + idx * 13} r="2.5" fill={`rgb(${color})`}
+              style={pulseIndex === idx ? { animation: 'pulse 0.8s ease-in-out infinite', transformOrigin: `18px ${23.5 + idx * 13}px` } : {}} />
             <text x="25" y={25.5 + idx * 13} fill="rgba(255,255,255,0.7)" fontSize="4" fontFamily="monospace">
               /{link.name}
             </text>
-          </motion.g>
+          </g>
         );
       })}
     </svg>
@@ -581,16 +715,16 @@ export const SmartRedirectVisual = () => {
         const yPos = 14 + idx * 16;
         const isActive = activeRoute === idx;
         return (
-          <motion.g key={idx}>
-            <motion.path d={`M 75 34 Q 88 34 93 ${yPos + 7}`} fill="none"
+          <g key={idx}>
+            <path d={`M 75 34 Q 88 34 93 ${yPos + 7}`} fill="none"
               stroke={isActive ? "hsl(var(--primary))" : "rgba(255,255,255,0.2)"}
               strokeWidth={isActive ? 1.5 : 0.5} strokeDasharray={isActive ? "0" : "2,2"} />
-            <motion.rect x="93" y={yPos} width="22" height="13" rx="2" 
+            <rect x="93" y={yPos} width="22" height="13" rx="2" 
               fill={isActive ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.03)"} 
               stroke={isActive ? "hsl(var(--primary))" : "rgba(255,255,255,0.1)"} strokeWidth="0.5"
-              animate={{ scale: isActive ? 1.03 : 1 }} />
+              style={{ transform: `scale(${isActive ? 1.03 : 1})`, transformOrigin: `104px ${yPos + 6.5}px`, transition: 'transform 0.3s ease' }} />
             <text x="104" y={yPos + 8} textAnchor="middle" fontSize="5">{route.split(" ")[0]}</text>
-          </motion.g>
+          </g>
         );
       })}
     </svg>
@@ -610,44 +744,51 @@ export const QRScanAnalyticsVisual = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const devices = [
+    { device: "iPhone", pct: 62, color: "rgba(74,222,128,0.6)" },
+    { device: "Android", pct: 31, color: "rgba(59,130,246,0.6)" },
+    { device: "Other", pct: 7, color: "rgba(255,255,255,0.3)" },
+  ];
+
   return (
     <svg viewBox="0 0 120 60" className="w-full h-full">
+      <style>{`
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes growWidth { from { width: 0; } }
+        @keyframes pulseRing { 0%, 100% { r: 22; opacity: 0.5; } 50% { r: 28; opacity: 0; } }
+        @keyframes cellPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+      `}</style>
       {/* QR Code Base */}
       <rect x="10" y="10" width="40" height="40" rx="3" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
       {/* QR Grid Pattern */}
       {[0, 1, 2, 3].map((row) =>
         [0, 1, 2, 3].map((col) => (
-          <motion.rect key={`${row}-${col}`} x={14 + col * 9} y={14 + row * 9} width="6" height="6" rx="1"
+          <rect key={`${row}-${col}`} x={14 + col * 9} y={14 + row * 9} width="6" height="6" rx="1"
             fill={scanPulse === row ? "hsl(var(--primary))" : "rgba(255,255,255,0.3)"}
-            animate={{ opacity: scanPulse === row ? [0.5, 1, 0.5] : 0.3 }}
-            transition={{ duration: 0.5 }} />
+            style={scanPulse === row ? { animation: 'cellPulse 0.5s ease-in-out' } : { opacity: 0.3 }} />
         ))
       )}
       
       {/* Scan Pulse Ring */}
-      <motion.circle cx="30" cy="30" r="22" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5"
-        animate={{ r: [22, 28, 22], opacity: [0.5, 0, 0.5] }} transition={{ duration: 2, repeat: Infinity }} />
+      <circle cx="30" cy="30" r="22" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5"
+        style={{ animation: 'pulseRing 2s ease-in-out infinite' }} />
       
       {/* Analytics Panel */}
       <rect x="58" y="8" width="55" height="44" rx="3" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5" />
       <text x="63" y="18" fill="rgba(255,255,255,0.5)" fontSize="4">Scans Today</text>
-      <motion.text x="63" y="28" fill="hsl(var(--primary))" fontSize="8" fontWeight="700"
-        key={scanPulse} initial={{ opacity: 0.7 }} animate={{ opacity: 1 }}>
+      <text x="63" y="28" fill="hsl(var(--primary))" fontSize="8" fontWeight="700">
         {1247 + scanPulse}
-      </motion.text>
+      </text>
       
       {/* Device breakdown */}
-      {[
-        { device: "iPhone", pct: 62, color: "rgba(74,222,128,0.6)" },
-        { device: "Android", pct: 31, color: "rgba(59,130,246,0.6)" },
-        { device: "Other", pct: 7, color: "rgba(255,255,255,0.3)" },
-      ].map((item, idx) => (
-        <motion.g key={item.device} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: idx * 0.1 }}>
+      {devices.map((item, idx) => (
+        <g key={item.device} style={{ animation: `fadeIn 0.3s ease-out ${idx * 0.1}s both` }}>
           <text x="63" y={38 + idx * 6} fill="rgba(255,255,255,0.4)" fontSize="3.5">{item.device}</text>
-          <motion.rect x="83" y={35 + idx * 6} rx="1" height="3" fill={item.color}
-            initial={{ width: 0 }} animate={{ width: item.pct * 0.25 }} transition={{ delay: 0.3, duration: 0.4 }} />
+          <rect x="83" y={35 + idx * 6} rx="1" height="3" fill={item.color}
+            width={item.pct * 0.25}
+            style={{ animation: `growWidth 0.4s ease-out 0.3s both` }} />
           <text x={85 + item.pct * 0.25 + 2} y={38 + idx * 6} fill="rgba(255,255,255,0.5)" fontSize="3">{item.pct}%</text>
-        </motion.g>
+        </g>
       ))}
     </svg>
   );
@@ -667,6 +808,9 @@ export const DynamicQRRedirectVisual = () => {
 
   return (
     <svg viewBox="0 0 120 60" className="w-full h-full">
+      <style>{`
+        @keyframes bounce { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
+      `}</style>
       {/* Static Printed QR */}
       <rect x="10" y="10" width="35" height="35" rx="3" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
       {[0, 1, 2].map((row) =>
@@ -677,24 +821,26 @@ export const DynamicQRRedirectVisual = () => {
       <text x="27.5" y="52" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="4">Printed QR</text>
       
       {/* Arrow */}
-      <motion.path d="M 50 27 L 62 27" fill="none" stroke="hsl(var(--primary))" strokeWidth="1.5" markerEnd="url(#qrArrow)"
-        animate={{ x: [0, 3, 0] }} transition={{ duration: 1.5, repeat: Infinity }} />
+      <path d="M 50 27 L 62 27" fill="none" stroke="hsl(var(--primary))" strokeWidth="1.5" markerEnd="url(#qrArrow)"
+        style={{ animation: 'bounce 1.5s ease-in-out infinite' }} />
       
       {/* Dynamic Destination Panel */}
       <rect x="68" y="8" width="45" height="44" rx="3" fill="rgba(255,255,255,0.05)" stroke="hsl(var(--primary))" strokeWidth="1" />
       <text x="73" y="18" fill="rgba(255,255,255,0.5)" fontSize="4">Destination</text>
       
       {destinations.map((dest, idx) => (
-        <motion.g key={dest}>
-          <motion.rect x="73" y={22 + idx * 10} width="35" height="8" rx="2"
+        <g key={dest}>
+          <rect x="73" y={22 + idx * 10} width="35" height="8" rx="2"
             fill={destination === idx ? "rgba(74,222,128,0.15)" : "rgba(255,255,255,0.03)"}
             stroke={destination === idx ? "rgba(74,222,128,0.5)" : "rgba(255,255,255,0.1)"}
-            strokeWidth="0.5" />
+            strokeWidth="0.5"
+            style={{ transition: 'all 0.3s ease' }} />
           <text x="90.5" y={28 + idx * 10} textAnchor="middle"
-            fill={destination === idx ? "rgba(74,222,128,0.9)" : "rgba(255,255,255,0.4)"} fontSize="4">
+            fill={destination === idx ? "rgba(74,222,128,0.9)" : "rgba(255,255,255,0.4)"} fontSize="4"
+            style={{ transition: 'fill 0.3s ease' }}>
             {dest}
           </text>
-        </motion.g>
+        </g>
       ))}
       
       <defs>
@@ -720,23 +866,29 @@ export const QRBrandStudioVisual = () => {
 
   return (
     <svg viewBox="0 0 120 60" className="w-full h-full">
+      <style>{`
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        @keyframes cornerPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+      `}</style>
       {/* QR Preview */}
-      <rect x="10" y="8" width="44" height="44" rx="4" fill="rgba(255,255,255,0.1)" stroke={colors[colorIdx]} strokeWidth="1.5" />
+      <rect x="10" y="8" width="44" height="44" rx="4" fill="rgba(255,255,255,0.1)" stroke={colors[colorIdx]} strokeWidth="1.5"
+        style={{ transition: 'stroke 0.3s ease' }} />
       {/* QR Pattern with brand color */}
       {[0, 1, 2, 3].map((row) =>
         [0, 1, 2, 3].map((col) => {
           const isCorner = (row === 0 && col === 0) || (row === 0 && col === 3) || (row === 3 && col === 0);
           return (
-            <motion.rect key={`${row}-${col}`} x={15 + col * 9} y={13 + row * 9} width="7" height="7" rx={isCorner ? 2 : 1}
+            <rect key={`${row}-${col}`} x={15 + col * 9} y={13 + row * 9} width="7" height="7" rx={isCorner ? 2 : 1}
               fill={isCorner ? colors[colorIdx] : "rgba(255,255,255,0.4)"}
-              animate={isCorner ? { scale: [1, 1.1, 1] } : {}} transition={{ duration: 0.5 }} />
+              style={isCorner ? { animation: 'cornerPulse 0.5s ease-in-out', transformOrigin: `${18.5 + col * 9}px ${16.5 + row * 9}px`, transition: 'fill 0.3s ease' } : { transition: 'fill 0.3s ease' }} />
           );
         })
       )}
       {/* Center Logo */}
-      <motion.circle cx="32" cy="30" r="8" fill="rgba(0,0,0,0.8)" stroke={colors[colorIdx]} strokeWidth="1"
-        animate={{ scale: [1, 1.05, 1] }} transition={{ duration: 2, repeat: Infinity }} />
-      <text x="32" y="33" textAnchor="middle" fill={colors[colorIdx]} fontSize="6" fontWeight="700">★</text>
+      <circle cx="32" cy="30" r="8" fill="rgba(0,0,0,0.8)" stroke={colors[colorIdx]} strokeWidth="1"
+        style={{ animation: 'pulse 2s ease-in-out infinite', transformOrigin: '32px 30px', transition: 'stroke 0.3s ease' }} />
+      <text x="32" y="33" textAnchor="middle" fill={colors[colorIdx]} fontSize="6" fontWeight="700"
+        style={{ transition: 'fill 0.3s ease' }}>★</text>
       
       {/* Controls Panel */}
       <rect x="60" y="8" width="52" height="44" rx="3" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5" />
@@ -744,15 +896,15 @@ export const QRBrandStudioVisual = () => {
       
       {/* Color Swatches */}
       {colors.map((color, idx) => (
-        <motion.circle key={idx} cx={70 + idx * 10} cy="26" r="4"
+        <circle key={idx} cx={70 + idx * 10} cy="26" r="4"
           fill={color} stroke={colorIdx === idx ? "white" : "transparent"} strokeWidth="1"
-          animate={colorIdx === idx ? { scale: 1.2 } : { scale: 1 }} />
+          style={{ transform: `scale(${colorIdx === idx ? 1.2 : 1})`, transformOrigin: `${70 + idx * 10}px 26px`, transition: 'transform 0.3s ease' }} />
       ))}
       
       {/* Shape Options */}
       <text x="65" y="38" fill="rgba(255,255,255,0.5)" fontSize="4">Corner Style</text>
       {["Square", "Round", "Dot"].map((shape, idx) => (
-        <motion.rect key={shape} x={65 + idx * 16} y={42} width="14" height="8" rx="2"
+        <rect key={shape} x={65 + idx * 16} y={42} width="14" height="8" rx="2"
           fill={idx === 1 ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.03)"}
           stroke={idx === 1 ? "hsl(var(--primary))" : "rgba(255,255,255,0.1)"} strokeWidth="0.5" />
       ))}
@@ -766,14 +918,16 @@ export const QRBrandStudioVisual = () => {
 // Click Fraud Shield Visual - Bot filtering
 export const ClickFraudShieldVisual = () => (
   <svg viewBox="0 0 120 60" className="w-full h-full">
+    <style>{`
+      @keyframes shieldIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    `}</style>
     {/* Shield */}
-    <motion.path
+    <path
       d="M60,8 L85,18 L85,35 C85,45 72,52 60,55 C48,52 35,45 35,35 L35,18 Z"
       fill="rgba(74,222,128,0.1)"
       stroke="rgba(74,222,128,0.5)"
       strokeWidth="1"
-      initial={{ scale: 0.9, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
+      style={{ animation: 'shieldIn 0.5s ease-out both', transformOrigin: '60px 31.5px' }}
     />
     <circle cx="60" cy="28" r="8" fill="rgba(255,255,255,0.1)" stroke="hsl(var(--primary))" strokeWidth="0.5" />
     <text x="60" y="30" textAnchor="middle" fill="hsl(var(--primary))" fontSize="5" fontWeight="600">ML</text>
@@ -795,21 +949,23 @@ export const DeepLinkVisual = () => {
 
   return (
     <svg viewBox="0 0 120 60" className="w-full h-full">
+      <style>{`
+        @keyframes appPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+      `}</style>
       {/* Flow Steps */}
       {["Check", "Found", "Deep", "Done"].map((label, idx) => (
-        <motion.g key={idx}>
-          <motion.rect x={10 + idx * 28} y="8" width="22" height="12" rx="2"
+        <g key={idx}>
+          <rect x={10 + idx * 28} y="8" width="22" height="12" rx="2"
             fill={stage >= idx ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.03)"}
             stroke={stage === idx ? "hsl(var(--primary))" : "rgba(255,255,255,0.1)"} strokeWidth="0.5"
-            animate={{ scale: stage === idx ? 1.05 : 1 }} />
+            style={{ transform: `scale(${stage === idx ? 1.05 : 1})`, transformOrigin: `${21 + idx * 28}px 14px`, transition: 'all 0.3s ease' }} />
           <text x={21 + idx * 28} y="16" textAnchor="middle" fill={stage >= idx ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.3)"} fontSize="4">{label}</text>
-        </motion.g>
+        </g>
       ))}
       
       {/* App Icon */}
-      <motion.rect x="40" y="28" width="40" height="28" rx="6" fill="rgba(255,255,255,0.1)" stroke="hsl(var(--primary))" strokeWidth="1"
-        animate={{ scale: stage >= 2 ? [1, 1.02, 1] : 1 }}
-        transition={{ duration: 0.5, repeat: stage >= 2 ? Infinity : 0 }} />
+      <rect x="40" y="28" width="40" height="28" rx="6" fill="rgba(255,255,255,0.1)" stroke="hsl(var(--primary))" strokeWidth="1"
+        style={stage >= 2 ? { animation: 'appPulse 0.5s ease-in-out infinite', transformOrigin: '60px 42px' } : {}} />
       <text x="60" y="42" textAnchor="middle" fontSize="10">📱</text>
       <text x="60" y="52" textAnchor="middle" fill="hsl(var(--primary))" fontSize="3.5">/products</text>
     </svg>
@@ -831,6 +987,9 @@ export const ABLinkTestVisual = () => {
 
   return (
     <svg viewBox="0 0 120 60" className="w-full h-full">
+      <style>{`
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+      `}</style>
       {/* Source */}
       <rect x="45" y="5" width="30" height="12" rx="2" fill="rgba(255,255,255,0.1)" stroke="hsl(var(--primary))" strokeWidth="0.5" />
       <text x="60" y="13" textAnchor="middle" fill="hsl(var(--primary))" fontSize="4">/sale</text>
@@ -842,18 +1001,18 @@ export const ABLinkTestVisual = () => {
       {/* Variant A */}
       <rect x="5" y="30" width="35" height="25" rx="3" fill="rgba(59,130,246,0.1)" stroke="rgba(59,130,246,0.4)" strokeWidth="0.5" />
       <text x="22.5" y="40" textAnchor="middle" fill="rgba(59,130,246,0.9)" fontSize="5" fontWeight="700">A</text>
-      <motion.text x="22.5" y="50" textAnchor="middle" fill="rgba(59,130,246,0.9)" fontSize="6" fontWeight="700"
-        key={variantA} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+      <text x="22.5" y="50" textAnchor="middle" fill="rgba(59,130,246,0.9)" fontSize="6" fontWeight="700"
+        style={{ animation: 'fadeIn 0.3s ease-out both' }} key={variantA}>
         {variantA}%
-      </motion.text>
+      </text>
       
       {/* Variant B */}
       <rect x="80" y="30" width="35" height="25" rx="3" fill="rgba(168,85,247,0.1)" stroke="rgba(168,85,247,0.4)" strokeWidth="0.5" />
       <text x="97.5" y="40" textAnchor="middle" fill="rgba(168,85,247,0.9)" fontSize="5" fontWeight="700">B</text>
-      <motion.text x="97.5" y="50" textAnchor="middle" fill="rgba(168,85,247,0.9)" fontSize="6" fontWeight="700"
-        key={variantB} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+      <text x="97.5" y="50" textAnchor="middle" fill="rgba(168,85,247,0.9)" fontSize="6" fontWeight="700"
+        style={{ animation: 'fadeIn 0.3s ease-out both' }} key={variantB}>
         {variantB}%
-      </motion.text>
+      </text>
     </svg>
   );
 };
