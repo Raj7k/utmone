@@ -39,13 +39,23 @@ export const registerServiceWorker = async (): Promise<ServiceWorkerRegistration
     const wasControlled = Boolean(navigator.serviceWorker.controller);
 
     // Only reload on service worker UPDATE, not on first install
+    // Added reload loop protection via sessionStorage
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       if (!wasControlled) {
         console.log('[SW] First-time installation complete, skipping reload');
         return;
       }
 
+      // Prevent reload loops - only reload once per 30 seconds
+      const lastReload = sessionStorage.getItem('sw_last_reload');
+      const now = Date.now();
+      if (lastReload && now - parseInt(lastReload) < 30000) {
+        console.warn('[SW] Skipping reload - too recent (loop protection)');
+        return;
+      }
+
       console.log('[SW] Service Worker updated, reloading to apply changes...');
+      sessionStorage.setItem('sw_last_reload', now.toString());
       setTimeout(() => window.location.reload(), 1500);
     });
 
@@ -96,9 +106,10 @@ export const validateServiceWorkerVersion = async (): Promise<boolean> => {
 
         if (swVersion !== expectedVersion) {
           console.warn('[SW] Version mismatch - SW:', swVersion, 'Expected:', expectedVersion);
-          // Clear caches and reload
+          // Clear caches but DON'T force reload - let user continue
+          // The reload from controllerchange will handle it with loop protection
           clearAllCaches().then(() => {
-            window.location.reload();
+            console.log('[SW] Caches cleared due to version mismatch');
           });
           resolve(false);
         } else {

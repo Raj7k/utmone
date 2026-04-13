@@ -556,6 +556,6 @@ export const privateRoutes = [
       </Suspense>
     )}
   />,
-  <Route key="privacy-policy" path="/privacy-policy" element={<Suspense fallback={<DashboardSkeleton />}><PrivacyPolicy /></Suspense>} />,
-  <Route key="legal-privacy" path="/legal/privacy" element={<Navigate to="/privacy-policy" replace />} />,
+  // NOTE: /privacy-policy and /legal/privacy are public routes defined in App.tsx
+  // Do NOT duplicate them here inside ProtectedRoute wrapper
 ];

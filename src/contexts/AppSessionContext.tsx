@@ -199,9 +199,12 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
     let isMounted = true;
     
     const initialize = async () => {
+      console.log("[AppSession] Initializing...", { hasCachedSession: !!INITIAL_SESSION?.user, hasCachedWorkspace: !!INITIAL_WORKSPACE });
+
       // FAST PATH: If we have valid cached session AND workspace, skip blocking getSession
       // This makes dashboard load instantly - we'll refresh in background
       if (INITIAL_SESSION?.user && INITIAL_WORKSPACE) {
+        console.log("[AppSession] FAST PATH - using cached session");
         if (isMounted) {
           setIsFullyLoaded(true);
         }
@@ -218,14 +221,19 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
               cacheWorkspaces(freshWorkspaces);
             }
           }
+        }).catch(err => {
+          console.warn("[AppSession] Background refresh failed (non-blocking):", err);
         });
         return;
       }
-      
+
       // SLOW PATH: No cache - must wait for auth
       try {
+        console.log("[AppSession] SLOW PATH - calling getSession...");
+        const startTime = Date.now();
         const { data: { session: freshSession }, error: authError } = await supabase.auth.getSession();
-        
+        console.log("[AppSession] getSession completed in", Date.now() - startTime, "ms", { hasSession: !!freshSession, error: authError?.message });
+
         if (authError) {
           console.error("[AppSession] Auth error:", authError);
           if (isMounted) {
@@ -236,7 +244,8 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
         }
 
         if (!freshSession?.user) {
-          // Not authenticated - clear everything
+          // Not authenticated - clear everything and mark as ready
+          console.log("[AppSession] No session - user not authenticated");
           if (isMounted) {
             setUser(null);
             setSession(null);
@@ -251,8 +260,9 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
         }
 
         // Authenticated - cache and fetch workspaces
+        console.log("[AppSession] Authenticated as:", freshSession.user.email);
         cacheSession(freshSession);
-        
+
         if (isMounted) {
           setUser(freshSession.user);
           setSession(freshSession);
@@ -260,11 +270,12 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
 
         // Fetch workspaces
         const fetchedWorkspaces = await fetchWorkspaces(freshSession.user.id);
-        
+        console.log("[AppSession] Fetched", fetchedWorkspaces.length, "workspaces");
+
         if (isMounted) {
           setWorkspaces(fetchedWorkspaces);
           cacheWorkspaces(fetchedWorkspaces);
-          
+
           // Set current workspace
           if (fetchedWorkspaces.length > 0) {
             const savedId = localStorage.getItem('currentWorkspaceId');
@@ -273,7 +284,7 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
             setCurrentWorkspace(selected);
             cacheWorkspace(selected);
           }
-          
+
           setIsFullyLoaded(true);
         }
       } catch (err) {
