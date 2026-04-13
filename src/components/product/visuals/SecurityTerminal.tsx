@@ -1,5 +1,4 @@
-import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface LogEntry {
   id: number;
@@ -8,9 +7,14 @@ interface LogEntry {
   message: string;
 }
 
+/**
+ * SecurityTerminal - Terminal-style security log visualization
+ * Uses CSS animations for log entry transitions - no framer-motion
+ * Keeps minimal JS for log content rotation (necessary for dynamic text)
+ */
 export const SecurityTerminal = () => {
   const [logs, setLogs] = useState<LogEntry[]>([]);
-  const [logId, setLogId] = useState(0);
+  const logIdRef = useRef(0);
 
   const logTemplates = [
     { type: "access" as const, message: "[ACCESS GRANTED] User: Admin via YubiKey 5..." },
@@ -25,40 +29,37 @@ export const SecurityTerminal = () => {
     { type: "audit" as const, message: "[AUDIT] Bulk export: 50 links by analytics@..." },
   ];
 
-  // Generate timestamp
   const getTimestamp = () => {
     const now = new Date();
     return now.toISOString().slice(11, 19);
   };
 
-  // Add new logs periodically
+  // Initialize with logs and add new ones periodically
   useEffect(() => {
+    // Initial logs
+    const initialLogs: LogEntry[] = [];
+    for (let i = 0; i < 5; i++) {
+      initialLogs.push({
+        id: logIdRef.current++,
+        timestamp: getTimestamp(),
+        type: logTemplates[i].type,
+        message: logTemplates[i].message,
+      });
+    }
+    setLogs(initialLogs);
+
+    // Add new logs periodically
     const interval = setInterval(() => {
       const template = logTemplates[Math.floor(Math.random() * logTemplates.length)];
       const newLog: LogEntry = {
-        id: logId,
+        id: logIdRef.current++,
         timestamp: getTimestamp(),
         type: template.type,
         message: template.message,
       };
       
-      setLogs(prev => {
-        const updated = [newLog, ...prev];
-        return updated.slice(0, 8); // Keep only last 8 logs
-      });
-      setLogId(prev => prev + 1);
+      setLogs(prev => [newLog, ...prev].slice(0, 8));
     }, 2000);
-
-    // Initial logs
-    for (let i = 0; i < 5; i++) {
-      const template = logTemplates[i];
-      setLogs(prev => [...prev, {
-        id: i,
-        timestamp: getTimestamp(),
-        type: template.type,
-        message: template.message,
-      }]);
-    }
 
     return () => clearInterval(interval);
   }, []);
@@ -83,21 +84,20 @@ export const SecurityTerminal = () => {
           <span className="text-[10px] uppercase tracking-wider ml-2 text-white/30">
             audit log — live
           </span>
-          <motion.div 
-            className="w-1.5 h-1.5 rounded-full bg-green-500 ml-auto"
-            animate={{ opacity: [1, 0.3, 1] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          />
+          {/* Blinking indicator - pure CSS */}
+          <div className="w-1.5 h-1.5 rounded-full bg-green-500 ml-auto animate-pulse" />
         </div>
 
         {/* Log entries */}
         <div className="p-3 space-y-1 overflow-hidden">
           {logs.map((log, index) => (
-            <motion.div
+            <div
               key={log.id}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1 - index * 0.1, x: 0 }}
-              className="font-mono text-[11px] flex gap-2 whitespace-nowrap overflow-hidden"
+              className="font-mono text-[11px] flex gap-2 whitespace-nowrap overflow-hidden animate-slide-in-log"
+              style={{ 
+                opacity: 1 - index * 0.1,
+                animationDelay: index === 0 ? '0s' : undefined,
+              }}
             >
               <span className="text-white/30">
                 {log.timestamp}
@@ -105,18 +105,35 @@ export const SecurityTerminal = () => {
               <span className={getLogColorClass(log.type)}>
                 {log.message}
               </span>
-            </motion.div>
+            </div>
           ))}
         </div>
 
-        {/* Scanline effect */}
-        <motion.div
+        {/* Scanline effect - pure CSS */}
+        <div
           className="absolute inset-0 pointer-events-none"
           style={{
             background: 'repeating-linear-gradient(0deg, transparent 0px, transparent 2px, hsl(0 0% 100% / 0.01) 2px, hsl(0 0% 100% / 0.01) 4px)',
           }}
         />
       </div>
+
+      {/* Component-specific animation */}
+      <style>{`
+        @keyframes slideInLog {
+          from {
+            opacity: 0;
+            transform: translateX(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        .animate-slide-in-log {
+          animation: slideInLog 0.2s ease-out forwards;
+        }
+      `}</style>
     </div>
   );
 };
