@@ -388,8 +388,11 @@ export type Database = {
           destination_url: string
           domain: string | null
           expires_at: string | null
+          fallback_url: string | null
           geo_targets: Json | null
           id: string
+          max_clicks: number | null
+          password: string | null
           security_status: string
           short_url: string | null
           slug: string | null
@@ -411,8 +414,11 @@ export type Database = {
           destination_url: string
           domain?: string | null
           expires_at?: string | null
+          fallback_url?: string | null
           geo_targets?: Json | null
           id?: string
+          max_clicks?: number | null
+          password?: string | null
           security_status?: string
           short_url?: string | null
           slug?: string | null
@@ -434,8 +440,11 @@ export type Database = {
           destination_url?: string
           domain?: string | null
           expires_at?: string | null
+          fallback_url?: string | null
           geo_targets?: Json | null
           id?: string
+          max_clicks?: number | null
+          password?: string | null
           security_status?: string
           short_url?: string | null
           slug?: string | null

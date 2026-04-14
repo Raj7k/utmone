@@ -1,5 +1,4 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
-import { createHash } from 'node:crypto';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -25,10 +24,10 @@ Deno.serve(async (req) => {
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Fetch link with password hash
+    // Fetch link with password (plain text column)
     const { data: link, error } = await supabase
       .from('links')
-      .select('password_hash, final_url')
+      .select('password, destination_url')
       .eq('id', linkId)
       .single();
 
@@ -39,13 +38,12 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Hash the provided password and compare
-    const passwordHash = createHash('sha256').update(password).digest('hex');
-    const valid = passwordHash === link.password_hash;
+    // Compare plain-text passwords
+    const valid = password === link.password;
 
     if (valid) {
       return new Response(
-        JSON.stringify({ valid: true, finalUrl: link.final_url }),
+        JSON.stringify({ valid: true, finalUrl: link.destination_url }),
         { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     } else {
