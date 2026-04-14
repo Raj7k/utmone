@@ -270,6 +270,10 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
             <Label htmlFor="title">Title</Label>
             <Input id="title" {...register("title")} />
           </div>
+          <div>
+            <Label htmlFor="description">Description</Label>
+            <Textarea id="description" {...register("description")} rows={3} />
+          </div>
         </CardContent>
       </Card>
 
