@@ -1,40 +1,74 @@
 
 
-## Plan: Fix Links Page and Link Detail Issues
+## Plan: Add Missing Columns & Create Campaigns Table
 
-### Problems Identified
+### What's happening now
+1. **Six columns missing from `links`**: `final_url`, `campaign_id`, `cache_priority`, `health_status`, `sentinel_enabled`, `sentinel_config` — the frontend falls back defensively but loses features.
+2. **One column missing from `link_clicks`**: `campaign_id` — campaign-scoped analytics silently fail.
+3. **`campaigns` table doesn't exist** — the frontend references it heavily (8+ files use `supabaseFrom('campaigns')`), so campaigns features return errors. The `campaign_id` FK on `links` needs this table to exist first.
+4. **`LOVABLE_API_KEY`** — already configured. No action needed.
 
-1. **`deleted_at` column doesn't exist** — The `links` table has no `deleted_at` column, but 4 files filter with `.is("deleted_at", null)`, causing PostgREST 400 errors. This breaks the links list, dashboard stats, and prefetch.
+### Steps
 
-2. **`useLinkDetail` selects non-existent columns** — `description`, `final_url`, `path`, `og_title`, `og_description`, `og_image`, `redirect_type`, `max_clicks`, `custom_expiry_message`, `fallback_url`, `unique_clicks`, `last_clicked_at`, `folder_id` do not exist in the `links` table schema. This causes 400 errors on the detail page.
+**Step 1: Create `campaigns` table via migration**
 
-3. **`useEnhancedLinks` selects non-existent columns** — `rejection_reason` and `sentinel_enabled` are not in the schema.
+```sql
+CREATE TABLE IF NOT EXISTS public.campaigns (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  workspace_id UUID NOT NULL,
+  created_by UUID NOT NULL,
+  name TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'active',
+  color TEXT DEFAULT '#3b82f6',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
 
-4. **`useLinkDetail` references non-existent join** — `qr_codes(id)` requires a foreign key from `qr_codes.link_id` → `links.id`, which isn't configured as a FK in the schema.
+ALTER TABLE public.campaigns ENABLE ROW LEVEL SECURITY;
 
-### Fix
+CREATE POLICY "Workspace owners can manage campaigns" ON public.campaigns
+  FOR ALL TO authenticated
+  USING (EXISTS (SELECT 1 FROM workspaces w WHERE w.id = campaigns.workspace_id AND w.owner_id = auth.uid()))
+  WITH CHECK (EXISTS (SELECT 1 FROM workspaces w WHERE w.id = campaigns.workspace_id AND w.owner_id = auth.uid()));
 
-**File 1: `src/hooks/links/useEnhancedLinks.tsx`** (line 91-97)
-- Remove `rejection_reason` and `sentinel_enabled` from the select list
-- Remove `.is("deleted_at", null)` filter
+CREATE INDEX idx_campaigns_workspace ON public.campaigns(workspace_id);
+```
 
-**File 2: `src/hooks/links/useLinkDetail.tsx`** (lines 60-94)
-- Strip the select to only valid columns: `id, title, destination_url, short_url, domain, slug, status, security_status, utm_source, utm_medium, utm_campaign, utm_term, utm_content, expires_at, total_clicks, geo_targets, created_at, updated_at, created_by, workspace_id, password_hash`
-- Remove `qr_codes(id)` join — query `qr_codes` separately or remove `qr_code_count`
-- Update the `LinkDetail` interface to remove non-existent fields
-- Fix the return mapping
+**Step 2: Add missing columns to `links` via migration**
 
-**File 3: `src/hooks/dashboard/useDashboardUnified.ts`** (line 263)
-- Remove `.is("deleted_at", null)`
+```sql
+ALTER TABLE public.links
+  ADD COLUMN IF NOT EXISTS final_url TEXT,
+  ADD COLUMN IF NOT EXISTS campaign_id UUID REFERENCES public.campaigns(id) ON DELETE SET NULL,
+  ADD COLUMN IF NOT EXISTS cache_priority TEXT,
+  ADD COLUMN IF NOT EXISTS health_status TEXT,
+  ADD COLUMN IF NOT EXISTS sentinel_enabled BOOLEAN DEFAULT FALSE,
+  ADD COLUMN IF NOT EXISTS sentinel_config JSONB;
 
-**File 4: `src/hooks/dashboard/useDashboardPrefetch.ts`** (lines 45, 158)
-- Remove `.is("deleted_at", null)` in both places
+-- Backfill final_url
+UPDATE public.links SET final_url = destination_url WHERE final_url IS NULL;
 
-**File 5: `src/hooks/dashboard/useAnalyticsData.ts`** (line 112)
-- Remove `.is("deleted_at", null)`
+-- Indexes
+CREATE INDEX IF NOT EXISTS idx_links_campaign_id ON public.links(campaign_id) WHERE campaign_id IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_links_health_status ON public.links(health_status) WHERE health_status IS NOT NULL;
+```
 
-### Technical Notes
-- The `slug` column is not included in `useEnhancedLinks` select — will add it so link cards can display/navigate correctly
-- The `LinkDetail` interface will be simplified to match actual DB columns
-- QR code count will be fetched via a separate query on `qr_codes` table (which has `link_id` column but no FK constraint)
+**Step 3: Add `campaign_id` to `link_clicks` via migration**
+
+```sql
+ALTER TABLE public.link_clicks
+  ADD COLUMN IF NOT EXISTS campaign_id UUID;
+
+CREATE INDEX IF NOT EXISTS idx_link_clicks_campaign_id ON public.link_clicks(campaign_id) WHERE campaign_id IS NOT NULL;
+```
+
+**Step 4: Update memory note** — remove `final_url` from the prohibited columns list since it will now exist.
+
+**Step 5: Confirm** — no `LOVABLE_API_KEY` action needed (already set). Verify all columns and table exist.
+
+### Technical details
+- The `campaigns` table must be created before the `links.campaign_id` FK can reference it.
+- RLS on campaigns mirrors the workspace-owner pattern used by `links`, `domains`, etc.
+- The `link-insertion-constraints` memory note lists `final_url` as prohibited — that needs updating after migration.
+- No frontend code changes needed — the existing fallback code will automatically use the new columns once they exist.
 
