@@ -352,7 +352,6 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
         </CardContent>
       </Card>
 
-      </Card>
 
       {/* Metadata */}
       <Card>
