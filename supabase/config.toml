@@ -1,261 +1,388 @@
 project_id = "whgnsmjdubnvbmarnjfx"
 
-[edge_runtime]
+[functions.create-public-link]
+verify_jwt = false
 
-  [[edge_runtime.scheduler]]
-    function = "generate-flag-recommendations"
-    schedule = "0 */6 * * *"
+[functions.check-email-allowed]
+verify_jwt = false
 
-  [[edge_runtime.scheduler]]
-    function = "check-metric-alerts"
-    schedule = "*/5 * * * *"
+[functions.encrypt-field]
+verify_jwt = false
 
-  [[edge_runtime.scheduler]]
-    function = "github-backup-cron"
-    schedule = "0 2 * * *"
+[functions.decrypt-field]
+verify_jwt = false
 
-  [[edge_runtime.scheduler]]
-    function = "domain-health-check"
-    schedule = "0 */6 * * *"
+[functions.get-invitation-by-token]
+verify_jwt = false
 
-  [[edge_runtime.scheduler]]
-    function = "generate-ai-recommendations"
-    schedule = "0 * * * *"
+[functions.redirect]
+verify_jwt = false
 
-  [[edge_runtime.scheduler]]
-    function = "send-scheduled-report"
-    schedule = "0 * * * *"
+[functions.verify-domain]
+verify_jwt = false
 
-  [[edge_runtime.scheduler]]
-    function = "cleanup-old-analytics"
-    schedule = "0 3 * * *"
+[functions.test-domain]
+verify_jwt = false
 
-  [[edge_runtime.scheduler]]
-    function = "schedule-drip-emails"
-    schedule = "0 * * * *"
+[functions.domain-health-check]
+verify_jwt = false
 
-  [[edge_runtime.scheduler]]
-    function = "check-milestones"
-    schedule = "*/30 * * * *"
+[functions.github-backup]
+verify_jwt = false
 
-  [[edge_runtime.scheduler]]
-    function = "activate-scheduled-links"
-    schedule = "*/5 * * * *"
+[functions.github-backup-cron]
+verify_jwt = false
 
-  [[edge_runtime.scheduler]]
-    function = "detect-analytics-anomalies"
-    schedule = "0 * * * *"
+[functions.process-geolocation]
+verify_jwt = false
 
-  [[edge_runtime.scheduler]]
-    function = "check-subscription-expiry"
-    schedule = "0 1 * * *"
+[functions.process-click-queue]
+verify_jwt = false
 
-[functions]
-  [functions.activate-scheduled-links]
-    verify_jwt = false
-  [functions.admin-create-qa-account]
-    verify_jwt = true
-  [functions.analyze-job-offer]
-    verify_jwt = false
-  [functions.analyze-job-posting]
-    verify_jwt = false
-  [functions.analyze-url]
-    verify_jwt = false
-  [functions.api]
-    verify_jwt = false
-  [functions.auth-email-hook]
-    verify_jwt = false
-  [functions.batch-approve-waitlist]
-    verify_jwt = false
-  [functions.bulk-create-links]
-    verify_jwt = true
-  [functions.calculate-event-halo]
-    verify_jwt = true
-  [functions.calculate-fit-score]
-    verify_jwt = false
-  [functions.calculate-referral-scores]
-    verify_jwt = false
-  [functions.capture-email-lead]
-    verify_jwt = false
-  [functions.check-ab-tests]
-    verify_jwt = false
-  [functions.check-email-allowed]
-    verify_jwt = false
-  [functions.check-metric-alerts]
-    verify_jwt = false
-  [functions.check-milestones]
-    verify_jwt = false
-  [functions.check-subscription-expiry]
-    verify_jwt = false
-  [functions.claim-admin-access]
-    verify_jwt = false
-  [functions.claim-invite]
-    verify_jwt = false
-  [functions.cleanup-old-analytics]
-    verify_jwt = false
-  [functions.content-fingerprint]
-    verify_jwt = false
-  [functions.create-public-link]
-    verify_jwt = false
-  [functions.create-vcard-link]
-    verify_jwt = true
-  [functions.decrypt-field]
-    verify_jwt = false
-  [functions.detect-analytics-anomalies]
-    verify_jwt = false
-  [functions.detect-fraud-patterns]
-    verify_jwt = false
-  [functions.detect-location]
-    verify_jwt = false
-  [functions.domain-health-check]
-    verify_jwt = false
-  [functions.encrypt-field]
-    verify_jwt = false
-  [functions.enrich-registration]
-    verify_jwt = false
-  [functions.export-user-data]
-    verify_jwt = true
-  [functions.extension-create-link]
-    verify_jwt = false
-  [functions.generate-ai-recommendations]
-    verify_jwt = false
-  [functions.generate-analytics-summary]
-    verify_jwt = true
-  [functions.generate-api-key]
-    verify_jwt = true
-  [functions.generate-architect-stamp]
-    verify_jwt = false
-  [functions.generate-flag-recommendations]
-    verify_jwt = false
-  [functions.generate-negotiation-script]
-    verify_jwt = false
-  [functions.generate-smart-insights]
-    verify_jwt = true
-  [functions.generate-stamp-art]
-    verify_jwt = true
-  [functions.geocode-city]
-    verify_jwt = false
-  [functions.get-dashboard-data]
-    verify_jwt = true
-  [functions.get-invitation-by-token]
-    verify_jwt = false
-  [functions.get-waitlist-stats]
-    verify_jwt = false
-  [functions.github-backup]
-    verify_jwt = false
-  [functions.github-backup-cron]
-    verify_jwt = false
-  [functions.handle-referral-signup]
-    verify_jwt = false
-  [functions.hubspot-oauth]
-    verify_jwt = false
-  [functions.identify-visitor]
-    verify_jwt = false
-  [functions.identity-matching]
-    verify_jwt = false
-  [functions.invalidate-flag-cache]
-    verify_jwt = false
-  [functions.landing-analytics]
-    verify_jwt = false
-  [functions.llm-content]
-    verify_jwt = false
-  [functions.magic-link-redirect]
-    verify_jwt = false
-  [functions.notify-admin-new-request]
-    verify_jwt = false
-  [functions.notify-bulk-upload-complete]
-    verify_jwt = true
-  [functions.optimize-team-budget]
-    verify_jwt = false
-  [functions.pixel-js]
-    verify_jwt = false
-  [functions.predict-link-performance]
-    verify_jwt = false
-  [functions.predict-optimal-time]
-    verify_jwt = true
-  [functions.process-click-queue]
-    verify_jwt = false
-  [functions.process-email-queue]
-    verify_jwt = true
-  [functions.process-geolocation]
-    verify_jwt = false
-  [functions.process-partner-payout]
-    verify_jwt = false
-  [functions.process-payment-conversion]
-    verify_jwt = false
-  [functions.reconcile-offline]
-    verify_jwt = true
-  [functions.redirect]
-    verify_jwt = false
-  [functions.refresh-analytics-views]
-    verify_jwt = false
-  [functions.regenerate-recovery-codes]
-    verify_jwt = true
-  [functions.resend-webhook]
-    verify_jwt = false
-  [functions.route-registration]
-    verify_jwt = false
-  [functions.salesforce-oauth]
-    verify_jwt = false
-  [functions.scan-badge-ocr]
-    verify_jwt = false
-  [functions.scan-url]
-    verify_jwt = false
-  [functions.schedule-drip-emails]
-    verify_jwt = false
-  [functions.segment-integration]
-    verify_jwt = false
-  [functions.send-anomaly-alert]
-    verify_jwt = false
-  [functions.send-applicant-confirmation]
-    verify_jwt = false
-  [functions.send-approval-email]
-    verify_jwt = false
-  [functions.send-hot-lead-alert]
-    verify_jwt = false
-  [functions.send-queue-notification]
-    verify_jwt = false
-  [functions.send-referral-unlock-email]
-    verify_jwt = false
-  [functions.send-scheduled-report]
-    verify_jwt = false
-  [functions.send-subscription-expiry-email]
-    verify_jwt = false
-  [functions.sentinel-guard]
-    verify_jwt = false
-  [functions.serve-vcard]
-    verify_jwt = false
-  [functions.shopify-inventory]
-    verify_jwt = false
-  [functions.sitemap-scanner]
-    verify_jwt = false
-  [functions.slack-integration]
-    verify_jwt = false
-  [functions.sync-luma-guests]
-    verify_jwt = false
-  [functions.test-domain]
-    verify_jwt = false
-  [functions.track-conversion]
-    verify_jwt = false
-  [functions.track-event]
-    verify_jwt = false
-  [functions.track-pipeline]
-    verify_jwt = false
-  [functions.track-pixel]
-    verify_jwt = false
-  [functions.track-waitlist-engagement]
-    verify_jwt = false
-  [functions.trigger-click-webhook]
-    verify_jwt = false
-  [functions.update-all-scores]
-    verify_jwt = false
-  [functions.verify-domain]
-    verify_jwt = false
-  [functions.verify-link-password]
-    verify_jwt = false
-  [functions.webhook-hubspot]
-    verify_jwt = false
-  [functions.webhook-luma]
-    verify_jwt = false
-  [functions.webhook-salesforce]
-    verify_jwt = false
+[functions.refresh-analytics-views]
+verify_jwt = false
+
+[functions.notify-admin-new-request]
+verify_jwt = false
+
+[functions.send-applicant-confirmation]
+verify_jwt = false
+
+[functions.track-waitlist-engagement]
+verify_jwt = false
+
+[functions.send-approval-email]
+verify_jwt = false
+
+[functions.landing-analytics]
+verify_jwt = false
+
+[functions.calculate-referral-scores]
+verify_jwt = false
+
+[functions.calculate-fit-score]
+verify_jwt = false
+
+[functions.update-all-scores]
+verify_jwt = false
+
+[functions.send-queue-notification]
+verify_jwt = false
+
+[functions.detect-fraud-patterns]
+verify_jwt = false
+
+[functions.process-email-queue]
+verify_jwt = true
+
+[functions.send-transactional-email]
+verify_jwt = true
+
+[functions.preview-transactional-email]
+verify_jwt = false
+
+[functions.handle-email-unsubscribe]
+verify_jwt = false
+
+[functions.handle-email-suppression]
+verify_jwt = false
+
+[functions.invalidate-flag-cache]
+verify_jwt = false
+
+[functions.generate-flag-recommendations]
+verify_jwt = false
+
+[functions.check-metric-alerts]
+verify_jwt = false
+
+[functions.track-conversion]
+verify_jwt = false
+
+[functions.check-ab-tests]
+verify_jwt = false
+
+[functions.api]
+verify_jwt = false
+
+[functions.slack-integration]
+verify_jwt = false
+
+[functions.hubspot-oauth]
+verify_jwt = false
+
+[functions.salesforce-oauth]
+verify_jwt = false
+
+[functions.segment-integration]
+verify_jwt = false
+
+[functions.process-payment-conversion]
+verify_jwt = false
+
+[functions.process-partner-payout]
+verify_jwt = false
+
+[functions.trigger-click-webhook]
+verify_jwt = false
+
+[functions.scan-url]
+verify_jwt = false
+
+[functions.verify-link-password]
+verify_jwt = false
+
+[functions.generate-api-key]
+verify_jwt = true
+
+[functions.generate-analytics-summary]
+verify_jwt = true
+
+[functions.generate-ai-recommendations]
+verify_jwt = false
+
+[functions.bulk-create-links]
+verify_jwt = true
+
+[functions.detect-analytics-anomalies]
+verify_jwt = false
+
+[functions.send-scheduled-report]
+verify_jwt = false
+
+[functions.export-user-data]
+verify_jwt = true
+
+[functions.generate-negotiation-script]
+verify_jwt = false
+
+[functions.analyze-job-offer]
+verify_jwt = false
+
+[functions.optimize-team-budget]
+verify_jwt = false
+
+[functions.analyze-job-posting]
+verify_jwt = false
+
+[functions.detect-location]
+verify_jwt = false
+
+[functions.get-waitlist-stats]
+verify_jwt = false
+
+[functions.cleanup-old-analytics]
+verify_jwt = false
+
+[functions.check-milestones]
+verify_jwt = false
+
+[functions.schedule-drip-emails]
+verify_jwt = false
+
+[functions.activate-scheduled-links]
+verify_jwt = false
+
+[functions.notify-bulk-upload-complete]
+verify_jwt = true
+
+[functions.claim-admin-access]
+verify_jwt = false
+
+[functions.handle-referral-signup]
+verify_jwt = false
+
+[functions.send-referral-unlock-email]
+verify_jwt = false
+
+[functions.batch-approve-waitlist]
+verify_jwt = false
+
+[functions.resend-webhook]
+verify_jwt = false
+
+[functions.predict-optimal-time]
+verify_jwt = true
+
+[functions.track-pipeline]
+verify_jwt = false
+
+[functions.webhook-salesforce]
+verify_jwt = false
+
+[functions.webhook-hubspot]
+verify_jwt = false
+
+[functions.track-event]
+verify_jwt = false
+
+[functions.identity-matching]
+verify_jwt = false
+
+[functions.reconcile-offline]
+verify_jwt = true
+
+[functions.content-fingerprint]
+verify_jwt = false
+
+[functions.send-anomaly-alert]
+verify_jwt = false
+
+[functions.extension-create-link]
+verify_jwt = false
+
+[functions.send-hot-lead-alert]
+verify_jwt = false
+
+[functions.generate-smart-insights]
+verify_jwt = true
+
+[functions.analyze-url]
+verify_jwt = false
+
+[functions.pixel-js]
+verify_jwt = false
+
+[functions.track-pixel]
+verify_jwt = false
+
+[functions.identify-visitor]
+verify_jwt = false
+
+[functions.predict-link-performance]
+verify_jwt = false
+
+[functions.admin-create-qa-account]
+verify_jwt = true
+
+[functions.scan-badge-ocr]
+verify_jwt = false
+
+[functions.calculate-event-halo]
+verify_jwt = true
+
+[functions.check-subscription-expiry]
+verify_jwt = false
+
+[functions.send-subscription-expiry-email]
+verify_jwt = false
+
+[functions.regenerate-recovery-codes]
+verify_jwt = true
+
+[functions.generate-stamp-art]
+verify_jwt = true
+
+[functions.generate-architect-stamp]
+verify_jwt = false
+
+[functions.llm-content]
+verify_jwt = false
+
+[functions.claim-invite]
+verify_jwt = false
+
+[functions.geocode-city]
+verify_jwt = false
+
+# Event Bridge Functions
+[functions.webhook-luma]
+verify_jwt = false
+
+[functions.enrich-registration]
+verify_jwt = false
+
+[functions.route-registration]
+verify_jwt = false
+
+[functions.magic-link-redirect]
+verify_jwt = false
+
+[functions.sync-luma-guests]
+verify_jwt = false
+
+# Email Lead Capture
+[functions.capture-email-lead]
+verify_jwt = false
+
+# Sentinel Mode - Active Revenue Defense
+[functions.sentinel-guard]
+verify_jwt = false
+
+[functions.shopify-inventory]
+verify_jwt = false
+
+[functions.sitemap-scanner]
+verify_jwt = false
+
+# vCard short link service
+[functions.serve-vcard]
+verify_jwt = false
+
+[functions.create-vcard-link]
+verify_jwt = true
+
+# Unified Dashboard API
+[functions.get-dashboard-data]
+verify_jwt = true
+
+# Cron schedules for automated tasks
+# Generate recommendations every 6 hours
+[[edge_runtime.scheduler]]
+function = "generate-flag-recommendations"
+schedule = "0 */6 * * *"
+
+# Check metric alerts every 5 minutes
+[[edge_runtime.scheduler]]
+function = "check-metric-alerts"
+schedule = "*/5 * * * *"
+
+# GitHub backup cron - runs nightly at 2 AM UTC
+[[edge_runtime.scheduler]]
+function = "github-backup-cron"
+schedule = "0 2 * * *"
+
+# Domain health check - runs every 6 hours
+[[edge_runtime.scheduler]]
+function = "domain-health-check"
+schedule = "0 */6 * * *"
+
+# Generate AI recommendations - runs hourly
+[[edge_runtime.scheduler]]
+function = "generate-ai-recommendations"
+schedule = "0 * * * *"
+
+# Send scheduled reports - runs every hour
+[[edge_runtime.scheduler]]
+function = "send-scheduled-report"
+schedule = "0 * * * *"
+
+# Analytics retention cleanup - runs daily at 3 AM UTC
+[[edge_runtime.scheduler]]
+function = "cleanup-old-analytics"
+schedule = "0 3 * * *"
+
+# Schedule drip emails - runs every hour
+[[edge_runtime.scheduler]]
+function = "schedule-drip-emails"
+schedule = "0 * * * *"
+
+# Check milestones and award badges - runs every 30 minutes
+[[edge_runtime.scheduler]]
+function = "check-milestones"
+schedule = "*/30 * * * *"
+
+# Activate scheduled links - runs every 5 minutes
+[[edge_runtime.scheduler]]
+function = "activate-scheduled-links"
+schedule = "*/5 * * * *"
+
+# Pulse Watchdog - detect anomalies hourly
+[[edge_runtime.scheduler]]
+function = "detect-analytics-anomalies"
+schedule = "0 * * * *"
+
+# Check subscription expiry - runs daily at 1 AM UTC
+[[edge_runtime.scheduler]]
+function = "check-subscription-expiry"
+schedule = "0 1 * * *"

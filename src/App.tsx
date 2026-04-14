@@ -45,6 +45,7 @@ const WaitlistLocked = lazy(() => import("./pages/WaitlistLocked"));
 
 const PasswordProtected = lazy(() => import("./pages/PasswordProtected"));
 const Accessibility = lazy(() => import("./pages/Accessibility"));
+const Unsubscribe = lazy(() => import("./pages/Unsubscribe"));
 const Permanence = lazy(() => import("./pages/Permanence"));
 const Pricing = lazy(() => import("./public/routes/Pricing"));
 const PublicLinkPage = lazy(() => import("./pages/PublicLinkPage"));
@@ -531,6 +532,9 @@ const AppRoutes = () => {
                 <Route path="/tools/qr-test" element={<Suspense fallback={<MarketingSkeleton />}><QRTest /></Suspense>} />
                 
                 <Route path="/loader-demo" element={<Suspense fallback={<MarketingSkeleton />}><LoaderDemo /></Suspense>} />
+
+                {/* Email Unsubscribe */}
+                <Route path="/unsubscribe" element={<Suspense fallback={null}><Unsubscribe /></Suspense>} />
 
                 {/* Trust Cluster */}
                 <Route path="/trust" element={<Suspense fallback={<MarketingSkeleton />}><TrustPage /></Suspense>} />
