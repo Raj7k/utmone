@@ -185,11 +185,41 @@ export default function QRCodes() {
                         https://{qr.links?.domain}/{qr.links?.path ? `${qr.links.path}/` : ""}{qr.links?.slug}
                       </div>
                       <div className="flex gap-2">
-                        <Button variant="outline" size="sm" className="flex-1" asChild>
-                          <a href={qr.png_url || qr.svg_url || ""} download={`qr-${qr.links?.slug}.png`}>
-                            <Download className="h-4 w-4 mr-2" />
-                            Download
-                          </a>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="flex-1"
+                          onClick={async () => {
+                            // Cross-origin <a download> from Supabase storage often doesn't
+                            // trigger a real download (ignored by browsers when the file is on
+                            // a different origin). Fetch the bytes, wrap in a Blob, and trigger
+                            // download via ObjectURL so it works reliably on every browser.
+                            const url = qr.png_url || qr.svg_url || "";
+                            if (!url) return;
+                            const ext = qr.png_url ? "png" : "svg";
+                            const filename = `qr-${qr.links?.slug || "code"}.${ext}`;
+                            try {
+                              const res = await fetch(url);
+                              if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+                              const blob = await res.blob();
+                              const objectUrl = URL.createObjectURL(blob);
+                              const a = document.createElement("a");
+                              a.href = objectUrl;
+                              a.download = filename;
+                              document.body.appendChild(a);
+                              a.click();
+                              document.body.removeChild(a);
+                              setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+                            } catch (err) {
+                              console.error("[QRCodes] Download failed:", err);
+                              // Fallback: open the URL in a new tab so the user can
+                              // save manually if the fetch was CORS-blocked.
+                              window.open(url, "_blank", "noopener,noreferrer");
+                            }
+                          }}
+                        >
+                          <Download className="h-4 w-4 mr-2" />
+                          Download
                         </Button>
                         <Button variant="outline" size="sm" className="flex-1" asChild>
                           <a

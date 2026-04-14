@@ -88,11 +88,14 @@ export const BrickBuilderWizard = () => {
         .from("qr-codes")
         .getPublicUrl(filePath);
 
-      // Determine destination URL and link title based on content type
+      // Determine destination URL and link title based on content type.
+      // Non-URL content (plain text, wifi config, vcard, etc.) is encoded in
+      // the QR itself; the link row still gets created so we have an analytics
+      // surface — the destination_url holds the raw content as a data: URI.
       const isUrl = content.startsWith('http://') || content.startsWith('https://');
       const destinationUrl = isUrl ? content : `data:text/plain,${encodeURIComponent(content)}`;
-      const linkTitle = isUrl 
-        ? `Brick QR - ${new URL(content).hostname}` 
+      const linkTitle = isUrl
+        ? `Brick QR - ${new URL(content).hostname}`
         : `Brick QR - ${content.substring(0, 30)}${content.length > 30 ? '...' : ''}`;
 
       // Check if link exists for this content
@@ -108,27 +111,47 @@ export const BrickBuilderWizard = () => {
       if (existingLink) {
         linkId = existingLink.id;
       } else {
-        // Create a new link
+        // Create a new link. Use utm.click (the actual short-link domain) with
+        // an empty path. Do NOT send `short_url` (it's a generated column in
+        // the schema) or `final_url` (not guaranteed to exist on all DBs —
+        // see earlier audit). The defensive retry below drops optional
+        // columns if the DB rejects them with PGRST204.
         const slug = `brick-${Date.now().toString(36)}`;
-        const shortUrl = `https://utm.one/${slug}`;
-        const { data: newLink, error: linkError } = await supabase
+        const fullPayload = {
+          workspace_id: currentWorkspace.id,
+          destination_url: destinationUrl,
+          final_url: destinationUrl, // tried first; retry without if missing
+          slug,
+          domain: "utm.click",
+          path: "",
+          created_by: user.id,
+          title: linkTitle,
+          status: "active" as const,
+        };
+
+        let { data: newLink, error: linkError } = await supabase
           .from("links")
-          .insert({
-            workspace_id: currentWorkspace.id,
-            destination_url: destinationUrl,
-            final_url: destinationUrl,
-            short_url: shortUrl,
-            slug,
-            domain: "utm.one",
-            path: "",
-            created_by: user.id,
-            title: linkTitle,
-          })
+          .insert(fullPayload)
           .select("id")
           .single();
 
-        if (linkError) throw linkError;
-        linkId = newLink.id;
+        if (linkError?.code === "PGRST204") {
+          console.warn("[BrickBuilder] Link insert failed (missing column). Retrying without final_url.", linkError);
+          const { final_url: _omit, ...corePayload } = fullPayload;
+          const retry = await supabase
+            .from("links")
+            .insert(corePayload)
+            .select("id")
+            .single();
+          newLink = retry.data;
+          linkError = retry.error;
+        }
+
+        if (linkError) {
+          console.error("[BrickBuilder] Link insert failed:", linkError);
+          throw linkError;
+        }
+        linkId = newLink!.id;
       }
 
       // Save QR to database

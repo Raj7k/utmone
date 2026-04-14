@@ -102,23 +102,47 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
         const uniqueId = Math.random().toString(36).substring(2, 8);
         const slug = `${data.name.toLowerCase().replace(/\s+/g, "-")}-${channel.utmSource}-${uniqueId}`;
 
-        const { data: link, error: linkError } = await supabase
+        // Core columns guaranteed to exist; extended columns (campaign_id,
+        // final_url) tried first and dropped on PGRST204 so campaign creation
+        // works on DBs that haven't run those migrations yet. Also: domain
+        // should be utm.click, matching the rest of the codebase (not
+        // utm.one, which was never the short-link domain).
+        const corePayload = {
+          workspace_id: currentWorkspace.id,
+          created_by: user.id,
+          title: `${data.name} - ${channel.name}`,
+          slug: slug,
+          destination_url: url.toString(),
+          domain: "utm.click",
+          path: "",
+        };
+        const extendedPayload = {
+          ...corePayload,
+          campaign_id: campaign.id,
+          final_url: url.toString(),
+        };
+
+        let { data: link, error: linkError } = await supabase
           .from("links")
-          .insert({
-            workspace_id: currentWorkspace.id,
-            created_by: user.id,
-            campaign_id: campaign.id,
-            title: `${data.name} - ${channel.name}`,
-            slug: slug,
-            destination_url: url.toString(),
-            final_url: url.toString(),
-            domain: "utm.one",
-            path: "",
-          })
+          .insert(extendedPayload)
           .select()
           .single();
 
-        if (linkError) throw linkError;
+        if (linkError?.code === "PGRST204") {
+          console.warn("[CreateCampaignModal] Extended link insert failed. Retrying with core columns.", linkError);
+          const retry = await supabase
+            .from("links")
+            .insert(corePayload)
+            .select()
+            .single();
+          link = retry.data;
+          linkError = retry.error;
+        }
+
+        if (linkError) {
+          console.error("[CreateCampaignModal] Link insert failed:", linkError);
+          throw linkError;
+        }
         return link;
       });
 
