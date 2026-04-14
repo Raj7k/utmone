@@ -469,6 +469,9 @@ export type Database = {
       }
       links: {
         Row: {
+          approval_status: string | null
+          approved_at: string | null
+          approved_by: string | null
           clicks_last_30_days: number
           created_at: string
           created_by: string
@@ -486,6 +489,7 @@ export type Database = {
           password: string | null
           password_hash: string | null
           redirect_type: string | null
+          rejection_reason: string | null
           security_status: string
           short_url: string | null
           slug: string | null
@@ -501,6 +505,9 @@ export type Database = {
           workspace_id: string
         }
         Insert: {
+          approval_status?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
           clicks_last_30_days?: number
           created_at?: string
           created_by: string
@@ -518,6 +525,7 @@ export type Database = {
           password?: string | null
           password_hash?: string | null
           redirect_type?: string | null
+          rejection_reason?: string | null
           security_status?: string
           short_url?: string | null
           slug?: string | null
@@ -533,6 +541,9 @@ export type Database = {
           workspace_id: string
         }
         Update: {
+          approval_status?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
           clicks_last_30_days?: number
           created_at?: string
           created_by?: string
@@ -550,6 +561,7 @@ export type Database = {
           password?: string | null
           password_hash?: string | null
           redirect_type?: string | null
+          rejection_reason?: string | null
           security_status?: string
           short_url?: string | null
           slug?: string | null
