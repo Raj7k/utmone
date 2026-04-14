@@ -480,6 +480,7 @@ export type Database = {
           id: string
           max_clicks: number | null
           password: string | null
+          password_hash: string | null
           security_status: string
           short_url: string | null
           slug: string | null
@@ -506,6 +507,7 @@ export type Database = {
           id?: string
           max_clicks?: number | null
           password?: string | null
+          password_hash?: string | null
           security_status?: string
           short_url?: string | null
           slug?: string | null
@@ -532,6 +534,7 @@ export type Database = {
           id?: string
           max_clicks?: number | null
           password?: string | null
+          password_hash?: string | null
           security_status?: string
           short_url?: string | null
           slug?: string | null
