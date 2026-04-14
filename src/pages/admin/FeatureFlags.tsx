@@ -60,7 +60,7 @@ export default function FeatureFlags() {
       </div>
 
       {/* Critical Warning */}
-      {criticalFlags?.some(f => !f.is_enabled && f.flag_key !== 'maintenance_mode') && (
+      {criticalFlags?.some(f => !f.is_enabled && f.feature_key !== 'maintenance_mode') && (
         <Alert variant="destructive">
           <AlertTriangle className="h-4 w-4" />
           <AlertTitle>critical features disabled</AlertTitle>

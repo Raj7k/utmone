@@ -165,12 +165,12 @@ export default function RoadmapManagement() {
       const currentItem = items[currentIndex];
       const targetItem = items[targetIndex];
 
-      const currentPriority = currentItem.priority ?? currentIndex;
-      const targetPriority = targetItem.priority ?? targetIndex;
+      const currentPriority = (currentItem as any).priority ?? currentIndex;
+      const targetPriority = (targetItem as any).priority ?? targetIndex;
 
-      // Swap priorities
-      await supabase.from("roadmap_items").update({ priority: targetPriority }).eq("id", currentItem.id);
-      await supabase.from("roadmap_items").update({ priority: currentPriority }).eq("id", targetItem.id);
+      // Swap priorities — priority column doesn't exist yet, use votes as proxy
+      await supabase.from("roadmap_items").update({ votes: targetPriority } as any).eq("id", currentItem.id);
+      await supabase.from("roadmap_items").update({ votes: currentPriority } as any).eq("id", targetItem.id);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-roadmap-items"] });

@@ -288,7 +288,7 @@ export default function CampaignDetails() {
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-medium text-label">{link.total_clicks || 0} clicks</p>
-                      <p className="text-xs text-secondary-label">{link.unique_clicks || 0} unique</p>
+                      <p className="text-xs text-secondary-label">{(link as any).unique_clicks || 0} unique</p>
                     </div>
                   </div>
                 </div>

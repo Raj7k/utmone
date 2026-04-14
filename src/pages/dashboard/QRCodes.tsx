@@ -52,7 +52,7 @@ export default function QRCodes() {
             title,
             slug,
             domain,
-            path,
+            short_url,
             workspace_id
           )
         `)

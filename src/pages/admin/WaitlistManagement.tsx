@@ -87,7 +87,7 @@ export default function WaitlistManagement() {
       let query = supabase
         .from("early_access_requests")
         .select("*")
-        .order("total_access_score", { ascending: false });
+        .order("created_at", { ascending: false });
 
       if (statusFilter !== "all") {
         query = query.eq("status", statusFilter);
@@ -95,7 +95,7 @@ export default function WaitlistManagement() {
 
       const { data, error } = await query;
       if (error) throw error;
-      return data as EarlyAccessRequest[];
+      return (data as unknown as EarlyAccessRequest[]) || [];
     },
   });
 

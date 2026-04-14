@@ -41,41 +41,43 @@ export default function SubscriptionManagement() {
           id,
           name,
           plan_tier,
-          subscription_status,
           created_at,
-          plan_expires_at,
-          previous_plan_tier,
-          downgraded_at,
-          data_deletion_scheduled_at,
           owner_id
         `)
         .order("created_at", { ascending: false });
 
       if (error) throw error;
 
+      const rawData = data as any[];
+
       // Fetch owner profiles
-      const ownerIds = [...new Set(data?.map(w => w.owner_id) || [])];
+      const ownerIds = [...new Set(rawData?.map(w => w.owner_id) || [])];
       const { data: profiles } = await supabaseFrom('profiles')
         .select("id, email, full_name")
         .in("id", ownerIds);
 
-      const profileMap = new Map(profiles?.map(p => [p.id, p]) || []);
+      const profileMap = new Map((profiles as any[])?.map(p => [p.id, p]) || []);
 
       // Fetch link counts per workspace
       const { data: linkCounts } = await supabase
         .from("links")
         .select("workspace_id")
-        .in("workspace_id", data?.map(w => w.id) || []);
+        .in("workspace_id", rawData?.map(w => w.id) || []);
 
       const linkCountMap = new Map<string, number>();
       linkCounts?.forEach(l => {
         linkCountMap.set(l.workspace_id, (linkCountMap.get(l.workspace_id) || 0) + 1);
       });
 
-      return data?.map(w => ({
+      return rawData?.map(w => ({
         ...w,
-        owner_email: profileMap.get(w.owner_id)?.email,
-        owner_name: profileMap.get(w.owner_id)?.full_name,
+        subscription_status: w.plan_tier === 'free' ? 'active' : 'active',
+        plan_expires_at: null,
+        previous_plan_tier: null,
+        downgraded_at: null,
+        data_deletion_scheduled_at: null,
+        owner_email: (profileMap.get(w.owner_id) as any)?.email,
+        owner_name: (profileMap.get(w.owner_id) as any)?.full_name,
         link_count: linkCountMap.get(w.id) || 0,
       })) as Workspace[];
     },

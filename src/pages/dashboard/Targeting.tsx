@@ -35,9 +35,7 @@ export default function Targeting() {
           title,
           slug,
           short_url,
-          domain,
-          path,
-          targeting_rules(count)
+          domain
         `)
         .eq('workspace_id', effectiveWorkspaceId)
         .eq('status', 'active')

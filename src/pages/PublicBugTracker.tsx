@@ -48,7 +48,7 @@ const PublicBugTracker = () => {
 
       const { data, error } = await query;
       if (error) throw error;
-      return data as PublicFeedback[];
+      return (data as unknown as PublicFeedback[]) || [];
     },
   });
 
