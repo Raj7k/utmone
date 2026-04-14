@@ -109,7 +109,6 @@ export const useAnalyticsData = (range: string = "30d") => {
           .from("links")
           .select("id, total_clicks", { count: "exact", head: false })
           .eq("workspace_id", workspaceId)
-          .is("deleted_at", null)
           .limit(100),
 
         // 3. Previous period clicks for comparison

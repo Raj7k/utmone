@@ -259,8 +259,7 @@ export const useDashboardUnified = (range: string = "30d") => {
         supabase
           .from("links")
           .select("id", { count: "exact", head: true })
-          .eq("workspace_id", workspaceId)
-          .is("deleted_at", null),
+          .eq("workspace_id", workspaceId),
 
         // 10. Profile data for onboarding (hasViewedAnalytics, hasInvitedTeam)
         userId ? supabaseFrom('profiles')

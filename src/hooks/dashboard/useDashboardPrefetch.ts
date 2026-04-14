@@ -42,7 +42,6 @@ export const useDashboardPrefetch = () => {
             .from("links")
             .select("id, title, slug, short_url, destination_url, status, total_clicks, created_at")
             .eq("workspace_id", workspaceId)
-            .is("deleted_at", null)
             .order("created_at", { ascending: false })
             .limit(20);
           return data || [];
@@ -155,7 +154,6 @@ export const useDashboardPrefetch = () => {
             .from("links")
             .select("id, title, slug, short_url, destination_url, status, total_clicks, created_at")
             .eq("workspace_id", workspaceId)
-            .is("deleted_at", null)
             .order("created_at", { ascending: false })
             .limit(10);
           return { links: data || [], fetchedAt: new Date().toISOString() };

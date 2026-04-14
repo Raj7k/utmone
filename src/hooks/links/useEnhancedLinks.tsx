@@ -85,16 +85,14 @@ export const useEnhancedLinks = ({
             "security_status",
             "expires_at",
             "domain",
+            "slug",
             "created_at",
             "total_clicks",
             "status",
-            "rejection_reason",
-            "sentinel_enabled",
           ].join(","),
           { count: "exact" }
         )
-        .eq("workspace_id", effectiveWorkspaceId)
-        .is("deleted_at", null);
+        .eq("workspace_id", effectiveWorkspaceId);
 
       if (statusFilter !== "all") {
         query = query.eq("status", statusFilter as Database["public"]["Enums"]["link_status"]);
