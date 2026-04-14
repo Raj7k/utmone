@@ -4,26 +4,6 @@ import React, { ComponentType } from 'react';
 import { ModuleLoadErrorFallback } from '@/components/ModuleLoadErrorFallback';
 
 /**
- * Helper to clear all browser and service worker caches
- */
-async function clearAllCaches(): Promise<void> {
-  // Clear all browser caches
-  if ('caches' in window) {
-    try {
-      const cacheNames = await caches.keys();
-      await Promise.all(cacheNames.map(name => caches.delete(name)));
-    } catch (e) {
-      console.warn('Failed to clear browser caches:', e);
-    }
-  }
-  
-  // Tell service worker to clear its cache
-  if (navigator.serviceWorker?.controller) {
-    navigator.serviceWorker.controller.postMessage('clearCache');
-  }
-}
-
-/**
  * Wait for network to come online
  */
 function waitForOnline(timeout: number): Promise<boolean> {
@@ -49,8 +29,7 @@ function waitForOnline(timeout: number): Promise<boolean> {
  * Wrapper for React.lazy that handles module loading failures gracefully.
  * - Retries failed imports up to 3 times with exponential backoff
  * - Checks network status before retrying
- * - Clears cache on final retry, then shows fallback UI instead of crashing
- * - Prevents infinite reload loops using sessionStorage
+ * - Shows fallback UI instead of crashing (never reloads the page)
  */
 export function lazyWithRetry<T extends ComponentType<any>>(
   factory: () => Promise<{ default: T }>,
@@ -77,34 +56,16 @@ export function lazyWithRetry<T extends ComponentType<any>>(
         
         console.warn(`Module load attempt ${attempt + 1}/${maxRetries + 1} failed:`, error?.message);
         
-        // Final attempt failed
+        // Final attempt failed — show fallback UI, never reload
         if (attempt === maxRetries) {
-          // Check if we've already tried reloading
-          const hasReloaded = sessionStorage.getItem('moduleReloadAttempted');
-          if (!hasReloaded) {
-            console.warn('Module load failed after all retries, clearing cache and reloading...');
-            
-            // Clear all caches before redirect
-            await clearAllCaches();
-            
-            sessionStorage.setItem('moduleReloadAttempted', 'true');
-            // Use cache-busting query param
-            const timestamp = Date.now();
-            window.location.href = window.location.pathname + '?_t=' + timestamp;
-            // Return fallback while redirecting
-            return { default: ModuleLoadErrorFallback as unknown as T };
-          }
-          
-          // Already tried reloading - show fallback UI instead of throwing
-          console.error('Module load failed after reload attempt:', error);
-          sessionStorage.removeItem('moduleReloadAttempted');
+          console.error('Module load failed after all retries, showing fallback UI:', error);
           return { default: ModuleLoadErrorFallback as unknown as T };
         }
         
         // Check if offline - wait for online status before retrying
         if (!navigator.onLine) {
           console.warn('Network offline, waiting for connection...');
-          const isOnline = await waitForOnline(10000); // Wait up to 10s for network
+          const isOnline = await waitForOnline(10000);
           if (!isOnline) {
             console.warn('Network still offline, showing fallback');
             return { default: ModuleLoadErrorFallback as unknown as T };
@@ -122,7 +83,7 @@ export function lazyWithRetry<T extends ComponentType<any>>(
   });
 }
 
-// Clear reload flag on successful page load
+// Clean up any legacy reload flags from previous versions
 if (typeof window !== 'undefined') {
   window.addEventListener('load', () => {
     sessionStorage.removeItem('moduleReloadAttempted');

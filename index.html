@@ -241,7 +241,7 @@
         }
       };
       
-      // Timeout fallback - show error if React doesn't render in 20s
+      // Timeout fallback - show error if React doesn't render in 45s
       window.__loadingTimeout = setTimeout(function() {
         var skeleton = document.getElementById('instant-skeleton');
         if (skeleton && !skeleton.classList.contains('hidden')) {
@@ -251,7 +251,7 @@
             '<button onclick="location.reload()" style="padding:12px 24px;background:#fff;color:#000;border:none;border-radius:8px;cursor:pointer;font-weight:500">refresh page</button>' +
           '</div>';
         }
-      }, 20000);
+      }, 45000);
     </script>
     
     <script type="module" src="/src/main.tsx"></script>
