@@ -35,7 +35,7 @@ export const useJourneyGraph = (
     queryFn: async (): Promise<JourneyGraphData> => {
       if (!workspaceId) return { nodes: [], edges: [] };
 
-      const { data, error } = await supabase.rpc("get_journey_graph" as any, {
+      const { data, error } = await (supabase as any).rpc("get_journey_graph" as any, {
         p_workspace_id: workspaceId,
         p_min_confidence: minConfidence,
       });
@@ -65,7 +65,7 @@ export const useDiscoverStructure = () => {
       lookbackDays?: number;
       minTransitionCount?: number;
     }) => {
-      const { data, error } = await supabase.rpc("discover_journey_structure" as any, {
+      const { data, error } = await (supabase as any).rpc("discover_journey_structure" as any, {
         p_workspace_id: workspaceId,
         p_lookback_days: lookbackDays,
         p_min_transition_count: minTransitionCount,

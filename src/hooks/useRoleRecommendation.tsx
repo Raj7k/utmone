@@ -22,7 +22,7 @@ export const useRoleRecommendation = (
     queryFn: async () => {
       if (requiredCapabilities.length === 0) return null;
 
-      const { data, error } = await supabase.rpc('recommend_role', {
+      const { data, error } = await (supabase as any).rpc("recommend_role", {
         _required_capabilities: requiredCapabilities,
       });
 

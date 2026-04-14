@@ -33,7 +33,7 @@ export const VelocityAnalytics: React.FC = () => {
     queryFn: async () => {
       if (!currentWorkspace?.id) return [];
       
-      const { data, error } = await supabase.rpc('get_conversion_velocity', {
+      const { data, error } = await (supabase as any).rpc("get_conversion_velocity", {
         p_workspace_id: currentWorkspace.id
       });
       

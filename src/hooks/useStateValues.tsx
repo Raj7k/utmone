@@ -20,7 +20,7 @@ export const useStateValues = (
     queryFn: async () => {
       if (!workspaceId) throw new Error("Workspace ID required");
 
-      const { data, error } = await supabase.rpc("calculate_state_values", {
+      const { data, error } = await (supabase as any).rpc("calculate_state_values", {
         p_workspace_id: workspaceId,
         p_conversion_reward: conversionReward,
         p_discount_factor: discountFactor,

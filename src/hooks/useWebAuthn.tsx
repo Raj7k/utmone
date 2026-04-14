@@ -218,7 +218,7 @@ async function logMfaEvent(action: string, details?: string) {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
-    await supabase.rpc('log_mfa_event', {
+    await (supabase as any).rpc("log_mfa_event", {
       p_user_id: user.id,
       p_action: action,
       p_domain: typeof window !== 'undefined' ? window.location.origin : null,

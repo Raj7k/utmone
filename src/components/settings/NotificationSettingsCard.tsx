@@ -86,7 +86,7 @@ export function NotificationSettingsCard() {
       // Encrypt Slack webhook if provided
       let webhookEncrypted = newSettings.slack_webhook_url_encrypted;
       if (slackWebhookUrl && slackWebhookUrl !== "••••••••") {
-        const { data: encrypted } = await supabase.rpc("encrypt_sensitive_data", {
+        const { data: encrypted } = await (supabase as any).rpc("encrypt_sensitive_data", {
           plaintext: slackWebhookUrl,
           encryption_key: "notification-settings",
         });

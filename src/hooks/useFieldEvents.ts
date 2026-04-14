@@ -176,7 +176,7 @@ export const useEventLivePulse = (workspaceId: string, eventCity: string, baseli
   return useQuery({
     queryKey: ['event-live-pulse', workspaceId, eventCity],
     queryFn: async () => {
-      const { data, error } = await supabase.rpc('get_event_live_pulse', {
+      const { data, error } = await (supabase as any).rpc("get_event_live_pulse", {
         p_workspace_id: workspaceId,
         p_target_city: eventCity,
         p_baseline_hourly_avg: baselineHourlyAvg

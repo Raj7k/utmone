@@ -966,7 +966,7 @@ serve(async (req) => {
   })
 
   // Increment referrer's visit count
-  await supabase.rpc('increment_referrer_visits', { code: ref_code })
+  await (supabase as any).rpc("increment_referrer_visits", { code: ref_code })
 
   return new Response(JSON.stringify({ success: true }))
 })`,

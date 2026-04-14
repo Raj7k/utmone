@@ -35,7 +35,7 @@ export const useWorkspaceAuditLog = () => {
 
         const userAgent = navigator.userAgent;
         
-        await supabase.rpc('log_workspace_action', {
+        await (supabase as any).rpc("log_workspace_action", {
           p_workspace_id: currentWorkspace.id,
           p_admin_user_id: user.id,
           p_action: action,
