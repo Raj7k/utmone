@@ -228,9 +228,45 @@
       
       // Build version for cache busting (will be replaced at build time)
       window.__BUILD_VERSION__ = Date.now().toString(36);
-      
-      // Check for version mismatch - auto-clear caches on new deployment
+
+      // PERMANENT FIX for the "loading is taking longer than expected" bug on
+      // Lovable / Vercel preview hosts. The service worker was caching chunk
+      // hashes from a previous deploy, so after a new deploy the browser tried
+      // to fetch chunks that no longer exist → React never booted → this
+      // fallback fired. Solution: on ephemeral preview hosts we proactively
+      // unregister any installed service worker and wipe all caches BEFORE
+      // main.tsx loads. That way even users who are currently stuck get
+      // unstuck on a single refresh.
       (function() {
+        var host = window.location.hostname;
+        var isPreviewHost =
+          /\.lovable\.app$/i.test(host) ||
+          /\.lovableproject\.com$/i.test(host) ||
+          /\.vercel\.app$/i.test(host) ||
+          host === 'localhost' ||
+          host === '127.0.0.1';
+
+        if (isPreviewHost) {
+          try {
+            if ('serviceWorker' in navigator) {
+              navigator.serviceWorker.getRegistrations().then(function(regs) {
+                regs.forEach(function(r) { r.unregister(); });
+              }).catch(function() { /* noop */ });
+            }
+            if ('caches' in window) {
+              caches.keys().then(function(names) {
+                names.forEach(function(name) { caches.delete(name); });
+              }).catch(function() { /* noop */ });
+            }
+          } catch (e) { /* noop */ }
+          // Don't fall through to the version-mismatch check below — we
+          // already cleared everything.
+          return;
+        }
+
+        // Production hosts: check for version mismatch, clear caches if the
+        // deploy changed. Keeps cache busting in place for real users while
+        // preview hosts always start clean.
         var storedVersion = localStorage.getItem('utm_build_version');
         var currentVersion = window.__BUILD_VERSION__;
         if (storedVersion && storedVersion !== currentVersion) {

@@ -3,9 +3,56 @@
 // Expected SW version - injected at build time
 const EXPECTED_SW_VERSION = '__BUILD_TIMESTAMP__';
 
+/**
+ * Hosts where we must NOT run a service worker:
+ *   - Lovable preview iframes (each deploy changes chunk hashes, SW serves
+ *     stale chunks, React fails to boot, "loading is taking longer than
+ *     expected" fallback fires. This was the recurring bug.)
+ *   - Vercel preview deployments (same pattern)
+ *   - localhost (dev)
+ * On these hosts we also actively unregister any SW the user may already
+ * have from a previous visit, and purge all caches, so they immediately
+ * stop hitting stale bundles.
+ */
+function isEphemeralPreviewHost(): boolean {
+  if (typeof window === 'undefined') return false;
+  const h = window.location.hostname;
+  return (
+    /\.lovable\.app$/i.test(h) ||
+    /\.lovableproject\.com$/i.test(h) ||
+    /\.vercel\.app$/i.test(h) ||
+    h === 'localhost' ||
+    h === '127.0.0.1'
+  );
+}
+
+async function unregisterAllServiceWorkersAndCaches(): Promise<void> {
+  try {
+    if ('serviceWorker' in navigator) {
+      const regs = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(regs.map(r => r.unregister().catch(() => false)));
+    }
+    if ('caches' in window) {
+      const names = await caches.keys();
+      await Promise.all(names.map(n => caches.delete(n).catch(() => false)));
+    }
+  } catch (err) {
+    console.warn('[SW] Cleanup on preview host failed (non-fatal):', err);
+  }
+}
+
 export const registerServiceWorker = async (): Promise<ServiceWorkerRegistration | null> => {
   // Only register in production
   if (!('serviceWorker' in navigator) || import.meta.env.DEV) {
+    return null;
+  }
+
+  // Skip SW on preview hosts — they don't benefit from caching (every deploy
+  // is a fresh preview) and the mismatched chunk hashes break page loads.
+  // Also actively clean up any SW/cache left over from previous visits.
+  if (isEphemeralPreviewHost()) {
+    await unregisterAllServiceWorkersAndCaches();
+    console.log('[SW] Preview host detected — service worker disabled and caches cleared.');
     return null;
   }
 
