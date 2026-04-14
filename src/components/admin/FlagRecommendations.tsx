@@ -64,7 +64,7 @@ export function FlagRecommendations() {
       
       // Update the flag
       const { error: flagError } = await supabase
-        .from('feature_flags')
+        .from('feature_gates')
         .update({ 
           is_enabled: enable,
           last_modified_by: user?.id,

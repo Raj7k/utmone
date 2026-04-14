@@ -33,7 +33,7 @@ export function FlagImpactMonitoring() {
         {
           event: 'UPDATE',
           schema: 'public',
-          table: 'feature_flags'
+          table: 'feature_gates'
         },
     (payload) => {
       // Capture metrics snapshot when flag changes

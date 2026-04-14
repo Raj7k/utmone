@@ -39,7 +39,7 @@ export function CreateFlagModal({ open, onOpenChange }: CreateFlagModalProps) {
       const { data: { user } } = await supabase.auth.getUser();
       
       const { error } = await supabase
-        .from('feature_flags')
+        .from('feature_gates')
         .insert({
           flag_key: flagKey.toLowerCase().replace(/\s+/g, '_'),
           description,

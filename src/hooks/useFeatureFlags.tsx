@@ -21,7 +21,7 @@ export const useFeatureFlags = () => {
     queryKey: ['feature-flags'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('feature_flags')
+        .from('feature_gates')
         .select('*')
         .order('category', { ascending: true })
         .order('flag_key', { ascending: true });
@@ -44,7 +44,7 @@ export const useFeatureFlags = () => {
       };
       
       const { error } = await supabase
-        .from('feature_flags')
+        .from('feature_gates')
         .update({ 
           is_enabled: enabled,
           last_modified_by: user?.id,
@@ -56,7 +56,7 @@ export const useFeatureFlags = () => {
       
       // Create metrics snapshot
       const { data: flagData } = await supabase
-        .from('feature_flags')
+        .from('feature_gates')
         .select('id')
         .eq('flag_key', flagKey)
         .single();
@@ -93,7 +93,7 @@ export const useFeatureFlags = () => {
   const updateFlagMetadata = useMutation({
     mutationFn: async ({ flagKey, metadata }: { flagKey: string; metadata: Record<string, any> }) => {
       const { error } = await supabase
-        .from('feature_flags')
+        .from('feature_gates')
         .update({ metadata })
         .eq('flag_key', flagKey);
 
