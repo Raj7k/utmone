@@ -11,11 +11,11 @@ export const FoundingMemberBadge = () => {
     queryFn: async () => {
       if (!user?.email) return null;
 
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("early_access_requests")
-        .select("badge")
+        .select("status")
         .eq("email", user.email)
-        .eq("badge", "founding_member")
+        .eq("status", "approved")
         .limit(1)
         .maybeSingle();
 
@@ -30,7 +30,7 @@ export const FoundingMemberBadge = () => {
     retry: false,
   });
 
-  if (!earlyAccessData?.badge) return null;
+  if (!earlyAccessData?.status) return null;
 
   return (
     <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-blazeOrange/10 to-deepSea/10 border border-blazeOrange/20 backdrop-blur-sm">

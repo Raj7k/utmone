@@ -31,15 +31,15 @@ export function ScheduledLinksManager({ workspaceId }: ScheduledLinksManagerProp
   const { data: scheduledLinks, isLoading } = useQuery({
     queryKey: ["scheduled-links", workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase
         .from("links")
-        .select("id, title, short_url, activation_at, created_at, folder_id")
+        .select("id, title, short_url, created_at")
         .eq("workspace_id", workspaceId)
-        .eq("status", "scheduled")
-        .order("activation_at", { ascending: true });
+        .eq("status", "paused")
+        .order("created_at", { ascending: true }) as any);
 
       if (error) throw error;
-      return data || [];
+      return (data || []) as any[];
     },
     refetchInterval: 30000, // Refresh every 30 seconds
   });
@@ -158,11 +158,8 @@ export function ScheduledLinksManager({ workspaceId }: ScheduledLinksManagerProp
                   </p>
                   <div className="flex items-center gap-3 flex-wrap">
                     <Badge variant="outline" className="text-xs">
-                      activates {getTimeUntilActivation(link.activation_at!)}
+                      paused
                     </Badge>
-                    <span className="text-xs text-muted-foreground">
-                      {format(new Date(link.activation_at!), "PPP 'at' p")}
-                    </span>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 ml-4">

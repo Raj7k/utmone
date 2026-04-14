@@ -24,18 +24,12 @@ export const DomainUsageStats = ({ domainId, domain }: DomainUsageStatsProps) =>
       // Get total clicks
       const { data: links, error: linksError } = await supabase
         .from("links")
-        .select("id, total_clicks, last_clicked_at")
+        .select("id, total_clicks")
         .eq("domain", domain);
 
       if (linksError) throw linksError;
 
       const totalClicks = links?.reduce((sum, link) => sum + (link.total_clicks || 0), 0) || 0;
-      
-      const lastClickedLink = links
-        ?.filter(l => l.last_clicked_at)
-        .sort((a, b) => 
-          new Date(b.last_clicked_at!).getTime() - new Date(a.last_clicked_at!).getTime()
-        )[0];
 
       // Get last created link
       const { data: lastCreated, error: lastCreatedError } = await supabase

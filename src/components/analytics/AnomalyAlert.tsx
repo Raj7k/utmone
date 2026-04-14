@@ -16,6 +16,12 @@ type Anomaly = {
   created_at: string;
   status: string;
   workspace_id: string;
+  link_id?: string;
+  title?: string;
+  description?: string;
+  change_percent?: number;
+  baseline_value?: number;
+  detected_at?: string;
 };
 
 interface AnomalyAlertProps {

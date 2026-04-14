@@ -12,7 +12,19 @@ import { toast } from "sonner";
 import { Save, Trash2, Plus, FileText } from "lucide-react";
 import type { Database } from "@/integrations/supabase/types";
 
-type UTMTemplate = Database["public"]["Tables"]["bulk_upload_templates"]["Row"];
+type UTMTemplate = {
+  id: string;
+  name: string;
+  utm_source: string | null;
+  utm_medium: string | null;
+  utm_campaign: string | null;
+  utm_term: string | null;
+  utm_content: string | null;
+  workspace_id: string;
+  created_by: string;
+  created_at: string;
+  updated_at: string;
+};
 
 interface UTMTemplateManagerProps {
   workspaceId: string;

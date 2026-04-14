@@ -156,7 +156,7 @@ export const PerformanceMetrics = ({ workspaceId }: PerformanceMetricsProps) => 
                     style={{ backgroundColor: COLORS[idx % COLORS.length] }}
                   />
                   <span className="text-caption-1 text-secondary-label capitalize">
-                    {device.name}: {device.value}
+                    {(device as any).name}: {(device as any).value}
                   </span>
                 </div>
               ))}

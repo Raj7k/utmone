@@ -23,9 +23,9 @@ export const SalesAlertToggle = ({ linkId, enabled, onToggle }: SalesAlertToggle
   const toggleAlert = async () => {
     setIsUpdating(true);
     try {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("links")
-        .update({ alert_on_click: !enabled })
+        .update({ status: enabled ? 'paused' : 'active' })
         .eq("id", linkId);
 
       if (error) throw error;

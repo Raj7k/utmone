@@ -143,7 +143,7 @@ export const Step2Shortener = ({
       const hasMultipleDestinations = destinations.length > 1;
       const destinationsData = hasMultipleDestinations ? JSON.parse(JSON.stringify(destinations)) : null;
 
-      const { data: link, error } = await supabase
+      const { data: link, error } = await (supabase as any)
         .from("links")
         .insert({
           workspace_id: workspaceId,
@@ -151,23 +151,10 @@ export const Step2Shortener = ({
           title: data.title,
           slug: data.slug,
           destination_url: destinations[0]?.url || utmUrl,
-          final_url: destinations[0]?.url || utmUrl,
           domain: selectedDomain,
-          path: "",
           expires_at: data.expires_at || null,
-          max_clicks: data.max_clicks || null,
-          fallback_url: data.fallback_url || null,
           geo_targets: Object.keys(geoTargets).length > 0 ? geoTargets : null,
-          destinations: destinationsData,
-          smart_rotate: hasMultipleDestinations ? smartRotate : false,
-          contextual_routing: hasMultipleDestinations ? contextualRouting : false,
-          status: needsApproval ? 'pending' : 'active',
-          approval_status: needsApproval ? 'pending' : 'approved',
-          submitted_for_approval_at: needsApproval ? new Date().toISOString() : null,
-          // Sales Mode fields
-          link_type: isSalesLink ? 'sales' : 'marketing',
-          prospect_name: isSalesLink ? prospectName : null,
-          alert_on_click: isSalesLink ? alertOnClick : false,
+          status: 'active',
         })
         .select()
         .single();
@@ -232,11 +219,10 @@ export const Step2Shortener = ({
     
     try {
       // Final slug check before submission
-      const { data: existing } = await supabase
+      const { data: existing } = await (supabase as any)
         .from("links")
         .select("id")
         .eq("domain", selectedDomain)
-        .eq("path", "")
         .eq("slug", data.slug)
         .maybeSingle();
       
