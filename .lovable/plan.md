@@ -1,29 +1,35 @@
 
 
-## Plan: Add Advanced Link Columns to Database
+## Plan: Add Password Protection to Link Redirect Flow
 
-### What
-Add three new columns to the `links` table: `max_clicks`, `fallback_url`, and `password`. These are referenced throughout the UI (bulk upload settings, link detail, update hooks) but don't exist in the database, so advanced options silently fail.
+### Problem
+The redirect edge function references non-existent columns (`password_hash`, `password_hint`, `final_url`, `path`, `approval_status`, etc.) causing the entire redirect to fail. The `verify-link-password` edge function also queries `password_hash` but the actual column is `password` (plain text). The password-protected page redirect URL points to the Supabase URL instead of the app URL.
 
-### Database Migration
-Add columns to `links` table:
-```sql
-ALTER TABLE links ADD COLUMN max_clicks integer DEFAULT NULL;
-ALTER TABLE links ADD COLUMN fallback_url text DEFAULT NULL;
-ALTER TABLE links ADD COLUMN password text DEFAULT NULL;
-```
+### Changes
 
-### Code Changes
-None required — the UI and hooks already reference these fields. Once the columns exist, the insert/update payloads that were previously stripped can be restored in the relevant components.
+**1. `supabase/functions/redirect/index.ts`** — Fix the redirect function to work with the actual schema:
+- Replace `password_hash` check with `password` column check (line 364)
+- Redirect to the app's `/password-protected` page instead of `${SUPABASE_URL}/password-protected` (line 366)
+- Replace `final_url` with `destination_url` throughout
+- Remove references to non-existent columns from the SELECT query: `final_url`, `approval_status`, `custom_expiry_message`, `redirect_type`, `og_title`, `og_description`, `og_image`, `password_hash`, `password_hint`, `path`, `destinations`, `smart_rotate`, `alert_on_click`, `prospect_name`, `link_type`
+- Remove `path` from the query filter (`.eq('path', path)`)
+- Remove approval_status checks (lines 319-361)
+- Update the LinkRecord interface to match actual columns
 
-However, we should **re-add** these fields to the insert payloads in:
-- `src/components/tools/URLShortenerTool.tsx`
-- `src/components/link-forge/Step2Shortener.tsx`
-- `src/components/link/CreateLinkInline.tsx`
+**2. `supabase/functions/verify-link-password/index.ts`** — Fix password verification:
+- Query `password` instead of `password_hash`
+- Compare the plain-text password directly (since the `password` column stores plain text, not a hash), OR hash both consistently
+- Return `destination_url` instead of `final_url`
 
-And verify `src/hooks/links/useUpdateLink.tsx` already passes them through (it does).
+**3. `src/pages/PasswordProtected.tsx`** — Minor: already works, just ensure the `finalUrl` from the verify response maps to the correct field name.
+
+### Technical Detail
+- The `links` table has: `password` (text), `destination_url` (text) — no `password_hash`, `password_hint`, `final_url`, or `path`
+- The redirect function will check `if (linkRecord.password)` and redirect to `https://utmone.lovable.app/password-protected?link=${id}`
+- The verify function will compare passwords and return `destination_url`
+- Both edge functions will be redeployed and tested
 
 ### Files Modified
-- 1 database migration (3 new columns)
-- 3 link creation components (restore `max_clicks`, `fallback_url`, `password` in insert payloads)
+- `supabase/functions/redirect/index.ts`
+- `supabase/functions/verify-link-password/index.ts`
 
