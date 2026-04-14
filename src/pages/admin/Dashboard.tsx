@@ -22,7 +22,7 @@ export default function AdminDashboard() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('early_access_requests')
-        .select('status, total_access_score');
+        .select('status');
       
       if (error) throw error;
 

@@ -49,10 +49,8 @@ export const useDuplicateLink = () => {
           workspace_id: sourceLink.workspace_id,
           created_by: sourceLink.created_by,
           title: `${sourceLink.title} (Copy)`,
-          description: sourceLink.description,
           destination_url: sourceLink.destination_url,
           domain: sourceLink.domain,
-          path: sourceLink.path,
           slug: newSlug,
           status: "active",
           utm_source: sourceLink.utm_source,
@@ -60,17 +58,8 @@ export const useDuplicateLink = () => {
           utm_campaign: sourceLink.utm_campaign,
           utm_term: sourceLink.utm_term,
           utm_content: sourceLink.utm_content,
-          og_title: sourceLink.og_title,
-          og_description: sourceLink.og_description,
-          og_image: sourceLink.og_image,
-          redirect_type: sourceLink.redirect_type,
-          expires_at: null, // Don't copy expiry
-          max_clicks: sourceLink.max_clicks,
-          custom_expiry_message: sourceLink.custom_expiry_message,
-          fallback_url: sourceLink.fallback_url,
-          folder_id: sourceLink.folder_id,
-          final_url: sourceLink.final_url,
-          short_url: null, // Will be computed
+          expires_at: null,
+          short_url: null,
         })
         .select()
         .single();

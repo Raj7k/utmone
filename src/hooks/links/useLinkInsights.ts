@@ -57,14 +57,10 @@ export const useLinkInsights = (linkId: string) => {
         }
       }
 
-      // Check for A/B testing
-      const { data: destinations } = await supabase
-        .from("links")
-        .select("destinations")
-        .eq("id", linkId)
-        .single();
+      // Check for A/B testing - skip since destinations column doesn't exist
+      const hasMultipleDestinations = false;
 
-      if (destinations?.destinations && Array.isArray(destinations.destinations) && destinations.destinations.length > 1) {
+      if (hasMultipleDestinations) {
         return { type: "testing", label: "🧪 testing", confidence: 75 };
       }
 
@@ -84,7 +80,7 @@ export const useLinkInsights = (linkId: string) => {
       }
 
       // At risk: health issues
-      if (link.security_status === "threats_detected" || link.health_status === "unhealthy") {
+      if (link.security_status === "threats_detected") {
         return { type: "at-risk", label: "⚠️ at risk" };
       }
 

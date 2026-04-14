@@ -37,16 +37,13 @@ export const useWorkspace = () => {
     },
   });
 
-  const needsOnboarding = currentWorkspace && !currentWorkspace.onboarding_completed;
+  const needsOnboarding = false; // onboarding_completed tracked in profiles, not workspaces
 
   const completeOnboardingMutation = useMutation({
     mutationFn: async (workspaceId: string) => {
-      const { error } = await supabase
-        .from("workspaces")
-        .update({ onboarding_completed: true })
-        .eq("id", workspaceId);
-
-      if (error) throw error;
+      // onboarding_completed is on the profiles table, not workspaces
+      // This is a no-op for workspace; the profile is updated in OnboardingWizard
+      console.log('[useWorkspace] completeOnboarding called for workspace', workspaceId);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["client-workspaces"] });

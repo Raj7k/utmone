@@ -67,7 +67,12 @@ export const useLinkDetail = (linkId: string) => {
           final_url,
           domain,
           path,
+          id,
+          title,
+          destination_url,
+          domain,
           slug,
+          short_url,
           status,
           security_status,
           utm_source,
@@ -75,25 +80,13 @@ export const useLinkDetail = (linkId: string) => {
           utm_campaign,
           utm_term,
           utm_content,
-          og_title,
-          og_description,
-          og_image,
-          redirect_type,
           expires_at,
-          max_clicks,
-          custom_expiry_message,
-          fallback_url,
           total_clicks,
-          unique_clicks,
-          last_clicked_at,
+          geo_targets,
           created_at,
           updated_at,
           created_by,
           workspace_id,
-          folder_id,
-          owner:profiles!links_created_by_fkey(full_name, email),
-          folder:folders(name),
-          link_tags(tag_name),
           qr_codes(id)
         `
         )
@@ -103,11 +96,11 @@ export const useLinkDetail = (linkId: string) => {
       if (linkError) throw linkError;
       if (!link) throw new Error("Link not found");
 
-      const { link_tags: linkTags, qr_codes: qrCodes, ...rest } = link;
+      const { qr_codes: qrCodes, ...rest } = link as any;
 
       return {
         ...rest,
-        tags: linkTags?.map((t) => t.tag_name) || [],
+        tags: [],
         qr_code_count: qrCodes?.length || 0,
       } as LinkDetail;
     },

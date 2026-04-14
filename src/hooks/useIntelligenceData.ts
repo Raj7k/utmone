@@ -368,14 +368,15 @@ export function useIntelligenceData(
         // Get actual click counts for each campaign
         if (campaignsToProcess.length > 0) {
           const campaignIds = campaignsToProcess.map(c => c.id);
-          const { data: campaignLinks } = await supabase
+          const { data: campaignLinks } = await (supabase as any)
             .from("links")
             .select("id, campaign_id")
             .eq("workspace_id", workspaceId)
             .in("campaign_id", campaignIds);
           
-          if (campaignLinks && campaignLinks.length > 0) {
-            const linkIds = campaignLinks.map(l => l.id);
+          const campaignLinksData = (campaignLinks || []) as any[];
+          if (campaignLinksData.length > 0) {
+            const linkIds = campaignLinksData.map((l: any) => l.id);
             const { data: campaignClicks } = await supabaseFrom('link_clicks')
               .select("link_id")
               .eq("workspace_id", workspaceId)
@@ -385,7 +386,7 @@ export function useIntelligenceData(
             // Aggregate clicks by campaign
             const clicksByCampaign: Record<string, number> = {};
             campaignClicks?.forEach((click: any) => {
-              const link = campaignLinks.find(l => l.id === click.link_id);
+              const link = campaignLinksData.find((l: any) => l.id === click.link_id);
               if (link?.campaign_id) {
                 clicksByCampaign[link.campaign_id] = (clicksByCampaign[link.campaign_id] || 0) + 1;
               }

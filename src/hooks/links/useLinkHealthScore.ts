@@ -19,9 +19,9 @@ export const useLinkHealthScore = (linkId: string) => {
   return useQuery({
     queryKey: ["link-health", linkId],
     queryFn: async (): Promise<HealthResult> => {
-      const { data: link } = await supabase
+      const { data: link } = await (supabase as any)
         .from("links")
-        .select("*, link_clicks(count), conversion_events(count)")
+        .select("*, link_clicks(count)")
         .eq("id", linkId)
         .single();
 

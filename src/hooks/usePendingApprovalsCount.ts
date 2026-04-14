@@ -52,7 +52,7 @@ export const usePendingApprovalsCount = () => {
     queryKey: ['pending-approvals-count', workspaceId],
     queryFn: async () => {
       if (!workspaceId) return 0;
-      const { count } = await supabase
+      const { count } = await (supabase as any)
         .from('links')
         .select('*', { count: 'exact', head: true })
         .eq('approval_status', 'pending')

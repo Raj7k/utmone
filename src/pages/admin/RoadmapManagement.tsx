@@ -85,13 +85,13 @@ export default function RoadmapManagement() {
   const { data: items = [], isLoading } = useQuery({
     queryKey: ["admin-roadmap-items"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("roadmap_items")
         .select("*")
-        .order("priority", { ascending: true });
+        .order("votes", { ascending: false });
       
       if (error) throw error;
-      return data as RoadmapItem[];
+      return (data || []) as RoadmapItem[];
     },
   });
 

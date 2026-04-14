@@ -96,29 +96,16 @@ export const useVersionManagement = (workspaceId: string) => {
 
       if (fetchError) throw fetchError;
 
-      // Get next version number
-      const { data: nextVersion } = await supabase
-        .rpc('get_next_url_version', {
-          p_workspace_id: workspaceId,
-          p_destination_url: parent.destination_url,
-        });
-
-      const version = nextVersion || 1;
-
       // Create new version
       const { data: newLink, error: insertError } = await supabase
         .from('links')
         .insert({
           workspace_id: workspaceId,
           created_by: parent.created_by,
-          title: `${parent.title} (v${version})`,
+          title: `${parent.title} (branch)`,
           slug: newSlug,
           destination_url: parent.destination_url,
-          final_url: parent.destination_url,
           domain: parent.domain,
-          path: parent.path || '',
-          version,
-          parent_link_id: parentId,
           utm_source: utmParams?.utm_source || parent.utm_source,
           utm_medium: utmParams?.utm_medium || parent.utm_medium,
           utm_campaign: utmParams?.utm_campaign || parent.utm_campaign,
@@ -131,9 +118,9 @@ export const useVersionManagement = (workspaceId: string) => {
       if (insertError) throw insertError;
       return newLink;
     },
-    onSuccess: (newLink) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['url-groups', workspaceId] });
-      notify.success('branch created', { description: `new version v${newLink.version} created successfully` });
+      notify.success('branch created', { description: 'new version created successfully' });
     },
     onError: (error: Error) => {
       notify.error('error', { description: error.message });

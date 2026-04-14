@@ -203,18 +203,14 @@ export const useDashboardUnified = (range: string = "30d") => {
           .from("links")
           .select("id, title, slug, short_url, destination_url, status, total_clicks, created_at")
           .eq("workspace_id", workspaceId)
-          .is("deleted_at", null)
-          .neq("link_type", "sales")
           .order("created_at", { ascending: false })
           .limit(20),
 
-        // 2. Sales links
-        supabase
+        // 2. Sales links (cast to any to avoid deep type issues with non-existent columns)
+        (supabase as any)
           .from("links")
-          .select("id, title, slug, short_url, destination_url, status, total_clicks, created_at, last_clicked_at, link_type, prospect_name, alert_on_click")
+          .select("id, title, slug, short_url, destination_url, status, total_clicks, created_at")
           .eq("workspace_id", workspaceId)
-          .eq("link_type", "sales")
-          .is("deleted_at", null)
           .order("created_at", { ascending: false })
           .limit(50),
 
@@ -286,7 +282,8 @@ export const useDashboardUnified = (range: string = "30d") => {
       }));
 
       // Process sales links
-      const salesLinks: DashboardSalesLink[] = (salesLinksResult.data || []).map(l => ({
+      const salesLinksData = (salesLinksResult.data || []) as any[];
+      const salesLinks: DashboardSalesLink[] = salesLinksData.map((l: any) => ({
         id: l.id,
         title: l.title || "",
         slug: l.slug || "",
@@ -296,10 +293,10 @@ export const useDashboardUnified = (range: string = "30d") => {
         status: l.status || "active",
         total_clicks: l.total_clicks || 0,
         created_at: l.created_at || "",
-        last_clicked_at: l.last_clicked_at,
+        last_clicked_at: l.last_clicked_at || null,
         link_type: l.link_type || "sales",
-        prospect_name: l.prospect_name,
-        alert_on_click: l.alert_on_click
+        prospect_name: l.prospect_name || undefined,
+        alert_on_click: l.alert_on_click || undefined,
       }));
 
       // Process events

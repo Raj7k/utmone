@@ -28,7 +28,7 @@ export default function ExpiredSubscriptions() {
   const { data: workspaces, isLoading } = useQuery({
     queryKey: ["grace-period-workspaces"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("workspaces")
         .select(`
           id,
@@ -43,18 +43,18 @@ export default function ExpiredSubscriptions() {
 
       if (error) throw error;
 
-      // Fetch owner profiles
-      const ownerIds = data?.map(w => w.owner_id) || [];
+      const dataArr = (data || []) as any[];
+      const ownerIds = dataArr.map((w: any) => w.owner_id);
       const { data: profiles } = await supabaseFrom('profiles')
         .select("id, email, full_name")
         .in("id", ownerIds);
 
-      const profileMap = new Map(profiles?.map(p => [p.id, p]) || []);
+      const profileMap = new Map((profiles as any[] || []).map((p: any) => [p.id, p]));
 
-      return data?.map(w => ({
+      return dataArr.map((w: any) => ({
         ...w,
-        owner_email: profileMap.get(w.owner_id)?.email,
-        owner_name: profileMap.get(w.owner_id)?.full_name,
+        owner_email: (profileMap.get(w.owner_id) as any)?.email,
+        owner_name: (profileMap.get(w.owner_id) as any)?.full_name,
       })) as GracePeriodWorkspace[];
     },
   });

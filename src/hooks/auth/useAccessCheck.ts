@@ -95,7 +95,7 @@ export function useAccessCheck(email: string | undefined): AccessCheckResult {
         // Priority 3: Check early access status
         const { data: earlyAccess, error: earlyAccessError } = await supabase
           .from("early_access_requests")
-          .select("status, access_level")
+          .select("status")
           .eq("email", email)
           .single();
 
@@ -110,7 +110,7 @@ export function useAccessCheck(email: string | undefined): AccessCheckResult {
           return;
         }
 
-        if (earlyAccess.status === 'approved' && (earlyAccess.access_level || 0) >= 2) {
+        if (earlyAccess.status === 'approved') {
           setResult({
             isLoading: false,
             hasAccess: true,

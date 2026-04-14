@@ -41,7 +41,7 @@ export default function FeatureFlags() {
 
   const maintenanceFlags = flags?.filter(f => f.category === 'maintenance');
   const criticalFlags = flags?.filter(f => 
-    f.metadata?.impact === 'critical' || f.flag_key === 'maintenance_mode'
+    f.metadata?.impact === 'critical' || f.feature_key === 'maintenance_mode'
   );
 
   return (
@@ -121,7 +121,7 @@ export default function FeatureFlags() {
                       <div className="flex-1 space-y-2">
                         <div className="flex items-center gap-2">
                           <code className="text-sm font-mono bg-muted px-2 py-1 rounded">
-                            {flag.flag_key}
+                            {flag.feature_key}
                           </code>
                           <Badge 
                             variant="outline" 
@@ -175,7 +175,7 @@ export default function FeatureFlags() {
                             checked={flag.is_enabled}
                             onCheckedChange={(checked) => {
                               if (!isToggling) {
-                                toggleFlag({ flagKey: flag.flag_key, enabled: checked });
+                                toggleFlag({ flagKey: flag.feature_key, enabled: checked });
                               }
                             }}
                             disabled={isToggling}

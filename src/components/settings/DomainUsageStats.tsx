@@ -45,7 +45,6 @@ export const DomainUsageStats = ({ domainId, domain }: DomainUsageStatsProps) =>
       return {
         linkCount: linkCount || 0,
         totalClicks,
-        lastClickedAt: lastClickedLink?.last_clicked_at,
         lastCreatedAt: lastCreated?.created_at,
       };
     },
@@ -83,8 +82,8 @@ export const DomainUsageStats = ({ domainId, domain }: DomainUsageStatsProps) =>
               Last Activity
             </div>
             <div className="text-sm font-medium">
-              {stats?.lastClickedAt 
-                ? formatDistanceToNow(new Date(stats.lastClickedAt), { addSuffix: true })
+              {stats?.lastCreatedAt 
+                ? formatDistanceToNow(new Date(stats.lastCreatedAt), { addSuffix: true })
                 : stats?.lastCreatedAt
                 ? formatDistanceToNow(new Date(stats.lastCreatedAt), { addSuffix: true })
                 : "No activity"

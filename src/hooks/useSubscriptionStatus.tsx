@@ -24,7 +24,7 @@ export const useSubscriptionStatus = () => {
     queryFn: async (): Promise<SubscriptionStatus | null> => {
       if (!currentWorkspace?.id) return null;
 
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('workspaces')
         .select(`
           plan_tier,

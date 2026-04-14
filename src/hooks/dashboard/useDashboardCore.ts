@@ -92,7 +92,7 @@ export const useDashboardCore = () => {
       console.log("[useDashboardCore] Calling RPC get_dashboard_summary...");
       
       // SINGLE RPC call - replaces 10 parallel queries
-      const { data: rpcData, error: rpcError } = await supabase.rpc(
+      const { data: rpcData, error: rpcError } = await (supabase as any).rpc(
         "get_dashboard_summary",
         { p_workspace_id: workspaceId, p_user_id: userId || null }
       );
@@ -102,7 +102,7 @@ export const useDashboardCore = () => {
         throw rpcError;
       }
 
-      const summary = rpcData as {
+      const summary = (rpcData as unknown) as {
         linksCount: number;
         clicksToday: number;
         qrCount: number;

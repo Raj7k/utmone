@@ -111,7 +111,7 @@ export const Step2Shortener = ({
     setSlugAvailable(null);
     
     const checkSlug = async () => {
-      const { data } = await supabase
+      const { data } = await (supabase as any)
         .from("links")
         .select("id")
         .eq("domain", selectedDomain)

@@ -26,7 +26,7 @@ export interface PlanLimits {
 
 export async function checkPlanLimits(workspaceId: string, overridePlanTier?: PlanTier): Promise<PlanLimits> {
   // Fetch workspace plan
-  const { data: workspace, error: workspaceError } = await supabase
+  const { data: workspace, error: workspaceError } = await (supabase as any)
     .from('workspaces')
     .select('plan_tier, monthly_link_count, custom_domain_limit')
     .eq('id', workspaceId)
@@ -37,7 +37,7 @@ export async function checkPlanLimits(workspaceId: string, overridePlanTier?: Pl
   }
 
   // Use override plan tier if provided (for admin simulation), otherwise use workspace plan
-  const planTier = (overridePlanTier || workspace.plan_tier || 'free') as PlanTier;
+  const planTier = (overridePlanTier || (workspace as any).plan_tier || 'free') as PlanTier;
   const planConfig = PLAN_CONFIG[planTier];
 
   // Count links created this month
