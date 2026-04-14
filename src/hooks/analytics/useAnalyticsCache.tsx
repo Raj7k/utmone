@@ -21,8 +21,7 @@ export const useCachedLinkAnalytics = (workspaceId: string) => {
   return useQuery({
     queryKey: ['analytics', 'links', workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .rpc('get_link_analytics', { p_workspace_id: workspaceId });
+      const { data, error } = await (supabase as any).rpc('get_link_analytics', { p_workspace_id: workspaceId });
 
       if (error) throw error;
       return data;
@@ -37,8 +36,7 @@ export const useCachedUTMAnalytics = (workspaceId: string) => {
   return useQuery({
     queryKey: ['analytics', 'utm', workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .rpc('get_utm_analytics', { p_workspace_id: workspaceId });
+      const { data, error } = await (supabase as any).rpc('get_utm_analytics', { p_workspace_id: workspaceId });
 
       if (error) throw error;
       return data;
@@ -53,7 +51,7 @@ export const useCachedGeolocationAnalytics = (workspaceId: string) => {
   return useQuery({
     queryKey: ['analytics', 'geolocation', workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .rpc('get_geolocation_analytics', { p_workspace_id: workspaceId });
 
       if (error) throw error;
@@ -69,7 +67,7 @@ export const useCachedDeviceAnalytics = (workspaceId: string) => {
   return useQuery({
     queryKey: ['analytics', 'device', workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .rpc('get_device_analytics', { p_workspace_id: workspaceId });
 
       if (error) throw error;
@@ -89,8 +87,7 @@ export const useCachedTimeSeriesAnalytics = (
   return useQuery({
     queryKey: ['analytics', 'timeseries', workspaceId, linkId, days],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .rpc('get_time_series_analytics', {
+      const { data, error } = await (supabase as any).rpc('get_time_series_analytics', {
           p_workspace_id: workspaceId,
           p_link_id: linkId || null,
           p_days: days

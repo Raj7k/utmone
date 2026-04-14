@@ -5,9 +5,18 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { supabaseFrom } from "@/lib/supabaseHelper";
 import { toast } from "sonner";
-import { Database } from "@/integrations/supabase/types";
-
-type Anomaly = Database['public']['Tables']['analytics_anomalies']['Row'];
+type Anomaly = {
+  id: string;
+  metric_name: string;
+  anomaly_type: string;
+  severity: string;
+  current_value: number;
+  expected_value: number;
+  deviation_percent: number;
+  created_at: string;
+  status: string;
+  workspace_id: string;
+};
 
 interface AnomalyAlertProps {
   anomaly: Anomaly;

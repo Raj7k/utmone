@@ -233,12 +233,7 @@ function FlagRow({ flag, onToggle, isToggling }: FlagRowProps) {
             )}
           </div>
           
-          {/* Last modified */}
-          {flag.last_modified_at && (
-            <p className="text-xs text-secondary-label">
-              modified {formatDistanceToNow(new Date(flag.last_modified_at))} ago
-            </p>
-          )}
+
         </div>
         
         <Switch
