@@ -33,17 +33,17 @@ export function FeatureFlagsPanel() {
   };
 
   const handleToggleClick = (flag: FeatureFlag, enabled: boolean) => {
-    if (isDangerousFlag(flag.flag_key)) {
+    if (isDangerousFlag(flag.feature_key)) {
       setPendingToggle({ flag, enabled });
     } else {
-      toggleFlag({ flagKey: flag.flag_key, enabled });
+      toggleFlag({ flagKey: flag.feature_key, enabled });
     }
   };
 
   const confirmToggle = () => {
     if (pendingToggle) {
       toggleFlag({ 
-        flagKey: pendingToggle.flag.flag_key, 
+        flagKey: pendingToggle.flag.feature_key, 
         enabled: pendingToggle.enabled 
       });
       setPendingToggle(null);
@@ -152,14 +152,14 @@ export function FeatureFlagsPanel() {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              {pendingToggle?.enabled ? 'enable' : 'disable'} {pendingToggle?.flag.flag_key}?
+              {pendingToggle?.enabled ? 'enable' : 'disable'} {pendingToggle?.flag.feature_key}?
             </AlertDialogTitle>
             <AlertDialogDescription>
-              {pendingToggle?.flag.flag_key === 'maintenance_mode' 
+              {pendingToggle?.flag.feature_key === 'maintenance_mode' 
                 ? "This will serve a maintenance page instead of redirects. All short links will be unavailable to end users."
-                : pendingToggle?.flag.flag_key === 'enable_cache'
+                : pendingToggle?.flag.feature_key === 'enable_cache'
                 ? "Disabling cache will increase redirect latency by ~250ms. This is a critical performance flag."
-                : pendingToggle?.flag.flag_key === 'enable_batch_processing'
+                : pendingToggle?.flag.feature_key === 'enable_batch_processing'
                 ? "Disabling batch processing will increase database write load by 100x. Only disable if necessary."
                 : "This flag has critical impact on system performance. Confirm this change."}
             </AlertDialogDescription>
@@ -205,10 +205,10 @@ function FlagRow({ flag, onToggle, isToggling }: FlagRowProps) {
         <div className="space-y-2 flex-1">
           <div className="flex items-center gap-2 flex-wrap">
             <button
-              onClick={() => navigate(`/admin/flags/${flag.flag_key}`)}
+              onClick={() => navigate(`/admin/flags/${flag.feature_key}`)}
               className="text-sm font-mono bg-muted px-2 py-0.5 rounded hover:bg-muted/80 transition-colors cursor-pointer"
             >
-              {flag.flag_key}
+              {flag.feature_key}
             </button>
             <Badge variant={getImpactVariant(impact)}>
               {impact.toUpperCase()}
