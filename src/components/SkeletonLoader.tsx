@@ -106,7 +106,15 @@ export const DashboardSkeleton = LightweightDashboardShell;
  * Marketing page skeleton - matches obsidian theme for instant visual match
  * PHASE 15: Pure CSS, no framer-motion
  */
-export const MarketingSkeleton = () => (
+export const MarketingSkeleton = () => {
+  // Hide the instant HTML skeleton when this React fallback mounts
+  React.useEffect(() => {
+    if (typeof window !== 'undefined' && window.__hideInstantSkeleton) {
+      window.__hideInstantSkeleton();
+    }
+  }, []);
+
+  return (
   <div className="dark min-h-screen bg-[#050505]">
     {/* Nav placeholder - matches obsidian glass nav */}
     <div className="sticky top-0 z-50 py-4 px-4 md:px-8">
@@ -121,7 +129,8 @@ export const MarketingSkeleton = () => (
       </div>
     </div>
   </div>
-);
+  );
+};
 
 /**
  * Inline loading indicator - PHASE 15: Pure CSS rotation
