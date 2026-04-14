@@ -1,31 +1,32 @@
 
 
-## Plan: Add Performance Indexes + Fix Build Errors
+## Plan: Fix "slug unavailable" false positive after link creation
 
-### 1. Add indexes on `link_clicks` (migration)
+### Problem
+After successfully creating a link, the slug availability `useEffect` (line 140) re-fires because the form still contains the slug value. It queries the database, finds the just-created link, and marks the slug as "unavailable" — showing a confusing error toast alongside the success message.
 
-Create three indexes to speed up analytics queries:
-- `idx_link_clicks_link_id` on `(link_id)`
-- `idx_link_clicks_workspace_id` on `(workspace_id)`
-- `idx_link_clicks_clicked_at` on `(clicked_at DESC)`
-- `idx_link_clicks_workspace_clicked` composite on `(workspace_id, clicked_at DESC)` — covers the most common analytics query pattern
+### Root Cause
+The `shortURL` state is set on success (line 206), but the slug-check `useEffect` doesn't skip when a link has already been created. It keeps checking even after creation succeeds.
 
-### 2. Fix build error in `early-access-welcome.tsx` (line 22)
+### Fix
 
-The `<Preview>` component expects a `string` child but `position` is `string | number`. Fix by wrapping in `String()`:
-```
-<Preview>{`you're in — #${String(position ?? '???')} on the ${SITE_NAME} waitlist`}</Preview>
-```
+**`src/components/tools/URLShortenerTool.tsx`** — two changes:
 
-### 3. Fix build errors in `process-email-queue/index.ts`
+1. **Guard the slug-check useEffect** (line 140-156): Skip the check when `shortURL` is already set (meaning a link was just created):
+   ```typescript
+   useEffect(() => {
+     const checkSlug = async () => {
+       if (shortURL) return; // Link already created, skip check
+       if (values.slug && values.slug.length >= 3) {
+         // ...existing check
+       }
+     };
+     // ...
+   }, [values.slug, selectedDomain, shortURL]);
+   ```
 
-- **Line 57**: Change the `supabase` parameter type to `any` to avoid generic mismatch with `createClient`
-- **Lines 63-69**: Cast the insert payload with `as any` to bypass the `never` type error from `email_send_log` not matching the generated types
-- **Line 70**: Cast `rpc` params with `as any`
-- **Lines 159, 164**: Add explicit `any` type annotations for `msg` and `id` params
+2. **Reset `slugAvailable` on success** (inside `onSuccess` at line 203): Set `setSlugAvailable(null)` so the form doesn't show stale "unavailable" state if the user creates another link.
 
 ### Files Modified
-- Migration SQL (new indexes)
-- `supabase/functions/_shared/transactional-email-templates/early-access-welcome.tsx`
-- `supabase/functions/process-email-queue/index.ts`
+- `src/components/tools/URLShortenerTool.tsx` (2 small edits)
 
