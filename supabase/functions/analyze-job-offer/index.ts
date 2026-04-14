@@ -11,8 +11,21 @@ serve(async (req) => {
   }
 
   try {
+    // Upfront validation so callers get a clean 503 with a specific code
+    // instead of a cryptic downstream error when LOVABLE_API_KEY isn't set.
+    const apiKey = Deno.env.get("LOVABLE_API_KEY");
+    if (!apiKey) {
+      return new Response(
+        JSON.stringify({
+          error: "AI is not configured on this environment. Set LOVABLE_API_KEY in Supabase function secrets.",
+          code: "AI_UNAVAILABLE",
+        }),
+        { status: 503, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     const { offerDetails, marketData } = await req.json();
-    
+
     const prompt = `Analyze this job offer:
 
 Role: ${offerDetails.role}
@@ -33,7 +46,7 @@ Provide brief analysis with:
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${Deno.env.get("LOVABLE_API_KEY")}`,
+        Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -42,9 +55,25 @@ Provide brief analysis with:
       }),
     });
 
+    if (!response.ok) {
+      const errText = await response.text().catch(() => '');
+      console.error("[analyze-job-offer] AI gateway returned", response.status, errText);
+      return new Response(
+        JSON.stringify({ error: "AI request failed", code: "AI_GATEWAY_ERROR" }),
+        { status: 502, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     const data = await response.json();
-    
-    return new Response(JSON.stringify({ analysis: data.choices[0].message.content }), {
+    const analysis = data?.choices?.[0]?.message?.content;
+    if (!analysis) {
+      return new Response(
+        JSON.stringify({ error: "AI returned no content", code: "AI_EMPTY_RESPONSE" }),
+        { status: 502, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    return new Response(JSON.stringify({ analysis }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
   } catch (error: any) {
