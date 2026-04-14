@@ -52,11 +52,10 @@ export const usePendingApprovalsCount = () => {
     queryKey: ['pending-approvals-count', workspaceId],
     queryFn: async () => {
       if (!workspaceId) return 0;
-      const { count } = await (supabase as any)
-        .from('links')
-        .select('*', { count: 'exact', head: true })
-        .eq('approval_status', 'pending')
-        .eq('workspace_id', workspaceId);
+      // approval_status column doesn't exist yet - return 0
+      const result = 0;
+      setCachedCount(workspaceId, result);
+      return result;
       
       const result = count || 0;
       setCachedCount(workspaceId, result);
