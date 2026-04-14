@@ -219,23 +219,43 @@ export default function OnboardingWizard() {
 
       // UPSERT profile (ensures a row exists even if the handle_new_user trigger
       // hasn't fired yet; prevents FK failures on workspace insert which references
-      // profiles(id) via owner_id). Uses the supabaseFrom helper per Lovable's pattern.
-      const { error: profileError } = await supabaseFrom('profiles')
-        .upsert(
-          {
-            id: user.id,
-            email: user.email,
-            full_name: fullName,
-            user_type: selectedRole === "ops" ? "organization" : "individual",
-            icp_role: selectedRole,
-            primary_use_case: selectedGoals.join(","),
-            onboarding_completed: true,
-          },
-          { onConflict: "id" }
-        );
-      if (profileError) throw profileError;
+      // profiles(id) via owner_id).
+      //
+      // We try the full upsert first. If Supabase returns PGRST204 (a new column
+      // isn't in the schema cache yet because migration 20260414000007 hasn't run),
+      // retry with ONLY the core columns. This keeps onboarding working on any DB
+      // state — fresh Lovable Cloud projects included.
+      const fullProfile = {
+        id: user.id,
+        email: user.email,
+        full_name: fullName,
+        user_type: selectedRole === "ops" ? "organization" : "individual",
+        icp_role: selectedRole,
+        primary_use_case: selectedGoals.join(","),
+        onboarding_completed: true,
+      };
+      let { error: profileError } = await supabaseFrom('profiles')
+        .upsert(fullProfile, { onConflict: "id" });
 
-      // Create workspace
+      // If the full upsert fails with PGRST204 (column missing in schema cache),
+      // retry with only core columns so onboarding works on DBs that haven't run
+      // migration 20260414000007 yet.
+      if (profileError?.code === 'PGRST204') {
+        console.warn("[Onboarding] Full profile upsert failed (missing column). Retrying with core columns only.", profileError);
+        const coreProfile = { id: user.id, email: user.email, full_name: fullName };
+        const retry = await supabaseFrom('profiles').upsert(coreProfile, { onConflict: "id" });
+        profileError = retry.error;
+      }
+      if (profileError) {
+        console.error("[Onboarding] Profile upsert failed:", profileError);
+        throw profileError;
+      }
+
+      // Create workspace.
+      // Note: we do NOT write onboarding_completed here — that column is tracked on
+      // the profile row, not the workspace. Writing it here fails with PGRST204 if
+      // the column isn't present on workspaces (fresh Supabase projects that haven't
+      // run migration 20260414000004).
       const { data: workspace, error: workspaceError } = await supabase
         .from("workspaces")
         .insert({
@@ -246,6 +266,8 @@ export default function OnboardingWizard() {
         .single();
 
       if (workspaceError) {
+        // Surface the real error to console AND to the user for easier debugging.
+        console.error("[Onboarding] Workspace insert failed:", workspaceError);
         // Handle duplicate workspace name with friendly message
         if (workspaceError.code === '23505') {
           throw new Error("this workspace name is already taken. please try a different name.");
@@ -274,10 +296,13 @@ export default function OnboardingWizard() {
       navigate("/dashboard");
     } catch (error: any) {
       console.error("Onboarding error:", error);
-      // Show user-friendly error message
-      const friendlyMessage = error.message?.includes('taken') || error.message?.includes('exists')
+      // Show user-friendly error message — but also surface the real error so
+      // issues like missing columns or RLS rejections are visible, not hidden.
+      const isKnownFriendlyError =
+        error.message?.includes('taken') || error.message?.includes('exists');
+      const friendlyMessage = isKnownFriendlyError
         ? error.message
-        : "something went wrong. please try again.";
+        : `something went wrong: ${error.message || 'unknown error'}. please try again.`;
       notify.error(friendlyMessage);
       setIsCreating(false);
       setCompletionPhase(null);
