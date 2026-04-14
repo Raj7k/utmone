@@ -47,26 +47,26 @@ export default function ApprovalQueue() {
       return;
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from("links")
       .select("*")
       .eq("approval_status", "pending")
       .eq("workspace_id", currentWorkspace?.id)
-      .order("submitted_for_approval_at", { ascending: false });
+      .order("created_at", { ascending: false });
 
     if (!error && data) {
-      // Fetch creator profiles separately
-      const userIds = [...new Set(data.map(l => l.created_by))];
+      const linksData = (data || []) as any[];
+      const userIds = [...new Set(linksData.map((l: any) => l.created_by))];
       const { data: profilesData } = await supabaseFrom('profiles')
         .select("id, full_name, email")
         .in("id", userIds);
 
-      const linksWithProfiles = data.map(link => ({
+      const linksWithProfiles = linksData.map((link: any) => ({
         ...link,
-        profiles: profilesData?.find(p => p.id === link.created_by) || { full_name: null, email: "Unknown" },
+        profiles: profilesData?.find((p: any) => p.id === link.created_by) || { full_name: null, email: "Unknown" },
       }));
 
-      setPendingLinks(linksWithProfiles as PendingLink[]);
+      setPendingLinks(linksWithProfiles as unknown as PendingLink[]);
     }
     setIsLoading(false);
   };
@@ -74,7 +74,7 @@ export default function ApprovalQueue() {
   const handleApprove = async (linkId: string) => {
     const { data: { user } } = await supabase.auth.getUser();
     
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from("links")
       .update({ 
         status: "active",
@@ -111,10 +111,10 @@ export default function ApprovalQueue() {
 
     if (!selectedLinkId) return;
 
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from("links")
       .update({ 
-        status: "rejected",
+        status: "archived",
         approval_status: "rejected",
         rejection_reason: rejectionReason,
       })

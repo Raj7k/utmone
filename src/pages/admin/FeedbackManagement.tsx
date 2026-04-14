@@ -225,7 +225,7 @@ export default function FeedbackManagement() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
       
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("feedback")
         .update({ 
           admin_response: response,

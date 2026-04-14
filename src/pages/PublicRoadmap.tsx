@@ -52,12 +52,12 @@ export default function PublicRoadmap() {
   const { data: items = [], isLoading } = useQuery({
     queryKey: ["roadmap-items"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("roadmap_items")
         .select("*")
-        .order("vote_count", { ascending: false });
+        .order("votes", { ascending: false });
       if (error) throw error;
-      return data as RoadmapItem[];
+      return (data || []) as RoadmapItem[];
     },
   });
 

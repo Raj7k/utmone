@@ -32,24 +32,17 @@ export default function WaitlistPending() {
       setUserEmail(user.email);
 
       // Get waitlist info
-      const { data: waitlistData } = await supabase
+      const { data: waitlistData } = await (supabase as any)
         .from("early_access_requests")
-        .select("referral_code, total_access_score")
+        .select("referral_code, position")
         .eq("email", user.email)
         .single();
 
       if (waitlistData) {
         setReferralCode(waitlistData.referral_code || "");
         
-        // Calculate approximate queue position based on score
-        const { count } = await supabase
-          .from("early_access_requests")
-          .select("*", { count: "exact", head: true })
-          .eq("status", "pending")
-          .gt("total_access_score", waitlistData.total_access_score || 0);
-
-        if (count !== null) {
-          setQueuePosition(count + 1);
+        if (waitlistData.position) {
+          setQueuePosition(waitlistData.position);
         }
       }
     } catch (error) {

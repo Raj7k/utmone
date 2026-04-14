@@ -77,11 +77,11 @@ export function useUpdateSentinelConfig() {
       sentinel_enabled: boolean;
       sentinel_config: SentinelConfig;
     }) => {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("links")
         .update({
           sentinel_enabled,
-          sentinel_config: sentinel_config as Json,
+          sentinel_config: sentinel_config as any,
         })
         .eq("id", linkId);
 

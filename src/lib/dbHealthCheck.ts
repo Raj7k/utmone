@@ -71,7 +71,7 @@ export async function testMaterializedViews(): Promise<TestResult> {
     const results = await Promise.all(
       views.map(async (view) => {
         try {
-          const { error } = await supabase
+          const { error } = await (supabase as any)
             .from(view)
             .select('*')
             .limit(1);

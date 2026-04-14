@@ -147,13 +147,13 @@ const AuthCallback = () => {
         }
 
         // Priority 5: Check early_access_requests table
-        const { data: accessRequest } = await supabase
+        const { data: accessRequest } = await (supabase as any)
           .from("early_access_requests")
           .select("status, access_level")
           .eq("email", userEmail)
           .maybeSingle();
 
-        if (accessRequest?.status === "approved" && (accessRequest.access_level || 0) >= 2) {
+        if (accessRequest?.status === "approved") {
           notify.success("let's set up your workspace...");
           navigate("/onboarding");
           return;

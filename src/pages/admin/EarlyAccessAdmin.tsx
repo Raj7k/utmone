@@ -104,7 +104,7 @@ export default function EarlyAccessAdmin() {
 
       const { data, error } = await query;
       if (error) throw error;
-      return data as EarlyAccessRequest[];
+      return (data || []) as unknown as EarlyAccessRequest[];
     },
     enabled: userRoles?.role === 'admin',
   });

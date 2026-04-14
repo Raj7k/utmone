@@ -6,7 +6,7 @@ import { useFeatureFlags } from './useFeatureFlags';
  */
 export const useUIFeatureFlag = (flagKey: string): { enabled: boolean; isLoading: boolean } => {
   const { flags, isLoading } = useFeatureFlags();
-  const flag = flags?.find(f => f.flag_key === flagKey);
+  const flag = flags?.find(f => f.feature_key === flagKey);
   return { enabled: flag?.is_enabled ?? false, isLoading };
 };
 
@@ -17,7 +17,7 @@ export const useUIFeatureFlags = (flagKeys: string[]): { flags: Record<string, b
   const { flags: allFlags, isLoading } = useFeatureFlags();
   
   const flags = flagKeys.reduce((acc, key) => {
-    const flag = allFlags?.find(f => f.flag_key === key);
+    const flag = allFlags?.find(f => f.feature_key === key);
     acc[key] = flag?.is_enabled ?? false;
     return acc;
   }, {} as Record<string, boolean>);
