@@ -63,6 +63,7 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
   const { register, handleSubmit, watch, setValue, formState: { isDirty } } = useForm({
     defaultValues: {
       title: link.title || "",
+      description: link.description || "",
       destination_url: baseDestination,
       domain: link.domain || "",
       slug: link.slug || "",
@@ -72,6 +73,10 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
       utm_campaign: link.utm_campaign || parsedUtms.utm_campaign,
       utm_term: link.utm_term || parsedUtms.utm_term,
       utm_content: link.utm_content || parsedUtms.utm_content,
+      og_title: link.og_title || "",
+      og_description: link.og_description || "",
+      og_image: link.og_image || "",
+      redirect_type: link.redirect_type || "302",
       expires_at: link.expires_at || "",
       max_clicks: link.max_clicks || "",
       fallback_url: link.fallback_url || "",
@@ -265,6 +270,10 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
             <Label htmlFor="title">Title</Label>
             <Input id="title" {...register("title")} />
           </div>
+          <div>
+            <Label htmlFor="description">Description</Label>
+            <Textarea id="description" {...register("description")} rows={3} />
+          </div>
         </CardContent>
       </Card>
 
@@ -336,8 +345,18 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="expires_at">Expires At</Label>
-              <Input id="expires_at" type="datetime-local" {...register("expires_at")} />
+              <Label htmlFor="redirect_type">Redirect Type</Label>
+              <Select value={watchedFields.redirect_type} onValueChange={(value) => setValue("redirect_type", value)}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="302">302 Temporary</SelectItem>
+                  <SelectItem value="301">301 Permanent</SelectItem>
+                  <SelectItem value="307">307 Temporary (strict)</SelectItem>
+                  <SelectItem value="308">308 Permanent (strict)</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div>
               <Label htmlFor="max_clicks">Max Clicks</Label>
@@ -345,9 +364,37 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
             </div>
           </div>
 
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="expires_at">Expires At</Label>
+              <Input id="expires_at" type="datetime-local" {...register("expires_at")} />
+            </div>
+            <div>
+              <Label htmlFor="fallback_url">Fallback URL</Label>
+              <Input id="fallback_url" {...register("fallback_url")} placeholder="Where to redirect after expiry" />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Open Graph */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Open Graph Preview</CardTitle>
+          <CardDescription>Social media preview settings</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
           <div>
-            <Label htmlFor="fallback_url">Fallback URL</Label>
-            <Input id="fallback_url" {...register("fallback_url")} placeholder="Where to redirect after expiry" />
+            <Label htmlFor="og_title">OG Title (max 60 chars)</Label>
+            <Input id="og_title" {...register("og_title")} maxLength={60} />
+          </div>
+          <div>
+            <Label htmlFor="og_description">OG Description (max 160 chars)</Label>
+            <Textarea id="og_description" {...register("og_description")} maxLength={160} rows={2} />
+          </div>
+          <div>
+            <Label htmlFor="og_image">OG Image URL</Label>
+            <Input id="og_image" {...register("og_image")} placeholder="https://..." />
           </div>
         </CardContent>
       </Card>
