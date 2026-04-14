@@ -152,6 +152,8 @@ export const Step2Shortener = ({
           destination_url: destinations[0]?.url || utmUrl,
           domain: selectedDomain,
           expires_at: data.expires_at || null,
+          max_clicks: data.max_clicks && !isNaN(data.max_clicks) ? data.max_clicks : null,
+          fallback_url: data.fallback_url || null,
           geo_targets: Object.keys(geoTargets).length > 0 ? geoTargets : null,
           status: 'active',
         })
