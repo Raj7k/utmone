@@ -61,7 +61,7 @@ export const useLinkDetail = (linkId: string) => {
         .eq("link_id", linkId);
 
       return {
-        ...link,
+        ...(link as any),
         qr_code_count: qrCount || 0,
       } as LinkDetail;
     },
