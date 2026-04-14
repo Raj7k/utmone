@@ -53,13 +53,8 @@ export const usePendingApprovalsCount = () => {
     queryFn: async () => {
       if (!workspaceId) return 0;
       // approval_status column doesn't exist yet - return 0
-      const result = 0;
-      setCachedCount(workspaceId, result);
-      return result;
-      
-      const result = count || 0;
-      setCachedCount(workspaceId, result);
-      return result;
+      setCachedCount(workspaceId, 0);
+      return 0;
     },
     enabled: !!workspaceId,
     initialData: () => getCachedCount(workspaceId),
