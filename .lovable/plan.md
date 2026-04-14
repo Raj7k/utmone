@@ -1,32 +1,40 @@
 
 
-## Plan: Fix "slug unavailable" false positive after link creation
+## Plan: Fix Links Page and Link Detail Issues
 
-### Problem
-After successfully creating a link, the slug availability `useEffect` (line 140) re-fires because the form still contains the slug value. It queries the database, finds the just-created link, and marks the slug as "unavailable" — showing a confusing error toast alongside the success message.
+### Problems Identified
 
-### Root Cause
-The `shortURL` state is set on success (line 206), but the slug-check `useEffect` doesn't skip when a link has already been created. It keeps checking even after creation succeeds.
+1. **`deleted_at` column doesn't exist** — The `links` table has no `deleted_at` column, but 4 files filter with `.is("deleted_at", null)`, causing PostgREST 400 errors. This breaks the links list, dashboard stats, and prefetch.
+
+2. **`useLinkDetail` selects non-existent columns** — `description`, `final_url`, `path`, `og_title`, `og_description`, `og_image`, `redirect_type`, `max_clicks`, `custom_expiry_message`, `fallback_url`, `unique_clicks`, `last_clicked_at`, `folder_id` do not exist in the `links` table schema. This causes 400 errors on the detail page.
+
+3. **`useEnhancedLinks` selects non-existent columns** — `rejection_reason` and `sentinel_enabled` are not in the schema.
+
+4. **`useLinkDetail` references non-existent join** — `qr_codes(id)` requires a foreign key from `qr_codes.link_id` → `links.id`, which isn't configured as a FK in the schema.
 
 ### Fix
 
-**`src/components/tools/URLShortenerTool.tsx`** — two changes:
+**File 1: `src/hooks/links/useEnhancedLinks.tsx`** (line 91-97)
+- Remove `rejection_reason` and `sentinel_enabled` from the select list
+- Remove `.is("deleted_at", null)` filter
 
-1. **Guard the slug-check useEffect** (line 140-156): Skip the check when `shortURL` is already set (meaning a link was just created):
-   ```typescript
-   useEffect(() => {
-     const checkSlug = async () => {
-       if (shortURL) return; // Link already created, skip check
-       if (values.slug && values.slug.length >= 3) {
-         // ...existing check
-       }
-     };
-     // ...
-   }, [values.slug, selectedDomain, shortURL]);
-   ```
+**File 2: `src/hooks/links/useLinkDetail.tsx`** (lines 60-94)
+- Strip the select to only valid columns: `id, title, destination_url, short_url, domain, slug, status, security_status, utm_source, utm_medium, utm_campaign, utm_term, utm_content, expires_at, total_clicks, geo_targets, created_at, updated_at, created_by, workspace_id, password_hash`
+- Remove `qr_codes(id)` join — query `qr_codes` separately or remove `qr_code_count`
+- Update the `LinkDetail` interface to remove non-existent fields
+- Fix the return mapping
 
-2. **Reset `slugAvailable` on success** (inside `onSuccess` at line 203): Set `setSlugAvailable(null)` so the form doesn't show stale "unavailable" state if the user creates another link.
+**File 3: `src/hooks/dashboard/useDashboardUnified.ts`** (line 263)
+- Remove `.is("deleted_at", null)`
 
-### Files Modified
-- `src/components/tools/URLShortenerTool.tsx` (2 small edits)
+**File 4: `src/hooks/dashboard/useDashboardPrefetch.ts`** (lines 45, 158)
+- Remove `.is("deleted_at", null)` in both places
+
+**File 5: `src/hooks/dashboard/useAnalyticsData.ts`** (line 112)
+- Remove `.is("deleted_at", null)`
+
+### Technical Notes
+- The `slug` column is not included in `useEnhancedLinks` select — will add it so link cards can display/navigate correctly
+- The `LinkDetail` interface will be simplified to match actual DB columns
+- QR code count will be fetched via a separate query on `qr_codes` table (which has `link_id` column but no FK constraint)
 
