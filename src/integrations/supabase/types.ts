@@ -73,6 +73,39 @@ export type Database = {
           },
         ]
       }
+      campaigns: {
+        Row: {
+          color: string | null
+          created_at: string
+          created_by: string
+          id: string
+          name: string
+          status: string
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          created_by: string
+          id?: string
+          name: string
+          status?: string
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          created_by?: string
+          id?: string
+          name?: string
+          status?: string
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: []
+      }
       demo_requests: {
         Row: {
           challenge: string | null
@@ -404,6 +437,7 @@ export type Database = {
       link_clicks: {
         Row: {
           browser: string | null
+          campaign_id: string | null
           city: string | null
           clicked_at: string | null
           country: string | null
@@ -420,6 +454,7 @@ export type Database = {
         }
         Insert: {
           browser?: string | null
+          campaign_id?: string | null
           city?: string | null
           clicked_at?: string | null
           country?: string | null
@@ -436,6 +471,7 @@ export type Database = {
         }
         Update: {
           browser?: string | null
+          campaign_id?: string | null
           city?: string | null
           clicked_at?: string | null
           country?: string | null
@@ -472,6 +508,8 @@ export type Database = {
           approval_status: string | null
           approved_at: string | null
           approved_by: string | null
+          cache_priority: string | null
+          campaign_id: string | null
           clicks_last_30_days: number
           created_at: string
           created_by: string
@@ -480,7 +518,9 @@ export type Database = {
           domain: string | null
           expires_at: string | null
           fallback_url: string | null
+          final_url: string | null
           geo_targets: Json | null
+          health_status: string | null
           id: string
           max_clicks: number | null
           og_description: string | null
@@ -491,6 +531,8 @@ export type Database = {
           redirect_type: string | null
           rejection_reason: string | null
           security_status: string
+          sentinel_config: Json | null
+          sentinel_enabled: boolean | null
           short_url: string | null
           slug: string | null
           status: Database["public"]["Enums"]["link_status"]
@@ -508,6 +550,8 @@ export type Database = {
           approval_status?: string | null
           approved_at?: string | null
           approved_by?: string | null
+          cache_priority?: string | null
+          campaign_id?: string | null
           clicks_last_30_days?: number
           created_at?: string
           created_by: string
@@ -516,7 +560,9 @@ export type Database = {
           domain?: string | null
           expires_at?: string | null
           fallback_url?: string | null
+          final_url?: string | null
           geo_targets?: Json | null
+          health_status?: string | null
           id?: string
           max_clicks?: number | null
           og_description?: string | null
@@ -527,6 +573,8 @@ export type Database = {
           redirect_type?: string | null
           rejection_reason?: string | null
           security_status?: string
+          sentinel_config?: Json | null
+          sentinel_enabled?: boolean | null
           short_url?: string | null
           slug?: string | null
           status?: Database["public"]["Enums"]["link_status"]
@@ -544,6 +592,8 @@ export type Database = {
           approval_status?: string | null
           approved_at?: string | null
           approved_by?: string | null
+          cache_priority?: string | null
+          campaign_id?: string | null
           clicks_last_30_days?: number
           created_at?: string
           created_by?: string
@@ -552,7 +602,9 @@ export type Database = {
           domain?: string | null
           expires_at?: string | null
           fallback_url?: string | null
+          final_url?: string | null
           geo_targets?: Json | null
+          health_status?: string | null
           id?: string
           max_clicks?: number | null
           og_description?: string | null
@@ -563,6 +615,8 @@ export type Database = {
           redirect_type?: string | null
           rejection_reason?: string | null
           security_status?: string
+          sentinel_config?: Json | null
+          sentinel_enabled?: boolean | null
           short_url?: string | null
           slug?: string | null
           status?: Database["public"]["Enums"]["link_status"]
@@ -577,6 +631,13 @@ export type Database = {
           workspace_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "links_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "links_workspace_id_fkey"
             columns: ["workspace_id"]
