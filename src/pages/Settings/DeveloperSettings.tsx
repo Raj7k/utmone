@@ -140,12 +140,16 @@ export default function DeveloperSettings({ workspaceId }: DeveloperSettingsProp
   };
 
   const getPixelSnippet = (pixelId: string) => {
+    // Use the current Supabase URL from env so the snippet matches whichever
+    // project this deployment is pointed at (was hardcoded to the old project
+    // before — copy/pasting that snippet broke tracking on new installs).
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
     return `<!-- utm.one Tracking Pixel -->
 <script>
 (function(w,d,p){
   w.utmone=w.utmone||function(){(w.utmone.q=w.utmone.q||[]).push(arguments)};
   var s=d.createElement('script');s.async=1;
-  s.src='https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/pixel-js?id='+p;
+  s.src='${supabaseUrl}/functions/v1/pixel-js?id='+p;
   d.head.appendChild(s);
 })(window,document,'${pixelId}');
 
@@ -566,7 +570,7 @@ export default function DeveloperSettings({ workspaceId }: DeveloperSettingsProp
             <div>
               <h3 className="text-sm font-medium text-label mb-2">base url</h3>
               <pre className="bg-fill-tertiary p-3 rounded-md text-xs font-mono overflow-x-auto border border-separator">
-                {`https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/api`}
+                {`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/api`}
               </pre>
             </div>
           </div>

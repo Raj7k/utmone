@@ -330,7 +330,7 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
                 const match = shortUrl.match(/\/([^\/]+)\/([^\/]+)$/);
                 if (match) {
                   const [, path, slug] = match;
-                  return `https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/redirect/${path}/${slug}`;
+                  return `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/redirect/${path}/${slug}`;
                 }
                 return shortUrl;
               })()}
@@ -542,7 +542,7 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
                   const match = shortUrl.match(/\/([^\/]+)\/([^\/]+)$/);
                   if (match) {
                     const [, path, slug] = match;
-                    return `https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/redirect/${path}/${slug}`;
+                    return `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/redirect/${path}/${slug}`;
                   }
                   return shortUrl;
                 })()}

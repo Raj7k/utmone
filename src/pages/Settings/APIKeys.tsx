@@ -293,13 +293,13 @@ export default function APIKeysSettings() {
             <div>
               <h3 className="font-display font-medium mb-2">base url</h3>
               <pre className="bg-muted p-3 rounded-md text-sm overflow-x-auto">
-                {`https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/api`}
+                {`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/api`}
               </pre>
             </div>
             <div>
               <h3 className="font-display font-medium mb-2">example request</h3>
               <pre className="bg-muted p-3 rounded-md text-sm overflow-x-auto">
-                {`curl -X POST https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/api/links \\
+                {`curl -X POST ${import.meta.env.VITE_SUPABASE_URL}/functions/v1/api/links \\
   -H "Authorization: Bearer utm_your_api_key_here" \\
   -H "Content-Type: application/json" \\
   -d '{

@@ -243,7 +243,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
     const path = values.path || "go";
     
     // Use Supabase edge function URL for actual redirects
-    const supabaseProjectId = "whgnsmjdubnvbmarnjfx";
+    const supabaseProjectId = import.meta.env.VITE_SUPABASE_PROJECT_ID as string;
     setShortUrl(`https://${supabaseProjectId}.supabase.co/functions/v1/redirect/${path}/${slug}`);
 
     if (values.destination_url) {
@@ -376,7 +376,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
     onSuccess: async (link) => {
       queryClient.invalidateQueries({ queryKey: ["links"] });
       setCreatedLinkId(link.id);
-      const supabaseProjectId = "whgnsmjdubnvbmarnjfx";
+      const supabaseProjectId = import.meta.env.VITE_SUPABASE_PROJECT_ID as string;
       const generatedShortUrl = `https://${supabaseProjectId}.supabase.co/functions/v1/redirect/${link.slug}`;
       
       // Reset CAPTCHA for next link creation
