@@ -82,11 +82,6 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
 
       const slug = Math.random().toString(36).substring(2, 8);
 
-      // IMPORTANT: explicitly set domain='utm.one' and path=''. The links table
-      // schema defaults are domain='keka.com' and path='go' (legacy). Without
-      // these explicit values, the saved short URL would be keka.com/go/abc123
-      // instead of utm.one/abc123 — the UI preview always shows utm.one/{slug}
-      // so the saved row must match, otherwise the redirect goes to the wrong host.
       const payload = {
         workspace_id: currentWorkspace.id,
         created_by: user.id,
@@ -95,7 +90,6 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
         title: new URL(finalUrl).hostname,
         status: 'active' as const,
         domain: 'utm.one',
-        path: '',
       };
       const { error } = await supabase.from('links').insert(payload);
 

@@ -97,13 +97,12 @@ export function CreateLinkInline({ workspaceId, onSuccess }: CreateLinkInlinePro
           created_by: user.id,
           title: data.title,
           slug,
-          destination_url: data.destination,
-          final_url: finalUrl,
+          destination_url: finalUrl,
           domain: selectedDomain,
-          path: "",
           utm_source: data.utm_source || null,
           utm_medium: data.utm_medium || null,
           utm_campaign: data.utm_campaign || null,
+          status: 'active' as const,
         })
         .select()
         .single();
