@@ -127,7 +127,7 @@ export const ResourcesNavigation = () => {
 
         {/* CTA Buttons */}
         <div className="hidden lg:flex items-center gap-3">
-          <Link to="/sign-in">
+          <Link to="/auth">
             <Button variant="ghost" size="sm" className="text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100">Sign In</Button>
           </Link>
           <Link to="/early-access">
@@ -194,7 +194,7 @@ export const ResourcesNavigation = () => {
                 <Link to="/pricing" onClick={() => setMobileMenuOpen(false)} className="py-2 text-lg font-medium text-zinc-700 hover:text-zinc-900">Pricing</Link>
 
                 <div className="border-t border-zinc-200 pt-4 mt-4 space-y-3">
-                  <Link to="/sign-in" onClick={() => setMobileMenuOpen(false)}>
+                  <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
                     <Button variant="outline" className="w-full border-zinc-300 text-zinc-900">Sign In</Button>
                   </Link>
                   <Link to="/early-access" onClick={() => setMobileMenuOpen(false)}>

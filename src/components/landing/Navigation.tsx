@@ -404,7 +404,7 @@ export const Navigation = () => {
                 </Link>
                 
                 <div className="border-t border-white-10 pt-4 mt-4 flex flex-col gap-3">
-                  <Link to="/sign-in" onClick={() => setMobileMenuOpen(false)}>
+                  <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
                     <Button variant="ghost" className="w-full justify-start text-white-70 hover:text-white-90 hover:bg-white/10">
                       Sign In
                     </Button>
