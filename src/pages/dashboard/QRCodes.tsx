@@ -239,7 +239,7 @@ export default function QRCodes() {
                     <Card
                       key={link.id}
                       className="p-4 cursor-pointer transition-colors hover:border-primary/30"
-                      onClick={() => setSelectedLink({ id: link.id, shortUrl: link.short_url || "" })}
+                      onClick={() => setSelectedLink({ id: link.id, shortUrl: link.short_url || `https://${link.domain}/${link.slug}` })}
                     >
                       <div className="flex items-center justify-between">
                         <div>
@@ -287,7 +287,7 @@ export default function QRCodes() {
                   key={link.id}
                   className="p-4 cursor-pointer transition-colors hover:border-primary/30"
                   onClick={() => {
-                    setSelectedLink({ id: link.id, shortUrl: link.short_url || "" });
+                    setSelectedLink({ id: link.id, shortUrl: link.short_url || `https://${link.domain}/${link.slug}` });
                     setShowCreateDialog(false);
                   }}
                 >
