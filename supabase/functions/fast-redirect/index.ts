@@ -39,12 +39,20 @@ Deno.serve(async (req) => {
   try {
     const url = new URL(req.url);
     const slug = url.searchParams.get('slug');
+    // SECURITY/PERF: accept explicit domain param from callers so we can use the
+    // composite (domain, slug, status) index. Falls back to X-Original-Domain
+    // header for callers that set it (Cloudflare worker pattern), then to a
+    // warning for slug-only queries (slower + may return wrong link when two
+    // domains share a slug).
+    const domain = (url.searchParams.get('domain')
+        || req.headers.get('X-Original-Domain')
+        || '').replace(/^www\./, '').trim();
     const userAgent = req.headers.get('user-agent') || '';
 
     if (!slug) {
       return new Response(
         JSON.stringify({ error: 'Missing slug parameter' }),
-        { 
+        {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           status: 400,
         }
@@ -83,12 +91,22 @@ Deno.serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    const { data: link, error } = await supabase
+    // PERF: build the query with an explicit domain filter when available so
+    // Postgres can use the composite (domain, slug, status) unique index.
+    // Without the filter we risk a seq scan or returning a wrong-domain link.
+    let linkQuery = supabase
       .from('links')
-      .select('id, workspace_id, destination_url, utm_source, utm_medium, utm_campaign, utm_term, utm_content, cache_priority, fallback_url, health_status, sentinel_enabled, sentinel_config')
+      .select('id, workspace_id, destination_url, utm_source, utm_medium, utm_campaign, utm_term, utm_content, cache_priority, fallback_url, health_status, sentinel_enabled, sentinel_config, campaign_id')
       .eq('slug', slug)
-      .eq('status', 'active')
-      .maybeSingle();
+      .eq('status', 'active');
+
+    if (domain) {
+      linkQuery = linkQuery.eq('domain', domain);
+    } else {
+      console.warn(`[fast-redirect] No domain provided for slug=${slug}. Falling back to slug-only lookup. Callers should pass ?domain= or X-Original-Domain header.`);
+    }
+
+    const { data: link, error } = await linkQuery.maybeSingle();
 
     if (error) {
       console.error('Database error:', error);

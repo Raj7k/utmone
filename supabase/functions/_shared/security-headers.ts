@@ -5,10 +5,16 @@
  * to protect against common web vulnerabilities.
  */
 
-// CORS headers for cross-origin requests
+// CORS headers for cross-origin requests.
+// Previous value allowed any origin (`*`) which let any website call our
+// authenticated edge functions with the user's JWT. Locked to the canonical
+// app origin. Functions that need multi-origin support should import
+// `buildCorsHeaders` from './cors.ts'.
 export const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Origin': 'https://utm.one',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Vary': 'Origin',
 };
 
 export const securityHeaders = {
