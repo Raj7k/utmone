@@ -160,9 +160,9 @@ export default function FeatureFlags() {
                             )}
                           </div>
                         )}
-                        {flag.last_modified_at && (
+                        {flag.created_at && (
                           <p className="text-xs text-secondary-label">
-                            last modified: {new Date(flag.last_modified_at).toLocaleString()}
+                            created: {new Date(flag.created_at).toLocaleString()}
                           </p>
                         )}
                       </div>

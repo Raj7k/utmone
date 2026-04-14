@@ -20,8 +20,9 @@ export function WaitlistStatsBar() {
       const now = new Date();
       const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
 
-      const { data: requests, error } = await supabaseFrom("early_access_requests")
-        .select("status, created_at, approval_timestamp");
+      const { data: rawRequests, error } = await supabaseFrom("early_access_requests")
+        .select("status, created_at");
+      const requests = (rawRequests || []) as any[];
 
       if (error) throw error;
 
@@ -29,24 +30,11 @@ export function WaitlistStatsBar() {
       const approved = requests?.filter((r) => r.status === "approved").length || 0;
       const total = requests?.length || 1;
 
-      const approvedThisWeek = requests?.filter(
-        (r) => r.status === "approved" && r.approval_timestamp && new Date(r.approval_timestamp) >= weekAgo
+      const approvedThisWeek = requests.filter(
+        (r: any) => r.status === "approved" && r.created_at && new Date(r.created_at) >= weekAgo
       ).length || 0;
 
-      // Calculate average wait time for approved users
-      const approvedWithWait = requests?.filter(
-        (r) => r.status === "approved" && r.approval_timestamp && r.created_at
-      ) || [];
-      
-      let avgWaitDays = 0;
-      if (approvedWithWait.length > 0) {
-        const totalWaitMs = approvedWithWait.reduce((sum, r) => {
-          const created = new Date(r.created_at).getTime();
-          const approved = new Date(r.approval_timestamp!).getTime();
-          return sum + (approved - created);
-        }, 0);
-        avgWaitDays = Math.round(totalWaitMs / approvedWithWait.length / (1000 * 60 * 60 * 24));
-      }
+      const avgWaitDays = 0; // No approval_timestamp column available
 
       return {
         pending,

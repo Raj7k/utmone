@@ -14,12 +14,12 @@ export const GeolocationMap = ({ workspaceId }: GeolocationMapProps) => {
   const { data: geoData, isLoading } = useCachedGeolocationAnalytics(workspaceId);
 
   // Process data for display
-  const data = geoData ? (() => {
+  const data = (geoData && Array.isArray(geoData)) ? (() => {
     // Aggregate by country
     const countryMap = new Map<string, number>();
     const cityMap = new Map<string, number>();
 
-    geoData.forEach((item) => {
+    (geoData as any[]).forEach((item: any) => {
       const country = item.country || 'Unknown';
       const city = item.city || 'Unknown';
       

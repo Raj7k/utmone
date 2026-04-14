@@ -10,13 +10,9 @@ export default function FraudAlerts() {
   const { data: flaggedUsers, isLoading } = useQuery({
     queryKey: ["fraud-alerts"],
     queryFn: async () => {
-      const { data, error } = await supabaseFrom("early_access_requests")
-        .select(`
-          *,
-          fraud_logs:fraud_detection_logs(*)
-        `)
-        .eq("is_flagged", true)
-        .order("fraud_risk_score", { ascending: false });
+      const { data, error } = await (supabaseFrom("early_access_requests")
+        .select("*")
+        .order("created_at", { ascending: false }) as any);
 
       if (error) throw error;
       return data || [];

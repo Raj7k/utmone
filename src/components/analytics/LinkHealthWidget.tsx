@@ -9,22 +9,24 @@ export const LinkHealthWidget = () => {
   const { data: healthStats, isLoading } = useQuery({
     queryKey: ["link-health-stats"],
     queryFn: async () => {
-      const { data: links, error } = await supabaseFrom("links")
-        .select("health_status")
+      const { data: rawLinks, error } = await supabaseFrom("links")
+        .select("security_status")
         .eq("status", "active");
 
       if (error) throw error;
+      const links = (rawLinks || []) as any[];
 
       const stats = {
         healthy: 0,
         unhealthy: 0,
         unknown: 0,
-        total: links?.length || 0,
+        total: links.length,
       };
 
-      links?.forEach((link) => {
-        if (link.health_status === "healthy") stats.healthy++;
-        else if (link.health_status === "unhealthy") stats.unhealthy++;
+      links.forEach((link: any) => {
+        const status = link.security_status || 'unknown';
+        if (status === "safe") stats.healthy++;
+        else if (status === "malicious") stats.unhealthy++;
         else stats.unknown++;
       });
 

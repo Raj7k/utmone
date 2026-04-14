@@ -236,14 +236,11 @@ export default function OnboardingWizard() {
       if (profileError) throw profileError;
 
       // Create workspace
-      const slug = workspaceName.toLowerCase().replace(/[^a-z0-9]/g, '-');
       const { data: workspace, error: workspaceError } = await supabase
         .from("workspaces")
         .insert({
           name: workspaceName,
-          slug,
           owner_id: user.id,
-          onboarding_completed: true,
         })
         .select()
         .single();
