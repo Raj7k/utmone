@@ -53,14 +53,13 @@ export default function CampaignDetails() {
   const { data: links, isLoading: linksLoading } = useQuery({
     queryKey: ["campaign-links", id],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("links")
+      const { data, error } = await supabaseFrom('links')
         .select("*")
-        .eq("campaign_id", id)
+        .eq("utm_campaign", id)
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      return data;
+      return (data as any[]) || [];
     },
     enabled: !!id,
   });
@@ -288,7 +287,7 @@ export default function CampaignDetails() {
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-medium text-label">{link.total_clicks || 0} clicks</p>
-                      <p className="text-xs text-secondary-label">{link.unique_clicks || 0} unique</p>
+                      <p className="text-xs text-secondary-label">{(link as any).unique_clicks || 0} unique</p>
                     </div>
                   </div>
                 </div>

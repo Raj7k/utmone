@@ -23,14 +23,14 @@ export default function CacheMonitoring() {
     queryFn: async () => {
       const { data: links, error } = await supabase
         .from('links')
-        .select('id, title, slug, short_url, cache_priority, cache_score, clicks_last_hour, total_clicks, last_cached_at')
+        .select('id, title, slug, short_url, total_clicks')
         .eq('workspace_id', currentWorkspace!.id)
         .eq('status', 'active')
-        .order('cache_score', { ascending: false })
+        .order('total_clicks', { ascending: false })
         .limit(100);
 
       if (error) throw error;
-      return links;
+      return (links as any[]) || [];
     },
     enabled: !!currentWorkspace?.id,
     refetchInterval: 30000,

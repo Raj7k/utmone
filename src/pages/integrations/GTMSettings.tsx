@@ -24,12 +24,12 @@ export default function GTMSettings() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('workspaces')
-        .select('gtm_container_id, ga4_measurement_id, ga4_api_secret_encrypted')
+        .select('gtm_container_id')
         .eq('id', workspaceId)
         .single();
 
       if (error) throw error;
-      return data;
+      return data as any;
     },
     enabled: !!workspaceId,
   });
@@ -46,13 +46,16 @@ export default function GTMSettings() {
         ga4SecretEncrypted = encryptData.ciphertext;
       }
 
-      const { error } = await supabase
+      const updateData: any = { 
+        gtm_container_id: data.gtmId || null,
+      };
+      if (ga4SecretEncrypted) {
+        updateData.ga4_api_secret_encrypted = ga4SecretEncrypted;
+      }
+
+      const { error } = await (supabase
         .from('workspaces')
-        .update({ 
-          gtm_container_id: data.gtmId || null,
-          ga4_measurement_id: data.ga4Id || null,
-          ga4_api_secret_encrypted: ga4SecretEncrypted
-        })
+        .update(updateData) as any)
         .eq('id', workspaceId);
 
       if (error) throw error;

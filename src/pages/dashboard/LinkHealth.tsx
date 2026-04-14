@@ -57,14 +57,15 @@ export default function LinkHealth() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("links")
-        .select("id, title, slug, destination_url, fallback_url, health_status, last_health_check, health_check_failures, total_clicks")
+        .select("id, title, slug, destination_url, total_clicks, status")
         .eq("status", "active")
         .eq("workspace_id", workspaceId)
-        .order("cache_score", { ascending: false });
+        .order("total_clicks", { ascending: false });
 
       if (error) throw error;
-      setCachedLinkHealth(workspaceId, data as Link[]);
-      return data as Link[];
+      const result = (data as unknown as Link[]) || [];
+      setCachedLinkHealth(workspaceId, result);
+      return result;
     },
     enabled: !!workspaceId,
     initialData: () => getCachedLinkHealth(workspaceId),

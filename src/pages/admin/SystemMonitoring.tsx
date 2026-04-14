@@ -343,7 +343,7 @@ export default function SystemMonitoring() {
                   <div key={flag.id} className="flex items-center justify-between text-sm">
                     <div className="flex items-center gap-2">
                       <code className="text-xs font-mono bg-muted px-2 py-0.5 rounded">
-                        {flag.flag_key}
+                        {flag.feature_key}
                       </code>
                     </div>
                     <Badge variant={flag.is_enabled ? "default" : "secondary"}>

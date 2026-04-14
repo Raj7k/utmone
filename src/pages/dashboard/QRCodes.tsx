@@ -52,7 +52,7 @@ export default function QRCodes() {
             title,
             slug,
             domain,
-            path,
+            short_url,
             workspace_id
           )
         `)
@@ -62,15 +62,16 @@ export default function QRCodes() {
 
       if (error) throw error;
       
+      const result = (data as any[]) || [];
       // Cache for instant render on next visit
       try {
         localStorage.setItem(`qr-codes-cache-${effectiveWorkspaceId}`, JSON.stringify({
-          data,
+          data: result,
           timestamp: Date.now(),
         }));
       } catch {}
       
-      return data || [];
+      return result;
     },
     enabled: !!effectiveWorkspaceId,
     staleTime: 2 * 60 * 1000,
@@ -100,7 +101,7 @@ export default function QRCodes() {
       if (!effectiveWorkspaceId) return [];
       const { data } = await supabase
         .from("links")
-        .select("id, title, slug, domain, path, short_url")
+        .select("id, title, slug, domain, short_url")
         .eq("workspace_id", effectiveWorkspaceId)
         .order("created_at", { ascending: false })
         .limit(20);

@@ -35,16 +35,14 @@ export default function Targeting() {
           title,
           slug,
           short_url,
-          domain,
-          path,
-          targeting_rules(count)
+          domain
         `)
         .eq('workspace_id', effectiveWorkspaceId)
         .eq('status', 'active')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      return data;
+      return (data as any[]) || [];
     },
     enabled: !!effectiveWorkspaceId,
     refetchOnWindowFocus: false,
