@@ -265,10 +265,6 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
             <Label htmlFor="title">Title</Label>
             <Input id="title" {...register("title")} />
           </div>
-          <div>
-            <Label htmlFor="description">Description</Label>
-            <Textarea id="description" {...register("description")} rows={3} />
-          </div>
         </CardContent>
       </Card>
 
@@ -313,14 +309,10 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 gap-4">
             <div>
               <Label htmlFor="domain">Domain</Label>
               <Input id="domain" {...register("domain")} readOnly className="bg-fill-tertiary" />
-            </div>
-            <div>
-              <Label htmlFor="path">Path</Label>
-              <Input id="path" {...register("path")} placeholder="go" />
             </div>
             <div>
               <Label htmlFor="slug">Slug</Label>
@@ -344,16 +336,8 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="redirect_type">Redirect Type</Label>
-              <Select value={watchedFields.redirect_type} onValueChange={(value) => setValue("redirect_type", value)}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="302">302 Temporary</SelectItem>
-                  <SelectItem value="301">301 Permanent</SelectItem>
-                </SelectContent>
-              </Select>
+              <Label htmlFor="expires_at">Expires At</Label>
+              <Input id="expires_at" type="datetime-local" {...register("expires_at")} />
             </div>
             <div>
               <Label htmlFor="max_clicks">Max Clicks</Label>
@@ -362,42 +346,12 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
           </div>
 
           <div>
-            <Label htmlFor="expires_at">Expires At</Label>
-            <Input id="expires_at" type="datetime-local" {...register("expires_at")} />
-          </div>
-
-          <div>
             <Label htmlFor="fallback_url">Fallback URL</Label>
             <Input id="fallback_url" {...register("fallback_url")} placeholder="Where to redirect after expiry" />
-          </div>
-
-          <div>
-            <Label htmlFor="custom_expiry_message">Custom Expiry Message</Label>
-            <Textarea id="custom_expiry_message" {...register("custom_expiry_message")} rows={2} />
           </div>
         </CardContent>
       </Card>
 
-      {/* Open Graph */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Open Graph Preview</CardTitle>
-          <CardDescription>Social media preview settings</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div>
-            <Label htmlFor="og_title">OG Title (max 60 chars)</Label>
-            <Input id="og_title" {...register("og_title")} maxLength={60} />
-          </div>
-          <div>
-            <Label htmlFor="og_description">OG Description (max 160 chars)</Label>
-            <Textarea id="og_description" {...register("og_description")} maxLength={160} rows={2} />
-          </div>
-          <div>
-            <Label htmlFor="og_image">OG Image URL</Label>
-            <Input id="og_image" {...register("og_image")} placeholder="https://..." />
-          </div>
-        </CardContent>
       </Card>
 
       {/* Metadata */}
