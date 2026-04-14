@@ -62,15 +62,16 @@ export default function QRCodes() {
 
       if (error) throw error;
       
+      const result = (data as any[]) || [];
       // Cache for instant render on next visit
       try {
         localStorage.setItem(`qr-codes-cache-${effectiveWorkspaceId}`, JSON.stringify({
-          data,
+          data: result,
           timestamp: Date.now(),
         }));
       } catch {}
       
-      return data || [];
+      return result;
     },
     enabled: !!effectiveWorkspaceId,
     staleTime: 2 * 60 * 1000,

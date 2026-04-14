@@ -53,14 +53,13 @@ export default function CampaignDetails() {
   const { data: links, isLoading: linksLoading } = useQuery({
     queryKey: ["campaign-links", id],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("links")
+      const { data, error } = await supabaseFrom('links')
         .select("*")
-        .eq("campaign_id", id)
+        .eq("utm_campaign", id)
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      return data;
+      return (data as any[]) || [];
     },
     enabled: !!id,
   });

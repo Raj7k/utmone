@@ -42,7 +42,7 @@ export default function Targeting() {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      return data;
+      return (data as any[]) || [];
     },
     enabled: !!effectiveWorkspaceId,
     refetchOnWindowFocus: false,
