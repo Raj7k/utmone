@@ -1,31 +1,27 @@
 
 
-## Plan: Add UTM Templates and QR Codes Seed Data
+## Plan: Fix Link Creation Across All Creators
 
-### What
-Insert seed data for UTM templates and QR codes so all dashboard tabs display content.
+### Root Cause
+The `links` table only has these columns: `id`, `workspace_id`, `created_by`, `title`, `short_url`, `destination_url`, `domain`, `slug`, `status`, `total_clicks`, `clicks_last_30_days`, `geo_targets`, `security_status`, `expires_at`, `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`, `created_at`, `updated_at`.
 
-### Data to Insert
+Multiple link creation components try to insert non-existent columns (`final_url`, `max_clicks`, `fallback_url`, `destinations`, `smart_rotate`, `contextual_routing`, `routing_strategy`, `path`), causing PostgREST errors.
 
-**6 UTM Templates** (linked to existing workspace):
-- Social Media Campaign (facebook / social / summer2024)
-- Email Newsletter (mailchimp / email / weekly-digest)  
-- Google Ads (google / cpc / brand-search)
-- Partner Referral (partner-site / referral / q1-partners)
-- LinkedIn Content (linkedin / social / thought-leadership)
-- Event Marketing (qr-code / offline / conference-2024)
+The "Not authenticated" error on the Sales page means the user's auth session isn't being picked up — likely a session refresh issue or the user isn't logged in.
 
-**6 QR Codes** (linked to existing links):
-- Summer Sale QR → summer24 link
-- Product Launch QR → launch link
-- Google Ads QR → gads1 link
-- LinkedIn QR → li-thought link
-- Event Booth QR → event-qr link
-- Twitter Bio QR → tw-bio link
+### Changes
 
-### Implementation
-Use the database insert tool to add all records in two SQL statements. No code changes needed — the dashboard components already query these tables.
+**1. `src/components/tools/URLShortenerTool.tsx`** — Remove `final_url`, `max_clicks`, `fallback_url`, `destinations`, `smart_rotate`, `contextual_routing`, `routing_strategy`, `path` from the insert payload. Keep only valid columns. Remove the PGRST204 fallback logic (no longer needed). Keep `expires_at` since it exists.
+
+**2. `src/components/dashboard/WelcomeModal.tsx`** — Verify `path` is removed from insert (was fixed previously but need to confirm no `final_url` either).
+
+**3. `src/components/link-forge/Step2Shortener.tsx`** — Same fix: strip non-existent columns from insert payload.
+
+**4. `src/components/link/CreateLinkInline.tsx`** — Same fix: strip non-existent columns.
 
 ### Files Modified
-None — data-only changes via SQL inserts.
+- `src/components/tools/URLShortenerTool.tsx`
+- `src/components/link-forge/Step2Shortener.tsx`
+- `src/components/link/CreateLinkInline.tsx`
+- `src/components/dashboard/WelcomeModal.tsx` (verify)
 
