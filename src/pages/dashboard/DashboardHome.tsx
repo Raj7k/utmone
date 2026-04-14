@@ -18,6 +18,7 @@ import { RefreshCw } from "lucide-react";
 import { DashboardContentLoader } from "@/components/loading/DashboardContentLoader";
 import { LazySection } from "@/components/loading/LazySection";
 import { ActivityFeed } from "@/components/dashboard/ActivityFeed";
+import { preloaders } from "@/lib/routePreloader";
 
 const DashboardHome = () => {
   const { showDemoMode } = useDemoMode();
@@ -45,6 +46,34 @@ const DashboardHome = () => {
     if (isFetched) {
       completeNavigation();
     }
+  }, [isFetched]);
+
+  // PERF: Once the dashboard is idle, prefetch the neighboring chunks users
+  // typically navigate to next. requestIdleCallback makes this zero-cost —
+  // the browser only fires these imports during idle time, so it never
+  // competes with critical rendering. By the time a user clicks Links or
+  // Analytics in the sidebar, the chunk is already cached.
+  useEffect(() => {
+    if (!isFetched) return;
+    const idle = (cb: () => void) => {
+      const anyWin = window as any;
+      if (typeof anyWin.requestIdleCallback === 'function') {
+        return anyWin.requestIdleCallback(cb, { timeout: 3000 });
+      }
+      return setTimeout(cb, 1500);
+    };
+    const handle = idle(() => {
+      preloaders.links?.();
+      preloaders.analytics?.();
+    });
+    return () => {
+      const anyWin = window as any;
+      if (typeof anyWin.cancelIdleCallback === 'function' && handle) {
+        try { anyWin.cancelIdleCallback(handle); } catch { /* noop */ }
+      } else if (handle) {
+        clearTimeout(handle as any);
+      }
+    };
   }, [isFetched]);
   
   const [showSuccess, setShowSuccess] = useState(false);
