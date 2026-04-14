@@ -860,15 +860,7 @@ const AppRoutes = () => {
               
               {/* Reports Routes */}
               <Route path="/resources/reports" element={<Reports />} />
-              <Route
-                path="/resources/reports/gtm-insights-2026"
-                element={
-                  <ComingSoonPage
-                    title="State of GTM Insights 2026"
-                    description="We're putting the finishing touches on this comprehensive report covering 15+ countries, 50+ roles, and 10 interactive tools. Join the waitlist to be notified when it launches."
-                 />
-                }
-             />
+              <Route path="/resources/reports/gtm-insights-2026" element={<GTMInsights2026 />} />
               <Route
                 path="/resources/reports/salary-benchmark-2025"
                 element={
