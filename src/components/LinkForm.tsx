@@ -378,7 +378,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
       queryClient.invalidateQueries({ queryKey: ["links"] });
       setCreatedLinkId(link.id);
       const supabaseProjectId = "whgnsmjdubnvbmarnjfx";
-      const generatedShortUrl = `https://${supabaseProjectId}.supabase.co/functions/v1/redirect/${link.path}/${link.slug}`;
+      const generatedShortUrl = `https://${supabaseProjectId}.supabase.co/functions/v1/redirect/${link.slug}`;
       
       // Reset CAPTCHA for next link creation
       setCaptchaToken(null);
