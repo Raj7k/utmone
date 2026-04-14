@@ -94,9 +94,15 @@ Deno.serve(async (req) => {
     // PERF: build the query with an explicit domain filter when available so
     // Postgres can use the composite (domain, slug, status) unique index.
     // Without the filter we risk a seq scan or returning a wrong-domain link.
+    // PERF note: extended columns (cache_priority, health_status, sentinel_*,
+    // campaign_id) don't exist on every target DB (migrations 20251201/20260414
+    // may not have run). The SELECT below lists only the core columns that are
+    // guaranteed to exist. The extended sentinel/cache features operate on
+    // `link.cache_priority` etc. — those branches already guard on undefined,
+    // so omitting them from the SELECT degrades gracefully.
     let linkQuery = supabase
       .from('links')
-      .select('id, workspace_id, destination_url, utm_source, utm_medium, utm_campaign, utm_term, utm_content, cache_priority, fallback_url, health_status, sentinel_enabled, sentinel_config, campaign_id')
+      .select('id, workspace_id, destination_url, utm_source, utm_medium, utm_campaign, utm_term, utm_content, fallback_url')
       .eq('slug', slug)
       .eq('status', 'active');
 

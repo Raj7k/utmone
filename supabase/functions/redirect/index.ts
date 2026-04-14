@@ -110,10 +110,7 @@ Deno.serve(async (req) => {
     // Look up the link using actual schema columns
     const { data: link, error: linkError } = await supabase
       .from('links')
-      // PERF: include campaign_id so we can pass it through to link_clicks
-      // insert below. This lets the BEFORE-INSERT trigger skip its SELECT
-      // because NEW.campaign_id is no longer NULL — saves ~40ms per click.
-      .select('id, destination_url, status, expires_at, max_clicks, total_clicks, fallback_url, title, password, domain, slug, workspace_id, campaign_id, geo_targets, created_by')
+      .select('id, destination_url, status, expires_at, max_clicks, total_clicks, fallback_url, title, password, domain, slug, workspace_id, geo_targets, created_by')
       .eq('domain', domain)
       .eq('slug', slug)
       .eq('status', 'active')
@@ -231,11 +228,6 @@ Deno.serve(async (req) => {
         country: country,
         city: city,
         workspace_id: linkRecord.workspace_id,
-        // PERF: populate denormalized fields up-front so the BEFORE-INSERT
-        // triggers (set_click_workspace_id, set_click_campaign_id) early-exit
-        // on their NULL check instead of running SELECT link.workspace_id /
-        // SELECT link.campaign_id on every INSERT.
-        campaign_id: (linkRecord as any).campaign_id ?? null,
       };
 
       try {
