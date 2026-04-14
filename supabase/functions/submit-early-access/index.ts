@@ -1,7 +1,15 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.38.4";
 import { corsHeaders } from "../_shared/cors.ts";
-import { checkEmailQuality } from "../../../src/shared-core/email/emailQuality.ts";
+
+// Inline email validation (cannot import from src/ in edge functions)
+function checkEmailQuality(email: string): { ok: boolean; reason: string; suggestion?: string; normalizedEmail?: string } {
+  const trimmed = email.trim().toLowerCase();
+  if (!trimmed) return { ok: false, reason: 'empty' };
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(trimmed)) return { ok: false, reason: 'invalid_format' };
+  return { ok: true, reason: 'ok', normalizedEmail: trimmed };
+}
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
