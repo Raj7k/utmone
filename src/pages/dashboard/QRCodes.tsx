@@ -101,7 +101,7 @@ export default function QRCodes() {
       if (!effectiveWorkspaceId) return [];
       const { data } = await supabase
         .from("links")
-        .select("id, title, slug, domain, path, short_url")
+        .select("id, title, slug, domain, short_url")
         .eq("workspace_id", effectiveWorkspaceId)
         .order("created_at", { ascending: false })
         .limit(20);
