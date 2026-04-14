@@ -556,6 +556,44 @@ export type Database = {
           },
         ]
       }
+      password_attempts: {
+        Row: {
+          attempt_count: number
+          first_attempt_at: string
+          id: string
+          ip_address: string
+          last_attempt_at: string
+          link_id: string
+          locked_until: string | null
+        }
+        Insert: {
+          attempt_count?: number
+          first_attempt_at?: string
+          id?: string
+          ip_address: string
+          last_attempt_at?: string
+          link_id: string
+          locked_until?: string | null
+        }
+        Update: {
+          attempt_count?: number
+          first_attempt_at?: string
+          id?: string
+          ip_address?: string
+          last_attempt_at?: string
+          link_id?: string
+          locked_until?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "password_attempts_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -1023,6 +1061,10 @@ export type Database = {
     }
     Functions: {
       calculate_queue_position: { Args: never; Returns: number }
+      check_password_attempts: {
+        Args: { p_ip_address: string; p_link_id: string; p_success?: boolean }
+        Returns: Json
+      }
       delete_email: {
         Args: { message_id: number; queue_name: string }
         Returns: boolean
