@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -61,8 +62,7 @@ export const TopCampaignsTable = ({ workspaceId, links: prefetchedLinks }: TopCa
   const { data: campaigns, isLoading } = useQuery({
     queryKey: ["top-campaigns", workspaceId],
     queryFn: async () => {
-      const { data: links, error } = await supabase
-        .from("links")
+      const { data: links, error } = await supabaseFrom("links")
         .select(`
           id,
           title,

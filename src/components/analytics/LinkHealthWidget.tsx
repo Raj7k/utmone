@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Shield, AlertTriangle, HelpCircle, TrendingUp } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -8,8 +9,7 @@ export const LinkHealthWidget = () => {
   const { data: healthStats, isLoading } = useQuery({
     queryKey: ["link-health-stats"],
     queryFn: async () => {
-      const { data: links, error } = await supabase
-        .from("links")
+      const { data: links, error } = await supabaseFrom("links")
         .select("health_status")
         .eq("status", "active");
 
