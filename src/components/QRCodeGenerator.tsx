@@ -72,12 +72,16 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
           const match = url.match(/\/([^\/]+)\/([^\/]+)$/);
           if (match) {
             const [, path, slug] = match;
-            return `https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/redirect/${path}/${slug}`;
+            return `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/redirect/${path}/${slug}`;
           }
           return url;
         };
 
         const normalizedShortUrl = normalizeUrl(shortUrl);
+
+        if (!normalizedShortUrl) {
+          throw new Error("No URL provided for QR code generation. Please ensure the link has a valid short URL.");
+        }
 
         // Generate PNG using qrcode library
         const pngDataUrl = await QRCodeLib.toDataURL(normalizedShortUrl, {
