@@ -139,6 +139,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
   // Check slug availability
   useEffect(() => {
     const checkSlug = async () => {
+      if (shortURL) return; // Link already created, skip check
       if (values.slug && values.slug.length >= 3) {
         const { data } = await (supabase as any)
           .from("links")
@@ -153,7 +154,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
 
     const timeoutId = setTimeout(checkSlug, 500);
     return () => clearTimeout(timeoutId);
-  }, [values.slug, selectedDomain]);
+  }, [values.slug, selectedDomain, shortURL]);
 
 
   const createLinkMutation = useMutation({
@@ -202,6 +203,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
     },
     onSuccess: (link) => {
       setIsSubmitting(false);
+      setSlugAvailable(null);
       const url = `https://${link.domain}/${link.slug}`;
       setShortURL(url);
       setCreatedLinkId(link.id);
