@@ -36,17 +36,12 @@ export function CreateFlagModal({ open, onOpenChange }: CreateFlagModalProps) {
 
   const createMutation = useMutation({
     mutationFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      
       const { error } = await supabase
         .from('feature_gates')
         .insert({
-          flag_key: flagKey.toLowerCase().replace(/\s+/g, '_'),
+          feature_key: flagKey.toLowerCase().replace(/\s+/g, '_'),
           description,
-          category,
-          is_enabled: false,
-          last_modified_by: user?.id,
-          metadata: { impact },
+          min_plan_tier: 'free',
         });
 
       if (error) throw error;

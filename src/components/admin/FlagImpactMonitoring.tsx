@@ -24,7 +24,6 @@ export function FlagImpactMonitoring() {
 
   const [metricsHistory, setMetricsHistory] = useState<SystemMetrics[]>([]);
 
-  // Subscribe to feature flag changes for real-time updates
   useEffect(() => {
     const channel = supabase
       .channel('feature-flags-monitoring')
@@ -35,8 +34,7 @@ export function FlagImpactMonitoring() {
           schema: 'public',
           table: 'feature_gates'
         },
-    (payload) => {
-      // Capture metrics snapshot when flag changes
+    () => {
           captureMetricsSnapshot();
         }
       )
@@ -47,7 +45,6 @@ export function FlagImpactMonitoring() {
     };
   }, []);
 
-  // Simulate metrics updates every 5 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       updateMetrics();
@@ -61,40 +58,31 @@ export function FlagImpactMonitoring() {
   };
 
   const updateMetrics = () => {
-    // Calculate metrics based on enabled flags
     const enabledFlags = flags?.filter(f => f.is_enabled) || [];
     
-    let baseLatency = 350; // Base latency without any optimizations
+    let baseLatency = 350;
     let baseErrorRate = 1.5;
     let baseCacheHit = 0;
 
-    // Apply flag impacts
     enabledFlags.forEach(flag => {
-      const metadata = flag.metadata as any;
-      
-      if (flag.flag_key === 'enable_cache') {
-        baseLatency -= metadata?.latency_reduction_ms || 250;
+      if (flag.feature_key === 'enable_cache') {
+        baseLatency -= 250;
         baseCacheHit = 87.5;
       }
-      
-      if (flag.flag_key === 'enable_batch_processing') {
-        baseLatency -= metadata?.latency_reduction_ms || 50;
+      if (flag.feature_key === 'enable_batch_processing') {
+        baseLatency -= 50;
       }
-      
-      if (flag.flag_key === 'enable_geolocation') {
-        baseLatency += metadata?.latency_cost_ms || 150;
+      if (flag.feature_key === 'enable_geolocation') {
+        baseLatency += 150;
       }
-      
-      if (flag.flag_key === 'enable_og_variants') {
-        baseLatency += metadata?.latency_cost_ms || 75;
+      if (flag.feature_key === 'enable_og_variants') {
+        baseLatency += 75;
       }
-      
-      if (flag.flag_key === 'enable_rate_limiting') {
+      if (flag.feature_key === 'enable_rate_limiting') {
         baseErrorRate -= 0.8;
       }
     });
 
-    // Add some random variance for realism
     const variance = (Math.random() - 0.5) * 10;
     
     setCurrentMetrics({
@@ -107,42 +95,32 @@ export function FlagImpactMonitoring() {
 
   const getMetricTrend = (metric: 'latency_p95' | 'error_rate' | 'cache_hit_rate') => {
     if (metricsHistory.length < 2) return null;
-    
     const previous = metricsHistory[metricsHistory.length - 1][metric];
     const current = currentMetrics[metric];
-    
     if (current === previous) return null;
-    
-    // For latency and error rate, lower is better
     if (metric === 'latency_p95' || metric === 'error_rate') {
       return current < previous ? 'improving' : 'degrading';
     }
-    
-    // For cache hit rate, higher is better
     return current > previous ? 'improving' : 'degrading';
   };
 
   const getMetricStatus = (metric: 'latency_p95' | 'error_rate' | 'cache_hit_rate') => {
     const value = currentMetrics[metric];
-    
     if (metric === 'latency_p95') {
       if (value < 100) return 'excellent';
       if (value < 200) return 'good';
       return 'poor';
     }
-    
     if (metric === 'error_rate') {
       if (value < 0.5) return 'excellent';
       if (value < 1) return 'good';
       return 'poor';
     }
-    
     if (metric === 'cache_hit_rate') {
       if (value > 85) return 'excellent';
       if (value > 70) return 'good';
       return 'poor';
     }
-    
     return 'good';
   };
 
@@ -151,33 +129,17 @@ export function FlagImpactMonitoring() {
     const contributions: { flag: string; impact: string; value: string; type: 'positive' | 'negative' | 'neutral' }[] = [];
 
     enabled.forEach(flag => {
-      const metadata = flag.metadata as any;
-      
-      if (metadata?.latency_reduction_ms) {
-        contributions.push({
-          flag: flag.flag_key,
-          impact: 'latency',
-          value: `-${metadata.latency_reduction_ms}ms`,
-          type: 'positive'
-        });
+      if (flag.feature_key === 'enable_cache') {
+        contributions.push({ flag: flag.feature_key, impact: 'latency', value: '-250ms', type: 'positive' });
       }
-      
-      if (metadata?.latency_cost_ms) {
-        contributions.push({
-          flag: flag.flag_key,
-          impact: 'latency',
-          value: `+${metadata.latency_cost_ms}ms`,
-          type: 'negative'
-        });
+      if (flag.feature_key === 'enable_batch_processing') {
+        contributions.push({ flag: flag.feature_key, impact: 'latency', value: '-50ms', type: 'positive' });
       }
-      
-      if (metadata?.write_reduction) {
-        contributions.push({
-          flag: flag.flag_key,
-          impact: 'writes',
-          value: metadata.write_reduction,
-          type: 'positive'
-        });
+      if (flag.feature_key === 'enable_geolocation') {
+        contributions.push({ flag: flag.feature_key, impact: 'latency', value: '+150ms', type: 'negative' });
+      }
+      if (flag.feature_key === 'enable_og_variants') {
+        contributions.push({ flag: flag.feature_key, impact: 'latency', value: '+75ms', type: 'negative' });
       }
     });
 
@@ -186,7 +148,6 @@ export function FlagImpactMonitoring() {
 
   return (
     <div className="space-y-6">
-      {/* Current System Metrics */}
       <div className="grid gap-6 md:grid-cols-3">
         <Card>
           <CardHeader className="pb-3">
@@ -200,22 +161,13 @@ export function FlagImpactMonitoring() {
               )}>
                 {currentMetrics.latency_p95}ms
               </CardTitle>
-              {getMetricTrend('latency_p95') === 'improving' && (
-                <TrendingDown className="w-5 h-5 text-green-600" />
-              )}
-              {getMetricTrend('latency_p95') === 'degrading' && (
-                <TrendingUp className="w-5 h-5 text-red-600" />
-              )}
+              {getMetricTrend('latency_p95') === 'improving' && <TrendingDown className="w-5 h-5 text-green-600" />}
+              {getMetricTrend('latency_p95') === 'degrading' && <TrendingUp className="w-5 h-5 text-red-600" />}
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-xs text-secondary-label">
-              target: &lt;100ms
-            </div>
-            <Badge 
-              variant={getMetricStatus('latency_p95') === 'excellent' ? 'default' : 'secondary'}
-              className="mt-2"
-            >
+            <div className="text-xs text-secondary-label">target: &lt;100ms</div>
+            <Badge variant={getMetricStatus('latency_p95') === 'excellent' ? 'default' : 'secondary'} className="mt-2">
               {getMetricStatus('latency_p95')}
             </Badge>
           </CardContent>
@@ -233,22 +185,13 @@ export function FlagImpactMonitoring() {
               )}>
                 {currentMetrics.error_rate}%
               </CardTitle>
-              {getMetricTrend('error_rate') === 'improving' && (
-                <TrendingDown className="w-5 h-5 text-green-600" />
-              )}
-              {getMetricTrend('error_rate') === 'degrading' && (
-                <TrendingUp className="w-5 h-5 text-red-600" />
-              )}
+              {getMetricTrend('error_rate') === 'improving' && <TrendingDown className="w-5 h-5 text-green-600" />}
+              {getMetricTrend('error_rate') === 'degrading' && <TrendingUp className="w-5 h-5 text-red-600" />}
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-xs text-secondary-label">
-              target: &lt;0.5%
-            </div>
-            <Badge 
-              variant={getMetricStatus('error_rate') === 'excellent' ? 'default' : 'secondary'}
-              className="mt-2"
-            >
+            <div className="text-xs text-secondary-label">target: &lt;0.5%</div>
+            <Badge variant={getMetricStatus('error_rate') === 'excellent' ? 'default' : 'secondary'} className="mt-2">
               {getMetricStatus('error_rate')}
             </Badge>
           </CardContent>
@@ -266,38 +209,26 @@ export function FlagImpactMonitoring() {
               )}>
                 {currentMetrics.cache_hit_rate}%
               </CardTitle>
-              {getMetricTrend('cache_hit_rate') === 'improving' && (
-                <TrendingUp className="w-5 h-5 text-green-600" />
-              )}
-              {getMetricTrend('cache_hit_rate') === 'degrading' && (
-                <TrendingDown className="w-5 h-5 text-red-600" />
-              )}
+              {getMetricTrend('cache_hit_rate') === 'improving' && <TrendingUp className="w-5 h-5 text-green-600" />}
+              {getMetricTrend('cache_hit_rate') === 'degrading' && <TrendingDown className="w-5 h-5 text-red-600" />}
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-xs text-secondary-label">
-              target: &gt;85%
-            </div>
-            <Badge 
-              variant={getMetricStatus('cache_hit_rate') === 'excellent' ? 'default' : 'secondary'}
-              className="mt-2"
-            >
+            <div className="text-xs text-secondary-label">target: &gt;85%</div>
+            <Badge variant={getMetricStatus('cache_hit_rate') === 'excellent' ? 'default' : 'secondary'} className="mt-2">
               {getMetricStatus('cache_hit_rate')}
             </Badge>
           </CardContent>
         </Card>
       </div>
 
-      {/* Flag Contributions */}
       <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
             <Activity className="w-5 h-5 text-primary" />
             <CardTitle>flag impact analysis</CardTitle>
           </div>
-          <CardDescription>
-            how enabled flags are affecting system performance
-          </CardDescription>
+          <CardDescription>how enabled flags are affecting system performance</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
@@ -308,10 +239,7 @@ export function FlagImpactMonitoring() {
               </div>
             ) : (
               getFlagContributions().map((contrib, idx) => (
-                <div 
-                  key={idx}
-                  className="flex items-center justify-between p-3 rounded-lg border bg-muted/20"
-                >
+                <div key={idx} className="flex items-center justify-between p-3 rounded-lg border bg-muted/20">
                   <div className="flex items-center gap-3">
                     {contrib.type === 'positive' ? (
                       <TrendingDown className="w-4 h-4 text-green-600" />
@@ -322,14 +250,10 @@ export function FlagImpactMonitoring() {
                     )}
                     <div>
                       <code className="text-sm font-mono">{contrib.flag}</code>
-                      <p className="text-xs text-secondary-label">
-                        affecting {contrib.impact}
-                      </p>
+                      <p className="text-xs text-secondary-label">affecting {contrib.impact}</p>
                     </div>
                   </div>
-                  <Badge variant={contrib.type === 'positive' ? 'default' : 'secondary'}>
-                    {contrib.value}
-                  </Badge>
+                  <Badge variant={contrib.type === 'positive' ? 'default' : 'secondary'}>{contrib.value}</Badge>
                 </div>
               ))
             )}
@@ -352,22 +276,17 @@ export function FlagImpactMonitoring() {
         </CardContent>
       </Card>
 
-      {/* Metrics History Mini Chart */}
       {metricsHistory.length > 0 && (
         <Card>
           <CardHeader>
             <CardTitle>recent metrics history</CardTitle>
-            <CardDescription>
-              last {metricsHistory.length} flag changes and their impact
-            </CardDescription>
+            <CardDescription>last {metricsHistory.length} flag changes and their impact</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               {metricsHistory.slice(-5).reverse().map((snapshot, idx) => (
                 <div key={idx} className="flex items-center justify-between text-sm p-2 rounded border">
-                  <span className="text-xs text-secondary-label">
-                    {new Date(snapshot.timestamp).toLocaleTimeString()}
-                  </span>
+                  <span className="text-xs text-secondary-label">{new Date(snapshot.timestamp).toLocaleTimeString()}</span>
                   <div className="flex items-center gap-4 text-xs">
                     <span>latency: {snapshot.latency_p95}ms</span>
                     <span>errors: {snapshot.error_rate}%</span>
@@ -380,7 +299,6 @@ export function FlagImpactMonitoring() {
         </Card>
       )}
 
-      {/* Real-time Status Indicator */}
       <div className="flex items-center justify-center gap-2 text-xs text-secondary-label">
         <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
         <span>real-time monitoring active • updates every 5s</span>
