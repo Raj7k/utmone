@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
@@ -16,8 +17,7 @@ export const WorkspaceHygieneCard = () => {
     queryFn: async () => {
       if (!currentWorkspace?.id) return [];
 
-      const { data, error } = await supabase
-        .from("workspace_hygiene_notifications")
+      const { data, error } = await supabaseFrom('workspace_hygiene_notifications')
         .select("*")
         .eq("workspace_id", currentWorkspace.id)
         .eq("dismissed", false)
@@ -31,8 +31,7 @@ export const WorkspaceHygieneCard = () => {
 
   const dismissMutation = useMutation({
     mutationFn: async (notificationId: string) => {
-      const { error } = await supabase
-        .from("workspace_hygiene_notifications")
+      const { error } = await supabaseFrom('workspace_hygiene_notifications')
         .update({ 
           dismissed: true, 
           dismissed_at: new Date().toISOString() 

@@ -2,6 +2,7 @@
 // This context is NEVER undefined - it always provides valid state
 import { createContext, useContext, useState, useEffect, useCallback, useMemo, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import type { Session, User } from "@supabase/supabase-js";
 
 // Cache keys
@@ -182,7 +183,7 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
     try {
       const [ownedResult, memberResult] = await Promise.all([
         supabase.from("workspaces").select("*").eq("owner_id", userId),
-        supabase.from("workspace_members").select(`workspace_id, role, workspaces (*)`).eq("user_id", userId),
+        supabaseFrom('workspace_members').select(`workspace_id, role, workspaces (*)`).eq("user_id", userId),
       ]);
 
       const owned = ownedResult.data || [];

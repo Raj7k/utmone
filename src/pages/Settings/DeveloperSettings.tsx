@@ -12,6 +12,7 @@ import { useAPIKeys } from '@/hooks/useAPIKeys';
 import { notify } from '@/lib/notify';
 import { maskAPIKey } from '@/lib/apiKeyUtils';
 import { supabase } from '@/integrations/supabase/client';
+import { supabaseFrom } from '@/lib/supabaseHelper';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -37,8 +38,7 @@ export default function DeveloperSettings({ workspaceId }: DeveloperSettingsProp
   const { data: pixelConfigs, isLoading: pixelLoading } = useQuery({
     queryKey: ['pixel-configs', workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('pixel_configs')
+      const { data, error } = await supabaseFrom('pixel_configs')
         .select('*')
         .eq('workspace_id', workspaceId)
         .order('created_at', { ascending: false });
@@ -56,8 +56,7 @@ export default function DeveloperSettings({ workspaceId }: DeveloperSettingsProp
 
       const pixelId = `utm_${Math.random().toString(36).substring(2, 10)}`;
       
-      const { error } = await supabase
-        .from('pixel_configs')
+      const { error } = await supabaseFrom('pixel_configs')
         .insert({
           workspace_id: workspaceId,
           pixel_id: pixelId,
@@ -84,8 +83,7 @@ export default function DeveloperSettings({ workspaceId }: DeveloperSettingsProp
       if (!pixel) throw new Error('Pixel not found');
 
       const currentDomains = pixel.domain_whitelist || [];
-      const { error } = await supabase
-        .from('pixel_configs')
+      const { error } = await supabaseFrom('pixel_configs')
         .update({ domain_whitelist: [...currentDomains, domain] })
         .eq('id', pixel.id);
 

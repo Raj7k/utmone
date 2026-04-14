@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { toast } from "sonner";
 
 export interface BulkUploadApproval {
@@ -21,8 +22,7 @@ export const useBulkUploadApprovals = (workspaceId: string) => {
   const { data: approvals = [], isLoading } = useQuery({
     queryKey: ["bulk-upload-approvals", workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("bulk_upload_approvals")
+      const { data, error } = await supabaseFrom('bulk_upload_approvals')
         .select("*")
         .eq("workspace_id", workspaceId)
         .order("requested_at", { ascending: false });
@@ -37,8 +37,7 @@ export const useBulkUploadApprovals = (workspaceId: string) => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const { data, error } = await supabase
-        .from("bulk_upload_approvals")
+      const { data, error } = await supabaseFrom('bulk_upload_approvals')
         .insert({
           bulk_upload_id: bulkUploadId,
           workspace_id: workspaceId,
@@ -74,8 +73,7 @@ export const useBulkUploadApprovals = (workspaceId: string) => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const { error } = await supabase
-        .from("bulk_upload_approvals")
+      const { error } = await supabaseFrom('bulk_upload_approvals')
         .update({
           status,
           approver_id: user.id,

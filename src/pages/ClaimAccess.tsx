@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { notify } from "@/lib/notify";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -50,8 +51,7 @@ const ClaimAccess = () => {
         // Check if user is already authenticated
         const { data: { session } } = await supabase.auth.getSession();
         
-        const { data, error } = await supabase
-          .from("early_access_invites")
+        const { data, error } = await supabaseFrom('early_access_invites')
           .select("*")
           .eq("invite_token", token)
           .is("claimed_at", null)
@@ -90,8 +90,7 @@ const ClaimAccess = () => {
           }
 
           // Update profile with access level
-          await supabase
-            .from("profiles")
+          await supabaseFrom('profiles')
             .update({ 
               access_level: data.access_level,
               plan_tier: data.plan_tier || 'growth',
@@ -159,8 +158,7 @@ const ClaimAccess = () => {
       }
 
       // Update user profile with access level and plan tier
-      const { error: profileError } = await supabase
-        .from("profiles")
+      const { error: profileError } = await supabaseFrom('profiles')
         .update({ 
           access_level: inviteData.access_level,
           plan_tier: inviteData.plan_tier || 'growth',

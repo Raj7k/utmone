@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
@@ -24,8 +25,7 @@ export const QRPerformanceComparison = ({ linkId }: QRPerformanceComparisonProps
       if (qrError) throw qrError;
 
       // Fetch clicks per QR code
-      const { data: clicks, error: clicksError } = await supabase
-        .from("link_clicks")
+      const { data: clicks, error: clicksError } = await supabaseFrom('link_clicks')
         .select("qr_code_id, is_unique, device_type, country")
         .eq("link_id", linkId)
         .not("qr_code_id", "is", null);

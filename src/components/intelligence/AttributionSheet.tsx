@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import InsightSheet from "./InsightSheet";
 import { TrendingUp, TrendingDown, DollarSign, Users, MousePointer } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -37,16 +38,14 @@ export default function AttributionSheet({
       startDate.setDate(startDate.getDate() - days);
 
       // Fetch clicks with UTM data
-      const { data: clicks } = await supabase
-        .from("link_clicks")
+      const { data: clicks } = await supabaseFrom('link_clicks')
         .select("id, workspace_id, links!inner(utm_source, utm_medium)")
         .eq("workspace_id", workspaceId)
         .gte("clicked_at", startDate.toISOString())
         .limit(5000);
 
       // Fetch conversions
-      const { data: conversions } = await supabase
-        .from("conversion_events")
+      const { data: conversions } = await supabaseFrom('conversion_events')
         .select("event_value, workspace_id, links!inner(utm_source, utm_medium)")
         .eq("workspace_id", workspaceId)
         .gte("attributed_at", startDate.toISOString())

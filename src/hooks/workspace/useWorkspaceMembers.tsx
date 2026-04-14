@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 
 export interface WorkspaceMember {
   user_id: string;
@@ -15,8 +16,7 @@ export const useWorkspaceMembers = (workspaceId: string) => {
   const { data: members = [], isLoading } = useQuery({
     queryKey: ["workspace-members", workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("workspace_members")
+      const { data, error } = await supabaseFrom('workspace_members')
         .select(`
           user_id,
           role,

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -367,8 +368,7 @@ export default function PublicLinkPage() {
   const verificationQuery = useQuery({
     queryKey: ["public-verification-status", page?.workspace_id],
     queryFn: async () => {
-      const { data } = await supabase
-        .from("verification_requests")
+      const { data } = await supabaseFrom('verification_requests')
         .select("status")
         .eq("workspace_id", page?.workspace_id)
         .eq("status", "approved")

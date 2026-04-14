@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 
 export const useAccessLevel = () => {
   const { data: profile, isLoading } = useQuery({
@@ -8,8 +9,7 @@ export const useAccessLevel = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return null;
 
-      const { data, error } = await supabase
-        .from("profiles")
+      const { data, error } = await supabaseFrom('profiles')
         .select("access_level, onboarding_completed")
         .eq("id", user.id)
         .single();

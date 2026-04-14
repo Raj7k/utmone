@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { nelderMead, generateInitialSimplex, rgbToVector, vectorToRgb } from "@/lib/nelderMead";
 
 interface QRStyleRecommendation {
@@ -50,8 +51,7 @@ export function useQRStyleOptimizer(workspaceId?: string) {
       // Get scan counts for each QR code
       const qrWithScans = await Promise.all(
         qrCodes.map(async (qr) => {
-          const { count } = await supabase
-            .from('link_clicks')
+          const { count } = await supabaseFrom('link_clicks')
             .select('*', { count: 'exact', head: true })
             .eq('link_id', qr.link_id);
 

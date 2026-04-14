@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -18,8 +19,7 @@ export default function PartnersManagement() {
   const { data: pendingPartners } = useQuery({
     queryKey: ['partners', 'pending'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('partners')
+      const { data, error } = await supabaseFrom('partners')
         .select('*')
         .eq('status', 'pending')
         .order('created_at', { ascending: false });
@@ -32,8 +32,7 @@ export default function PartnersManagement() {
   const { data: activePartners } = useQuery({
     queryKey: ['partners', 'active'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('partners')
+      const { data, error } = await supabaseFrom('partners')
         .select('*')
         .in('status', ['approved', 'suspended'])
         .order('total_earnings', { ascending: false });
@@ -46,8 +45,7 @@ export default function PartnersManagement() {
   const { data: payoutRequests } = useQuery({
     queryKey: ['partner-payouts'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('partner_payouts')
+      const { data, error } = await supabaseFrom('partner_payouts')
         .select('*, partner:partners(*)')
         .order('requested_at', { ascending: false });
       if (error) throw error;
@@ -58,8 +56,7 @@ export default function PartnersManagement() {
   // Approve partner
   const approveMutation = useMutation({
     mutationFn: async (partnerId: string) => {
-      const { error } = await supabase
-        .from('partners')
+      const { error } = await supabaseFrom('partners')
         .update({ 
           status: 'approved',
           approved_at: new Date().toISOString()
@@ -76,8 +73,7 @@ export default function PartnersManagement() {
   // Reject partner
   const rejectMutation = useMutation({
     mutationFn: async (partnerId: string) => {
-      const { error } = await supabase
-        .from('partners')
+      const { error } = await supabaseFrom('partners')
         .update({ status: 'terminated' })
         .eq('id', partnerId);
       if (error) throw error;
@@ -91,8 +87,7 @@ export default function PartnersManagement() {
   // Process payout
   const processPayoutMutation = useMutation({
     mutationFn: async (payoutId: string) => {
-      const { error } = await supabase
-        .from('partner_payouts')
+      const { error } = await supabaseFrom('partner_payouts')
         .update({ 
           status: 'completed',
           completed_at: new Date().toISOString()

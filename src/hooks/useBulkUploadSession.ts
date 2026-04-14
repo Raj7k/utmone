@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { toast } from "sonner";
 
 export interface BulkUploadSession {
@@ -23,8 +24,7 @@ export const useBulkUploadSession = (workspaceId: string) => {
   const { data: sessions = [], isLoading } = useQuery({
     queryKey: ["bulk-upload-sessions", workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("bulk_uploads")
+      const { data, error } = await supabaseFrom('bulk_uploads')
         .select("*")
         .eq("workspace_id", workspaceId)
         .order("created_at", { ascending: false });
@@ -45,8 +45,7 @@ export const useBulkUploadSession = (workspaceId: string) => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const { data, error } = await supabase
-        .from("bulk_uploads")
+      const { data, error } = await supabaseFrom('bulk_uploads')
         .insert({
           workspace_id: workspaceId,
           created_by: user.id,
@@ -77,8 +76,7 @@ export const useBulkUploadSession = (workspaceId: string) => {
       sessionId: string;
       updates: Partial<BulkUploadSession>;
     }) => {
-      const { error } = await supabase
-        .from("bulk_uploads")
+      const { error } = await supabaseFrom('bulk_uploads')
         .update({ ...updates, updated_at: new Date().toISOString() })
         .eq("id", sessionId);
 

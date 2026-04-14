@@ -7,6 +7,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Users, Lock, Globe } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { toast } from "sonner";
 
 interface SharedTemplatesManagerProps {
@@ -23,8 +24,7 @@ export function SharedTemplatesManager({
   const { data: templates = [], isLoading } = useQuery({
     queryKey: ["bulk-upload-templates", workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("bulk_upload_templates")
+      const { data, error } = await supabaseFrom('bulk_upload_templates')
         .select("*")
         .eq("workspace_id", workspaceId)
         .order("created_at", { ascending: false });
@@ -36,8 +36,7 @@ export function SharedTemplatesManager({
 
   const toggleSharing = useMutation({
     mutationFn: async ({ templateId, shared }: { templateId: string; shared: boolean }) => {
-      const { error } = await supabase
-        .from("bulk_upload_templates")
+      const { error } = await supabaseFrom('bulk_upload_templates')
         .update({ is_shared: shared, shared_with_workspace: shared })
         .eq("id", templateId);
 

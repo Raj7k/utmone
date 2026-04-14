@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { History, ArrowRight } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -31,8 +32,7 @@ export const LinkChangeHistory = ({ linkId }: LinkChangeHistoryProps) => {
   }, [linkId]);
 
   const fetchHistory = async () => {
-    const { data, error } = await supabase
-      .from("link_change_history")
+    const { data, error } = await supabaseFrom('link_change_history')
       .select("*")
       .eq("link_id", linkId)
       .order("created_at", { ascending: false })
@@ -41,8 +41,7 @@ export const LinkChangeHistory = ({ linkId }: LinkChangeHistoryProps) => {
     if (!error && data) {
       // Fetch user profiles separately
       const userIds = [...new Set(data.map(h => h.changed_by))];
-      const { data: profilesData } = await supabase
-        .from("profiles")
+      const { data: profilesData } = await supabaseFrom('profiles')
         .select("id, full_name, email")
         .in("id", userIds);
 

@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { notify } from "@/lib/notify";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Loader2 } from "lucide-react";
 
 interface PersonalizedReportModalProps {
@@ -29,8 +30,7 @@ export const PersonalizedReportModal = ({ open, onOpenChange }: PersonalizedRepo
     setLoading(true);
 
     try {
-      const { error } = await supabase
-        .from('report_downloads')
+      const { error } = await supabaseFrom('report_downloads')
         .insert({
           full_name: formData.fullName,
           email: formData.email,

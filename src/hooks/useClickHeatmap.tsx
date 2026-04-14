@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { format, getDay, getHours } from "date-fns";
 
 interface HeatmapCell {
@@ -44,8 +45,7 @@ export const useClickHeatmap = ({
       const startDate = new Date();
       startDate.setDate(startDate.getDate() - days);
 
-      let query = supabase
-        .from("link_clicks")
+      let query = supabaseFrom('link_clicks')
         .select("clicked_at, click_hour, link_id, workspace_id")
         .gte("clicked_at", startDate.toISOString())
         .lte("clicked_at", endDate.toISOString());

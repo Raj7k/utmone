@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Activity, TrendingUp, Clock } from "lucide-react";
@@ -26,8 +27,7 @@ export const RateLimitMonitor = ({ workspaceId }: RateLimitMonitorProps) => {
   }, [workspaceId]);
 
   const fetchStats = async () => {
-    const { data, error } = await supabase
-      .from("api_keys")
+    const { data, error } = await supabaseFrom('api_keys')
       .select("key_name, requests_this_window, rate_limit, window_reset_at, rate_limit_window")
       .eq("workspace_id", workspaceId)
       .eq("is_active", true);

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
 import { TrendingUp, TrendingDown, Minus } from "lucide-react";
 import { AnimatedCounter } from "@/components/reports/AnimatedCounter";
@@ -26,15 +27,13 @@ export const GlanceableStats = ({ workspaceId }: GlanceableStatsProps) => {
           .eq('workspace_id', workspaceId),
         
         // Get clicks for last 7 days - direct workspace_id filter (no JOIN)
-        supabase
-          .from('link_clicks')
+        supabaseFrom('link_clicks')
           .select('clicked_at, link_id')
           .eq('workspace_id', workspaceId)
           .gte('clicked_at', sevenDaysAgo.toISOString()),
         
         // Get clicks for previous 7 days - direct workspace_id filter (no JOIN)
-        supabase
-          .from('link_clicks')
+        supabaseFrom('link_clicks')
           .select('clicked_at')
           .eq('workspace_id', workspaceId)
           .gte('clicked_at', fourteenDaysAgo.toISOString())

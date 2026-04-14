@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { FlaskConical, Play, Trash2, CheckCircle2, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { toast } from "sonner";
 
 interface TestDataGeneratorProps {
@@ -56,7 +57,7 @@ export const TestDataGenerator = ({ workspaceId, onComplete }: TestDataGenerator
       
       // Step 1: Create visitor identity
       updateStep(0, 'running');
-      await supabase.from('visitor_identities').insert({
+      await supabaseFrom('visitor_identities').insert({
         visitor_id: visitorId,
         workspace_id: workspaceId,
         email: testEmail,
@@ -70,7 +71,7 @@ export const TestDataGenerator = ({ workspaceId, onComplete }: TestDataGenerator
 
       // Step 2: LinkedIn campaign click (first touch)
       updateStep(1, 'running');
-      await supabase.from('journey_events').insert({
+      await supabaseFrom('journey_events').insert({
         workspace_id: workspaceId,
         visitor_id: visitorId,
         event_type: 'pageview',
@@ -91,7 +92,7 @@ export const TestDataGenerator = ({ workspaceId, onComplete }: TestDataGenerator
 
       // Step 3: Google organic visit
       updateStep(2, 'running');
-      await supabase.from('journey_events').insert({
+      await supabaseFrom('journey_events').insert({
         workspace_id: workspaceId,
         visitor_id: visitorId,
         event_type: 'pageview',
@@ -112,7 +113,7 @@ export const TestDataGenerator = ({ workspaceId, onComplete }: TestDataGenerator
 
       // Step 4: Direct return visit
       updateStep(3, 'running');
-      await supabase.from('journey_events').insert({
+      await supabaseFrom('journey_events').insert({
         workspace_id: workspaceId,
         visitor_id: visitorId,
         event_type: 'pageview',
@@ -133,7 +134,7 @@ export const TestDataGenerator = ({ workspaceId, onComplete }: TestDataGenerator
 
       // Step 5: Email newsletter click
       updateStep(4, 'running');
-      await supabase.from('journey_events').insert({
+      await supabaseFrom('journey_events').insert({
         workspace_id: workspaceId,
         visitor_id: visitorId,
         event_type: 'pageview',
@@ -155,7 +156,7 @@ export const TestDataGenerator = ({ workspaceId, onComplete }: TestDataGenerator
       // Step 6: Conversion with revenue
       updateStep(5, 'running');
       const conversionId = crypto.randomUUID();
-      await supabase.from('journey_events').insert({
+      await supabaseFrom('journey_events').insert({
         workspace_id: workspaceId,
         visitor_id: visitorId,
         event_type: 'purchase',
@@ -173,7 +174,7 @@ export const TestDataGenerator = ({ workspaceId, onComplete }: TestDataGenerator
       });
       
       // Also create conversion event
-      await supabase.from('conversion_events').insert({
+      await supabaseFrom('conversion_events').insert({
         id: conversionId,
         workspace_id: workspaceId,
         visitor_id: visitorId,
@@ -199,7 +200,7 @@ export const TestDataGenerator = ({ workspaceId, onComplete }: TestDataGenerator
         { source: 'newsletter', medium: 'email', campaign: 'holiday-promo-2024', timestamp: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString() },
       ];
       
-      await supabase.from('attribution_journeys').insert({
+      await supabaseFrom('attribution_journeys').insert({
         workspace_id: workspaceId,
         visitor_id: visitorId,
         conversion_event_id: conversionId,
@@ -232,29 +233,25 @@ export const TestDataGenerator = ({ workspaceId, onComplete }: TestDataGenerator
     setIsClearing(true);
     try {
       // Delete test attribution journeys
-      await supabase
-        .from('attribution_journeys')
+      await supabaseFrom('attribution_journeys')
         .delete()
         .eq('workspace_id', workspaceId)
         .like('visitor_id', 'test_v_%');
 
       // Delete test conversion events
-      await supabase
-        .from('conversion_events')
+      await supabaseFrom('conversion_events')
         .delete()
         .eq('workspace_id', workspaceId)
         .like('visitor_id', 'test_v_%');
 
       // Delete test journey events
-      await supabase
-        .from('journey_events')
+      await supabaseFrom('journey_events')
         .delete()
         .eq('workspace_id', workspaceId)
         .like('visitor_id', 'test_v_%');
 
       // Delete test visitor identities
-      await supabase
-        .from('visitor_identities')
+      await supabaseFrom('visitor_identities')
         .delete()
         .eq('workspace_id', workspaceId)
         .like('visitor_id', 'test_v_%');

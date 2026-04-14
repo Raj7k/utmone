@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { toast } from "sonner";
 import { useAppSession } from "@/contexts/AppSessionContext";
 
@@ -21,8 +22,7 @@ export const useLinkTags = (linkId: string | null) => {
     queryFn: async () => {
       if (!linkId) return [];
 
-      const { data, error } = await supabase
-        .from("link_tags")
+      const { data, error } = await supabaseFrom('link_tags')
         .select("*")
         .eq("link_id", linkId)
         .order("tag_name");
@@ -38,8 +38,7 @@ export const useLinkTags = (linkId: string | null) => {
       if (!linkId) throw new Error("No link ID");
       if (!user) throw new Error("Not authenticated");
 
-      const { data, error } = await supabase
-        .from("link_tags")
+      const { data, error } = await supabaseFrom('link_tags')
         .insert({
           link_id: linkId,
           tag_name: tagName.trim().toLowerCase(),
@@ -64,8 +63,7 @@ export const useLinkTags = (linkId: string | null) => {
 
   const removeTag = useMutation({
     mutationFn: async (tagId: string) => {
-      const { error } = await supabase
-        .from("link_tags")
+      const { error } = await supabaseFrom('link_tags')
         .delete()
         .eq("id", tagId);
 

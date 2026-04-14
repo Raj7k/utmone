@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Check, Copy, Loader2, AlertCircle, Globe, ArrowRight, ArrowLeft, CheckCircle2, RefreshCw, HelpCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { notify } from "@/lib/notify";
 import { useQueryClient } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
@@ -109,8 +110,7 @@ export const DomainSetupWizard = ({
       if (!user) throw new Error("Not authenticated");
 
       // Check if domain already exists
-      const { data: existingDomain } = await supabase
-        .from("domains")
+      const { data: existingDomain } = await supabaseFrom('domains')
         .select("id")
         .eq("domain", domain)
         .maybeSingle();
@@ -126,8 +126,7 @@ export const DomainSetupWizard = ({
       setVerificationCode(code);
 
       // Create domain record
-      const { data: newDomain, error } = await supabase
-        .from("domains")
+      const { data: newDomain, error } = await supabaseFrom('domains')
         .insert({
           workspace_id: workspaceId,
           created_by: user.id,

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { LazyBarChart, LazyPieChart, Bar, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LazyChartContainer } from "@/components/charts/LazyCharts";
@@ -61,8 +62,7 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
     queryFn: async () => {
       const startDate = subDays(new Date(), parseInt(dateRange)).toISOString();
 
-      let query = supabase
-        .from("link_clicks")
+      let query = supabaseFrom('link_clicks')
         .select("*")
         .eq("link_id", linkId)
         .gte("clicked_at", startDate);

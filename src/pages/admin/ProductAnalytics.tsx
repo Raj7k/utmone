@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link2, QrCode, Users, MousePointerClick, Eye } from "lucide-react";
 import { LazyBarChart, LazyLineChart, LazyChartContainer, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Line } from "@/components/charts/LazyCharts";
@@ -85,12 +86,10 @@ export default function ProductAnalytics() {
   const { data: clickStats } = useQuery({
     queryKey: ['admin-click-stats'],
     queryFn: async () => {
-      const { count } = await supabase
-        .from('link_clicks')
+      const { count } = await supabaseFrom('link_clicks')
         .select('*', { count: 'exact', head: true });
 
-      const { count: uniqueCount } = await supabase
-        .from('link_clicks')
+      const { count: uniqueCount } = await supabaseFrom('link_clicks')
         .select('*', { count: 'exact', head: true })
         .eq('is_unique', true);
 

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -34,8 +35,7 @@ export const OwnerPerformance = ({ workspaceId }: OwnerPerformanceProps) => {
 
       if (!workspace) return [];
 
-      const { data: members } = await supabase
-        .from("workspace_members")
+      const { data: members } = await supabaseFrom('workspace_members')
         .select(`
           user_id,
           profiles:user_id (
@@ -56,8 +56,7 @@ export const OwnerPerformance = ({ workspaceId }: OwnerPerformanceProps) => {
       // Get stats for each user
       const statsPromises = allUserIds.map(async (userId) => {
         // Get user profile
-        const { data: profile } = await supabase
-          .from("profiles")
+        const { data: profile } = await supabaseFrom('profiles')
           .select("*")
           .eq("id", userId)
           .single();

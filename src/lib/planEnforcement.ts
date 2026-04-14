@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { PlanTier, PLAN_CONFIG } from "./planConfig";
 
 export interface PlanLimits {
@@ -49,8 +50,7 @@ export async function checkPlanLimits(workspaceId: string, overridePlanTier?: Pl
     .gte('created_at', startOfMonth);
 
   // Count custom domains
-  const { count: domainsCount } = await supabase
-    .from('domains')
+  const { count: domainsCount } = await supabaseFrom('domains')
     .select('*', { count: 'exact', head: true })
     .eq('workspace_id', workspaceId);
 
@@ -64,8 +64,7 @@ export async function checkPlanLimits(workspaceId: string, overridePlanTier?: Pl
 
   // Count clicks this month for workspace links
   const { count: clicksCount } = linkIds.length > 0 
-    ? await supabase
-        .from('link_clicks')
+    ? await supabaseFrom('link_clicks')
         .select('id', { count: 'exact', head: true })
         .in('link_id', linkIds)
         .gte('clicked_at', startOfMonth)
@@ -81,8 +80,7 @@ export async function checkPlanLimits(workspaceId: string, overridePlanTier?: Pl
     : { count: 0 };
 
   // Count link pages for this workspace
-  const { count: linkPagesCount } = await supabase
-    .from('link_pages')
+  const { count: linkPagesCount } = await supabaseFrom('link_pages')
     .select('*', { count: 'exact', head: true })
     .eq('workspace_id', workspaceId);
 

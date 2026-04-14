@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -63,8 +64,7 @@ export const WebhookManager = ({ workspaceId }: WebhookManagerProps) => {
   }, [workspaceId]);
 
   const fetchWebhooks = async () => {
-    const { data, error } = await supabase
-      .from("webhook_subscriptions")
+    const { data, error } = await supabaseFrom('webhook_subscriptions')
       .select("*")
       .eq("workspace_id", workspaceId)
       .order("created_at", { ascending: false });
@@ -85,7 +85,7 @@ export const WebhookManager = ({ workspaceId }: WebhookManagerProps) => {
     setIsSubmitting(true);
     const secretKey = `whsec_${Math.random().toString(36).substring(2, 15)}${Math.random().toString(36).substring(2, 15)}`;
 
-    const { error } = await supabase.from("webhook_subscriptions").insert({
+    const { error } = await supabaseFrom('webhook_subscriptions').insert({
       workspace_id: workspaceId,
       webhook_url: endpointUrl,
       event_type: selectedEvent,
@@ -110,7 +110,7 @@ export const WebhookManager = ({ workspaceId }: WebhookManagerProps) => {
   };
 
   const handleDelete = async (id: string) => {
-    const { error } = await supabase.from("webhook_subscriptions").delete().eq("id", id);
+    const { error } = await supabaseFrom('webhook_subscriptions').delete().eq("id", id);
 
     if (error) {
       notify.error("Error", {
@@ -125,8 +125,7 @@ export const WebhookManager = ({ workspaceId }: WebhookManagerProps) => {
   };
 
   const toggleActive = async (id: string, currentStatus: boolean) => {
-    const { error } = await supabase
-      .from("webhook_subscriptions")
+    const { error } = await supabaseFrom('webhook_subscriptions')
       .update({ is_active: !currentStatus })
       .eq("id", id);
 

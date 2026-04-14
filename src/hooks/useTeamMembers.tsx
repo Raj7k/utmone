@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { notify } from "@/lib/notify";
 
 export const useTeamMembers = (workspaceId: string | undefined) => {
@@ -12,8 +13,7 @@ export const useTeamMembers = (workspaceId: string | undefined) => {
     queryFn: async () => {
       if (!workspaceId) return [];
       
-      const { data, error } = await supabase
-        .from("workspace_members")
+      const { data, error } = await supabaseFrom('workspace_members')
         .select(`
           *,
           profiles:user_id (
@@ -36,8 +36,7 @@ export const useTeamMembers = (workspaceId: string | undefined) => {
     queryFn: async () => {
       if (!workspaceId) return [];
       
-      const { data, error } = await supabase
-        .from("workspace_invitations")
+      const { data, error } = await supabaseFrom('workspace_invitations')
         .select("*")
         .eq("workspace_id", workspaceId)
         .is("accepted_at", null)
@@ -101,8 +100,7 @@ export const useTeamMembers = (workspaceId: string | undefined) => {
 
   const updateRoleMutation = useMutation({
     mutationFn: async ({ memberId, role }: { memberId: string; role: "editor" | "viewer" | "workspace_admin" }) => {
-      const { error } = await supabase
-        .from("workspace_members")
+      const { error } = await supabaseFrom('workspace_members')
         .update({ role })
         .eq("id", memberId);
 
@@ -123,8 +121,7 @@ export const useTeamMembers = (workspaceId: string | undefined) => {
 
   const removeMemberMutation = useMutation({
     mutationFn: async (memberId: string) => {
-      const { error } = await supabase
-        .from("workspace_members")
+      const { error } = await supabaseFrom('workspace_members')
         .delete()
         .eq("id", memberId);
 
@@ -145,8 +142,7 @@ export const useTeamMembers = (workspaceId: string | undefined) => {
 
   const cancelInvitationMutation = useMutation({
     mutationFn: async (invitationId: string) => {
-      const { error } = await supabase
-        .from("workspace_invitations")
+      const { error } = await supabaseFrom('workspace_invitations')
         .delete()
         .eq("id", invitationId);
 

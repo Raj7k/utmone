@@ -8,6 +8,7 @@ import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { 
   Link2, 
@@ -66,8 +67,7 @@ export const BulkURLShortenerTool = ({ workspaceId }: BulkURLShortenerToolProps)
   const { data: verifiedDomains } = useQuery({
     queryKey: ["verified-domains", workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("domains")
+      const { data, error } = await supabaseFrom('domains')
         .select("id, domain, workspace_id")
         .eq("is_verified", true)
         .or(`workspace_id.eq.${workspaceId},is_system_domain.eq.true`)

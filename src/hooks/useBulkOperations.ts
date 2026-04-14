@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { toast } from "sonner";
 
 export interface BulkOperation {
@@ -22,8 +23,7 @@ export const useBulkOperations = (workspaceId: string) => {
   const { data: operations = [], isLoading } = useQuery({
     queryKey: ["bulk-operations", workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("bulk_operations_log")
+      const { data, error } = await supabaseFrom('bulk_operations_log')
         .select("*")
         .eq("workspace_id", workspaceId)
         .order("created_at", { ascending: false })
@@ -49,8 +49,7 @@ export const useBulkOperations = (workspaceId: string) => {
       if (!user) throw new Error("Not authenticated");
 
       // Create operation log
-      const { data: operation, error: logError } = await supabase
-        .from("bulk_operations_log")
+      const { data: operation, error: logError } = await supabaseFrom('bulk_operations_log')
         .insert({
           workspace_id: workspaceId,
           operation_type: operationType,
@@ -110,8 +109,7 @@ export const useBulkOperations = (workspaceId: string) => {
                 tag_name: tag,
               }))
             );
-            const { data: tagData } = await supabase
-              .from("link_tags")
+            const { data: tagData } = await supabaseFrom('link_tags')
               .insert(tagInserts)
               .select();
             affected = tagData?.length || 0;
@@ -131,8 +129,7 @@ export const useBulkOperations = (workspaceId: string) => {
         }
 
         // Update operation as completed
-        await supabase
-          .from("bulk_operations_log")
+        await supabaseFrom('bulk_operations_log')
           .update({
             status: "completed",
             affected_count: affected,
@@ -143,8 +140,7 @@ export const useBulkOperations = (workspaceId: string) => {
         return { ...operation, affected_count: affected, status: "completed" };
       } catch (error: any) {
         // Update operation as failed
-        await supabase
-          .from("bulk_operations_log")
+        await supabaseFrom('bulk_operations_log')
           .update({
             status: "failed",
             error_message: error.message,

@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Copy, Check, Code2, AlertCircle, ChevronDown, ChevronUp } from "lucide-react";
 import { FormTrackingWizard } from "@/components/tracking/FormTrackingWizard";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -26,8 +27,7 @@ export function TrackingPixelCard({ workspaceId }: TrackingPixelCardProps) {
   const { data: pixelConfig, isLoading } = useQuery({
     queryKey: ['pixel-config', workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('pixel_configs')
+      const { data, error } = await supabaseFrom('pixel_configs')
         .select('*')
         .eq('workspace_id', workspaceId)
         .single();
@@ -43,8 +43,7 @@ export function TrackingPixelCard({ workspaceId }: TrackingPixelCardProps) {
       if (!pixelConfig) throw new Error('Pixel not found');
 
       const currentDomains = pixelConfig.domain_whitelist || [];
-      const { error } = await supabase
-        .from('pixel_configs')
+      const { error } = await supabaseFrom('pixel_configs')
         .update({ domain_whitelist: [...currentDomains, domain] })
         .eq('id', pixelConfig.id);
 
@@ -66,8 +65,7 @@ export function TrackingPixelCard({ workspaceId }: TrackingPixelCardProps) {
       if (!pixelConfig) throw new Error('Pixel not found');
 
       const currentDomains = pixelConfig.domain_whitelist || [];
-      const { error } = await supabase
-        .from('pixel_configs')
+      const { error } = await supabaseFrom('pixel_configs')
         .update({ domain_whitelist: currentDomains.filter((d: string) => d !== domain) })
         .eq('id', pixelConfig.id);
 

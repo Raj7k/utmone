@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -59,8 +60,7 @@ export default function UserManagement() {
   const { data: users, isLoading, refetch } = useQuery({
     queryKey: ["admin-users", searchQuery],
     queryFn: async () => {
-      let query = supabase
-        .from("profiles")
+      let query = supabaseFrom('profiles')
         .select(`
           id,
           email,

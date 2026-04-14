@@ -1,3 +1,4 @@
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useState, useEffect } from "react";
 import { GuideLayout } from "@/components/resources/GuideLayout";
 import { ActionChecklist } from "@/components/resources/ActionChecklist";
@@ -922,8 +923,7 @@ const generateRefCode = (name: string): string => {
 const createReferrer = async (name: string, email: string) => {
   const ref_code = generateRefCode(name);
   
-  const { data, error } = await supabase
-    .from('referrers')
+  const { data, error } = await supabaseFrom('referrers')
     .insert({ name, email, ref_code })
     .select()
     .single();
@@ -961,7 +961,7 @@ serve(async (req) => {
   const ua = req.headers.get('user-agent') || 'unknown'
 
   // Log the visit
-  await supabase.from('referral_visits').insert({
+  await supabaseFrom('referral_visits').insert({
     ref_code, ip_address: ip, user_agent: ua,
   })
 
@@ -1038,8 +1038,7 @@ serve(async (req) => {
       askLovable: "Create a leaderboard page showing top referrers with ranks, badges, and real-time updates",
       code: `// Get leaderboard data
 const getLeaderboard = async (limit = 25) => {
-  const { data, error } = await supabase
-    .from('referrers')
+  const { data, error } = await supabaseFrom('referrers')
     .select('name, ref_code, total_conversions')
     .gt('total_conversions', 0)
     .order('total_conversions', { ascending: false })
@@ -1086,11 +1085,10 @@ const getBadge = (rank: number) => {
       code: `// Admin KPI query
 const getAdminStats = async () => {
   const [referrers, visits, conversions, fraud] = await Promise.all([
-    supabase.from('referrers').select('id', { count: 'exact' }),
-    supabase.from('referral_visits').select('id', { count: 'exact' }),
-    supabase.from('referral_conversions').select('id', { count: 'exact' }),
-    supabase
-      .from('referral_conversions')
+    supabaseFrom('referrers').select('id', { count: 'exact' }),
+    supabaseFrom('referral_visits').select('id', { count: 'exact' }),
+    supabaseFrom('referral_conversions').select('id', { count: 'exact' }),
+    supabaseFrom('referral_conversions')
       .select('id', { count: 'exact' })
       .eq('is_valid', false),
   ]);

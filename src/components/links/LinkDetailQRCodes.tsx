@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { QRCodeDialog } from "@/components/QRCodeDialog";
@@ -31,8 +32,7 @@ export const LinkDetailQRCodes = ({ linkId, shortUrl }: LinkDetailQRCodesProps) 
   const { data: qrClickStats } = useQuery({
     queryKey: ["qr-click-stats", linkId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("link_clicks")
+      const { data, error } = await supabaseFrom('link_clicks')
         .select("qr_code_id")
         .eq("link_id", linkId)
         .not("qr_code_id", "is", null);

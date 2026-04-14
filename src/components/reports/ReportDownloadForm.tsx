@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { notify } from "@/lib/notify";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
@@ -46,8 +47,7 @@ export const ReportDownloadForm = ({ onSuccess }: ReportDownloadFormProps) => {
     
     try {
       // Insert into report_downloads table
-      const { error: dbError } = await supabase
-        .from("report_downloads")
+      const { error: dbError } = await supabaseFrom('report_downloads')
         .insert({
           full_name: data.fullName,
           email: data.email,

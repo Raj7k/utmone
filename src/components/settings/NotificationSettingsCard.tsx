@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useWorkspace } from "@/hooks/workspace";
 import { notify } from "@/lib/notify";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -44,8 +45,7 @@ export function NotificationSettingsCard() {
     queryFn: async () => {
       if (!currentWorkspace?.id) return null;
       
-      const { data, error } = await supabase
-        .from("workspace_notification_settings")
+      const { data, error } = await supabaseFrom('workspace_notification_settings')
         .select("*")
         .eq("workspace_id", currentWorkspace.id)
         .maybeSingle();
@@ -100,14 +100,12 @@ export function NotificationSettingsCard() {
       };
 
       if (newSettings.id) {
-        const { error } = await supabase
-          .from("workspace_notification_settings")
+        const { error } = await supabaseFrom('workspace_notification_settings')
           .update(payload)
           .eq("id", newSettings.id);
         if (error) throw error;
       } else {
-        const { error } = await supabase
-          .from("workspace_notification_settings")
+        const { error } = await supabaseFrom('workspace_notification_settings')
           .insert(payload);
         if (error) throw error;
       }

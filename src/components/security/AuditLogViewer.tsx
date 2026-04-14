@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useWorkspace } from "@/hooks/workspace";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -33,8 +34,7 @@ export const AuditLogViewer = () => {
     queryFn: async () => {
       if (!currentWorkspace?.id) return [];
 
-      const { data, error } = await supabase
-        .from('admin_audit_logs')
+      const { data, error } = await supabaseFrom('admin_audit_logs')
         .select('*')
         .eq('workspace_id', currentWorkspace.id)
         .order('created_at', { ascending: false })

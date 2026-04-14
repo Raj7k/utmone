@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Shield, Key, CheckCircle2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 
 export default function AdminSecurity() {
   const { data: mfaStatus } = useQuery({
@@ -14,13 +15,11 @@ export default function AdminSecurity() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return { hasKeys: false, verified: false };
 
-      const { data: keys } = await supabase
-        .from('user_authenticators')
+      const { data: keys } = await supabaseFrom('user_authenticators')
         .select('id')
         .limit(1);
 
-      const { data: profile } = await supabase
-        .from('profiles')
+      const { data: profile } = await supabaseFrom('profiles')
         .select('mfa_verified_at')
         .eq('id', user.id)
         .single();

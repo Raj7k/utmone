@@ -4,6 +4,7 @@ import { Upload, FileSpreadsheet, CheckCircle, AlertCircle, X } from "lucide-rea
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { toast } from "@/hooks/use-toast";
 
 interface BadgeScanUploaderProps {
@@ -79,8 +80,7 @@ export const BadgeScanUploader = ({ eventId, onUploadComplete }: BadgeScanUpload
           scanned_at: new Date().toISOString(),
         }));
         
-        const { error } = await supabase
-          .from('event_badge_scans')
+        const { error } = await supabaseFrom('event_badge_scans')
           .insert(batch);
         
         if (error) {

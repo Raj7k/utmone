@@ -4,6 +4,7 @@ import { Gift, Copy, Check, Users, Award } from "lucide-react";
 import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useReferralStats } from "@/hooks/useReferralStats";
 import { NetworkRipple } from "@/components/growth/NetworkRipple";
@@ -19,8 +20,7 @@ export const ReferralTile = () => {
     queryFn: async () => {
       if (!user) return null;
 
-      const { data, error } = await supabase
-        .from("profiles")
+      const { data, error } = await supabaseFrom('profiles')
         .select("id, email")
         .eq("id", user.id)
         .single();

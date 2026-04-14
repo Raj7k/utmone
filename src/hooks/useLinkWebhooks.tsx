@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 
 export const useLinkWebhooks = (workspaceId: string) => {
   const { data: webhooks } = useQuery({
     queryKey: ["webhooks", workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("webhook_subscriptions")
+      const { data, error } = await supabaseFrom('webhook_subscriptions')
         .select("*")
         .eq("workspace_id", workspaceId)
         .eq("is_active", true);

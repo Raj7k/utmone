@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 
 export interface FieldEvent {
   id: string;
@@ -62,8 +63,7 @@ export const useFieldEvents = (workspaceId: string) => {
   return useQuery({
     queryKey: ['field-events', workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('field_events')
+      const { data, error } = await supabaseFrom('field_events')
         .select('*')
         .eq('workspace_id', workspaceId)
         .order('start_date', { ascending: false });
@@ -79,8 +79,7 @@ export const useFieldEvent = (eventId: string) => {
   return useQuery({
     queryKey: ['field-event', eventId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('field_events')
+      const { data, error } = await supabaseFrom('field_events')
         .select('*')
         .eq('id', eventId)
         .single();
@@ -96,8 +95,7 @@ export const useEventBadgeScans = (eventId: string) => {
   return useQuery({
     queryKey: ['event-badge-scans', eventId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('event_badge_scans')
+      const { data, error } = await supabaseFrom('event_badge_scans')
         .select('*')
         .eq('event_id', eventId)
         .order('scanned_at', { ascending: false });
@@ -202,8 +200,7 @@ export const useDeleteFieldEvent = () => {
 
   return useMutation({
     mutationFn: async ({ eventId, workspaceId }: { eventId: string; workspaceId: string }) => {
-      const { error } = await supabase
-        .from('field_events')
+      const { error } = await supabaseFrom('field_events')
         .delete()
         .eq('id', eventId);
 
@@ -220,8 +217,7 @@ export const useUpdateEventControlCity = () => {
 
   return useMutation({
     mutationFn: async ({ eventId, controlCity }: { eventId: string; controlCity: string }) => {
-      const { error } = await supabase
-        .from('field_events')
+      const { error } = await supabaseFrom('field_events')
         .update({ control_city: controlCity })
         .eq('id', eventId);
 
@@ -249,8 +245,7 @@ export const useUpdateEventValueSettings = () => {
       conversionRate, 
       useInferred 
     }: { eventId: string } & EventValueSettingsData) => {
-      const { error } = await supabase
-        .from('field_events')
+      const { error } = await supabaseFrom('field_events')
         .update({ 
           avg_deal_value: avgDealValue,
           conversion_rate: conversionRate,
@@ -279,13 +274,11 @@ export const useInferEventMetrics = (workspaceId: string) => {
     queryKey: ['inferred-event-metrics', workspaceId],
     queryFn: async (): Promise<InferredEventMetrics> => {
       // Try to infer from historical badge scans and conversions
-      const { data: badgeScans, error: scansError } = await supabase
-        .from('event_badge_scans')
+      const { data: badgeScans, error: scansError } = await supabaseFrom('event_badge_scans')
         .select('conversion_status, event_id')
         .in('conversion_status', ['customer', 'sql', 'mql']);
       
-      const { data: conversions, error: convError } = await supabase
-        .from('conversion_events')
+      const { data: conversions, error: convError } = await supabaseFrom('conversion_events')
         .select('event_value')
         .eq('workspace_id', workspaceId)
         .not('event_value', 'is', null);

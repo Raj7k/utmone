@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { supabaseFrom } from '@/lib/supabaseHelper';
 import { notify } from '@/lib/notify';
 
 export interface Partner {
@@ -49,8 +50,7 @@ export const usePartner = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return null;
 
-      const { data, error } = await supabase
-        .from('partners')
+      const { data, error } = await supabaseFrom('partners')
         .select('*')
         .eq('user_id', user.id)
         .single();
@@ -65,8 +65,7 @@ export const usePartner = () => {
     queryFn: async () => {
       if (!partner?.id) return [];
 
-      const { data, error } = await supabase
-        .from('partner_referrals')
+      const { data, error } = await supabaseFrom('partner_referrals')
         .select('*')
         .eq('partner_id', partner.id)
         .order('created_at', { ascending: false });
@@ -90,8 +89,7 @@ export const usePartner = () => {
       const partnerCode = `PARTNER_${user.id.substring(0, 8).toUpperCase()}`;
       const referralUrl = `${window.location.origin}/?ref=${partnerCode}`;
 
-      const { data, error } = await supabase
-        .from('partners')
+      const { data, error } = await supabaseFrom('partners')
         .insert({
           user_id: user.id,
           partner_code: partnerCode,
@@ -123,8 +121,7 @@ export const usePartner = () => {
       if (amount < 50) throw new Error('Minimum payout is $50');
       if (amount > partner.pending_payout) throw new Error('Insufficient balance');
 
-      const { data, error } = await supabase
-        .from('partner_payouts')
+      const { data, error } = await supabaseFrom('partner_payouts')
         .insert({
           partner_id: partner.id,
           amount,

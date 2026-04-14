@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { startOfDay, subDays, startOfMonth, startOfWeek, subMonths, subWeeks } from "date-fns";
 import { analyticsQueryOptions } from "@/lib/queryOptimizations";
 
@@ -48,14 +49,12 @@ export const useComparisonMetrics = ({ workspaceId, period = "month" }: UseCompa
         { data: currentLinks },
         { data: previousLinks },
       ] = await Promise.all([
-        supabase
-          .from("link_clicks")
+        supabaseFrom('link_clicks')
           .select("id, is_unique, link_id, workspace_id")
           .eq("workspace_id", workspaceId)
           .gte("clicked_at", currentStart.toISOString())
           .limit(5000),
-        supabase
-          .from("link_clicks")
+        supabaseFrom('link_clicks')
           .select("id, is_unique, link_id, workspace_id")
           .eq("workspace_id", workspaceId)
           .gte("clicked_at", previousStart.toISOString())

@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { toast } from "sonner";
 
 export interface ZapierWebhook {
@@ -22,8 +23,7 @@ export const useZapierWebhooks = (workspaceId: string) => {
   const { data: webhooks = [], isLoading } = useQuery({
     queryKey: ["zapier-webhooks", workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("zapier_webhooks")
+      const { data, error } = await supabaseFrom('zapier_webhooks')
         .select("*")
         .eq("workspace_id", workspaceId)
         .order("created_at", { ascending: false });
@@ -39,8 +39,7 @@ export const useZapierWebhooks = (workspaceId: string) => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const { data, error } = await supabase
-        .from("zapier_webhooks")
+      const { data, error } = await supabaseFrom('zapier_webhooks')
         .insert({
           ...webhook,
           workspace_id: workspaceId,
@@ -63,8 +62,7 @@ export const useZapierWebhooks = (workspaceId: string) => {
 
   const updateWebhook = useMutation({
     mutationFn: async ({ webhookId, updates }: { webhookId: string; updates: Partial<ZapierWebhook> }) => {
-      const { error } = await supabase
-        .from("zapier_webhooks")
+      const { error } = await supabaseFrom('zapier_webhooks')
         .update(updates)
         .eq("id", webhookId);
 
@@ -81,8 +79,7 @@ export const useZapierWebhooks = (workspaceId: string) => {
 
   const deleteWebhook = useMutation({
     mutationFn: async (webhookId: string) => {
-      const { error } = await supabase
-        .from("zapier_webhooks")
+      const { error } = await supabaseFrom('zapier_webhooks')
         .delete()
         .eq("id", webhookId);
 

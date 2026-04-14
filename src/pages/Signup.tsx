@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { notify } from "@/lib/notify";
 import { Info, Check, Shield, Clock } from "lucide-react";
 import { motion } from "framer-motion";
@@ -136,8 +137,7 @@ const Signup = () => {
             .eq("owner_id", session.user.id)
             .limit(1);
             
-          const { data: memberWorkspaces } = await supabase
-            .from("workspace_members")
+          const { data: memberWorkspaces } = await supabaseFrom('workspace_members')
             .select("workspace_id")
             .eq("user_id", session.user.id)
             .limit(1);

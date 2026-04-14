@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 
 interface HealthFactor {
   name: string;
@@ -58,8 +59,7 @@ export const useLinkHealthScore = (linkId: string) => {
       }
 
       // 2. Conversion Score (30% weight)
-      const { data: conversions } = await supabase
-        .from("conversion_events")
+      const { data: conversions } = await supabaseFrom('conversion_events')
         .select("id")
         .eq("link_id", linkId);
 

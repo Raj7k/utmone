@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -39,8 +40,7 @@ export default function Backup() {
     queryFn: async () => {
       if (!currentWorkspace) return null;
 
-      const { data, error } = await supabase
-        .from("backup_schedules")
+      const { data, error } = await supabaseFrom('backup_schedules')
         .select("*")
         .eq("workspace_id", currentWorkspace.id)
         .eq("backup_type", "github")
@@ -58,8 +58,7 @@ export default function Backup() {
     queryFn: async () => {
       if (!currentWorkspace) return [];
 
-      const { data, error } = await supabase
-        .from("backup_logs")
+      const { data, error } = await supabaseFrom('backup_logs')
         .select("*")
         .eq("workspace_id", currentWorkspace.id)
         .order("created_at", { ascending: false })
@@ -77,8 +76,7 @@ export default function Backup() {
     queryFn: async () => {
       if (!currentWorkspace) return null;
 
-      const { data, error } = await supabase
-        .from("integrations")
+      const { data, error } = await supabaseFrom('integrations')
         .select("*")
         .eq("workspace_id", currentWorkspace.id)
         .eq("provider", "github")

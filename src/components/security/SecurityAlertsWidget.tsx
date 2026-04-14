@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useWorkspace } from "@/hooks/workspace";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -17,8 +18,7 @@ export const SecurityAlertsWidget = () => {
     queryFn: async () => {
       if (!currentWorkspace?.id) return [];
 
-      const { data, error } = await supabase
-        .from('audit_events')
+      const { data, error } = await supabaseFrom('audit_events')
         .select('*')
         .eq('workspace_id', currentWorkspace.id)
         .like('event_type', 'security.%')
@@ -38,8 +38,7 @@ export const SecurityAlertsWidget = () => {
     queryFn: async () => {
       if (!currentWorkspace?.id) return null;
 
-      const { data, error } = await supabase
-        .from('audit_velocity_tracking')
+      const { data, error } = await supabaseFrom('audit_velocity_tracking')
         .select('*')
         .eq('workspace_id', currentWorkspace.id)
         .eq('flagged', true)

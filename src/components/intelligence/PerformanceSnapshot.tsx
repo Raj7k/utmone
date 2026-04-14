@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MousePointer, Users, Target, TrendingUp, TrendingDown } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -79,24 +80,21 @@ export default function PerformanceSnapshot({ workspaceId, days, context = "all"
       const prevStartDateStr = prevStartDate.toISOString();
 
       // Fetch clicks with visitor_id for unique count and sparkline
-      const { data: clicksData } = await supabase
-        .from("link_clicks")
+      const { data: clicksData } = await supabaseFrom('link_clicks')
         .select("visitor_id, clicked_at")
         .eq("workspace_id", workspaceId)
         .gte("clicked_at", startDateStr)
         .limit(5000);
 
       // Previous period clicks for trend
-      const { count: prevClickCount } = await supabase
-        .from("link_clicks")
+      const { count: prevClickCount } = await supabaseFrom('link_clicks')
         .select("*", { count: "exact", head: true })
         .eq("workspace_id", workspaceId)
         .gte("clicked_at", prevStartDateStr)
         .lt("clicked_at", startDateStr);
 
       // Previous period unique visitors
-      const { data: prevVisitorData } = await supabase
-        .from("link_clicks")
+      const { data: prevVisitorData } = await supabaseFrom('link_clicks')
         .select("visitor_id")
         .eq("workspace_id", workspaceId)
         .gte("clicked_at", prevStartDateStr)
@@ -105,15 +103,13 @@ export default function PerformanceSnapshot({ workspaceId, days, context = "all"
         .limit(5000);
 
       // Conversions
-      const { count: totalConversions } = await supabase
-        .from("conversion_events")
+      const { count: totalConversions } = await supabaseFrom('conversion_events')
         .select("*", { count: "exact", head: true })
         .eq("workspace_id", workspaceId)
         .gte("attributed_at", startDateStr);
 
       // Previous period conversions
-      const { count: prevConversions } = await supabase
-        .from("conversion_events")
+      const { count: prevConversions } = await supabaseFrom('conversion_events')
         .select("*", { count: "exact", head: true })
         .eq("workspace_id", workspaceId)
         .gte("attributed_at", prevStartDateStr)

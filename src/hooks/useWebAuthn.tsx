@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { startRegistration, startAuthentication } from "@simplewebauthn/browser";
 import { toast } from "sonner";
 
@@ -99,8 +100,7 @@ export function useWebAuthn(options: WebAuthnOptions = {}) {
       if (!user) throw new Error('Not authenticated');
 
       // Check for domain mismatch before attempting authentication
-      const { data: authenticators } = await supabase
-        .from('user_authenticators')
+      const { data: authenticators } = await supabaseFrom('user_authenticators')
         .select('registered_domain')
         .eq('user_id', user.id)
         .limit(1)
@@ -179,8 +179,7 @@ export function useWebAuthn(options: WebAuthnOptions = {}) {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
 
-      const { error } = await supabase
-        .from('user_authenticators')
+      const { error } = await supabaseFrom('user_authenticators')
         .delete()
         .eq('id', authenticatorId)
         .eq('user_id', user.id);

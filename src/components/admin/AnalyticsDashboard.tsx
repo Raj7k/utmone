@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendingUp, Users, UserCheck, AlertCircle, Activity } from "lucide-react";
 
@@ -7,8 +8,7 @@ export default function AnalyticsDashboard() {
   const { data: analytics, isLoading } = useQuery({
     queryKey: ["waitlist-analytics"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("waitlist_analytics")
+      const { data, error } = await supabaseFrom('waitlist_analytics')
         .select("*")
         .single();
 

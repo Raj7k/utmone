@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { GaussianProcess, TimeSlot } from "@/lib/gaussianProcess";
 
 interface ForecastDataPoint {
@@ -18,8 +19,7 @@ export function useTrafficForecast(workspaceId: string, days: number = 7) {
       const startDate = new Date();
       startDate.setDate(startDate.getDate() - days);
 
-      const { data: clicks, error } = await supabase
-        .from("link_clicks")
+      const { data: clicks, error } = await supabaseFrom('link_clicks')
         .select("clicked_at, link_id")
         .eq("link_id", workspaceId) // Filter by workspace links
         .gte("clicked_at", startDate.toISOString())

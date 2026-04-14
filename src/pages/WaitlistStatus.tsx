@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { BadgeGrid } from "@/components/waitlist/BadgeGrid";
 import { Button } from "@/components/ui/button";
 import { TrendingUp } from "lucide-react";
@@ -51,8 +52,7 @@ export default function WaitlistStatus() {
   const { data: allBadges } = useQuery({
     queryKey: ["waitlist-badges"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("waitlist_badges")
+      const { data, error } = await supabaseFrom('waitlist_badges')
         .select("*")
         .order("tier", { ascending: false });
 

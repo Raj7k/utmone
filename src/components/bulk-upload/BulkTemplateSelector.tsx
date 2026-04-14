@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useToast } from "@/hooks/use-toast";
 import {
   Select,
@@ -42,8 +43,7 @@ export const BulkTemplateSelector = ({
 
   const loadTemplates = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from("bulk_upload_templates")
+    const { data, error } = await supabaseFrom('bulk_upload_templates')
       .select("*")
       .eq("workspace_id", workspaceId)
       .order("is_default", { ascending: false })
@@ -77,8 +77,7 @@ export const BulkTemplateSelector = ({
     e.stopPropagation();
     
     setDeleting(templateId);
-    const { error } = await supabase
-      .from("bulk_upload_templates")
+    const { error } = await supabaseFrom('bulk_upload_templates')
       .delete()
       .eq("id", templateId);
 

@@ -10,6 +10,7 @@ import {
 } from "@/components/charts/LazyCharts";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { format, subDays, startOfDay } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
@@ -40,8 +41,7 @@ export const PerformanceTrendChart = ({ workspaceId, trendData }: PerformanceTre
       const startDate = startOfDay(subDays(new Date(), dateRange));
 
       // OPTIMIZED: Reduced limit from 5000 to 500, use COUNT aggregation
-      const { data: clicks, error } = await supabase
-        .from("link_clicks")
+      const { data: clicks, error } = await supabaseFrom('link_clicks')
         .select("clicked_at, is_unique")
         .eq("workspace_id", workspaceId)
         .gte("clicked_at", startDate.toISOString())

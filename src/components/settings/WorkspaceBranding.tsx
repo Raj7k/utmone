@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -43,8 +44,7 @@ export const WorkspaceBranding = ({ workspaceId }: WorkspaceBrandingProps) => {
   }, [workspaceId]);
 
   const fetchBranding = async () => {
-    const { data, error } = await supabase
-      .from("workspace_branding")
+    const { data, error } = await supabaseFrom('workspace_branding')
       .select("*")
       .eq("workspace_id", workspaceId)
       .single();
@@ -89,8 +89,7 @@ export const WorkspaceBranding = ({ workspaceId }: WorkspaceBrandingProps) => {
 
   const handleSave = async () => {
     setIsSaving(true);
-    const { error } = await supabase
-      .from("workspace_branding")
+    const { error } = await supabaseFrom('workspace_branding')
       .upsert({
         workspace_id: workspaceId,
         ...settings,

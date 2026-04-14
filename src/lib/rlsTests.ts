@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { TestResult } from "./testUtils";
 
 /**
@@ -62,8 +63,7 @@ export async function testWorkspaceMembersRLS(workspaceId: string): Promise<Test
 
   try {
     // Test: Can read workspace members
-    const { data, error } = await supabase
-      .from("workspace_members")
+    const { data, error } = await supabaseFrom('workspace_members')
       .select("id, role")
       .eq("workspace_id", workspaceId);
 
@@ -146,8 +146,7 @@ export async function testLinkClicksRLS(linkId: string): Promise<TestResult> {
 
   try {
     // Test: Can read clicks for own links
-    const { data, error } = await supabase
-      .from("link_clicks")
+    const { data, error } = await supabaseFrom('link_clicks')
       .select("id")
       .eq("link_id", linkId)
       .limit(5);

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { ExperimentConfidenceMeter } from "@/components/experiments/ExperimentConfidenceMeter";
 import { Badge } from "@/components/ui/badge";
@@ -21,8 +22,7 @@ export default function Experiments() {
     queryFn: async () => {
       if (!currentWorkspace?.id) return [];
 
-      const { data, error } = await supabase
-        .from("experiments")
+      const { data, error } = await supabaseFrom('experiments')
         .select(`
           *,
           links (

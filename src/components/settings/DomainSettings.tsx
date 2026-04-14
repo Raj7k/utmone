@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { notify } from "@/lib/notify";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface Domain {
@@ -29,8 +30,7 @@ export const DomainSettings = ({ domain }: DomainSettingsProps) => {
 
   const updateSettings = useMutation({
     mutationFn: async () => {
-      const { error } = await supabase
-        .from("domains")
+      const { error } = await supabaseFrom('domains')
         .update({
           domain_settings: {
             path_prefix: pathPrefix,

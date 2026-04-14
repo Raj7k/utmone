@@ -7,6 +7,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 import { useWorkspace } from "@/hooks/workspace/useWorkspace";
 import { startOfDay, subDays, format } from "date-fns";
@@ -97,8 +98,7 @@ export const useAnalyticsData = (range: string = "30d") => {
       // Fetch only analytics-relevant data (3 queries instead of 10)
       const [clicksResult, linksResult, clicksDetailsResult] = await Promise.all([
         // 1. Click aggregates for current period
-        supabase
-          .from("link_clicks")
+        supabaseFrom('link_clicks')
           .select("id, clicked_at, device_type, browser, country, city, referrer, visitor_id", { count: "exact" })
           .eq("workspace_id", workspaceId)
           .gte("clicked_at", startDate.toISOString())
@@ -113,8 +113,7 @@ export const useAnalyticsData = (range: string = "30d") => {
           .limit(100),
 
         // 3. Previous period clicks for comparison
-        supabase
-          .from("link_clicks")
+        supabaseFrom('link_clicks')
           .select("id", { count: "exact", head: true })
           .eq("workspace_id", workspaceId)
           .gte("clicked_at", prevStartDate.toISOString())

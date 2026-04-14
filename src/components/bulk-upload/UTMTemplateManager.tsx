@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -41,8 +42,7 @@ export function UTMTemplateManager({ workspaceId, onApplyTemplate }: UTMTemplate
   const { data: templates, isLoading } = useQuery({
     queryKey: ["bulk-upload-templates", workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("bulk_upload_templates")
+      const { data, error } = await supabaseFrom('bulk_upload_templates')
         .select("*")
         .eq("workspace_id", workspaceId)
         .order("created_at", { ascending: false });
@@ -58,8 +58,7 @@ export function UTMTemplateManager({ workspaceId, onApplyTemplate }: UTMTemplate
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("not authenticated");
 
-      const { data, error } = await supabase
-        .from("bulk_upload_templates")
+      const { data, error } = await supabaseFrom('bulk_upload_templates')
         .insert({
           workspace_id: workspaceId,
           created_by: user.id,
@@ -98,8 +97,7 @@ export function UTMTemplateManager({ workspaceId, onApplyTemplate }: UTMTemplate
   // Delete template mutation
   const deleteMutation = useMutation({
     mutationFn: async (templateId: string) => {
-      const { error } = await supabase
-        .from("bulk_upload_templates")
+      const { error } = await supabaseFrom('bulk_upload_templates')
         .delete()
         .eq("id", templateId);
 

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link2, Sparkles, ArrowRight, Zap, Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { notify } from "@/lib/notify";
 import { useQuery } from "@tanstack/react-query";
 import { useAppSession } from "@/contexts/AppSessionContext";
@@ -27,8 +28,7 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
     queryKey: ["welcome-modal-check", userId],
     queryFn: async () => {
       if (!userId) return null;
-      const { data } = await supabase
-        .from("profiles")
+      const { data } = await supabaseFrom('profiles')
         .select("has_seen_welcome_modal")
         .eq("id", userId)
         .single();
@@ -51,8 +51,7 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
     setIsOpen(false);
     
     if (userId) {
-      await supabase
-        .from("profiles")
+      await supabaseFrom('profiles')
         .update({ has_seen_welcome_modal: true })
         .eq("id", userId);
     }

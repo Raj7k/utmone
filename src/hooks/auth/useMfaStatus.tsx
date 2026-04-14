@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 
 export interface MfaStatus {
   isEnabled: boolean;
@@ -36,15 +37,13 @@ export function useMfaStatus() {
       }
 
       // Fetch MFA settings
-      const { data: mfaData, error: mfaError } = await supabase
-        .from('mfa_settings')
+      const { data: mfaData, error: mfaError } = await supabaseFrom('mfa_settings')
         .select('is_enabled, recovery_codes_hashed, backup_codes_downloaded, last_verified_at, mfa_enforced')
         .eq('user_id', user.id)
         .maybeSingle();
 
       // Fetch security keys (WebAuthn authenticators)
-      const { data: authenticators, error: authError } = await supabase
-        .from('user_authenticators')
+      const { data: authenticators, error: authError } = await supabaseFrom('user_authenticators')
         .select('id, registered_domain')
         .eq('user_id', user.id);
 

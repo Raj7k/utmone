@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 
 /**
  * Test utility functions for critical path testing
@@ -183,8 +184,7 @@ export async function testAnalyticsTracking(linkId: string): Promise<TestResult>
   const testName = "Analytics Tracking";
 
   try {
-    const { data: clicks, error } = await supabase
-      .from("link_clicks")
+    const { data: clicks, error } = await supabaseFrom('link_clicks')
       .select("id, clicked_at")
       .eq("link_id", linkId)
       .order("clicked_at", { ascending: false })
@@ -407,8 +407,7 @@ export async function testClickRecording(linkId: string): Promise<TestResult> {
       .eq("id", linkId)
       .single();
 
-    const { error } = await supabase
-      .from("link_clicks")
+    const { error } = await supabaseFrom('link_clicks')
       .insert({
         link_id: linkId,
         workspace_id: linkData?.workspace_id || "",

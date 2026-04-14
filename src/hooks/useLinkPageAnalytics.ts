@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { subDays, startOfDay } from "date-fns";
 
 export interface LinkPageStats {
@@ -31,8 +32,7 @@ export function useLinkPageStats(pageId: string | undefined, days: number = 30) 
       const startDate = startOfDay(subDays(new Date(), days)).toISOString();
 
       // Get all events for this page
-      const { data: events, error } = await supabase
-        .from("link_page_events")
+      const { data: events, error } = await supabaseFrom('link_page_events')
         .select("event_type, visitor_hash")
         .eq("page_id", pageId)
         .gte("created_at", startDate);
@@ -67,8 +67,7 @@ export function useBlockClickStats(pageId: string | undefined, days: number = 30
       const startDate = startOfDay(subDays(new Date(), days)).toISOString();
 
       // Get click events with block info
-      const { data: events, error } = await supabase
-        .from("link_page_events")
+      const { data: events, error } = await supabaseFrom('link_page_events')
         .select(`
           block_id,
           link_page_blocks!inner(id, type, data)
@@ -119,8 +118,7 @@ export function usePageViewsTimeSeries(pageId: string | undefined, days: number 
 
       const startDate = startOfDay(subDays(new Date(), days)).toISOString();
 
-      const { data: events, error } = await supabase
-        .from("link_page_events")
+      const { data: events, error } = await supabaseFrom('link_page_events')
         .select("event_type, created_at")
         .eq("page_id", pageId)
         .gte("created_at", startDate)

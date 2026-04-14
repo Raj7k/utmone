@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { notify } from "@/lib/notify";
 import { useQueryClient } from "@tanstack/react-query";
 import { 
@@ -217,8 +218,7 @@ export default function OnboardingWizard() {
       if (!user) throw new Error("No user found");
 
       // Update profile
-      await supabase
-        .from("profiles")
+      await supabaseFrom('profiles')
         .update({ 
           full_name: fullName,
           user_type: selectedRole === "ops" ? "organization" : "individual",

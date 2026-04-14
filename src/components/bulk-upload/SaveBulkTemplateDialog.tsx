@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useToast } from "@/hooks/use-toast";
 import {
   Dialog,
@@ -75,13 +76,12 @@ export const SaveBulkTemplateDialog = ({
 
     // If setting as default, unset other defaults first
     if (isDefault) {
-      await supabase
-        .from("bulk_upload_templates")
+      await supabaseFrom('bulk_upload_templates')
         .update({ is_default: false })
         .eq("workspace_id", workspaceId);
     }
 
-    const { error } = await supabase.from("bulk_upload_templates").insert({
+    const { error } = await supabaseFrom('bulk_upload_templates').insert({
       workspace_id: workspaceId,
       name: name.trim(),
       description: description.trim() || null,

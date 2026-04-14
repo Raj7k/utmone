@@ -17,6 +17,7 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { parseBadgeData, splitFullName } from "./scanner/parseBadgeData";
 import { cn } from "@/lib/utils";
 
@@ -208,7 +209,7 @@ export const ScannerModal = ({
     }
     
     try {
-      const { error } = await supabase.from('event_badge_scans').insert({
+      const { error } = await supabaseFrom('event_badge_scans').insert({
         event_id: eventId,
         email: editedData.email || `unknown-${Date.now()}@scan.local`,
         first_name: editedData.firstName || null,

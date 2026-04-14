@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { supabaseFrom } from '@/lib/supabaseHelper';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -66,8 +67,7 @@ export function EventBridgeFlowCard({ flow }: EventBridgeFlowCardProps) {
   const { data: registrationCount } = useQuery({
     queryKey: ['flow-registrations', flow.id],
     queryFn: async () => {
-      const { count, error } = await supabase
-        .from('event_bridge_registrations')
+      const { count, error } = await supabaseFrom('event_bridge_registrations')
         .select('*', { count: 'exact', head: true })
         .eq('flow_id', flow.id);
       
@@ -80,8 +80,7 @@ export function EventBridgeFlowCard({ flow }: EventBridgeFlowCardProps) {
 
   const toggleActiveMutation = useMutation({
     mutationFn: async (isActive: boolean) => {
-      const { error } = await supabase
-        .from('event_bridge_flows')
+      const { error } = await supabaseFrom('event_bridge_flows')
         .update({ is_active: isActive })
         .eq('id', flow.id);
       

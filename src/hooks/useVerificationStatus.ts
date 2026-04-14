@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 
 export type VerificationStatus = 'not_applied' | 'pending' | 'under_review' | 'approved' | 'rejected';
 
@@ -53,8 +54,7 @@ export function useVerificationStatus(workspaceId?: string) {
         return { status: 'not_applied', request: null };
       }
 
-      const { data, error } = await supabase
-        .from('verification_requests')
+      const { data, error } = await supabaseFrom('verification_requests')
         .select('*')
         .eq('user_id', userId)
         .eq('workspace_id', workspaceId)
@@ -89,8 +89,7 @@ export function useCreateVerificationRequest() {
       const userId = await getUserId();
       if (!userId) throw new Error('Not authenticated');
 
-      const { data, error } = await supabase
-        .from('verification_requests')
+      const { data, error } = await supabaseFrom('verification_requests')
         .insert({
           user_id: userId,
           workspace_id: request.workspace_id,
@@ -147,8 +146,7 @@ export function useAllVerificationRequests() {
   return useQuery({
     queryKey: ['admin-verification-requests'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('verification_requests')
+      const { data, error } = await supabaseFrom('verification_requests')
         .select('*')
         .order('created_at', { ascending: false });
 
@@ -173,8 +171,7 @@ export function useUpdateVerificationStatus() {
       rejection_reason?: string;
     }) => {
       const userId = await getUserId();
-      const { data, error } = await supabase
-        .from('verification_requests')
+      const { data, error } = await supabaseFrom('verification_requests')
         .update({
           status,
           rejection_reason: rejection_reason || null,

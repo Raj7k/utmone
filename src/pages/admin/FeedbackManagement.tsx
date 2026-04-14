@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -188,8 +189,7 @@ export default function FeedbackManagement() {
       const feedbackWithUsers = await Promise.all(
         (data || []).map(async (item) => {
           if (item.user_id) {
-            const { data: profile } = await supabase
-              .from("profiles")
+            const { data: profile } = await supabaseFrom('profiles')
               .select("email, full_name")
               .eq("id", item.user_id)
               .single();

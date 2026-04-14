@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -32,8 +33,7 @@ export function FlagDetailedAnalytics({ flagKey }: FlagDetailedAnalyticsProps) {
   const { data: snapshots, isLoading } = useQuery({
     queryKey: ['flag-metrics-history', flagKey],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('metrics_snapshots')
+      const { data, error } = await supabaseFrom('metrics_snapshots')
         .select('*')
         .eq('flag_key', flagKey)
         .order('timestamp', { ascending: false })

@@ -14,6 +14,7 @@ import {
 import { User, LogOut, Settings, Sun, Moon, Monitor, Palette, HelpCircle, Sparkles, Keyboard } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useToast } from "@/hooks/use-toast";
 import { useTheme } from "next-themes";
 import { useTour } from "@/components/onboarding/TourContext";
@@ -38,8 +39,7 @@ export const UserAvatarMenu = () => {
     queryKey: ["user-profile-header", user?.id],
     queryFn: async () => {
       if (!user) return null;
-      const { data } = await supabase
-        .from("profiles")
+      const { data } = await supabaseFrom('profiles')
         .select("full_name, email, avatar_url")
         .eq("id", user.id)
         .single();

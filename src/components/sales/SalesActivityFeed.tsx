@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useWorkspace } from "@/hooks/workspace";
 import { formatDistanceToNow } from "date-fns";
 import { Activity, Monitor, Smartphone, Tablet, MapPin, Zap } from "lucide-react";
@@ -48,8 +49,7 @@ export const SalesActivityFeed = ({ salesLinks = [] }: SalesActivityFeedProps) =
     queryFn: async () => {
       if (!currentWorkspace?.id || linkIds.length === 0) return [];
 
-      const { data: clicks, error } = await supabase
-        .from("link_clicks")
+      const { data: clicks, error } = await supabaseFrom('link_clicks')
         .select("id, clicked_at, device_type, city, country, link_id")
         .eq("workspace_id", currentWorkspace.id)
         .in("link_id", linkIds)
@@ -82,8 +82,7 @@ export const SalesActivityFeed = ({ salesLinks = [] }: SalesActivityFeedProps) =
         },
         async (payload) => {
           // Get click data directly
-          const { data: clickData } = await supabase
-            .from("link_clicks")
+          const { data: clickData } = await supabaseFrom('link_clicks')
             .select("id, clicked_at, device_type, city, country, link_id")
             .eq("id", payload.new.id)
             .single();

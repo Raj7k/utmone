@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -133,8 +134,7 @@ export default function AcceptInvite() {
       }
 
       // Check if already a member
-      const { data: existingMember } = await supabase
-        .from("workspace_members")
+      const { data: existingMember } = await supabaseFrom('workspace_members')
         .select("id")
         .eq("workspace_id", invitation.workspace_id)
         .eq("user_id", user.id)
@@ -146,8 +146,7 @@ export default function AcceptInvite() {
       }
 
       // Add user to workspace
-      const { error: memberError } = await supabase
-        .from("workspace_members")
+      const { error: memberError } = await supabaseFrom('workspace_members')
         .insert({
           workspace_id: invitation.workspace_id,
           user_id: user.id,
@@ -157,8 +156,7 @@ export default function AcceptInvite() {
       if (memberError) throw memberError;
 
       // Mark invitation as accepted
-      await supabase
-        .from("workspace_invitations")
+      await supabaseFrom('workspace_invitations')
         .update({ accepted_at: new Date().toISOString() })
         .eq("token", invitation.token);
 

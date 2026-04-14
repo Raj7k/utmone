@@ -6,6 +6,7 @@
 import { useState, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { supabaseFrom } from '@/lib/supabaseHelper';
 import { notify } from '@/lib/notify';
 import { useWorkspaceContext } from '@/contexts/WorkspaceContext';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -71,8 +72,7 @@ export const URLShortenerPro = () => {
     queryFn: async () => {
       if (!workspaceId) return [];
       
-      const { data } = await supabase
-        .from('domains')
+      const { data } = await supabaseFrom('domains')
         .select('id, domain')
         .eq('is_verified', true)
         .or(`workspace_id.eq.${workspaceId},is_system_domain.eq.true`)

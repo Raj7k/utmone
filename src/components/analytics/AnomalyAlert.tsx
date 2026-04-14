@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { toast } from "sonner";
 import { Database } from "@/integrations/supabase/types";
 
@@ -69,8 +70,7 @@ export function AnomalyAlert({ anomaly, onDismiss }: AnomalyAlertProps) {
 
   const handleDismiss = async () => {
     try {
-      const { error } = await supabase
-        .from('analytics_anomalies')
+      const { error } = await supabaseFrom('analytics_anomalies')
         .update({ is_dismissed: true })
         .eq('id', anomaly.id);
 

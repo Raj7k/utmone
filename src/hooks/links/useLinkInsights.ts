@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 
 export type InsightType = "hot" | "rising" | "declining" | "at-risk" | "dormant" | "testing";
 
@@ -26,8 +27,7 @@ export const useLinkInsights = (linkId: string) => {
       const sevenDaysAgo = new Date();
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-      const { data: recentClicks } = await supabase
-        .from("link_clicks")
+      const { data: recentClicks } = await supabaseFrom('link_clicks')
         .select("clicked_at")
         .eq("link_id", linkId)
         .gte("clicked_at", sevenDaysAgo.toISOString());
@@ -39,8 +39,7 @@ export const useLinkInsights = (linkId: string) => {
       const fourteenDaysAgo = new Date();
       fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
 
-      const { data: previousClicks } = await supabase
-        .from("link_clicks")
+      const { data: previousClicks } = await supabaseFrom('link_clicks')
         .select("clicked_at")
         .eq("link_id", linkId)
         .gte("clicked_at", fourteenDaysAgo.toISOString())

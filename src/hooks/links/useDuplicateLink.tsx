@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { toast } from "sonner";
 
 export const useDuplicateLink = () => {
@@ -18,8 +19,7 @@ export const useDuplicateLink = () => {
       if (!sourceLink) throw new Error("Link not found");
 
       // Fetch tags
-      const { data: tags } = await supabase
-        .from("link_tags")
+      const { data: tags } = await supabaseFrom('link_tags')
         .select("tag_name")
         .eq("link_id", linkId);
 
@@ -84,7 +84,7 @@ export const useDuplicateLink = () => {
           tag_name: t.tag_name,
         }));
 
-        await supabase.from("link_tags").insert(tagInserts);
+        await supabaseFrom('link_tags').insert(tagInserts);
       }
 
       return newLink;

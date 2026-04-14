@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useMutation } from "@tanstack/react-query";
 
 interface TrackStepParams {
@@ -16,8 +17,7 @@ export const useOnboardingAnalytics = () => {
       if (!user) throw new Error("Not authenticated");
 
       // Check if step already exists
-      const { data: existing } = await supabase
-        .from("onboarding_analytics")
+      const { data: existing } = await supabaseFrom('onboarding_analytics')
         .select("id")
         .eq("user_id", user.id)
         .eq("workspace_id", workspaceId)
@@ -37,16 +37,14 @@ export const useOnboardingAnalytics = () => {
           updateData.metadata = metadata;
         }
 
-        const { error } = await supabase
-          .from("onboarding_analytics")
+        const { error } = await supabaseFrom('onboarding_analytics')
           .update(updateData)
           .eq("id", existing.id);
 
         if (error) throw error;
       } else {
         // Insert new record
-        const { error } = await supabase
-          .from("onboarding_analytics")
+        const { error } = await supabaseFrom('onboarding_analytics')
           .insert({
             user_id: user.id,
             workspace_id: workspaceId,

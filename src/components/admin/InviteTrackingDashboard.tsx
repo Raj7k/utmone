@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -41,8 +42,7 @@ export function InviteTrackingDashboard() {
   const { data: invites, isLoading } = useQuery({
     queryKey: ['early-access-invites'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('early_access_invites')
+      const { data, error } = await supabaseFrom('early_access_invites')
         .select('*')
         .order('created_at', { ascending: false });
       
@@ -80,8 +80,7 @@ export function InviteTrackingDashboard() {
   const deleteInviteMutation = useMutation({
     mutationFn: async (invite: Invite) => {
       // Delete from early_access_invites
-      const { error: inviteError } = await supabase
-        .from("early_access_invites")
+      const { error: inviteError } = await supabaseFrom('early_access_invites')
         .delete()
         .eq("id", invite.id);
 

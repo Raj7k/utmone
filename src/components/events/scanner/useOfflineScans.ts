@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { supabaseFrom } from '@/lib/supabaseHelper';
 import { toast } from '@/hooks/use-toast';
 
 export type LeadTemperature = 'hot' | 'warm' | 'cold';
@@ -157,8 +158,7 @@ export function useOfflineScans(eventId: string) {
         voice_note_transcript: scan.voiceNoteTranscript
       }));
 
-      const { error } = await supabase
-        .from('event_badge_scans')
+      const { error } = await supabaseFrom('event_badge_scans')
         .insert(toInsert);
 
       if (!error) {
@@ -284,8 +284,7 @@ export function useOfflineScans(eventId: string) {
   // Sync a single scan to Supabase
   const syncSingleScan = async (scan: OfflineScan) => {
     try {
-      const { error } = await supabase
-        .from('event_badge_scans')
+      const { error } = await supabaseFrom('event_badge_scans')
         .insert({
           event_id: scan.eventId,
           email: scan.email,

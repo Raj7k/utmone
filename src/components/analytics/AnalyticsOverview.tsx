@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link2, MousePointerClick, Users, TrendingUp } from "lucide-react";
 import { ExportButton } from "./ExportButton";
@@ -47,14 +48,12 @@ export const AnalyticsOverview = ({ workspaceId }: AnalyticsOverviewProps) => {
 
       // Use workspace_id directly for click counts - much more efficient!
       // Get total clicks using COUNT (no row fetch)
-      const { count: totalClicks } = await supabase
-        .from("link_clicks")
+      const { count: totalClicks } = await supabaseFrom('link_clicks')
         .select("id", { count: "exact", head: true })
         .eq("workspace_id", workspaceId);
 
       // Get unique clicks using COUNT (no row fetch)
-      const { count: uniqueClicks } = await supabase
-        .from("link_clicks")
+      const { count: uniqueClicks } = await supabaseFrom('link_clicks')
         .select("id", { count: "exact", head: true })
         .eq("workspace_id", workspaceId)
         .eq("is_unique", true);

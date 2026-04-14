@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PieChart } from "lucide-react";
 import { motion } from "framer-motion";
@@ -67,8 +68,7 @@ export default function ChannelMixDonut({ workspaceId, days, context = "all", pr
       startDate.setDate(startDate.getDate() - days);
 
       // FIX: Include ALL clicks, not just those with utm_source
-      const { data: clicks, error } = await supabase
-        .from("link_clicks")
+      const { data: clicks, error } = await supabaseFrom('link_clicks')
         .select("referrer, workspace_id, links(utm_source)")
         .eq("workspace_id", workspaceId)
         .gte("clicked_at", startDate.toISOString())

@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { calculateProbabilityBWins, shouldDeclareWinner } from "@/lib/bayesian";
 import { toast } from "sonner";
 
@@ -11,8 +12,7 @@ export const useExperiment = (linkId: string | undefined) => {
     queryFn: async () => {
       if (!linkId) return null;
 
-      const { data, error } = await supabase
-        .from("experiments")
+      const { data, error } = await supabaseFrom('experiments')
         .select("*")
         .eq("link_id", linkId)
         .eq("status", "running")
@@ -51,8 +51,7 @@ export const useExperiment = (linkId: string | undefined) => {
       variant_a_url: string;
       variant_b_url: string;
     }) => {
-      const { data, error } = await supabase
-        .from("experiments")
+      const { data, error } = await supabaseFrom('experiments')
         .insert({
           ...params,
           created_by: (await supabase.auth.getUser()).data.user!.id,
@@ -79,8 +78,7 @@ export const useExperiment = (linkId: string | undefined) => {
     mutationFn: async (winner: "A" | "B") => {
       if (!experiment) throw new Error("No experiment found");
 
-      const { error } = await supabase
-        .from("experiments")
+      const { error } = await supabaseFrom('experiments')
         .update({
           status: "completed",
           winner_variant: winner,
@@ -109,8 +107,7 @@ export const useExperiment = (linkId: string | undefined) => {
     mutationFn: async () => {
       if (!experiment) throw new Error("No experiment found");
 
-      const { error } = await supabase
-        .from("experiments")
+      const { error } = await supabaseFrom('experiments')
         .update({ status: "paused" })
         .eq("id", experiment.id);
 
@@ -130,8 +127,7 @@ export const useExperiment = (linkId: string | undefined) => {
     mutationFn: async () => {
       if (!experiment) throw new Error("No experiment found");
 
-      const { error } = await supabase
-        .from("experiments")
+      const { error } = await supabaseFrom('experiments')
         .update({ status: "running" })
         .eq("id", experiment.id);
 

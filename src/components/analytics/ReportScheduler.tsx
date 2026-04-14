@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { toast } from "sonner";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Calendar, Mail, Trash2, Play, Pause } from "lucide-react";
@@ -60,8 +61,7 @@ export function ReportScheduler({ workspaceId }: ReportSchedulerProps) {
   const { data: reports, isLoading } = useQuery({
     queryKey: ['scheduled-reports', workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('scheduled_reports')
+      const { data, error } = await supabaseFrom('scheduled_reports')
         .select('*')
         .eq('workspace_id', workspaceId)
         .order('created_at', { ascending: false });
@@ -85,7 +85,7 @@ export function ReportScheduler({ workspaceId }: ReportSchedulerProps) {
       }
       nextSendAt.setHours(8, 0, 0, 0);
 
-      const { error } = await supabase.from('scheduled_reports').insert({
+      const { error } = await supabaseFrom('scheduled_reports').insert({
         workspace_id: workspaceId,
         template_name: values.template_name,
         frequency: values.frequency,
@@ -109,8 +109,7 @@ export function ReportScheduler({ workspaceId }: ReportSchedulerProps) {
 
   const toggleMutation = useMutation({
     mutationFn: async ({ id, isActive }: { id: string, isActive: boolean }) => {
-      const { error } = await supabase
-        .from('scheduled_reports')
+      const { error } = await supabaseFrom('scheduled_reports')
         .update({ is_active: !isActive })
         .eq('id', id);
 
@@ -124,8 +123,7 @@ export function ReportScheduler({ workspaceId }: ReportSchedulerProps) {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase
-        .from('scheduled_reports')
+      const { error } = await supabaseFrom('scheduled_reports')
         .delete()
         .eq('id', id);
 

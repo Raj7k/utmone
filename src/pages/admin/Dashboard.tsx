@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Users, Link2, QrCode, TrendingUp, AlertTriangle, CheckCircle2, Download, ArrowRight } from "lucide-react";
@@ -55,8 +56,7 @@ export default function AdminDashboard() {
   const { data: announcementStats } = useQuery({
     queryKey: ['admin-announcement-stats'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('announcement_configs')
+      const { data, error } = await supabaseFrom('announcement_configs')
         .select('is_active');
       
       if (error) throw error;

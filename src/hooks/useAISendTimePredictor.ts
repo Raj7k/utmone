@@ -5,6 +5,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { supabaseFrom } from '@/lib/supabaseHelper';
 import { GaussianProcess, TimeSlot, GPPrediction } from '@/lib/gaussianProcess';
 
 interface TimeSlotPrediction {
@@ -39,8 +40,7 @@ async function fetchClickHeatmapData(workspaceId: string, days: number = 30): Pr
   const startDate = new Date();
   startDate.setDate(startDate.getDate() - days);
 
-  const { data: clicks, error } = await supabase
-    .from('link_clicks')
+  const { data: clicks, error } = await supabaseFrom('link_clicks')
     .select('clicked_at')
     .eq('workspace_id', workspaceId)
     .gte('clicked_at', startDate.toISOString());

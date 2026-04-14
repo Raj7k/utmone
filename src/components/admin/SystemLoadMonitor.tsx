@@ -3,14 +3,14 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Progress } from "@/components/ui/progress";
 
 export const SystemLoadMonitor = () => {
   const { data: systemLoad, isLoading } = useQuery({
     queryKey: ["system-load"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("system_load_metrics")
+      const { data, error } = await supabaseFrom('system_load_metrics')
         .select("*")
         .order("recorded_at", { ascending: false })
         .limit(1)
@@ -25,8 +25,7 @@ export const SystemLoadMonitor = () => {
   const { data: tierConfig } = useQuery({
     queryKey: ["rate-limit-tiers"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("rate_limit_tiers")
+      const { data, error } = await supabaseFrom('rate_limit_tiers')
         .select("*")
         .limit(1)
         .single();

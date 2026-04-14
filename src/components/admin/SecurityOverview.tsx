@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { supabaseFrom } from '@/lib/supabaseHelper';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Shield, AlertTriangle, Activity, CheckCircle } from 'lucide-react';
 
@@ -8,8 +9,7 @@ export function SecurityOverview() {
   const { data: securityEvents } = useQuery({
     queryKey: ['security-events'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('admin_audit_logs')
+      const { data, error } = await supabaseFrom('admin_audit_logs')
         .select('action, resource_type, created_at')
         .eq('resource_type', 'security_event')
         .order('created_at', { ascending: false })

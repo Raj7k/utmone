@@ -10,6 +10,7 @@ import InstallationFlowAnimation from "@/components/tracking/InstallationFlowAni
 import SetupGuide from "@/components/tracking/SetupGuide";
 import AutomaticAttributionHero from "@/components/tracking/AutomaticAttributionHero";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -23,8 +24,7 @@ export const Tracking = () => {
     queryKey: ['pixel-config', currentWorkspace?.id],
     queryFn: async () => {
       if (!currentWorkspace?.id) return null;
-      const { data, error } = await supabase
-        .from('pixel_configs')
+      const { data, error } = await supabaseFrom('pixel_configs')
         .select('*')
         .eq('workspace_id', currentWorkspace.id)
         .single();

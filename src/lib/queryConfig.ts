@@ -1,5 +1,6 @@
 import { QueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 
 /**
  * Optimized QueryClient configuration for performance
@@ -98,8 +99,7 @@ export async function prefetchCriticalData(userId: string) {
       queryClient.prefetchQuery({
         queryKey: queryKeys.user.current,
         queryFn: async () => {
-          const { data: profile } = await supabase
-            .from('profiles')
+          const { data: profile } = await supabaseFrom('profiles')
             .select('id, email, full_name, avatar_url, timezone')
             .eq('id', userId)
             .single();
@@ -112,7 +112,7 @@ export async function prefetchCriticalData(userId: string) {
         queryFn: async () => {
           const [ownedResult, memberResult] = await Promise.all([
             supabase.from('workspaces').select('*').eq('owner_id', userId),
-            supabase.from('workspace_members').select('workspace:workspaces(*)').eq('user_id', userId),
+            supabaseFrom('workspace_members').select('workspace:workspaces(*)').eq('user_id', userId),
           ]);
           const owned = ownedResult.data || [];
           const memberWs = memberResult.data?.map((m: any) => m.workspace).filter(Boolean) || [];

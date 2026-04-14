@@ -27,6 +27,7 @@ import {
   Zap
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { notify } from "@/lib/notify";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -77,8 +78,7 @@ export function ProfileSettings() {
     queryKey: ['profile', user?.id],
     queryFn: async () => {
       if (!user?.id) return null;
-      const { data, error } = await supabase
-        .from('profiles')
+      const { data, error } = await supabaseFrom('profiles')
         .select('*')
         .eq('id', user.id)
         .single();
@@ -107,8 +107,7 @@ export function ProfileSettings() {
   const updateProfileMutation = useMutation({
     mutationFn: async () => {
       if (!user?.id) throw new Error('No user');
-      const { error } = await supabase
-        .from('profiles')
+      const { error } = await supabaseFrom('profiles')
         .update({ 
           full_name: fullName, 
           timezone: timezone,

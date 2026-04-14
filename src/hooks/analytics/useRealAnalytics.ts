@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { startOfDay, subDays } from "date-fns";
 
 interface UseRealAnalyticsParams {
@@ -14,8 +15,7 @@ export const useRealAnalytics = ({ workspaceId, dateRange = 30 }: UseRealAnalyti
       const startDate = startOfDay(subDays(new Date(), dateRange));
 
       // SAFE MODE: Fetch only 500 rows max for breakdown analysis
-      const { data: clicks, error } = await supabase
-        .from("link_clicks")
+      const { data: clicks, error } = await supabaseFrom('link_clicks')
         .select("device_type, browser, country, city, referrer, click_hour, clicked_at, is_unique")
         .eq("workspace_id", workspaceId)
         .gte("clicked_at", startDate.toISOString())
@@ -25,14 +25,12 @@ export const useRealAnalytics = ({ workspaceId, dateRange = 30 }: UseRealAnalyti
       if (error) throw error;
 
       // Get total count separately (fast query)
-      const { count: totalClicks } = await supabase
-        .from("link_clicks")
+      const { count: totalClicks } = await supabaseFrom('link_clicks')
         .select("id", { count: "exact", head: true })
         .eq("workspace_id", workspaceId)
         .gte("clicked_at", startDate.toISOString());
 
-      const { count: uniqueVisitors } = await supabase
-        .from("link_clicks")
+      const { count: uniqueVisitors } = await supabaseFrom('link_clicks')
         .select("id", { count: "exact", head: true })
         .eq("workspace_id", workspaceId)
         .eq("is_unique", true)

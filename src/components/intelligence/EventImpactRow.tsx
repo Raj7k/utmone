@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CalendarDays, ChevronRight, TrendingUp } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -53,8 +54,7 @@ export default function EventImpactRow({ workspaceId, days }: EventImpactRowProp
     queryFn: async () => {
       if (!workspaceId) return [];
 
-      const { data, error } = await supabase
-        .from("field_events")
+      const { data, error } = await supabaseFrom('field_events')
         .select("*")
         .eq("workspace_id", workspaceId)
         .order("start_date", { ascending: false })

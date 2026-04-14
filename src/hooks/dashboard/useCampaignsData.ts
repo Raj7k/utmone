@@ -1,5 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useWorkspace } from "@/hooks/workspace/useWorkspace";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 
@@ -27,8 +28,7 @@ export const useCampaignsData = () => {
   const query = useQuery({
     queryKey: ["campaigns", workspaceId],
     queryFn: async (): Promise<Campaign[]> => {
-      const { data, error } = await supabase
-        .from("campaigns")
+      const { data, error } = await supabaseFrom('campaigns')
         .select(`
           id, name, status, color, created_at,
           links:links(count)

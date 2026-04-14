@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 
 interface AccessCheckResult {
   isLoading: boolean;
@@ -36,8 +37,7 @@ export function useAccessCheck(email: string | undefined): AccessCheckResult {
         });
 
         // Priority 1: Check workspace invitations
-        const inviteCheckPromise = supabase
-          .from("workspace_invitations")
+        const inviteCheckPromise = supabaseFrom('workspace_invitations')
           .select("id, workspace_id")
           .eq("email", email)
           .is("accepted_at", null)
@@ -71,8 +71,7 @@ export function useAccessCheck(email: string | undefined): AccessCheckResult {
               .select("id")
               .eq("owner_id", user.id)
               .limit(1),
-            supabase
-              .from("workspace_members")
+            supabaseFrom('workspace_members')
               .select("workspace_id")
               .eq("user_id", user.id)
               .limit(1),

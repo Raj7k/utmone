@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { notify } from "@/lib/notify";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -53,8 +54,7 @@ export default function TotpVerification() {
           .select("id")
           .eq("owner_id", currentUser.id);
 
-        const { data: memberWorkspaces } = await supabase
-          .from("workspace_members")
+        const { data: memberWorkspaces } = await supabaseFrom('workspace_members')
           .select("workspace_id")
           .eq("user_id", currentUser.id);
 

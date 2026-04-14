@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { notify } from "@/lib/notify";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -111,8 +112,7 @@ export default function EarlyAccessAdmin() {
   const approveMutation = useMutation({
     mutationFn: async ({ request, accessLevel }: { request: EarlyAccessRequest; accessLevel: number }) => {
       // Create invite (trigger will generate invite_token)
-      const { data: invite, error: inviteError } = await supabase
-        .from("early_access_invites")
+      const { data: invite, error: inviteError } = await supabaseFrom('early_access_invites')
         .insert({
           email: request.email,
           access_level: accessLevel,

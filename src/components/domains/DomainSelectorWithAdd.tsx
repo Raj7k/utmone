@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { Plus, Globe } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { DomainSetupWizard } from "./DomainSetupWizard";
 import { cn } from "@/lib/utils";
 
@@ -29,8 +30,7 @@ export const DomainSelectorWithAdd = ({
   const { data: verifiedDomains, refetch } = useQuery({
     queryKey: ["verified-domains", workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("domains")
+      const { data, error } = await supabaseFrom('domains')
         .select("id, domain, workspace_id, is_primary")
         .eq("is_verified", true)
         .or(`workspace_id.eq.${workspaceId},is_system_domain.eq.true`)

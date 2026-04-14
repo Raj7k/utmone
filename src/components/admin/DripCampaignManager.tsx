@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -30,8 +31,7 @@ export const DripCampaignManager = () => {
   const { data: campaigns } = useQuery({
     queryKey: ["email-campaigns"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("email_campaigns")
+      const { data, error } = await supabaseFrom('email_campaigns')
         .select("*")
         .eq("is_active", true)
         .order("created_at", { ascending: false });
@@ -45,8 +45,7 @@ export const DripCampaignManager = () => {
   const { data: schedules, isLoading } = useQuery({
     queryKey: ["drip-schedules"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("drip_campaign_schedules")
+      const { data, error } = await supabaseFrom('drip_campaign_schedules')
         .select("*, email_campaigns(campaign_type, subject)")
         .order("created_at", { ascending: false });
 
@@ -58,8 +57,7 @@ export const DripCampaignManager = () => {
   // Create schedule mutation
   const createMutation = useMutation({
     mutationFn: async (schedule: typeof newSchedule) => {
-      const { error } = await supabase
-        .from("drip_campaign_schedules")
+      const { error } = await supabaseFrom('drip_campaign_schedules')
         .insert(schedule);
 
       if (error) throw error;
@@ -83,8 +81,7 @@ export const DripCampaignManager = () => {
   // Toggle schedule mutation
   const toggleMutation = useMutation({
     mutationFn: async ({ id, is_active }: { id: string; is_active: boolean }) => {
-      const { error } = await supabase
-        .from("drip_campaign_schedules")
+      const { error } = await supabaseFrom('drip_campaign_schedules')
         .update({ is_active })
         .eq("id", id);
 
@@ -102,8 +99,7 @@ export const DripCampaignManager = () => {
   // Delete schedule mutation
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase
-        .from("drip_campaign_schedules")
+      const { error } = await supabaseFrom('drip_campaign_schedules')
         .delete()
         .eq("id", id);
 

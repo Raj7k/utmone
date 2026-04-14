@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ChevronUp, Plus, Sparkles, Clock, CheckCircle2, Lightbulb, Filter, Search } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useNotification } from "@/hooks/useNotification";
 
 interface RoadmapItem {
@@ -66,8 +67,7 @@ export default function PublicRoadmap() {
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return [];
-      const { data, error } = await supabase
-        .from("roadmap_votes")
+      const { data, error } = await supabaseFrom('roadmap_votes')
         .select("item_id")
         .eq("user_id", user.id);
       if (error) throw error;
@@ -83,15 +83,13 @@ export default function PublicRoadmap() {
 
       const hasVoted = userVotes.includes(itemId);
       if (hasVoted) {
-        const { error } = await supabase
-          .from("roadmap_votes")
+        const { error } = await supabaseFrom('roadmap_votes')
           .delete()
           .eq("item_id", itemId)
           .eq("user_id", user.id);
         if (error) throw error;
       } else {
-        const { error } = await supabase
-          .from("roadmap_votes")
+        const { error } = await supabaseFrom('roadmap_votes')
           .insert({ item_id: itemId, user_id: user.id });
         if (error) throw error;
       }

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TrendingUp, TrendingDown, DollarSign, ChevronRight } from "lucide-react";
@@ -44,8 +45,7 @@ export default function RevenueBentoCard({ workspaceId, days, context, preloaded
       const prevStartDateStr = prevStartDate.toISOString();
 
       // Fetch conversion events with revenue
-      const { data: conversions, error } = await supabase
-        .from("conversion_events")
+      const { data: conversions, error } = await supabaseFrom('conversion_events')
         .select(`
           event_value,
           attributed_at,
@@ -64,8 +64,7 @@ export default function RevenueBentoCard({ workspaceId, days, context, preloaded
       if (error) throw error;
 
       // Previous period conversions for trend
-      const { data: prevConversions } = await supabase
-        .from("conversion_events")
+      const { data: prevConversions } = await supabaseFrom('conversion_events')
         .select(`
           event_value,
           link_id,

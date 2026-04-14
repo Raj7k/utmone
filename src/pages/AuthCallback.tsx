@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { AuthLoadingScreen } from "@/components/loading/AuthLoadingScreen";
 import { notify } from "@/lib/notify";
 import { identifyUser } from "@/hooks/useUtmOneTracking";
@@ -16,8 +17,7 @@ const AuthCallback = () => {
     
     try {
       // Check if profile exists
-      const { data: existingProfile, error: checkError } = await supabase
-        .from("profiles")
+      const { data: existingProfile, error: checkError } = await supabaseFrom('profiles')
         .select("id")
         .eq("id", userId)
         .maybeSingle();
@@ -34,8 +34,7 @@ const AuthCallback = () => {
 
       // Create profile if missing (race condition fix)
       console.log("[AuthCallback] Profile missing, creating...");
-      const { error: insertError } = await supabase
-        .from("profiles")
+      const { error: insertError } = await supabaseFrom('profiles')
         .insert({
           id: userId,
           email: email,
@@ -97,8 +96,7 @@ const AuthCallback = () => {
         setStatusMessage("checking workspace...");
 
         // Priority 2: Check workspace_invitations table for email match
-        const { data: invitations } = await supabase
-          .from("workspace_invitations")
+        const { data: invitations } = await supabaseFrom('workspace_invitations')
           .select("token")
           .eq("email", userEmail)
           .is("accepted_at", null)
@@ -117,8 +115,7 @@ const AuthCallback = () => {
           .eq("owner_id", session.user.id)
           .limit(1);
           
-        const { data: memberWorkspaces } = await supabase
-          .from("workspace_members")
+        const { data: memberWorkspaces } = await supabaseFrom('workspace_members')
           .select("workspace_id")
           .eq("user_id", session.user.id)
           .limit(1);
@@ -132,8 +129,7 @@ const AuthCallback = () => {
         }
 
         // Priority 4: Check early_access_invites for valid unclaimed invite
-        const { data: validInvite } = await supabase
-          .from("early_access_invites")
+        const { data: validInvite } = await supabaseFrom('early_access_invites')
           .select("invite_token, claimed_at, access_level")
           .eq("email", userEmail)
           .gt("expires_at", new Date().toISOString())

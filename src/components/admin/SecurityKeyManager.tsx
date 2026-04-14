@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -41,8 +42,7 @@ export const SecurityKeyManager = () => {
   const { data: authenticators, isLoading } = useQuery({
     queryKey: ['user-authenticators'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('user_authenticators')
+      const { data, error } = await supabaseFrom('user_authenticators')
         .select('*')
         .order('created_at', { ascending: false });
       
@@ -132,8 +132,7 @@ export const SecurityKeyManager = () => {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase
-        .from('user_authenticators')
+      const { error } = await supabaseFrom('user_authenticators')
         .delete()
         .eq('id', id);
       

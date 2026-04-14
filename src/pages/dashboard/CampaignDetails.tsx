@@ -1,6 +1,7 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Download, MoreVertical, Archive, Trash2 } from "lucide-react";
@@ -37,8 +38,7 @@ export default function CampaignDetails() {
   const { data: campaign, isLoading: campaignLoading } = useQuery({
     queryKey: ["campaign", id],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("campaigns")
+      const { data, error } = await supabaseFrom('campaigns')
         .select("*")
         .eq("id", id)
         .single();
@@ -72,8 +72,7 @@ export default function CampaignDetails() {
       if (!links) return [];
 
       // Use denormalized campaign_id for faster queries
-      const { data: clicks, error } = await supabase
-        .from("link_clicks")
+      const { data: clicks, error } = await supabaseFrom('link_clicks')
         .select("link_id, id")
         .eq("campaign_id", id);
 
@@ -106,8 +105,7 @@ export default function CampaignDetails() {
 
   const deleteCampaignMutation = useMutation({
     mutationFn: async () => {
-      const { error } = await supabase
-        .from("campaigns")
+      const { error } = await supabaseFrom('campaigns')
         .delete()
         .eq("id", id);
 
@@ -125,8 +123,7 @@ export default function CampaignDetails() {
 
   const archiveCampaignMutation = useMutation({
     mutationFn: async () => {
-      const { error } = await supabase
-        .from("campaigns")
+      const { error } = await supabaseFrom('campaigns')
         .update({ status: "archived" })
         .eq("id", id);
 

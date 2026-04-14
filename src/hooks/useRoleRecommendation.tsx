@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { WorkspaceCapability } from "./useCapability";
 
 interface RoleRecommendation {
@@ -44,8 +45,7 @@ export const useAvailableCapabilities = () => {
   return useQuery({
     queryKey: ['available-capabilities'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('role_capabilities')
+      const { data, error } = await supabaseFrom('role_capabilities')
         .select('capability')
         .order('capability');
 

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { GaussianProcess } from "@/lib/gaussianProcess";
 
 interface AnomalyResult {
@@ -12,8 +13,7 @@ export const useTrafficAnomaly = (linkId: string) => {
   return useQuery({
     queryKey: ["traffic-anomaly", linkId],
     queryFn: async (): Promise<AnomalyResult> => {
-      const { data: clicks } = await supabase
-        .from("link_clicks")
+      const { data: clicks } = await supabaseFrom('link_clicks')
         .select("clicked_at")
         .eq("link_id", linkId)
         .gte("clicked_at", new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString())

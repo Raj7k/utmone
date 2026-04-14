@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -94,8 +95,7 @@ export default function LiveActivityRail({ workspaceId, preloadedClicks }: LiveA
     queryFn: async () => {
       if (!workspaceId) return [];
 
-      const { data, error } = await supabase
-        .from("link_clicks")
+      const { data, error } = await supabaseFrom('link_clicks')
         .select("id, city, country, device_type, clicked_at, workspace_id, links!inner(slug)")
         .eq("workspace_id", workspaceId)
         .order("clicked_at", { ascending: false })
@@ -124,8 +124,7 @@ export default function LiveActivityRail({ workspaceId, preloadedClicks }: LiveA
     queryFn: async () => {
       if (!workspaceId) return [];
 
-      const { data, error } = await supabase
-        .from("analytics_anomalies")
+      const { data, error } = await supabaseFrom('analytics_anomalies')
         .select("*")
         .eq("workspace_id", workspaceId)
         .eq("is_dismissed", false)
@@ -188,8 +187,7 @@ export default function LiveActivityRail({ workspaceId, preloadedClicks }: LiveA
         },
         async (payload) => {
           // Fetch full click data with link info
-          const { data } = await supabase
-            .from("link_clicks")
+          const { data } = await supabaseFrom('link_clicks')
             .select("id, city, country, device_type, clicked_at, links!inner(slug, workspace_id)")
             .eq("id", payload.new.id)
             .single();

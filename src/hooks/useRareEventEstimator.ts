@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { estimateConversionProbability, ProbabilityEstimate } from "@/lib/crossEntropy";
 
 interface RareEventEstimate {
@@ -23,14 +24,12 @@ export function useRareEventEstimator(linkId?: string, workspaceId?: string) {
         if (linkError) throw linkError;
 
         // Get click count
-        const { count: clicks } = await supabase
-          .from('link_clicks')
+        const { count: clicks } = await supabaseFrom('link_clicks')
           .select('*', { count: 'exact', head: true })
           .eq('link_id', linkId);
 
         // Get conversion count
-        const { count: conversions } = await supabase
-          .from('conversion_events')
+        const { count: conversions } = await supabaseFrom('conversion_events')
           .select('*', { count: 'exact', head: true })
           .eq('link_id', linkId)
           .eq('event_type', 'purchase');
@@ -48,13 +47,11 @@ export function useRareEventEstimator(linkId?: string, workspaceId?: string) {
         };
       } else if (workspaceId) {
         // Workspace-wide estimation
-        const { count: clicks } = await supabase
-          .from('link_clicks')
+        const { count: clicks } = await supabaseFrom('link_clicks')
           .select('*', { count: 'exact', head: true })
           .eq('workspace_id', workspaceId);
 
-        const { count: conversions } = await supabase
-          .from('conversion_events')
+        const { count: conversions } = await supabaseFrom('conversion_events')
           .select('*', { count: 'exact', head: true })
           .eq('workspace_id', workspaceId)
           .eq('event_type', 'purchase');

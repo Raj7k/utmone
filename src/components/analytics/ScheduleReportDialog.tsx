@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Calendar, Clock, Mail } from "lucide-react";
@@ -70,7 +71,7 @@ export function ScheduleReportDialog({ open, onOpenChange, workspaceId }: Schedu
       }
       nextSendAt.setHours(8, 0, 0, 0);
 
-      const { error } = await supabase.from('scheduled_reports').insert({
+      const { error } = await supabaseFrom('scheduled_reports').insert({
         workspace_id: workspaceId,
         template_name: values.template_name,
         frequency: values.frequency,

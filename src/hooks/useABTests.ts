@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { toast } from "sonner";
 import { calculateWinProbability, shouldStopTest } from "@/lib/bayesianOptimization";
 
@@ -39,8 +40,7 @@ export const useABTests = (workspaceId: string) => {
   const { data: tests = [], isLoading } = useQuery({
     queryKey: ["ab-tests", workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("ab_tests")
+      const { data, error } = await supabaseFrom('ab_tests')
         .select("*")
         .eq("workspace_id", workspaceId)
         .order("created_at", { ascending: false });
@@ -56,8 +56,7 @@ export const useABTests = (workspaceId: string) => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const { data, error } = await supabase
-        .from("ab_tests")
+      const { data, error } = await supabaseFrom('ab_tests')
         .insert({
           ...test,
           workspace_id: workspaceId,
@@ -80,8 +79,7 @@ export const useABTests = (workspaceId: string) => {
 
   const updateTest = useMutation({
     mutationFn: async ({ testId, updates }: { testId: string; updates: Partial<ABTest> }) => {
-      const { error } = await supabase
-        .from("ab_tests")
+      const { error } = await supabaseFrom('ab_tests')
         .update({ ...updates, updated_at: new Date().toISOString() })
         .eq("id", testId);
 
@@ -99,8 +97,7 @@ export const useABTests = (workspaceId: string) => {
   const getTestVariants = useQuery({
     queryKey: ["ab-test-variants"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("ab_test_variants")
+      const { data, error } = await supabaseFrom('ab_test_variants')
         .select("*")
         .order("variant_name");
 

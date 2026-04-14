@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -52,8 +53,7 @@ export function AlertConfigurations() {
   const { data: alerts, isLoading } = useQuery({
     queryKey: ['alert-configurations'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('alert_configurations')
+      const { data, error } = await supabaseFrom('alert_configurations')
         .select('*')
         .order('created_at', { ascending: false });
 
@@ -66,8 +66,7 @@ export function AlertConfigurations() {
     mutationFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
       
-      const { error } = await supabase
-        .from('alert_configurations')
+      const { error } = await supabaseFrom('alert_configurations')
         .insert({
           ...newAlert,
           email_recipients: newAlert.email_recipients ? newAlert.email_recipients.split(',').map(e => e.trim()) : [],
@@ -98,8 +97,7 @@ export function AlertConfigurations() {
 
   const toggleAlert = useMutation({
     mutationFn: async ({ id, enabled }: { id: string; enabled: boolean }) => {
-      const { error } = await supabase
-        .from('alert_configurations')
+      const { error } = await supabaseFrom('alert_configurations')
         .update({ is_enabled: enabled })
         .eq('id', id);
 
@@ -113,8 +111,7 @@ export function AlertConfigurations() {
 
   const deleteAlert = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase
-        .from('alert_configurations')
+      const { error } = await supabaseFrom('alert_configurations')
         .delete()
         .eq('id', id);
 

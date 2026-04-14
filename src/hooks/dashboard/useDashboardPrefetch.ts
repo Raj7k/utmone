@@ -1,6 +1,7 @@
 import { useCallback, useRef } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 
@@ -69,8 +70,7 @@ export const useDashboardPrefetch = () => {
           const now = new Date();
           const startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
           
-          const { count } = await supabase
-            .from("link_clicks")
+          const { count } = await supabaseFrom('link_clicks')
             .select("*", { count: "exact", head: true })
             .eq("workspace_id", workspaceId)
             .gte("clicked_at", startDate.toISOString());
@@ -125,8 +125,7 @@ export const useDashboardPrefetch = () => {
       queryClient.prefetchQuery({
         queryKey: ["field-events", workspaceId],
         queryFn: async () => {
-          const { data } = await supabase
-            .from("field_events")
+          const { data } = await supabaseFrom('field_events')
             .select("id, name, start_date, end_date, location_city, location_country, status")
             .eq("workspace_id", workspaceId)
             .order("start_date", { ascending: false })
@@ -208,8 +207,7 @@ export const useDashboardPrefetch = () => {
       queryClient.prefetchQuery({
         queryKey: ["analytics-data", workspaceId],
         queryFn: async () => {
-          const { count } = await supabase
-            .from("link_clicks")
+          const { count } = await supabaseFrom('link_clicks')
             .select("*", { count: "exact", head: true })
             .eq("workspace_id", workspaceId);
           return { totalClicks: count || 0 };
@@ -233,8 +231,7 @@ export const useDashboardPrefetch = () => {
       queryClient.prefetchQuery({
         queryKey: ["campaigns", workspaceId],
         queryFn: async () => {
-          const { data } = await supabase
-            .from("campaigns")
+          const { data } = await supabaseFrom('campaigns')
             .select("id, name, status, color, created_at")
             .eq("workspace_id", workspaceId)
             .order("created_at", { ascending: false })
@@ -263,8 +260,7 @@ export const useDashboardPrefetch = () => {
       queryClient.prefetchQuery({
         queryKey: ["user-profile", id],
         queryFn: async () => {
-          const { data } = await supabase
-            .from("profiles")
+          const { data } = await supabaseFrom('profiles')
             .select("id, full_name, email, avatar_url, timezone, language")
             .eq("id", id)
             .single();

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectSeparator } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -25,8 +26,7 @@ export const BulkFolderSelector = ({ value, onChange }: BulkFolderSelectorProps)
     queryFn: async () => {
       if (!currentWorkspace) return [];
       
-      const { data, error } = await supabase
-        .from('folders')
+      const { data, error } = await supabaseFrom('folders')
         .select('*')
         .eq('workspace_id', currentWorkspace.id)
         .order('name');
@@ -42,8 +42,7 @@ export const BulkFolderSelector = ({ value, onChange }: BulkFolderSelectorProps)
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
       
-      const { data, error } = await supabase
-        .from('folders')
+      const { data, error } = await supabaseFrom('folders')
         .insert({
           workspace_id: currentWorkspace!.id,
           name: name.trim(),

@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { notify } from "@/lib/notify";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { GitBranch, CheckCircle, AlertCircle, Clock, ExternalLink } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -39,8 +40,7 @@ export function GitHubBackupSettings() {
     queryFn: async () => {
       if (!workspace?.id) return null;
 
-      const { data, error } = await supabase
-        .from("integrations")
+      const { data, error } = await supabaseFrom('integrations')
         .select("*")
         .eq("workspace_id", workspace.id)
         .eq("provider", "github")
@@ -58,8 +58,7 @@ export function GitHubBackupSettings() {
     queryFn: async () => {
       if (!workspace?.id) return null;
 
-      const { data, error } = await supabase
-        .from("backup_schedules")
+      const { data, error } = await supabaseFrom('backup_schedules')
         .select("*")
         .eq("workspace_id", workspace.id)
         .eq("backup_type", "github")
@@ -77,8 +76,7 @@ export function GitHubBackupSettings() {
     queryFn: async () => {
       if (!workspace?.id) return [];
 
-      const { data, error } = await supabase
-        .from("backup_logs")
+      const { data, error } = await supabaseFrom('backup_logs')
         .select("*")
         .eq("workspace_id", workspace.id)
         .eq("backup_type", "github")

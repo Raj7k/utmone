@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { notify } from "@/lib/notify";
 import { Info } from "lucide-react";
 import { motion } from "framer-motion";
@@ -203,8 +204,7 @@ const Auth = () => {
               .eq("owner_id", session.user.id)
               .limit(1);
               
-            const { data: memberWorkspaces } = await supabase
-              .from("workspace_members")
+            const { data: memberWorkspaces } = await supabaseFrom('workspace_members')
               .select("workspace_id")
               .eq("user_id", session.user.id)
               .limit(1);
@@ -287,8 +287,7 @@ const Auth = () => {
 
       if (adminRole) {
         // Admin user - check for WebAuthn security keys
-        const { data: authenticators } = await supabase
-          .from('user_authenticators')
+        const { data: authenticators } = await supabaseFrom('user_authenticators')
           .select('id')
           .eq('user_id', data.user.id)
           .limit(1);
@@ -302,8 +301,7 @@ const Auth = () => {
       }
 
       // Check if TOTP 2FA is required (for non-admin users or admins without WebAuthn)
-      const { data: mfaSettings } = await supabase
-        .from('mfa_settings')
+      const { data: mfaSettings } = await supabaseFrom('mfa_settings')
         .select('is_enabled')
         .eq('user_id', data.user.id)
         .maybeSingle();

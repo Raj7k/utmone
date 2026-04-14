@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { notify } from "@/lib/notify";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -40,8 +41,7 @@ export function DirectInviteForm({ onSuccess }: Props) {
       const inviteToken = btoa(`${email}-${Date.now()}-${Math.random().toString(36).substring(2)}`);
       const duration = parseInt(durationDays);
 
-      const { error: inviteError } = await supabase
-        .from("early_access_invites")
+      const { error: inviteError } = await supabaseFrom('early_access_invites')
         .insert({
           email: email.toLowerCase(),
           invite_token: inviteToken,

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { supabaseFrom } from '@/lib/supabaseHelper';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -53,8 +54,7 @@ export function LumaPollingSetup({
   const saveApiKeyMutation = useMutation({
     mutationFn: async () => {
       // Store API key in flow's source_config
-      const { error } = await supabase
-        .from('event_bridge_flows')
+      const { error } = await supabaseFrom('event_bridge_flows')
         .update({
           source_config: {
             event_url: eventUrl,

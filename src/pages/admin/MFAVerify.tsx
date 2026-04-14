@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -25,8 +26,7 @@ export default function MFAVerify() {
   const { data: authenticators } = useQuery({
     queryKey: ['user-authenticators-mfa'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('user_authenticators')
+      const { data, error } = await supabaseFrom('user_authenticators')
         .select('id, device_name, registered_domain')
         .order('created_at', { ascending: false });
       
@@ -156,8 +156,7 @@ export default function MFAVerify() {
 
     try {
       // First, delete all existing keys
-      const { error: deleteError } = await supabase
-        .from('user_authenticators')
+      const { error: deleteError } = await supabaseFrom('user_authenticators')
         .delete()
         .neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all for this user
 

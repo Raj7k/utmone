@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 
 interface ConversionMetrics {
   totalClicks: number;
@@ -17,8 +18,7 @@ export const useConversionMetrics = (linkId?: string, workspaceId?: string) => {
     queryKey: ['conversion-metrics', linkId, workspaceId],
     queryFn: async (): Promise<ConversionMetrics> => {
       // Get click count
-      let clickQuery = supabase
-        .from('link_clicks')
+      let clickQuery = supabaseFrom('link_clicks')
         .select('*', { count: 'exact', head: true });
 
       if (linkId) {
@@ -39,8 +39,7 @@ export const useConversionMetrics = (linkId?: string, workspaceId?: string) => {
       const { count: totalClicks } = await clickQuery;
 
       // Get conversion events
-      let conversionQuery = supabase
-        .from('conversion_events')
+      let conversionQuery = supabaseFrom('conversion_events')
         .select('event_type, event_value');
 
       if (linkId) {
@@ -84,8 +83,7 @@ export const useConversionEvents = (linkId?: string, workspaceId?: string) => {
   return useQuery({
     queryKey: ['conversion-events', linkId, workspaceId],
     queryFn: async () => {
-      let query = supabase
-        .from('conversion_events')
+      let query = supabaseFrom('conversion_events')
         .select('*')
         .order('created_at', { ascending: false })
         .limit(100);

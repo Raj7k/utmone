@@ -1,5 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { queryKeys, defaultQueryOptions } from "./queryOptimizations";
 
 /**
@@ -52,14 +53,12 @@ export const useWorkspaceAnalytics = (workspaceId: string | undefined, days: num
       const startDate = new Date();
       startDate.setDate(startDate.getDate() - days);
 
-      const { count: totalClicks } = await supabase
-        .from("link_clicks")
+      const { count: totalClicks } = await supabaseFrom('link_clicks')
         .select("*", { count: "exact", head: true })
         .eq("workspace_id", workspaceId)
         .gte("clicked_at", startDate.toISOString());
 
-      const { count: uniqueClicks } = await supabase
-        .from("link_clicks")
+      const { count: uniqueClicks } = await supabaseFrom('link_clicks')
         .select("visitor_id", { count: "exact", head: true })
         .eq("workspace_id", workspaceId)
         .gte("clicked_at", startDate.toISOString());

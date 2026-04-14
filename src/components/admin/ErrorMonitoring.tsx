@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { supabaseFrom } from '@/lib/supabaseHelper';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { AlertTriangle, XCircle, AlertCircle, TrendingUp } from 'lucide-react';
@@ -11,8 +12,7 @@ const ErrorMonitoring = () => {
   const { data: errorEvents, isLoading } = useQuery({
     queryKey: ['error-events'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('admin_audit_logs')
+      const { data, error } = await supabaseFrom('admin_audit_logs')
         .select('*')
         .or('action.ilike.%error%,action.ilike.%failed%')
         .order('created_at', { ascending: false })

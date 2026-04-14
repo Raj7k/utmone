@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useAuthContext } from "@/components/auth/CachedAuthProvider";
 import { queryKeys } from "@/lib/queryConfig";
 
@@ -32,8 +33,7 @@ export const useCurrentUser = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return { user: null, profile: null };
 
-      const { data: profile } = await supabase
-        .from('profiles')
+      const { data: profile } = await supabaseFrom('profiles')
         .select('id, email, full_name, avatar_url, timezone')
         .eq('id', user.id)
         .single();

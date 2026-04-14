@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useWorkspace } from "@/hooks/workspace";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -30,8 +31,7 @@ export const BulkTagInput = ({ value, onChange }: BulkTagInputProps) => {
 
       const linkIds = links.map(l => l.id);
       
-      const { data, error } = await supabase
-        .from('link_tags')
+      const { data, error } = await supabaseFrom('link_tags')
         .select('tag_name')
         .in('link_id', linkIds)
         .order('tag_name');

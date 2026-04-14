@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Activity } from "lucide-react";
 import { useWorkspace } from "@/hooks/workspace";
 import { LazyAreaChart, Area, ResponsiveContainer, Tooltip, LazyChartContainer } from "@/components/charts/LazyCharts";
@@ -23,8 +24,7 @@ export const AnalyticsPulseTile = () => {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
 
-      const { count, error } = await supabase
-        .from("link_clicks")
+      const { count, error } = await supabaseFrom('link_clicks')
         .select("id", { count: "exact", head: true })
         .eq("workspace_id", currentWorkspace.id)
         .gte("clicked_at", today.toISOString());
@@ -46,8 +46,7 @@ export const AnalyticsPulseTile = () => {
       sevenDaysAgo.setHours(0, 0, 0, 0);
 
       // @ts-ignore - Suppress deep type inference issue with large Supabase schema
-      const result: any = await supabase
-        .from("link_clicks")
+      const result: any = await supabaseFrom('link_clicks')
         .select("clicked_at")
         .eq("workspace_id", currentWorkspace.id)
         .gte("clicked_at", sevenDaysAgo.toISOString())

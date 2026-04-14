@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useToast } from "@/hooks/use-toast";
 import { useMfaStatus } from "@/hooks/auth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -38,8 +39,7 @@ export function TotpSettings() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
 
-      const { error } = await supabase
-        .from('mfa_settings')
+      const { error } = await supabaseFrom('mfa_settings')
         .update({ is_enabled: false })
         .eq('user_id', user.id);
 

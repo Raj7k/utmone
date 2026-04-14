@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useCallback, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useAuthSession } from "@/hooks/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -146,8 +147,7 @@ export const TourProvider = ({ children }: { children: ReactNode }) => {
     navigate("/dashboard");
 
     if (user && completed) {
-      await supabase
-        .from("profiles")
+      await supabaseFrom('profiles')
         .update({ has_completed_tour: true })
         .eq("id", user.id);
     }

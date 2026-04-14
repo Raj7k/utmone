@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { supabaseFrom } from '@/lib/supabaseHelper';
 import { notify } from '@/lib/notify';
 import { useWorkspace } from '@/hooks/workspace';
 
@@ -27,8 +28,7 @@ export const useAPIKeys = () => {
     queryFn: async () => {
       if (!currentWorkspace?.id) return [];
       
-      const { data, error } = await supabase
-        .from('api_keys')
+      const { data, error } = await supabaseFrom('api_keys')
         .select('*')
         .eq('workspace_id', currentWorkspace.id)
         .order('created_at', { ascending: false });
@@ -70,8 +70,7 @@ export const useAPIKeys = () => {
 
   const updateAPIKey = useMutation({
     mutationFn: async ({ id, ...updates }: Partial<APIKey> & { id: string }) => {
-      const { data, error } = await supabase
-        .from('api_keys')
+      const { data, error } = await supabaseFrom('api_keys')
         .update(updates)
         .eq('id', id)
         .select()
@@ -91,8 +90,7 @@ export const useAPIKeys = () => {
 
   const revokeAPIKey = useMutation({
     mutationFn: async (keyId: string) => {
-      const { error } = await supabase
-        .from('api_keys')
+      const { error } = await supabaseFrom('api_keys')
         .update({ is_active: false })
         .eq('id', keyId);
 
@@ -109,8 +107,7 @@ export const useAPIKeys = () => {
 
   const deleteAPIKey = useMutation({
     mutationFn: async (keyId: string) => {
-      const { error } = await supabase
-        .from('api_keys')
+      const { error } = await supabaseFrom('api_keys')
         .delete()
         .eq('id', keyId);
 

@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 
 // Link page status type - simple string until we add database enum
 export type LinkPageStatus = 'draft' | 'published';
@@ -70,7 +71,7 @@ export interface LinkPageEventPayload {
 
 export async function sendLinkPageEvent(payload: LinkPageEventPayload): Promise<void> {
   try {
-    await supabase.from('link_page_events').insert({
+    await supabaseFrom('link_page_events').insert({
       page_id: payload.pageId,
       block_id: payload.blockId || null,
       event_type: payload.eventType,
@@ -85,8 +86,7 @@ export async function sendLinkPageEvent(payload: LinkPageEventPayload): Promise<
 }
 
 export async function fetchPublishedPage(slug: string) {
-  const { data, error } = await supabase
-    .from('link_pages')
+  const { data, error } = await supabaseFrom('link_pages')
     .select('*')
     .eq('slug', slug)
     .eq('is_published', true)
@@ -101,8 +101,7 @@ export interface PublicLinkPageWithBlocks extends PublicLinkPageResponse {
 }
 
 export async function fetchPublishedPageWithBlocks(slug: string): Promise<PublicLinkPageWithBlocks | null> {
-  const { data: page, error: pageError } = await supabase
-    .from('link_pages')
+  const { data: page, error: pageError } = await supabaseFrom('link_pages')
     .select('*')
     .eq('slug', slug)
     .eq('is_published', true)
@@ -110,8 +109,7 @@ export async function fetchPublishedPageWithBlocks(slug: string): Promise<Public
   
   if (pageError || !page) return null;
 
-  const { data: blocks, error: blocksError } = await supabase
-    .from('link_page_blocks')
+  const { data: blocks, error: blocksError } = await supabaseFrom('link_page_blocks')
     .select('*')
     .eq('page_id', page.id)
     .eq('is_enabled', true)

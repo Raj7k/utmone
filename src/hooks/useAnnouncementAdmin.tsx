@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { AnnouncementConfig } from "@/lib/announcementConfig";
 import { notify } from "@/lib/notify";
 import { useAuditLog } from "@/hooks/useAuditLog";
@@ -12,8 +13,7 @@ export const useAnnouncementAdmin = () => {
   const { data: announcements, isLoading } = useQuery({
     queryKey: ["announcement-configs"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("announcement_configs")
+      const { data, error } = await supabaseFrom('announcement_configs')
         .select("*")
         .order("priority", { ascending: false });
 
@@ -28,18 +28,15 @@ export const useAnnouncementAdmin = () => {
     startDate.setDate(startDate.getDate() - days);
 
     const [impressions, clicks, dismissals] = await Promise.all([
-      supabase
-        .from("announcement_impressions")
+      supabaseFrom('announcement_impressions')
         .select("*", { count: "exact" })
         .eq("announcement_id", announcementId)
         .gte("created_at", startDate.toISOString()),
-      supabase
-        .from("announcement_clicks")
+      supabaseFrom('announcement_clicks')
         .select("*", { count: "exact" })
         .eq("announcement_id", announcementId)
         .gte("created_at", startDate.toISOString()),
-      supabase
-        .from("announcement_dismissals")
+      supabaseFrom('announcement_dismissals')
         .select("*", { count: "exact" })
         .eq("announcement_id", announcementId)
         .gte("created_at", startDate.toISOString()),
@@ -63,8 +60,7 @@ export const useAnnouncementAdmin = () => {
     mutationFn: async (config: Partial<AnnouncementConfig>) => {
       const { data: { user } } = await supabase.auth.getUser();
       
-      const { data, error } = await supabase
-        .from("announcement_configs")
+      const { data, error } = await supabaseFrom('announcement_configs')
         .insert({
           config_id: config.id!,
           message: config.message!,
@@ -101,8 +97,7 @@ export const useAnnouncementAdmin = () => {
   // Update announcement
   const updateMutation = useMutation({
     mutationFn: async ({ id, config }: { id: string; config: Partial<AnnouncementConfig> }) => {
-      const { data, error } = await supabase
-        .from("announcement_configs")
+      const { data, error } = await supabaseFrom('announcement_configs')
         .update({
           message: config.message,
           cta_text: config.ctaText,
@@ -140,14 +135,12 @@ export const useAnnouncementAdmin = () => {
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
       // Fetch announcement before deleting for audit log
-      const { data: announcement } = await supabase
-        .from("announcement_configs")
+      const { data: announcement } = await supabaseFrom('announcement_configs')
         .select("*")
         .eq("id", id)
         .single();
 
-      const { error } = await supabase
-        .from("announcement_configs")
+      const { error } = await supabaseFrom('announcement_configs')
         .delete()
         .eq("id", id);
 
@@ -177,8 +170,7 @@ export const useAnnouncementAdmin = () => {
   // Toggle active status
   const toggleActiveMutation = useMutation({
     mutationFn: async ({ id, isActive }: { id: string; isActive: boolean }) => {
-      const { error } = await supabase
-        .from("announcement_configs")
+      const { error } = await supabaseFrom('announcement_configs')
         .update({ is_active: isActive })
         .eq("id", id);
 

@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useToast } from "@/hooks/use-toast";
 import { useAppSession } from "@/contexts/AppSessionContext";
 
@@ -12,8 +13,7 @@ export const useActivationTracking = () => {
     mutationFn: async () => {
       if (!user) throw new Error("Not authenticated");
 
-      const { error } = await supabase
-        .from("profiles")
+      const { error } = await supabaseFrom('profiles')
         .update({ first_link_created_at: new Date().toISOString() })
         .eq("id", user.id)
         .is("first_link_created_at", null);
@@ -33,8 +33,7 @@ export const useActivationTracking = () => {
     mutationFn: async () => {
       if (!user) throw new Error("Not authenticated");
 
-      const { error } = await supabase
-        .from("profiles")
+      const { error } = await supabaseFrom('profiles')
         .update({ first_qr_generated_at: new Date().toISOString() })
         .eq("id", user.id)
         .is("first_qr_generated_at", null);
@@ -54,8 +53,7 @@ export const useActivationTracking = () => {
     mutationFn: async () => {
       if (!user) throw new Error("Not authenticated");
 
-      const { error } = await supabase
-        .from("profiles")
+      const { error } = await supabaseFrom('profiles')
         .update({ first_analytics_viewed_at: new Date().toISOString() })
         .eq("id", user.id)
         .is("first_analytics_viewed_at", null);
@@ -75,16 +73,14 @@ export const useActivationTracking = () => {
     mutationFn: async () => {
       if (!user) throw new Error("Not authenticated");
 
-      const { data: profile } = await supabase
-        .from("profiles")
+      const { data: profile } = await supabaseFrom('profiles')
         .select("team_members_invited_count")
         .eq("id", user.id)
         .single();
 
       const currentCount = profile?.team_members_invited_count || 0;
 
-      const { error } = await supabase
-        .from("profiles")
+      const { error } = await supabaseFrom('profiles')
         .update({ team_members_invited_count: currentCount + 1 })
         .eq("id", user.id);
 

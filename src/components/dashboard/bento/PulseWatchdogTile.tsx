@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -19,8 +20,7 @@ export const PulseWatchdogTile = () => {
     queryFn: async () => {
       if (!currentWorkspace?.id) return null;
       
-      const { data, error } = await supabase
-        .from("workspace_notification_settings")
+      const { data, error } = await supabaseFrom('workspace_notification_settings')
         .select("*")
         .eq("workspace_id", currentWorkspace.id)
         .maybeSingle();
@@ -37,8 +37,7 @@ export const PulseWatchdogTile = () => {
     queryFn: async () => {
       if (!currentWorkspace?.id) return [];
       
-      const { data, error } = await supabase
-        .from("analytics_anomalies")
+      const { data, error } = await supabaseFrom('analytics_anomalies')
         .select("*, links(title, slug)")
         .eq("workspace_id", currentWorkspace.id)
         .eq("is_dismissed", false)

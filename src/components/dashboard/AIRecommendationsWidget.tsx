@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Flame, AlertTriangle, Lightbulb, TrendingUp, X } from "lucide-react";
@@ -38,8 +39,7 @@ export const AIRecommendationsWidget = ({ workspaceId }: AIRecommendationsWidget
     queryKey: ['ai-recommendations', workspaceId],
     enabled: !!workspaceId,
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('ai_recommendations')
+      const { data, error } = await supabaseFrom('ai_recommendations')
         .select('*')
         .eq('workspace_id', workspaceId)
         .eq('dismissed', false)
@@ -53,8 +53,7 @@ export const AIRecommendationsWidget = ({ workspaceId }: AIRecommendationsWidget
 
   const dismissMutation = useMutation({
     mutationFn: async (recommendationId: string) => {
-      const { error } = await supabase
-        .from('ai_recommendations')
+      const { error } = await supabaseFrom('ai_recommendations')
         .update({ 
           dismissed: true, 
           dismissed_at: new Date().toISOString(),

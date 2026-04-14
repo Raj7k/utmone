@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import InsightSheet from "./InsightSheet";
 import { TrendingUp, TrendingDown, Megaphone, MousePointer, Target, Link2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -39,8 +40,7 @@ export default function CampaignSheet({
       const startDate = new Date();
       startDate.setDate(startDate.getDate() - days);
 
-      const { data: campaigns } = await supabase
-        .from("campaigns")
+      const { data: campaigns } = await supabaseFrom('campaigns')
         .select(`
           id,
           name,

@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { isValidLinkPageSlug } from "@/lib/linkPages";
 import { useToast } from "@/components/ui/use-toast";
 import type { LinkPageTemplate } from "@/config/linkPageTemplates";
@@ -30,8 +31,7 @@ export const useLinkPages = (workspaceId?: string, _range?: DateRange) => {
     queryKey: ["link-pages", workspaceId],
     queryFn: async () => {
       if (!workspaceId) return { pages: [], count: 0 };
-      const { data, error, count } = await supabase
-        .from("link_pages")
+      const { data, error, count } = await supabaseFrom('link_pages')
         .select("*", { count: 'exact' })
         .eq("workspace_id", workspaceId)
         .order("updated_at", { ascending: false });
@@ -48,8 +48,7 @@ export const useLinkPage = (pageId?: string) => {
     queryKey: ["link-page", pageId],
     queryFn: async () => {
       if (!pageId) return null;
-      const { data, error } = await supabase
-        .from("link_pages")
+      const { data, error } = await supabaseFrom('link_pages')
         .select("*")
         .eq("id", pageId)
         .single();
@@ -72,8 +71,7 @@ export const useCreateLinkPage = (workspaceId?: string) => {
 
       const { data: user } = await supabase.auth.getUser();
       
-      const { data, error } = await supabase
-        .from("link_pages")
+      const { data, error } = await supabaseFrom('link_pages')
         .insert({
           workspace_id: workspaceId,
           title: payload.title,
@@ -111,8 +109,7 @@ export const useUpdateLinkPage = () => {
       scheduled_publish_at?: string | null;
     }) => {
       const { id, ...changes } = payload;
-      const { data, error } = await supabase
-        .from("link_pages")
+      const { data, error } = await supabaseFrom('link_pages')
         .update(changes)
         .eq("id", id)
         .select()
@@ -134,8 +131,7 @@ export const usePublishLinkPage = () => {
   const { toast } = useToast();
   return useMutation({
     mutationFn: async ({ id, publish }: { id: string; publish: boolean }) => {
-      const { data, error } = await supabase
-        .from("link_pages")
+      const { data, error } = await supabaseFrom('link_pages')
         .update({ is_published: publish })
         .eq("id", id)
         .select()
@@ -157,7 +153,7 @@ export const useDeleteLinkPage = () => {
   const { toast } = useToast();
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from("link_pages").delete().eq("id", id);
+      const { error } = await supabaseFrom('link_pages').delete().eq("id", id);
       if (error) throw error;
       return id;
     },
@@ -175,8 +171,7 @@ export const useDuplicateLinkPage = (workspaceId?: string) => {
   return useMutation({
     mutationFn: async (pageId: string) => {
       if (!workspaceId) throw new Error("Missing workspace");
-      const { data, error } = await supabase
-        .from("link_pages")
+      const { data, error } = await supabaseFrom('link_pages')
         .select("*")
         .eq("id", pageId)
         .single();
@@ -187,8 +182,7 @@ export const useDuplicateLinkPage = (workspaceId?: string) => {
       
       const { data: user } = await supabase.auth.getUser();
       
-      const { data: created, error: createError } = await supabase
-        .from("link_pages")
+      const { data: created, error: createError } = await supabaseFrom('link_pages')
         .insert({
           workspace_id: workspaceId,
           title: `${page.title} (Copy)`,
@@ -216,8 +210,7 @@ export const useLinkPageCount = (workspaceId?: string) => {
     queryKey: ["link-page-count", workspaceId],
     queryFn: async () => {
       if (!workspaceId) return 0;
-      const { count, error } = await supabase
-        .from("link_pages")
+      const { count, error } = await supabaseFrom('link_pages')
         .select("*", { count: 'exact', head: true })
         .eq("workspace_id", workspaceId);
 
@@ -240,8 +233,7 @@ export const useCreateLinkPageFromTemplate = (workspaceId?: string) => {
       const { data: user } = await supabase.auth.getUser();
       
       // Create the page
-      const { data: page, error: pageError } = await supabase
-        .from("link_pages")
+      const { data: page, error: pageError } = await supabaseFrom('link_pages')
         .insert({
           workspace_id: workspaceId,
           title: payload.title,
@@ -264,8 +256,7 @@ export const useCreateLinkPageFromTemplate = (workspaceId?: string) => {
           is_enabled: true,
         }));
 
-        const { error: blocksError } = await supabase
-          .from("link_page_blocks")
+        const { error: blocksError } = await supabaseFrom('link_page_blocks')
           .insert(blocksToInsert);
 
         if (blocksError) {

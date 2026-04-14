@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
@@ -43,8 +44,7 @@ export const PixelDebugger = () => {
     queryKey: ['pixel-config', currentWorkspace?.id],
     queryFn: async () => {
       if (!currentWorkspace?.id) return null;
-      const { data, error } = await supabase
-        .from('pixel_configs')
+      const { data, error } = await supabaseFrom('pixel_configs')
         .select('pixel_id')
         .eq('workspace_id', currentWorkspace.id)
         .eq('is_active', true)
@@ -65,8 +65,7 @@ export const PixelDebugger = () => {
     queryFn: async () => {
       if (!currentWorkspace?.id) return [];
       
-      const { data, error } = await supabase
-        .from('conversion_events')
+      const { data, error } = await supabaseFrom('conversion_events')
         .select('id, event_type, event_name, visitor_id, user_identifier, event_value, created_at, attributed_at, metadata')
         .eq('workspace_id', currentWorkspace.id)
         .order('created_at', { ascending: false })

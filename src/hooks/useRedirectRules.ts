@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { toast } from "sonner";
 
 export interface RedirectRule {
@@ -23,8 +24,7 @@ export const useRedirectRules = (workspaceId: string) => {
   const { data: rules = [], isLoading } = useQuery({
     queryKey: ["redirect-rules", workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("redirect_rules")
+      const { data, error } = await supabaseFrom('redirect_rules')
         .select("*")
         .eq("workspace_id", workspaceId)
         .order("priority", { ascending: false });
@@ -40,8 +40,7 @@ export const useRedirectRules = (workspaceId: string) => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const { data, error } = await supabase
-        .from("redirect_rules")
+      const { data, error } = await supabaseFrom('redirect_rules')
         .insert({
           ...rule,
           workspace_id: workspaceId,
@@ -64,8 +63,7 @@ export const useRedirectRules = (workspaceId: string) => {
 
   const updateRule = useMutation({
     mutationFn: async ({ ruleId, updates }: { ruleId: string; updates: Partial<RedirectRule> }) => {
-      const { error } = await supabase
-        .from("redirect_rules")
+      const { error } = await supabaseFrom('redirect_rules')
         .update(updates)
         .eq("id", ruleId);
 
@@ -82,8 +80,7 @@ export const useRedirectRules = (workspaceId: string) => {
 
   const deleteRule = useMutation({
     mutationFn: async (ruleId: string) => {
-      const { error } = await supabase
-        .from("redirect_rules")
+      const { error } = await supabaseFrom('redirect_rules')
         .delete()
         .eq("id", ruleId);
 

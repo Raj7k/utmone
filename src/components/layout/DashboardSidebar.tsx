@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useQuery } from "@tanstack/react-query";
 import { notify } from "@/lib/notify";
 import { useTheme } from "next-themes";
@@ -106,8 +107,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
       
-      const { data, error } = await supabase
-        .from('profiles')
+      const { data, error } = await supabaseFrom('profiles')
         .select('full_name, email, avatar_url')
         .eq('id', user.id)
         .single();

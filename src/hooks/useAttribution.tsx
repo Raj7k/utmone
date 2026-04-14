@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 
 export type AttributionModel = "linear" | "time_decay" | "position" | "cross_device";
 
@@ -128,8 +129,7 @@ export const useIdentityGraph = (workspaceId: string | undefined) => {
     queryFn: async () => {
       if (!workspaceId) return [];
 
-      const { data, error } = await supabase
-        .from('identity_edges')
+      const { data, error } = await supabaseFrom('identity_edges')
         .select('*')
         .eq('workspace_id', workspaceId)
         .gte('confidence', 0.5)
@@ -187,8 +187,7 @@ export const useImportBatches = (workspaceId: string | undefined) => {
     queryFn: async () => {
       if (!workspaceId) return [];
 
-      const { data, error } = await supabase
-        .from('import_batches')
+      const { data, error } = await supabaseFrom('import_batches')
         .select('*')
         .eq('workspace_id', workspaceId)
         .order('created_at', { ascending: false })

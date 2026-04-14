@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useWorkspace } from "@/hooks/workspace";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -31,8 +32,7 @@ export const TimelineAuditViewer = () => {
     queryFn: async () => {
       if (!currentWorkspace?.id) return [];
 
-      let query = supabase
-        .from('audit_events')
+      let query = supabaseFrom('audit_events')
         .select('*')
         .eq('workspace_id', currentWorkspace.id)
         .order('created_at', { ascending: false })

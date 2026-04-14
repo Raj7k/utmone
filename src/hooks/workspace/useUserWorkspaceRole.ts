@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useAppSession } from "@/contexts/AppSessionContext";
 
 /**
@@ -25,8 +26,7 @@ export const useUserWorkspaceRole = (workspaceId: string | undefined) => {
       if (workspace?.owner_id === userId) return 'owner';
 
       // Check workspace_members role
-      const { data: member } = await supabase
-        .from('workspace_members')
+      const { data: member } = await supabaseFrom('workspace_members')
         .select('role')
         .eq('workspace_id', workspaceId)
         .eq('user_id', userId)

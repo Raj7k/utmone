@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { toast } from "sonner";
 
 export interface CustomReport {
@@ -22,8 +23,7 @@ export const useCustomReports = (workspaceId: string) => {
   const { data: reports = [], isLoading } = useQuery({
     queryKey: ["custom-reports", workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("custom_reports")
+      const { data, error } = await supabaseFrom('custom_reports')
         .select("*")
         .eq("workspace_id", workspaceId)
         .order("created_at", { ascending: false });
@@ -39,8 +39,7 @@ export const useCustomReports = (workspaceId: string) => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const { data, error } = await supabase
-        .from("custom_reports")
+      const { data, error } = await supabaseFrom('custom_reports')
         .insert({
           ...report,
           workspace_id: workspaceId,
@@ -63,8 +62,7 @@ export const useCustomReports = (workspaceId: string) => {
 
   const updateReport = useMutation({
     mutationFn: async ({ reportId, updates }: { reportId: string; updates: Partial<CustomReport> }) => {
-      const { error } = await supabase
-        .from("custom_reports")
+      const { error } = await supabaseFrom('custom_reports')
         .update({ ...updates, updated_at: new Date().toISOString() })
         .eq("id", reportId);
 
@@ -81,8 +79,7 @@ export const useCustomReports = (workspaceId: string) => {
 
   const deleteReport = useMutation({
     mutationFn: async (reportId: string) => {
-      const { error } = await supabase
-        .from("custom_reports")
+      const { error } = await supabaseFrom('custom_reports')
         .delete()
         .eq("id", reportId);
 

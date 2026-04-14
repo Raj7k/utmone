@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Sparkles, RefreshCw, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { notify } from "@/lib/notify";
 
@@ -28,8 +29,7 @@ export const AIInsightCard = ({ workspaceId }: AIInsightCardProps) => {
 
   const refreshMutation = useMutation({
     mutationFn: async () => {
-      await supabase
-        .from('ai_insights')
+      await supabaseFrom('ai_insights')
         .delete()
         .eq('workspace_id', workspaceId)
         .eq('insight_type', 'analytics_summary');

@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { notify } from "@/lib/notify";
 import { getFriendlyErrorMessage } from "@/lib/errorMessages";
 import { useAppSession } from "@/contexts/AppSessionContext";
@@ -57,8 +58,7 @@ export const useClientWorkspaces = () => {
             .from("workspaces")
             .select("*")
             .eq("owner_id", userId),
-          supabase
-            .from("workspace_members")
+          supabaseFrom('workspace_members')
             .select(`workspace_id, role, workspaces (*)`)
             .eq("user_id", userId),
         ]);
@@ -130,8 +130,7 @@ export const useClientWorkspaces = () => {
 
       if (error) throw error;
 
-      await supabase
-        .from("workspace_branding")
+      await supabaseFrom('workspace_branding')
         .insert({
           workspace_id: data.id,
           company_name: name,

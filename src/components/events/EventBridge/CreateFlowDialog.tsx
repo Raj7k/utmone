@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { supabaseFrom } from '@/lib/supabaseHelper';
 import { useWorkspace } from '@/hooks/workspace';
 import {
   Dialog,
@@ -72,8 +73,7 @@ export function CreateFlowDialog({ open, onOpenChange }: CreateFlowDialogProps) 
     mutationFn: async () => {
       if (!currentWorkspace?.id) throw new Error('No workspace selected');
 
-      const { data, error } = await supabase
-        .from('event_bridge_flows')
+      const { data, error } = await supabaseFrom('event_bridge_flows')
         .insert({
           workspace_id: currentWorkspace.id,
           name,

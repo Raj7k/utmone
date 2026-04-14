@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -48,8 +49,7 @@ export const AdminDirectInvite = () => {
       const expiryDate = getExpiryDate();
       
       // Create invite record with plan tier
-      const { error: inviteError } = await supabase
-        .from("early_access_invites")
+      const { error: inviteError } = await supabaseFrom('early_access_invites')
         .insert({
           email: email.toLowerCase(),
           invite_token: inviteToken,

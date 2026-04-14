@@ -1,6 +1,7 @@
 import { useEffect, useCallback, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { supabaseFrom } from '@/lib/supabaseHelper';
 import { getSessionData } from '@/lib/sessionManager';
 import { subDays } from 'date-fns';
 
@@ -112,16 +113,14 @@ export const useLandingAnalytics = (dateRangeDays: number = 30) => {
       const startDate = subDays(new Date(), dateRangeDays).toISOString();
 
       // Get sessions per variant
-      const { data: sessionsData, error: sessionsError } = await supabase
-        .from('landing_page_sessions')
+      const { data: sessionsData, error: sessionsError } = await supabaseFrom('landing_page_sessions')
         .select('hero_variant')
         .gte('created_at', startDate);
 
       if (sessionsError) throw sessionsError;
 
       // Get events per variant
-      const { data: eventsData, error: eventsError } = await supabase
-        .from('landing_page_events')
+      const { data: eventsData, error: eventsError } = await supabaseFrom('landing_page_events')
         .select('*')
         .gte('created_at', startDate);
 

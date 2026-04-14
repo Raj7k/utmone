@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { startOfDay, subDays, format, eachDayOfInterval, startOfWeek, startOfMonth, eachWeekOfInterval, eachMonthOfInterval } from "date-fns";
 
 export type TimeSeriesGranularity = "daily" | "weekly" | "monthly";
@@ -31,8 +32,7 @@ export const useClickTimeSeries = ({
       const endDate = new Date();
       const startDate = subDays(endDate, days);
 
-      let query = supabase
-        .from("link_clicks")
+      let query = supabaseFrom('link_clicks')
         .select("clicked_at, is_unique, link_id, workspace_id, links!inner(utm_campaign)")
         .gte("clicked_at", startDate.toISOString())
         .lte("clicked_at", endDate.toISOString());

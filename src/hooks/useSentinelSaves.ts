@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 
 interface SentinelSave {
   id: string;
@@ -34,8 +35,7 @@ export function useSentinelSaves(workspaceId: string | undefined, days: number =
       const startDate = new Date();
       startDate.setDate(startDate.getDate() - days);
 
-      const { data, error } = await supabase
-        .from("sentinel_saves")
+      const { data, error } = await supabaseFrom('sentinel_saves')
         .select("*")
         .eq("workspace_id", workspaceId)
         .gte("saved_at", startDate.toISOString())
@@ -84,8 +84,7 @@ export function useLinkSentinelSaves(linkId: string | undefined) {
     queryFn: async (): Promise<SentinelSave[]> => {
       if (!linkId) return [];
 
-      const { data, error } = await supabase
-        .from("sentinel_saves")
+      const { data, error } = await supabaseFrom('sentinel_saves')
         .select("*")
         .eq("link_id", linkId)
         .order("saved_at", { ascending: false })

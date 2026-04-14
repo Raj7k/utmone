@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { notify } from "@/lib/notify";
 import type { LinkPageBlockType } from "@/lib/linkPages";
 import type { Json } from "@/integrations/supabase/types";
@@ -38,8 +39,7 @@ export function useLinkPageBlocks(pageId: string | undefined) {
     queryFn: async () => {
       if (!pageId) return [];
       
-      const { data, error } = await supabase
-        .from("link_page_blocks")
+      const { data, error } = await supabaseFrom('link_page_blocks')
         .select("*")
         .eq("page_id", pageId)
         .order("order_index", { ascending: true });
@@ -57,8 +57,7 @@ export function useCreateBlock() {
   return useMutation({
     mutationFn: async (input: CreateBlockInput) => {
       // Get max order_index for this page
-      const { data: existingBlocks } = await supabase
-        .from("link_page_blocks")
+      const { data: existingBlocks } = await supabaseFrom('link_page_blocks')
         .select("order_index")
         .eq("page_id", input.page_id)
         .order("order_index", { ascending: false })
@@ -66,8 +65,7 @@ export function useCreateBlock() {
 
       const maxOrder = existingBlocks?.[0]?.order_index ?? -1;
 
-      const { data, error } = await supabase
-        .from("link_page_blocks")
+      const { data, error } = await supabaseFrom('link_page_blocks')
         .insert([{
           page_id: input.page_id,
           type: input.type,
@@ -99,8 +97,7 @@ export function useUpdateBlock() {
       if (input.data !== undefined) updateData.data = input.data as Json;
       if (input.is_enabled !== undefined) updateData.is_enabled = input.is_enabled;
 
-      const { data, error } = await supabase
-        .from("link_page_blocks")
+      const { data, error } = await supabaseFrom('link_page_blocks')
         .update(updateData)
         .eq("id", input.id)
         .select()
@@ -123,8 +120,7 @@ export function useDeleteBlock() {
 
   return useMutation({
     mutationFn: async ({ id, pageId }: { id: string; pageId: string }) => {
-      const { error } = await supabase
-        .from("link_page_blocks")
+      const { error } = await supabaseFrom('link_page_blocks')
         .delete()
         .eq("id", id);
 
@@ -148,8 +144,7 @@ export function useReorderBlocks() {
     mutationFn: async ({ blocks, pageId }: ReorderBlocksInput & { pageId: string }) => {
       // Update each block's order_index
       const updates = blocks.map(({ id, order_index }) =>
-        supabase
-          .from("link_page_blocks")
+        supabaseFrom('link_page_blocks')
           .update({ order_index })
           .eq("id", id)
       );

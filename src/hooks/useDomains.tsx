@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { notify } from "@/lib/notify";
 
 export interface Domain {
@@ -24,8 +25,7 @@ export const useWorkspaceDomains = (workspaceId: string | undefined) => {
     queryFn: async () => {
       if (!workspaceId) throw new Error("No workspace ID");
 
-      const { data, error } = await supabase
-        .from("domains")
+      const { data, error } = await supabaseFrom('domains')
         .select("*")
         .eq("workspace_id", workspaceId)
         .order("is_primary", { ascending: false })
@@ -44,8 +44,7 @@ export const usePrimaryDomain = (workspaceId: string | undefined) => {
     queryFn: async () => {
       if (!workspaceId) throw new Error("No workspace ID");
 
-      const { data, error } = await supabase
-        .from("domains")
+      const { data, error } = await supabaseFrom('domains')
         .select("*")
         .eq("workspace_id", workspaceId)
         .eq("is_primary", true)
@@ -73,8 +72,7 @@ export const useAddDomain = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const { data, error } = await supabase
-        .from("domains")
+      const { data, error } = await supabaseFrom('domains')
         .insert({
           workspace_id: workspaceId,
           domain: domain.toLowerCase().trim(),
@@ -105,8 +103,7 @@ export const useVerifyDomain = () => {
 
   return useMutation({
     mutationFn: async (domainId: string) => {
-      const { data, error } = await supabase
-        .from("domains")
+      const { data, error } = await supabaseFrom('domains')
         .update({
           is_verified: true,
           dns_verified_at: new Date().toISOString(),
@@ -144,14 +141,12 @@ export const useSetPrimaryDomain = () => {
       workspaceId: string;
     }) => {
       // First, unset all primary domains for this workspace
-      await supabase
-        .from("domains")
+      await supabaseFrom('domains')
         .update({ is_primary: false })
         .eq("workspace_id", workspaceId);
 
       // Then set the new primary domain
-      const { data, error } = await supabase
-        .from("domains")
+      const { data, error } = await supabaseFrom('domains')
         .update({ is_primary: true })
         .eq("id", domainId)
         .select()
@@ -189,8 +184,7 @@ export const useDeleteDomain = () => {
 
   return useMutation({
     mutationFn: async (domainId: string) => {
-      const { error } = await supabase
-        .from("domains")
+      const { error } = await supabaseFrom('domains')
         .delete()
         .eq("id", domainId);
 

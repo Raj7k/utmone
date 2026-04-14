@@ -14,6 +14,7 @@ import {
 import { Bell, User, LogOut, Palette, Sun, Moon, Monitor, Bug, Compass } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useToast } from "@/hooks/use-toast";
 import { useTheme } from "next-themes";
 import { useAppSession } from "@/contexts/AppSessionContext";
@@ -30,8 +31,7 @@ export const SidebarUserFooter = () => {
     queryKey: ['user-profile', user?.id],
     queryFn: async () => {
       if (!user) return null;
-      const { data } = await supabase
-        .from('profiles')
+      const { data } = await supabaseFrom('profiles')
         .select('full_name, email, avatar_url')
         .eq('id', user.id)
         .single();

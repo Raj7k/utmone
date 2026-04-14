@@ -21,6 +21,7 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { Card } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { notify } from "@/lib/notify";
 import { EnrichmentSetupDialog } from "./EnrichmentSetupDialog";
 import { CityCombobox, CityResult } from "@/components/geo/CityCombobox";
@@ -84,8 +85,7 @@ export const CreateEventDialog = ({
     try {
       const { data: user } = await supabase.auth.getUser();
       
-      const { error } = await supabase
-        .from('field_events')
+      const { error } = await supabaseFrom('field_events')
         .insert({
           workspace_id: workspaceId,
           name: data.name,

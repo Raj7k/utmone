@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/collapsible";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useQueryClient } from "@tanstack/react-query";
 import { useVerifyDomain } from "@/hooks/useVerifyDomain";
 import { Loader2, Copy, Check, CheckCircle2, HelpCircle, AlertCircle, ChevronDown, AlertTriangle, Info } from "lucide-react";
@@ -102,8 +103,7 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
         default_utm_campaign: defaultUtmCampaign.trim(),
       };
 
-      const { error } = await supabase
-        .from("domains")
+      const { error } = await supabaseFrom('domains')
         .update({ domain_settings: updatedSettings })
         .eq("id", domain.id);
 

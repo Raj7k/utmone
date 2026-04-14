@@ -14,6 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useSidebar } from "./SidebarProvider";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { Separator } from "@/components/ui/separator";
@@ -45,8 +46,7 @@ export const IconRailSidebar = () => {
     queryKey: ['user-profile', userId],
     queryFn: async () => {
       if (!userId) return null;
-      const { data } = await supabase
-        .from('profiles')
+      const { data } = await supabaseFrom('profiles')
         .select('full_name, avatar_url')
         .eq('id', userId)
         .single();

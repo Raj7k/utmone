@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { supabaseFrom } from '@/lib/supabaseHelper';
 import { useWorkspaceContext } from '@/contexts/WorkspaceContext';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -62,8 +63,7 @@ export function RoutingRulesEditor({ flowId, rules: initialRules }: RoutingRules
     queryKey: ['integrations', currentWorkspace?.id],
     queryFn: async () => {
       if (!currentWorkspace?.id) return [];
-      const { data, error } = await supabase
-        .from('integrations')
+      const { data, error } = await supabaseFrom('integrations')
         .select('provider, is_active')
         .eq('workspace_id', currentWorkspace.id);
       if (error) throw error;
@@ -78,8 +78,7 @@ export function RoutingRulesEditor({ flowId, rules: initialRules }: RoutingRules
 
   const saveRulesMutation = useMutation({
     mutationFn: async (newRules: RoutingRule[]) => {
-      const { error } = await supabase
-        .from('event_bridge_flows')
+      const { error } = await supabaseFrom('event_bridge_flows')
         .update({ routing_rules: newRules as unknown as any })
         .eq('id', flowId);
 

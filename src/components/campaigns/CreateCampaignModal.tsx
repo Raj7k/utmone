@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { notify } from "@/lib/notify";
 import { useWorkspace } from "@/hooks/workspace";
 import { Loader2, Sparkles, ArrowRight, ArrowLeft } from "lucide-react";
@@ -73,8 +74,7 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
       if (!user) throw new Error("Not authenticated");
 
       // Step 1: Create campaign
-      const { data: campaign, error: campaignError } = await supabase
-        .from("campaigns")
+      const { data: campaign, error: campaignError } = await supabaseFrom('campaigns')
         .insert({
           workspace_id: currentWorkspace.id,
           created_by: user.id,

@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { startOfDay, subDays } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
@@ -63,8 +64,7 @@ export const ChannelPerformanceGrid = ({ workspaceId, channels: prefetchedChanne
       const startDate = startOfDay(subDays(new Date(), 30));
 
       // OPTIMIZED: Reduced limit from 2000 to 500
-      const { data: clicks, error } = await supabase
-        .from("link_clicks")
+      const { data: clicks, error } = await supabaseFrom('link_clicks')
         .select("referrer, is_unique")
         .eq("workspace_id", workspaceId)
         .gte("clicked_at", startDate.toISOString())

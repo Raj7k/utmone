@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { toast } from "sonner";
 import type { SentinelConfig } from "./useSentinelConfig";
 import type { Json } from "@/integrations/supabase/types";
@@ -64,8 +65,7 @@ export function useBulkSentinelToggle(workspaceId: string) {
       const linkIds = links.map(l => l.id);
 
       // Create bulk operation log
-      const { data: operation, error: logError } = await supabase
-        .from("bulk_operations_log")
+      const { data: operation, error: logError } = await supabaseFrom('bulk_operations_log')
         .insert([{
           workspace_id: workspaceId,
           operation_type: "toggle_sentinel",
@@ -102,8 +102,7 @@ export function useBulkSentinelToggle(workspaceId: string) {
         const affected = updatedLinks?.length || 0;
 
         // Mark operation as completed
-        await supabase
-          .from("bulk_operations_log")
+        await supabaseFrom('bulk_operations_log')
           .update({
             status: "completed",
             affected_count: affected,
@@ -114,8 +113,7 @@ export function useBulkSentinelToggle(workspaceId: string) {
         return { affected };
       } catch (error: any) {
         // Mark operation as failed
-        await supabase
-          .from("bulk_operations_log")
+        await supabaseFrom('bulk_operations_log')
           .update({
             status: "failed",
             error_message: error.message,

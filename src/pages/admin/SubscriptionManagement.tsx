@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SubscriptionStats } from "@/components/admin/subscriptions/SubscriptionStats";
@@ -54,8 +55,7 @@ export default function SubscriptionManagement() {
 
       // Fetch owner profiles
       const ownerIds = [...new Set(data?.map(w => w.owner_id) || [])];
-      const { data: profiles } = await supabase
-        .from("profiles")
+      const { data: profiles } = await supabaseFrom('profiles')
         .select("id, email, full_name")
         .in("id", ownerIds);
 

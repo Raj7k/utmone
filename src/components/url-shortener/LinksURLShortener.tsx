@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useWorkspace } from "@/hooks/workspace";
 import { generateSmartSlug } from "@/lib/smartUrlParser";
 
@@ -41,8 +42,7 @@ export const LinksURLShortener = () => {
     queryKey: ["workspace-domains", currentWorkspace?.id],
     queryFn: async () => {
       if (!currentWorkspace?.id) return [];
-      const { data, error } = await supabase
-        .from("domains")
+      const { data, error } = await supabaseFrom('domains')
         .select("domain")
         .or(`workspace_id.eq.${currentWorkspace.id},is_system_domain.eq.true`)
         .eq("is_verified", true);

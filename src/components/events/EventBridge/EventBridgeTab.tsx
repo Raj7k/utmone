@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { supabaseFrom } from '@/lib/supabaseHelper';
 import { useWorkspace } from '@/hooks/workspace';
 import { usePlanLimits } from '@/hooks/usePlanLimits';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -38,8 +39,7 @@ export function EventBridgeTab() {
     queryFn: async () => {
       if (!currentWorkspace?.id) return [];
       
-      const { data, error } = await supabase
-        .from('event_bridge_flows')
+      const { data, error } = await supabaseFrom('event_bridge_flows')
         .select('*')
         .eq('workspace_id', currentWorkspace.id)
         .order('created_at', { ascending: false });
@@ -55,8 +55,7 @@ export function EventBridgeTab() {
     queryFn: async () => {
       if (!currentWorkspace?.id) return { total: 0, enriched: 0, routed: 0 };
 
-      const { data, error } = await supabase
-        .from('event_bridge_registrations')
+      const { data, error } = await supabaseFrom('event_bridge_registrations')
         .select('enrichment_status, routing_status')
         .eq('workspace_id', currentWorkspace.id);
 

@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Layers, CheckCircle2, XCircle, AlertTriangle, Download, Upload, QrCode, Clock, RefreshCw, X as XIcon } from "lucide-react";
 import { DragDropUploader } from "./DragDropUploader";
 import { URLPreviewTable } from "./URLPreviewTable";
@@ -124,8 +125,7 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
   const { data: verifiedDomains } = useQuery({
     queryKey: ["verified-domains", workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("domains")
+      const { data, error } = await supabaseFrom('domains')
         .select("id, domain, workspace_id")
         .eq("is_verified", true)
         .or(`workspace_id.eq.${workspaceId},is_system_domain.eq.true`)

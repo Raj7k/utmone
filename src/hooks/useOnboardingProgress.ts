@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useWorkspace } from "@/hooks/workspace";
 import { queryKeys } from "@/lib/queryConfig";
 import { useAppSession, getCachedWorkspaceId } from "@/contexts/AppSessionContext";
@@ -68,20 +69,17 @@ export const useOnboardingProgress = (): OnboardingProgress => {
           .from('qr_codes')
           .select('*', { count: 'exact', head: true })
           .eq('created_by', userId),
-        supabase
-          .from('profiles')
+        supabaseFrom('profiles')
           .select('first_analytics_viewed_at, team_members_invited_count')
           .eq('id', userId)
           .single(),
-        supabase
-          .from('domains')
+        supabaseFrom('domains')
           .select('id')
           .eq('workspace_id', workspaceId)
           .eq('is_verified', true)
           .not('domain', 'in', '(go.utm.one,utm.click)')
           .limit(1),
-        supabase
-          .from('pixel_configs')
+        supabaseFrom('pixel_configs')
           .select('id')
           .eq('workspace_id', workspaceId)
           .limit(1),

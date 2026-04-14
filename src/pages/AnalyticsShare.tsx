@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { ClientAnalyticsDashboard } from "@/components/analytics/ClientAnalyticsDashboard";
 
 export default function AnalyticsShare() {
@@ -20,8 +21,7 @@ export default function AnalyticsShare() {
 
       try {
         // Fetch share link
-        const { data: link, error: linkError } = await supabase
-          .from("analytics_share_links")
+        const { data: link, error: linkError } = await supabaseFrom('analytics_share_links')
           .select("*")
           .eq("token", token)
           .single();
@@ -38,8 +38,7 @@ export default function AnalyticsShare() {
         setShareLink(link);
 
         // Fetch workspace branding
-        const { data: brandingData, error: brandingError } = await supabase
-          .from("workspace_branding")
+        const { data: brandingData, error: brandingError } = await supabaseFrom('workspace_branding')
           .select("*")
           .eq("workspace_id", link.workspace_id)
           .single();

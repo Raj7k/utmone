@@ -9,6 +9,7 @@ import { Network, Smartphone, Monitor, CheckCircle, AlertCircle, Code, ChevronDo
 import { motion, AnimatePresence } from 'framer-motion';
 import { PixelInstallGuide } from './PixelInstallGuide';
 import { supabase } from '@/integrations/supabase/client';
+import { supabaseFrom } from '@/lib/supabaseHelper';
 
 interface IdentityEdge {
   id: string;
@@ -151,8 +152,7 @@ export const IdentityGraphView: React.FC = () => {
     async function fetchPixelId() {
       if (!currentWorkspace?.id) return;
       
-      const { data } = await supabase
-        .from('pixel_configs')
+      const { data } = await supabaseFrom('pixel_configs')
         .select('pixel_id')
         .eq('workspace_id', currentWorkspace.id)
         .eq('is_active', true)

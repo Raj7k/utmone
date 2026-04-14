@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { toast } from "sonner";
 
 interface UserPreference {
@@ -30,8 +31,7 @@ export function useUserPreferences(workspaceId: string) {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
       
-      const { data, error } = await supabase
-        .from("user_preferences")
+      const { data, error } = await supabaseFrom('user_preferences')
         .select("*")
         .eq("workspace_id", workspaceId)
         .eq("user_id", user.id)
@@ -49,8 +49,7 @@ export function useUserPreferences(workspaceId: string) {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
       
-      const { data, error } = await supabase
-        .from("user_preferences")
+      const { data, error } = await supabaseFrom('user_preferences')
         .upsert({
           user_id: user.id,
           workspace_id: workspaceId,

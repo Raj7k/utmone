@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -59,8 +60,7 @@ export function EditInviteDialog({ invite, open, onOpenChange }: EditInviteDialo
       const durationDays = Math.ceil((expiryDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
 
       // Update early_access_invites
-      const { error: inviteError } = await supabase
-        .from("early_access_invites")
+      const { error: inviteError } = await supabaseFrom('early_access_invites')
         .update({
           plan_tier: planTier,
           access_level: newAccessLevel,

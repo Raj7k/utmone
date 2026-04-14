@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Clock, CheckCircle, XCircle, ExternalLink, RefreshCw } from "lucide-react";
@@ -56,8 +57,7 @@ export default function ApprovalQueue() {
     if (!error && data) {
       // Fetch creator profiles separately
       const userIds = [...new Set(data.map(l => l.created_by))];
-      const { data: profilesData } = await supabase
-        .from("profiles")
+      const { data: profilesData } = await supabaseFrom('profiles')
         .select("id, full_name, email")
         .in("id", userIds);
 

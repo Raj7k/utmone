@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { startOfDay, subDays, format } from "date-fns";
 
 interface UseExecutiveMetricsParams {
@@ -39,21 +40,18 @@ export const useExecutiveMetrics = ({ workspaceId, dateRange = 30 }: UseExecutiv
         { data: previousClicks },
         { data: conversions }
       ] = await Promise.all([
-        supabase
-          .from("link_clicks")
+        supabaseFrom('link_clicks')
           .select("id, is_unique, clicked_at, referrer")
           .eq("workspace_id", workspaceId)
           .gte("clicked_at", currentStart.toISOString())
           .limit(5000),
-        supabase
-          .from("link_clicks")
+        supabaseFrom('link_clicks')
           .select("id, is_unique")
           .eq("workspace_id", workspaceId)
           .gte("clicked_at", previousStart.toISOString())
           .lt("clicked_at", previousEnd.toISOString())
           .limit(5000),
-        supabase
-          .from("conversion_events")
+        supabaseFrom('conversion_events')
           .select("id, event_value")
           .eq("workspace_id", workspaceId)
           .gte("created_at", currentStart.toISOString())

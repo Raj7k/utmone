@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -34,8 +35,7 @@ export const LinkComments = ({ linkId }: LinkCommentsProps) => {
   }, [linkId]);
 
   const fetchComments = async () => {
-    const { data, error } = await supabase
-      .from("link_comments")
+    const { data, error } = await supabaseFrom('link_comments')
       .select("*")
       .eq("link_id", linkId)
       .order("created_at", { ascending: false });
@@ -43,8 +43,7 @@ export const LinkComments = ({ linkId }: LinkCommentsProps) => {
     if (!error && data) {
       // Fetch user profiles separately
       const userIds = [...new Set(data.map(c => c.user_id))];
-      const { data: profilesData } = await supabase
-        .from("profiles")
+      const { data: profilesData } = await supabaseFrom('profiles')
         .select("id, full_name, email")
         .in("id", userIds);
 
@@ -84,7 +83,7 @@ export const LinkComments = ({ linkId }: LinkCommentsProps) => {
     if (!newComment.trim()) return;
 
     setIsSubmitting(true);
-    const { error } = await supabase.from("link_comments").insert({
+    const { error } = await supabaseFrom('link_comments').insert({
       link_id: linkId,
       comment_text: newComment,
       user_id: (await supabase.auth.getUser()).data.user?.id,
@@ -100,8 +99,7 @@ export const LinkComments = ({ linkId }: LinkCommentsProps) => {
   };
 
   const toggleResolve = async (commentId: string, currentStatus: boolean) => {
-    const { error } = await supabase
-      .from("link_comments")
+    const { error } = await supabaseFrom('link_comments')
       .update({ is_resolved: !currentStatus })
       .eq("id", commentId);
 

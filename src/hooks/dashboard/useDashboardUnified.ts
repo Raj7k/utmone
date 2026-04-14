@@ -1,5 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useWorkspace } from "@/hooks/workspace/useWorkspace";
 import { getCachedWorkspaceId, getCachedUserId } from "@/contexts/AppSessionContext";
 import { startOfDay, subDays } from "date-fns";
@@ -218,16 +219,14 @@ export const useDashboardUnified = (range: string = "30d") => {
           .limit(50),
 
         // 3. Events
-        supabase
-          .from("field_events")
+        supabaseFrom('field_events')
           .select("id, name, start_date, end_date, location_city, location_country, direct_scans, halo_visitors, lift_percentage, status")
           .eq("workspace_id", workspaceId)
           .order("start_date", { ascending: false })
           .limit(10),
 
         // 4. Campaigns with link counts
-        supabase
-          .from("campaigns")
+        supabaseFrom('campaigns')
           .select(`
             id, name, status, color, created_at,
             links:links(count)
@@ -237,8 +236,7 @@ export const useDashboardUnified = (range: string = "30d") => {
           .limit(10),
 
         // 5. Clicks today (simple count)
-        supabase
-          .from("link_clicks")
+        supabaseFrom('link_clicks')
           .select("id", { count: "exact", head: true })
           .eq("workspace_id", workspaceId)
           .gte("clicked_at", today.toISOString()),
@@ -250,16 +248,14 @@ export const useDashboardUnified = (range: string = "30d") => {
           .eq("workspace_id", workspaceId),
         
         // 7. Custom domains count (for onboarding)
-        supabase
-          .from("domains")
+        supabaseFrom('domains')
           .select("id", { count: "exact", head: true })
           .eq("workspace_id", workspaceId)
           .eq("is_verified", true)
           .not("domain", "in", "(go.utm.one,utm.click)"),
         
         // 8. Pixel configs count (for onboarding)
-        supabase
-          .from("pixel_configs")
+        supabaseFrom('pixel_configs')
           .select("id", { count: "exact", head: true })
           .eq("workspace_id", workspaceId),
 
@@ -271,8 +267,7 @@ export const useDashboardUnified = (range: string = "30d") => {
           .is("deleted_at", null),
 
         // 10. Profile data for onboarding (hasViewedAnalytics, hasInvitedTeam)
-        userId ? supabase
-          .from("profiles")
+        userId ? supabaseFrom('profiles')
           .select("first_analytics_viewed_at, team_members_invited_count")
           .eq("id", userId)
           .single() : Promise.resolve({ data: null, error: null })

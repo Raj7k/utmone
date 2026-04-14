@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useToast } from "@/hooks/use-toast";
 import { Shield, AlertTriangle } from "lucide-react";
 import { motion } from "framer-motion";
@@ -96,14 +97,12 @@ const AdminAuth = () => {
           }
 
       // Check for MFA requirement (TOTP or WebAuthn)
-      const { data: mfaSettings } = await supabase
-        .from('mfa_settings')
+      const { data: mfaSettings } = await supabaseFrom('mfa_settings')
         .select('is_enabled')
         .eq('user_id', session.user.id)
         .maybeSingle();
 
-      const { data: webauthnKeys } = await supabase
-        .from('user_authenticators')
+      const { data: webauthnKeys } = await supabaseFrom('user_authenticators')
         .select('id')
         .eq('user_id', session.user.id)
         .limit(1);
@@ -181,14 +180,12 @@ const AdminAuth = () => {
       }
 
       // Check for MFA requirement (TOTP or WebAuthn)
-      const { data: mfaSettings } = await supabase
-        .from('mfa_settings')
+      const { data: mfaSettings } = await supabaseFrom('mfa_settings')
         .select('is_enabled')
         .eq('user_id', data.user.id)
         .maybeSingle();
 
-      const { data: webauthnKeys } = await supabase
-        .from('user_authenticators')
+      const { data: webauthnKeys } = await supabaseFrom('user_authenticators')
         .select('id')
         .eq('user_id', data.user.id)
         .limit(1);

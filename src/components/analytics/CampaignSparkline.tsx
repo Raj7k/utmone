@@ -1,6 +1,7 @@
 import { LazyLineChart, Line, ResponsiveContainer, LazyChartContainer } from "@/components/charts/LazyCharts";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { startOfDay, subDays, format } from "date-fns";
 
 interface CampaignSparklineProps {
@@ -44,8 +45,7 @@ export const CampaignSparkline = ({
       const linkIds = links.map(link => link.id);
 
       // Get clicks for these links in the last 14 days
-      const { data: clicks } = await supabase
-        .from("link_clicks")
+      const { data: clicks } = await supabaseFrom('link_clicks')
         .select("clicked_at")
         .in("link_id", linkIds)
         .gte("clicked_at", startDate.toISOString())

@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useToast } from "@/hooks/use-toast";
 
 export const useAnalyticsShare = (workspaceId: string | undefined) => {
@@ -11,8 +12,7 @@ export const useAnalyticsShare = (workspaceId: string | undefined) => {
     queryFn: async () => {
       if (!workspaceId) return [];
       
-      const { data, error } = await supabase
-        .from("analytics_share_links")
+      const { data, error } = await supabaseFrom('analytics_share_links')
         .select("*")
         .eq("workspace_id", workspaceId)
         .order("created_at", { ascending: false });
@@ -42,8 +42,7 @@ export const useAnalyticsShare = (workspaceId: string | undefined) => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const { data, error } = await supabase
-        .from("analytics_share_links")
+      const { data, error } = await supabaseFrom('analytics_share_links')
         .insert({
           workspace_id: workspaceId,
           expires_at: expiresAt || null,
@@ -77,8 +76,7 @@ export const useAnalyticsShare = (workspaceId: string | undefined) => {
 
   const deleteShareLinkMutation = useMutation({
     mutationFn: async (linkId: string) => {
-      const { error } = await supabase
-        .from("analytics_share_links")
+      const { error } = await supabaseFrom('analytics_share_links')
         .delete()
         .eq("id", linkId);
 

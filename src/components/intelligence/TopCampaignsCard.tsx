@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Megaphone, ChevronRight, TrendingUp, TrendingDown } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -70,8 +71,7 @@ export default function TopCampaignsCard({ workspaceId, days, context, preloaded
       const prevStartDateStr = prevStartDate.toISOString();
 
       // Get campaigns with their links
-      const { data: campaigns } = await supabase
-        .from("campaigns")
+      const { data: campaigns } = await supabaseFrom('campaigns')
         .select("id, name")
         .eq("workspace_id", workspaceId)
         .eq("status", "active")
@@ -94,16 +94,14 @@ export default function TopCampaignsCard({ workspaceId, days, context, preloaded
       const linkIds = links.map(l => l.id);
       
       // Get current period clicks
-      const { data: currentClicks } = await supabase
-        .from("link_clicks")
+      const { data: currentClicks } = await supabaseFrom('link_clicks')
         .select("link_id, clicked_at")
         .eq("workspace_id", workspaceId)
         .gte("clicked_at", startDateStr)
         .in("link_id", linkIds);
 
       // Get previous period clicks for trend
-      const { data: prevClicks } = await supabase
-        .from("link_clicks")
+      const { data: prevClicks } = await supabaseFrom('link_clicks')
         .select("link_id")
         .eq("workspace_id", workspaceId)
         .gte("clicked_at", prevStartDateStr)
@@ -111,8 +109,7 @@ export default function TopCampaignsCard({ workspaceId, days, context, preloaded
         .in("link_id", linkIds);
 
       // Get conversions
-      const { data: conversions } = await supabase
-        .from("conversion_events")
+      const { data: conversions } = await supabaseFrom('conversion_events')
         .select("link_id")
         .eq("workspace_id", workspaceId)
         .gte("attributed_at", startDateStr)

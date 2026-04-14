@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Activity, AlertCircle, TrendingUp, Users } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
@@ -9,8 +10,7 @@ export const AdminHealthHUD = () => {
     queryKey: ['admin-traffic'],
     queryFn: async () => {
       const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
-      const { count } = await supabase
-        .from('link_clicks')
+      const { count } = await supabaseFrom('link_clicks')
         .select('*', { count: 'exact', head: true })
         .gte('clicked_at', oneHourAgo);
       return count || 0;
@@ -35,8 +35,7 @@ export const AdminHealthHUD = () => {
       const startOfDay = new Date();
       startOfDay.setHours(0, 0, 0, 0);
       
-      const { count } = await supabase
-        .from('profiles')
+      const { count } = await supabaseFrom('profiles')
         .select('*', { count: 'exact', head: true })
         .gte('created_at', startOfDay.toISOString());
       

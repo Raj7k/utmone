@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 
 interface FunnelData {
   clicks: number;
@@ -16,12 +17,10 @@ export function useConversionFunnel(linkId?: string, workspaceId?: string) {
     queryKey: ['conversion-funnel', linkId, workspaceId],
     queryFn: async (): Promise<FunnelData> => {
       // Build query based on filters
-      let clicksQuery = supabase
-        .from('link_clicks')
+      let clicksQuery = supabaseFrom('link_clicks')
         .select('id, link_id', { count: 'exact' });
 
-      let conversionsQuery = supabase
-        .from('conversion_events')
+      let conversionsQuery = supabaseFrom('conversion_events')
         .select('event_type, event_value, link_id');
 
       if (linkId) {

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Activity, Database, Zap, AlertTriangle, Clock, TrendingUp, CheckCircle2, Flag, Shield } from "lucide-react";
@@ -40,16 +41,14 @@ export default function SystemMonitoring() {
     queryKey: ["click-metrics"],
     queryFn: async () => {
       // Get clicks pending geolocation processing
-      const { count: pendingCount } = await supabase
-        .from("link_clicks")
+      const { count: pendingCount } = await supabaseFrom('link_clicks')
         .select("*", { count: "exact", head: true })
         .is("country", null)
         .not("ip_address", "is", null);
 
       // Get total clicks in last 24h
       const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
-      const { count: total24h } = await supabase
-        .from("link_clicks")
+      const { count: total24h } = await supabaseFrom('link_clicks')
         .select("*", { count: "exact", head: true })
         .gte("clicked_at", twentyFourHoursAgo);
 
@@ -71,8 +70,7 @@ export default function SystemMonitoring() {
         .from("links")
         .select("*", { count: "exact", head: true });
 
-      const { count: clicksCount } = await supabase
-        .from("link_clicks")
+      const { count: clicksCount } = await supabaseFrom('link_clicks')
         .select("*", { count: "exact", head: true });
 
       const { count: waitlistCount } = await supabase
@@ -115,8 +113,7 @@ export default function SystemMonitoring() {
   const { data: recentAuditLogs, isLoading: loadingAuditLogs } = useQuery({
     queryKey: ["recent-audit-logs"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("admin_audit_logs")
+      const { data, error } = await supabaseFrom('admin_audit_logs')
         .select("*, admin:admin_user_id(email)")
         .order("created_at", { ascending: false })
         .limit(10);

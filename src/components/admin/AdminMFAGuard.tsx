@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { Shield, AlertTriangle } from "lucide-react";
 
@@ -45,8 +46,7 @@ export const AdminMFAGuard = ({ children }: AdminMFAGuardProps) => {
       }
 
       // Check if user has registered authenticators
-      const { data: authenticators, error: authError } = await supabase
-        .from('user_authenticators')
+      const { data: authenticators, error: authError } = await supabaseFrom('user_authenticators')
         .select('id, registered_domain')
         .eq('user_id', user.id);
 

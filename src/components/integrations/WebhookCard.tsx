@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 
 interface WebhookCardProps {
   workspaceId: string;
@@ -20,8 +21,7 @@ export const WebhookCard = ({ workspaceId }: WebhookCardProps) => {
   const { data: apiKeys } = useQuery({
     queryKey: ["api-keys", workspaceId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("api_keys")
+      const { data, error } = await supabaseFrom('api_keys')
         .select("*")
         .eq("workspace_id", workspaceId)
         .eq("is_active", true)

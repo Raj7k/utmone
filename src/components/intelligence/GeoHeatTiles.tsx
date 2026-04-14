@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Globe, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
@@ -60,8 +61,7 @@ export default function GeoHeatTiles({ workspaceId, days, context = "all", prelo
       const startDate = new Date();
       startDate.setDate(startDate.getDate() - days);
 
-      const { data: clicks, error } = await supabase
-        .from("link_clicks")
+      const { data: clicks, error } = await supabaseFrom('link_clicks')
         .select("city, country")
         .eq("workspace_id", workspaceId)
         .gte("clicked_at", startDate.toISOString())

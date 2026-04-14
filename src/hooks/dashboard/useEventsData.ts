@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { useWorkspace } from "@/hooks/workspace/useWorkspace";
 import { getCachedWorkspaceId } from "@/contexts/AppSessionContext";
 
@@ -27,8 +28,7 @@ export const useEventsData = () => {
   return useQuery({
     queryKey: ["field-events", workspaceId],
     queryFn: async (): Promise<FieldEvent[]> => {
-      const { data, error } = await supabase
-        .from("field_events")
+      const { data, error } = await supabaseFrom('field_events')
         .select("id, name, start_date, end_date, location_city, location_country, direct_scans, halo_visitors, lift_percentage, status")
         .eq("workspace_id", workspaceId)
         .order("start_date", { ascending: false })

@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 
 export interface BulkUploadActivity {
   id: string;
@@ -19,8 +20,7 @@ export const useBulkUploadActivity = (bulkUploadId: string | null) => {
     queryFn: async () => {
       if (!bulkUploadId) return [];
 
-      const { data, error } = await supabase
-        .from("bulk_upload_activity")
+      const { data, error } = await supabaseFrom('bulk_upload_activity')
         .select("*")
         .eq("bulk_upload_id", bulkUploadId)
         .order("created_at", { ascending: false });
@@ -46,8 +46,7 @@ export const useBulkUploadActivity = (bulkUploadId: string | null) => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const { error } = await supabase
-        .from("bulk_upload_activity")
+      const { error } = await supabaseFrom('bulk_upload_activity')
         .insert({
           bulk_upload_id: bulkUploadId,
           workspace_id: workspaceId,

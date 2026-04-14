@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { 
   geneticAlgorithm, 
   UTMChromosome, 
@@ -20,8 +21,7 @@ export function useUTMEvolution(workspaceId?: string) {
     queryKey: ['utm-evolution', workspaceId],
     queryFn: async (): Promise<EvolvedUTMPattern[]> => {
       // Fetch conversion events with UTM parameters
-      let query = supabase
-        .from('conversion_events')
+      let query = supabaseFrom('conversion_events')
         .select(`
           id,
           event_type,
@@ -44,8 +44,7 @@ export function useUTMEvolution(workspaceId?: string) {
       if (convError) throw convError;
 
       // Fetch all clicks for conversion rate calculation
-      let clickQuery = supabase
-        .from('link_clicks')
+      let clickQuery = supabaseFrom('link_clicks')
         .select('link_id');
 
       if (workspaceId) {

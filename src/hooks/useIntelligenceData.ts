@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { IntelligenceContext } from "@/components/intelligence/ContextSwitcher";
 
 interface IntelligenceData {
@@ -173,8 +174,7 @@ export function useIntelligenceData(
             query = query.or("link_type.eq.sales,utm_content.ilike.%sales%");
           } else if (context === "customers") {
             // Links that have conversions
-            const { data: convLinks } = await supabase
-              .from("conversion_events")
+            const { data: convLinks } = await supabaseFrom('conversion_events')
               .select("link_id")
               .eq("workspace_id", workspaceId)
               .not("link_id", "is", null);
@@ -210,8 +210,7 @@ export function useIntelligenceData(
       ] = await Promise.all([
         // 1. Current period click COUNT with context filter
         (async () => {
-          let query = supabase
-            .from("link_clicks")
+          let query = supabaseFrom('link_clicks')
             .select("*", { count: "exact", head: true })
             .eq("workspace_id", workspaceId)
             .gte("clicked_at", startDateStr);
@@ -226,8 +225,7 @@ export function useIntelligenceData(
 
         // 2. Previous period click COUNT
         (async () => {
-          let query = supabase
-            .from("link_clicks")
+          let query = supabaseFrom('link_clicks')
             .select("*", { count: "exact", head: true })
             .eq("workspace_id", workspaceId)
             .gte("clicked_at", prevStartDateStr)
@@ -243,8 +241,7 @@ export function useIntelligenceData(
         
         // 3. Revenue - direct workspace_id query
         (async () => {
-          let query = supabase
-            .from("conversion_events")
+          let query = supabaseFrom('conversion_events')
             .select("event_value, link_id")
             .eq("workspace_id", workspaceId)
             .gte("attributed_at", startDateStr);
@@ -259,8 +256,7 @@ export function useIntelligenceData(
         
         // 4. Channel mix - query ALL link_clicks (include direct traffic)
         (async () => {
-          let query = supabase
-            .from("link_clicks")
+          let query = supabaseFrom('link_clicks')
             .select("link_id, referrer, links(utm_source)")
             .eq("workspace_id", workspaceId)
             .gte("clicked_at", startDateStr)
@@ -276,8 +272,7 @@ export function useIntelligenceData(
         
         // 5. Geo data - increased limit for better accuracy
         (async () => {
-          let query = supabase
-            .from("link_clicks")
+          let query = supabaseFrom('link_clicks')
             .select("city, country")
             .eq("workspace_id", workspaceId)
             .gte("clicked_at", startDateStr)
@@ -295,8 +290,7 @@ export function useIntelligenceData(
         
         // 6. Recent clicks for live feed
         (async () => {
-          let query = supabase
-            .from("link_clicks")
+          let query = supabaseFrom('link_clicks')
             .select("id, city, country, device_type, clicked_at, link_id")
             .eq("workspace_id", workspaceId)
             .order("clicked_at", { ascending: false })
@@ -363,8 +357,7 @@ export function useIntelligenceData(
         // Fetch campaigns if not preloaded
         let campaignsToProcess = campaignNames;
         if (!preloadedCampaigns || preloadedCampaigns.length === 0) {
-          const campaignsResult = await supabase
-            .from("campaigns")
+          const campaignsResult = await supabaseFrom('campaigns')
             .select("id, name")
             .eq("workspace_id", workspaceId)
             .eq("status", "active")
@@ -383,8 +376,7 @@ export function useIntelligenceData(
           
           if (campaignLinks && campaignLinks.length > 0) {
             const linkIds = campaignLinks.map(l => l.id);
-            const { data: campaignClicks } = await supabase
-              .from("link_clicks")
+            const { data: campaignClicks } = await supabaseFrom('link_clicks')
               .select("link_id")
               .eq("workspace_id", workspaceId)
               .gte("clicked_at", startDateStr)

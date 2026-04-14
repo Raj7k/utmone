@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { User } from "lucide-react";
 
@@ -23,8 +24,7 @@ export const OwnerFilter = ({ workspaceId, value, onChange }: OwnerFilterProps) 
       if (!workspace) return [];
 
       // Get all members
-      const { data: members } = await supabase
-        .from("workspace_members")
+      const { data: members } = await supabaseFrom('workspace_members')
         .select(`
           user_id,
           profiles:user_id (
@@ -36,8 +36,7 @@ export const OwnerFilter = ({ workspaceId, value, onChange }: OwnerFilterProps) 
         .eq("workspace_id", workspaceId);
 
       // Get owner profile
-      const { data: ownerProfile } = await supabase
-        .from("profiles")
+      const { data: ownerProfile } = await supabaseFrom('profiles')
         .select("id, email, full_name")
         .eq("id", workspace.owner_id)
         .single();

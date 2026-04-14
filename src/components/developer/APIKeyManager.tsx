@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -52,8 +53,7 @@ export const APIKeyManager = ({ workspaceId }: APIKeyManagerProps) => {
   }, [workspaceId]);
 
   const fetchAPIKeys = async () => {
-    const { data, error } = await supabase
-      .from("api_keys")
+    const { data, error } = await supabaseFrom('api_keys')
       .select("*")
       .eq("workspace_id", workspaceId)
       .order("created_at", { ascending: false });
@@ -91,7 +91,7 @@ export const APIKeyManager = ({ workspaceId }: APIKeyManagerProps) => {
     const keyHash = await hashKey(fullKey);
     const keyPrefix = fullKey.substring(0, 12) + "...";
 
-    const { error } = await supabase.from("api_keys").insert({
+    const { error } = await supabaseFrom('api_keys').insert({
       workspace_id: workspaceId,
       key_name: keyName,
       key_hash: keyHash,
@@ -125,7 +125,7 @@ export const APIKeyManager = ({ workspaceId }: APIKeyManagerProps) => {
   };
 
   const handleDelete = async (id: string) => {
-    const { error } = await supabase.from("api_keys").delete().eq("id", id);
+    const { error } = await supabaseFrom('api_keys').delete().eq("id", id);
 
     if (error) {
       notify.error("Error", {

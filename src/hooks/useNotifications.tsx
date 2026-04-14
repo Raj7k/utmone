@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { notify } from "@/lib/notify";
 
 export const useNotifications = () => {
@@ -11,8 +12,7 @@ export const useNotifications = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return [];
 
-      const { data, error } = await supabase
-        .from("user_notifications")
+      const { data, error } = await supabaseFrom('user_notifications')
         .select("*")
         .eq("user_id", user.id)
         .order("created_at", { ascending: false })
@@ -27,8 +27,7 @@ export const useNotifications = () => {
 
   const markAsReadMutation = useMutation({
     mutationFn: async (notificationId: string) => {
-      const { error } = await supabase
-        .from("user_notifications")
+      const { error } = await supabaseFrom('user_notifications')
         .update({ read_at: new Date().toISOString() })
         .eq("id", notificationId);
 
@@ -47,8 +46,7 @@ export const useNotifications = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const { error } = await supabase
-        .from("user_notifications")
+      const { error } = await supabaseFrom('user_notifications')
         .update({ read_at: new Date().toISOString() })
         .eq("user_id", user.id)
         .is("read_at", null);

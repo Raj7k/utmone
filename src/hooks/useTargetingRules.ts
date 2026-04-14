@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { supabaseFrom } from '@/lib/supabaseHelper';
 import { notify } from '@/lib/notify';
 
 export interface TargetingRule {
@@ -23,8 +24,7 @@ export function useTargetingRules(linkId: string) {
   const { data: rules, isLoading, error } = useQuery({
     queryKey: ['targeting-rules', linkId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('targeting_rules')
+      const { data, error } = await supabaseFrom('targeting_rules')
         .select('*')
         .eq('link_id', linkId)
         .order('priority', { ascending: false })
@@ -39,8 +39,7 @@ export function useTargetingRules(linkId: string) {
   // Create targeting rule
   const createRuleMutation = useMutation({
     mutationFn: async (ruleData: Omit<TargetingRule, 'id' | 'created_at' | 'updated_at'>) => {
-      const { data, error } = await supabase
-        .from('targeting_rules')
+      const { data, error } = await supabaseFrom('targeting_rules')
         .insert(ruleData)
         .select()
         .single();
@@ -60,8 +59,7 @@ export function useTargetingRules(linkId: string) {
   // Update targeting rule
   const updateRuleMutation = useMutation({
     mutationFn: async ({ id, ...updates }: Partial<TargetingRule> & { id: string }) => {
-      const { data, error } = await supabase
-        .from('targeting_rules')
+      const { data, error } = await supabaseFrom('targeting_rules')
         .update(updates)
         .eq('id', id)
         .select()
@@ -82,8 +80,7 @@ export function useTargetingRules(linkId: string) {
   // Delete targeting rule
   const deleteRuleMutation = useMutation({
     mutationFn: async (ruleId: string) => {
-      const { error } = await supabase
-        .from('targeting_rules')
+      const { error } = await supabaseFrom('targeting_rules')
         .delete()
         .eq('id', ruleId);
 

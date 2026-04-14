@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LazyPieChart, Pie, Cell, ResponsiveContainer, Tooltip, LazyChartContainer } from "@/components/charts/LazyCharts";
 import { TrendingUp, TrendingDown, Minus } from "lucide-react";
@@ -23,8 +24,7 @@ export const PerformanceMetrics = ({ workspaceId }: PerformanceMetricsProps) => 
         .limit(3);
 
       // Fetch device breakdown from clicks
-      const { data: clicks } = await supabase
-        .from('link_clicks')
+      const { data: clicks } = await supabaseFrom('link_clicks')
         .select('device_type, link_id')
         .in('link_id', (await supabase
           .from('links')

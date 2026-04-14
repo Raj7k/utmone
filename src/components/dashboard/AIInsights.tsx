@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card } from "@/components/ui/card";
 import { Sparkles, TrendingUp, AlertCircle, Lightbulb } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -18,8 +19,7 @@ export function AIInsights() {
     queryFn: async () => {
       if (!currentWorkspace?.id) return [];
 
-      const { data, error } = await supabase
-        .from("ai_insights")
+      const { data, error } = await supabaseFrom('ai_insights')
         .select("*")
         .eq("workspace_id", currentWorkspace.id)
         .order("created_at", { ascending: false })
@@ -38,8 +38,7 @@ export function AIInsights() {
     queryFn: async () => {
       if (!currentWorkspace?.id) return [];
 
-      const { data, error } = await supabase
-        .from("analytics_anomalies")
+      const { data, error } = await supabaseFrom('analytics_anomalies')
         .select("*")
         .eq("workspace_id", currentWorkspace.id)
         .eq("is_dismissed", false)

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 
 export interface CampaignPerformance {
   id: string;
@@ -30,8 +31,7 @@ export function useCampaignPerformance(workspaceId: string) {
       if (linksError) throw linksError;
 
       // Fetch conversion data
-      const { data: conversions, error: conversionsError } = await supabase
-        .from("conversion_events")
+      const { data: conversions, error: conversionsError } = await supabaseFrom('conversion_events')
         .select("link_id")
         .eq("workspace_id", workspaceId);
 

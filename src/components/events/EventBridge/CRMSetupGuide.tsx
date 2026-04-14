@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { supabaseFrom } from '@/lib/supabaseHelper';
 import { useWorkspaceContext } from '@/contexts/WorkspaceContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -103,8 +104,7 @@ export function CRMSetupGuide({ onComplete }: CRMSetupGuideProps = {}) {
     queryFn: async () => {
       if (!currentWorkspace?.id) return [];
       
-      const { data, error } = await supabase
-        .from('integrations')
+      const { data, error } = await supabaseFrom('integrations')
         .select('provider, is_active, created_at')
         .eq('workspace_id', currentWorkspace.id)
         .in('provider', CRM_CONFIGS.map(c => c.provider));
@@ -184,8 +184,7 @@ export function CRMSetupGuide({ onComplete }: CRMSetupGuideProps = {}) {
     mutationFn: async (provider: string) => {
       if (!currentWorkspace?.id) throw new Error('No workspace selected');
 
-      const { error } = await supabase
-        .from('integrations')
+      const { error } = await supabaseFrom('integrations')
         .update({ is_active: false })
         .eq('workspace_id', currentWorkspace.id)
         .eq('provider', provider);
