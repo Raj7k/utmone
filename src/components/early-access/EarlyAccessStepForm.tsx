@@ -140,6 +140,20 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
 
       if (error) throw error;
 
+      // Send welcome email (fire-and-forget)
+      supabase.functions.invoke('send-transactional-email', {
+        body: {
+          templateName: 'early-access-welcome',
+          recipientEmail: normalizedEmail,
+          idempotencyKey: `ea-welcome-${responseData.id}`,
+          templateData: {
+            name: data.name,
+            position: responseData.position || 0,
+            referralCode: responseData.referral_code,
+          },
+        },
+      }).catch(console.error);
+
       // Call onSuccess with full data immediately
       onSuccess({
         id: responseData.id,

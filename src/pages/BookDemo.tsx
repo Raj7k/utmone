@@ -151,10 +151,12 @@ export default function BookDemo() {
 
     try {
       const normalizedEmail = emailValidation?.normalizedEmail || formData.email.trim().toLowerCase();
+      const insertId = crypto.randomUUID();
 
       const { error } = await supabase
         .from('demo_requests')
         .insert([{
+          id: insertId,
           name: formData.name,
           email: normalizedEmail,
           company: formData.company || null,
@@ -165,6 +167,17 @@ export default function BookDemo() {
         }]);
 
       if (error) throw error;
+
+      // Send confirmation email (fire-and-forget)
+      const challengeLabel = WHAT_BRINGS_YOU.find(w => w.value === formData.challenge)?.label;
+      supabase.functions.invoke('send-transactional-email', {
+        body: {
+          templateName: 'demo-confirmation',
+          recipientEmail: normalizedEmail,
+          idempotencyKey: `demo-confirm-${insertId}`,
+          templateData: { name: formData.name, challenge: challengeLabel },
+        },
+      }).catch(console.error);
 
       toast({
         title: "request submitted",
