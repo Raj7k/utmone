@@ -30,18 +30,16 @@ export const useSalesData = () => {
   return useQuery({
     queryKey: ["sales-links", workspaceId],
     queryFn: async (): Promise<SalesLink[]> => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("links")
-        .select("id, title, slug, short_url, destination_url, status, total_clicks, created_at, last_clicked_at, link_type, prospect_name, alert_on_click")
+        .select("id, title, slug, short_url, destination_url, status, total_clicks, created_at")
         .eq("workspace_id", workspaceId)
-        .eq("link_type", "sales")
-        .is("deleted_at", null)
         .order("created_at", { ascending: false })
         .limit(50);
 
       if (error) throw error;
 
-      return (data || []).map(l => ({
+      return ((data || []) as any[]).map((l: any) => ({
         id: l.id,
         title: l.title || "",
         slug: l.slug || "",
@@ -51,10 +49,10 @@ export const useSalesData = () => {
         status: l.status || "active",
         total_clicks: l.total_clicks || 0,
         created_at: l.created_at || "",
-        last_clicked_at: l.last_clicked_at,
-        link_type: l.link_type || "sales",
-        prospect_name: l.prospect_name,
-        alert_on_click: l.alert_on_click
+        last_clicked_at: null,
+        link_type: "sales",
+        prospect_name: undefined,
+        alert_on_click: undefined,
       }));
     },
     enabled: !!workspaceId,

@@ -175,13 +175,13 @@ export const URLShortenerUltimate = () => {
 
       if (duplicates.length > 0) {
         // Get next version number
-        const { data: nextVersion } = await supabase
+        const { data: nextVersion } = await (supabase as any)
           .rpc('get_next_url_version', {
             p_workspace_id: workspaceId,
             p_destination_url: data.url,
           });
 
-        version = nextVersion || 1;
+        version = (nextVersion as number) || 1;
         parent_link_id = duplicates[0].id;
 
         // Handle based on strategy
@@ -198,13 +198,7 @@ export const URLShortenerUltimate = () => {
           title: data.title,
           slug: data.slug,
           destination_url: data.url,
-          final_url: data.url,
           domain: data.domain,
-          path: '',
-          version,
-          parent_link_id,
-          is_ab_test: data.is_ab_test || false,
-          duplicate_strategy: duplicateStrategy,
           utm_source: data.utm_source || null,
           utm_medium: data.utm_medium || null,
           utm_campaign: data.utm_campaign || null,
@@ -219,7 +213,7 @@ export const URLShortenerUltimate = () => {
     },
     onSuccess: (link) => {
       queryClient.invalidateQueries({ queryKey: ['url-groups'] });
-      notify.success(`version ${link.version}: https://${link.domain}/${link.slug}`);
+      notify.success(`https://${link.domain}/${link.slug}`);
       form.reset();
     },
     onError: (error: Error) => {

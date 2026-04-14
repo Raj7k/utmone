@@ -19,7 +19,7 @@ export const useABTesting = (workspaceId: string) => {
       }
 
       // Update parent link
-      const { error: parentError } = await supabase
+      const { error: parentError } = await (supabase as any)
         .from('links')
         .update({ 
           is_ab_test: true,
@@ -33,7 +33,7 @@ export const useABTesting = (workspaceId: string) => {
 
       // Update variant links
       for (const variant of variants) {
-        const { error: variantError } = await supabase
+        const { error: variantError } = await (supabase as any)
           .from('links')
           .update({ 
             is_ab_test: true,
@@ -57,7 +57,7 @@ export const useABTesting = (workspaceId: string) => {
 
   const pauseABTest = useMutation({
     mutationFn: async (parentId: string) => {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('links')
         .update({ ab_test_status: 'paused' })
         .eq('id', parentId)
@@ -78,7 +78,7 @@ export const useABTesting = (workspaceId: string) => {
 
   const resumeABTest = useMutation({
     mutationFn: async (parentId: string) => {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('links')
         .update({ ab_test_status: 'running' })
         .eq('id', parentId)
@@ -100,7 +100,7 @@ export const useABTesting = (workspaceId: string) => {
   const declareWinner = useMutation({
     mutationFn: async ({ parentId, winnerId }: { parentId: string; winnerId: string }) => {
       // Update parent link
-      const { error: parentError } = await supabase
+      const { error: parentError } = await (supabase as any)
         .from('links')
         .update({ 
           ab_test_status: 'completed',
@@ -113,7 +113,7 @@ export const useABTesting = (workspaceId: string) => {
       if (parentError) throw parentError;
 
       // Archive losing variants
-      const { error: archiveError } = await supabase
+      const { error: archiveError } = await (supabase as any)
         .from('links')
         .update({ status: 'archived' })
         .eq('parent_link_id', parentId)

@@ -45,7 +45,6 @@ export const DomainUsageStats = ({ domainId, domain }: DomainUsageStatsProps) =>
       return {
         linkCount: linkCount || 0,
         totalClicks,
-        lastClickedAt: lastClickedLink?.last_clicked_at,
         lastCreatedAt: lastCreated?.created_at,
       };
     },

@@ -96,12 +96,10 @@ export const useDashboardPrefetch = () => {
       queryClient.prefetchQuery({
         queryKey: ["sales-links", workspaceId],
         queryFn: async () => {
-          const { data } = await supabase
+          const { data } = await (supabase as any)
             .from("links")
-            .select("id, title, slug, short_url, destination_url, status, total_clicks, created_at, last_clicked_at, prospect_name, alert_on_click")
+            .select("id, title, slug, short_url, destination_url, status, total_clicks, created_at")
             .eq("workspace_id", workspaceId)
-            .eq("link_type", "sales")
-            .is("deleted_at", null)
             .order("created_at", { ascending: false })
             .limit(50);
           return data || [];

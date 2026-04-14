@@ -125,7 +125,7 @@ export function UTMTemplateManager({ workspaceId, onApplyTemplate }: UTMTemplate
   });
 
   const handleApply = (template: UTMTemplate) => {
-    const defaults = template.utm_defaults as any;
+    const defaults = { utm_source: template.utm_source, utm_medium: template.utm_medium, utm_campaign: template.utm_campaign, utm_term: template.utm_term, utm_content: template.utm_content };
     if (defaults) {
       // Process variables: {date}, {month}, {year}, {index}
       const now = new Date();
@@ -282,25 +282,20 @@ export function UTMTemplateManager({ workspaceId, onApplyTemplate }: UTMTemplate
                   <FileText className="w-4 h-4 text-white-80" />
                   <h4 className="font-medium">{template.name}</h4>
                 </div>
-                {template.description && (
-                  <p className="text-xs text-muted-foreground mt-1">
-                    {template.description}
-                  </p>
-                )}
                 <div className="text-xs text-muted-foreground mt-2 flex flex-wrap gap-2">
-                  {(template.utm_defaults as any)?.utm_source && (
+                  {template.utm_source && (
                     <span className="px-2 py-0.5 bg-muted rounded">
-                      source: {(template.utm_defaults as any).utm_source}
+                      source: {template.utm_source}
                     </span>
                   )}
-                  {(template.utm_defaults as any)?.utm_medium && (
+                  {template.utm_medium && (
                     <span className="px-2 py-0.5 bg-muted rounded">
-                      medium: {(template.utm_defaults as any).utm_medium}
+                      medium: {template.utm_medium}
                     </span>
                   )}
-                  {(template.utm_defaults as any)?.utm_campaign && (
+                  {template.utm_campaign && (
                     <span className="px-2 py-0.5 bg-muted rounded">
-                      campaign: {(template.utm_defaults as any).utm_campaign}
+                      campaign: {template.utm_campaign}
                     </span>
                   )}
                 </div>

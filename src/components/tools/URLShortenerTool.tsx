@@ -140,7 +140,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
   useEffect(() => {
     const checkSlug = async () => {
       if (values.slug && values.slug.length >= 3) {
-        const { data } = await supabase
+        const { data } = await (supabase as any)
           .from("links")
           .select("id")
           .eq("domain", selectedDomain)
