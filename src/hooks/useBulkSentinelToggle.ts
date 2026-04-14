@@ -21,7 +21,7 @@ export function useBulkSentinelStats(workspaceId: string) {
   return useQuery({
     queryKey: ["bulk-sentinel-stats", workspaceId],
     queryFn: async (): Promise<BulkSentinelStats> => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("links")
         .select("id, sentinel_enabled")
         .eq("workspace_id", workspaceId)
@@ -29,8 +29,9 @@ export function useBulkSentinelStats(workspaceId: string) {
 
       if (error) throw error;
 
-      const total = data?.length || 0;
-      const enabled = data?.filter(l => l.sentinel_enabled).length || 0;
+      const linksData = (data || []) as any[];
+      const total = linksData.length;
+      const enabled = linksData.filter((l: any) => l.sentinel_enabled).length;
       const disabled = total - enabled;
 
       return {

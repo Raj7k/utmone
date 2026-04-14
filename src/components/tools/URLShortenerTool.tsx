@@ -237,7 +237,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
     
     try {
       // Final slug check before submission
-      const { data: existing } = await supabase
+      const { data: existing } = await (supabase as any)
         .from("links")
         .select("id")
         .eq("domain", selectedDomain)

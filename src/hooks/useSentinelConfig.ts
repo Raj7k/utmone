@@ -45,7 +45,7 @@ export function useSentinelConfig(linkId: string | undefined) {
     queryFn: async (): Promise<LinkSentinelData | null> => {
       if (!linkId) return null;
 
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("links")
         .select("id, sentinel_enabled, sentinel_config, destination_url, title")
         .eq("id", linkId)
@@ -54,8 +54,8 @@ export function useSentinelConfig(linkId: string | undefined) {
       if (error) throw error;
       
       return {
-        ...data,
-        sentinel_config: (data.sentinel_config as SentinelConfig) || {},
+        ...(data as any),
+        sentinel_config: ((data as any).sentinel_config as SentinelConfig) || {},
       };
     },
     enabled: !!validId,

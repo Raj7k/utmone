@@ -16,7 +16,7 @@ export const useReferralStats = (requestId?: string) => {
       if (!requestId) return null;
 
       // Get user's referral code and stats
-      const { data: user, error: userError } = await supabase
+      const { data: user, error: userError } = await (supabase as any)
         .from('early_access_requests')
         .select('referral_code, referral_score')
         .eq('id', requestId)
@@ -42,14 +42,14 @@ export const useReferralStats = (requestId?: string) => {
       if (successError) throw successError;
 
       // Get user's rank
-      const { data: allUsers, error: rankError } = await supabase
+      const { data: allUsers, error: rankError } = await (supabase as any)
         .from('early_access_requests')
         .select('id, referral_score')
         .order('referral_score', { ascending: false });
 
       if (rankError) throw rankError;
 
-      const rank = (allUsers?.findIndex(u => u.id === requestId) || 0) + 1;
+      const rank = ((allUsers as any[])?.findIndex((u: any) => u.id === requestId) || 0) + 1;
 
       return {
         total_referrals: totalReferrals || 0,
@@ -67,7 +67,7 @@ export const useReferralLeaderboard = (limit: number = 10) => {
   return useQuery({
     queryKey: ['referral-leaderboard', limit],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('early_access_requests')
         .select('id, name, email, referral_score, created_at')
         .order('referral_score', { ascending: false })
@@ -77,7 +77,7 @@ export const useReferralLeaderboard = (limit: number = 10) => {
 
       // For each user, get their referral count
       const leaderboard = await Promise.all(
-        (data || []).map(async (user) => {
+        ((data || []) as any[]).map(async (user: any) => {
           const { count } = await supabase
             .from('early_access_requests')
             .select('id', { count: 'exact', head: true })

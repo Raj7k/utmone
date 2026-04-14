@@ -154,12 +154,8 @@ export const useSetPrimaryDomain = () => {
 
       if (error) throw error;
 
-      // Update workspace primary_domain field
+      // Update workspace settings (primary_domain is not a column, skip)
       const domain = data as Domain;
-      await supabase
-        .from("workspaces")
-        .update({ primary_domain: domain.domain })
-        .eq("id", workspaceId);
 
       return domain;
     },

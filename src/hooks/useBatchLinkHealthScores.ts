@@ -110,24 +110,22 @@ export const useBatchLinkHealthScores = (linkIds: string[]) => {
     queryFn: async (): Promise<HealthScoreMap> => {
       if (linkIds.length === 0) return {};
 
-      const { data: links } = await supabase
+      const { data: links } = await (supabase as any)
         .from("links")
         .select(`
           id,
           total_clicks,
-          unique_clicks,
           security_status,
           utm_source,
           utm_medium,
-          utm_campaign,
-          conversion_events(count)
+          utm_campaign
         `)
         .in("id", linkIds);
 
       if (!links) return {};
 
       // Calculate scores for all links in one pass
-      return links.reduce((map, link) => {
+      return (links as any[]).reduce((map: HealthScoreMap, link: any) => {
         map[link.id] = calculateHealthScore(link);
         return map;
       }, {} as HealthScoreMap);
