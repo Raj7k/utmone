@@ -50,6 +50,7 @@ export const LinkDetailQRCodes = ({ linkId, shortUrl }: LinkDetailQRCodesProps) 
     },
   });
 
+  if (isLoading)
     return <div className="p-8 text-center text-secondary-label">loading qr codes…</div>;
 
   if (!qrCodes || qrCodes.length === 0) {
