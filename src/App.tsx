@@ -14,8 +14,7 @@ import { AppWithHelp } from "./components/AppWithHelp";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 // PHASE: AnimatedRoutes removed - causes LCP recalculation
 import { lazyWithRetry } from "./utils/lazyWithRetry";
-import { InstallPrompt } from "./components/pwa/InstallPrompt";
-import { UpdateNotification } from "./components/pwa/UpdateNotification";
+// PWA components removed - service worker was removed, these are dead weight on critical path
 // PHASE 14: Use centralized queryClient - no duplicate QueryClient creation
 import { queryClient as centralQueryClient } from "@/lib/queryConfig";
 import { ModalProvider } from "./contexts/ModalContext";
@@ -1008,8 +1007,6 @@ const AppRoutes = () => {
         <Suspense fallback={null}>
           <GlobalEarlyAccessModal />
         </Suspense>
-        <InstallPrompt />
-        <UpdateNotification />
       </ModalProvider>
     </Suspense>
   );

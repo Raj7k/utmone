@@ -82,10 +82,3 @@ export function lazyWithRetry<T extends ComponentType<any>>(
     return { default: ModuleLoadErrorFallback as unknown as T };
   });
 }
-
-// Clean up any legacy reload flags from previous versions
-if (typeof window !== 'undefined') {
-  window.addEventListener('load', () => {
-    sessionStorage.removeItem('moduleReloadAttempted');
-  });
-}
