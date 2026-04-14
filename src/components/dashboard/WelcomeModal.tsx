@@ -82,6 +82,11 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
 
       const slug = Math.random().toString(36).substring(2, 8);
 
+      // IMPORTANT: domain='utm.click' (the actual short-link domain used across
+      // the codebase — URLShortenerBasic, Step2Shortener, BulkUpload, create-
+      // public-link edge function). path='' for clean short URLs. Without these
+      // explicit values, the legacy DB defaults (domain='keka.com', path='go')
+      // kick in and redirects break.
       const payload = {
         workspace_id: currentWorkspace.id,
         created_by: user.id,
@@ -89,7 +94,8 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
         slug,
         title: new URL(finalUrl).hostname,
         status: 'active' as const,
-        domain: 'utm.one',
+        domain: 'utm.click',
+        path: '',
       };
       const { error } = await supabase.from('links').insert(payload);
 
@@ -118,7 +124,7 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(`https://utm.one/${createdSlug}`);
+      await navigator.clipboard.writeText(`https://utm.click/${createdSlug}`);
       notify.success("copied!");
     } catch {
       notify.error("couldn't copy");
@@ -175,7 +181,7 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
                     className="bg-muted/50 rounded-lg p-3 text-sm"
                   >
                     <span className="text-muted-foreground">preview: </span>
-                    <span className="font-mono text-foreground">utm.one/</span>
+                    <span className="font-mono text-foreground">utm.click/</span>
                     <span className="font-mono text-primary">abc123</span>
                   </motion.div>
                 )}
@@ -237,7 +243,7 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
                 className="bg-muted/50 rounded-lg p-3 cursor-pointer hover:bg-muted transition-colors"
               >
                 <p className="font-mono text-primary text-lg">
-                  utm.one/{createdSlug}
+                  utm.click/{createdSlug}
                 </p>
                 <p className="text-xs text-muted-foreground mt-1">click to copy</p>
               </div>
