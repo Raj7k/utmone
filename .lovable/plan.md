@@ -1,67 +1,63 @@
 
 
-## Plan: Fix All Remaining Build Errors
+## Plan: Create Missing Database Tables + Fix Build Errors
 
-There are ~60+ TypeScript errors remaining across ~15 files. They fall into 6 categories, all stemming from the same root cause: code references columns, tables, or RPC functions that don't exist in the database schema.
+### Overview
+Create 5 database tables (`profiles`, `workspace_members`, `link_clicks`, `domains`, `api_keys`) so dashboard features work with real data, and fix the ~45 remaining build errors caused by references to non-existent columns/tables/RPCs.
 
-### Category 1: `FeatureFlagsPanel.tsx` — `last_modified_at` on `FeatureFlag`
-- Lines 237, 239 reference `flag.last_modified_at` which was removed from the type
-- Fix: Remove or replace these references with `flag.created_at`
+### Part 1: Database Migration
 
-### Category 2: `FraudAlerts.tsx` — Excessive type depth
-- Line 12: `supabaseFrom("early_access_requests")` with a `.select()` joining `fraud_detection_logs(*)` causes deep type recursion
-- Fix: Already uses `supabaseFrom` (any-typed), but still imports `supabase` — the issue is likely the complex join. Add explicit `as any` cast on the result.
+One migration to create all 5 tables with RLS policies:
 
-### Category 3: `ManualTierAdjust.tsx` — Non-existent RPC `log_admin_action`
-- Line 67: `(supabase as any).rpc("log_admin_action", ...)` — already cast to `any`, so this shouldn't error. Need to verify; if typed `supabase.rpc` is used, switch to `(supabase as any).rpc`.
+**`profiles`** — User profile data linked to auth.users
+- Columns: `id` (UUID PK, references auth.users), `email`, `full_name`, `avatar_url`, `timezone`, `user_type`, `icp_role`, `primary_use_case`, `onboarding_completed`, `has_seen_welcome_modal`, `first_link_created_at`, `first_qr_generated_at`, `first_analytics_viewed_at`, `team_members_invited_count`, `created_at`, `updated_at`
+- RLS: Users can read/update their own profile; admins can read all
 
-### Category 4: `WaitlistStatsBar.tsx` — Selecting non-existent column `approval_timestamp`
-- The `.select("status, created_at, approval_timestamp")` uses typed `supabaseFrom` but `approval_timestamp` doesn't exist on `early_access_requests`
-- Fix: Remove `approval_timestamp` from the select and simplify the stats to use only existing columns (`status`, `created_at`)
+**`workspace_members`** — Team membership
+- Columns: `id` (UUID PK), `workspace_id`, `user_id`, `role` (text), `created_at`, `updated_at`
+- Unique constraint on (workspace_id, user_id)
+- RLS: Members can view their workspace's members; workspace owners can manage
 
-### Category 5: Files querying `links` with non-existent columns (`unique_clicks`, `cache_priority`, `health_status`)
-- **`ExportButton.tsx`**: References `link.unique_clicks` — use `0` fallback since column doesn't exist
-- **`CachePerformanceWidget.tsx`**: References `cache_priority` — switch to `supabaseFrom` and cast data
-- **`LinkHealthWidget.tsx`**: References `health_status` — switch to `supabaseFrom` and cast data
-- **`OwnerPerformance.tsx`**: References `total_clicks`, `unique_clicks` — already uses `supabaseFrom`, add cast
-- **`TopCampaignsTable.tsx`**: References `unique_clicks` — already uses `supabaseFrom`, add cast
-- **`BulkUploadAnalytics.tsx`**: References `unique_clicks` — already uses `supabaseFrom`, add cast
-- Fix for all: Since these all use `supabaseFrom` (any-typed), the errors are about the data access after the query. Need to cast `data` as `any[]` or use explicit type assertions.
+**`link_clicks`** — Click analytics
+- Columns: `id` (UUID PK), `link_id`, `workspace_id`, `clicked_at`, `ip_address`, `user_agent`, `referrer`, `country`, `city`, `device_type`, `browser`, `os`, `is_unique`, `visitor_id`
+- RLS: Workspace owners can read their clicks
 
-### Category 6: RPC functions that don't exist
-- **`AttributionTabContent.tsx`**: `get_channel_lift` — already uses `(supabase as any).rpc`, but line 97-98 has `.filter()` on a `true | any[]` return — fix by casting the RPC result
-- **`LiftAnalysis.tsx`**: `get_channel_lift` — already cast to `any`, should compile
-- **`VelocityAnalytics.tsx`**: `get_conversion_velocity` — already cast to `any`, should compile
+**`domains`** — Custom domains
+- Columns: `id` (UUID PK), `workspace_id`, `domain`, `is_verified`, `is_primary`, `is_system_domain`, `verification_code`, `domain_settings` (jsonb), `created_by`, `created_at`
+- RLS: Workspace owners can CRUD their domains; system domains readable by all authenticated
 
-### Category 7: `AnomalyAlert.tsx` — References `analytics_anomalies` from DB types
-- Line 10 references `Database["public"]["Tables"]["analytics_anomalies"]` — table doesn't exist
-- Fix: Already has inline `Anomaly` type defined — remove the DB type reference
+**`api_keys`** — Developer API keys
+- Columns: `id` (UUID PK), `workspace_id`, `key_name`, `key_hash`, `key_prefix`, `scopes` (text[]), `rate_limit`, `rate_limit_window`, `requests_this_window`, `window_reset_at`, `last_used_at`, `expires_at`, `is_active`, `created_at`
+- RLS: Workspace owners can CRUD their keys
 
-### Category 8: `DeviceBreakdown.tsx` and `GeolocationMap.tsx` — `.forEach` on `true`
-- These consume data from `useCachedDeviceAnalytics` / `useCachedGeolocationAnalytics` which call `(supabase as any).rpc()`. The `any` RPC returns `true` when the function doesn't exist.
-- Fix: Add type assertions in the cache hooks to return `data as any[]` and add null guards in the components
+Also add a trigger on `profiles` to auto-create a row on new user signup via `auth.users`.
 
-### Implementation approach
-For each file:
-1. Ensure all Supabase queries use either `supabaseFrom()` or `(supabase as any).rpc()` 
-2. Cast returned data to `any[]` where needed to prevent downstream property access errors
-3. Remove references to non-existent columns/properties
-4. Add `Array.isArray()` guards where data might be `true` instead of an array
+### Part 2: Fix Remaining Build Errors (15 files)
 
-### Files to modify (15 files)
-- `src/components/admin/FeatureFlagsPanel.tsx`
-- `src/components/admin/FraudAlerts.tsx`
-- `src/components/admin/subscriptions/ManualTierAdjust.tsx`
-- `src/components/admin/waitlist/WaitlistStatsBar.tsx`
-- `src/components/analytics/AnomalyAlert.tsx`
-- `src/components/analytics/AttributionTabContent.tsx`
-- `src/components/analytics/CachePerformanceWidget.tsx`
-- `src/components/analytics/DeviceBreakdown.tsx`
-- `src/components/analytics/ExportButton.tsx`
-- `src/components/analytics/GeolocationMap.tsx`
-- `src/components/analytics/LinkHealthWidget.tsx`
-- `src/components/analytics/OwnerPerformance.tsx`
-- `src/components/analytics/TopCampaignsTable.tsx`
-- `src/components/bulk-upload/BulkUploadAnalytics.tsx`
-- `src/hooks/analytics/useAnalyticsCache.tsx`
+These errors exist because code references columns/tables/RPCs that aren't in the generated types. Since Part 1 creates the main tables, many errors will auto-resolve after type regeneration. The remaining fixes:
+
+1. **`FeatureFlagsPanel.tsx`** — Replace `flag.last_modified_at` with `flag.created_at`
+2. **`FraudAlerts.tsx`** — Cast query result to `any[]` to fix excessive type depth from join on non-existent `fraud_detection_logs`
+3. **`ManualTierAdjust.tsx`** — Cast `supabase.rpc("log_admin_action")` to `(supabase as any).rpc()`
+4. **`WaitlistStatsBar.tsx`** — Remove `approval_timestamp` from select; use `created_at` as fallback
+5. **`AnomalyAlert.tsx`** — Already has inline type; remove `supabaseFrom('analytics_anomalies')` call and make dismiss a no-op
+6. **`AttributionTabContent.tsx`** — Cast RPC calls to `(supabase as any).rpc()` and add `Array.isArray()` guard
+7. **`LiftAnalysis.tsx`** — Cast RPC to `(supabase as any).rpc()`
+8. **`VelocityAnalytics.tsx`** — Cast RPC to `(supabase as any).rpc()`
+9. **`CachePerformanceWidget.tsx`** — Cast data to `any[]` after query
+10. **`DeviceBreakdown.tsx`** — Add `Array.isArray()` guard before `.forEach()`
+11. **`GeolocationMap.tsx`** — Add `Array.isArray()` guard before `.forEach()`
+12. **`ExportButton.tsx`** — Use `(link as any).unique_clicks || 0` fallback
+13. **`LinkHealthWidget.tsx`** — Cast data to `any[]`
+14. **`OwnerPerformance.tsx`** — Cast data to `any[]`
+15. **`TopCampaignsTable.tsx`** — Cast data to `any[]`
+16. **`BulkUploadAnalytics.tsx`** — Cast data to `any[]`
+
+### Part 3: Fix OnboardingWizard.tsx
+The onboarding wizard inserts `slug` and `onboarding_completed` into `workspaces` — these columns don't exist. Fix: remove `slug` and `onboarding_completed` from the workspace insert (the profiles table will store `onboarding_completed` instead).
+
+### Files Modified
+- 1 database migration (all 5 tables + trigger + RLS)
+- ~16 TypeScript files with type casts and column fixes
+- `OnboardingWizard.tsx` workspace insert cleanup
 
