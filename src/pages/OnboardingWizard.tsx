@@ -217,16 +217,23 @@ export default function OnboardingWizard() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("No user found");
 
-      // Update profile
-      await supabaseFrom('profiles')
-        .update({ 
-          full_name: fullName,
-          user_type: selectedRole === "ops" ? "organization" : "individual",
-          icp_role: selectedRole,
-          primary_use_case: selectedGoals.join(","),
-          onboarding_completed: true,
-        })
-        .eq("id", user.id);
+      // UPSERT profile (ensures a row exists even if the handle_new_user trigger
+      // hasn't fired yet; prevents FK failures on workspace insert which references
+      // profiles(id) via owner_id). Uses the supabaseFrom helper per Lovable's pattern.
+      const { error: profileError } = await supabaseFrom('profiles')
+        .upsert(
+          {
+            id: user.id,
+            email: user.email,
+            full_name: fullName,
+            user_type: selectedRole === "ops" ? "organization" : "individual",
+            icp_role: selectedRole,
+            primary_use_case: selectedGoals.join(","),
+            onboarding_completed: true,
+          },
+          { onConflict: "id" }
+        );
+      if (profileError) throw profileError;
 
       // Create workspace
       const slug = workspaceName.toLowerCase().replace(/[^a-z0-9]/g, '-');
@@ -247,6 +254,17 @@ export default function OnboardingWizard() {
           throw new Error("this workspace name is already taken. please try a different name.");
         }
         throw workspaceError;
+      }
+
+      // Register the owner as a workspace_members row (role=owner) so the
+      // workspace appears via the member-lookup path as well. Non-fatal if it fails
+      // (the owner_id lookup is the primary path for owners).
+      if (workspace?.id) {
+        await supabaseFrom('workspace_members')
+          .upsert(
+            { workspace_id: workspace.id, user_id: user.id, role: "owner" },
+            { onConflict: "workspace_id,user_id" }
+          );
       }
 
       // Invalidate workspace cache to ensure fresh data
