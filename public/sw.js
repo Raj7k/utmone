@@ -3,6 +3,16 @@ const SW_VERSION = '__BUILD_TIMESTAMP__';
 const CACHE_NAME = 'utm-one-' + SW_VERSION;
 const STATIC_CACHE = 'utm-one-static-' + SW_VERSION;
 
+// On ephemeral preview hosts (Lovable / Vercel previews, localhost), this
+// service worker causes more harm than good: it caches JS chunk hashes from
+// a previous deploy, so after the next deploy the browser requests chunks
+// that no longer exist and React fails to boot. When a client installs a
+// fresh copy of this SW on a preview host, we self-destruct: unregister
+// ourselves, delete every cache, and tell open clients to reload. After
+// that the app runs with no SW and always loads fresh bundles.
+const PREVIEW_HOST_RE = /(^|\.)lovable\.app$|\.lovableproject\.com$|\.vercel\.app$|^localhost$|^127\.0\.0\.1$/i;
+const IS_PREVIEW_HOST = PREVIEW_HOST_RE.test(self.location.hostname);
+
 // Static assets to precache
 const PRECACHE_ASSETS = [
   '/manifest.json',
@@ -11,7 +21,12 @@ const PRECACHE_ASSETS = [
 
 // Install event - precache critical assets and skip waiting immediately
 self.addEventListener('install', (event) => {
-  console.log('[SW] Installing v' + SW_VERSION);
+  console.log('[SW] Installing v' + SW_VERSION + ' on ' + self.location.hostname);
+  // Preview hosts: skip waiting immediately so we can self-destruct in activate
+  if (IS_PREVIEW_HOST) {
+    event.waitUntil(self.skipWaiting());
+    return;
+  }
   event.waitUntil(
     caches.open(STATIC_CACHE)
       .then((cache) => cache.addAll(PRECACHE_ASSETS))
@@ -22,9 +37,35 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Activate event - aggressively clean up ALL old caches
+// Activate event - on preview hosts SELF-DESTRUCT; otherwise clean old caches.
 self.addEventListener('activate', (event) => {
-  console.log('[SW] Activating v' + SW_VERSION);
+  console.log('[SW] Activating v' + SW_VERSION + ' on ' + self.location.hostname);
+
+  if (IS_PREVIEW_HOST) {
+    // Preview host: wipe ALL caches, unregister self, tell clients to reload.
+    event.waitUntil((async () => {
+      try {
+        const names = await caches.keys();
+        await Promise.all(names.map((n) => caches.delete(n)));
+        console.log('[SW] Preview host — all caches cleared');
+
+        // Tell every connected client to reload so they fetch fresh HTML
+        // (which, thanks to index.html cleanup, will not re-register this SW).
+        const clients = await self.clients.matchAll({ includeUncontrolled: true });
+        clients.forEach((client) => {
+          try { client.postMessage({ type: 'forceReload' }); } catch (_) { /* noop */ }
+        });
+
+        // Unregister self so no future navigation is intercepted.
+        await self.registration.unregister();
+        console.log('[SW] Preview host — unregistered self');
+      } catch (err) {
+        console.warn('[SW] Self-destruct failed (non-fatal):', err);
+      }
+    })());
+    return;
+  }
+
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
@@ -53,6 +94,14 @@ function isHashedAsset(url) {
 
 // Fetch event - network-first for JS/CSS, stale-while-revalidate for images
 self.addEventListener('fetch', (event) => {
+  // Preview host: don't intercept anything. Every request goes straight to
+  // the network untouched. Combined with the self-unregister in activate,
+  // this prevents a half-destroyed SW from serving stale assets during the
+  // short window before unregister() completes.
+  if (IS_PREVIEW_HOST) {
+    return;
+  }
+
   const { request } = event;
   const url = new URL(request.url);
 
