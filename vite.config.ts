@@ -19,23 +19,49 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
-    // No manualChunks. We previously had an elaborate config that split
-    // vendor-react / vendor-query / vendor-charts / etc. and also grouped
-    // dashboard pages into per-area chunks (dashboard-links, dashboard-
-    // analytics, etc). That config produced circular chunks in production:
-    // vendor-react ended up importing from dashboard-links, or from
-    // vendor-charts, depending on which combo we tried. Result: React's
-    // exports weren't ready by the time downstream chunks tried to call
-    // React.createContext, and the app crashed on every page load with
-    //   Uncaught TypeError: Cannot read properties of undefined
-    //     (reading 'createContext')
-    // Vite's default chunker is dep-graph-aware and doesn't create these
-    // cycles. We keep per-route code-splitting via React.lazy() in App.tsx /
-    // PrivateRoutes.tsx, which Vite honors automatically — each lazy()
-    // import produces its own chunk. If we need to revisit vendor splitting
-    // for bundle-size reasons later, use rollup-plugin-visualizer FIRST to
-    // see the graph, and only split leaves (never shared vendor libs like
-    // react or recharts).
+    rollupOptions: {
+      output: {
+        // CONSERVATIVE, LEAF-ONLY vendor splitting.
+        //
+        // Background: an earlier version of this file aggressively split
+        // pages/* AND vendor libs (react, react-query, recharts, radix,
+        // motion, …). Rollup created back-edges — vendor-react ended up
+        // importing from dashboard-links in one build, and from vendor-
+        // charts in another. That produced the classic
+        //   "Cannot read properties of undefined (reading 'createContext')"
+        // on every page load.
+        //
+        // Rules we now enforce, in order of importance:
+        //   1. NEVER split application source into a manual chunk. React.lazy
+        //      at route boundaries handles that automatically.
+        //   2. NEVER split a library that imports from React (recharts,
+        //      radix, react-query, motion, nivo, xyflow, html5-qrcode).
+        //      Rollup will hoist shared React helpers into the vendor chunk,
+        //      and vendor-react imports them back → cycle.
+        //   3. ONLY split pure-JS leaf libraries that do NOT import React
+        //      and are imported ONLY from lazy() route chunks.
+        //
+        // Current safe-to-split leaves:
+        //   * xlsx (pure JS, ~284 kB raw, only used for export features)
+        //   * qrcode (pure JS, only used in QR/BrickMatrix pages)
+        //
+        // Verified with `head -c 400 dist/assets/<chunk>.js` that neither
+        // of these chunks ends up back-imported by vendor code.
+        manualChunks(id) {
+          // Only touch node_modules; app source gets default treatment.
+          if (!id.includes('node_modules')) return undefined;
+
+          // Pure-JS leaves. Do NOT add react-using libraries here without
+          // verifying the chunk graph has no back-edges from other vendors.
+          if (id.includes('/xlsx/')) return 'vendor-xlsx';
+          if (id.includes('/qrcode/') && !id.includes('html5-qrcode')) return 'vendor-qrcode';
+
+          return undefined;
+        },
+      },
+    },
+    // Warn at 1.5MB instead of 1MB — the main bundle is close to 1MB even
+    // after splitting and that's acceptable for a full product dashboard.
     chunkSizeWarningLimit: 1500,
   },
   test: {
