@@ -162,29 +162,52 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("not authenticated");
 
-      const { data: link, error } = await supabase
+      // Core columns: present in every links table since the original schema.
+      const corePayload = {
+        workspace_id: workspaceId,
+        created_by: user.id,
+        title: data.title,
+        slug: data.slug,
+        destination_url: data.url,
+        domain: selectedDomain,
+        path: "",
+      };
+      // Extended columns: added by migration 20260414000004 + features.
+      // If those columns aren't in the schema cache yet (PGRST204), we retry with
+      // just the core payload so basic short link creation always works.
+      const extendedPayload = {
+        ...corePayload,
+        final_url: data.url,
+        expires_at: data.expires_at || null,
+        max_clicks: data.max_clicks || null,
+        fallback_url: data.fallback_url || null,
+        destinations: destinations.length > 0 ? (destinations as unknown as Json) : null,
+        smart_rotate: destinations.length >= 2 ? smartRotate : false,
+        contextual_routing: destinations.length >= 2 ? contextualRouting : false,
+        routing_strategy: contextualRouting ? 'contextual' : 'global',
+      };
+
+      let { data: link, error } = await supabase
         .from("links")
-        .insert([{
-          workspace_id: workspaceId,
-          created_by: user.id,
-          title: data.title,
-          slug: data.slug,
-          destination_url: data.url,
-          final_url: data.url,
-          domain: selectedDomain,
-          path: "",
-          expires_at: data.expires_at || null,
-          max_clicks: data.max_clicks || null,
-          fallback_url: data.fallback_url || null,
-          destinations: destinations.length > 0 ? (destinations as unknown as Json) : null,
-          smart_rotate: destinations.length >= 2 ? smartRotate : false,
-          contextual_routing: destinations.length >= 2 ? contextualRouting : false,
-          routing_strategy: contextualRouting ? 'contextual' : 'global',
-        }])
+        .insert([extendedPayload])
         .select()
         .single();
 
-      if (error) throw error;
+      if (error?.code === 'PGRST204') {
+        console.warn('[URLShortenerTool] Extended insert failed (missing column). Falling back to core payload.', error);
+        const retry = await supabase
+          .from("links")
+          .insert([corePayload])
+          .select()
+          .single();
+        link = retry.data;
+        error = retry.error;
+      }
+
+      if (error) {
+        console.error('[URLShortenerTool] Link insert failed:', error);
+        throw error;
+      }
       
       // Trigger webhook for link.created
       try {

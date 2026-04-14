@@ -81,20 +81,33 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
       }
 
       const slug = Math.random().toString(36).substring(2, 8);
-      
-      const { error } = await supabase
-        .from('links')
-        .insert({
-          workspace_id: currentWorkspace.id,
-          created_by: user.id,
-          destination_url: finalUrl,
-          final_url: finalUrl,
-          slug,
-          title: new URL(finalUrl).hostname,
-          status: 'active',
-        });
 
-      if (error) throw error;
+      // Try with all columns first. If the DB hasn't yet applied migration
+      // 20260414000004 (which adds final_url), retry without that column so
+      // first-link creation still works on fresh Supabase projects.
+      const fullPayload = {
+        workspace_id: currentWorkspace.id,
+        created_by: user.id,
+        destination_url: finalUrl,
+        final_url: finalUrl,
+        slug,
+        title: new URL(finalUrl).hostname,
+        status: 'active',
+      };
+      let { error } = await supabase.from('links').insert(fullPayload);
+
+      if (error?.code === 'PGRST204') {
+        console.warn('[WelcomeModal] Link insert with full payload failed (missing column). Retrying with core columns.', error);
+        const { final_url: _omit, ...corePayload } = fullPayload;
+        const retry = await supabase.from('links').insert(corePayload);
+        error = retry.error;
+      }
+
+      if (error) {
+        // Surface the real error message so issues are visible, not buried.
+        console.error('[WelcomeModal] Link insert failed:', error);
+        throw error;
+      }
 
       setCreatedSlug(slug);
       setIsSuccess(true);
@@ -104,9 +117,10 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
       setTimeout(() => {
         handleClose();
       }, 2000);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error creating link:', error);
-      notify.error("couldn't create link. please try again.");
+      const msg = error?.message ? `couldn't create link: ${error.message}` : "couldn't create link. please try again.";
+      notify.error(msg);
     } finally {
       setIsCreating(false);
     }
