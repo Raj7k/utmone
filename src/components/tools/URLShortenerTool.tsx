@@ -169,6 +169,8 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
         destination_url: data.url,
         domain: selectedDomain,
         expires_at: data.expires_at || null,
+        max_clicks: data.max_clicks && !isNaN(data.max_clicks) ? data.max_clicks : null,
+        fallback_url: data.fallback_url || null,
         status: 'active' as const,
       };
 
