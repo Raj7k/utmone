@@ -1,35 +1,43 @@
 
 
-## Plan: Add Password Protection to Link Redirect Flow
+## Plan: Add Transactional Emails (Demo Confirmation + Early Access Welcome)
 
-### Problem
-The redirect edge function references non-existent columns (`password_hash`, `password_hint`, `final_url`, `path`, `approval_status`, etc.) causing the entire redirect to fail. The `verify-link-password` edge function also queries `password_hash` but the actual column is `password` (plain text). The password-protected page redirect URL points to the Supabase URL instead of the app URL.
+### What
+Set up app email infrastructure and create two confirmation email templates that send automatically when users submit the Book Demo or Early Access forms.
 
-### Changes
+### Email Templates
 
-**1. `supabase/functions/redirect/index.ts`** — Fix the redirect function to work with the actual schema:
-- Replace `password_hash` check with `password` column check (line 364)
-- Redirect to the app's `/password-protected` page instead of `${SUPABASE_URL}/password-protected` (line 366)
-- Replace `final_url` with `destination_url` throughout
-- Remove references to non-existent columns from the SELECT query: `final_url`, `approval_status`, `custom_expiry_message`, `redirect_type`, `og_title`, `og_description`, `og_image`, `password_hash`, `password_hint`, `path`, `destinations`, `smart_rotate`, `alert_on_click`, `prospect_name`, `link_type`
-- Remove `path` from the query filter (`.eq('path', path)`)
-- Remove approval_status checks (lines 319-361)
-- Update the LinkRecord interface to match actual columns
+**1. Demo Request Confirmation** (`demo-confirmation`)
+- Triggered after Book Demo form submission
+- Confirms their request was received, reminds them to book via Cal.com link
+- Branded with utm.one obsidian theme (white background, dark accents)
 
-**2. `supabase/functions/verify-link-password/index.ts`** — Fix password verification:
-- Query `password` instead of `password_hash`
-- Compare the plain-text password directly (since the `password` column stores plain text, not a hash), OR hash both consistently
-- Return `destination_url` instead of `final_url`
+**2. Early Access Welcome** (`early-access-welcome`)
+- Triggered after Early Access form submission
+- Welcomes the user, shows their queue position, includes referral code
+- Encourages sharing their referral link
 
-**3. `src/pages/PasswordProtected.tsx`** — Minor: already works, just ensure the `finalUrl` from the verify response maps to the correct field name.
+### Steps
 
-### Technical Detail
-- The `links` table has: `password` (text), `destination_url` (text) — no `password_hash`, `password_hint`, `final_url`, or `path`
-- The redirect function will check `if (linkRecord.password)` and redirect to `https://utmone.lovable.app/password-protected?link=${id}`
-- The verify function will compare passwords and return `destination_url`
-- Both edge functions will be redeployed and tested
+1. **Scaffold transactional email infrastructure** — creates `send-transactional-email`, `handle-email-unsubscribe`, and `handle-email-suppression` edge functions, plus the template registry
+2. **Create two email templates** in `supabase/functions/_shared/transactional-email-templates/`:
+   - `demo-confirmation.tsx` — "thanks for booking" with Cal.com CTA
+   - `early-access-welcome.tsx` — welcome with queue position and referral code
+3. **Register templates** in `registry.ts`
+4. **Create unsubscribe page** at the path determined by the scaffold tool
+5. **Wire up triggers**:
+   - `src/pages/BookDemo.tsx` — add `supabase.functions.invoke('send-transactional-email', ...)` after successful `demo_requests` insert
+   - `src/components/early-access/EarlyAccessStepForm.tsx` — add email send after successful `handle-referral-signup` response
+6. **Deploy all edge functions**
 
 ### Files Modified
-- `supabase/functions/redirect/index.ts`
-- `supabase/functions/verify-link-password/index.ts`
+- `supabase/functions/_shared/transactional-email-templates/demo-confirmation.tsx` (new)
+- `supabase/functions/_shared/transactional-email-templates/early-access-welcome.tsx` (new)
+- `supabase/functions/_shared/transactional-email-templates/registry.ts` (new/updated)
+- `supabase/functions/send-transactional-email/index.ts` (scaffolded)
+- `supabase/functions/handle-email-unsubscribe/index.ts` (scaffolded)
+- `supabase/functions/handle-email-suppression/index.ts` (scaffolded)
+- `src/pages/BookDemo.tsx` — add email send after form submit
+- `src/components/early-access/EarlyAccessStepForm.tsx` — add email send after signup
+- `src/pages/Unsubscribe.tsx` (new) — branded unsubscribe page
 
