@@ -19,7 +19,7 @@ const EarlyAccessWelcomeEmail = ({ name, position, referralCode }: EarlyAccessWe
   return (
     <Html lang="en" dir="ltr">
       <Head />
-      <Preview>you're in — #{position ?? '???'} on the {SITE_NAME} waitlist</Preview>
+      <Preview>{`you're in — #${String(position ?? '???')} on the ${SITE_NAME} waitlist`}</Preview>
       <Body style={main}>
         <Container style={container}>
           <Text style={logo}>{SITE_NAME}</Text>
