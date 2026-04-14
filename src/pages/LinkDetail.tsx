@@ -114,6 +114,9 @@ const LinkDetail = () => {
                 onClick={() => setSentinelDialogOpen(true)} 
               />
             </div>
+            {link.description && (
+              <p className="text-body-apple text-muted-foreground">{link.description}</p>
+            )}
             </div>
 
           <div className="flex gap-2">
