@@ -472,6 +472,7 @@ export type Database = {
           clicks_last_30_days: number
           created_at: string
           created_by: string
+          description: string | null
           destination_url: string
           domain: string | null
           expires_at: string | null
@@ -479,8 +480,12 @@ export type Database = {
           geo_targets: Json | null
           id: string
           max_clicks: number | null
+          og_description: string | null
+          og_image: string | null
+          og_title: string | null
           password: string | null
           password_hash: string | null
+          redirect_type: string | null
           security_status: string
           short_url: string | null
           slug: string | null
@@ -499,6 +504,7 @@ export type Database = {
           clicks_last_30_days?: number
           created_at?: string
           created_by: string
+          description?: string | null
           destination_url: string
           domain?: string | null
           expires_at?: string | null
@@ -506,8 +512,12 @@ export type Database = {
           geo_targets?: Json | null
           id?: string
           max_clicks?: number | null
+          og_description?: string | null
+          og_image?: string | null
+          og_title?: string | null
           password?: string | null
           password_hash?: string | null
+          redirect_type?: string | null
           security_status?: string
           short_url?: string | null
           slug?: string | null
@@ -526,6 +536,7 @@ export type Database = {
           clicks_last_30_days?: number
           created_at?: string
           created_by?: string
+          description?: string | null
           destination_url?: string
           domain?: string | null
           expires_at?: string | null
@@ -533,8 +544,12 @@ export type Database = {
           geo_targets?: Json | null
           id?: string
           max_clicks?: number | null
+          og_description?: string | null
+          og_image?: string | null
+          og_title?: string | null
           password?: string | null
           password_hash?: string | null
+          redirect_type?: string | null
           security_status?: string
           short_url?: string | null
           slug?: string | null
