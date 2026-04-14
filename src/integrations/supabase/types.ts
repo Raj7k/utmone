@@ -904,6 +904,15 @@ export type Database = {
     Functions: {
       calculate_queue_position: { Args: never; Returns: number }
       generate_referral_code: { Args: never; Returns: string }
+      get_channel_lift: { Args: { p_workspace_id: string }; Returns: Json }
+      get_conversion_velocity: {
+        Args: { p_workspace_id: string }
+        Returns: Json
+      }
+      get_dashboard_summary: {
+        Args: { p_user_id?: string; p_workspace_id: string }
+        Returns: Json
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
