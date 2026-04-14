@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Users, UserCheck, Clock, TrendingUp } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDistanceToNow } from "date-fns";
@@ -19,8 +20,7 @@ export function WaitlistStatsBar() {
       const now = new Date();
       const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
 
-      const { data: requests, error } = await supabase
-        .from("early_access_requests")
+      const { data: requests, error } = await supabaseFrom("early_access_requests")
         .select("status, created_at, approval_timestamp");
 
       if (error) throw error;

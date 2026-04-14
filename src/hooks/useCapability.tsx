@@ -37,7 +37,7 @@ export const useCapability = (
     queryFn: async () => {
       if (!workspaceId || !userId) return false;
 
-      const { data, error } = await supabase.rpc('has_capability', {
+      const { data, error } = await (supabase as any).rpc("has_capability", {
         _user_id: userId,
         _workspace_id: workspaceId,
         _capability: capability,
@@ -75,7 +75,7 @@ export const useCapabilities = (
       // Execute all capability checks in parallel
       const checks = await Promise.all(
         capabilities.map(async (cap) => {
-          const { data, error } = await supabase.rpc('has_capability', {
+          const { data, error } = await (supabase as any).rpc("has_capability", {
             _user_id: userId,
             _workspace_id: workspaceId,
             _capability: cap,

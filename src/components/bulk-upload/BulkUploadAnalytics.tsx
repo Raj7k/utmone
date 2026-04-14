@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { BarChart3, TrendingUp, MousePointerClick, ExternalLink, Download } from "lucide-react";
 import { format } from "date-fns";
 
@@ -15,8 +16,7 @@ export function BulkUploadAnalytics({ workspaceId }: BulkUploadAnalyticsProps) {
     queryKey: ["bulk-upload-analytics", workspaceId],
     queryFn: async () => {
       // Query links grouped by creation timestamp
-      const { data: links, error } = await supabase
-        .from("links")
+      const { data: links, error } = await supabaseFrom("links")
         .select("id, title, short_url, created_at, status, total_clicks, unique_clicks, domain")
         .eq("workspace_id", workspaceId)
         .order("created_at", { ascending: false })

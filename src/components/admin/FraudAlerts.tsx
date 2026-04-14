@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -9,8 +10,7 @@ export default function FraudAlerts() {
   const { data: flaggedUsers, isLoading } = useQuery({
     queryKey: ["fraud-alerts"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("early_access_requests")
+      const { data, error } = await supabaseFrom("early_access_requests")
         .select(`
           *,
           fraud_logs:fraud_detection_logs(*)

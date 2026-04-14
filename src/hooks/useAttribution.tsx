@@ -70,7 +70,7 @@ export const useCustomerJourney = (
     queryFn: async () => {
       if (!userId || !workspaceId) return [];
 
-      const { data, error } = await supabase.rpc("get_customer_journey" as any, {
+      const { data, error } = await (supabase as any).rpc("get_customer_journey" as any, {
         p_user_id: userId,
         p_workspace_id: workspaceId,
       });
@@ -99,7 +99,7 @@ export const useJourneyFlow = (
     queryFn: async () => {
       if (!workspaceId) return [];
 
-      const { data, error } = await supabase.rpc("get_journey_flow" as any, {
+      const { data, error } = await (supabase as any).rpc("get_journey_flow" as any, {
         p_workspace_id: workspaceId,
         p_start_date: startDate.toISOString(),
         p_end_date: endDate.toISOString(),
@@ -157,7 +157,7 @@ export const useTopicAttribution = (workspaceId: string | undefined) => {
     queryFn: async () => {
       if (!workspaceId) return [];
 
-      const { data, error } = await supabase.rpc('get_topic_attribution' as any, {
+      const { data, error } = await (supabase as any).rpc("get_topic_attribution" as any, {
         p_workspace_id: workspaceId,
       });
 

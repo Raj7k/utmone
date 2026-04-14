@@ -77,7 +77,7 @@ export const AttributionTabContent = ({ workspaceId }: AttributionTabContentProp
     queryKey: ['lift-analysis', workspaceId],
     queryFn: async () => {
       if (!workspaceId) return [];
-      const { data, error } = await supabase.rpc('get_channel_lift', {
+      const { data, error } = await (supabase as any).rpc("get_channel_lift", {
         p_workspace_id: workspaceId
       });
       if (error) throw error;

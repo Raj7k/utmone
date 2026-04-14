@@ -42,7 +42,7 @@ export const useTimelineAuditLog = () => {
         };
 
         // Insert via RPC to trigger velocity detection
-        await supabase.rpc('log_audit_event', {
+        await (supabase as any).rpc("log_audit_event", {
           p_workspace_id: currentWorkspace.id,
           p_actor_id: user.id,
           p_event_type: eventType,

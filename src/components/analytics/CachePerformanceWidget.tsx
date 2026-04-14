@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Zap, Database, HardDrive, TrendingUp } from "lucide-react";
@@ -18,8 +19,7 @@ export const CachePerformanceWidget = ({ workspaceId }: { workspaceId: string })
   const { data: cacheStats, isLoading } = useQuery({
     queryKey: ['cache-performance', workspaceId],
     queryFn: async () => {
-      const { data: links, error } = await supabase
-        .from('links')
+      const { data: links, error } = await supabaseFrom("links")
         .select('cache_priority, total_clicks, clicks_last_hour, cache_score')
         .eq('workspace_id', workspaceId)
         .eq('status', 'active');

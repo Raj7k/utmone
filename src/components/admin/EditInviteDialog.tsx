@@ -72,8 +72,7 @@ export function EditInviteDialog({ invite, open, onOpenChange }: EditInviteDialo
       if (inviteError) throw inviteError;
 
       // Sync early_access_requests
-      const { error: syncError } = await supabase
-        .from("early_access_requests")
+      const { error: syncError } = await supabaseFrom("early_access_requests")
         .update({
           access_level: newAccessLevel,
         })

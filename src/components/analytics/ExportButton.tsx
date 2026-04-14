@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Download, FileSpreadsheet, FileText } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { supabaseFrom } from "@/lib/supabaseHelper";
 import { notify } from "@/lib/notify";
 import { exportLinksToXLSX } from "@/lib/excelExport";
 
@@ -19,8 +20,7 @@ export const ExportButton = ({ workspaceId }: ExportButtonProps) => {
   const [isExporting, setIsExporting] = useState(false);
 
   const fetchLinksData = async () => {
-    const { data: links } = await supabase
-      .from("links")
+    const { data: links } = await supabaseFrom("links")
       .select("*")
       .eq("workspace_id", workspaceId);
 

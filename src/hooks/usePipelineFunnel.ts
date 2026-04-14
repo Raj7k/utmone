@@ -19,7 +19,7 @@ export const usePipelineFunnel = (
     queryFn: async () => {
       if (!workspaceId) return [];
 
-      const { data, error } = await supabase.rpc("get_pipeline_funnel", {
+      const { data, error } = await (supabase as any).rpc("get_pipeline_funnel", {
         p_workspace_id: workspaceId,
         p_start_date: startDate.toISOString(),
         p_end_date: endDate.toISOString(),

@@ -137,7 +137,6 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
         .from("links")
         .select("id, title")
         .eq("domain", values.domain)
-        .eq("path", values.path)
         .eq("slug", slugCheckValue)
         .maybeSingle();
       

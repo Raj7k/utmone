@@ -201,7 +201,7 @@ export async function testAnalyticsTracking(linkId: string): Promise<TestResult>
       };
     }
 
-    const { error: viewError } = await supabase.rpc("get_link_analytics", {
+    const { error: viewError } = await (supabase as any).rpc("get_link_analytics", {
       p_workspace_id: "00000000-0000-0000-0000-000000000000"
     });
 

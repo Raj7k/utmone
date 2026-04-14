@@ -53,7 +53,7 @@ export const LiftAnalysis: React.FC = () => {
     queryFn: async () => {
       if (!currentWorkspace?.id) return [];
       
-      const { data, error } = await supabase.rpc('get_channel_lift', {
+      const { data, error } = await (supabase as any).rpc("get_channel_lift", {
         p_workspace_id: currentWorkspace.id
       });
       

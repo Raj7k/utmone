@@ -27,7 +27,7 @@ export const useAuditLog = () => {
       // Get IP and user agent from browser
       const userAgent = navigator.userAgent;
       
-      const { error } = await supabase.rpc('log_admin_action', {
+      const { error } = await (supabase as any).rpc("log_admin_action", {
         p_admin_user_id: user.id,
         p_action: action,
         p_resource_type: resourceType,

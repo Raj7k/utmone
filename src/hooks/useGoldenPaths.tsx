@@ -22,7 +22,7 @@ export const useGoldenPaths = (
     queryFn: async () => {
       if (!workspaceId) throw new Error("Workspace ID required");
 
-      const { data, error } = await supabase.rpc("find_pareto_optimal_paths", {
+      const { data, error } = await (supabase as any).rpc("find_pareto_optimal_paths", {
         p_workspace_id: workspaceId,
         p_start_node_type: startNodeType,
         p_end_node_type: endNodeType,

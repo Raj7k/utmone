@@ -64,7 +64,7 @@ export function ManualTierAdjust({ workspace, open, onOpenChange }: ManualTierAd
       if (updateError) throw updateError;
 
       // Log admin action
-      await supabase.rpc("log_admin_action", {
+      await (supabase as any).rpc("log_admin_action", {
         p_admin_user_id: user?.id,
         p_action: "tier_adjustment",
         p_resource_type: "workspace",

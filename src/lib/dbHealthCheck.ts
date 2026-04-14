@@ -162,7 +162,7 @@ export async function testDatabaseFunctions(): Promise<TestResult> {
 
   try {
     // Test critical RPC functions
-    const { error } = await supabase.rpc('has_workspace_access', {
+    const { error } = await (supabase as any).rpc("has_workspace_access", {
       _user_id: '00000000-0000-0000-0000-000000000000',
       _workspace_id: '00000000-0000-0000-0000-000000000000'
     });

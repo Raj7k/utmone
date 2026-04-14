@@ -62,8 +62,7 @@ export const OwnerPerformance = ({ workspaceId }: OwnerPerformanceProps) => {
           .single();
 
         // Get user's links
-        const { data: links } = await supabase
-          .from("links")
+        const { data: links } = await supabaseFrom("links")
           .select("id, total_clicks, unique_clicks")
           .eq("workspace_id", workspaceId)
           .eq("created_by", userId);
