@@ -1,58 +1,44 @@
 
 
-## Plan: Fix Recurring Module Script MIME Type / createContext Errors
+## Plan: Fix Page Auto-Refresh and Slow Loading
 
-### Root Cause
+### Root Causes Identified
 
-The **service worker** (`public/sw.js`) is caching hashed JS chunks (lines 142-188). When a new deploy ships different chunk hashes, the old service worker either:
-1. Serves stale cached chunks with incorrect MIME types (`application/octet-stream`)
-2. Serves chunks from a previous build where module boundaries differ, causing `createContext` to be undefined in vendor splits
+**1. `lazyWithRetry.ts` triggers automatic page reloads (line 93)**
+When any lazy-loaded chunk fails to load (network hiccup, slow connection), the retry logic exhausts 3 attempts, then does `window.location.href = window.location.pathname + '?_t=' + timestamp` — a full page reload. On slow connections this creates a reload loop: load fails → reload → load fails again → shows fallback. This is the "auto refresh" you're seeing.
 
-Additionally, the version validation in `src/lib/serviceWorker.ts` line 4 uses `'__BUILD_TIMESTAMP__'` as a string literal — but the Vite plugin only replaces that placeholder inside `dist/sw.js`, **not** inside the bundled app code. So `EXPECTED_SW_VERSION` is always the literal string `'__BUILD_TIMESTAMP__'`, meaning version validation **always skips** (line 149), and stale SWs are never detected.
+**2. Massive number of lazy imports in App.tsx (100+ routes)**
+Every route is a separate lazy chunk. On initial load, Vite needs to resolve the route tree, and the browser fetches multiple chunks. With 100+ lazy imports declared at the top of App.tsx, the module resolution waterfall is slow. TTFB is 3.7s, FCP is 3.8s, LCP is 23s+ — all rated "poor".
 
-This is a recurring issue that previous fixes (removing modulepreload hints, adding cache-clearing logic) haven't resolved because the SW itself is the problem.
+**3. 20-second timeout in index.html shows "loading is taking longer than expected"**
+When the app takes >20s to render (which happens with poor network + many chunks), the skeleton timeout fires and shows an error message with a "refresh page" button — contributing to the perception of broken refreshes.
 
-### Fix: Remove Service Worker Entirely
+### Fixes
 
-The SW provides minimal value (offline support for a dashboard app that requires network anyway) and is the source of repeated production outages.
+**Step 1: Remove auto-reload from `lazyWithRetry.ts`**
+- Remove the `window.location.href` redirect on line 93
+- Instead, always show the `ModuleLoadErrorFallback` component after retries are exhausted (no reload)
+- This stops the automatic page refresh loop entirely
 
-**Step 1: Convert `public/sw.js` to a self-destruct-only script**
+**Step 2: Increase index.html skeleton timeout from 20s to 45s**
+- The 20s timeout is too aggressive for slow connections loading many chunks
+- Increase to 45s to avoid showing the error prematurely
 
-Replace the entire file with a minimal SW that unregisters itself and clears all caches on any host. This ensures existing users with an installed SW get cleaned up automatically.
+**Step 3: Remove the cache-busting `?_t=` query parameter handling**
+- The `sessionStorage.setItem('moduleReloadAttempted')` logic and the `?_t=timestamp` redirect are no longer needed once auto-reload is removed
+- Keep the `sessionStorage.removeItem` on window load for cleanup of any existing flags
 
-```js
-// Self-destruct SW — clears all caches and unregisters
-self.addEventListener('install', () => self.skipWaiting());
-self.addEventListener('activate', (event) => {
-  event.waitUntil((async () => {
-    const names = await caches.keys();
-    await Promise.all(names.map(n => caches.delete(n)));
-    const clients = await self.clients.matchAll({ includeUncontrolled: true });
-    clients.forEach(c => { try { c.postMessage({ type: 'forceReload' }); } catch(_){} });
-    await self.registration.unregister();
-  })());
-});
-```
-
-**Step 2: Stop registering the SW in `src/lib/serviceWorker.ts`**
-
-Change `registerServiceWorker` to always unregister any existing SW and return null. Keep the export signature so callers don't break.
-
-**Step 3: Remove the `injectServiceWorkerVersion` Vite plugin from `vite.config.ts`**
-
-No longer needed since sw.js is static.
-
-**Step 4: Clean up index.html cache-busting logic**
-
-The `__BUILD_VERSION__` / version-mismatch / auto-retry logic in `index.html` (lines 244-322) can be simplified since the SW won't be caching anything anymore. Keep a simple 20s timeout fallback but remove the cache-clearing complexity.
+### Files Changed
+- `src/utils/lazyWithRetry.ts` — Remove auto-reload, always show fallback on failure
+- `index.html` — Increase timeout from 20s to 45s
 
 ### What this fixes
-- No more stale chunks served with wrong MIME types
-- No more `createContext` errors from mismatched vendor splits
-- No more "loading is taking longer than expected" from SW-cached 404s
-- Existing production users auto-migrate: the self-destruct SW replaces their old one
+- No more unexpected page refreshes during normal use
+- Failed chunk loads show a user-friendly error instead of reloading
+- Slow connections get more time before seeing the timeout message
 
-### What's lost
-- Offline capability (the app requires network for all features anyway)
-- Static asset caching (CDN/browser cache already handles this)
+### What it doesn't change
+- The lazy loading architecture stays the same (code-splitting is good)
+- The retry logic with exponential backoff stays (retries are good)
+- The fallback UI stays (graceful degradation is good)
 
