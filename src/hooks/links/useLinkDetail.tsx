@@ -8,6 +8,7 @@ const isValidUUID = (id: string): boolean =>
 export interface LinkDetail {
   id: string;
   title: string | null;
+  description: string | null;
   destination_url: string;
   short_url: string | null;
   domain: string | null;
@@ -19,6 +20,10 @@ export interface LinkDetail {
   utm_campaign: string | null;
   utm_term: string | null;
   utm_content: string | null;
+  og_title: string | null;
+  og_description: string | null;
+  og_image: string | null;
+  redirect_type: string | null;
   expires_at: string | null;
   max_clicks: number | null;
   fallback_url: string | null;
@@ -41,7 +46,7 @@ export const useLinkDetail = (linkId: string) => {
       const { data: link, error: linkError } = await supabase
         .from("links")
         .select(
-          "id, title, destination_url, short_url, domain, slug, status, security_status, utm_source, utm_medium, utm_campaign, utm_term, utm_content, expires_at, max_clicks, fallback_url, total_clicks, geo_targets, created_at, updated_at, created_by, workspace_id, password_hash"
+          "id, title, description, destination_url, short_url, domain, slug, status, security_status, utm_source, utm_medium, utm_campaign, utm_term, utm_content, og_title, og_description, og_image, redirect_type, expires_at, max_clicks, fallback_url, total_clicks, geo_targets, created_at, updated_at, created_by, workspace_id, password_hash"
         )
         .eq("id", linkId)
         .single();
