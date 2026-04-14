@@ -164,7 +164,6 @@ serve(async (req) => {
             title: linkData.title,
             destination_url: linkData.destination_url,
             domain: targetDomain,
-            path: "",
             slug,
             final_url: finalUrl,
             folder_id: folder_id || null,

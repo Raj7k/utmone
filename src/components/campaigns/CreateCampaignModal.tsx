@@ -114,7 +114,6 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
           slug: slug,
           destination_url: url.toString(),
           domain: "utm.click",
-          path: "",
         };
         const extendedPayload = {
           ...corePayload,

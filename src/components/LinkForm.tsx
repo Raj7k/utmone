@@ -325,7 +325,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
           description: data.description,
           destination_url: data.destination_url,
           domain: data.domain,
-          path: data.path,
+          // `path` column no longer exists on the links table — don't include.
           slug,
           final_url: finalUrlFinal,
           utm_source: data.utm_source,

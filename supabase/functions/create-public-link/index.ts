@@ -126,7 +126,6 @@ Deno.serve(async (req) => {
         .from('links')
         .select('id')
         .eq('domain', 'utm.click')
-        .eq('path', '')
         .eq('slug', slug)
         .maybeSingle();
 
@@ -169,17 +168,18 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Create link using the workspace's owner as creator
+    // Create link using the workspace's owner as creator.
+    // Note: the links table on this DB does not have a `path` column — omit
+    // it or the insert fails with PGRST204. short_url is a generated column
+    // so we must NOT try to insert it either.
     const { data: link, error: linkError } = await supabase
       .from('links')
       .insert({
         workspace_id: systemWorkspace.id,
         domain: 'utm.click',
-        path: '',
         slug: slug,
         destination_url: url,
         final_url: url,
-        // short_url is a generated column - computed automatically by database
         title: `Public Link ${slug}`,
         status: 'active',
         created_by: systemWorkspace.owner_id,

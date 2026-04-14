@@ -31,8 +31,9 @@ serve(async (req) => {
           created_by: linkData.user_id,
           title: title || 'Slack Link',
           destination_url,
-          domain: 'utm.one',
-          path: 'go',
+          // Use the actual short-link domain (utm.click) and omit `path` since
+          // it no longer exists on the links table.
+          domain: 'utm.click',
           slug,
           final_url: destination_url,
           utm_source: 'slack',

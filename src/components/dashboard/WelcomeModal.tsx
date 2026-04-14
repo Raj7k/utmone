@@ -87,6 +87,9 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
       // public-link edge function). path='' for clean short URLs. Without these
       // explicit values, the legacy DB defaults (domain='keka.com', path='go')
       // kick in and redirects break.
+      // Note: the links table in this DB does NOT have a `path` column
+      // (that was in legacy schemas). Omit it so the insert doesn't
+      // fail with PGRST204.
       const payload = {
         workspace_id: currentWorkspace.id,
         created_by: user.id,
@@ -95,7 +98,6 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
         title: new URL(finalUrl).hostname,
         status: 'active' as const,
         domain: 'utm.click',
-        path: '',
       };
       const { error } = await supabase.from('links').insert(payload);
 

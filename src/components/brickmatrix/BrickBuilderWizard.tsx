@@ -123,7 +123,6 @@ export const BrickBuilderWizard = () => {
           final_url: destinationUrl, // tried first; retry without if missing
           slug,
           domain: "utm.click",
-          path: "",
           created_by: user.id,
           title: linkTitle,
           status: "active" as const,
