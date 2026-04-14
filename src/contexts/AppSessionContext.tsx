@@ -259,34 +259,39 @@ export const AppSessionProvider = ({ children }: { children: ReactNode }) => {
           return;
         }
 
-        // Authenticated - cache and fetch workspaces
+        // Authenticated - cache session and unblock UI immediately
         console.log("[AppSession] Authenticated as:", freshSession.user.email);
         cacheSession(freshSession);
 
         if (isMounted) {
+          // PERF: Set user synchronously so isReady becomes true and the app can render.
           setUser(freshSession.user);
           setSession(freshSession);
         }
 
-        // Fetch workspaces
-        const fetchedWorkspaces = await fetchWorkspaces(freshSession.user.id);
-        console.log("[AppSession] Fetched", fetchedWorkspaces.length, "workspaces");
+        // PERF: Fetch workspaces in the background WITHOUT blocking isReady.
+        // The UI can render with cached workspace data or no workspace; when this resolves,
+        // the dashboard re-renders with fresh workspace info.
+        fetchWorkspaces(freshSession.user.id)
+          .then(fetchedWorkspaces => {
+            console.log("[AppSession] Fetched", fetchedWorkspaces.length, "workspaces");
+            if (!isMounted) return;
+            setWorkspaces(fetchedWorkspaces);
+            cacheWorkspaces(fetchedWorkspaces);
 
-        if (isMounted) {
-          setWorkspaces(fetchedWorkspaces);
-          cacheWorkspaces(fetchedWorkspaces);
-
-          // Set current workspace
-          if (fetchedWorkspaces.length > 0) {
-            const savedId = localStorage.getItem('currentWorkspaceId');
-            const existing = savedId ? fetchedWorkspaces.find(w => w.id === savedId) : null;
-            const selected = existing || fetchedWorkspaces[0];
-            setCurrentWorkspace(selected);
-            cacheWorkspace(selected);
-          }
-
-          setIsFullyLoaded(true);
-        }
+            if (fetchedWorkspaces.length > 0) {
+              const savedId = localStorage.getItem('currentWorkspaceId');
+              const existing = savedId ? fetchedWorkspaces.find(w => w.id === savedId) : null;
+              const selected = existing || fetchedWorkspaces[0];
+              setCurrentWorkspace(selected);
+              cacheWorkspace(selected);
+            }
+            setIsFullyLoaded(true);
+          })
+          .catch(err => {
+            console.warn("[AppSession] Workspace fetch failed (non-blocking):", err);
+            if (isMounted) setIsFullyLoaded(true);
+          });
       } catch (err) {
         console.error("[AppSession] Init error:", err);
         if (isMounted) {

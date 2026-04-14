@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { notify } from '@/lib/notify';
@@ -17,6 +18,23 @@ export interface FeatureFlag {
 export const useFeatureFlags = () => {
   const queryClient = useQueryClient();
 
+  // PERF: Only fetch feature gates for authenticated users.
+  // Unauthenticated visitors on marketing pages should not hit this table.
+  const [isAuthed, setIsAuthed] = useState<boolean>(false);
+  useEffect(() => {
+    let mounted = true;
+    supabase.auth.getSession().then(({ data }) => {
+      if (mounted) setIsAuthed(!!data.session?.user);
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((_evt, session) => {
+      setIsAuthed(!!session?.user);
+    });
+    return () => {
+      mounted = false;
+      sub.subscription.unsubscribe();
+    };
+  }, []);
+
   const { data: flags, isLoading } = useQuery({
     queryKey: ['feature-flags'],
     queryFn: async () => {
@@ -33,7 +51,9 @@ export const useFeatureFlags = () => {
         metadata: {},
       })) as FeatureFlag[];
     },
-    refetchInterval: 30000,
+    enabled: isAuthed, // PERF: gate on auth so marketing pages don't hit this
+    refetchInterval: isAuthed ? 60000 : false, // PERF: 60s (was 30s)
+    staleTime: 30000, // PERF: allow cache reuse across remounts
   });
 
   const toggleFlag = useMutation({

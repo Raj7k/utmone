@@ -27,6 +27,10 @@ export const AppWithHelp = ({ children }: AppWithHelpProps) => {
   // Only load AdminSimulationProvider for admin routes
   const isAdminRoute = location.pathname.startsWith('/admin');
 
+  // PERF: TooltipProvider is only needed on product/dashboard/admin routes.
+  // Skipping it on marketing pages avoids mounting Radix UI tooltip machinery for visitors.
+  const needsTooltipProvider = shouldShowHelp || isAdminRoute;
+
   const content = (
     <>
       {children}
@@ -34,18 +38,19 @@ export const AppWithHelp = ({ children }: AppWithHelpProps) => {
     </>
   );
 
-  // Wrap with TooltipProvider (moved from App.tsx), and conditionally AdminSimulationProvider
-  return (
-    <TooltipProvider>
-      {isAdminRoute ? (
-        <Suspense fallback={null}>
-          <AdminSimulationProvider>
-            {content}
-          </AdminSimulationProvider>
-        </Suspense>
-      ) : (
-        content
-      )}
-    </TooltipProvider>
+  const wrapped = isAdminRoute ? (
+    <Suspense fallback={null}>
+      <AdminSimulationProvider>
+        {content}
+      </AdminSimulationProvider>
+    </Suspense>
+  ) : (
+    content
+  );
+
+  return needsTooltipProvider ? (
+    <TooltipProvider>{wrapped}</TooltipProvider>
+  ) : (
+    wrapped
   );
 };

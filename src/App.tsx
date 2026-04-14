@@ -20,7 +20,8 @@ import { UpdateNotification } from "./components/pwa/UpdateNotification";
 import { queryClient as centralQueryClient } from "@/lib/queryConfig";
 import { ModalProvider } from "./contexts/ModalContext";
 import { privateRoutes, AppLayout } from "./routes/PrivateRoutes";
-import Index from "./public/routes/Index";
+// PERF: Lazy-load Index to slim the main bundle. Parent <Suspense fallback={null}> covers it.
+const Index = lazy(() => import("./public/routes/Index"));
 
 // PHASE 14: Deferred providers - only load when needed
 const AdminSimulationProvider = lazy(() => import("./contexts/AdminSimulationContext").then(m => ({ default: m.AdminSimulationProvider })));
@@ -498,8 +499,8 @@ const AppRoutes = () => {
           <AppWithHelp>
             <Routes>
               <Route element={<PublicLayout />}>
-{/* PHASE 17: Direct load Index page */}
-<Route path="/" element={<Index />} />
+{/* PERF: Lazy-loaded Index with a skeleton fallback */}
+<Route path="/" element={<Suspense fallback={<MarketingSkeleton />}><Index /></Suspense>} />
 
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/mc" element={<AdminAuth />} />

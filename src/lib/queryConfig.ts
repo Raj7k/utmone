@@ -23,7 +23,11 @@ export const queryClient = new QueryClient({
       
       // Don't refetch when network reconnects
       refetchOnReconnect: false,
-      
+
+      // PERF: Use cached data on navigation; let individual queries opt-in when needed.
+      // Prevents every dashboard page from re-fetching on every route change.
+      refetchOnMount: false,
+
       // Only retry once on failure
       retry: 1,
       

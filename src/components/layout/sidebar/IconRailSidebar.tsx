@@ -18,19 +18,21 @@ import { useSidebar } from "./SidebarProvider";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { Separator } from "@/components/ui/separator";
 import { useAppSession } from "@/contexts/AppSessionContext";
+import { createPreloadHandler, preloaders } from "@/lib/routePreloader";
 
+// PERF: Attach a route-preload key so hovering a sidebar item warms the chunk.
 // Reduced navigation - 8 items max following Apple HIG
 const primaryNav = [
-  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { name: "Links", href: "/dashboard/links", icon: Link2 },
-  { name: "Intelligence", href: "/dashboard/analytics", icon: BarChart3 },
-  { name: "Sales", href: "/dashboard/sales", icon: Users },
+  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard, preload: "dashboard" as const },
+  { name: "Links", href: "/dashboard/links", icon: Link2, preload: "links" as const },
+  { name: "Intelligence", href: "/dashboard/analytics", icon: BarChart3, preload: "analytics" as const },
+  { name: "Sales", href: "/dashboard/sales", icon: Users, preload: undefined },
 ];
 
 const secondaryNav = [
-  { name: "QR Codes", href: "/dashboard/qr-codes", icon: QrCode },
-  { name: "Campaigns", href: "/dashboard/campaigns", icon: Target },
-  { name: "Settings", href: "/settings", icon: Settings },
+  { name: "QR Codes", href: "/dashboard/qr-codes", icon: QrCode, preload: undefined },
+  { name: "Campaigns", href: "/dashboard/campaigns", icon: Target, preload: undefined },
+  { name: "Settings", href: "/settings", icon: Settings, preload: "settings" as const },
 ];
 
 export const IconRailSidebar = () => {
@@ -97,12 +99,15 @@ export const IconRailSidebar = () => {
           {primaryNav.map((item) => {
             const active = isActive(item.href);
             const Icon = item.icon;
+            const preload = item.preload ? createPreloadHandler(item.preload) : undefined;
 
             return (
               <Tooltip key={item.name}>
                 <TooltipTrigger asChild>
                   <Link
                     to={item.href}
+                    onMouseEnter={preload}
+                    onFocus={preload}
                     className={cn(
                       "relative w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-200 mx-auto",
                       active
@@ -126,12 +131,15 @@ export const IconRailSidebar = () => {
           {secondaryNav.map((item) => {
             const active = isActive(item.href);
             const Icon = item.icon;
+            const preload = item.preload ? createPreloadHandler(item.preload) : undefined;
 
             return (
               <Tooltip key={item.name}>
                 <TooltipTrigger asChild>
                   <Link
                     to={item.href}
+                    onMouseEnter={preload}
+                    onFocus={preload}
                     className={cn(
                       "relative w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-200 mx-auto",
                       active

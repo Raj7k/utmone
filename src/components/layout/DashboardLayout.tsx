@@ -33,23 +33,24 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const [searchParams] = useSearchParams();
   const [impersonatedUser, setImpersonatedUser] = useState<{ email: string; full_name?: string } | null>(null);
 
-  // Check if we're in impersonation mode
+  // PERF: Gate the effect on the boolean rather than the searchParams object.
+  // This prevents spurious re-runs when unrelated query params change.
+  const isImpersonating = searchParams.get('impersonating') === 'true';
   useEffect(() => {
-    const isImpersonating = searchParams.get('impersonating') === 'true';
-    
-    if (isImpersonating) {
-      supabase.auth.getUser().then(({ data: { user } }) => {
-        if (user) {
-          setImpersonatedUser({
-            email: user.email || '',
-            full_name: user.user_metadata?.full_name,
-          });
-        }
-      });
-    } else {
+    if (!isImpersonating) {
       setImpersonatedUser(null);
+      return;
     }
-  }, [searchParams]);
+    let cancelled = false;
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (cancelled || !user) return;
+      setImpersonatedUser({
+        email: user.email || '',
+        full_name: user.user_metadata?.full_name,
+      });
+    });
+    return () => { cancelled = true; };
+  }, [isImpersonating]);
 
   return (
     <DashboardErrorBoundary>
