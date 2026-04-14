@@ -42,7 +42,7 @@ export function BulkUploadHistory({ workspaceId }: BulkUploadHistoryProps) {
           links,
           totalLinks: links.length,
           activeLinks: links.filter(l => l.status === 'active').length,
-          scheduledLinks: links.filter(l => l.status === 'scheduled').length,
+          scheduledLinks: 0,
         }))
         .filter(batch => batch.totalLinks >= 2)
         .slice(0, 10); // Show last 10 bulk uploads

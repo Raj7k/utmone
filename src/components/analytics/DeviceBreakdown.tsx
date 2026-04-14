@@ -21,12 +21,12 @@ export const DeviceBreakdown = ({ workspaceId }: DeviceBreakdownProps) => {
   const { data: deviceData, isLoading } = useCachedDeviceAnalytics(workspaceId);
 
   // Process data for display
-  const data = deviceData ? (() => {
+  const data = (deviceData && Array.isArray(deviceData)) ? (() => {
     const deviceMap = new Map<string, number>();
     const browserMap = new Map<string, number>();
     const osMap = new Map<string, number>();
 
-    deviceData.forEach((item) => {
+    deviceData.forEach((item: any) => {
       const device = item.device_type || 'Unknown';
       const browser = item.browser || 'Unknown';
       const os = item.os || 'Unknown';

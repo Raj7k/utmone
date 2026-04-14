@@ -83,15 +83,15 @@ export default function TopCampaignsCard({ workspaceId, days, context, preloaded
       const campaignIds = campaigns.map(c => c.id);
       const { data: links } = await supabase
         .from("links")
-        .select("id, campaign_id")
+        .select("id, utm_campaign")
         .eq("workspace_id", workspaceId)
-        .in("campaign_id", campaignIds);
+        .not("utm_campaign", "is", null);
 
       if (!links || links.length === 0) {
         return campaigns.map(c => ({ id: c.id, name: c.name, clicks: 0, conversions: 0, trend: 0, sparkline: [] }));
       }
 
-      const linkIds = links.map(l => l.id);
+      const linkIds = links.map((l: any) => l.id);
       
       // Get current period clicks
       const { data: currentClicks } = await supabaseFrom('link_clicks')
@@ -131,7 +131,7 @@ export default function TopCampaignsCard({ workspaceId, days, context, preloaded
 
       // Map link to campaign
       const linkToCampaign: Record<string, string> = {};
-      links.forEach(l => { if (l.campaign_id) linkToCampaign[l.id] = l.campaign_id; });
+      (links as any[]).forEach((l: any) => { if (l.utm_campaign) linkToCampaign[l.id] = l.utm_campaign; });
 
       // Count current clicks and build sparkline
       currentClicks?.forEach((click: any) => {

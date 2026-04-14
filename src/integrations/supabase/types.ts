@@ -14,6 +14,65 @@ export type Database = {
   }
   public: {
     Tables: {
+      api_keys: {
+        Row: {
+          created_at: string | null
+          expires_at: string | null
+          id: string
+          is_active: boolean | null
+          key_hash: string
+          key_name: string
+          key_prefix: string
+          last_used_at: string | null
+          rate_limit: number | null
+          rate_limit_window: string | null
+          requests_this_window: number | null
+          scopes: string[] | null
+          window_reset_at: string | null
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          key_hash: string
+          key_name: string
+          key_prefix: string
+          last_used_at?: string | null
+          rate_limit?: number | null
+          rate_limit_window?: string | null
+          requests_this_window?: number | null
+          scopes?: string[] | null
+          window_reset_at?: string | null
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          key_hash?: string
+          key_name?: string
+          key_prefix?: string
+          last_used_at?: string | null
+          rate_limit?: number | null
+          rate_limit_window?: string | null
+          requests_this_window?: number | null
+          scopes?: string[] | null
+          window_reset_at?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_keys_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       demo_requests: {
         Row: {
           challenge: string | null
@@ -61,6 +120,53 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
+      }
+      domains: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          domain: string
+          domain_settings: Json | null
+          id: string
+          is_primary: boolean | null
+          is_system_domain: boolean | null
+          is_verified: boolean | null
+          verification_code: string | null
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          domain: string
+          domain_settings?: Json | null
+          id?: string
+          is_primary?: boolean | null
+          is_system_domain?: boolean | null
+          is_verified?: boolean | null
+          verification_code?: string | null
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          domain?: string
+          domain_settings?: Json | null
+          id?: string
+          is_primary?: boolean | null
+          is_system_domain?: boolean | null
+          is_verified?: boolean | null
+          verification_code?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "domains_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       early_access_requests: {
         Row: {
@@ -208,6 +314,72 @@ export type Database = {
         }
         Relationships: []
       }
+      link_clicks: {
+        Row: {
+          browser: string | null
+          city: string | null
+          clicked_at: string | null
+          country: string | null
+          device_type: string | null
+          id: string
+          ip_address: string | null
+          is_unique: boolean | null
+          link_id: string
+          os: string | null
+          referrer: string | null
+          user_agent: string | null
+          visitor_id: string | null
+          workspace_id: string
+        }
+        Insert: {
+          browser?: string | null
+          city?: string | null
+          clicked_at?: string | null
+          country?: string | null
+          device_type?: string | null
+          id?: string
+          ip_address?: string | null
+          is_unique?: boolean | null
+          link_id: string
+          os?: string | null
+          referrer?: string | null
+          user_agent?: string | null
+          visitor_id?: string | null
+          workspace_id: string
+        }
+        Update: {
+          browser?: string | null
+          city?: string | null
+          clicked_at?: string | null
+          country?: string | null
+          device_type?: string | null
+          id?: string
+          ip_address?: string | null
+          is_unique?: boolean | null
+          link_id?: string
+          os?: string | null
+          referrer?: string | null
+          user_agent?: string | null
+          visitor_id?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "link_clicks_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "link_clicks_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       links: {
         Row: {
           clicks_last_30_days: number
@@ -287,6 +459,63 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string | null
+          email: string | null
+          first_analytics_viewed_at: string | null
+          first_link_created_at: string | null
+          first_qr_generated_at: string | null
+          full_name: string | null
+          has_seen_welcome_modal: boolean | null
+          icp_role: string | null
+          id: string
+          onboarding_completed: boolean | null
+          primary_use_case: string | null
+          team_members_invited_count: number | null
+          timezone: string | null
+          updated_at: string | null
+          user_type: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string | null
+          email?: string | null
+          first_analytics_viewed_at?: string | null
+          first_link_created_at?: string | null
+          first_qr_generated_at?: string | null
+          full_name?: string | null
+          has_seen_welcome_modal?: boolean | null
+          icp_role?: string | null
+          id: string
+          onboarding_completed?: boolean | null
+          primary_use_case?: string | null
+          team_members_invited_count?: number | null
+          timezone?: string | null
+          updated_at?: string | null
+          user_type?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string | null
+          email?: string | null
+          first_analytics_viewed_at?: string | null
+          first_link_created_at?: string | null
+          first_qr_generated_at?: string | null
+          full_name?: string | null
+          has_seen_welcome_modal?: boolean | null
+          icp_role?: string | null
+          id?: string
+          onboarding_completed?: boolean | null
+          primary_use_case?: string | null
+          team_members_invited_count?: number | null
+          timezone?: string | null
+          updated_at?: string | null
+          user_type?: string | null
+        }
+        Relationships: []
       }
       public_short_links: {
         Row: {
@@ -545,6 +774,41 @@ export type Database = {
           },
         ]
       }
+      workspace_members: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: string
+          updated_at: string | null
+          user_id: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role?: string
+          updated_at?: string | null
+          user_id: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: string
+          updated_at?: string | null
+          user_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workspace_members_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       workspaces: {
         Row: {
           created_at: string
@@ -580,7 +844,62 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      api_keys_public: {
+        Row: {
+          created_at: string | null
+          expires_at: string | null
+          id: string | null
+          is_active: boolean | null
+          key_name: string | null
+          key_prefix: string | null
+          last_used_at: string | null
+          rate_limit: number | null
+          rate_limit_window: string | null
+          requests_this_window: number | null
+          scopes: string[] | null
+          window_reset_at: string | null
+          workspace_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string | null
+          is_active?: boolean | null
+          key_name?: string | null
+          key_prefix?: string | null
+          last_used_at?: string | null
+          rate_limit?: number | null
+          rate_limit_window?: string | null
+          requests_this_window?: number | null
+          scopes?: string[] | null
+          window_reset_at?: string | null
+          workspace_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string | null
+          is_active?: boolean | null
+          key_name?: string | null
+          key_prefix?: string | null
+          last_used_at?: string | null
+          rate_limit?: number | null
+          rate_limit_window?: string | null
+          requests_this_window?: number | null
+          scopes?: string[] | null
+          window_reset_at?: string | null
+          workspace_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_keys_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       calculate_queue_position: { Args: never; Returns: number }

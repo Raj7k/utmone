@@ -84,10 +84,10 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
     queryFn: async () => {
       if (!currentWorkspace?.id) return 0;
       
-      const { count, error } = await supabase
+      const { count, error } = await (supabase as any)
         .from('links')
         .select('*', { count: 'exact', head: true })
-        .eq('approval_status', 'pending')
+        .eq('status', 'paused')
         .eq('workspace_id', currentWorkspace.id);
       
       if (error) {

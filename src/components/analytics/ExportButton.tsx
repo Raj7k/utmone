@@ -29,7 +29,7 @@ export const ExportButton = ({ workspaceId }: ExportButtonProps) => {
       return null;
     }
 
-    return links.map(link => ({
+    return (links as any[]).map((link: any) => ({
       title: link.title,
       short_url: link.short_url || "",
       destination_url: link.destination_url,

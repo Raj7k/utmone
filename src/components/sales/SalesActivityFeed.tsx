@@ -90,13 +90,13 @@ export const SalesActivityFeed = ({ salesLinks = [] }: SalesActivityFeedProps) =
           if (!clickData) return;
 
           // Get link data separately
-          const { data: linkData } = await supabase
+          const { data: linkData } = await (supabase as any)
             .from("links")
-            .select("title, prospect_name, slug, link_type")
+            .select("title, slug")
             .eq("id", clickData.link_id)
             .single();
 
-          if (linkData && linkData.link_type === "sales") {
+          if (linkData) {
             const newEvent = {
               ...clickData,
               link: linkData

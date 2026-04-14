@@ -34,23 +34,23 @@ export const QRPerformanceComparison = ({ linkId }: QRPerformanceComparisonProps
 
       // Calculate stats per QR code
       const stats = qrCodes.map((qr) => {
-        const qrClicks = clicks.filter((c) => c.qr_code_id === qr.id);
-        const uniqueClicks = qrClicks.filter((c) => c.is_unique).length;
-        const devices = qrClicks.reduce((acc, c) => {
+        const qrClicks = (clicks as any[]).filter((c: any) => c.qr_code_id === qr.id);
+        const uniqueClicks = qrClicks.filter((c: any) => c.is_unique).length;
+        const devices = qrClicks.reduce((acc: Record<string, number>, c: any) => {
           if (c.device_type) {
             acc[c.device_type] = (acc[c.device_type] || 0) + 1;
           }
           return acc;
         }, {} as Record<string, number>);
-        const topDevice = Object.entries(devices).sort((a, b) => b[1] - a[1])[0]?.[0] || "N/A";
+        const topDevice = Object.entries(devices).sort(([,a], [,b]) => (b as number) - (a as number))[0]?.[0] || "N/A";
         
-        const countries = qrClicks.reduce((acc, c) => {
+        const countries = qrClicks.reduce((acc: Record<string, number>, c: any) => {
           if (c.country) {
             acc[c.country] = (acc[c.country] || 0) + 1;
           }
           return acc;
         }, {} as Record<string, number>);
-        const topCountry = Object.entries(countries).sort((a, b) => b[1] - a[1])[0]?.[0] || "N/A";
+        const topCountry = Object.entries(countries).sort(([,a], [,b]) => (b as number) - (a as number))[0]?.[0] || "N/A";
 
         return {
           ...qr,

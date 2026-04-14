@@ -35,12 +35,10 @@ export const ApprovalWorkflow = ({ linkId, currentStatus, onStatusChange }: Appr
 
   const handleSubmitForApproval = async () => {
     setIsSubmitting(true);
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from("links")
       .update({
-        status: "pending",
-        approval_status: "pending",
-        submitted_for_approval_at: new Date().toISOString(),
+        status: "paused",
       })
       .eq("id", linkId);
 
@@ -55,11 +53,10 @@ export const ApprovalWorkflow = ({ linkId, currentStatus, onStatusChange }: Appr
 
   const handleApprove = async () => {
     setIsSubmitting(true);
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from("links")
       .update({
-        approval_status: "approved",
-        approval_notes: approvalNotes || null,
+        status: "active",
       })
       .eq("id", linkId);
 
@@ -81,11 +78,10 @@ export const ApprovalWorkflow = ({ linkId, currentStatus, onStatusChange }: Appr
     }
 
     setIsSubmitting(true);
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from("links")
       .update({
-        approval_status: "rejected",
-        approval_notes: approvalNotes,
+        status: "archived",
       })
       .eq("id", linkId);
 

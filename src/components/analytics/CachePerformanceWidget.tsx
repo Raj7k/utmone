@@ -19,12 +19,13 @@ export const CachePerformanceWidget = ({ workspaceId }: { workspaceId: string })
   const { data: cacheStats, isLoading } = useQuery({
     queryKey: ['cache-performance', workspaceId],
     queryFn: async () => {
-      const { data: links, error } = await supabaseFrom("links")
-        .select('cache_priority, total_clicks, clicks_last_hour, cache_score')
+      const { data: rawLinks, error } = await supabaseFrom("links")
+        .select('total_clicks, clicks_last_30_days')
         .eq('workspace_id', workspaceId)
         .eq('status', 'active');
 
       if (error) throw error;
+      const links = (rawLinks || []) as any[];
 
       const stats: CacheStats = {
         hot_count: 0,
@@ -35,9 +36,9 @@ export const CachePerformanceWidget = ({ workspaceId }: { workspaceId: string })
         cold_clicks: 0,
       };
 
-      links?.forEach(link => {
-        const tier = link.cache_priority || 'cold';
+      links.forEach((link: any) => {
         const clicks = link.total_clicks || 0;
+        const tier = clicks > 100 ? 'hot' : clicks > 10 ? 'warm' : 'cold';
 
         if (tier === 'hot') {
           stats.hot_count++;

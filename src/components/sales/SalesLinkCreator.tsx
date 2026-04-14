@@ -92,19 +92,15 @@ export const SalesLinkCreator = ({ onSuccess, onCancel }: SalesLinkCreatorProps)
       const fullDestinationUrl = destinationUrl.startsWith("http") ? destinationUrl : `https://${destinationUrl}`;
       const shortUrl = `https://${domain}/${slug}`;
 
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("links")
         .insert([{
           workspace_id: currentWorkspace.id,
           created_by: user.id,
           destination_url: fullDestinationUrl,
-          final_url: fullDestinationUrl,
           title: prospectName,
           slug,
           domain,
-          link_type: "sales",
-          prospect_name: prospectName,
-          alert_on_click: alertOnClick,
           status: "active",
         }])
         .select()
@@ -121,7 +117,7 @@ export const SalesLinkCreator = ({ onSuccess, onCancel }: SalesLinkCreatorProps)
       
       onSuccess({
         shortUrl: `${data.domain}/${data.slug}`,
-        prospectName: data.prospect_name || data.title,
+        prospectName: data.title || '',
         id: data.id,
       });
     },

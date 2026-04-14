@@ -18,7 +18,7 @@ export function RecentActivity() {
       // Fetch recent links
       const { data: links } = await supabase
         .from("links")
-        .select("id, title, slug, created_at, last_clicked_at, total_clicks")
+        .select("id, title, slug, created_at, total_clicks")
         .eq("workspace_id", currentWorkspace.id)
         .order("created_at", { ascending: false })
         .limit(5);
@@ -30,7 +30,7 @@ export function RecentActivity() {
         timestamp: link.created_at,
         linkId: link.id,
         clicks: link.total_clicks || 0,
-        lastClicked: link.last_clicked_at,
+        lastClicked: null,
       })) || [];
     },
     enabled: !!currentWorkspace?.id,

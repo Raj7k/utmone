@@ -94,8 +94,8 @@ export const AttributionTabContent = ({ workspaceId }: AttributionTabContentProp
   // Advanced stats
   const identityCount = edges?.length || 0;
   const topicCount = topics?.length || 0;
-  const demandCreators = liftData?.filter((l: any) => l.lift_category === 'positive')?.length || 0;
-  const churnDrivers = liftData?.filter((l: any) => l.lift_category === 'negative')?.length || 0;
+  const demandCreators = Array.isArray(liftData) ? liftData.filter((l: any) => l.lift_category === 'positive').length : 0;
+  const churnDrivers = Array.isArray(liftData) ? liftData.filter((l: any) => l.lift_category === 'negative').length : 0;
 
   // Top channel
   const topChannel = attributionData && attributionData.length > 0
