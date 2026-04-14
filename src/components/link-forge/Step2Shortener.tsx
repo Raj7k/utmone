@@ -115,7 +115,6 @@ export const Step2Shortener = ({
         .from("links")
         .select("id")
         .eq("domain", selectedDomain)
-        .eq("path", "")
         .eq("slug", values.slug)
         .maybeSingle();
 
