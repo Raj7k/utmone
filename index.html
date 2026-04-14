@@ -42,13 +42,28 @@
     <!-- Critical Resource Preloading -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://whgnsmjdubnvbmarnjfx.supabase.co" crossorigin>
-    
-    <!-- PHASE 13: Modulepreload critical dashboard chunks -->
-    <link rel="modulepreload" href="/src/main.tsx">
-    <link rel="modulepreload" href="/src/App.tsx">
-    
-    
+    <!--
+      Note: preconnect to the Supabase project is intentionally omitted.
+      It used to be hardcoded to an old project URL (whgnsmjdubnvbmarnjfx)
+      which broke when the project moved. Vite's built output emits its own
+      preload hints for the real Supabase origin via the supabase-js client.
+    -->
+
+    <!--
+      Previously this file had:
+        <link rel="modulepreload" href="/src/main.tsx">
+        <link rel="modulepreload" href="/src/App.tsx">
+      Vite's production build mishandled those: it inlined main.tsx as a
+      base64 data URL with application/octet-stream MIME (the browser refuses
+      to execute it as a module) and renamed App.tsx to a hashed filename
+      while keeping the .tsx extension (browser rejects due to MIME-type
+      sniffing). Both manifested as "Failed to load module script" errors
+      followed by cascading failures like "createContext undefined" in
+      vendor chunks.
+      Vite already emits correct modulepreload hints for the real built
+      chunks, so we don't need these manual hints at all. REMOVED.
+    -->
+
     <!-- ALL fonts loaded async - system fonts show immediately, web fonts swap in -->
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
