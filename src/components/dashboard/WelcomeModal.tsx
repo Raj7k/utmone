@@ -82,26 +82,15 @@ export function WelcomeModal({ userName, onLinkCreated }: WelcomeModalProps) {
 
       const slug = Math.random().toString(36).substring(2, 8);
 
-      // Try with all columns first. If the DB hasn't yet applied migration
-      // 20260414000004 (which adds final_url), retry without that column so
-      // first-link creation still works on fresh Supabase projects.
-      const fullPayload = {
+      const payload = {
         workspace_id: currentWorkspace.id,
         created_by: user.id,
         destination_url: finalUrl,
-        final_url: finalUrl,
         slug,
         title: new URL(finalUrl).hostname,
-        status: 'active',
+        status: 'active' as const,
       };
-      let { error } = await supabase.from('links').insert(fullPayload);
-
-      if (error?.code === 'PGRST204') {
-        console.warn('[WelcomeModal] Link insert with full payload failed (missing column). Retrying with core columns.', error);
-        const { final_url: _omit, ...corePayload } = fullPayload;
-        const retry = await supabase.from('links').insert(corePayload);
-        error = retry.error;
-      }
+      const { error } = await supabase.from('links').insert(payload);
 
       if (error) {
         // Surface the real error message so issues are visible, not buried.
