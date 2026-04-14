@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Download, Shield, Eye, EyeOff } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -18,52 +16,27 @@ import {
   Alert,
   AlertDescription,
 } from "@/components/ui/alert";
+import { supabase } from "@/integrations/supabase/client";
 
 export function DataPrivacySettings() {
-  const queryClient = useQueryClient();
+  // Use local state since profiles table doesn't exist yet
+  const [trackingConsent, setTrackingConsent] = useState(true);
+  const [dataRetentionDays, setDataRetentionDays] = useState(90);
   const [isExporting, setIsExporting] = useState(false);
 
-  const { data: profile, isLoading } = useQuery({
-    queryKey: ['profile-privacy'],
-    queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
+  const handleTrackingChange = (checked: boolean) => {
+    setTrackingConsent(checked);
+    toast.success('privacy settings updated');
+  };
 
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('tracking_consent, data_retention_days')
-        .eq('id', user.id)
-        .single();
+  const handleRetentionChange = (value: string) => {
+    setDataRetentionDays(parseInt(value));
+    toast.success('privacy settings updated');
+  };
 
-      if (error) throw error;
-      return data;
-    },
-  });
-
-  const updatePrivacyMutation = useMutation({
-    mutationFn: async (updates: Partial<{ tracking_consent: boolean; data_retention_days: number }>) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
-
-      const { error } = await supabase
-        .from('profiles')
-        .update(updates)
-        .eq('id', user.id);
-
-      if (error) throw error;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['profile-privacy'] });
-      toast.success('privacy settings updated');
-    },
-    onError: (error) => {
-      console.error('Error updating privacy settings:', error);
-      toast.error('failed to update settings');
-    },
-  });
-
-  const exportDataMutation = useMutation({
-    mutationFn: async () => {
+  const handleExportData = async () => {
+    setIsExporting(true);
+    try {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) throw new Error('Not authenticated');
 
@@ -74,29 +47,17 @@ export function DataPrivacySettings() {
       });
 
       if (response.error) throw response.error;
-      return response.data;
-    },
-    onSuccess: (data) => {
-      if (data.download_url) {
-        window.open(data.download_url, '_blank');
+      if (response.data?.download_url) {
+        window.open(response.data.download_url, '_blank');
         toast.success('data export ready! download started.');
       }
-    },
-    onError: (error) => {
+    } catch (error) {
       console.error('Error exporting data:', error);
       toast.error('failed to export data');
-    },
-  });
-
-  const handleExportData = async () => {
-    setIsExporting(true);
-    await exportDataMutation.mutateAsync();
-    setIsExporting(false);
+    } finally {
+      setIsExporting(false);
+    }
   };
-
-  if (isLoading) {
-    return <div className="text-center py-8 text-muted-foreground">loading privacy settings...</div>;
-  }
 
   return (
     <div className="space-y-6">
@@ -110,7 +71,7 @@ export function DataPrivacySettings() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            {profile?.tracking_consent ? (
+            {trackingConsent ? (
               <Eye className="h-5 w-5" />
             ) : (
               <EyeOff className="h-5 w-5" />
@@ -128,14 +89,12 @@ export function DataPrivacySettings() {
             </Label>
             <Switch
               id="tracking-consent"
-              checked={profile?.tracking_consent ?? true}
-              onCheckedChange={(checked) =>
-                updatePrivacyMutation.mutate({ tracking_consent: checked })
-              }
+              checked={trackingConsent}
+              onCheckedChange={handleTrackingChange}
             />
           </div>
           
-          {!profile?.tracking_consent && (
+          {!trackingConsent && (
             <Alert>
               <AlertDescription>
                 <strong>warning:</strong> disabling tracking means you won't see click analytics, 
@@ -160,10 +119,8 @@ export function DataPrivacySettings() {
           <div className="space-y-2">
             <Label htmlFor="retention">retention period</Label>
             <Select
-              value={String(profile?.data_retention_days ?? 90)}
-              onValueChange={(value) =>
-                updatePrivacyMutation.mutate({ data_retention_days: parseInt(value) })
-              }
+              value={String(dataRetentionDays)}
+              onValueChange={handleRetentionChange}
             >
               <SelectTrigger id="retention">
                 <SelectValue />

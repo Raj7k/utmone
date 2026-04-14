@@ -21,7 +21,6 @@ export const AdminCommandPalette = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Handle Cmd+K / Ctrl+K
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
@@ -29,12 +28,10 @@ export const AdminCommandPalette = () => {
         setOpen((open) => !open);
       }
     };
-
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
   }, []);
 
-  // Debounced search
   useEffect(() => {
     if (!search || search.length < 2) {
       setResults([]);
@@ -45,19 +42,12 @@ export const AdminCommandPalette = () => {
       setLoading(true);
       try {
         const searchLower = search.toLowerCase();
-        
-        // Search profiles
-        const { data: profiles } = await supabase
-          .from('profiles')
-          .select('id, email, full_name')
-          .or(`email.ilike.%${searchLower}%,full_name.ilike.%${searchLower}%`)
-          .limit(5);
 
-        // Search workspaces
+        // Search workspaces (no slug column exists)
         const { data: workspaces } = await supabase
           .from('workspaces')
-          .select('id, name, slug')
-          .or(`name.ilike.%${searchLower}%,slug.ilike.%${searchLower}%`)
+          .select('id, name')
+          .ilike('name', `%${searchLower}%`)
           .limit(5);
 
         // Search links
@@ -68,24 +58,17 @@ export const AdminCommandPalette = () => {
           .limit(5);
 
         const combined: SearchResult[] = [
-          ...(profiles || []).map(p => ({
-            id: p.id,
-            type: 'user' as const,
-            title: p.full_name || p.email || 'Unknown User',
-            subtitle: p.email,
-            url: `/admin/users/${p.id}`,
-          })),
-          ...(workspaces || []).map(w => ({
+          ...(workspaces || []).map((w: any) => ({
             id: w.id,
             type: 'workspace' as const,
             title: w.name,
-            subtitle: w.slug,
+            subtitle: undefined,
             url: `/admin/workspaces/${w.id}`,
           })),
-          ...(links || []).map(l => ({
+          ...(links || []).map((l: any) => ({
             id: l.id,
             type: 'link' as const,
-            title: l.title || l.short_url,
+            title: l.title || l.short_url || 'Untitled',
             subtitle: l.destination_url,
             url: `/admin/links/${l.id}`,
           })),
@@ -148,7 +131,7 @@ export const AdminCommandPalette = () => {
           <Command.Input
             value={search}
             onValueChange={setSearch}
-            placeholder="Search users, workspaces, links..."
+            placeholder="Search workspaces, links..."
             className="flex h-14 w-full bg-transparent py-3 px-3 text-sm outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground"
             autoFocus
           />
