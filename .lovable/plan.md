@@ -1,35 +1,21 @@
 
 
-## Plan: Add Password Protection to Link Redirect Flow
+## Plan: Fix QR Code Generation "No input text" Error
 
 ### Problem
-The redirect edge function references non-existent columns (`password_hash`, `password_hint`, `final_url`, `path`, `approval_status`, etc.) causing the entire redirect to fail. The `verify-link-password` edge function also queries `password_hash` but the actual column is `password` (plain text). The password-protected page redirect URL points to the Supabase URL instead of the app URL.
+When generating a QR code, the error "Generation Failed — No input text" appears because `link.short_url` is `null` in the database, so `""` is passed to the QR code library which requires non-empty input. Additionally, the `normalizeUrl` helper in `QRCodeGenerator.tsx` hardcodes an old Supabase project URL (`whgnsmjdubnvbmarnjfx.supabase.co`).
 
 ### Changes
 
-**1. `supabase/functions/redirect/index.ts`** — Fix the redirect function to work with the actual schema:
-- Replace `password_hash` check with `password` column check (line 364)
-- Redirect to the app's `/password-protected` page instead of `${SUPABASE_URL}/password-protected` (line 366)
-- Replace `final_url` with `destination_url` throughout
-- Remove references to non-existent columns from the SELECT query: `final_url`, `approval_status`, `custom_expiry_message`, `redirect_type`, `og_title`, `og_description`, `og_image`, `password_hash`, `password_hint`, `path`, `destinations`, `smart_rotate`, `alert_on_click`, `prospect_name`, `link_type`
-- Remove `path` from the query filter (`.eq('path', path)`)
-- Remove approval_status checks (lines 319-361)
-- Update the LinkRecord interface to match actual columns
+**1. `src/pages/dashboard/QRCodes.tsx`** — Construct a fallback short URL from `slug` and `domain` when `short_url` is null:
+- Line 242: Change `link.short_url || ""` to `link.short_url || \`https://\${link.domain}/\${link.slug}\``
+- Line 290: Same fix for the second click handler
 
-**2. `supabase/functions/verify-link-password/index.ts`** — Fix password verification:
-- Query `password` instead of `password_hash`
-- Compare the plain-text password directly (since the `password` column stores plain text, not a hash), OR hash both consistently
-- Return `destination_url` instead of `final_url`
-
-**3. `src/pages/PasswordProtected.tsx`** — Minor: already works, just ensure the `finalUrl` from the verify response maps to the correct field name.
-
-### Technical Detail
-- The `links` table has: `password` (text), `destination_url` (text) — no `password_hash`, `password_hint`, `final_url`, or `path`
-- The redirect function will check `if (linkRecord.password)` and redirect to `https://utmone.lovable.app/password-protected?link=${id}`
-- The verify function will compare passwords and return `destination_url`
-- Both edge functions will be redeployed and tested
+**2. `src/components/QRCodeGenerator.tsx`** — Two fixes:
+- Replace the hardcoded old Supabase URL in both `normalizeUrl` functions (lines 71-78 and 217-225) with `import.meta.env.VITE_SUPABASE_URL`
+- Add an early guard: if `shortUrl` is empty after normalization, throw a descriptive error before calling `QRCodeLib.toDataURL`
 
 ### Files Modified
-- `supabase/functions/redirect/index.ts`
-- `supabase/functions/verify-link-password/index.ts`
+- `src/pages/dashboard/QRCodes.tsx` (2 lines)
+- `src/components/QRCodeGenerator.tsx` (update normalizeUrl + add guard)
 
