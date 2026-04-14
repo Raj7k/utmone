@@ -114,10 +114,7 @@ const LinkDetail = () => {
                 onClick={() => setSentinelDialogOpen(true)} 
               />
             </div>
-            {link.description && (
-              <p className="text-body-apple text-muted-foreground">{link.description}</p>
-            )}
-          </div>
+            </div>
 
           <div className="flex gap-2">
             <Button variant="outline" onClick={() => navigate("/dashboard/links")}>

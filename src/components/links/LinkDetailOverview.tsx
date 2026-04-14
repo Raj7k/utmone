@@ -62,25 +62,18 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
 
   const { register, handleSubmit, watch, setValue, formState: { isDirty } } = useForm({
     defaultValues: {
-      title: link.title,
-      description: link.description || "",
+      title: link.title || "",
       destination_url: baseDestination,
-      domain: link.domain,
-      path: link.path,
-      slug: link.slug,
+      domain: link.domain || "",
+      slug: link.slug || "",
       status: link.status,
       utm_source: link.utm_source || parsedUtms.utm_source,
       utm_medium: link.utm_medium || parsedUtms.utm_medium,
       utm_campaign: link.utm_campaign || parsedUtms.utm_campaign,
       utm_term: link.utm_term || parsedUtms.utm_term,
       utm_content: link.utm_content || parsedUtms.utm_content,
-      og_title: link.og_title || "",
-      og_description: link.og_description || "",
-      og_image: link.og_image || "",
-      redirect_type: link.redirect_type || "302",
       expires_at: link.expires_at || "",
       max_clicks: link.max_clicks || "",
-      custom_expiry_message: link.custom_expiry_message || "",
       fallback_url: link.fallback_url || "",
     },
   });
@@ -415,7 +408,7 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
         <CardContent className="space-y-2 text-sm">
           <div className="flex justify-between">
             <span className="text-secondary-label">Created by:</span>
-            <span>{link.owner.full_name || link.owner.email}</span>
+            <span>{link.created_by}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-secondary-label">Created at:</span>
@@ -427,11 +420,7 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
           </div>
           <div className="flex justify-between">
             <span className="text-secondary-label">Total clicks:</span>
-            <span>{link.total_clicks || 0} ({link.unique_clicks || 0} unique)</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-secondary-label">Last clicked:</span>
-            <span>{link.last_clicked_at ? format(new Date(link.last_clicked_at), "PPP p") : "Never"}</span>
+            <span>{link.total_clicks || 0}</span>
           </div>
         </CardContent>
       </Card>
