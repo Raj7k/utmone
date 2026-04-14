@@ -242,7 +242,9 @@
         localStorage.setItem('utm_build_version', currentVersion);
       })();
       
-      // Timeout fallback - show error if React doesn't render in 8s (reduced from 15s)
+      // Timeout fallback - show error if React doesn't render in 20s
+      // (raised from 8s so slower preview environments and large feature pages
+      // don't trip the fallback while the bundle is legitimately downloading).
       window.__loadingTimeout = setTimeout(function() {
         var skeleton = document.getElementById('instant-skeleton');
         if (skeleton && !skeleton.classList.contains('hidden')) {
@@ -266,7 +268,7 @@
             '<button onclick="location.reload()" style="padding:12px 24px;background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.2);border-radius:8px;cursor:pointer;font-weight:500">refresh page</button>' +
           '</div>';
         }
-      }, 8000);
+      }, 20000);
     </script>
     
     <script type="module" src="/src/main.tsx"></script>
