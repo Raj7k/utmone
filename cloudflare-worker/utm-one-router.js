@@ -5,7 +5,7 @@
  * Deploy this to Cloudflare Workers and configure utm.one DNS to point to Cloudflare
  */
 
-const SUPABASE_FUNCTION_URL = 'https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/redirect';
+const SUPABASE_FUNCTION_URL = 'https://vlnfwhpaajowjsqnkwyu.supabase.co/functions/v1/redirect';
 
 addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request));
@@ -30,7 +30,7 @@ async function handleRequest(request) {
   // Check if this is a vCard request (/v/{slug})
   if (pathname.startsWith('/v/')) {
     const vcardSlug = pathname.substring(3); // Remove '/v/'
-    const vcardUrl = `https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/serve-vcard/${vcardSlug}`;
+    const vcardUrl = `https://vlnfwhpaajowjsqnkwyu.supabase.co/functions/v1/serve-vcard/${vcardSlug}`;
     
     try {
       const response = await fetch(vcardUrl, {
