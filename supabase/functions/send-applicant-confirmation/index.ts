@@ -1,7 +1,17 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@4.0.0";
 
-const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
+// Initialize lazily inside the handler so a missing RESEND_API_KEY returns
+// a clean 503 instead of a misleading success (or a hard error deep inside
+// Resend's internals). Previously this module-level init swallowed a missing
+// key silently — emails were never delivered but the function "succeeded".
+let _resend: Resend | null = null;
+function getResend(): Resend | null {
+  const key = Deno.env.get("RESEND_API_KEY");
+  if (!key) return null;
+  if (!_resend) _resend = new Resend(key);
+  return _resend;
+}
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -19,6 +29,18 @@ interface ConfirmationRequest {
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
+  }
+
+  const resend = getResend();
+  if (!resend) {
+    console.error("[send-applicant-confirmation] RESEND_API_KEY not configured");
+    return new Response(
+      JSON.stringify({
+        error: "Email delivery is not configured on this environment. Set RESEND_API_KEY in Supabase function secrets.",
+        code: "EMAIL_UNAVAILABLE",
+      }),
+      { status: 503, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
   }
 
   try {

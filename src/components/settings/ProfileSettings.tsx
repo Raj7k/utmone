@@ -107,19 +107,41 @@ export function ProfileSettings() {
   const updateProfileMutation = useMutation({
     mutationFn: async () => {
       if (!user?.id) throw new Error('No user');
-      const { error } = await supabaseFrom('profiles')
-        .update({ 
-          full_name: fullName, 
-          timezone: timezone,
-          notify_link_created: notifyLinkCreated,
-          notify_weekly_digest: notifyWeeklyDigest,
-          notify_team_invites: notifyTeamInvites,
-          notify_analytics_milestones: notifyAnalyticsMilestones,
-          notify_in_app: notifyInApp,
-          updated_at: new Date().toISOString() 
-        } as any)
+
+      // Core columns are guaranteed to exist on every DB. Extended columns
+      // (notify_*) live in a later migration that may not have run yet.
+      // Try the full write first; on PGRST204 (column missing), retry with
+      // just the core columns. Dropped the manual `updated_at` set — the
+      // profiles_updated_at trigger populates that server-side.
+      const corePayload = {
+        full_name: fullName,
+        timezone: timezone,
+      };
+      const extendedPayload = {
+        ...corePayload,
+        notify_link_created: notifyLinkCreated,
+        notify_weekly_digest: notifyWeeklyDigest,
+        notify_team_invites: notifyTeamInvites,
+        notify_analytics_milestones: notifyAnalyticsMilestones,
+        notify_in_app: notifyInApp,
+      };
+
+      let { error } = await supabaseFrom('profiles')
+        .update(extendedPayload as any)
         .eq('id', user.id);
-      if (error) throw error;
+
+      if ((error as any)?.code === 'PGRST204') {
+        console.warn('[ProfileSettings] Extended update failed (notification columns missing). Retrying with core columns.', error);
+        const retry = await supabaseFrom('profiles')
+          .update(corePayload as any)
+          .eq('id', user.id);
+        error = retry.error;
+      }
+
+      if (error) {
+        console.error('[ProfileSettings] Profile update failed:', error);
+        throw error;
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['profile'] });
@@ -127,8 +149,13 @@ export function ProfileSettings() {
       setTimeout(() => setIsSaved(false), 2000);
       notify.success("profile updated", { description: "your changes have been saved." });
     },
-    onError: () => {
-      notify.error("error", { description: "failed to update profile." });
+    onError: (error: any) => {
+      // Surface the real error so future failures are diagnosable from the UI
+      // rather than hidden behind a generic "failed to update profile".
+      const msg = error?.message
+        ? `failed to update profile: ${error.message}`
+        : "failed to update profile.";
+      notify.error("error", { description: msg });
     },
   });
 

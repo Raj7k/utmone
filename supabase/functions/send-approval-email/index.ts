@@ -2,7 +2,15 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@4.0.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
-const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
+// Lazy init so a missing RESEND_API_KEY surfaces a clean 503 with code
+// EMAIL_UNAVAILABLE instead of a silent-success or opaque downstream error.
+let _resend: Resend | null = null;
+function getResend(): Resend | null {
+  const key = Deno.env.get("RESEND_API_KEY");
+  if (!key) return null;
+  if (!_resend) _resend = new Resend(key);
+  return _resend;
+}
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -348,6 +356,18 @@ const createPremiumApprovalEmail = (
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
+  }
+
+  const resend = getResend();
+  if (!resend) {
+    console.error("[send-approval-email] RESEND_API_KEY not configured");
+    return new Response(
+      JSON.stringify({
+        error: "Email delivery is not configured on this environment. Set RESEND_API_KEY in Supabase function secrets.",
+        code: "EMAIL_UNAVAILABLE",
+      }),
+      { status: 503, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
   }
 
   try {
