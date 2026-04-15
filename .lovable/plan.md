@@ -1,19 +1,29 @@
 
 
-## Plan: Unhide the GTM Insights 2026 Page
+## Problem
 
-The full GTM Insights 2026 page already exists at `src/pages/resources/reports/GTMInsights2026.tsx` and is already lazy-imported in `App.tsx` (line 215). The route just needs to use it instead of the `ComingSoonPage` placeholder.
+The Cloudflare Worker that handles `utm.click` redirects is pointing to the **wrong Supabase project**:
 
-### Changes
+- **Current**: `https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/redirect`
+- **Should be**: `https://vlnfwhpaajowjsqnkwyu.supabase.co/functions/v1/redirect`
 
-**1. `src/App.tsx` — Swap route element (lines 863-871)**
-Replace the `ComingSoonPage` with `<GTMInsights2026 />` for the `/resources/reports/gtm-insights-2026` route.
+The link `testutm` exists in the database and is active, but when someone visits `utm.click/testutm`, the Cloudflare Worker forwards the request to an old/different backend that doesn't have this link — hence "Link not found".
 
-**2. `src/components/landing/Footer.tsx` — Remove "comingSoon" tag (line 56)**
-Remove `comingSoon: true` from the GTM Insights link.
+The same issue affects the vCard URL on line 35.
 
-**3. `src/components/landing/ResourcesFooter.tsx` — Remove "comingSoon" tag (line 56)**
-Same change in the resources footer.
+## Fix
 
-No other files need changes — the navigation, mega dropdown, and showcase card already link to the correct URL.
+**1. Update `cloudflare-worker/utm-one-router.js`**
+
+Replace the old Supabase URL with the current project's URL in two places:
+- Line 8: Main redirect URL → `https://vlnfwhpaajowjsqnkwyu.supabase.co/functions/v1/redirect`
+- Line 35: vCard URL → `https://vlnfwhpaajowjsqnkwyu.supabase.co/functions/v1/serve-vcard`
+
+**2. Redeploy the Cloudflare Worker**
+
+After updating the code, you'll need to redeploy the worker to Cloudflare. This is outside Lovable — you'll do it via the Cloudflare dashboard or `wrangler` CLI.
+
+## Why
+
+When you migrated to Lovable Cloud, the project got a new Supabase instance (`vlnfwhpaajowjsqnkwyu`), but the Cloudflare Worker was never updated to point to it. Links are being created in the new database but lookups happen against the old one.
 
