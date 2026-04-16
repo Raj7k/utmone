@@ -513,13 +513,20 @@ const AppRoutes = () => {
 
                 {/* Public Tools */}
                 <Route path="/tools/qr" element={<Suspense fallback={<MarketingSkeleton />}><PublicQRGenerator /></Suspense>} />
+                <Route path="/tools/qr-generator" element={<Suspense fallback={<MarketingSkeleton />}><PublicQRGenerator /></Suspense>} />
                 <Route path="/tools/shorten" element={<Suspense fallback={<MarketingSkeleton />}><PublicURLShortener /></Suspense>} />
+                <Route path="/tools/url-shortener" element={<Suspense fallback={<MarketingSkeleton />}><PublicURLShortener /></Suspense>} />
                 <Route path="/tools/utm-builder" element={<Suspense fallback={<MarketingSkeleton />}><PublicUTMBuilder /></Suspense>} />
                 <Route path="/tools/utm-builder-linkedin" element={<Suspense fallback={<MarketingSkeleton />}><UTMBuilderLinkedIn /></Suspense>} />
+                <Route path="/tools/utm-builder/linkedin" element={<Suspense fallback={<MarketingSkeleton />}><UTMBuilderLinkedIn /></Suspense>} />
                 <Route path="/tools/utm-builder-facebook" element={<Suspense fallback={<MarketingSkeleton />}><UTMBuilderFacebook /></Suspense>} />
+                <Route path="/tools/utm-builder/facebook" element={<Suspense fallback={<MarketingSkeleton />}><UTMBuilderFacebook /></Suspense>} />
                 <Route path="/tools/utm-builder-google-ads" element={<Suspense fallback={<MarketingSkeleton />}><UTMBuilderGoogleAds /></Suspense>} />
+                <Route path="/tools/utm-builder/google-ads" element={<Suspense fallback={<MarketingSkeleton />}><UTMBuilderGoogleAds /></Suspense>} />
                 <Route path="/tools/utm-builder-tiktok" element={<Suspense fallback={<MarketingSkeleton />}><UTMBuilderTikTok /></Suspense>} />
+                <Route path="/tools/utm-builder/tiktok" element={<Suspense fallback={<MarketingSkeleton />}><UTMBuilderTikTok /></Suspense>} />
                 <Route path="/tools/utm-builder-email" element={<Suspense fallback={<MarketingSkeleton />}><UTMBuilderEmail /></Suspense>} />
+                <Route path="/tools/utm-builder/email" element={<Suspense fallback={<MarketingSkeleton />}><UTMBuilderEmail /></Suspense>} />
                 <Route path="/tools/link-health-checker" element={<Suspense fallback={<MarketingSkeleton />}><PublicLinkHealthChecker /></Suspense>} />
 
                 {/* Viral Tools Hub */}
