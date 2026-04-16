@@ -20,6 +20,7 @@ import {
   Check, X, ChevronRight, Layers, Globe, Hash, Loader2
 } from 'lucide-react';
 import { PAGINATION_LIMIT } from '@/lib/constants';
+import { normalizeUrl } from '@/lib/normalizeUrl';
 
 interface ProcessedURL {
   id: number;
@@ -86,7 +87,7 @@ export const URLShortenerPro = () => {
   // Generate smart aliases
   const generateSmartAlias = (url: string, index: number): string => {
     try {
-      const urlObj = new URL(url);
+      const urlObj = new URL(normalizeUrl(url));
       const domain = urlObj.hostname.replace('www.', '').split('.')[0];
       const pathParts = urlObj.pathname.split('/').filter(Boolean);
       
@@ -104,7 +105,7 @@ export const URLShortenerPro = () => {
 
   const isValidUrl = (string: string): boolean => {
     try {
-      new URL(string);
+      new URL(normalizeUrl(string));
       return true;
     } catch {
       return false;
@@ -113,7 +114,7 @@ export const URLShortenerPro = () => {
 
   const getDomain = (url: string): string => {
     try {
-      return new URL(url).hostname;
+      return new URL(normalizeUrl(url)).hostname;
     } catch {
       return 'invalid';
     }
@@ -133,7 +134,7 @@ export const URLShortenerPro = () => {
       // Smart processing based on options
       if (smartOptions.removeQueryParams) {
         try {
-          const urlObj = new URL(trimmedUrl);
+          const urlObj = new URL(normalizeUrl(trimmedUrl));
           urlObj.search = '';
           finalUrl = urlObj.toString();
         } catch (e) {

@@ -7,6 +7,7 @@ import { Lock, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { LinkSuccessCard } from "@/components/shared/LinkSuccessCard";
+import { normalizeUrl } from "@/lib/normalizeUrl";
 
 const TEMPLATES = [
   { name: "Social", source: "social", medium: "organic" },
@@ -28,7 +29,7 @@ export const UTMBuilderBasic = () => {
   const finalUrl = (() => {
     if (!url) return "";
     try {
-      const urlObj = new URL(url);
+      const urlObj = new URL(normalizeUrl(url));
       const params = new URLSearchParams();
       if (source) params.set("utm_source", source);
       if (medium) params.set("utm_medium", medium);
@@ -60,7 +61,8 @@ export const UTMBuilderBasic = () => {
       return;
     }
     try {
-      new URL(url);
+      new URL(normalizeUrl(url));
+      setUrl(normalizeUrl(url));
       setIsExpanded(true);
     } catch {
       toast({ title: "Invalid URL", description: "Please enter a valid URL", variant: "destructive" });

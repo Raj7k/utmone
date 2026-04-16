@@ -7,6 +7,7 @@ import { useCallback } from 'react';
 import { generateSlugFromTitle } from '@/lib/slugify';
 import { DEFAULT_DOMAIN } from '@/lib/constants';
 import { generateSmartSlug } from '@/lib/smartUrlParser';
+import { normalizeUrl } from '@/lib/normalizeUrl';
 
 export interface ProcessedURL {
   original: string;
@@ -30,8 +31,8 @@ export const useURLProcessing = () => {
     options: ProcessingOptions = {}
   ): ProcessedURL | null => {
     try {
-      const urlObj = new URL(url);
-      let finalUrl = url;
+      const urlObj = new URL(normalizeUrl(url));
+      let finalUrl = normalizeUrl(url);
 
       // Remove query params if requested
       if (options.removeQueryParams) {
@@ -90,7 +91,7 @@ export const useURLProcessing = () => {
 
   const validateURL = (url: string): boolean => {
     try {
-      new URL(url);
+      new URL(normalizeUrl(url));
       return true;
     } catch {
       return false;

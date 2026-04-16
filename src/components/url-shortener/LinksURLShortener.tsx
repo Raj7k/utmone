@@ -12,6 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/workspace";
 import { generateSmartSlug } from "@/lib/smartUrlParser";
+import { normalizeUrl } from "@/lib/normalizeUrl";
 
 interface ProcessedURL {
   id: number;
@@ -83,7 +84,7 @@ export const LinksURLShortener = () => {
 
     urlList.forEach((url) => {
       try {
-        const urlObj = new URL(url);
+        const urlObj = new URL(normalizeUrl(url));
         patterns.domains[urlObj.hostname] = (patterns.domains[urlObj.hostname] || 0) + 1;
 
         const pathParts = urlObj.pathname.split("/").filter(Boolean);
@@ -117,7 +118,7 @@ export const LinksURLShortener = () => {
       // Smart processing based on options
       if (smartOptions.removeQueryParams) {
         try {
-          const urlObj = new URL(trimmedUrl);
+          const urlObj = new URL(normalizeUrl(trimmedUrl));
           urlObj.search = "";
           finalUrl = urlObj.toString();
         } catch (e) {
@@ -158,7 +159,7 @@ export const LinksURLShortener = () => {
 
   const getDomain = (url: string) => {
     try {
-      return new URL(url).hostname;
+      return new URL(normalizeUrl(url)).hostname;
     } catch {
       return "invalid";
     }
@@ -166,7 +167,7 @@ export const LinksURLShortener = () => {
 
   const isValidUrl = (string: string) => {
     try {
-      new URL(string);
+      new URL(normalizeUrl(string));
       return true;
     } catch {
       return false;

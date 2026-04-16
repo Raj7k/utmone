@@ -7,6 +7,7 @@ import { notify } from "@/lib/notify";
 import { supabase } from "@/integrations/supabase/client";
 import { motion, AnimatePresence } from "framer-motion";
 import { AnimatedCard } from "@/components/ui/AnimatedCard";
+import { normalizeUrl } from "@/lib/normalizeUrl";
 
 export const URLShortenerBasic = () => {
   const [url, setUrl] = useState("");
@@ -22,13 +23,15 @@ export const URLShortenerBasic = () => {
       return;
     }
 
-    // Basic URL validation
+    // Basic URL validation — auto-prepend https:// if needed
+    const normalized = normalizeUrl(url);
     try {
-      new URL(url);
+      new URL(normalized);
     } catch {
       setError("please enter a valid url");
       return;
     }
+    setUrl(normalized);
 
     setIsLoading(true);
     setError("");
@@ -84,13 +87,15 @@ export const URLShortenerBasic = () => {
       return;
     }
 
-    // Basic URL validation
+    // Basic URL validation — auto-prepend https:// if needed
+    const normalized = normalizeUrl(url);
     try {
-      new URL(url);
+      new URL(normalized);
     } catch {
       setError("please enter a valid url");
       return;
     }
+    setUrl(normalized);
 
     setError("");
     setIsExpanded(true);

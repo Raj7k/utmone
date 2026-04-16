@@ -10,6 +10,7 @@ import { useDuplicateDetection } from "./hooks/useDuplicateDetection";
 import { DuplicatePanel } from "./components/DuplicatePanel";
 import { StrategySelector } from "./components/StrategySelector";
 import { debounce } from "lodash";
+import { normalizeUrl } from "@/lib/normalizeUrl";
 
 type DuplicateStrategy = 'SMART' | 'ASK' | 'ALWAYS_NEW' | 'USE_EXISTING';
 
@@ -38,7 +39,7 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
       if (!destinationUrl || destinationUrl.length < 10) return;
 
       try {
-        new URL(destinationUrl);
+        new URL(normalizeUrl(destinationUrl));
       } catch {
         return;
       }
@@ -84,13 +85,15 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
       return;
     }
 
-    // Basic URL validation
+    // Basic URL validation — auto-prepend https:// if needed
+    const normalized = normalizeUrl(url);
     try {
-      new URL(url);
+      new URL(normalized);
     } catch {
       setError("please enter a valid url");
       return;
     }
+    setUrl(normalized);
 
     // Handle duplicate strategy
     if (duplicates.length > 0 && strategy === 'USE_EXISTING') {
