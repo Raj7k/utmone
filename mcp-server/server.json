@@ -1,0 +1,76 @@
+{
+  "name": "utmone",
+  "description": "Give AI agents full access to utm.one — create tracked short links with UTM parameters, get click analytics with device/geo/browser breakdown, run Bayesian A/B tests, generate QR codes, launch multi-channel campaigns, and get AI-powered performance insights.",
+  "version": "0.1.0",
+  "homepage": "https://utm.one",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/utmone/mcp-server"
+  },
+  "package": {
+    "registry": "npm",
+    "name": "utmone-mcp-server"
+  },
+  "tools": [
+    {
+      "name": "create_link",
+      "description": "Create a tracked short link with UTM parameters"
+    },
+    {
+      "name": "get_link_analytics",
+      "description": "Get click analytics with device, geo, browser, and referrer breakdown"
+    },
+    {
+      "name": "get_workspace_summary",
+      "description": "Dashboard overview — total links, clicks, active experiments"
+    },
+    {
+      "name": "get_campaign_performance",
+      "description": "Aggregated campaign analytics by source and medium"
+    },
+    {
+      "name": "create_experiment",
+      "description": "Set up a Bayesian A/B test"
+    },
+    {
+      "name": "get_experiment_results",
+      "description": "Live Bayesian stats with win probability and recommendation"
+    },
+    {
+      "name": "generate_qr_code",
+      "description": "Branded QR code for any short link"
+    },
+    {
+      "name": "check_link_health",
+      "description": "Verify destination URL is reachable"
+    },
+    {
+      "name": "launch_campaign",
+      "description": "Create multiple tracked links across channels in one call"
+    },
+    {
+      "name": "get_smart_insights",
+      "description": "AI-generated insights from link and campaign performance"
+    }
+  ],
+  "resources": [
+    {
+      "uriTemplate": "utmone://links/{link_id}",
+      "description": "Live link data with click count and UTM parameters"
+    },
+    {
+      "uriTemplate": "utmone://analytics/{workspace_id}/{period}",
+      "description": "Dashboard analytics for a workspace"
+    },
+    {
+      "uriTemplate": "utmone://experiment/{experiment_id}",
+      "description": "Live A/B test statistics"
+    },
+    {
+      "uriTemplate": "utmone://campaign/{workspace_id}/{utm_campaign}",
+      "description": "All links and performance for a campaign"
+    }
+  ],
+  "categories": ["marketing", "analytics", "developer-tools"],
+  "tags": ["utm", "links", "analytics", "ab-testing", "qr-code", "marketing", "attribution"]
+}
